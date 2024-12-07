@@ -1,0 +1,20 @@
+<resources>
+
+    <string name="app_name">mooncloak VPN</string>
+    <string name="app_description">Go dark, stay bright</string>
+
+    <string name="landing_action_start">Get Started</string>
+
+    <string name="onboarding_title_no_tracking">No IP address tracking</string>
+    <string name="onboarding_title_no_accounts">No accounts</string>
+    <string name="onboarding_title_no_data_creeps">No Data Creeps</string>
+    <string name="onboarding_title_no_subscriptions">No subscriptions</string>
+    <string name="onboarding_title_crypto_payment">Pay with cryptocurrency</string>
+    <string name="onboarding_description_no_tracking">Your IP address is never logged or associated with your online activity.</string>
+    <string name="onboarding_description_no_accounts">No email, phone, or other identifier is required to use the VPN service. Therefore, this data is never tracked.</string>
+    <string name="onboarding_description_no_data_creeps">We never sell your data to third-parties.</string>
+    <string name="onboarding_description_no_subscriptions">No monthly subscriptions or overcharges. Pay upfront for what you use.</string>
+    <string name="onboarding_description_crypto_payment">Cryptocurrency helps provide an extra layer of anonymity.</string>
+    <string name="onboarding_action_skip">Skip</string>
+
+</resources>

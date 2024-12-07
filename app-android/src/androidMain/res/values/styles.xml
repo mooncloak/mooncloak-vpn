@@ -1,0 +1,42 @@
+<resources>
+
+    <style name="AppTheme" parent="AppThemeBase" />
+
+    <!-- Base application theme. -->
+    <style name="AppThemeBase" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:statusBarColor">@color/primary_dark</item>
+        <item name="android:navigationBarColor">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent_primary</item>
+        <item name="android:windowBackground">@color/primary</item>
+        <item name="android:textColorLink">@color/accent_secondary</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
+        <item name="windowActionModeOverlay">true</item>
+    </style>
+
+    <!-- This is the Theme for the splash screen.  -->
+    <!-- Note: There is a newer version of this in the values-v31 folder that properly extends from the newer Theme.SplashScreen theme. -->
+    <style name="LauncherTheme" parent="AppThemeBase">
+        <!-- This value is used as the splash screen background before Android 12. -->
+        <item name="android:windowBackground">@drawable/bg_launcher</item>
+
+        <!-- System status bar color for the splash screen -->
+        <item name="android:statusBarColor">@color/primary_dark</item>
+
+        <!-- This value is used as the splash screen background on Android 12+. It can only be a solid color value. -->
+        <item name="windowSplashScreenBackground">@color/primary</item>
+
+        <!-- This value is used as the splash screen icon displayed over the background on Android 12+ -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+
+        <!-- This color value is displayed as a circle around the splash screen icon on Android 12+. It allows for contrasting between the icon and background -->
+        <item name="windowSplashScreenIconBackgroundColor">@color/primary_dark</item>
+
+        <!-- This is the Theme that should be applied to the Activity directly after the splash screen -->
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+    </style>
+
+</resources>

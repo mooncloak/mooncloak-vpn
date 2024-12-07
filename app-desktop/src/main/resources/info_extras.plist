@@ -1,0 +1,11 @@
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleURLName</key>
+        <string>mooncloak</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>mooncloak</string>
+        </array>
+    </dict>
+</array>

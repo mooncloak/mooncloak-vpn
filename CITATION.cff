@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+    - alias: "kodetools@mooncloak.com"
+      website: "https://kodetools.mooncloak.codes"
+contact:
+    - alias: "kodetools@mooncloak.com"
+      website: "https://kodetools.mooncloak.codes"
+title: "mooncloak-vpn"
+type: "software"
+abstract: "Private VPN by mooncloak."
+license: "Apache-2.0"
+keywords:
+    - "mooncloak"
+    - "privacy"
+    - "vpn"
+repository-code: "https://github.com/mooncloak/mooncloak-vpn"
+url: "https://github.com/mooncloak/mooncloak-vpn"

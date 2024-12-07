@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Color Palette -->
+    <color name="accent_primary">#FCCA36</color>
+    <color name="accent_secondary">@color/kodetool_accent</color>
+    <color name="primary">#1C2230</color>
+    <color name="primary_variant">#273043</color>
+    <color name="primary_dark">#12161F</color>
+    <color name="secondary">#FFFFFF</color>
+    <color name="secondary_variant">#EDEDED</color>
+    <color name="secondary_dark">#D8D8D8</color>
+    <color name="error">#EB3D3D</color>
+    <color name="kodetool_accent">#FF5D5DFF</color>
+
+    <color name="system_navigation_bar_color">@color/primary_dark</color>
+
+    <!-- AppBar colors -->
+    <color name="app_bar_light">#FFFFFF</color>
+    <color name="app_bar_accent">@color/primary_dark</color>
+
+</resources>

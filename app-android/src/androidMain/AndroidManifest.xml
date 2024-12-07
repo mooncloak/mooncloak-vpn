@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.mooncloak.vpn.app.android">
+
+    <!-- Permissions -->
+
+    <!-- Allows the application to access the internet which is required. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="com.mooncloak.vpn.app.android.MooncloakVpnApplication"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- Activities -->
+
+        <activity
+            android:name="com.mooncloak.vpn.app.android.activity.LauncherActivity"
+            android:exported="true"
+            android:theme="@style/LauncherTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.mooncloak.vpn.app.android.activity.DeepLinkForwardingActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme">
+            <!-- TODO: Add deep link intent filters -->
+        </activity>
+
+        <activity
+            android:name="com.mooncloak.vpn.app.android.activity.MainActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!-- Services -->
+
+        <service
+            android:name="com.mooncloak.vpn.app.android.service.MooncloakVpnService"
+            android:exported="false"
+            android:permission="android.permission.BIND_VPN_SERVICE">
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>
