@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.ConnectionType
+import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBar
 import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
 import com.mooncloak.vpn.app.shared.feature.server.composable.AdShieldCard
 
@@ -31,11 +32,14 @@ public fun HomeScreen(
         modifier = modifier,
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
+        },
+        topBar = {
+            HomeTitleBar(modifier = Modifier.fillMaxWidth())
         }
-    ) {
+    ) { paddingValues ->
         val connected = remember { mutableStateOf(false) }
 
-        Column {
+        Column(modifier = Modifier.padding(paddingValues)) {
             ServerConnectionCard(
                 modifier = Modifier.fillMaxWidth()
                     .padding(16.dp),
