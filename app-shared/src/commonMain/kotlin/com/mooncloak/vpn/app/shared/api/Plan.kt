@@ -9,6 +9,8 @@ import kotlinx.serialization.json.JsonObject
 /**
  * Represents a plan to the mooncloak VPN service.
  *
+ * @property [type] The type of this product model. This should always be "plan" for a [Plan] model.
+ *
  * @property [id] An opaque, unique identifier value for this plan.
  *
  * @property [price] The [Price] model for this plan.
@@ -52,6 +54,7 @@ import kotlinx.serialization.json.JsonObject
 @Serializable
 @Immutable
 public data class Plan public constructor(
+    @SerialName(value = "type") public val type: String = "plan", // Used for future improvements to the API, such as using sealed classes for different product types.
     @SerialName(value = "id") public val id: String,
     @SerialName(value = "price") public val price: Price,
     @SerialName(value = "crypto_estimate") public val cryptoEstimate: Price? = null,
