@@ -16,7 +16,7 @@ public class ApplicationViewModel @Inject public constructor() :
     public fun updateDestination(destination: AppDestination) {
         coroutineScope.launch {
             mutex.withLock {
-                emit(
+                /*emit(
                     value = state.current.value.copy(
                         destinationStates = state.current.value.destinationStates.map {
                             it.copy(
@@ -25,7 +25,7 @@ public class ApplicationViewModel @Inject public constructor() :
                         }.distinctBy { it.destination }
                             .toSet()
                     )
-                )
+                )*/
             }
         }
     }

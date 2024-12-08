@@ -4,8 +4,5 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 public data class ApplicationStateModel public constructor(
-    public val startDestination: AppDestination = AppDestination.Provisioning,
-    public val destinationStates: Set<AppDestinationStateModel> = AppDestination.mainNavigationStates(
-        startDestination = startDestination
-    )
+    public val startDestination: AppDestination = AppDestination.Onboarding
 )

@@ -1,0 +1,31 @@
+package com.mooncloak.vpn.app.shared.feature.main
+
+import androidx.compose.runtime.Immutable
+import com.mooncloak.vpn.app.shared.app.MainDestination
+import kotlinx.serialization.Serializable
+
+@Serializable
+@Immutable
+public data class MainDestinationStateModel public constructor(
+    public val destination: MainDestination,
+    public val badged: Boolean = false,
+    public val selected: Boolean = false,
+    public val visible: Boolean = true,
+    public val enabled: Boolean = true
+)
+
+public fun MainDestination.Companion.states(startDestination: MainDestination): Set<MainDestinationStateModel> =
+    setOf(
+        MainDestinationStateModel(
+            destination = MainDestination.Home,
+            selected = startDestination is MainDestination.Home
+        ),
+        MainDestinationStateModel(
+            destination = MainDestination.Countries,
+            selected = startDestination is MainDestination.Countries
+        ),
+        MainDestinationStateModel(
+            destination = MainDestination.Settings,
+            selected = startDestination is MainDestination.Settings
+        )
+    )

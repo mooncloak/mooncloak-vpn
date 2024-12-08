@@ -2,13 +2,20 @@ package com.mooncloak.vpn.app.shared.app
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.destination_main_countries_title
+import com.mooncloak.vpn.app.shared.resource.destination_main_home_title
+import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
+import com.mooncloak.vpn.app.shared.resource.destination_onboarding_title
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * Represents a destination within the application. Instances of this interface define different
@@ -23,7 +30,7 @@ import kotlinx.serialization.Serializable
  * > the navigation components.
  */
 @Immutable
-public interface AppDestination {
+public sealed interface AppDestination {
 
     /**
      * A unique URI path value for this destination. This value will be used for deep linking to
@@ -52,31 +59,38 @@ public interface AppDestination {
     public val contentDescription: String? get() = null
 
     @Serializable
-    @SerialName(value = "provisioning")
+    @SerialName(value = "onboarding")
     @Immutable
-    public data object Provisioning : AppDestination {
+    public data object Onboarding : AppDestination {
 
         override val path: String = "/"
 
         override val title: String
             @Composable
-            get() = "Provisioning"
+            get() = stringResource(Res.string.destination_onboarding_title)
 
         override val icon: Painter?
             @Composable
             get() = null
     }
 
+    public companion object
+}
+
+@Immutable
+@Serializable
+public sealed interface MainDestination : AppDestination {
+
     @Serializable
     @SerialName(value = "home")
     @Immutable
-    public data object Home : AppDestination {
+    public data object Home : MainDestination {
 
         override val path: String = "/home"
 
         override val title: String
             @Composable
-            get() = "Home"
+            get() = stringResource(Res.string.destination_main_home_title)
 
         override val icon: Painter
             @Composable
@@ -84,32 +98,34 @@ public interface AppDestination {
     }
 
     @Serializable
+    @SerialName(value = "countries")
+    @Immutable
+    public data object Countries : MainDestination {
+
+        override val path: String = "/countries"
+
+        override val title: String
+            @Composable
+            get() = stringResource(Res.string.destination_main_countries_title)
+
+        override val icon: Painter
+            @Composable
+            get() = rememberVectorPainter(Icons.Default.Language)
+    }
+
+    @Serializable
     @SerialName(value = "settings")
     @Immutable
-    public data object Settings : AppDestination {
+    public data object Settings : MainDestination {
 
         override val path: String = "/settings"
 
         override val title: String
             @Composable
-            get() = "Settings"
+            get() = stringResource(Res.string.destination_main_settings_title)
 
         override val icon: Painter
             @Composable
             get() = rememberVectorPainter(Icons.Default.Settings)
     }
-
-    public companion object
 }
-
-public fun AppDestination.Companion.mainNavigationStates(startDestination: AppDestination): Set<AppDestinationStateModel> =
-    setOf(
-        AppDestinationStateModel(
-            destination = AppDestination.Home,
-            isSelected = startDestination is AppDestination.Home
-        ),
-        AppDestinationStateModel(
-            destination = AppDestination.Settings,
-            isSelected = startDestination is AppDestination.Settings
-        )
-    )

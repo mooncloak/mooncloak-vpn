@@ -2,6 +2,7 @@ package com.mooncloak.vpn.app.shared.app
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
@@ -21,6 +22,7 @@ import com.mooncloak.vpn.app.shared.di.LocalApplicationComponent
 import com.mooncloak.vpn.app.shared.feature.LandingLayout
 import com.mooncloak.vpn.app.shared.feature.OnboardingLayout
 import com.mooncloak.vpn.app.shared.feature.PlansLayout
+import com.mooncloak.vpn.app.shared.feature.main.MainScreen
 import com.mooncloak.vpn.app.shared.theme.MooncloakTheme
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
 
@@ -50,41 +52,7 @@ public fun Application(
                         maxHeight = 800.dp
                     ).fillMaxWidth()
                 ) {
-                    val isLanding = remember { mutableStateOf(true) }
-                    val isOnboarding = remember { mutableStateOf(false) }
-                    val isShowingPlans = remember { mutableStateOf(false) }
-
-                    AnimatedVisibility(
-                        visible = isLanding.value
-                    ) {
-                        LandingLayout(
-                            modifier = Modifier.fillMaxWidth()
-                                .padding(16.dp),
-                            onStart = {
-                                isLanding.value = false
-                                isOnboarding.value = true
-                            }
-                        )
-                    }
-
-                    AnimatedVisibility(
-                        visible = isOnboarding.value
-                    ) {
-                        OnboardingLayout(
-                            modifier = Modifier.fillMaxWidth()
-                                .padding(16.dp),
-                            onFinish = {
-                                isOnboarding.value = false
-                                isShowingPlans.value = true
-                            }
-                        )
-                    }
-
-                    AnimatedVisibility(
-                        visible = isShowingPlans.value
-                    ) {
-                        PlansLayout(modifier = Modifier.fillMaxWidth())
-                    }
+                    MainScreen(modifier = Modifier.fillMaxSize())
                 }
             }
         }
