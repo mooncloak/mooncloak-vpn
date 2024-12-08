@@ -22,4 +22,7 @@
     <string name="onboarding_description_crypto_payment">Cryptocurrency helps provide an extra layer of anonymity.</string>
     <string name="onboarding_action_skip">Skip</string>
 
+    <string name="action_connect">Connect</string>
+    <string name="action_disconnect">Disconnect</string>
+
 </resources>
