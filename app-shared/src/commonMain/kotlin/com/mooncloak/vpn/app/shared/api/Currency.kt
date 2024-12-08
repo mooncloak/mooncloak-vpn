@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 public data class Currency public constructor(
     @SerialName(value = "type") public val type: CurrencyType,
     @SerialName(value = "code") public val code: String,
-    @SerialName(value = "default_fraction_digits") public val defaultFractionDigits: Int,
+    @SerialName(value = "default_fraction_digits") public val defaultFractionDigits: Int? = null,
     @SerialName(value = "numeric_code") public val numericCode: Int? = null,
     @SerialName(value = "symbol") public val symbol: String? = null
 )
