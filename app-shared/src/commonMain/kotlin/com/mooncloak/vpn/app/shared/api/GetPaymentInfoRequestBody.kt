@@ -15,7 +15,7 @@ import kotlinx.serialization.Serializable
  */
 @Immutable
 @Serializable
-public data class GetPaymentInfoRequestBody public constructor(
-    @SerialName(value = "plan_id") public val planId: String,
-    @SerialName(value = "secret") public val secret: String? = null
+internal data class GetPaymentInfoRequestBody internal constructor(
+    @SerialName(value = "plan_id") val planId: String,
+    @SerialName(value = "secret") val secret: String? = null
 )

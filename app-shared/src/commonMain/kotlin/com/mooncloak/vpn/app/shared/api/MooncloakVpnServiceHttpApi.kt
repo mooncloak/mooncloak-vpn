@@ -1,20 +1,20 @@
 package com.mooncloak.vpn.app.shared.api
 
 import com.mooncloak.kodetools.apix.core.ApiException
-import com.mooncloak.kodetools.apix.core.ApiResponseBody
 import com.mooncloak.kodetools.apix.core.ExperimentalApixApi
 import com.mooncloak.kodetools.apix.core.HttpResponseBody
 import com.mooncloak.kodetools.apix.core.getOrThrow
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import kotlinx.coroutines.CancellationException
 
 @OptIn(ExperimentalApixApi::class)
-public class MooncloakVpnServiceApi @Inject public constructor(
+public class MooncloakVpnServiceHttpApi @Inject public constructor(
     private val httpClient: HttpClient
 ) {
 
@@ -40,5 +40,25 @@ public class MooncloakVpnServiceApi @Inject public constructor(
         }
 
         return response.body<HttpResponseBody<PlanPaymentInfo>>().getOrThrow()
+    }
+
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun getPaymentStatus(
+        paymentId: String,
+        token: String,
+        secret: String? = null
+    ): PaymentStatus {
+        val response = httpClient.post("https://mooncloak.com/api/vpn/payment/status") {
+            bearerAuth(token)
+
+            setBody(
+                GetPaymentStatusRequestBody(
+                    paymentId = paymentId,
+                    secret = secret
+                )
+            )
+        }
+
+        return response.body<HttpResponseBody<PaymentStatus>>().getOrThrow()
     }
 }
