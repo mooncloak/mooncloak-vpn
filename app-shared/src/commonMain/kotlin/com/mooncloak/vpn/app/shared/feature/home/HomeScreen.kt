@@ -1,5 +1,6 @@
 package com.mooncloak.vpn.app.shared.feature.home
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -13,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.ConnectionType
 import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
+import com.mooncloak.vpn.app.shared.feature.server.composable.AdShieldCard
 
 @Composable
 public fun HomeScreen(
@@ -33,21 +35,35 @@ public fun HomeScreen(
     ) {
         val connected = remember { mutableStateOf(false) }
 
-        ServerConnectionCard(
-            modifier = Modifier.fillMaxWidth()
-                .padding(16.dp),
-            countryName = "United States",
-            countryFlag = null,
-            serverName = "Florida #12",
-            connectionType = ConnectionType.P2P,
-            connected = connected.value,
-            onConnect = {
-                connected.value = !connected.value
-            },
-            onDetails = {
+        Column {
+            ServerConnectionCard(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(16.dp),
+                countryName = "United States",
+                countryFlag = null,
+                serverName = "Florida #12",
+                connectionType = ConnectionType.P2P,
+                connected = connected.value,
+                onConnect = {
+                    connected.value = !connected.value
+                },
+                onDetails = {
 
-            }
-        )
+                }
+            )
+
+            AdShieldCard(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(16.dp),
+                adsBlocked = 0,
+                trackersBlocked = 0,
+                bytesSaved = 0L,
+                active = true,
+                onClick = {
+
+                }
+            )
+        }
     }
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {
