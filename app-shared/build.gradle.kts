@@ -127,6 +127,11 @@ kotlin {
                 // https://github.com/mooncloak/pagex
                 // Apache 2.0: https://github.com/mooncloak/pagex/blob/main/LICENSE
                 implementation("com.mooncloak.kodetools.pagex:pagex-core:_")
+
+                // UI QR Codes - qrose
+                // https://github.com/alexzhirkevich/qrose
+                // MIT: https://github.com/alexzhirkevich/qrose/blob/main/LICENSE
+                implementation("io.github.alexzhirkevich:qrose:_")
             }
         }
 
