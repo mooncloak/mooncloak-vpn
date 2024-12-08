@@ -3,8 +3,9 @@
 The mooncloak VPN client application.
 
 > [!Warning]
-> This project is an internal application and should not be publicly exposed. However, it will eventually be a public 
-> application.
+> This project is being actively developed but is in an early experimental state. Use the 
+> application cautiously and report back any issues. mooncloak is not responsible for any issues 
+> faced when using the application.
 
 ## License ⚖️
 
