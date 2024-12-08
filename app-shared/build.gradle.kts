@@ -104,6 +104,11 @@ kotlin {
                 // Required as a transitive dependency for something.
                 api("org.jetbrains.kotlinx:kotlinx-io-core:_")
 
+                // Core API models: apix
+                // https://github.com/mooncloak/apix
+                // Apache 2.0: https://github.com/mooncloak/apix/blob/main/LICENSE
+                implementation("com.mooncloak.kodetools.apix:apix-core:_")
+
                 // Key/Value Storage
                 // https://github.com/mooncloak/storagex
                 api("com.mooncloak.kodetools.storagex:storagex-keyvalue:_")
@@ -111,6 +116,11 @@ kotlin {
                 // Logging
                 // https://github.com/mooncloak/logpile
                 api("com.mooncloak.kodetools.logpile:logpile-core:_")
+
+                // Jetpack Compose Serializers - compose-serialization
+                // https://github.com/mooncloak/compose-serialization
+                // Apache 2.0: https://github.com/mooncloak/compose-serialization
+                implementation("com.mooncloak.kodetools.compose.serialization:compose-serialization-core:_")
             }
         }
 
