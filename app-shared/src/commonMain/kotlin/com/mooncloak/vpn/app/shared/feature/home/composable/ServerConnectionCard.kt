@@ -24,6 +24,8 @@ import com.mooncloak.vpn.app.shared.api.ConnectionType
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.action_connect
 import com.mooncloak.vpn.app.shared.resource.action_disconnect
+import com.mooncloak.vpn.app.shared.util.icon
+import com.mooncloak.vpn.app.shared.util.title
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -81,15 +83,22 @@ internal fun ServerConnectionCard(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 // TODO: Icon for Connection Type
+                                connectionType.icon?.let { icon ->
+                                    Icon(
+                                        modifier = Modifier.size(12.dp),
+                                        painter = icon,
+                                        contentDescription = null
+                                    )
+                                }
 
                                 Text(
-                                    text = connectionType.value,
+                                    text = connectionType.title,
                                     style = MaterialTheme.typography.titleSmall.copy(
                                         color = MaterialTheme.colorScheme.onSurface.copy(
                                             alpha = 0.68f
                                         )
                                     )
-                                ) // TODO: Localized Name for Connection Type
+                                )
                             }
                         }
                     }

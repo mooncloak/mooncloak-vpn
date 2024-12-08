@@ -25,4 +25,8 @@
     <string name="action_connect">Connect</string>
     <string name="action_disconnect">Disconnect</string>
 
+    <string name="connection_type_p2p">P2P</string>
+    <string name="connection_type_tor">Tor</string>
+    <string name="connection_type_multiple">Secure Multiple</string>
+
 </resources>
