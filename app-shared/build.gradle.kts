@@ -121,6 +121,11 @@ kotlin {
                 // https://github.com/mooncloak/compose-serialization
                 // Apache 2.0: https://github.com/mooncloak/compose-serialization
                 implementation("com.mooncloak.kodetools.compose.serialization:compose-serialization-core:_")
+
+                // Pagination Utils - pagex
+                // https://github.com/mooncloak/pagex
+                // Apache 2.0: https://github.com/mooncloak/pagex/blob/main/LICENSE
+                implementation("com.mooncloak.kodetools.pagex:pagex-core:_")
             }
         }
 

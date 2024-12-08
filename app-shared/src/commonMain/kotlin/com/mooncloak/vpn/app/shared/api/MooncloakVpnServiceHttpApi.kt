@@ -5,6 +5,13 @@ import com.mooncloak.kodetools.apix.core.ExperimentalApixApi
 import com.mooncloak.kodetools.apix.core.HttpResponseBody
 import com.mooncloak.kodetools.apix.core.getOrThrow
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.kodetools.pagex.Cursor
+import com.mooncloak.kodetools.pagex.Direction
+import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
+import com.mooncloak.kodetools.pagex.Page
+import com.mooncloak.kodetools.pagex.PageRequest
+import com.mooncloak.kodetools.pagex.PageRequest.Companion.DEFAULT_COUNT
+import com.mooncloak.kodetools.pagex.SortOptions
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
@@ -115,5 +122,103 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         }
 
         return response.body<HttpResponseBody<RevokedTokenResponseBody>>().getOrThrow().success
+    }
+
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun registerWireGuardPublicKey() {
+        val response = httpClient.post("https://mooncloak.com/api/vpn/wireguard/register")
+
+        TODO()
+    }
+
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun getCountry(
+        code: CountryCode,
+        token: Token
+    ): Country {
+        val response = httpClient.get("https://mooncloak.com/api/vpn/country/${code.value}") {
+            bearerAuth(token.value)
+        }
+
+        return response.body<HttpResponseBody<Country>>().getOrThrow()
+    }
+
+    @OptIn(ExperimentalPaginationAPI::class)
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun paginateCountries(
+        token: Token,
+        direction: Direction = Direction.After,
+        cursor: Cursor? = null,
+        count: UInt = DEFAULT_COUNT,
+        sort: SortOptions? = null
+    ): Page<Country> {
+        val pageRequest = PageRequest<String, String>(
+            data = null,
+            direction = direction,
+            cursor = cursor,
+            count = count,
+            sort = sort,
+            filters = null
+        )
+
+        val response = httpClient.post("https://mooncloak.com/api/vpn/country") {
+            bearerAuth(token.value)
+
+            setBody(pageRequest)
+        }
+
+        return response.body<HttpResponseBody<Page<Country>>>().getOrThrow()
+    }
+
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun getRegion(
+        code: RegionCode,
+        token: Token
+    ): Region {
+        val response = httpClient.get("https://mooncloak.com/api/vpn/region/${code.value}") {
+            bearerAuth(token.value)
+        }
+
+        return response.body<HttpResponseBody<Region>>().getOrThrow()
+    }
+
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun getServer(
+        id: String,
+        token: Token
+    ): Server {
+        val response = httpClient.get("https://mooncloak.com/api/vpn/server/$id") {
+            bearerAuth(token.value)
+        }
+
+        return response.body<HttpResponseBody<Server>>().getOrThrow()
+    }
+
+    @OptIn(ExperimentalPaginationAPI::class)
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun paginateServers(
+        token: Token,
+        direction: Direction = Direction.After,
+        cursor: Cursor? = null,
+        count: UInt = DEFAULT_COUNT,
+        sort: SortOptions? = null,
+        filters: ServerFilters? = null
+    ): Page<Server> {
+        val pageRequest = PageRequest<String, ServerFilters>(
+            data = null,
+            direction = direction,
+            cursor = cursor,
+            count = count,
+            sort = sort,
+            filters = filters
+        )
+
+        val response = httpClient.post("https://mooncloak.com/api/vpn/server") {
+            bearerAuth(token.value)
+
+            setBody(pageRequest)
+        }
+
+        return response.body<HttpResponseBody<Page<Server>>>().getOrThrow()
     }
 }
