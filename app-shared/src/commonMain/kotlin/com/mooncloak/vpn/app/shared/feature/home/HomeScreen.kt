@@ -19,7 +19,10 @@ import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBar
 import com.mooncloak.vpn.app.shared.feature.home.composable.PlanUsageCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.AdShieldCard
+import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBarConnectionStatus
+import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 public fun HomeScreen(
@@ -28,8 +31,18 @@ public fun HomeScreen(
     val viewModel = remember { HomeViewModel() }
     val snackbarHostState = remember { SnackbarHostState() }
 
+    val status = remember { mutableStateOf(HomeTitleBarConnectionStatus.Disconnected) }
+
     LaunchedEffect(Unit) {
         viewModel.load()
+
+        delay(2.seconds)
+
+        status.value = HomeTitleBarConnectionStatus.Connecting
+
+        delay(2.seconds)
+
+        status.value = HomeTitleBarConnectionStatus.Connected
     }
 
     // TODOS:
@@ -45,7 +58,12 @@ public fun HomeScreen(
             SnackbarHost(hostState = snackbarHostState)
         },
         topBar = {
-            HomeTitleBar(modifier = Modifier.fillMaxWidth())
+            HomeTitleBar(
+                modifier = Modifier.fillMaxWidth(),
+                status = status.value,
+                countryName = "United States",
+                ipAddress = "192.168.99.1"
+            )
         }
     ) { paddingValues ->
         val connected = remember { mutableStateOf(false) }

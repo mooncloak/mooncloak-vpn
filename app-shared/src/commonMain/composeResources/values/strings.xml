@@ -40,4 +40,8 @@
     <string name="plan_usage_label_remaining">Remaining</string>
     <string name="plan_usage_action_boost">Boost</string>
 
+    <string name="home_title_bar_unprotected">You are unprotected</string>
+    <string name="home_title_bar_protected">Protected</string>
+    <string name="home_title_bar_connecting">Connecting to a secure VPN</string>
+
 </resources>
