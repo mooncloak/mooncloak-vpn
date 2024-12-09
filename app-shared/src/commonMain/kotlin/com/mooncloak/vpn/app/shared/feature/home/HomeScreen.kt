@@ -64,7 +64,6 @@ public fun HomeScreen(
     // TODOS:
     // * Recently used VPN service card
     // * Starred VPN service card
-    // * Format Data (Mb/Gb/etc.)
 
     Scaffold(
         modifier = modifier,
