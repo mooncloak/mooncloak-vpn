@@ -115,7 +115,8 @@ internal fun ServerConnectionCard(
 
             Button(
                 modifier = Modifier.fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = if (connected) {
                         MaterialTheme.colorScheme.surface
