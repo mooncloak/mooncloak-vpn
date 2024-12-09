@@ -16,6 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.mooncloak.vpn.app.shared.feature.support.composable.EmailSupportCard
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_support_title
 import org.jetbrains.compose.resources.stringResource
@@ -51,10 +53,18 @@ public fun SupportScreen(
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier.fillMaxSize()
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .padding(16.dp),
             state = lazyListState
         ) {
+            item(key = "EmailSupportCard") {
+                EmailSupportCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    onEmail = {
 
+                    }
+                )
+            }
         }
     }
 
