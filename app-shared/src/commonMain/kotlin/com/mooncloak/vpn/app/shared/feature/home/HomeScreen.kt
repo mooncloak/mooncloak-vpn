@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -13,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.ConnectionType
 import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBar
@@ -21,7 +24,12 @@ import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.AdShieldCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.GetVPNServiceCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBarConnectionStatus
+import com.mooncloak.vpn.app.shared.feature.home.composable.ShowcaseCard
+import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.onboarding_description_no_tracking
+import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_tracking
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.seconds
 
@@ -77,6 +85,14 @@ public fun HomeScreen(
                 modifier = Modifier.fillMaxWidth()
                     .padding(16.dp),
                 onClick = {}
+            )
+
+            ShowcaseCard(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(16.dp),
+                icon = rememberVectorPainter(Icons.Default.CloudOff),
+                title = stringResource(Res.string.onboarding_title_no_tracking),
+                description = stringResource(Res.string.onboarding_description_no_tracking)
             )
 
             ServerConnectionCard(
