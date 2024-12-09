@@ -5,10 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.setContent
-import androidx.compose.ui.platform.LocalUriHandler
 import com.mooncloak.vpn.app.android.di.create
 import com.mooncloak.vpn.app.shared.app.Application
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
+import com.mooncloak.vpn.app.shared.util.platformDefaultUriHandler
 
 class MainActivity : BaseActivity() {
 
@@ -22,7 +22,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val uriHandler = LocalUriHandler.current
+            val uriHandler = platformDefaultUriHandler()
             val applicationDependencies = ApplicationComponent.create(
                 activityContext = this,
                 uriHandler = uriHandler
