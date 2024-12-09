@@ -1,8 +1,12 @@
 package com.mooncloak.vpn.app.shared.feature.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -10,6 +14,8 @@ import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +45,7 @@ public fun HomeScreen(
 ) {
     val viewModel = remember { HomeViewModel() }
     val snackbarHostState = remember { SnackbarHostState() }
+    val lazyListState = rememberLazyListState()
 
     val status = remember { mutableStateOf(HomeTitleBarConnectionStatus.Disconnected) }
 
@@ -75,62 +82,70 @@ public fun HomeScreen(
     ) { paddingValues ->
         val connected = remember { mutableStateOf(false) }
 
-        Column(
-            modifier = Modifier.padding(paddingValues)
-                .verticalScroll(rememberScrollState())
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
+                .padding(paddingValues)
+                .padding(12.dp),
+            state = lazyListState,
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            GetVPNServiceCard(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(16.dp),
-                onClick = {}
-            )
+            item {
+                GetVPNServiceCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {}
+                )
+            }
 
-            ShowcaseCard(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(16.dp),
-                icon = rememberVectorPainter(Icons.Default.CloudOff),
-                title = stringResource(Res.string.onboarding_title_no_tracking),
-                description = stringResource(Res.string.onboarding_description_no_tracking)
-            )
+            item {
+                ShowcaseCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    icon = rememberVectorPainter(Icons.Default.CloudOff),
+                    title = stringResource(Res.string.onboarding_title_no_tracking),
+                    description = stringResource(Res.string.onboarding_description_no_tracking)
+                )
+            }
 
-            ServerConnectionCard(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(16.dp),
-                countryName = "United States",
-                countryFlag = null,
-                serverName = "Florida #12",
-                connectionType = ConnectionType.P2P,
-                connected = connected.value,
-                onConnect = {
-                    connected.value = !connected.value
-                },
-                onDetails = {
+            item {
+                ServerConnectionCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    countryName = "United States",
+                    countryFlag = null,
+                    serverName = "Florida #12",
+                    connectionType = ConnectionType.P2P,
+                    connected = connected.value,
+                    onConnect = {
+                        connected.value = !connected.value
+                    },
+                    onDetails = {
 
-                }
-            )
+                    }
+                )
+            }
 
-            AdShieldCard(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(16.dp),
-                adsBlocked = 0,
-                trackersBlocked = 0,
-                bytesSaved = 0L,
-                active = true,
-                onClick = {
+            item {
+                AdShieldCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    adsBlocked = 0,
+                    trackersBlocked = 0,
+                    bytesSaved = 0L,
+                    active = true,
+                    onClick = {
 
-                }
-            )
+                    }
+                )
+            }
 
-            PlanUsageCard(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(16.dp),
-                durationRemaining = 30.days,
-                bytesRemaining = 1000,
-                boost = true,
-                onBoost = {
+            item {
+                PlanUsageCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    durationRemaining = 30.days,
+                    bytesRemaining = 1000,
+                    boost = true,
+                    onBoost = {
 
-                }
-            )
+                    }
+                )
+            }
         }
     }
 
