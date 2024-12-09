@@ -53,4 +53,16 @@
     <string name="support_email_description">Reach out to us via email and we will get back to you when we can.</string>
     <string name="support_email_action">Email Support</string>
 
+    <string name="support_feature_request_title">Feature Request</string>
+    <string name="support_feature_request_description">Have an idea you'd like to share? Tell us about it!</string>
+    <string name="support_feature_request_action">Create Request</string>
+
+    <string name="support_issue_title">Have an issue?</string>
+    <string name="support_issue_description">Create a public issue ticket so we are aware of the problem.</string>
+    <string name="support_issue_action">Report Issue</string>
+
+    <string name="support_rate_app_title">Rate the app</string>
+    <string name="support_rate_app_description">Let us know what we did well and what we can improve!</string>
+    <string name="support_rate_app_action">Rate App</string>
+
 </resources>

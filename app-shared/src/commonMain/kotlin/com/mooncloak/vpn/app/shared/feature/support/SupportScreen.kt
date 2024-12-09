@@ -1,10 +1,17 @@
 package com.mooncloak.vpn.app.shared.feature.support
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Stars
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -17,9 +24,21 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.feature.support.composable.EmailSupportCard
+import com.mooncloak.vpn.app.shared.feature.support.composable.DefaultSupportCard
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_support_title
+import com.mooncloak.vpn.app.shared.resource.support_email_action
+import com.mooncloak.vpn.app.shared.resource.support_email_description
+import com.mooncloak.vpn.app.shared.resource.support_email_title
+import com.mooncloak.vpn.app.shared.resource.support_feature_request_action
+import com.mooncloak.vpn.app.shared.resource.support_feature_request_description
+import com.mooncloak.vpn.app.shared.resource.support_feature_request_title
+import com.mooncloak.vpn.app.shared.resource.support_issue_action
+import com.mooncloak.vpn.app.shared.resource.support_issue_description
+import com.mooncloak.vpn.app.shared.resource.support_issue_title
+import com.mooncloak.vpn.app.shared.resource.support_rate_app_action
+import com.mooncloak.vpn.app.shared.resource.support_rate_app_description
+import com.mooncloak.vpn.app.shared.resource.support_rate_app_title
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -54,15 +73,47 @@ public fun SupportScreen(
         LazyColumn(
             modifier = Modifier.fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp),
-            state = lazyListState
+                .padding(12.dp),
+            state = lazyListState,
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            item(key = "EmailSupportCard") {
-                EmailSupportCard(
-                    modifier = Modifier.fillMaxWidth(),
-                    onEmail = {
+            item(key = "SupportEmailCard") {
+                DefaultSupportCard(
+                    title = stringResource(Res.string.support_email_title),
+                    icon = Icons.Default.Email,
+                    description = stringResource(Res.string.support_email_description),
+                    action = stringResource(Res.string.support_email_action),
+                    onAction = {}
+                )
+            }
 
-                    }
+            item(key = "SupportFeatureRequestCard") {
+                DefaultSupportCard(
+                    title = stringResource(Res.string.support_feature_request_title),
+                    icon = Icons.Default.Add,
+                    description = stringResource(Res.string.support_feature_request_description),
+                    action = stringResource(Res.string.support_feature_request_action),
+                    onAction = {}
+                )
+            }
+
+            item(key = "SupportIssueCard") {
+                DefaultSupportCard(
+                    title = stringResource(Res.string.support_issue_title),
+                    icon = Icons.Default.BugReport,
+                    description = stringResource(Res.string.support_issue_description),
+                    action = stringResource(Res.string.support_issue_action),
+                    onAction = {}
+                )
+            }
+
+            item(key = "RateAppCard") {
+                DefaultSupportCard(
+                    title = stringResource(Res.string.support_rate_app_title),
+                    icon = Icons.Default.Stars,
+                    description = stringResource(Res.string.support_rate_app_description),
+                    action = stringResource(Res.string.support_rate_app_action),
+                    onAction = {}
                 )
             }
         }
