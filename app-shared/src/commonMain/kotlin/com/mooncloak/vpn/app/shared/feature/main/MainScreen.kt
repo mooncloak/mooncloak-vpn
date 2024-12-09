@@ -18,6 +18,7 @@ import com.mooncloak.vpn.app.shared.app.MainDestination
 import com.mooncloak.vpn.app.shared.feature.country.CountryListScreen
 import com.mooncloak.vpn.app.shared.feature.home.HomeScreen
 import com.mooncloak.vpn.app.shared.feature.settings.SettingsScreen
+import com.mooncloak.vpn.app.shared.feature.support.SupportScreen
 
 @Composable
 public fun MainScreen(
@@ -83,6 +84,9 @@ public fun MainScreen(
                 }
                 composable<MainDestination.Countries> {
                     CountryListScreen(modifier = Modifier.fillMaxSize())
+                }
+                composable<MainDestination.Support> {
+                    SupportScreen(modifier = Modifier.fillMaxSize())
                 }
                 composable<MainDestination.Settings> {
                     SettingsScreen(modifier = Modifier.fillMaxSize())

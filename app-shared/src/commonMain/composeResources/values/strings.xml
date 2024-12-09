@@ -5,6 +5,7 @@
 
     <string name="destination_main_home_title">Home</string>
     <string name="destination_main_countries_title">Countries</string>
+    <string name="destination_main_support_title">Support</string>
     <string name="destination_main_settings_title">Settings</string>
     <string name="destination_onboarding_title">Onboarding</string>
 

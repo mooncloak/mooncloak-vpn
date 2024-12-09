@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Support
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.painter.Painter
@@ -12,6 +13,7 @@ import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_countries_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_home_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
+import com.mooncloak.vpn.app.shared.resource.destination_main_support_title
 import com.mooncloak.vpn.app.shared.resource.destination_onboarding_title
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -111,6 +113,22 @@ public sealed interface MainDestination : AppDestination {
         override val icon: Painter
             @Composable
             get() = rememberVectorPainter(Icons.Default.Language)
+    }
+
+    @Serializable
+    @SerialName(value = "support")
+    @Immutable
+    public data object Support : MainDestination {
+
+        override val path: String = "/support"
+
+        override val title: String
+            @Composable
+            get() = stringResource(Res.string.destination_main_support_title)
+
+        override val icon: Painter
+            @Composable
+            get() = rememberVectorPainter(Icons.Default.Support)
     }
 
     @Serializable
