@@ -133,12 +133,9 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getCountry(
-        code: CountryCode,
-        token: Token
+        code: CountryCode
     ): Country {
-        val response = httpClient.get("https://mooncloak.com/api/vpn/country/${code.value}") {
-            bearerAuth(token.value)
-        }
+        val response = httpClient.get("https://mooncloak.com/api/vpn/country/${code.value}")
 
         return response.body<HttpResponseBody<Country>>().getOrThrow()
     }
@@ -146,24 +143,22 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
     @OptIn(ExperimentalPaginationAPI::class)
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun paginateCountries(
-        token: Token,
         direction: Direction = Direction.After,
         cursor: Cursor? = null,
         count: UInt = DEFAULT_COUNT,
-        sort: SortOptions? = null
+        sort: SortOptions? = null,
+        filters: CountryFilters? = null
     ): Page<Country> {
-        val pageRequest = PageRequest<String, String>(
+        val pageRequest = PageRequest<String, CountryFilters>(
             data = null,
             direction = direction,
             cursor = cursor,
             count = count,
             sort = sort,
-            filters = null
+            filters = filters
         )
 
         val response = httpClient.post("https://mooncloak.com/api/vpn/country") {
-            bearerAuth(token.value)
-
             setBody(pageRequest)
         }
 
@@ -172,12 +167,9 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getRegion(
-        code: RegionCode,
-        token: Token
+        code: RegionCode
     ): Region {
-        val response = httpClient.get("https://mooncloak.com/api/vpn/region/${code.value}") {
-            bearerAuth(token.value)
-        }
+        val response = httpClient.get("https://mooncloak.com/api/vpn/region/${code.value}")
 
         return response.body<HttpResponseBody<Region>>().getOrThrow()
     }
@@ -185,10 +177,10 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getServer(
         id: String,
-        token: Token
+        token: Token? = null
     ): Server {
         val response = httpClient.get("https://mooncloak.com/api/vpn/server/$id") {
-            bearerAuth(token.value)
+            token?.value?.let { bearerAuth(it) }
         }
 
         return response.body<HttpResponseBody<Server>>().getOrThrow()
@@ -197,7 +189,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
     @OptIn(ExperimentalPaginationAPI::class)
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun paginateServers(
-        token: Token,
+        token: Token? = null,
         direction: Direction = Direction.After,
         cursor: Cursor? = null,
         count: UInt = DEFAULT_COUNT,
@@ -214,7 +206,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         )
 
         val response = httpClient.post("https://mooncloak.com/api/vpn/server") {
-            bearerAuth(token.value)
+            token?.value?.let { bearerAuth(it) }
 
             setBody(pageRequest)
         }
