@@ -44,4 +44,8 @@
     <string name="home_title_bar_protected">Protected</string>
     <string name="home_title_bar_connecting">Connecting to a secure VPN</string>
 
+    <string name="get_vpn_service_title">You are unprotected</string>
+    <string name="get_vpn_service_description">Start protecting your data with a privacy focused and anonymous VPN service by mooncloak.</string>
+    <string name="get_vpn_service_action_protect">Get Protected</string>
+
 </resources>

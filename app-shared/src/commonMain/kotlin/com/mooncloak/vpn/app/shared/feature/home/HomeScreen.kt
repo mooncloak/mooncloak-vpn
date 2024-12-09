@@ -19,6 +19,7 @@ import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBar
 import com.mooncloak.vpn.app.shared.feature.home.composable.PlanUsageCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.AdShieldCard
+import com.mooncloak.vpn.app.shared.feature.home.composable.GetVPNServiceCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBarConnectionStatus
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.days
@@ -72,6 +73,12 @@ public fun HomeScreen(
             modifier = Modifier.padding(paddingValues)
                 .verticalScroll(rememberScrollState())
         ) {
+            GetVPNServiceCard(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(16.dp),
+                onClick = {}
+            )
+
             ServerConnectionCard(
                 modifier = Modifier.fillMaxWidth()
                     .padding(16.dp),
