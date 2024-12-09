@@ -27,3 +27,11 @@ public sealed interface AppClientInfo {
 
     public companion object Mooncloak : AppClientInfo
 }
+
+public val AppClientInfo.Mooncloak.supportEmail: String get() = "support@mooncloak.com"
+
+public val AppClientInfo.Mooncloak.supportFeatureRequestUri: String get() = "https://github.com/mooncloak/mooncloak-vpn/issues/new?assignees=&labels=&projects=&template=feature_request.md&title="
+
+public val AppClientInfo.Mooncloak.supportIssueUri: String get() = "https://github.com/mooncloak/mooncloak-vpn/issues/new?assignees=&labels=&projects=&template=bug_report.md&title="
+
+public val AppClientInfo.Mooncloak.rateAppUri: String get() = "https://play.google.com/"

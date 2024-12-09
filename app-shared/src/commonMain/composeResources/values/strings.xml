@@ -65,4 +65,6 @@
     <string name="support_rate_app_description">Let us know what we did well and what we can improve!</string>
     <string name="support_rate_app_action">Rate App</string>
 
+    <string name="support_email_default_subject">Report an issue</string>
+
 </resources>
