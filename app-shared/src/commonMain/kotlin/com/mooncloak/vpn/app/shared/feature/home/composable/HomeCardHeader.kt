@@ -44,7 +44,8 @@ internal fun HomeCardHeader(
                 Icon(
                     modifier = Modifier.size(leadingIconSize),
                     imageVector = leadingIcon,
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = leadingContentColor
                 )
             }
 
@@ -77,7 +78,8 @@ internal fun HomeCardHeader(
                 Icon(
                     modifier = Modifier.size(trailingIconSize),
                     imageVector = trailingIcon,
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = trailingContentColor
                 )
             }
         }

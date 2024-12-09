@@ -106,9 +106,10 @@ internal fun ServerConnectionCard(
                 },
                 trailingContent = {
                     Icon(
+                        modifier = Modifier.size(24.dp),
                         imageVector = Icons.AutoMirrored.Default.ArrowForward,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface
+                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
                     )
                 }
             )

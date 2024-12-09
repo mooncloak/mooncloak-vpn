@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.ShieldMoon
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -49,7 +50,8 @@ internal fun AdShieldCard(
                 } else {
                     stringResource(Res.string.ad_shield_inactive)
                 },
-                leadingIcon = Icons.Default.ShieldMoon
+                leadingIcon = Icons.Default.ShieldMoon,
+                trailingIcon = Icons.AutoMirrored.Default.ArrowForward
             )
 
             Row(
