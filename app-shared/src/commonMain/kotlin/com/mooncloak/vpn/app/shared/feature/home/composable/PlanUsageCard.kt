@@ -15,9 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.global_not_available
 import com.mooncloak.vpn.app.shared.resource.plan_usage_action_boost
 import com.mooncloak.vpn.app.shared.resource.plan_usage_label_remaining
 import com.mooncloak.vpn.app.shared.resource.plan_usage_title
+import com.mooncloak.vpn.app.shared.util.BytesFormatter
+import com.mooncloak.vpn.app.shared.util.Default
+import com.mooncloak.vpn.app.shared.util.formatWithUnit
 import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Duration
 
@@ -58,7 +62,12 @@ internal fun PlanUsageCard(
                 InfoStatSection(
                     modifier = Modifier.weight(1f),
                     label = stringResource(Res.string.plan_usage_label_remaining),
-                    value = bytesRemaining?.toString() ?: "" // TODO: Format Usage Bytes
+                    value = bytesRemaining?.let { bytes ->
+                        BytesFormatter.Default.formatWithUnit(
+                            bytes = bytes,
+                            type = BytesFormatter.Type.Bytes
+                        )
+                    } ?: stringResource(Res.string.global_not_available)
                 )
             }
 

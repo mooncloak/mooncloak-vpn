@@ -55,8 +55,6 @@ public fun HomeScreen(
     }
 
     // TODOS:
-    // * Showcase cards for when the user has not signed-up for service
-    // * "Get Protected" card for when the user has not signed-up for service
     // * Recently used VPN service card
     // * Starred VPN service card
     // * Format Data (Mb/Gb/etc.)

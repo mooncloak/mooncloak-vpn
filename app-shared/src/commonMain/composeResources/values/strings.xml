@@ -67,4 +67,12 @@
 
     <string name="support_email_default_subject">Report an issue</string>
 
+    <string name="data_format_abbr_bytes">B</string>
+    <string name="data_format_abbr_kilobytes">Kb</string>
+    <string name="data_format_abbr_megabytes">Mb</string>
+    <string name="data_format_abbr_gigabytes">Gb</string>
+    <string name="data_format_abbr_terabytes">Tb</string>
+
+    <string name="global_not_available">N/A</string>
+
 </resources>
