@@ -14,8 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.ConnectionType
 import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBar
+import com.mooncloak.vpn.app.shared.feature.home.composable.PlanUsageCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
 import com.mooncloak.vpn.app.shared.feature.server.composable.AdShieldCard
+import kotlin.time.Duration.Companion.days
 
 @Composable
 public fun HomeScreen(
@@ -64,6 +66,17 @@ public fun HomeScreen(
                 bytesSaved = 0L,
                 active = true,
                 onClick = {
+
+                }
+            )
+
+            PlanUsageCard(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(16.dp),
+                durationRemaining = 30.days,
+                bytesRemaining = 1000,
+                boost = true,
+                onBoost = {
 
                 }
             )

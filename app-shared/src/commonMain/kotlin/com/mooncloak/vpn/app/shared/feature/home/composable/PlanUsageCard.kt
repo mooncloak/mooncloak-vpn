@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.server.composable
+package com.mooncloak.vpn.app.shared.feature.home.composable
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DataUsage
 import androidx.compose.material.icons.filled.ShieldMoon
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -26,23 +28,25 @@ import com.mooncloak.vpn.app.shared.resource.ad_shield_label_ads_blocked
 import com.mooncloak.vpn.app.shared.resource.ad_shield_label_data_saved
 import com.mooncloak.vpn.app.shared.resource.ad_shield_label_trackers_blocked
 import com.mooncloak.vpn.app.shared.resource.ad_shield_title
+import com.mooncloak.vpn.app.shared.resource.plan_usage_action_boost
+import com.mooncloak.vpn.app.shared.resource.plan_usage_label_remaining
+import com.mooncloak.vpn.app.shared.resource.plan_usage_title
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Duration
 
 @Composable
-internal fun AdShieldCard(
-    adsBlocked: Int,
-    trackersBlocked: Int,
-    bytesSaved: Long,
-    active: Boolean,
-    onClick: () -> Unit,
+internal fun PlanUsageCard(
+    durationRemaining: Duration?,
+    bytesRemaining: Long?,
+    boost: Boolean = false,
+    onBoost: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
-        ),
-        onClick = onClick
+        )
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
@@ -54,35 +58,16 @@ internal fun AdShieldCard(
             ) {
                 Icon(
                     modifier = Modifier.size(24.dp),
-                    imageVector = Icons.Default.ShieldMoon,
+                    imageVector = Icons.Default.DataUsage,
                     contentDescription = null
                 )
 
                 Text(
                     modifier = Modifier.padding(start = 8.dp),
-                    text = stringResource(Res.string.ad_shield_title),
+                    text = stringResource(Res.string.plan_usage_title),
                     style = MaterialTheme.typography.titleLarge,
                     maxLines = 1,
                     overflow = TextOverflow.Clip
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Text(
-                    modifier = Modifier.padding(top = 8.dp),
-                    text = if (active) {
-                        stringResource(Res.string.ad_shield_active)
-                    } else {
-                        stringResource(Res.string.ad_shield_inactive)
-                    },
-                    style = MaterialTheme.typography.labelLarge.copy(
-                        color = MaterialTheme.colorScheme.onSurface.copy(
-                            alpha = 0.68f
-                        )
-                    ),
-                    maxLines = 2,
-                    overflow = TextOverflow.Clip,
-                    textAlign = TextAlign.Center
                 )
             }
 
@@ -92,21 +77,27 @@ internal fun AdShieldCard(
             ) {
                 InfoSection(
                     modifier = Modifier.weight(1f),
-                    label = stringResource(Res.string.ad_shield_label_ads_blocked),
-                    value = adsBlocked.toString()
+                    label = stringResource(Res.string.plan_usage_label_remaining),
+                    value = durationRemaining?.toString() ?: "" // TODO: Format Duration
                 )
 
                 InfoSection(
                     modifier = Modifier.weight(1f),
-                    label = stringResource(Res.string.ad_shield_label_trackers_blocked),
-                    value = trackersBlocked.toString()
+                    label = stringResource(Res.string.plan_usage_label_remaining),
+                    value = bytesRemaining?.toString() ?: "" // TODO: Format Usage Bytes
                 )
+            }
 
-                InfoSection(
-                    modifier = Modifier.weight(1f),
-                    label = stringResource(Res.string.ad_shield_label_data_saved),
-                    value = "0Mb" // TODO: Format Bytes
-                )
+            if (boost) {
+                Button(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(top = 16.dp),
+                    onClick = onBoost
+                ) {
+                    Text(
+                        text = stringResource(Res.string.plan_usage_action_boost)
+                    )
+                }
             }
         }
     }

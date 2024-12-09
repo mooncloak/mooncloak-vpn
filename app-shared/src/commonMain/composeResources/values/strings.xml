@@ -36,4 +36,8 @@
     <string name="ad_shield_active">On</string>
     <string name="ad_shield_inactive">Off</string>
 
+    <string name="plan_usage_title">Plan Usage</string>
+    <string name="plan_usage_label_remaining">Remaining</string>
+    <string name="plan_usage_action_boost">Boost</string>
+
 </resources>
