@@ -24,6 +24,7 @@ import com.mooncloak.vpn.app.shared.api.ConnectionType
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.action_connect
 import com.mooncloak.vpn.app.shared.resource.action_disconnect
+import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import com.mooncloak.vpn.app.shared.util.icon
 import com.mooncloak.vpn.app.shared.util.title
 import org.jetbrains.compose.resources.stringResource
@@ -72,7 +73,7 @@ internal fun ServerConnectionCard(
                             text = serverName,
                             style = MaterialTheme.typography.titleSmall.copy(
                                 color = MaterialTheme.colorScheme.onSurface.copy(
-                                    alpha = 0.68f
+                                    alpha = SecondaryAlpha
                                 )
                             )
                         )
@@ -95,7 +96,7 @@ internal fun ServerConnectionCard(
                                     text = connectionType.title,
                                     style = MaterialTheme.typography.titleSmall.copy(
                                         color = MaterialTheme.colorScheme.onSurface.copy(
-                                            alpha = 0.68f
+                                            alpha = SecondaryAlpha
                                         )
                                     )
                                 )

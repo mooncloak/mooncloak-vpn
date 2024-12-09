@@ -3,6 +3,8 @@ package com.mooncloak.vpn.app.shared.feature.home
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -16,7 +18,7 @@ import com.mooncloak.vpn.app.shared.api.ConnectionType
 import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBar
 import com.mooncloak.vpn.app.shared.feature.home.composable.PlanUsageCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
-import com.mooncloak.vpn.app.shared.feature.server.composable.AdShieldCard
+import com.mooncloak.vpn.app.shared.feature.home.composable.AdShieldCard
 import kotlin.time.Duration.Companion.days
 
 @Composable
@@ -30,6 +32,13 @@ public fun HomeScreen(
         viewModel.load()
     }
 
+    // TODOS:
+    // * Showcase cards for when the user has not signed-up for service
+    // * "Get Protected" card for when the user has not signed-up for service
+    // * Recently used VPN service card
+    // * Starred VPN service card
+    // * Format Data (Mb/Gb/etc.)
+
     Scaffold(
         modifier = modifier,
         snackbarHost = {
@@ -41,7 +50,10 @@ public fun HomeScreen(
     ) { paddingValues ->
         val connected = remember { mutableStateOf(false) }
 
-        Column(modifier = Modifier.padding(paddingValues)) {
+        Column(
+            modifier = Modifier.padding(paddingValues)
+                .verticalScroll(rememberScrollState())
+        ) {
             ServerConnectionCard(
                 modifier = Modifier.fillMaxWidth()
                     .padding(16.dp),

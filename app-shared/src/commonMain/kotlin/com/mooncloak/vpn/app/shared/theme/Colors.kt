@@ -126,3 +126,5 @@ internal val mooncloakMoonlightColorScheme = lightColorScheme(
     onSecondary = ColorPalette.MooncloakDarkPrimaryDark,
     onSecondaryContainer = ColorPalette.MooncloakDarkPrimaryDark,
 )
+
+internal val SecondaryAlpha: Float = 0.68f
