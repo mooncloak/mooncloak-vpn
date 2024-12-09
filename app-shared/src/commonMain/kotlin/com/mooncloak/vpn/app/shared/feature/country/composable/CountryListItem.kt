@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -39,11 +41,21 @@ internal fun CountryListItem(
                     .clip(RoundedCornerShape(4.dp))
                     .background(MaterialTheme.colorScheme.background)
             ) {
-                country.flag?.let { imageUri ->
+                val imageUri = country.flag
+
+                if (imageUri != null) {
                     AsyncImage(
                         modifier = Modifier.matchParentSize(),
                         model = imageUri,
                         contentDescription = null
+                    )
+                } else {
+                    Icon(
+                        modifier = Modifier.size(24.dp)
+                            .align(Alignment.Center),
+                        imageVector = Icons.Default.Flag,
+                        contentDescription = null,
+                        tint = contentColor
                     )
                 }
             }

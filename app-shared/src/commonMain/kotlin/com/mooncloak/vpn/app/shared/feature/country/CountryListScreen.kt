@@ -20,7 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.Country
 import com.mooncloak.vpn.app.shared.api.CountryCode
+import com.mooncloak.vpn.app.shared.api.Region
+import com.mooncloak.vpn.app.shared.api.RegionCode
 import com.mooncloak.vpn.app.shared.feature.country.composable.CountryListItem
+import com.mooncloak.vpn.app.shared.feature.country.composable.RegionListItem
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_countries_title
 import org.jetbrains.compose.resources.stringResource
@@ -58,8 +61,7 @@ public fun CountryListScreen(
             modifier = Modifier.fillMaxSize()
                 .padding(paddingValues)
                 .padding(vertical = 12.dp),
-            state = lazyListState,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            state = lazyListState
         ) {
             item {
                 CountryListItem(
@@ -67,6 +69,19 @@ public fun CountryListScreen(
                         code = CountryCode(value = "us"),
                         regions = emptyList(),
                         name = "United States",
+                        flag = null
+                    ),
+                    onMoreSelected = {
+
+                    }
+                )
+            }
+
+            item {
+                RegionListItem(
+                    region = Region(
+                        code = RegionCode(value = "fl"),
+                        name = "Florida",
                         flag = null
                     ),
                     onMoreSelected = {
