@@ -20,13 +20,17 @@ import com.mooncloak.vpn.app.shared.resource.ad_shield_label_ads_blocked
 import com.mooncloak.vpn.app.shared.resource.ad_shield_label_data_saved
 import com.mooncloak.vpn.app.shared.resource.ad_shield_label_trackers_blocked
 import com.mooncloak.vpn.app.shared.resource.ad_shield_title
+import com.mooncloak.vpn.app.shared.resource.global_not_available
+import com.mooncloak.vpn.app.shared.util.BytesFormatter
+import com.mooncloak.vpn.app.shared.util.Default
+import com.mooncloak.vpn.app.shared.util.formatWithUnit
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun AdShieldCard(
     adsBlocked: Int,
     trackersBlocked: Int,
-    bytesSaved: Long,
+    bytesSaved: Long?,
     active: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -73,7 +77,12 @@ internal fun AdShieldCard(
                 InfoStatSection(
                     modifier = Modifier.weight(1f),
                     label = stringResource(Res.string.ad_shield_label_data_saved),
-                    value = "0Mb" // TODO: Format Bytes
+                    value = bytesSaved?.let { bytes ->
+                        BytesFormatter.Default.formatWithUnit(
+                            bytes = bytes,
+                            type = BytesFormatter.Type.Megabytes
+                        )
+                    } ?: stringResource(Res.string.global_not_available)
                 )
             }
         }

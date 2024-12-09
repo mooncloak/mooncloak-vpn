@@ -65,7 +65,7 @@ internal fun PlanUsageCard(
                     value = bytesRemaining?.let { bytes ->
                         BytesFormatter.Default.formatWithUnit(
                             bytes = bytes,
-                            type = BytesFormatter.Type.Bytes
+                            type = BytesFormatter.Type.Megabytes
                         )
                     } ?: stringResource(Res.string.global_not_available)
                 )

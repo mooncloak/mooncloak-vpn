@@ -17,13 +17,17 @@ internal object AndroidBytesFormatter : BytesFormatter {
 
     override fun format(bytes: Long, type: BytesFormatter.Type): String {
         val value = when (type) {
-            BytesFormatter.Type.Bytes -> bytes
-            BytesFormatter.Type.Kilobytes -> bytes / 1024
-            BytesFormatter.Type.Megabytes -> bytes / (1024 * 2)
-            BytesFormatter.Type.Gigabytes -> bytes / (1024 * 3)
-            BytesFormatter.Type.Terabytes -> bytes / (1024 * 4)
+            BytesFormatter.Type.Bytes -> bytes.toFloat()
+            BytesFormatter.Type.Kilobytes -> bytes / 1024f
+            BytesFormatter.Type.Megabytes -> bytes / (1024f * 2)
+            BytesFormatter.Type.Gigabytes -> bytes / (1024f * 3)
+            BytesFormatter.Type.Terabytes -> bytes / (1024f * 4)
         }
 
-        return format.format(value)
+        return when {
+            value == 0f -> "0"
+            value < 1f -> "< 1"
+            else -> format.format(value)
+        }
     }
 }
