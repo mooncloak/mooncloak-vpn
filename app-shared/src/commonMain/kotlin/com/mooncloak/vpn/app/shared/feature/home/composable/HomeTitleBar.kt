@@ -23,13 +23,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.mooncloak.vpn.app.shared.feature.home.model.ServerConnectionStatus
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_connecting
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_protected
@@ -38,20 +38,11 @@ import com.mooncloak.vpn.app.shared.theme.ColorPalette
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import org.jetbrains.compose.resources.stringResource
 
-@Immutable
-internal enum class HomeTitleBarConnectionStatus {
-
-    Disconnected,
-    Connecting,
-    Connected
-}
-
-
 @Composable
 internal fun HomeTitleBar(
-    status: HomeTitleBarConnectionStatus,
-    countryName: String,
-    ipAddress: String,
+    status: ServerConnectionStatus,
+    connectedName: String?,
+    ipAddress: String?,
     hideIpAddress: Boolean = true,
     modifier: Modifier = Modifier
 ) {
@@ -88,7 +79,7 @@ internal fun HomeTitleBar(
             HomeTitleChip(
                 modifier = Modifier.wrapContentSize()
                     .padding(top = 12.dp),
-                countryName = countryName,
+                countryName = connectedName,
                 ipAddress = ipAddress,
                 hideIpAddress = true,
                 containerColor = status.containerColor,
@@ -98,38 +89,38 @@ internal fun HomeTitleBar(
     }
 }
 
-private val HomeTitleBarConnectionStatus.title: String
+private val ServerConnectionStatus.title: String
     @Composable
     get() = when (this) {
-        HomeTitleBarConnectionStatus.Disconnected -> stringResource(Res.string.home_title_bar_unprotected)
-        HomeTitleBarConnectionStatus.Connecting -> stringResource(Res.string.home_title_bar_connecting)
-        HomeTitleBarConnectionStatus.Connected -> stringResource(Res.string.home_title_bar_protected)
+        ServerConnectionStatus.Disconnected -> stringResource(Res.string.home_title_bar_unprotected)
+        ServerConnectionStatus.Connecting -> stringResource(Res.string.home_title_bar_connecting)
+        ServerConnectionStatus.Connected -> stringResource(Res.string.home_title_bar_protected)
     }
 
-private val HomeTitleBarConnectionStatus.containerColor: Color
+private val ServerConnectionStatus.containerColor: Color
     @Composable
     get() = when (this) {
-        HomeTitleBarConnectionStatus.Disconnected -> ColorPalette.MooncloakError
-        HomeTitleBarConnectionStatus.Connecting -> MaterialTheme.colorScheme.surface
-        HomeTitleBarConnectionStatus.Connected -> ColorPalette.Teal_500
+        ServerConnectionStatus.Disconnected -> ColorPalette.MooncloakError
+        ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.surface
+        ServerConnectionStatus.Connected -> ColorPalette.Teal_500
     }
 
 @Suppress("SameReturnValue")
-private val HomeTitleBarConnectionStatus.contentColor: Color
+private val ServerConnectionStatus.contentColor: Color
     @Composable
     get() = when (this) {
-        HomeTitleBarConnectionStatus.Disconnected -> Color.White
-        HomeTitleBarConnectionStatus.Connecting -> Color.White
-        HomeTitleBarConnectionStatus.Connected -> Color.White
+        ServerConnectionStatus.Disconnected -> Color.White
+        ServerConnectionStatus.Connecting -> Color.White
+        ServerConnectionStatus.Connected -> Color.White
     }
 
 @Composable
 private fun TitleBarIcon(
-    status: HomeTitleBarConnectionStatus,
+    status: ServerConnectionStatus,
     modifier: Modifier = Modifier
 ) {
     when (status) {
-        HomeTitleBarConnectionStatus.Disconnected -> {
+        ServerConnectionStatus.Disconnected -> {
             Icon(
                 modifier = modifier,
                 imageVector = Icons.Default.LockOpen,
@@ -137,13 +128,13 @@ private fun TitleBarIcon(
             )
         }
 
-        HomeTitleBarConnectionStatus.Connecting -> {
+        ServerConnectionStatus.Connecting -> {
             CircularProgressIndicator(
                 modifier = modifier
             )
         }
 
-        HomeTitleBarConnectionStatus.Connected -> {
+        ServerConnectionStatus.Connected -> {
             Icon(
                 modifier = modifier,
                 imageVector = Icons.Default.VpnLock,

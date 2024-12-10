@@ -25,9 +25,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class Country public constructor(
     @SerialName(value = "code") public val code: CountryCode,
-    @SerialName(value = "regions") public val regions: List<Region>,
     @SerialName(value = "name") public val name: String,
     @SerialName(value = "flag") public val flag: String? = null,
+    @SerialName(value = "regions") public val regions: List<Region> = emptyList(),
     @SerialName(value = "description") public val connectionDescription: String? = null,
     @SerialName(value = "connection_types") public val connectionTypes: List<ConnectionType> = emptyList(),
     @SerialName(value = "server_count") public val serverCount: Int? = null
