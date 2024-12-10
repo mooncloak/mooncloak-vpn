@@ -16,13 +16,16 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsGroupLabel
 import com.mooncloak.vpn.app.shared.feature.settings.di.createSettingsComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
@@ -37,6 +40,8 @@ public fun SettingsScreen(
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }
+    val topAppBarState = rememberTopAppBarState()
+    val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
     val scrollState = rememberScrollState()
 
     LaunchedEffect(Unit) {
@@ -51,6 +56,7 @@ public fun SettingsScreen(
         topBar = {
             LargeTopAppBar(
                 modifier = Modifier.fillMaxWidth(),
+                scrollBehavior = topAppBarBehavior,
                 colors = TopAppBarDefaults.largeTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background,
                     scrolledContainerColor = MaterialTheme.colorScheme.surface
@@ -67,9 +73,12 @@ public fun SettingsScreen(
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 12.dp)
                     .verticalScroll(scrollState)
             ) {
-
+                SettingsGroupLabel(
+                    text = "Testing"
+                )
             }
 
             AnimatedVisibility(
