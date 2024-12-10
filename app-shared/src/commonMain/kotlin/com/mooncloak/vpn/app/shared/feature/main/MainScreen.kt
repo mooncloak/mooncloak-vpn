@@ -89,7 +89,7 @@ public fun MainScreen(
                     )
                 }
         },
-        bottomAppBarFloatingActionButton = {
+        floatingActionButton = {
             FloatingActionButton(
                 shape = CircleShape,
                 onClick = {

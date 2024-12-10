@@ -2,7 +2,7 @@ package com.mooncloak.vpn.app.shared.feature.main.composable
 
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.FabPosition
 import androidx.compose.material3.BadgedBox
@@ -32,8 +33,6 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.collection.MutableVector
-import androidx.compose.runtime.collection.mutableVectorOf
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -57,7 +57,7 @@ internal fun MooncloakNavigationScaffold(
     bottomAppBarElevation: Dp = NavigationBarDefaults.Elevation,
     bottomAppBarContentPadding: PaddingValues = BottomAppBarDefaults.ContentPadding,
     navigationRailHeader: @Composable (ColumnScope.() -> Unit)? = null,
-    bottomAppBarFloatingActionButton: @Composable (() -> Unit)? = null,
+    floatingActionButton: @Composable (() -> Unit)? = null,
     content: @Composable (paddingValues: PaddingValues) -> Unit
 ) {
     val windowSizeClass = calculateWindowSizeClass()
@@ -101,6 +101,14 @@ internal fun MooncloakNavigationScaffold(
                         interactionSource = it.interactionSource
                     )
                 }
+
+                if (floatingActionButton != null) {
+                    Box(
+                        modifier = Modifier.padding(top = 32.dp)
+                    ) {
+                        floatingActionButton.invoke()
+                    }
+                }
             }
 
             Surface(
@@ -112,19 +120,34 @@ internal fun MooncloakNavigationScaffold(
             }
         }
     } else {
+        val fabSize = remember { mutableStateOf(IntSize.Zero) }
+        val bottomBarSize = remember { mutableStateOf(IntSize.Zero) }
+        val fabPlacement = remember {
+            derivedStateOf {
+                FabPlacement(
+                    isDocked = true,
+                    left = (bottomBarSize.value.width - fabSize.value.width) / 2,
+                    width = fabSize.value.width,
+                    height = fabSize.value.height
+                )
+            }
+        }
+
         // We are in compact screen mode. So use a bottom navigation component.
         androidx.compose.material.Scaffold(
             modifier = modifier,
             backgroundColor = containerColor,
             contentColor = contentColor,
             bottomBar = {
-                androidx.compose.material.BottomAppBar(
-                    modifier = Modifier.fillMaxWidth(),
+                MooncloakBottomAppBar(
+                    modifier = Modifier.fillMaxWidth()
+                        .onSizeChanged { size -> bottomBarSize.value = size },
                     backgroundColor = navigationColors.navigationBarContainerColor,
                     contentColor = navigationColors.navigationBarContentColor,
                     cutoutShape = CircleShape,
                     elevation = bottomAppBarElevation,
                     contentPadding = bottomAppBarContentPadding,
+                    fabPlacement = fabPlacement.value
                 ) {
                     Row(
                         modifier = Modifier.weight(1f)
@@ -175,7 +198,14 @@ internal fun MooncloakNavigationScaffold(
                     }
                 }
             },
-            floatingActionButton = bottomAppBarFloatingActionButton ?: {},
+            floatingActionButton = {
+                Box(
+                    modifier = Modifier.wrapContentSize()
+                        .onSizeChanged { size -> fabSize.value = size }
+                ) {
+                    floatingActionButton?.invoke()
+                }
+            },
             floatingActionButtonPosition = FabPosition.Center,
             isFloatingActionButtonDocked = true,
             content = content
