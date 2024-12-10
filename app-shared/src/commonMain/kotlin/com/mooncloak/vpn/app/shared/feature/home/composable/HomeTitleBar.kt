@@ -29,7 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.feature.home.model.ServerConnectionStatus
+import com.mooncloak.vpn.app.shared.api.ServerConnectionStatus
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_connecting
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_protected

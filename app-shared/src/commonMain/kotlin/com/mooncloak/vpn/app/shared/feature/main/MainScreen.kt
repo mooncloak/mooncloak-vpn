@@ -1,5 +1,6 @@
 package com.mooncloak.vpn.app.shared.feature.main
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -25,6 +26,9 @@ import com.mooncloak.vpn.app.shared.feature.country.CountryListScreen
 import com.mooncloak.vpn.app.shared.feature.home.HomeScreen
 import com.mooncloak.vpn.app.shared.feature.main.composable.MooncloakNavigationScaffold
 import com.mooncloak.vpn.app.shared.feature.main.di.createMainComponent
+import com.mooncloak.vpn.app.shared.feature.main.util.containerColor
+import com.mooncloak.vpn.app.shared.feature.main.util.contentColor
+import com.mooncloak.vpn.app.shared.feature.main.util.floatingActionBarContent
 import com.mooncloak.vpn.app.shared.feature.settings.SettingsScreen
 import com.mooncloak.vpn.app.shared.feature.support.SupportScreen
 import com.mooncloak.vpn.app.shared.navigation.LocalNavController
@@ -90,16 +94,22 @@ public fun MainScreen(
                 }
         },
         floatingActionButton = {
+            val containerColor = animateColorAsState(
+                targetValue = viewModel.state.current.value.serverConnection.containerColor
+            )
+            val contentColor = animateColorAsState(
+                targetValue = viewModel.state.current.value.serverConnection.contentColor
+            )
+
             FloatingActionButton(
                 shape = CircleShape,
+                containerColor = containerColor.value,
+                contentColor = contentColor.value,
                 onClick = {
                     // TODO: Handle connecting to the VPN server
                 },
                 content = {
-                    Icon(
-                        imageVector = Icons.Default.ShieldMoon,
-                        contentDescription = null
-                    )
+                    viewModel.state.current.value.serverConnection.floatingActionBarContent()
                 }
             )
         },

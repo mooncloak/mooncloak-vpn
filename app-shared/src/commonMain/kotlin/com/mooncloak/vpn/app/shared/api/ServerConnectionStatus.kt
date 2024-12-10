@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.home.model
+package com.mooncloak.vpn.app.shared.api
 
 import androidx.compose.runtime.Immutable
 
