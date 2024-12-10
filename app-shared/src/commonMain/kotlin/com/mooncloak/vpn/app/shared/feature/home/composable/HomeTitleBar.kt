@@ -76,15 +76,17 @@ internal fun HomeTitleBar(
                 overflow = TextOverflow.Ellipsis
             )
 
-            HomeTitleChip(
-                modifier = Modifier.wrapContentSize()
-                    .padding(top = 12.dp),
-                countryName = connectedName,
-                ipAddress = ipAddress,
-                hideIpAddress = true,
-                containerColor = status.containerColor,
-                contentColor = status.contentColor
-            )
+            if (!connectedName.isNullOrBlank() || !ipAddress.isNullOrBlank()) {
+                HomeTitleChip(
+                    modifier = Modifier.wrapContentSize()
+                        .padding(top = 12.dp),
+                    countryName = connectedName,
+                    ipAddress = ipAddress,
+                    hideIpAddress = hideIpAddress,
+                    containerColor = status.containerColor,
+                    contentColor = status.contentColor
+                )
+            }
         }
     }
 }

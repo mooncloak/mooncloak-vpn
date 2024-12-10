@@ -1,8 +1,10 @@
 package com.mooncloak.vpn.app.shared.feature.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -65,10 +67,14 @@ public fun HomeScreen(
         LazyColumn(
             modifier = Modifier.fillMaxSize()
                 .padding(paddingValues)
-                .padding(12.dp),
+                .padding(horizontal = 12.dp),
             state = lazyListState,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            item(key = "TopSpacing") {
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+
             items(
                 items = viewModel.state.current.value.items,
                 key = { item -> item.toString() },
@@ -125,6 +131,10 @@ public fun HomeScreen(
                         description = item.description.invoke()
                     )
                 }
+            }
+
+            item(key = "BottomSpacing") {
+                Spacer(modifier = Modifier.height(12.dp))
             }
         }
     }
