@@ -8,17 +8,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.mooncloak.vpn.app.shared.api.Region
+import com.mooncloak.vpn.app.shared.api.Server
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.country_list_header_label_with_count
+import com.mooncloak.vpn.app.shared.resource.server_list_header_label
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-internal fun RegionListLayout(
-    regions: List<Region>,
-    regionType: String, // Ex: States, Cities, etc.
-    onRegionDetails: (region: Region) -> Unit,
-    onConnect: (region: Region) -> Unit,
+internal fun ServerListLayout(
+    servers: List<Server>,
+    onConnect: (server: Server) -> Unit,
     modifier: Modifier = Modifier,
     lazyListState: LazyListState = rememberLazyListState()
 ) {
@@ -26,24 +25,27 @@ internal fun RegionListLayout(
         modifier = modifier,
         state = lazyListState
     ) {
-        item(key = "RegionHeaderLabel") {
+        item(key = "ServerHeaderLabel") {
             CountryListHeaderLabel(
-                text = stringResource(Res.string.country_list_header_label_with_count, regionType, regions.size)
+                text = stringResource(
+                    Res.string.country_list_header_label_with_count,
+                    stringResource(Res.string.server_list_header_label),
+                    servers.size
+                )
             )
         }
 
         items(
-            items = regions,
-            key = { region -> region.code },
-            contentType = { "RegionListItem" }
-        ) { region ->
-            RegionListItem(
+            items = servers,
+            key = { server -> server.id },
+            contentType = { "ServerListItem" }
+        ) { server ->
+            ServerListItem(
                 modifier = Modifier.fillMaxWidth()
-                    .clickable { onConnect.invoke(region) },
-                region = region,
-                onMoreSelected = {
-                    onRegionDetails.invoke(region)
-                }
+                    .clickable(enabled = server.status.active && server.status.connectable) {
+                        onConnect.invoke(server)
+                    },
+                server = server
             )
         }
     }
