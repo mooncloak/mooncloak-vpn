@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.main
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShieldMoon
 import androidx.compose.material3.Badge
@@ -90,6 +91,7 @@ public fun MainScreen(
         },
         bottomAppBarFloatingActionButton = {
             FloatingActionButton(
+                shape = CircleShape,
                 onClick = {
                     // TODO: Handle connecting to the VPN server
                 },

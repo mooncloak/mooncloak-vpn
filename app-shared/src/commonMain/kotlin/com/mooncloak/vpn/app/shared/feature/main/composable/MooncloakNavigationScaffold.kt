@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.FabPosition
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.BottomAppBarDefaults
-import androidx.compose.material3.BottomAppBarScrollBehavior
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
@@ -36,11 +38,13 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun MooncloakNavigationScaffold(
@@ -50,10 +54,8 @@ internal fun MooncloakNavigationScaffold(
     containerColor: Color = NavigationSuiteScaffoldDefaults.containerColor,
     contentColor: Color = NavigationSuiteScaffoldDefaults.contentColor,
     navigationWindowInsets: WindowInsets = NavigationRailDefaults.windowInsets,
-    bottomAppBarTonalElevation: Dp = NavigationBarDefaults.Elevation,
+    bottomAppBarElevation: Dp = NavigationBarDefaults.Elevation,
     bottomAppBarContentPadding: PaddingValues = BottomAppBarDefaults.ContentPadding,
-    bottomAppBarWindowInsets: WindowInsets = NavigationBarDefaults.windowInsets,
-    bottomAppBarScrollBehavior: BottomAppBarScrollBehavior? = null,
     navigationRailHeader: @Composable (ColumnScope.() -> Unit)? = null,
     bottomAppBarFloatingActionButton: @Composable (() -> Unit)? = null,
     content: @Composable (paddingValues: PaddingValues) -> Unit
@@ -111,47 +113,73 @@ internal fun MooncloakNavigationScaffold(
         }
     } else {
         // We are in compact screen mode. So use a bottom navigation component.
-        Column(modifier = modifier) {
-            Surface(
-                modifier = Modifier.weight(1f),
-                color = containerColor,
-                contentColor = contentColor
-            ) {
-                content.invoke(navigationSize.value)
-            }
+        androidx.compose.material.Scaffold(
+            modifier = modifier,
+            backgroundColor = containerColor,
+            contentColor = contentColor,
+            bottomBar = {
+                androidx.compose.material.BottomAppBar(
+                    modifier = Modifier.fillMaxWidth(),
+                    backgroundColor = navigationColors.navigationBarContainerColor,
+                    contentColor = navigationColors.navigationBarContentColor,
+                    cutoutShape = CircleShape,
+                    elevation = bottomAppBarElevation,
+                    contentPadding = bottomAppBarContentPadding,
+                ) {
+                    Row(
+                        modifier = Modifier.weight(1f)
+                            .padding(end = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        scope.value.itemList.subList(
+                            fromIndex = 0,
+                            toIndex = scope.value.itemList.size / 2
+                        ).forEach {
+                            NavigationBarItem(
+                                modifier = it.modifier,
+                                selected = it.selected,
+                                onClick = it.onClick,
+                                icon = { NavigationItemIcon(icon = it.icon, badge = it.badge) },
+                                enabled = it.enabled,
+                                label = it.label,
+                                alwaysShowLabel = it.alwaysShowLabel,
+                                colors = it.colors?.navigationBarItemColors
+                                    ?: defaultItemColors.navigationBarItemColors,
+                                interactionSource = it.interactionSource
+                            )
+                        }
+                    }
 
-            MooncloakBottomNavigationBar(
-                modifier = Modifier.fillMaxWidth()
-                    .onSizeChanged { size ->
-                        navigationSize.value = PaddingValues(
-                            bottom = density.run { size.height.toDp() }
-                        )
-                    }, // TODO: Consider offset?
-                containerColor = navigationColors.navigationBarContainerColor,
-                contentColor = navigationColors.navigationBarContentColor,
-                floatingActionButton = bottomAppBarFloatingActionButton,
-                tonalElevation = bottomAppBarTonalElevation,
-                contentPadding = bottomAppBarContentPadding,
-                windowInsets = bottomAppBarWindowInsets,
-                scrollBehavior = bottomAppBarScrollBehavior,
-                content = {
-                    scope.value.itemList.forEach {
-                        NavigationBarItem(
-                            modifier = it.modifier,
-                            selected = it.selected,
-                            onClick = it.onClick,
-                            icon = { NavigationItemIcon(icon = it.icon, badge = it.badge) },
-                            enabled = it.enabled,
-                            label = it.label,
-                            alwaysShowLabel = it.alwaysShowLabel,
-                            colors = it.colors?.navigationBarItemColors
-                                ?: defaultItemColors.navigationBarItemColors,
-                            interactionSource = it.interactionSource
-                        )
+                    Row(
+                        modifier = Modifier.weight(1f)
+                            .padding(start = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        scope.value.itemList.subList(
+                            fromIndex = scope.value.itemList.size / 2,
+                            toIndex = scope.value.itemList.size
+                        ).forEach {
+                            NavigationBarItem(
+                                modifier = it.modifier,
+                                selected = it.selected,
+                                onClick = it.onClick,
+                                icon = { NavigationItemIcon(icon = it.icon, badge = it.badge) },
+                                enabled = it.enabled,
+                                label = it.label,
+                                alwaysShowLabel = it.alwaysShowLabel,
+                                colors = it.colors?.navigationBarItemColors
+                                    ?: defaultItemColors.navigationBarItemColors,
+                                interactionSource = it.interactionSource
+                            )
+                        }
                     }
                 }
-            )
-        }
+            },
+            floatingActionButton = bottomAppBarFloatingActionButton ?: {},
+            floatingActionButtonPosition = FabPosition.Center,
+            isFloatingActionButtonDocked = true,
+            content = content
+        )
     }
 }
 
@@ -271,5 +299,5 @@ private class MooncloakNavigationScaffoldScopeImpl : MooncloakNavigationScaffold
         )
     }
 
-    val itemList: MutableVector<NavigationItem> = mutableVectorOf()
+    val itemList: MutableList<NavigationItem> = mutableListOf()
 }

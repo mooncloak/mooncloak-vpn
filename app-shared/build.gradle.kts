@@ -59,6 +59,11 @@ kotlin {
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.materialIconsExtended)
+
+                // The Material(2) library is needed for some navigation components (Ex: to get the bottom navbar FAB
+                // cutouts)
+                implementation(compose.material)
+
                 api(compose.material3)
                 api(compose.material3AdaptiveNavigationSuite)
 
