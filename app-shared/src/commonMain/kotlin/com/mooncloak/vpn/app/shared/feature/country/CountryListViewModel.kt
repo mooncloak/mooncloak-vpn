@@ -8,6 +8,7 @@ import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
 import com.mooncloak.kodetools.pagex.LoadState
 import com.mooncloak.kodetools.pagex.PageRequest
 import com.mooncloak.kodetools.statex.ViewModel
+import com.mooncloak.vpn.app.shared.di.ComponentScoped
 import com.mooncloak.vpn.app.shared.feature.country.source.CountryPager
 import com.mooncloak.vpn.app.shared.feature.country.source.CountryPagerLoader
 import kotlinx.coroutines.Job
@@ -20,6 +21,7 @@ import kotlinx.coroutines.sync.withLock
 
 @OptIn(ExperimentalPaginationAPI::class)
 @Stable
+@ComponentScoped
 public class CountryListViewModel @Inject public constructor(
     private val countryPagerLoader: CountryPagerLoader
 ) : ViewModel<CountryListStateModel>(initialStateValue = CountryListStateModel()) {

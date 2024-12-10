@@ -10,6 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.mooncloak.vpn.app.shared.di.FeatureDependencies
+import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.server.di.createServerDetailsComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
 import org.jetbrains.compose.resources.stringResource
@@ -18,7 +21,12 @@ import org.jetbrains.compose.resources.stringResource
 public fun ServerDetailsScreen(
     modifier: Modifier = Modifier
 ) {
-    val viewModel = remember { ServerDetailsViewModel() }
+    val componentDependencies = rememberFeatureDependencies {
+        FeatureDependencies.createServerDetailsComponent(
+            applicationDependencies = this
+        )
+    }
+    val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {

@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.home
+package com.mooncloak.vpn.app.shared.feature.onboarding
 
 import androidx.compose.runtime.Stable
 import com.mooncloak.kodetools.konstruct.annotations.Inject
@@ -7,11 +7,9 @@ import com.mooncloak.vpn.app.shared.di.ComponentScoped
 
 @Stable
 @ComponentScoped
-public class HomeViewModel @Inject public constructor(
+public class OnboardingViewModel @Inject public constructor(
 
-) : ViewModel<HomeStateModel>(initialStateValue = HomeStateModel()) {
+) : ViewModel<OnboardingStateModel>(initialStateValue = OnboardingStateModel()) {
 
-    public fun load() {
-        // TODO
-    }
+
 }

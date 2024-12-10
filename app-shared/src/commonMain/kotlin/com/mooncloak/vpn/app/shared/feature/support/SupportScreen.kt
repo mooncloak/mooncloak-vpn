@@ -29,7 +29,10 @@ import com.mooncloak.vpn.app.shared.app.rateAppUri
 import com.mooncloak.vpn.app.shared.app.supportEmail
 import com.mooncloak.vpn.app.shared.app.supportFeatureRequestUri
 import com.mooncloak.vpn.app.shared.app.supportIssueUri
+import com.mooncloak.vpn.app.shared.di.FeatureDependencies
+import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.support.composable.DefaultSupportCard
+import com.mooncloak.vpn.app.shared.feature.support.di.createSupportComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_support_title
 import com.mooncloak.vpn.app.shared.resource.support_email_action
@@ -52,7 +55,12 @@ import org.jetbrains.compose.resources.stringResource
 public fun SupportScreen(
     modifier: Modifier = Modifier
 ) {
-    val viewModel = remember { SupportViewModel() }
+    val componentDependencies = rememberFeatureDependencies {
+        FeatureDependencies.createSupportComponent(
+            applicationDependencies = this
+        )
+    }
+    val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }
     val lazyListState = rememberLazyListState()
     val topAppBarState = rememberTopAppBarState()

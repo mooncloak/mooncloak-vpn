@@ -15,8 +15,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mooncloak.vpn.app.shared.app.MainDestination
+import com.mooncloak.vpn.app.shared.di.FeatureDependencies
+import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.country.CountryListScreen
 import com.mooncloak.vpn.app.shared.feature.home.HomeScreen
+import com.mooncloak.vpn.app.shared.feature.main.di.createMainComponent
 import com.mooncloak.vpn.app.shared.feature.settings.SettingsScreen
 import com.mooncloak.vpn.app.shared.feature.support.SupportScreen
 
@@ -25,7 +28,13 @@ public fun MainScreen(
     modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
-    val viewModel = remember { MainViewModel(navController = navController) }
+    val componentDependencies = rememberFeatureDependencies {
+        FeatureDependencies.createMainComponent(
+            applicationDependencies = this,
+            navController = navController
+        )
+    }
+    val viewModel = remember { componentDependencies.viewModel }
 
     val itemColors = NavigationSuiteDefaults.itemColors(
         navigationBarItemColors = NavigationBarItemDefaults.colors(

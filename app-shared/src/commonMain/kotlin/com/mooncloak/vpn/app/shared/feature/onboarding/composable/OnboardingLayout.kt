@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.onboarding
+package com.mooncloak.vpn.app.shared.feature.onboarding.composable
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState

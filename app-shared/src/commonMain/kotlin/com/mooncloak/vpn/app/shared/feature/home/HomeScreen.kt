@@ -1,21 +1,16 @@
 package com.mooncloak.vpn.app.shared.feature.home
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -24,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.ConnectionType
+import com.mooncloak.vpn.app.shared.di.FeatureDependencies
+import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBar
 import com.mooncloak.vpn.app.shared.feature.home.composable.PlanUsageCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
@@ -31,6 +28,7 @@ import com.mooncloak.vpn.app.shared.feature.home.composable.AdShieldCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.GetVPNServiceCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBarConnectionStatus
 import com.mooncloak.vpn.app.shared.feature.home.composable.ShowcaseCard
+import com.mooncloak.vpn.app.shared.feature.home.di.createHomeComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.onboarding_description_no_tracking
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_tracking
@@ -43,7 +41,10 @@ import kotlin.time.Duration.Companion.seconds
 public fun HomeScreen(
     modifier: Modifier = Modifier
 ) {
-    val viewModel = remember { HomeViewModel() }
+    val componentDependencies = rememberFeatureDependencies {
+        FeatureDependencies.createHomeComponent(applicationDependencies = this)
+    }
+    val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }
     val lazyListState = rememberLazyListState()
 

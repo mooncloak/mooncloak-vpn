@@ -5,11 +5,13 @@ import androidx.navigation.NavController
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.app.shared.app.MainDestination
+import com.mooncloak.vpn.app.shared.di.ComponentScoped
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 @Stable
+@ComponentScoped
 public class MainViewModel @Inject public constructor(
     private val navController: NavController
 ) : ViewModel<MainStateModel>(initialStateValue = MainStateModel()) {
