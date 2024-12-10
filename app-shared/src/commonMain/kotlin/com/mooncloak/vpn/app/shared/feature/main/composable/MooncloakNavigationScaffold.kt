@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.BottomAppBarScrollBehavior
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationRail
@@ -41,7 +41,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun MooncloakNavigationScaffold(
@@ -51,9 +50,9 @@ internal fun MooncloakNavigationScaffold(
     containerColor: Color = NavigationSuiteScaffoldDefaults.containerColor,
     contentColor: Color = NavigationSuiteScaffoldDefaults.contentColor,
     navigationWindowInsets: WindowInsets = NavigationRailDefaults.windowInsets,
-    bottomAppBarTonalElevation: Dp = 8.dp,
+    bottomAppBarTonalElevation: Dp = NavigationBarDefaults.Elevation,
     bottomAppBarContentPadding: PaddingValues = BottomAppBarDefaults.ContentPadding,
-    bottomAppBarWindowInsets: WindowInsets = BottomAppBarDefaults.windowInsets,
+    bottomAppBarWindowInsets: WindowInsets = NavigationBarDefaults.windowInsets,
     bottomAppBarScrollBehavior: BottomAppBarScrollBehavior? = null,
     navigationRailHeader: @Composable (ColumnScope.() -> Unit)? = null,
     bottomAppBarFloatingActionButton: @Composable (() -> Unit)? = null,
@@ -121,7 +120,7 @@ internal fun MooncloakNavigationScaffold(
                 content.invoke(navigationSize.value)
             }
 
-            BottomAppBar(
+            MooncloakBottomNavigationBar(
                 modifier = Modifier.fillMaxWidth()
                     .onSizeChanged { size ->
                         navigationSize.value = PaddingValues(
@@ -135,7 +134,7 @@ internal fun MooncloakNavigationScaffold(
                 contentPadding = bottomAppBarContentPadding,
                 windowInsets = bottomAppBarWindowInsets,
                 scrollBehavior = bottomAppBarScrollBehavior,
-                actions = {
+                content = {
                     scope.value.itemList.forEach {
                         NavigationBarItem(
                             modifier = it.modifier,
