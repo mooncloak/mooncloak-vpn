@@ -30,7 +30,7 @@
     <string name="connection_type_tor">Tor</string>
     <string name="connection_type_multiple">Secure Multiple</string>
 
-    <string name="ad_shield_title">AdShield</string>
+    <string name="ad_shield_title">MoonShield</string>
     <string name="ad_shield_label_ads_blocked">Ads blocked</string>
     <string name="ad_shield_label_trackers_blocked">Trackers blocked</string>
     <string name="ad_shield_label_data_saved">Data saved</string>
