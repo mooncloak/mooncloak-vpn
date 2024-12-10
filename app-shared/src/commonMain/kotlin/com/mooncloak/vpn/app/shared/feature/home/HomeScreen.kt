@@ -1,16 +1,21 @@
 package com.mooncloak.vpn.app.shared.feature.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CloudOff
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -19,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.ConnectionType
+import com.mooncloak.vpn.app.shared.composable.MooncloakModalBottomSheet
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBar
@@ -50,10 +56,14 @@ public fun HomeScreen(
 
     val status = remember { mutableStateOf(HomeTitleBarConnectionStatus.Disconnected) }
 
+    val bottomSheetState = rememberModalBottomSheetState()
+
     LaunchedEffect(Unit) {
         viewModel.load()
 
         delay(2.seconds)
+
+        bottomSheetState.show()
 
         status.value = HomeTitleBarConnectionStatus.Connecting
 
@@ -65,6 +75,13 @@ public fun HomeScreen(
     // TODOS:
     // * Recently used VPN service card
     // * Starred VPN service card
+
+    MooncloakModalBottomSheet(
+        onDismissRequest = {},
+        sheetState = bottomSheetState
+    ) {
+        Box(modifier = Modifier.fillMaxSize())
+    }
 
     Scaffold(
         modifier = modifier,
