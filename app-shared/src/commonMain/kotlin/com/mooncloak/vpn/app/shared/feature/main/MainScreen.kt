@@ -9,6 +9,7 @@ import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -22,6 +23,7 @@ import com.mooncloak.vpn.app.shared.feature.home.HomeScreen
 import com.mooncloak.vpn.app.shared.feature.main.di.createMainComponent
 import com.mooncloak.vpn.app.shared.feature.settings.SettingsScreen
 import com.mooncloak.vpn.app.shared.feature.support.SupportScreen
+import com.mooncloak.vpn.app.shared.navigation.LocalNavController
 
 @Composable
 public fun MainScreen(
@@ -84,21 +86,23 @@ public fun MainScreen(
                 }
         },
         content = {
-            NavHost(
-                navController = navController,
-                startDestination = viewModel.state.current.value.startDestination
-            ) {
-                composable<MainDestination.Home> {
-                    HomeScreen(modifier = Modifier.fillMaxSize())
-                }
-                composable<MainDestination.Countries> {
-                    CountryListScreen(modifier = Modifier.fillMaxSize())
-                }
-                composable<MainDestination.Support> {
-                    SupportScreen(modifier = Modifier.fillMaxSize())
-                }
-                composable<MainDestination.Settings> {
-                    SettingsScreen(modifier = Modifier.fillMaxSize())
+            CompositionLocalProvider(LocalNavController provides navController) {
+                NavHost(
+                    navController = navController,
+                    startDestination = viewModel.state.current.value.startDestination
+                ) {
+                    composable<MainDestination.Home> {
+                        HomeScreen(modifier = Modifier.fillMaxSize())
+                    }
+                    composable<MainDestination.Countries> {
+                        CountryListScreen(modifier = Modifier.fillMaxSize())
+                    }
+                    composable<MainDestination.Support> {
+                        SupportScreen(modifier = Modifier.fillMaxSize())
+                    }
+                    composable<MainDestination.Settings> {
+                        SettingsScreen(modifier = Modifier.fillMaxSize())
+                    }
                 }
             }
         }
