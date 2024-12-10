@@ -25,11 +25,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.app.AppClientInfo
-import com.mooncloak.vpn.app.shared.app.rateAppUri
-import com.mooncloak.vpn.app.shared.app.supportEmail
-import com.mooncloak.vpn.app.shared.app.supportFeatureRequestUri
-import com.mooncloak.vpn.app.shared.app.supportIssueUri
+import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
+import com.mooncloak.vpn.app.shared.feature.app.rateAppUri
+import com.mooncloak.vpn.app.shared.feature.app.supportEmail
+import com.mooncloak.vpn.app.shared.feature.app.supportFeatureRequestUri
+import com.mooncloak.vpn.app.shared.feature.app.supportIssueUri
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.support.composable.DefaultSupportCard

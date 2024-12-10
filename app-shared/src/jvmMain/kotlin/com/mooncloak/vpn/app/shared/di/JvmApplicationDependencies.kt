@@ -2,7 +2,7 @@ package com.mooncloak.vpn.app.shared.di
 
 import androidx.compose.ui.platform.UriHandler
 import coil3.SingletonImageLoader
-import com.mooncloak.vpn.app.shared.app.AppClientInfo
+import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
 import io.ktor.client.HttpClient
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json

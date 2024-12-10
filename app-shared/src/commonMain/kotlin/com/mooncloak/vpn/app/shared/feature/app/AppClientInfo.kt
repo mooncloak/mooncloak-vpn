@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.app
+package com.mooncloak.vpn.app.shared.feature.app
 
 import com.mooncloak.vpn.app.info.BuildConfig
 

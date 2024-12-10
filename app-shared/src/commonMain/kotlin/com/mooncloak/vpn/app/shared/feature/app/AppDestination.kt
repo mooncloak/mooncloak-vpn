@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.app
+package com.mooncloak.vpn.app.shared.feature.app
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -10,6 +10,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.app_name
 import com.mooncloak.vpn.app.shared.resource.destination_main_countries_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_home_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
@@ -60,12 +61,35 @@ public sealed interface AppDestination {
      */
     public val contentDescription: String? get() = null
 
+    public companion object
+}
+
+@Immutable
+@Serializable
+public sealed interface RootDestination : AppDestination {
+
+    @Immutable
+    @Serializable
+    @SerialName(value = "splash")
+    public data object Splash : RootDestination {
+
+        override val path: String = "/splash"
+
+        override val title: String
+            @Composable
+            get() = stringResource(Res.string.app_name)
+
+        override val icon: Painter?
+            @Composable
+            get() = null
+    }
+
+    @Immutable
     @Serializable
     @SerialName(value = "onboarding")
-    @Immutable
-    public data object Onboarding : AppDestination {
+    public data object Onboarding : RootDestination {
 
-        override val path: String = "/"
+        override val path: String = "/onboarding"
 
         override val title: String
             @Composable
@@ -76,7 +100,21 @@ public sealed interface AppDestination {
             get() = null
     }
 
-    public companion object
+    @Immutable
+    @Serializable
+    @SerialName(value = "main")
+    public data object Main : RootDestination {
+
+        override val path: String = "/"
+
+        override val title: String
+            @Composable
+            get() = stringResource(Res.string.app_name)
+
+        override val icon: Painter?
+            @Composable
+            get() = null
+    }
 }
 
 @Immutable

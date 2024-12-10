@@ -9,8 +9,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
-import com.mooncloak.vpn.app.shared.app.AppClientInfo
-import com.mooncloak.vpn.app.shared.app.ApplicationViewModel
+import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
 import com.mooncloak.vpn.app.shared.image.MooncloakImageLoaderFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.cache.HttpCache
@@ -26,8 +25,6 @@ import kotlinx.serialization.json.Json
 
 @Singleton
 public abstract class ApplicationComponent : ApplicationDependencies {
-
-    public abstract val viewModel: ApplicationViewModel
 
     @Singleton
     @Provides

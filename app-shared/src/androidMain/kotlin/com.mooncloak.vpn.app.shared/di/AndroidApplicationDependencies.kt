@@ -2,7 +2,7 @@ package com.mooncloak.vpn.app.shared.di
 
 import androidx.compose.ui.platform.UriHandler
 import coil3.SingletonImageLoader
-import com.mooncloak.vpn.app.shared.app.AppClientInfo
+import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
 import com.mooncloak.vpn.app.shared.util.ActivityContext
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import io.ktor.client.HttpClient

@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.setContent
 import com.mooncloak.vpn.app.android.di.create
-import com.mooncloak.vpn.app.shared.app.Application
+import com.mooncloak.vpn.app.shared.feature.app.ApplicationRootScreen
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.util.platformDefaultUriHandler
 
@@ -28,10 +28,8 @@ class MainActivity : BaseActivity() {
                 uriHandler = uriHandler
             )
 
-            Application(
-                component = applicationDependencies,
-                builder = {
-                }
+            ApplicationRootScreen(
+                component = applicationDependencies
             )
         }
     }

@@ -3,6 +3,7 @@ package com.mooncloak.vpn.app.shared.composable
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalBottomSheetDefaults
 import androidx.compose.material3.ModalBottomSheetProperties
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import kotlinx.coroutines.launch
 
 /**
@@ -62,7 +64,11 @@ internal fun MooncloakModalBottomSheet(
     contentColor: Color = contentColorFor(containerColor),
     tonalElevation: Dp = 0.dp,
     scrimColor: Color = BottomSheetDefaults.ScrimColor,
-    dragHandle: @Composable (() -> Unit)? = { BottomSheetDefaults.DragHandle() },
+    dragHandle: @Composable (() -> Unit)? = {
+        BottomSheetDefaults.DragHandle(
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
+        )
+    },
     contentWindowInsets: @Composable () -> WindowInsets = { BottomSheetDefaults.windowInsets },
     properties: ModalBottomSheetProperties = ModalBottomSheetDefaults.properties,
     content: @Composable ColumnScope.() -> Unit,
