@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Stars
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -81,6 +82,10 @@ public fun SupportScreen(
             LargeTopAppBar(
                 modifier = Modifier.fillMaxWidth(),
                 scrollBehavior = topAppBarBehavior,
+                colors = TopAppBarDefaults.largeTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surface
+                ),
                 title = {
                     Text(text = stringResource(Res.string.destination_main_support_title))
                 }
@@ -90,12 +95,14 @@ public fun SupportScreen(
         LazyColumn(
             modifier = Modifier.fillMaxSize()
                 .padding(paddingValues)
-                .padding(12.dp),
+                .padding(horizontal = 12.dp),
             state = lazyListState,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             item(key = "SupportEmailCard") {
                 DefaultSupportCard(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(top = 12.dp),
                     title = stringResource(Res.string.support_email_title),
                     icon = Icons.Default.Email,
                     description = stringResource(Res.string.support_email_description),
@@ -111,6 +118,7 @@ public fun SupportScreen(
 
             item(key = "SupportFeatureRequestCard") {
                 DefaultSupportCard(
+                    modifier = Modifier.fillMaxWidth(),
                     title = stringResource(Res.string.support_feature_request_title),
                     icon = Icons.Default.Add,
                     description = stringResource(Res.string.support_feature_request_description),
@@ -123,6 +131,7 @@ public fun SupportScreen(
 
             item(key = "SupportIssueCard") {
                 DefaultSupportCard(
+                    modifier = Modifier.fillMaxWidth(),
                     title = stringResource(Res.string.support_issue_title),
                     icon = Icons.Default.BugReport,
                     description = stringResource(Res.string.support_issue_description),
@@ -135,6 +144,8 @@ public fun SupportScreen(
 
             item(key = "RateAppCard") {
                 DefaultSupportCard(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(bottom = 12.dp),
                     title = stringResource(Res.string.support_rate_app_title),
                     icon = Icons.Default.Stars,
                     description = stringResource(Res.string.support_rate_app_description),
