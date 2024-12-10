@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
  * with the rest of the UI, even when the [ModalBottomSheet] is no longer visible. So, this component performs that
  * logic internally within the composable, therefore, the user only has to care about the [SheetState].
  *
- * ## Example usage
+ * ## Example Usage
  *
  * ```kotlin
  * val bottomSheetState = rememberModalBottomSheet()
