@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.ShieldMoon
 import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -16,9 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
-import com.mooncloak.vpn.app.shared.resource.ad_shield_active
-import com.mooncloak.vpn.app.shared.resource.ad_shield_inactive
-import com.mooncloak.vpn.app.shared.resource.ad_shield_title
 import com.mooncloak.vpn.app.shared.resource.get_vpn_service_action_protect
 import com.mooncloak.vpn.app.shared.resource.get_vpn_service_description
 import com.mooncloak.vpn.app.shared.resource.get_vpn_service_title

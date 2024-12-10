@@ -22,15 +22,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.mooncloak.kodetools.pagex.LoadState
-import com.mooncloak.vpn.app.shared.api.Country
-import com.mooncloak.vpn.app.shared.api.CountryCode
-import com.mooncloak.vpn.app.shared.api.Region
-import com.mooncloak.vpn.app.shared.api.RegionCode
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.country.composable.CountryListItem
-import com.mooncloak.vpn.app.shared.feature.country.composable.RegionListItem
+import com.mooncloak.vpn.app.shared.feature.country.composable.NoVPNServersCard
 import com.mooncloak.vpn.app.shared.feature.country.di.createCountryListComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_countries_title
@@ -90,33 +87,6 @@ public fun CountryListScreen(
                 modifier = Modifier.fillMaxSize(),
                 state = lazyListState
             ) {
-                item {
-                    CountryListItem(
-                        country = Country(
-                            code = CountryCode(value = "us"),
-                            regions = emptyList(),
-                            name = "United States",
-                            flag = null
-                        ),
-                        onMoreSelected = {
-
-                        }
-                    )
-                }
-
-                item {
-                    RegionListItem(
-                        region = Region(
-                            code = RegionCode(value = "fl"),
-                            name = "Florida",
-                            flag = null
-                        ),
-                        onMoreSelected = {
-
-                        }
-                    )
-                }
-
                 items(
                     items = viewModel.state.current.value.countries,
                     key = { country -> country.code.value },
@@ -130,11 +100,20 @@ public fun CountryListScreen(
                         }
                     )
                 }
+
+                if (viewModel.state.current.value.countries.isEmpty() && !viewModel.state.current.value.isLoading) {
+                    item(key = "EmptyCountryListError") {
+                        NoVPNServersCard(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(12.dp)
+                        )
+                    }
+                }
             }
 
             AnimatedVisibility(
                 modifier = Modifier.align(Alignment.Center),
-                visible = viewModel.state.current.value.refresh == LoadState.Loading
+                visible = viewModel.state.current.value.refresh is LoadState.Loading
             ) {
                 CircularProgressIndicator()
             }

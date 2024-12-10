@@ -19,3 +19,6 @@ public data class CountryListStateModel public constructor(
 
 public val CountryListStateModel.canAppendMore: Boolean
     inline get() = !this.append.endOfPaginationReached && this.append !is LoadState.Loading
+
+public val CountryListStateModel.isLoading: Boolean
+    inline get() = this.refresh is LoadState.Loading || this.prepend is LoadState.Loading || this.append is LoadState.Loading
