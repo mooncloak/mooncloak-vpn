@@ -5,6 +5,14 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Serializable
+public sealed interface PlanInvoice {
+
+    public val id: String
+
+    public companion object
+}
+
 /**
  * Represents information about how to pay for a plan.
  *
@@ -36,9 +44,9 @@ import kotlinx.serialization.Serializable
  */
 @Immutable
 @Serializable
-public data class PlanInvoice public constructor(
-    @SerialName(value = "type") public val type: String = "bitcoin", // Used for future improvements to the API, such as using sealed classes for different crypto types.
-    @SerialName(value = "id") public val id: String,
+@SerialName(value = "bitcoin")
+public data class BitcoinPlanInvoice public constructor(
+    @SerialName(value = "id") public override val id: String,
     @SerialName(value = "plan_id") public val planId: String,
     @SerialName(value = "token") public val token: TransactionToken,
     @SerialName(value = "created") public val created: Instant,
@@ -48,4 +56,4 @@ public data class PlanInvoice public constructor(
     @SerialName(value = "address") public val address: String? = null,
     @SerialName(value = "label") public val label: String? = null,
     @SerialName(value = "message") public val message: String? = null
-)
+) : PlanInvoice

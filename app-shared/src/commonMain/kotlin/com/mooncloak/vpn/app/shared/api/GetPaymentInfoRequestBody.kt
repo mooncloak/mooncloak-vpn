@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * Represents the request body for obtaining a [PlanInvoice] model.
+ * Represents the request body for obtaining a [BitcoinPlanInvoice] model.
  *
  * @property [planId] The identifier of the [Plan] to request payment info about.
  *

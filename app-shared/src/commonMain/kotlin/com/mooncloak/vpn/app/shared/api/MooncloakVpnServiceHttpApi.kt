@@ -37,7 +37,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         planId: String,
         secret: String? = null,
         token: Token? = null
-    ): PlanInvoice {
+    ): BitcoinPlanInvoice {
         val response = httpClient.post("https://mooncloak.com/api/vpn/payment/invoice") {
             token?.value?.let { bearerAuth(it) }
 
@@ -49,7 +49,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
             )
         }
 
-        return response.body<HttpResponseBody<PlanInvoice>>().getOrThrow()
+        return response.body<HttpResponseBody<BitcoinPlanInvoice>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
