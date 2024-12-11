@@ -8,6 +8,12 @@
     <!-- Allows the application to access the internet which is required. -->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- Allows the application to access information about the network state, such as using ConnectivityManager. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Allows the application to access information about the WiFI state, such as using WifiManager. -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <application
         android:name="com.mooncloak.vpn.app.android.MooncloakVpnApplication"
         android:icon="@mipmap/ic_launcher"
