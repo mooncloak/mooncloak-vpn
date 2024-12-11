@@ -81,6 +81,7 @@
     <string name="data_format_abbr_terabytes">Tb</string>
 
     <string name="global_not_available">N/A</string>
+    <string name="global_unexpected_error">Unexpected error</string>
 
     <string name="country_list_error_title_no_vpn_servers">Unexpected error loading VPN servers</string>
     <string name="country_list_error_description_no_vpn_servers">There was an unexpected error attempting to load the countries that have VPN servers. Please try again later. If the error persists, contact support.</string>
