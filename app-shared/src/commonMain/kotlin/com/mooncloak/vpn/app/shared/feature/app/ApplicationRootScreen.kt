@@ -18,9 +18,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil3.SingletonImageLoader
+import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.LocalApplicationComponent
+import com.mooncloak.vpn.app.shared.di.rememberApplicationDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.app.di.createApplicationRootComponent
 import com.mooncloak.vpn.app.shared.feature.main.MainScreen
@@ -29,6 +31,7 @@ import com.mooncloak.vpn.app.shared.navigation.LocalNavController
 import com.mooncloak.vpn.app.shared.theme.MooncloakTheme
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
 
+@OptIn(ExperimentalPersistentStateAPI::class)
 @Composable
 public fun ApplicationRootScreen(
     component: ApplicationComponent,
@@ -48,6 +51,7 @@ public fun ApplicationRootScreen(
         }
         val viewModel = remember { componentDependencies.viewModel }
         val imageLoaderFactory = remember(component) { component.imageLoaderFactory }
+        val preferencesStorage = rememberApplicationDependency { preferencesStorage }
 
         LaunchedEffect(Unit) {
             viewModel.load()
@@ -58,7 +62,7 @@ public fun ApplicationRootScreen(
         }
 
         MooncloakTheme(
-            themePreference = ThemePreference.System
+            themePreference = preferencesStorage.theme.current.value ?: ThemePreference.System
         ) {
             Surface(modifier = modifier) {
                 Column(

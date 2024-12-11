@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LargeTopAppBar
@@ -18,6 +19,8 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -32,23 +35,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
+import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
+import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
+import com.mooncloak.vpn.app.shared.di.rememberApplicationDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsBottomSheet
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsGroupLabel
+import com.mooncloak.vpn.app.shared.feature.settings.composable.ThemePreferenceSegmentedButton
 import com.mooncloak.vpn.app.shared.feature.settings.di.createSettingsComponent
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
 import com.mooncloak.vpn.app.shared.resource.settings_group_legal
+import com.mooncloak.vpn.app.shared.resource.settings_group_theme
 import com.mooncloak.vpn.app.shared.resource.settings_title_code
 import com.mooncloak.vpn.app.shared.resource.settings_title_licenses
 import com.mooncloak.vpn.app.shared.resource.settings_title_privacy_policy
 import com.mooncloak.vpn.app.shared.resource.settings_title_terms
+import com.mooncloak.vpn.app.shared.theme.ThemePreference
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
+@OptIn(ExperimentalPersistentStateAPI::class)
 @Composable
 public fun SettingsScreen(
     modifier: Modifier = Modifier,
@@ -65,6 +75,7 @@ public fun SettingsScreen(
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
+    val preferencesStorage = rememberApplicationDependency { preferencesStorage }
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -98,6 +109,24 @@ public fun SettingsScreen(
                     .verticalScroll(scrollState)
             ) {
                 Spacer(modifier = Modifier.height(containerPaddingValues.calculateTopPadding()))
+
+                SettingsGroupLabel(
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                        .padding(top = 16.dp),
+                    text = stringResource(Res.string.settings_group_theme)
+                )
+
+                ThemePreferenceSegmentedButton(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(horizontal = 12.dp)
+                        .padding(top = 16.dp),
+                    themePreference = preferencesStorage.theme.current.value ?: ThemePreference.System,
+                    onThemePreferenceSelected = { preference ->
+                        coroutineScope.launch {
+                            preferencesStorage.theme.update(preference)
+                        }
+                    }
+                )
 
                 SettingsGroupLabel(
                     modifier = Modifier.padding(horizontal = 16.dp)

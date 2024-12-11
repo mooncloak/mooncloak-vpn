@@ -7,7 +7,7 @@ import com.mooncloak.kodetools.statex.persistence.persistableStateContainerOf
 import kotlinx.serialization.modules.SerializersModule
 
 @OptIn(ExperimentalPersistentStateAPI::class)
-public class AppStorage @Inject internal constructor(
+public class AppStorage @Inject public constructor(
     serializersModule: SerializersModule
 ) {
 

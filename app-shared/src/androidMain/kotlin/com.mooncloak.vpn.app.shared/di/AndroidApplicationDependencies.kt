@@ -4,6 +4,7 @@ import androidx.compose.ui.platform.UriHandler
 import coil3.SingletonImageLoader
 import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
+import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
 import com.mooncloak.vpn.app.shared.util.ActivityContext
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import io.ktor.client.HttpClient
@@ -20,6 +21,7 @@ public actual interface ApplicationDependencies {
     public actual val clock: Clock
     public actual val logger: Logger
     public actual val appClientInfo: AppClientInfo
+    public actual val preferencesStorage: PreferencesStorage
     public actual val uriHandler: UriHandler
     public actual val imageLoaderFactory: SingletonImageLoader.Factory
 
