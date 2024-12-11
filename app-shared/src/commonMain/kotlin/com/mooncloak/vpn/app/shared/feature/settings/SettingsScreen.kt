@@ -26,15 +26,19 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
+import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsBottomSheet
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsGroupLabel
 import com.mooncloak.vpn.app.shared.feature.settings.di.createSettingsComponent
+import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
 import com.mooncloak.vpn.app.shared.resource.settings_group_legal
@@ -42,6 +46,7 @@ import com.mooncloak.vpn.app.shared.resource.settings_title_code
 import com.mooncloak.vpn.app.shared.resource.settings_title_licenses
 import com.mooncloak.vpn.app.shared.resource.settings_title_privacy_policy
 import com.mooncloak.vpn.app.shared.resource.settings_title_terms
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -56,7 +61,9 @@ public fun SettingsScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
+    val bottomSheetState = rememberModalNavigationBottomSheetState()
     val scrollState = rememberScrollState()
+    val coroutineScope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
 
     LaunchedEffect(Unit) {
@@ -131,7 +138,9 @@ public fun SettingsScreen(
                 ListItem(
                     modifier = Modifier.fillMaxWidth()
                         .clickable {
-                            // TODO:
+                            coroutineScope.launch {
+                                bottomSheetState.show(SettingsBottomSheetDestination.DependencyLicenseList)
+                            }
                         },
                     colors = ListItemDefaults.colors(
                         containerColor = MaterialTheme.colorScheme.background
@@ -167,6 +176,11 @@ public fun SettingsScreen(
             }
         }
     }
+
+    SettingsBottomSheet(
+        modifier = Modifier.fillMaxWidth(),
+        state = bottomSheetState
+    )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {
         viewModel.state.current.value.errorMessage?.let { errorMessage ->

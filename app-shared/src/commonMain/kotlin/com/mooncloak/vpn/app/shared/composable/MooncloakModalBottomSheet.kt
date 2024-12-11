@@ -112,7 +112,6 @@ internal fun MooncloakModalBottomSheet(
         )
 
         LaunchedEffect(sheetState.taskQueue) {
-            println()
             sheetState.executeTasks()
         }
     }
@@ -177,7 +176,7 @@ internal class MooncloakModalBottomSheetState internal constructor(
     suspend fun executeTasks() {
         if (mutableTaskQueue.isNotEmpty()) {
             while (mutableTaskQueue.isNotEmpty()) {
-                val task = mutex.withLock { mutableTaskQueue.removeFirst() }
+                val task = mutex.withLock { mutableTaskQueue.removeAt(0) }
 
                 taskMutex.withLock {
                     task.invoke()
