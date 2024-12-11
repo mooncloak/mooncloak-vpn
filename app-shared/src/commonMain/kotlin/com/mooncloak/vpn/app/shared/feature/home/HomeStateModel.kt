@@ -5,9 +5,11 @@ import com.mooncloak.vpn.app.shared.api.LocalNetworkInfo
 import com.mooncloak.vpn.app.shared.api.Server
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.api.ServerConnectionStatus
+import com.mooncloak.vpn.app.shared.api.ServiceSubscription
 
 @Immutable
 public data class HomeStateModel public constructor(
+    public val subscription: ServiceSubscription? = null,
     public val localNetwork: LocalNetworkInfo? = null,
     public val servers: List<Server> = emptyList(),
     public val connection: ServerConnectionStatus = ServerConnectionStatus.Disconnected,
