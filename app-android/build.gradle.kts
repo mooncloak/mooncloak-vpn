@@ -54,6 +54,10 @@ android {
     compileSdk = AppConstants.Android.compileSdkVersion
     namespace = "com.mooncloak.vpn.app.android"
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.mooncloak.vpn.app.android"
         version = buildVariables.version

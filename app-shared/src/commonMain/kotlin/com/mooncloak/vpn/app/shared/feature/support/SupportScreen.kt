@@ -25,11 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
-import com.mooncloak.vpn.app.shared.feature.app.rateAppUri
-import com.mooncloak.vpn.app.shared.feature.app.supportEmail
-import com.mooncloak.vpn.app.shared.feature.app.supportFeatureRequestUri
-import com.mooncloak.vpn.app.shared.feature.app.supportIssueUri
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.support.composable.DefaultSupportCard
@@ -99,61 +94,69 @@ public fun SupportScreen(
             state = lazyListState,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            item(key = "SupportEmailCard") {
-                DefaultSupportCard(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(top = 12.dp),
-                    title = stringResource(Res.string.support_email_title),
-                    icon = Icons.Default.Email,
-                    description = stringResource(Res.string.support_email_description),
-                    action = stringResource(Res.string.support_email_action),
-                    onAction = {
-                        uriHandler.openEmail(
-                            to = listOf(AppClientInfo.supportEmail),
-                            subject = emailSubject
-                        )
-                    }
-                )
+            viewModel.state.current.value.supportEmailAddress?.let { supportEmailAddress ->
+                item(key = "SupportEmailCard") {
+                    DefaultSupportCard(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(top = 12.dp),
+                        title = stringResource(Res.string.support_email_title),
+                        icon = Icons.Default.Email,
+                        description = stringResource(Res.string.support_email_description),
+                        action = stringResource(Res.string.support_email_action),
+                        onAction = {
+                            uriHandler.openEmail(
+                                to = listOf(supportEmailAddress),
+                                subject = emailSubject
+                            )
+                        }
+                    )
+                }
             }
 
-            item(key = "SupportFeatureRequestCard") {
-                DefaultSupportCard(
-                    modifier = Modifier.fillMaxWidth(),
-                    title = stringResource(Res.string.support_feature_request_title),
-                    icon = Icons.Default.Add,
-                    description = stringResource(Res.string.support_feature_request_description),
-                    action = stringResource(Res.string.support_feature_request_action),
-                    onAction = {
-                        uriHandler.openUri(AppClientInfo.supportFeatureRequestUri)
-                    }
-                )
+            viewModel.state.current.value.featureRequestUri?.let { featureRequestUri ->
+                item(key = "SupportFeatureRequestCard") {
+                    DefaultSupportCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        title = stringResource(Res.string.support_feature_request_title),
+                        icon = Icons.Default.Add,
+                        description = stringResource(Res.string.support_feature_request_description),
+                        action = stringResource(Res.string.support_feature_request_action),
+                        onAction = {
+                            uriHandler.openUri(featureRequestUri)
+                        }
+                    )
+                }
             }
 
-            item(key = "SupportIssueCard") {
-                DefaultSupportCard(
-                    modifier = Modifier.fillMaxWidth(),
-                    title = stringResource(Res.string.support_issue_title),
-                    icon = Icons.Default.BugReport,
-                    description = stringResource(Res.string.support_issue_description),
-                    action = stringResource(Res.string.support_issue_action),
-                    onAction = {
-                        uriHandler.openUri(AppClientInfo.supportIssueUri)
-                    }
-                )
+            viewModel.state.current.value.issueRequestUri?.let { issueRequestUri ->
+                item(key = "SupportIssueCard") {
+                    DefaultSupportCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        title = stringResource(Res.string.support_issue_title),
+                        icon = Icons.Default.BugReport,
+                        description = stringResource(Res.string.support_issue_description),
+                        action = stringResource(Res.string.support_issue_action),
+                        onAction = {
+                            uriHandler.openUri(issueRequestUri)
+                        }
+                    )
+                }
             }
 
-            item(key = "RateAppCard") {
-                DefaultSupportCard(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(bottom = 12.dp),
-                    title = stringResource(Res.string.support_rate_app_title),
-                    icon = Icons.Default.Stars,
-                    description = stringResource(Res.string.support_rate_app_description),
-                    action = stringResource(Res.string.support_rate_app_action),
-                    onAction = {
-                        uriHandler.openUri(AppClientInfo.rateAppUri)
-                    }
-                )
+            viewModel.state.current.value.rateAppUri?.let { rateAppUri ->
+                item(key = "RateAppCard") {
+                    DefaultSupportCard(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(bottom = 12.dp),
+                        title = stringResource(Res.string.support_rate_app_title),
+                        icon = Icons.Default.Stars,
+                        description = stringResource(Res.string.support_rate_app_description),
+                        action = stringResource(Res.string.support_rate_app_action),
+                        onAction = {
+                            uriHandler.openUri(rateAppUri)
+                        }
+                    )
+                }
             }
         }
     }

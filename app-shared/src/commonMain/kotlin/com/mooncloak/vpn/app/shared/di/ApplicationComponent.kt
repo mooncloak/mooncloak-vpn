@@ -6,6 +6,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import coil3.SingletonImageLoader
 import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.kodetools.konstruct.annotations.Singleton
+import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
@@ -16,7 +17,6 @@ import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.compression.ContentEncoding
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
@@ -32,8 +32,7 @@ public abstract class ApplicationComponent : ApplicationDependencies {
 
     @Provides
     @Singleton
-    public fun provideAppClientInfo(): AppClientInfo =
-        AppClientInfo.Mooncloak
+    public fun provideLogger(): Logger = LogPile
 
     @Provides
     @Singleton
@@ -73,7 +72,7 @@ public abstract class ApplicationComponent : ApplicationDependencies {
         // logs helps us determine issues within the application (like why an API request failed).
         // https://ktor.io/docs/client-logging.html#configure_plugin
         install(Logging) {
-            logger = object : Logger {
+            logger = object : io.ktor.client.plugins.logging.Logger {
 
                 override fun log(message: String) {
                     LogPile.info(message)

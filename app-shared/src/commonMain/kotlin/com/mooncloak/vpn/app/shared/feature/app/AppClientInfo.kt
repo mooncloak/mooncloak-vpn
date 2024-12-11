@@ -1,37 +1,42 @@
 package com.mooncloak.vpn.app.shared.feature.app
 
-import com.mooncloak.vpn.app.info.BuildConfig
+import com.mooncloak.vpn.feature.app.SharedBuildConfig
+import kotlinx.datetime.Instant
 
-public sealed interface AppClientInfo {
+public interface AppClientInfo {
 
     public val group: String
-        get() = BuildConfig.group
+        get() = SharedBuildConfig.group
 
     public val name: String
-        get() = BuildConfig.appName
+        get() = SharedBuildConfig.appName
 
     public val description: String
-        get() = BuildConfig.appDescription
+        get() = SharedBuildConfig.appDescription
 
     public val version: String
-        get() = BuildConfig.appVersion
+        get() = SharedBuildConfig.appVersion
 
     public val versionCode: Int
-        get() = BuildConfig.appVersionCode
+        get() = SharedBuildConfig.appVersionCode
 
     public val versionName: String
         get() = "$version-$versionCode"
 
+    public val buildTime: Instant
+        get() = Instant.parse(SharedBuildConfig.appBuildTime)
+
+    public val flavor: String?
+
+    public val buildType: String?
+
     public val isDebug: Boolean
-        get() = true // FIXME: Hardcoded debug value
 
-    public companion object Mooncloak : AppClientInfo
+    public val supportEmail: String get() = "support@mooncloak.com"
+
+    public val supportFeatureRequestUri: String get() = "https://github.com/mooncloak/mooncloak-vpn/issues/new?assignees=&labels=&projects=&template=feature_request.md&title="
+
+    public val supportIssueUri: String get() = "https://github.com/mooncloak/mooncloak-vpn/issues/new?assignees=&labels=&projects=&template=bug_report.md&title="
+
+    public val rateAppUri: String get() = "https://play.google.com/"
 }
-
-public val AppClientInfo.Mooncloak.supportEmail: String get() = "support@mooncloak.com"
-
-public val AppClientInfo.Mooncloak.supportFeatureRequestUri: String get() = "https://github.com/mooncloak/mooncloak-vpn/issues/new?assignees=&labels=&projects=&template=feature_request.md&title="
-
-public val AppClientInfo.Mooncloak.supportIssueUri: String get() = "https://github.com/mooncloak/mooncloak-vpn/issues/new?assignees=&labels=&projects=&template=bug_report.md&title="
-
-public val AppClientInfo.Mooncloak.rateAppUri: String get() = "https://play.google.com/"

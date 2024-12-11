@@ -5,9 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.setContent
+import com.mooncloak.kodetools.logpile.core.LogPile
+import com.mooncloak.kodetools.logpile.core.configure
 import com.mooncloak.vpn.app.android.di.create
 import com.mooncloak.vpn.app.shared.feature.app.ApplicationRootScreen
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
+import com.mooncloak.vpn.app.shared.log.NoOpLogger
 import com.mooncloak.vpn.app.shared.util.platformDefaultUriHandler
 
 class MainActivity : BaseActivity() {
@@ -27,6 +30,11 @@ class MainActivity : BaseActivity() {
                 activityContext = this,
                 uriHandler = uriHandler
             )
+
+            // Disable logging if we are not in debug mode.
+            if (!applicationDependencies.appClientInfo.isDebug) {
+                LogPile.configure(NoOpLogger)
+            }
 
             ApplicationRootScreen(
                 component = applicationDependencies

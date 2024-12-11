@@ -7,7 +7,9 @@ import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.kodetools.storagex.keyvalue.KeyValueStorage
 import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
 import com.mooncloak.kodetools.storagex.keyvalue.Settings
+import com.mooncloak.vpn.app.desktop.DesktopAppClientInfo
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
+import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
 
@@ -22,6 +24,11 @@ internal abstract class JvmApplicationComponent internal constructor(
             format = format,
             settings = Settings()
         )
+
+    @Provides
+    @Singleton
+    internal fun provideAppClientInfo(appClientInfo: DesktopAppClientInfo): AppClientInfo =
+        appClientInfo
 }
 
 internal fun ApplicationComponent.Companion.create(

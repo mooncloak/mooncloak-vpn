@@ -295,8 +295,8 @@ compose.resources {
 
 // `./gradlew :app-client-info:generateBuildKonfig`
 buildkonfig {
-    packageName = "com.mooncloak.vpn.app.info"
-    objectName = "BuildConfig"
+    packageName = "com.mooncloak.vpn.feature.app"
+    objectName = "SharedBuildConfig"
 
     defaultConfigs {
         buildConfigField(

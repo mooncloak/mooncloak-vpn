@@ -7,7 +7,9 @@ import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.kodetools.storagex.keyvalue.KeyValueStorage
 import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
 import com.mooncloak.kodetools.storagex.keyvalue.Settings
+import com.mooncloak.vpn.app.android.AndroidAppClientInfo
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
+import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
 import com.mooncloak.vpn.app.shared.util.ActivityContext
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.russhwolf.settings.Settings
@@ -30,6 +32,11 @@ internal abstract class AndroidApplicationComponent internal constructor(
     @Singleton
     internal fun provideApplicationContext(): ApplicationContext =
         activityContext.applicationContext
+
+    @Provides
+    @Singleton
+    internal fun provideAppClientInfo(appClientInfo: AndroidAppClientInfo): AppClientInfo =
+        appClientInfo
 }
 
 internal fun ApplicationComponent.Companion.create(

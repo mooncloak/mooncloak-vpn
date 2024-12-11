@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.UriHandler
 import coil3.SingletonImageLoader
+import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
 import io.ktor.client.HttpClient
 import kotlinx.datetime.Clock
@@ -15,6 +16,7 @@ public expect interface ApplicationDependencies {
     public val json: Json
     public val httpClient: HttpClient
     public val clock: Clock
+    public val logger: Logger
 
     public val appClientInfo: AppClientInfo
 
