@@ -5,12 +5,14 @@ import androidx.navigation.NavController
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
+import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.di.ComponentScoped
 import com.mooncloak.vpn.app.shared.storage.AppStorage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
+@OptIn(ExperimentalPersistentStateAPI::class)
 @Stable
 @ComponentScoped
 public class ApplicationRootViewModel @Inject public constructor(
@@ -20,7 +22,6 @@ public class ApplicationRootViewModel @Inject public constructor(
 
     private val mutex = Mutex(locked = false)
 
-    @OptIn(ExperimentalPersistentStateAPI::class)
     public fun load() {
         coroutineScope.launch {
             mutex.withLock {
@@ -31,6 +32,16 @@ public class ApplicationRootViewModel @Inject public constructor(
                 } else {
                     navController.navigate(RootDestination.Onboarding)
                 }
+            }
+        }
+    }
+
+    public fun finishOnboarding() {
+        coroutineScope.launch {
+            mutex.withLock {
+                // TODO: Set the viewedOnboarding value: appStorage.viewedOnboarding.update(true)
+
+                navController.navigate(RootDestination.Main)
             }
         }
     }

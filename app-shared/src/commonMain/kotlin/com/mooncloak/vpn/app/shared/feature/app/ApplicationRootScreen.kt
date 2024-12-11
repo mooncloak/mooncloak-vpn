@@ -75,8 +75,7 @@ public fun ApplicationRootScreen(
                             OnboardingScreen(
                                 modifier = Modifier.fillMaxSize(),
                                 onFinish = {
-                                    // TODO: Delegate to ViewModel so that we can store the appropriate values
-                                    navController.navigate(RootDestination.Main)
+                                    viewModel.finishOnboarding()
                                 }
                             )
                         }
