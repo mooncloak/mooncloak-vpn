@@ -3,8 +3,6 @@ package com.mooncloak.vpn.app.shared.feature.main
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ShieldMoon
 import androidx.compose.material3.Badge
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -115,23 +113,39 @@ public fun MainScreen(
                 }
             )
         },
-        content = {
+        content = { paddingValues ->
             CompositionLocalProvider(LocalNavController provides navController) {
                 NavHost(
                     navController = navController,
                     startDestination = viewModel.state.current.value.startDestination
                 ) {
+                    // Note: We pass the PaddingValues to the screen composable so that the content can be rendered
+                    // behind the navigation controls on the z-axis, but can still have enough padding to scroll past
+                    // them so they are visible. Otherwise, the content would look "cut-off" at the navigation
+                    // controls. This is the same for all of the same main screens.
                     composable<MainDestination.Home> {
-                        HomeScreen(modifier = Modifier.fillMaxSize())
+                        HomeScreen(
+                            modifier = Modifier.fillMaxSize(),
+                            containerPaddingValues = paddingValues
+                        )
                     }
                     composable<MainDestination.Countries> {
-                        CountryListScreen(modifier = Modifier.fillMaxSize())
+                        CountryListScreen(
+                            modifier = Modifier.fillMaxSize(),
+                            containerPaddingValues = paddingValues
+                        )
                     }
                     composable<MainDestination.Support> {
-                        SupportScreen(modifier = Modifier.fillMaxSize())
+                        SupportScreen(
+                            modifier = Modifier.fillMaxSize(),
+                            containerPaddingValues = paddingValues
+                        )
                     }
                     composable<MainDestination.Settings> {
-                        SettingsScreen(modifier = Modifier.fillMaxSize())
+                        SettingsScreen(
+                            modifier = Modifier.fillMaxSize(),
+                            containerPaddingValues = paddingValues
+                        )
                     }
                 }
             }

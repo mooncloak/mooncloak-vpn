@@ -2,8 +2,11 @@ package com.mooncloak.vpn.app.shared.feature.country
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -37,7 +40,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 public fun CountryListScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    containerPaddingValues: PaddingValues = PaddingValues()
 ) {
     val componentDependencies = rememberFeatureDependencies {
         FeatureDependencies.createCountryListComponent(applicationDependencies = this)
@@ -88,6 +92,10 @@ public fun CountryListScreen(
                 modifier = Modifier.fillMaxSize(),
                 state = lazyListState
             ) {
+                item(key = "TopSpacing") {
+                    Spacer(modifier = Modifier.height(containerPaddingValues.calculateTopPadding()))
+                }
+
                 items(
                     items = viewModel.state.current.value.countries,
                     key = { country -> country.code.value },
@@ -109,6 +117,10 @@ public fun CountryListScreen(
                                 .padding(12.dp)
                         )
                     }
+                }
+
+                item(key = "BottomSpacing") {
+                    Spacer(modifier = Modifier.height(containerPaddingValues.calculateBottomPadding()))
                 }
             }
 

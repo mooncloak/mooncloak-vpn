@@ -1,8 +1,11 @@
 package com.mooncloak.vpn.app.shared.feature.support
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -50,7 +53,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 public fun SupportScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    containerPaddingValues: PaddingValues = PaddingValues()
 ) {
     val componentDependencies = rememberFeatureDependencies {
         FeatureDependencies.createSupportComponent(
@@ -95,6 +99,10 @@ public fun SupportScreen(
             state = lazyListState,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            item(key = "TopSpacing") {
+                Spacer(modifier = Modifier.height(containerPaddingValues.calculateTopPadding()))
+            }
+
             viewModel.state.current.value.supportEmailAddress?.let { supportEmailAddress ->
                 item(key = "SupportEmailCard") {
                     DefaultSupportCard(
@@ -158,6 +166,10 @@ public fun SupportScreen(
                         }
                     )
                 }
+            }
+
+            item(key = "BottomSpacing") {
+                Spacer(modifier = Modifier.height(containerPaddingValues.calculateBottomPadding()))
             }
         }
     }

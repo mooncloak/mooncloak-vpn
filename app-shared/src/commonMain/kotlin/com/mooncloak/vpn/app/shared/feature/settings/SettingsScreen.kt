@@ -3,8 +3,11 @@ package com.mooncloak.vpn.app.shared.feature.settings
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -34,7 +37,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 public fun SettingsScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    containerPaddingValues: PaddingValues = PaddingValues()
 ) {
     val componentDependencies = rememberFeatureDependencies {
         FeatureDependencies.createSettingsComponent(applicationDependencies = this)
@@ -77,9 +81,13 @@ public fun SettingsScreen(
                     .padding(horizontal = 12.dp)
                     .verticalScroll(scrollState)
             ) {
+                Spacer(modifier = Modifier.height(containerPaddingValues.calculateTopPadding()))
+
                 SettingsGroupLabel(
                     text = "Testing"
                 )
+
+                Spacer(modifier = Modifier.height(containerPaddingValues.calculateBottomPadding()))
             }
 
             AnimatedVisibility(

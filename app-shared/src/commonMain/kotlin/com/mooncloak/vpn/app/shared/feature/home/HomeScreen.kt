@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,7 +36,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 public fun HomeScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    containerPaddingValues: PaddingValues = PaddingValues()
 ) {
     val componentDependencies = rememberFeatureDependencies {
         FeatureDependencies.createHomeComponent(applicationDependencies = this)
@@ -76,7 +78,7 @@ public fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             item(key = "TopSpacing") {
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(12.dp + containerPaddingValues.calculateTopPadding()))
             }
 
             items(
@@ -140,7 +142,7 @@ public fun HomeScreen(
             }
 
             item(key = "BottomSpacing") {
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(12.dp + containerPaddingValues.calculateBottomPadding()))
             }
         }
     }
