@@ -12,6 +12,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose") version "2.0.20" apply false
     id("com.codingfeline.buildkonfig") apply false
     id("app.cash.sqldelight") apply false
+    id("com.mikepenz.aboutlibraries.plugin")
     id("mooncloak.variables")
 }
 

@@ -137,6 +137,11 @@ kotlin {
                 // https://github.com/alexzhirkevich/qrose
                 // MIT: https://github.com/alexzhirkevich/qrose/blob/main/LICENSE
                 implementation("io.github.alexzhirkevich:qrose:_")
+
+                // Dependency License Details - AboutLibraries
+                // https://github.com/mikepenz/AboutLibraries
+                // Apache 2.0: https://github.com/mikepenz/AboutLibraries/blob/develop/LICENSE
+                implementation("com.mikepenz:aboutlibraries-compose-m3:_")
             }
         }
 
