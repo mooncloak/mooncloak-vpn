@@ -8,11 +8,11 @@ import com.mooncloak.vpn.app.shared.theme.ThemePreference
 import kotlinx.serialization.modules.SerializersModule
 
 @OptIn(ExperimentalPersistentStateAPI::class)
-internal class PreferencesStorage @Inject internal constructor(
+public class PreferencesStorage @Inject internal constructor(
     serializersModule: SerializersModule
 ) {
 
-    internal val theme: PersistableStateContainer<ThemePreference?> = persistableStateContainerOf(
+    public val theme: PersistableStateContainer<ThemePreference?> = persistableStateContainerOf(
         key = THEME,
         defaultValue = null,
         serializersModule = serializersModule

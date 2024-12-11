@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.onboarding.composable
+package com.mooncloak.vpn.app.shared.feature.payment.composable
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column

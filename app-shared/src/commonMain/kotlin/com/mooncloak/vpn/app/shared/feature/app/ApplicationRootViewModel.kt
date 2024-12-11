@@ -39,7 +39,7 @@ public class ApplicationRootViewModel @Inject public constructor(
     public fun finishOnboarding() {
         coroutineScope.launch {
             mutex.withLock {
-                // TODO: Set the viewedOnboarding value: appStorage.viewedOnboarding.update(true)
+                appStorage.viewedOnboarding.update(true)
 
                 navController.navigate(RootDestination.Main)
             }

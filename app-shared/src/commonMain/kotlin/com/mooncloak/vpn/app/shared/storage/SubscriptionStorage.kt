@@ -9,17 +9,17 @@ import com.mooncloak.vpn.app.shared.api.ServiceTokens
 import kotlinx.serialization.modules.SerializersModule
 
 @OptIn(ExperimentalPersistentStateAPI::class)
-internal class SubscriptionStorage @Inject internal constructor(
+public class SubscriptionStorage @Inject internal constructor(
     serializersModule: SerializersModule
 ) {
 
-    internal val tokens: PersistableStateContainer<ServiceTokens?> = persistableStateContainerOf(
+    public val tokens: PersistableStateContainer<ServiceTokens?> = persistableStateContainerOf(
         key = TOKENS,
         defaultValue = null,
         serializersModule = serializersModule
     )
 
-    internal val subscription: PersistableStateContainer<ServiceSubscription?> = persistableStateContainerOf(
+    public val subscription: PersistableStateContainer<ServiceSubscription?> = persistableStateContainerOf(
         key = SUBSCRIPTION,
         defaultValue = null,
         serializersModule = serializersModule
