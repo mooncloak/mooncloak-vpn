@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.ServerConnectionStatus
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.home_title_bar_checking
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_connecting
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_protected
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_unprotected
@@ -97,6 +98,7 @@ private val ServerConnectionStatus.title: String
         ServerConnectionStatus.Disconnected -> stringResource(Res.string.home_title_bar_unprotected)
         ServerConnectionStatus.Connecting -> stringResource(Res.string.home_title_bar_connecting)
         ServerConnectionStatus.Connected -> stringResource(Res.string.home_title_bar_protected)
+        ServerConnectionStatus.Checking -> stringResource(Res.string.home_title_bar_checking)
     }
 
 private val ServerConnectionStatus.containerColor: Color
@@ -105,6 +107,7 @@ private val ServerConnectionStatus.containerColor: Color
         ServerConnectionStatus.Disconnected -> ColorPalette.MooncloakError
         ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.surface
         ServerConnectionStatus.Connected -> ColorPalette.Teal_500
+        ServerConnectionStatus.Checking -> MaterialTheme.colorScheme.surface
     }
 
 @Suppress("SameReturnValue")
@@ -114,6 +117,7 @@ private val ServerConnectionStatus.contentColor: Color
         ServerConnectionStatus.Disconnected -> Color.White
         ServerConnectionStatus.Connecting -> Color.White
         ServerConnectionStatus.Connected -> Color.White
+        ServerConnectionStatus.Checking -> Color.White
     }
 
 @Composable
@@ -127,6 +131,12 @@ private fun TitleBarIcon(
                 modifier = modifier,
                 imageVector = Icons.Default.LockOpen,
                 contentDescription = null
+            )
+        }
+
+        ServerConnectionStatus.Checking -> {
+            CircularProgressIndicator(
+                modifier = modifier
             )
         }
 

@@ -42,6 +42,15 @@ internal fun ServerConnectionStatus.floatingActionBarContent(
                 tint = LocalContentColor.current
             )
         }
+
+        ServerConnectionStatus.Checking -> {
+            Icon(
+                modifier = modifier,
+                imageVector = Icons.Default.ShieldMoon,
+                contentDescription = null,
+                tint = LocalContentColor.current
+            )
+        }
     }
 }
 
@@ -51,6 +60,7 @@ internal val ServerConnectionStatus.containerColor: Color
         ServerConnectionStatus.Disconnected -> ColorPalette.MooncloakYellow
         ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.surface
         ServerConnectionStatus.Connected -> ColorPalette.MooncloakDarkPrimary
+        ServerConnectionStatus.Checking -> ColorPalette.MooncloakYellow
     }
 
 internal val ServerConnectionStatus.contentColor: Color
@@ -59,4 +69,5 @@ internal val ServerConnectionStatus.contentColor: Color
         ServerConnectionStatus.Disconnected -> ColorPalette.MooncloakDarkPrimaryDark
         ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.onSurface
         ServerConnectionStatus.Connected -> Color.White
+        ServerConnectionStatus.Checking -> ColorPalette.MooncloakDarkPrimaryDark
     }
