@@ -3,8 +3,11 @@ package com.mooncloak.vpn.app.shared.feature.dependency
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -13,9 +16,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.dependency.composable.NoDependenciesFoundLayout
 import com.mooncloak.vpn.app.shared.feature.dependency.di.createDependencyLicenseListComponent
 
 @Composable
@@ -36,7 +41,9 @@ public fun DependencyLicenseListScreen(
         modifier = modifier,
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surface,
+        contentColor = MaterialTheme.colorScheme.onSurface
     ) { paddingValues ->
         Box(
             modifier = Modifier.fillMaxSize()
@@ -46,6 +53,15 @@ public fun DependencyLicenseListScreen(
                 libraries = viewModel.state.current.value.libs,
                 modifier = Modifier.fillMaxSize()
             )
+
+            if (!viewModel.state.current.value.isLoading && viewModel.state.current.value.libs == null) {
+                NoDependenciesFoundLayout(
+                    modifier = Modifier.fillMaxWidth()
+                        .wrapContentHeight()
+                        .align(Alignment.TopCenter)
+                        .padding(top = 32.dp)
+                )
+            }
 
             AnimatedVisibility(
                 modifier = Modifier.align(Alignment.Center),
