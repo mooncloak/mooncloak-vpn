@@ -15,7 +15,9 @@ import com.mooncloak.vpn.app.shared.resource.destination_main_countries_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_home_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_support_title
-import com.mooncloak.vpn.app.shared.resource.destination_onboarding_title
+import com.mooncloak.vpn.app.shared.resource.destination_onboarding_landing_title
+import com.mooncloak.vpn.app.shared.resource.destination_onboarding_tutorial_title
+import com.mooncloak.vpn.app.shared.resource.destination_root_onboarding_title
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
@@ -93,7 +95,7 @@ public sealed interface RootDestination : AppDestination {
 
         override val title: String
             @Composable
-            get() = stringResource(Res.string.destination_onboarding_title)
+            get() = stringResource(Res.string.destination_root_onboarding_title)
 
         override val icon: Painter?
             @Composable
@@ -110,6 +112,44 @@ public sealed interface RootDestination : AppDestination {
         override val title: String
             @Composable
             get() = stringResource(Res.string.app_name)
+
+        override val icon: Painter?
+            @Composable
+            get() = null
+    }
+}
+
+
+@Immutable
+@Serializable
+public sealed interface OnboardingDestination : AppDestination {
+
+    @Immutable
+    @Serializable
+    @SerialName(value = "landing")
+    public data object Landing : OnboardingDestination {
+
+        override val path: String = "/onboarding/landing"
+
+        override val title: String
+            @Composable
+            get() = stringResource(Res.string.destination_onboarding_landing_title)
+
+        override val icon: Painter?
+            @Composable
+            get() = null
+    }
+
+    @Immutable
+    @Serializable
+    @SerialName(value = "tutorial")
+    public data object Tutorial : OnboardingDestination {
+
+        override val path: String = "/onboarding/tutorial"
+
+        override val title: String
+            @Composable
+            get() = stringResource(Res.string.destination_onboarding_tutorial_title)
 
         override val icon: Painter?
             @Composable

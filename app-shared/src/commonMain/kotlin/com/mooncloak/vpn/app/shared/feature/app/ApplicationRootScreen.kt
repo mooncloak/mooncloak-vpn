@@ -72,7 +72,13 @@ public fun ApplicationRootScreen(
                             // TODO: Application Root Loading Splash Screen UI
                         }
                         composable<RootDestination.Onboarding> {
-                            OnboardingScreen(modifier = Modifier.fillMaxSize())
+                            OnboardingScreen(
+                                modifier = Modifier.fillMaxSize(),
+                                onFinish = {
+                                    // TODO: Delegate to ViewModel so that we can store the appropriate values
+                                    navController.navigate(RootDestination.Main)
+                                }
+                            )
                         }
                         composable<RootDestination.Main> {
                             MainScreen(modifier = Modifier.fillMaxSize())

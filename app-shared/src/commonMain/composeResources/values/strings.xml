@@ -7,7 +7,9 @@
     <string name="destination_main_countries_title">Countries</string>
     <string name="destination_main_support_title">Support</string>
     <string name="destination_main_settings_title">Settings</string>
-    <string name="destination_onboarding_title">Onboarding</string>
+    <string name="destination_root_onboarding_title">Onboarding</string>
+    <string name="destination_onboarding_landing_title">Landing</string>
+    <string name="destination_onboarding_tutorial_title">Tutorial</string>
 
     <string name="preference_theme_dark">Dark</string>
     <string name="preference_theme_light">Light</string>
