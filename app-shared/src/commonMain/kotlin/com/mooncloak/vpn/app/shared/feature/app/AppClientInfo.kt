@@ -39,4 +39,10 @@ public interface AppClientInfo {
     public val supportIssueUri: String get() = "https://github.com/mooncloak/mooncloak-vpn/issues/new?assignees=&labels=&projects=&template=bug_report.md&title="
 
     public val rateAppUri: String get() = "https://play.google.com/"
+
+    public val privacyPolicyUri: String get() = "https://mooncloak.com/vpn/legal/privacy"
+
+    public val termsAndConditionsUri: String get() = "https://mooncloak.com/vpn/legal/terms"
+
+    public val sourceCodeUri: String get() = "https://github.com/mooncloak/mooncloak-vpn"
 }

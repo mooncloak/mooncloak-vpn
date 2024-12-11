@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.settings
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,6 +14,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -26,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
@@ -33,6 +37,11 @@ import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsGroupLab
 import com.mooncloak.vpn.app.shared.feature.settings.di.createSettingsComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
+import com.mooncloak.vpn.app.shared.resource.settings_group_legal
+import com.mooncloak.vpn.app.shared.resource.settings_title_code
+import com.mooncloak.vpn.app.shared.resource.settings_title_licenses
+import com.mooncloak.vpn.app.shared.resource.settings_title_privacy_policy
+import com.mooncloak.vpn.app.shared.resource.settings_title_terms
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -48,6 +57,7 @@ public fun SettingsScreen(
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
     val scrollState = rememberScrollState()
+    val uriHandler = LocalUriHandler.current
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -78,14 +88,73 @@ public fun SettingsScreen(
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth()
-                    .padding(horizontal = 12.dp)
                     .verticalScroll(scrollState)
             ) {
                 Spacer(modifier = Modifier.height(containerPaddingValues.calculateTopPadding()))
 
                 SettingsGroupLabel(
-                    text = "Testing"
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                        .padding(top = 16.dp),
+                    text = stringResource(Res.string.settings_group_legal)
                 )
+
+                viewModel.state.current.value.privacyPolicyUri?.let { privacyPolicyUri ->
+                    ListItem(
+                        modifier = Modifier.fillMaxWidth()
+                            .clickable {
+                                uriHandler.openUri(privacyPolicyUri)
+                            },
+                        colors = ListItemDefaults.colors(
+                            containerColor = MaterialTheme.colorScheme.background
+                        ),
+                        headlineContent = {
+                            Text(text = stringResource(Res.string.settings_title_privacy_policy))
+                        }
+                    )
+                }
+
+                viewModel.state.current.value.termsUri?.let { termsUri ->
+                    ListItem(
+                        modifier = Modifier.fillMaxWidth()
+                            .clickable {
+                                uriHandler.openUri(termsUri)
+                            },
+                        colors = ListItemDefaults.colors(
+                            containerColor = MaterialTheme.colorScheme.background
+                        ),
+                        headlineContent = {
+                            Text(text = stringResource(Res.string.settings_title_terms))
+                        }
+                    )
+                }
+
+                ListItem(
+                    modifier = Modifier.fillMaxWidth()
+                        .clickable {
+                            // TODO:
+                        },
+                    colors = ListItemDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.background
+                    ),
+                    headlineContent = {
+                        Text(text = stringResource(Res.string.settings_title_licenses))
+                    }
+                )
+
+                viewModel.state.current.value.sourceCodeUri?.let { sourceCodeUri ->
+                    ListItem(
+                        modifier = Modifier.fillMaxWidth()
+                            .clickable {
+                                uriHandler.openUri(sourceCodeUri)
+                            },
+                        colors = ListItemDefaults.colors(
+                            containerColor = MaterialTheme.colorScheme.background
+                        ),
+                        headlineContent = {
+                            Text(text = stringResource(Res.string.settings_title_code))
+                        }
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(containerPaddingValues.calculateBottomPadding()))
             }
