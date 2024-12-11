@@ -22,7 +22,7 @@ import kotlinx.serialization.Serializable
  */
 @Immutable
 @Serializable
-public data class ActivatedServicePlan public constructor(
+public data class ServiceSubscription public constructor(
     @SerialName(value = "id") public val id: String,
     @SerialName(value = "created") public val created: Instant,
     @SerialName(value = "boosted") public val boosted: Instant,

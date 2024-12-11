@@ -27,7 +27,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getAvailablePlans(): AvailablePlans {
-        val response = httpClient.get("https://mooncloak.com/api/vpn/plans")
+        val response = httpClient.get("https://mooncloak.com/api/vpn/marketing/plans")
 
         return response.body<HttpResponseBody<AvailablePlans>>().getOrThrow()
     }
@@ -35,9 +35,12 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getPaymentInfo(
         planId: String,
-        secret: String? = null
+        secret: String? = null,
+        token: Token? = null
     ): PlanInvoice {
         val response = httpClient.post("https://mooncloak.com/api/vpn/payment/invoice") {
+            token?.value?.let { bearerAuth(it) }
+
             setBody(
                 GetPaymentInfoRequestBody(
                     planId = planId,
@@ -122,6 +125,17 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         }
 
         return response.body<HttpResponseBody<RevokedTokenResponseBody>>().getOrThrow().success
+    }
+
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun getCurrentSubscription(
+        token: Token
+    ): ServiceSubscription {
+        val response = httpClient.post("https://mooncloak.com/api/vpn/subscription") {
+            bearerAuth(token.value)
+        }
+
+        return response.body<HttpResponseBody<ServiceSubscription>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)

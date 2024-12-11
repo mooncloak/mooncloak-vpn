@@ -6,15 +6,15 @@ import kotlinx.serialization.Serializable
 import kotlin.time.Duration
 
 /**
- * Represents how long a subscription period lasts.
+ * Represents how long a trial period lasts.
  *
- * @property [interval] The duration of a single subscription period.
+ * @property [interval] The duration of a single trial period.
  *
- * @property [amount] The amount of subscription periods included in this trial.
+ * @property [amount] The amount of trial periods included in this trial.
  */
 @Immutable
 @Serializable
-public data class Subscription public constructor(
+public data class TrialPeriod public constructor(
     @SerialName(value = "interval") public val interval: Duration,
     @SerialName(value = "amount") public val amount: Int
 )
