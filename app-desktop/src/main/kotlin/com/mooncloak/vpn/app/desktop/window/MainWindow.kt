@@ -16,7 +16,7 @@ internal fun MainWindow(
 ) {
     ThemedWindow(
         onCloseRequest = onClose,
-        themePreference = ThemePreference.SystemDefault,
+        themePreference = ThemePreference.System,
         state = state,
         visible = visible
     ) {

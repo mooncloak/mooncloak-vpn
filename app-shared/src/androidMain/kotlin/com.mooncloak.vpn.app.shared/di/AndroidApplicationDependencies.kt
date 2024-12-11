@@ -9,10 +9,12 @@ import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import io.ktor.client.HttpClient
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
 
 @Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 public actual interface ApplicationDependencies {
 
+    public actual val serializersModule: SerializersModule
     public actual val json: Json
     public actual val httpClient: HttpClient
     public actual val clock: Clock

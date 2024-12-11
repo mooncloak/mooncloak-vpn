@@ -1,28 +1,36 @@
 package com.mooncloak.vpn.app.shared.feature.app
 
 import androidx.compose.runtime.Stable
+import androidx.navigation.NavController
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.ViewModel
+import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.di.ComponentScoped
-import kotlinx.coroutines.delay
+import com.mooncloak.vpn.app.shared.storage.AppStorage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlin.time.Duration.Companion.seconds
 
 @Stable
 @ComponentScoped
-public class ApplicationRootViewModel @Inject public constructor() :
-    ViewModel<ApplicationRootStateModel>(initialStateValue = ApplicationRootStateModel()) {
+public class ApplicationRootViewModel @Inject public constructor(
+    private val appStorage: AppStorage,
+    private val navController: NavController
+) : ViewModel<ApplicationRootStateModel>(initialStateValue = ApplicationRootStateModel()) {
 
     private val mutex = Mutex(locked = false)
 
+    @OptIn(ExperimentalPersistentStateAPI::class)
     public fun load() {
         coroutineScope.launch {
             mutex.withLock {
-                delay(1.seconds)
+                val viewedOnboarding = appStorage.viewedOnboarding.current.value
 
-                emit(value = state.current.value.copy(startDestination = RootDestination.Main))
+                if (viewedOnboarding) {
+                    navController.navigate(RootDestination.Main)
+                } else {
+                    navController.navigate(RootDestination.Onboarding)
+                }
             }
         }
     }

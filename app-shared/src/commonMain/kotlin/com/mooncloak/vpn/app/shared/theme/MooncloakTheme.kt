@@ -9,7 +9,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 
 @Composable
 public fun MooncloakTheme(
-    themePreference: ThemePreference = ThemePreference.SystemDefault,
+    themePreference: ThemePreference = ThemePreference.System,
     content: @Composable () -> Unit
 ) {
     MaterialTheme(

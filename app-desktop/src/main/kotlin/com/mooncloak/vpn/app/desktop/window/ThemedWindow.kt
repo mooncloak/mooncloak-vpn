@@ -17,7 +17,7 @@ import com.mooncloak.vpn.app.shared.theme.ThemePreference
 @Composable
 public fun ThemedWindow(
     onCloseRequest: () -> Unit,
-    themePreference: ThemePreference = ThemePreference.SystemDefault,
+    themePreference: ThemePreference = ThemePreference.System,
     title: String = "",
     icon: Painter? = null,
     state: WindowState = rememberWindowState(),

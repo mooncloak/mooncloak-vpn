@@ -38,7 +38,10 @@ public fun ApplicationRootScreen(
         LocalNavController provides navController
     ) {
         val componentDependencies = rememberFeatureDependencies {
-            FeatureDependencies.createApplicationRootComponent(applicationDependencies = this)
+            FeatureDependencies.createApplicationRootComponent(
+                applicationDependencies = this,
+                navController = navController
+            )
         }
         val viewModel = remember { componentDependencies.viewModel }
         val imageLoaderFactory = remember(component) { component.imageLoaderFactory }
@@ -52,7 +55,7 @@ public fun ApplicationRootScreen(
         }
 
         MooncloakTheme(
-            themePreference = ThemePreference.SystemDefault
+            themePreference = ThemePreference.System
         ) {
             Surface(modifier = modifier) {
                 Column(

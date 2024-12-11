@@ -8,8 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.preference_theme_dark
+import com.mooncloak.vpn.app.shared.resource.preference_theme_light
+import com.mooncloak.vpn.app.shared.resource.preference_theme_system
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.stringResource
 
 @Immutable
 @Serializable
@@ -24,7 +29,7 @@ public enum class ThemePreference(
     Light(serialName = "light"),
 
     @SerialName(value = "system_default")
-    SystemDefault(serialName = "system_default");
+    System(serialName = "system_default");
 
     public companion object {
 
@@ -40,18 +45,17 @@ public enum class ThemePreference(
 
 public val ThemePreference.title: String
     @Composable
-    @ReadOnlyComposable
     get() = when (this) {
-        ThemePreference.Dark -> "Dark" // TODO: Resources.strings.settingsTitleThemeDark
-        ThemePreference.Light -> "Light" // TODO: Resources.strings.settingsTitleThemeLight
-        ThemePreference.SystemDefault -> "System" // TODO: Resources.strings.settingsTitleThemeSystem
+        ThemePreference.Dark -> stringResource(Res.string.preference_theme_dark)
+        ThemePreference.Light -> stringResource(Res.string.preference_theme_light)
+        ThemePreference.System -> stringResource(Res.string.preference_theme_system)
     }
 
 public val ThemePreference.icon: ImageVector
     get() = when (this) {
         ThemePreference.Dark -> Icons.Default.DarkMode
         ThemePreference.Light -> Icons.Default.LightMode
-        ThemePreference.SystemDefault -> Icons.Default.SettingsBrightness
+        ThemePreference.System -> Icons.Default.SettingsBrightness
     }
 
 @Composable
@@ -60,5 +64,5 @@ public inline fun ThemePreference.isInDarkTheme(): Boolean =
     when (this) {
         ThemePreference.Dark -> true
         ThemePreference.Light -> false
-        ThemePreference.SystemDefault -> androidx.compose.foundation.isSystemInDarkTheme()
+        ThemePreference.System -> androidx.compose.foundation.isSystemInDarkTheme()
     }

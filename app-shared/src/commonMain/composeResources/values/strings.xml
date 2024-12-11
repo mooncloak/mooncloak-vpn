@@ -9,6 +9,10 @@
     <string name="destination_main_settings_title">Settings</string>
     <string name="destination_onboarding_title">Onboarding</string>
 
+    <string name="preference_theme_dark">Dark</string>
+    <string name="preference_theme_light">Light</string>
+    <string name="preference_theme_system">System</string>
+
     <string name="landing_action_start">Get Started</string>
 
     <string name="onboarding_title_no_tracking">No IP address tracking</string>

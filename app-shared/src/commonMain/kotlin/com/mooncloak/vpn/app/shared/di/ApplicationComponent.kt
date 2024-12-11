@@ -10,7 +10,6 @@ import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
-import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
 import com.mooncloak.vpn.app.shared.image.MooncloakImageLoaderFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.cache.HttpCache
@@ -22,6 +21,8 @@ import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.EmptySerializersModule
+import kotlinx.serialization.modules.SerializersModule
 
 @Singleton
 public abstract class ApplicationComponent : ApplicationDependencies {
@@ -36,9 +37,14 @@ public abstract class ApplicationComponent : ApplicationDependencies {
 
     @Provides
     @Singleton
-    public fun provideJson(): Json = Json {
+    public fun provideJson(serializersModule: SerializersModule): Json = Json {
         ignoreUnknownKeys = true
+        this.serializersModule = serializersModule
     }
+
+    @Provides
+    @Singleton
+    public fun provideSerializersModule(): SerializersModule = EmptySerializersModule()
 
     @Provides
     @Singleton
