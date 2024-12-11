@@ -16,7 +16,6 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue.Expanded
 import androidx.compose.material3.SheetValue.PartiallyExpanded
 import androidx.compose.material3.contentColorFor
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -48,7 +47,7 @@ import kotlin.reflect.KType
  */
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 internal class ModalNavigationBottomSheetState internal constructor(
-    internal val sheetState: SheetState,
+    internal val sheetState: MooncloakModalBottomSheetState,
     internal val navController: NavHostController
 ) {
 
@@ -70,15 +69,17 @@ internal class ModalNavigationBottomSheetState internal constructor(
         navOptions: NavOptions? = null,
         navigatorExtras: Navigator.Extras? = null
     ) {
-        if (route != null) {
-            navController.navigate(
-                route = route,
-                navOptions = navOptions,
-                navigatorExtras = navigatorExtras
-            )
-        }
-
         sheetState.show()
+
+        if (route != null) {
+            sheetState.enqueueTask {
+                navController.navigate(
+                    route = route,
+                    navOptions = navOptions,
+                    navigatorExtras = navigatorExtras
+                )
+            }
+        }
     }
 
     /**
@@ -96,14 +97,16 @@ internal class ModalNavigationBottomSheetState internal constructor(
         route: T? = null,
         builder: NavOptionsBuilder.() -> Unit
     ) {
-        if (route != null) {
-            navController.navigate(
-                route = route,
-                builder = builder
-            )
-        }
-
         sheetState.show()
+
+        if (route != null) {
+            sheetState.enqueueTask {
+                navController.navigate(
+                    route = route,
+                    builder = builder
+                )
+            }
+        }
     }
 
     /**
@@ -119,7 +122,7 @@ internal class ModalNavigationBottomSheetState internal constructor(
 
 @Composable
 internal fun rememberModalNavigationBottomSheetState(
-    sheetState: SheetState = rememberModalBottomSheetState(),
+    sheetState: MooncloakModalBottomSheetState = rememberMooncloakModalBottomSheetState(),
     navController: NavHostController = rememberNavController()
 ): ModalNavigationBottomSheetState = remember {
     ModalNavigationBottomSheetState(

@@ -15,6 +15,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
@@ -25,9 +26,12 @@ import com.mooncloak.vpn.app.shared.feature.home.composable.PlanUsageCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.AdShieldCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.GetVPNServiceCard
+import com.mooncloak.vpn.app.shared.feature.home.composable.HomeBottomSheet
 import com.mooncloak.vpn.app.shared.feature.home.composable.ShowcaseCard
 import com.mooncloak.vpn.app.shared.feature.home.di.createHomeComponent
+import com.mooncloak.vpn.app.shared.feature.home.model.HomeBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
+import kotlinx.coroutines.launch
 
 @Composable
 public fun HomeScreen(
@@ -39,7 +43,7 @@ public fun HomeScreen(
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }
     val lazyListState = rememberLazyListState()
-
+    val coroutineScope = rememberCoroutineScope()
     val bottomSheetState = rememberModalNavigationBottomSheetState()
 
     LaunchedEffect(Unit) {
@@ -95,7 +99,9 @@ public fun HomeScreen(
                     HomeFeedItem.GetVPNServiceItem -> GetVPNServiceCard(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = {
-                            // TODO: Open Sign-up Flow
+                            coroutineScope.launch {
+                                bottomSheetState.show(route = HomeBottomSheetDestination.Payment)
+                            }
                         }
                     )
 
@@ -138,6 +144,11 @@ public fun HomeScreen(
             }
         }
     }
+
+    HomeBottomSheet(
+        modifier = Modifier.fillMaxWidth(),
+        state = bottomSheetState
+    )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {
         viewModel.state.current.value.errorMessage?.let { errorMessage ->
