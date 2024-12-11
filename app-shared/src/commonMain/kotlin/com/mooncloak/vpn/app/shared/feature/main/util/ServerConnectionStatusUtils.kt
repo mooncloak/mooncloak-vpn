@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.mooncloak.vpn.app.shared.api.ServerConnectionStatus
+import com.mooncloak.vpn.app.shared.theme.ColorPalette
 
 @Composable
 internal fun ServerConnectionStatus.floatingActionBarContent(
@@ -47,15 +48,15 @@ internal fun ServerConnectionStatus.floatingActionBarContent(
 internal val ServerConnectionStatus.containerColor: Color
     @Composable
     get() = when (this) {
-        ServerConnectionStatus.Disconnected -> MaterialTheme.colorScheme.primary
+        ServerConnectionStatus.Disconnected -> ColorPalette.MooncloakYellow
         ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.surface
-        ServerConnectionStatus.Connected -> MaterialTheme.colorScheme.errorContainer
+        ServerConnectionStatus.Connected -> ColorPalette.MooncloakDarkPrimary
     }
 
 internal val ServerConnectionStatus.contentColor: Color
     @Composable
     get() = when (this) {
-        ServerConnectionStatus.Disconnected -> MaterialTheme.colorScheme.onPrimary
+        ServerConnectionStatus.Disconnected -> ColorPalette.MooncloakDarkPrimaryDark
         ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.onSurface
-        ServerConnectionStatus.Connected -> MaterialTheme.colorScheme.onErrorContainer
+        ServerConnectionStatus.Connected -> Color.White
     }

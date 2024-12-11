@@ -51,13 +51,15 @@ public fun MainScreen(
             selectedIconColor = MaterialTheme.colorScheme.onPrimary,
             unselectedIconColor = MaterialTheme.colorScheme.onSurface,
             selectedTextColor = MaterialTheme.colorScheme.onSurface,
-            unselectedTextColor = MaterialTheme.colorScheme.onSurface
+            unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+            indicatorColor = MaterialTheme.colorScheme.primary
         ),
         navigationRailItemColors = NavigationRailItemDefaults.colors(
             selectedIconColor = MaterialTheme.colorScheme.onPrimary,
             unselectedIconColor = MaterialTheme.colorScheme.onSurface,
             selectedTextColor = MaterialTheme.colorScheme.onSurface,
-            unselectedTextColor = MaterialTheme.colorScheme.onSurface
+            unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+            indicatorColor = MaterialTheme.colorScheme.primary
         )
     )
 
