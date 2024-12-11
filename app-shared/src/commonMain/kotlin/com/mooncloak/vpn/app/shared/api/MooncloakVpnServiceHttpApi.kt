@@ -36,8 +36,8 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
     public suspend fun getPaymentInfo(
         planId: String,
         secret: String? = null
-    ): PlanPaymentInfo {
-        val response = httpClient.post("https://mooncloak.com/api/vpn/payment/info") {
+    ): PlanInvoice {
+        val response = httpClient.post("https://mooncloak.com/api/vpn/payment/invoice") {
             setBody(
                 GetPaymentInfoRequestBody(
                     planId = planId,
@@ -46,7 +46,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
             )
         }
 
-        return response.body<HttpResponseBody<PlanPaymentInfo>>().getOrThrow()
+        return response.body<HttpResponseBody<PlanInvoice>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
@@ -54,7 +54,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         paymentId: String,
         token: TransactionToken,
         secret: String? = null
-    ): PaymentStatus {
+    ): PlanPaymentStatus {
         val response = httpClient.post("https://mooncloak.com/api/vpn/payment/status") {
             bearerAuth(token.value)
 
@@ -66,7 +66,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
             )
         }
 
-        return response.body<HttpResponseBody<PaymentStatus>>().getOrThrow()
+        return response.body<HttpResponseBody<PlanPaymentStatus>>().getOrThrow()
     }
 
     /**

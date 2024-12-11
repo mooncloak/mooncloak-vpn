@@ -9,9 +9,9 @@ import kotlinx.serialization.Serializable
 
 @Immutable
 @Serializable
-public sealed interface PaymentStatus {
+public sealed interface PlanPaymentStatus {
 
-    public val id: String
+    public val invoiceId: String
     public val timestamp: Instant
     public val title: String
     public val description: String?
@@ -22,37 +22,37 @@ public sealed interface PaymentStatus {
     @Serializable
     @SerialName(value = "pending")
     public data class Pending public constructor(
-        @SerialName(value = "id") override val id: String,
+        @SerialName(value = "invoice_id") override val invoiceId: String,
         @SerialName(value = "timestamp") override val timestamp: Instant,
         @SerialName(value = "title") override val title: String,
         @SerialName(value = "description") override val description: String? = null,
         @SerialName(value = "icon") override val icon: String? = null,
         @SerialName(value = "self") override val self: String? = null
-    ) : PaymentStatus
+    ) : PlanPaymentStatus
 
     @Immutable
     @Serializable
     @SerialName(value = "completed")
     public data class Completed public constructor(
-        @SerialName(value = "id") override val id: String,
+        @SerialName(value = "invoice_id") override val invoiceId: String,
         @SerialName(value = "timestamp") override val timestamp: Instant,
         @SerialName(value = "title") override val title: String,
         @SerialName(value = "description") override val description: String? = null,
         @SerialName(value = "icon") override val icon: String? = null,
         @SerialName(value = "self") override val self: String? = null
-    ) : PaymentStatus
+    ) : PlanPaymentStatus
 
     @OptIn(ExperimentalApixApi::class)
     @Immutable
     @Serializable
     @SerialName(value = "error")
     public data class Error public constructor(
-        @SerialName(value = "id") override val id: String,
+        @SerialName(value = "invoice_id") override val invoiceId: String,
         @SerialName(value = "timestamp") override val timestamp: Instant,
         @SerialName(value = "title") override val title: String,
         @SerialName(value = "description") override val description: String? = null,
         @SerialName(value = "icon") override val icon: String? = null,
         @SerialName(value = "self") override val self: String? = null,
         @SerialName(value = "error") public val error: HttpErrorBody<Nothing>? = null
-    ) : PaymentStatus
+    ) : PlanPaymentStatus
 }

@@ -10,8 +10,10 @@ import kotlinx.serialization.Serializable
  *
  * @property [type] The type of this plan info model.
  *
- * @property [id] An opaque, unique identifier value for this plan payment info, used to associate this
+ * @property [id] An opaque, unique identifier value for this plan payment invoice, used to associate this
  * information to a particular transaction when purchasing.
+ *
+ * @property [planId] The unique identifier value for the [Plan] that this invoice is for.
  *
  * @property [token] An opaque unique token [String] value generated for the transaction associated with this payment
  * info instance. If the user purchases the plan, via the properties on this model, then the user can obtain the status
@@ -34,9 +36,10 @@ import kotlinx.serialization.Serializable
  */
 @Immutable
 @Serializable
-public data class PlanPaymentInfo public constructor(
+public data class PlanInvoice public constructor(
     @SerialName(value = "type") public val type: String = "bitcoin", // Used for future improvements to the API, such as using sealed classes for different crypto types.
     @SerialName(value = "id") public val id: String,
+    @SerialName(value = "plan_id") public val planId: String,
     @SerialName(value = "token") public val token: TransactionToken,
     @SerialName(value = "created") public val created: Instant,
     @SerialName(value = "uri") public val uri: String? = null,

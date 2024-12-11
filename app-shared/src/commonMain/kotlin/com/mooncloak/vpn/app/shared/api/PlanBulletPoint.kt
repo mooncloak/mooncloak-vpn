@@ -2,7 +2,6 @@ package com.mooncloak.vpn.app.shared.api
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
-import com.mooncloak.kodetools.compose.serialization.ColorAsArgbObjectSerializer
 import com.mooncloak.kodetools.compose.serialization.ColorAsRgbaObjectSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
