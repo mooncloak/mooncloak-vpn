@@ -112,7 +112,7 @@ public fun SettingsScreen(
 
                 SettingsGroupLabel(
                     modifier = Modifier.padding(horizontal = 16.dp)
-                        .padding(top = 16.dp),
+                        .padding(top = 32.dp),
                     text = stringResource(Res.string.settings_group_theme)
                 )
 
@@ -130,7 +130,7 @@ public fun SettingsScreen(
 
                 SettingsGroupLabel(
                     modifier = Modifier.padding(horizontal = 16.dp)
-                        .padding(top = 16.dp),
+                        .padding(top = 32.dp),
                     text = stringResource(Res.string.settings_group_legal)
                 )
 

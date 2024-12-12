@@ -3,6 +3,7 @@ package com.mooncloak.vpn.app.shared.feature.settings.composable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +28,14 @@ internal fun ThemePreferenceSegmentedButton(
                     onThemePreferenceSelected.invoke(preference)
                 },
                 shape = MaterialTheme.shapes.medium,
+                colors = SegmentedButtonDefaults.colors(
+                    activeContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    activeContentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    activeBorderColor = MaterialTheme.colorScheme.outline,
+                    inactiveContainerColor = MaterialTheme.colorScheme.background,
+                    inactiveContentColor = MaterialTheme.colorScheme.onBackground,
+                    inactiveBorderColor = MaterialTheme.colorScheme.outline
+                ),
                 label = {
                     Text(text = preference.title)
                 },
