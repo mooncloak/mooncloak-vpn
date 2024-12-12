@@ -1,5 +1,6 @@
 package com.mooncloak.vpn.app.shared.feature.home
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -67,7 +68,8 @@ public fun HomeScreen(
         },
         topBar = {
             HomeTitleBar(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.animateContentSize()
+                    .fillMaxWidth()
                     .shadow(elevation = 8.dp),
                 status = viewModel.state.current.value.connection,
                 connectedName = viewModel.state.current.value.connectedName,

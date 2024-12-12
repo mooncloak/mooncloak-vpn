@@ -27,20 +27,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.ServerConnectionStatus
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_checking
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_connecting
+import com.mooncloak.vpn.app.shared.resource.home_title_bar_description_unprotected
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_protected
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_unprotected
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeChild
+import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
 import org.jetbrains.compose.resources.stringResource
 
+@OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
 internal fun HomeTitleBar(
     status: ServerConnectionStatus,
@@ -87,7 +91,18 @@ internal fun HomeTitleBar(
                 overflow = TextOverflow.Ellipsis
             )
 
-            if (!connectedName.isNullOrBlank() || !ipAddress.isNullOrBlank()) {
+            status.description?.let { description ->
+                Text(
+                    modifier = Modifier.padding(top = 8.dp),
+                    text = description,
+                    style = MaterialTheme.typography.bodyMedium.copy(status.contentColor.copy(alpha = SecondaryAlpha)),
+                    textAlign = TextAlign.Center,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            if (status.description != null && (!connectedName.isNullOrBlank() || !ipAddress.isNullOrBlank())) {
                 HomeTitleChip(
                     modifier = Modifier.wrapContentSize()
                         .padding(top = 12.dp),
@@ -109,6 +124,13 @@ private val ServerConnectionStatus.title: String
         ServerConnectionStatus.Connecting -> stringResource(Res.string.home_title_bar_connecting)
         ServerConnectionStatus.Connected -> stringResource(Res.string.home_title_bar_protected)
         ServerConnectionStatus.Checking -> stringResource(Res.string.home_title_bar_checking)
+    }
+
+private val ServerConnectionStatus.description: String?
+    @Composable
+    get() = when (this) {
+        ServerConnectionStatus.Disconnected -> stringResource(Res.string.home_title_bar_description_unprotected)
+        else -> null
     }
 
 private val ServerConnectionStatus.containerColor: Color
