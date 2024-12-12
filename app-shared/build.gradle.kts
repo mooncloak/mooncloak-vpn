@@ -12,6 +12,7 @@ plugins {
     id("org.jetbrains.compose")
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
+    id("com.mikepenz.aboutlibraries.plugin")
     id("com.codingfeline.buildkonfig")
 }
 
@@ -301,7 +302,6 @@ compose.resources {
     packageOfResClass = "com.mooncloak.vpn.app.shared.resource"
     generateResClass = always
 }
-
 
 // `./gradlew :app-client-info:generateBuildKonfig`
 buildkonfig {
