@@ -123,7 +123,12 @@ public fun SettingsScreen(
                 )
 
                 ListItem(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
+                        .clickable {
+                            coroutineScope.launch {
+                                bottomSheetState.show(SettingsBottomSheetDestination.Subscription)
+                            }
+                        },
                     colors = ListItemDefaults.colors(
                         containerColor = MaterialTheme.colorScheme.background
                     ),

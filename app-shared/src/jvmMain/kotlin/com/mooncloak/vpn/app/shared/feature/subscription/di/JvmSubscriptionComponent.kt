@@ -1,0 +1,18 @@
+package com.mooncloak.vpn.app.shared.feature.subscription.di
+
+import com.mooncloak.kodetools.konstruct.annotations.Component
+import com.mooncloak.vpn.app.shared.di.ApplicationComponent
+import com.mooncloak.vpn.app.shared.di.ComponentScoped
+import com.mooncloak.vpn.app.shared.di.FeatureDependencies
+
+@Component
+@ComponentScoped
+internal abstract class JvmSubscriptionComponent internal constructor(
+    @Component internal val applicationDependencies: ApplicationComponent
+) : SubscriptionComponent()
+
+internal actual fun FeatureDependencies.Companion.createSubscriptionComponent(
+    applicationDependencies: ApplicationComponent
+): SubscriptionComponent = JvmSubscriptionComponent::class.create(
+    applicationDependencies = applicationDependencies
+)
