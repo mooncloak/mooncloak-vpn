@@ -35,8 +35,10 @@ import com.mooncloak.vpn.app.shared.resource.home_title_bar_checking
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_connecting
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_protected
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_unprotected
-import com.mooncloak.vpn.app.shared.theme.ColorPalette
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.hazeChild
+import dev.chrisbanes.haze.materials.HazeMaterials
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -45,6 +47,7 @@ internal fun HomeTitleBar(
     connectedName: String?,
     ipAddress: String?,
     hideIpAddress: Boolean = true,
+    hazeState: HazeState,
     modifier: Modifier = Modifier
 ) {
     val backgroundColor = animateColorAsState(
@@ -52,8 +55,15 @@ internal fun HomeTitleBar(
     )
 
     Surface(
-        modifier = modifier,
-        color = backgroundColor.value
+        modifier = modifier.hazeChild(
+            state = hazeState,
+            style = HazeMaterials.ultraThin(
+                containerColor = backgroundColor.value
+            )
+        ) {
+            blurEnabled = true
+        },
+        color = Color.Transparent
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
@@ -84,7 +94,7 @@ internal fun HomeTitleBar(
                     countryName = connectedName,
                     ipAddress = ipAddress,
                     hideIpAddress = hideIpAddress,
-                    containerColor = status.containerColor,
+                    containerColor = Color.Transparent,
                     contentColor = status.contentColor
                 )
             }
@@ -104,9 +114,9 @@ private val ServerConnectionStatus.title: String
 private val ServerConnectionStatus.containerColor: Color
     @Composable
     get() = when (this) {
-        ServerConnectionStatus.Disconnected -> ColorPalette.MooncloakError
+        ServerConnectionStatus.Disconnected -> MaterialTheme.colorScheme.errorContainer
         ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.surface
-        ServerConnectionStatus.Connected -> ColorPalette.Teal_500
+        ServerConnectionStatus.Connected -> MaterialTheme.colorScheme.tertiaryContainer
         ServerConnectionStatus.Checking -> MaterialTheme.colorScheme.surface
     }
 
@@ -114,10 +124,10 @@ private val ServerConnectionStatus.containerColor: Color
 private val ServerConnectionStatus.contentColor: Color
     @Composable
     get() = when (this) {
-        ServerConnectionStatus.Disconnected -> Color.White
-        ServerConnectionStatus.Connecting -> Color.White
-        ServerConnectionStatus.Connected -> Color.White
-        ServerConnectionStatus.Checking -> Color.White
+        ServerConnectionStatus.Disconnected -> MaterialTheme.colorScheme.onErrorContainer
+        ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.onSurface
+        ServerConnectionStatus.Connected -> MaterialTheme.colorScheme.onTertiaryContainer
+        ServerConnectionStatus.Checking -> MaterialTheme.colorScheme.onSurface
     }
 
 @Composable

@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
@@ -32,6 +33,8 @@ import com.mooncloak.vpn.app.shared.feature.home.composable.ShowcaseCard
 import com.mooncloak.vpn.app.shared.feature.home.di.createHomeComponent
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.haze
 import kotlinx.coroutines.launch
 
 @Composable
@@ -47,6 +50,7 @@ public fun HomeScreen(
     val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     val bottomSheetState = rememberModalNavigationBottomSheetState()
+    val hazeState = remember { HazeState() }
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -63,15 +67,18 @@ public fun HomeScreen(
         },
         topBar = {
             HomeTitleBar(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
+                    .shadow(elevation = 8.dp),
                 status = viewModel.state.current.value.connection,
                 connectedName = viewModel.state.current.value.connectedName,
-                ipAddress = viewModel.state.current.value.connectedIpAddress
+                ipAddress = viewModel.state.current.value.connectedIpAddress,
+                hazeState = hazeState
             )
         }
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier.fillMaxSize()
+                .haze(state = hazeState)
                 .padding(paddingValues)
                 .padding(horizontal = 12.dp),
             state = lazyListState,
