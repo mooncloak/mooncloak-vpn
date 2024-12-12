@@ -25,7 +25,7 @@ public class ApplicationRootViewModel @Inject public constructor(
     public fun load() {
         coroutineScope.launch {
             mutex.withLock {
-                val viewedOnboarding = false // TODO: appStorage.viewedOnboarding.current.value
+                val viewedOnboarding = appStorage.viewedOnboarding.current.value
 
                 if (viewedOnboarding) {
                     navController.navigate(RootDestination.Main)
