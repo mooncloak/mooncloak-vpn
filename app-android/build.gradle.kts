@@ -85,11 +85,15 @@ android {
         create("play") {
             dimension = "store"
             applicationIdSuffix = ".play"
+
+            resValue("string", "mooncloak_app_name", buildVariables.appName)
         }
 
         create("direct") {
             dimension = "store"
             applicationIdSuffix = ".direct"
+
+            resValue("string", "mooncloak_app_name", buildVariables.appName)
         }
     }
 

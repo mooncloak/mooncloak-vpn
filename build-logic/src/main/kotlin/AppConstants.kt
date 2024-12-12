@@ -1,10 +1,6 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
+@file:Suppress("MemberVisibilityCanBePrivate", "ConstPropertyName")
 
 interface AppConstants {
-
-    val name: String get() = "mooncloak VPN"
-
-    val description get() = "Privacy focused apps"
 
     object Android {
 

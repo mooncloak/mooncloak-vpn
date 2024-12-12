@@ -34,6 +34,12 @@ class BuildVariables internal constructor(
     val version: String
         get() = kenv["version"].value
 
+    val appName: String
+        get() = kenv["appName"].value
+
+    val appDescription: String
+        get() = kenv["appDescription"].value
+
     /**
      * The Msi binary package version is very strict on what can be used as a version. They only support
      * MAJOR.MINOR.BUILD with numbers.

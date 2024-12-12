@@ -332,12 +332,12 @@ buildkonfig {
         buildConfigField(
             type = STRING,
             name = "appName",
-            value = AppConstants.name
+            value = buildVariables.appName
         )
         buildConfigField(
             type = STRING,
             name = "appDescription",
-            value = AppConstants.description
+            value = buildVariables.appDescription
         )
         buildConfigField(
             type = STRING,
