@@ -59,7 +59,7 @@ internal fun LandingLayout(
                         ),
                         scale = 1.5f
                     )
-                ).blur(100.dp)
+                )
         )
 
         Column(
