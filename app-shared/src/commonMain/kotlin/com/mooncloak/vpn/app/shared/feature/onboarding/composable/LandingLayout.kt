@@ -71,7 +71,7 @@ internal fun LandingLayout(
                 modifier = Modifier.padding(top = 48.dp)
                     .size(96.dp)
                     .clip(MaterialTheme.shapes.large)
-                    .background(MaterialTheme.colorScheme.background),
+                    .background(ColorPalette.MooncloakDarkPrimary),
                 painter = painterResource(Res.drawable.ic_logo_mooncloak),
                 contentDescription = null
             )
