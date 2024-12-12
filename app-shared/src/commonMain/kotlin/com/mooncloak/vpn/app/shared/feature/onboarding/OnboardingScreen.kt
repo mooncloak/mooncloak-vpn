@@ -44,6 +44,7 @@ public fun OnboardingScreen(
                 composable<OnboardingDestination.Landing> {
                     LandingLayout(
                         modifier = Modifier.fillMaxSize(),
+                        version = "1.0.0",
                         onStart = {
                             navController.navigate(OnboardingDestination.Tutorial)
                         }

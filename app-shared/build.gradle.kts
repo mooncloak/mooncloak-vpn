@@ -78,6 +78,11 @@ kotlin {
                 implementation("dev.chrisbanes.haze:haze:_")
                 implementation("dev.chrisbanes.haze:haze-materials:_")
 
+                // UI Shaders - HypnoticCanvas
+                // https://github.com/mikepenz/HypnoticCanvas
+                // Apache 2.0: https://github.com/mikepenz/HypnoticCanvas/blob/dev/LICENSE
+                implementation("com.mikepenz.hypnoticcanvas:hypnoticcanvas:_")
+
                 // UI Window Size Classes - material3-windowsizeclass-multiplatform
                 // https://github.com/chrisbanes/material3-windowsizeclass-multiplatform
                 implementation("dev.chrisbanes.material3:material3-window-size-class-multiplatform:_")

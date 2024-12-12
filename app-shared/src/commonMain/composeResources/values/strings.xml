@@ -3,6 +3,9 @@
     <string name="app_name">mooncloak VPN</string>
     <string name="app_description">Go dark, stay bright</string>
 
+    <string name="app_slogan_line_1">Go \nDark,</string>
+    <string name="app_slogan_line_2">Stay \nBright</string>
+
     <string name="destination_main_home_title">Home</string>
     <string name="destination_main_countries_title">Countries</string>
     <string name="destination_main_support_title">Support</string>
