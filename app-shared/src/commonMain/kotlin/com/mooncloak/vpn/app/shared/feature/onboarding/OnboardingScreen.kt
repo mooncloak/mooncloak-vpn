@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +34,10 @@ public fun OnboardingScreen(
     val viewModel = remember { componentDependencies.viewModel }
     val navController = rememberNavController()
 
+    LaunchedEffect(Unit) {
+        viewModel.load()
+    }
+
     Box(modifier = modifier) {
         CompositionLocalProvider(
             LocalNavController provides navController
@@ -44,7 +49,7 @@ public fun OnboardingScreen(
                 composable<OnboardingDestination.Landing> {
                     LandingLayout(
                         modifier = Modifier.fillMaxSize(),
-                        version = "1.0.0",
+                        version = viewModel.state.current.value.appVersion,
                         onStart = {
                             navController.navigate(OnboardingDestination.Tutorial)
                         }
