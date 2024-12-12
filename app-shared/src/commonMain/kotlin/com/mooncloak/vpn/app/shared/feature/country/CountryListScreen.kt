@@ -120,7 +120,7 @@ public fun CountryListScreen(
                 }
 
                 item(key = "BottomSpacing") {
-                    Spacer(modifier = Modifier.height(containerPaddingValues.calculateBottomPadding()))
+                    Spacer(modifier = Modifier.height(containerPaddingValues.calculateBottomPadding() + 28.dp))
                 }
             }
 

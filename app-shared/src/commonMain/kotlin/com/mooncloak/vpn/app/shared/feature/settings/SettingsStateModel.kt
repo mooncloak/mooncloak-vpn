@@ -4,6 +4,8 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 public data class SettingsStateModel public constructor(
+    public val appVersion: String? = null,
+    public val currentPlan: String? = null,
     public val privacyPolicyUri: String? = null,
     public val termsUri: String? = null,
     public val sourceCodeUri: String? = null,

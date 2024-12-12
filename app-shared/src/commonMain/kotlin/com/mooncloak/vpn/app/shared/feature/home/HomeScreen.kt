@@ -149,7 +149,7 @@ public fun HomeScreen(
             }
 
             item(key = "BottomSpacing") {
-                Spacer(modifier = Modifier.height(12.dp + containerPaddingValues.calculateBottomPadding()))
+                Spacer(modifier = Modifier.height(28.dp + containerPaddingValues.calculateBottomPadding()))
             }
         }
     }

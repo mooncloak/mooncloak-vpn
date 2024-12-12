@@ -25,10 +25,10 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val uriHandler = platformDefaultUriHandler()
+            val platformUriHandler = platformDefaultUriHandler()
             val applicationDependencies = ApplicationComponent.create(
                 activityContext = this,
-                uriHandler = uriHandler
+                uriHandler = platformUriHandler
             )
 
             // Disable logging if we are not in debug mode.
@@ -37,7 +37,8 @@ class MainActivity : BaseActivity() {
             }
 
             ApplicationRootScreen(
-                component = applicationDependencies
+                component = applicationDependencies,
+                uriHandler = platformUriHandler
             )
         }
     }

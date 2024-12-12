@@ -48,12 +48,18 @@ import com.mooncloak.vpn.app.shared.feature.settings.di.createSettingsComponent
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
+import com.mooncloak.vpn.app.shared.resource.global_not_available
+import com.mooncloak.vpn.app.shared.resource.settings_group_app
 import com.mooncloak.vpn.app.shared.resource.settings_group_legal
+import com.mooncloak.vpn.app.shared.resource.settings_group_subscription
 import com.mooncloak.vpn.app.shared.resource.settings_group_theme
+import com.mooncloak.vpn.app.shared.resource.settings_title_app_version
 import com.mooncloak.vpn.app.shared.resource.settings_title_code
+import com.mooncloak.vpn.app.shared.resource.settings_title_current_plan
 import com.mooncloak.vpn.app.shared.resource.settings_title_licenses
 import com.mooncloak.vpn.app.shared.resource.settings_title_privacy_policy
 import com.mooncloak.vpn.app.shared.resource.settings_title_terms
+import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -113,6 +119,30 @@ public fun SettingsScreen(
                 SettingsGroupLabel(
                     modifier = Modifier.padding(horizontal = 16.dp)
                         .padding(top = 32.dp),
+                    text = stringResource(Res.string.settings_group_subscription)
+                )
+
+                ListItem(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ListItemDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.background
+                    ),
+                    headlineContent = {
+                        Text(text = stringResource(Res.string.settings_title_current_plan))
+                    },
+                    supportingContent = (@Composable {
+                        Text(
+                            text = viewModel.state.current.value.currentPlan ?: "",
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
+                            )
+                        )
+                    }).takeIf { viewModel.state.current.value.currentPlan != null }
+                )
+
+                SettingsGroupLabel(
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                        .padding(top = 32.dp),
                     text = stringResource(Res.string.settings_group_theme)
                 )
 
@@ -127,6 +157,60 @@ public fun SettingsScreen(
                         }
                     }
                 )
+
+                SettingsGroupLabel(
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                        .padding(top = 32.dp),
+                    text = stringResource(Res.string.settings_group_app)
+                )
+
+                ListItem(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ListItemDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.background
+                    ),
+                    headlineContent = {
+                        Text(text = stringResource(Res.string.settings_title_app_version))
+                    },
+                    supportingContent = (@Composable {
+                        Text(
+                            text = viewModel.state.current.value.appVersion ?: "",
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        )
+                    }).takeIf { viewModel.state.current.value.appVersion != null }
+                )
+
+                ListItem(
+                    modifier = Modifier.fillMaxWidth()
+                        .clickable {
+                            coroutineScope.launch {
+                                bottomSheetState.show(SettingsBottomSheetDestination.DependencyLicenseList)
+                            }
+                        },
+                    colors = ListItemDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.background
+                    ),
+                    headlineContent = {
+                        Text(text = stringResource(Res.string.settings_title_licenses))
+                    }
+                )
+
+                viewModel.state.current.value.sourceCodeUri?.let { sourceCodeUri ->
+                    ListItem(
+                        modifier = Modifier.fillMaxWidth()
+                            .clickable {
+                                uriHandler.openUri(sourceCodeUri)
+                            },
+                        colors = ListItemDefaults.colors(
+                            containerColor = MaterialTheme.colorScheme.background
+                        ),
+                        headlineContent = {
+                            Text(text = stringResource(Res.string.settings_title_code))
+                        }
+                    )
+                }
 
                 SettingsGroupLabel(
                     modifier = Modifier.padding(horizontal = 16.dp)
@@ -164,37 +248,7 @@ public fun SettingsScreen(
                     )
                 }
 
-                ListItem(
-                    modifier = Modifier.fillMaxWidth()
-                        .clickable {
-                            coroutineScope.launch {
-                                bottomSheetState.show(SettingsBottomSheetDestination.DependencyLicenseList)
-                            }
-                        },
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    ),
-                    headlineContent = {
-                        Text(text = stringResource(Res.string.settings_title_licenses))
-                    }
-                )
-
-                viewModel.state.current.value.sourceCodeUri?.let { sourceCodeUri ->
-                    ListItem(
-                        modifier = Modifier.fillMaxWidth()
-                            .clickable {
-                                uriHandler.openUri(sourceCodeUri)
-                            },
-                        colors = ListItemDefaults.colors(
-                            containerColor = MaterialTheme.colorScheme.background
-                        ),
-                        headlineContent = {
-                            Text(text = stringResource(Res.string.settings_title_code))
-                        }
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(containerPaddingValues.calculateBottomPadding()))
+                Spacer(modifier = Modifier.height(containerPaddingValues.calculateBottomPadding() + 28.dp))
             }
 
             AnimatedVisibility(

@@ -94,11 +94,16 @@
 
     <string name="settings_group_legal">Legal</string>
     <string name="settings_title_privacy_policy">Privacy Policy</string>
-    <string name="settings_title_terms">Terms and conditions</string>
+    <string name="settings_title_terms">Terms and Conditions</string>
+    <string name="settings_group_theme">Theme</string>
+    <string name="settings_group_app">App</string>
+    <string name="settings_title_app_version">Version</string>
     <string name="settings_title_licenses">Open Source Licenses</string>
     <string name="settings_title_code">View Source Code</string>
+    <string name="settings_group_subscription">Subscription</string>
+    <string name="settings_title_current_plan">Current Plan</string>
 
-    <string name="settings_group_theme">Theme</string>
+    <string name="subscription_no_active_plan">No active plan</string>
 
     <string name="dependency_list_title_none_found">No dependencies found</string>
     <string name="dependency_list_description_none_found">There was an unexpected issue loading the dependency license list.</string>

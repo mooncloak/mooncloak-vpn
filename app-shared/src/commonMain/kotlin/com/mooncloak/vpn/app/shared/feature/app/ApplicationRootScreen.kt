@@ -13,6 +13,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,13 +37,15 @@ import com.mooncloak.vpn.app.shared.theme.ThemePreference
 @Composable
 public fun ApplicationRootScreen(
     component: ApplicationComponent,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    uriHandler: UriHandler = LocalUriHandler.current
 ) {
     val navController = rememberNavController()
 
     CompositionLocalProvider(
         LocalApplicationComponent provides component,
-        LocalNavController provides navController
+        LocalNavController provides navController,
+        LocalUriHandler provides uriHandler
     ) {
         val componentDependencies = rememberFeatureDependencies {
             FeatureDependencies.createApplicationRootComponent(
