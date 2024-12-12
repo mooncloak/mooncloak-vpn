@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -81,6 +82,7 @@ internal fun LandingLayout(
                     .padding(horizontal = 16.dp),
                 text = stringResource(Res.string.app_name),
                 style = MaterialTheme.typography.headlineLarge.copy(
+                    color = Color.Black,
                     fontWeight = FontWeight.Bold
                 ),
                 textAlign = TextAlign.Center
