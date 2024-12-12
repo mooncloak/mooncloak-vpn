@@ -81,13 +81,12 @@ public fun HomeScreen(
         LazyColumn(
             modifier = Modifier.fillMaxSize()
                 .haze(state = hazeState)
-                .padding(paddingValues)
                 .padding(horizontal = 12.dp),
             state = lazyListState,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             item(key = "TopSpacing") {
-                Spacer(modifier = Modifier.height(12.dp + containerPaddingValues.calculateTopPadding()))
+                Spacer(modifier = Modifier.height(paddingValues.calculateTopPadding() + containerPaddingValues.calculateTopPadding()))
             }
 
             items(

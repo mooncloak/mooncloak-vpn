@@ -61,7 +61,7 @@ internal fun HomeTitleBar(
     Surface(
         modifier = modifier.hazeChild(
             state = hazeState,
-            style = HazeMaterials.ultraThin(
+            style = HazeMaterials.regular(
                 containerColor = backgroundColor.value
             )
         ) {
