@@ -36,7 +36,7 @@ internal fun LandingLayout(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            modifier = Modifier.padding(top = 32.dp)
+            modifier = Modifier.padding(top = 48.dp)
                 .size(96.dp)
                 .clip(MaterialTheme.shapes.large)
                 .background(MaterialTheme.colorScheme.background),
@@ -45,14 +45,16 @@ internal fun LandingLayout(
         )
 
         Text(
-            modifier = Modifier.padding(top = 32.dp),
+            modifier = Modifier.padding(top = 32.dp)
+                .padding(horizontal = 16.dp),
             text = stringResource(Res.string.app_name),
             style = MaterialTheme.typography.headlineLarge,
             textAlign = TextAlign.Center
         )
 
         Text(
-            modifier = Modifier.padding(top = 8.dp),
+            modifier = Modifier.padding(top = 8.dp)
+                .padding(horizontal = 16.dp),
             text = stringResource(Res.string.app_description),
             style = MaterialTheme.typography.titleLarge.copy(color = LocalContentColor.current.copy(alpha = 0.68f)),
             maxLines = 2,
@@ -64,7 +66,7 @@ internal fun LandingLayout(
 
         Button(
             modifier = Modifier.fillMaxWidth()
-                .padding(vertical = 32.dp),
+                .padding(vertical = 32.dp, horizontal = 16.dp),
             onClick = onStart
         ) {
             Text(text = stringResource(Res.string.landing_action_start))

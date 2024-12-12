@@ -67,6 +67,7 @@ import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_data_creeps
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_subscriptions
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_tracking
 import com.mooncloak.vpn.app.shared.theme.ColorPalette
+import com.mooncloak.vpn.app.shared.theme.TertiaryAlpha
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -111,7 +112,9 @@ internal fun OnboardingLayout(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 8.dp)
+                .padding(top = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Spacer(modifier = Modifier.weight(1f))
@@ -134,7 +137,8 @@ internal fun OnboardingLayout(
             val item = items[pageIndex]
 
             OnboardScreen(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 icon = item.icon(),
                 title = item.title(),
                 description = item.description()
@@ -142,7 +146,9 @@ internal fun OnboardingLayout(
         }
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             val hasPrevious = derivedStateOf { pagerState.currentPage > 0 }
@@ -268,7 +274,11 @@ private fun Indicator(
             .width(width.value)
             .clip(CircleShape)
             .background(
-                color = if (selected) MaterialTheme.colorScheme.primary else Color(0XFFF8E2E7)
+                color = if (selected) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.primary.copy(alpha = TertiaryAlpha)
+                }
             )
     )
 }
