@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.server
+package com.mooncloak.vpn.app.shared.feature.server.details
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.LargeTopAppBar
@@ -12,7 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
-import com.mooncloak.vpn.app.shared.feature.server.di.createServerDetailsComponent
+import com.mooncloak.vpn.app.shared.feature.server.details.di.createServerDetailsComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
 import org.jetbrains.compose.resources.stringResource

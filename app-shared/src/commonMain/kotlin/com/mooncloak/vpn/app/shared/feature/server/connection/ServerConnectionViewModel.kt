@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.server
+package com.mooncloak.vpn.app.shared.feature.server.connection
 
 import androidx.compose.runtime.Stable
 import com.mooncloak.kodetools.konstruct.annotations.Inject
@@ -7,9 +7,9 @@ import com.mooncloak.vpn.app.shared.di.ComponentScoped
 
 @Stable
 @ComponentScoped
-public class ServerDetailsViewModel @Inject public constructor(
+public class ServerConnectionViewModel @Inject public constructor(
 
-) : ViewModel<ServerDetailsStateModel>(initialStateValue = ServerDetailsStateModel()) {
+) : ViewModel<ServerConnectionStateModel>(initialStateValue = ServerConnectionStateModel()) {
 
     public fun load() {
         // TODO
