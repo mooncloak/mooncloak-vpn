@@ -13,6 +13,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
     id("com.mikepenz.aboutlibraries.plugin")
+    id("app.cash.sqldelight")
     id("com.codingfeline.buildkonfig")
 }
 
@@ -152,6 +153,11 @@ kotlin {
                 // https://github.com/mikepenz/AboutLibraries
                 // Apache 2.0: https://github.com/mikepenz/AboutLibraries/blob/develop/LICENSE
                 implementation("com.mikepenz:aboutlibraries-compose-m3:_")
+
+                // Database - Sqlite - SqlDelight
+                // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
+                implementation("app.cash.sqldelight:coroutines-extensions:_")
+                implementation("app.cash.sqldelight:primitive-adapters:_")
             }
         }
 
@@ -184,6 +190,11 @@ kotlin {
 
                 // UI Previews
                 implementation(compose.preview)
+
+                // Database - Sqlite - SqlDelight
+                // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
+                implementation("app.cash.sqldelight:sqlite-driver:_")
+                implementation("app.cash.sqldelight:primitive-adapters:_")
             }
         }
 
@@ -215,6 +226,11 @@ kotlin {
                 // Android Permission Handling
                 // https://github.com/guolindev/PermissionX/blob/master/README.md
                 implementation("com.guolindev.permissionx:permissionx:_")
+
+                // Database - Sqlite - SqlDelight
+                // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
+                implementation("app.cash.sqldelight:android-driver:_")
+                implementation("app.cash.sqldelight:primitive-adapters:_")
             }
         }
 
@@ -348,5 +364,21 @@ buildkonfig {
             name = "appBuildTime",
             value = nowTimestamp()
         )
+    }
+}
+
+/**
+ * Creates and defines the core app database. This uses the SqlDelight library and Sqlite.
+ *
+ * @see [SqlDelight Documentation](https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/)
+ */
+sqldelight {
+    databases {
+        create("MooncloakDatabase") {
+            packageName.set("com.mooncloak.vpn.app.storage.sqlite.database")
+            srcDirs("src/commonMain/sqldelight")
+            schemaOutputDirectory.set(file("src/commonMain/sqldelight/databases"))
+            verifyMigrations.set(false)
+        }
     }
 }
