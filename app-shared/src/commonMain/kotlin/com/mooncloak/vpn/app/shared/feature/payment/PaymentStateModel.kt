@@ -5,6 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.text.AnnotatedString
 import com.mooncloak.vpn.app.shared.api.BitcoinPlanInvoice
 import com.mooncloak.vpn.app.shared.api.Plan
+import com.mooncloak.vpn.app.shared.api.PlanPaymentStatus
 import com.mooncloak.vpn.app.shared.feature.payment.model.PaymentDestination
 
 @Immutable
@@ -16,6 +17,7 @@ public data class PaymentStateModel public constructor(
     public val acceptedTerms: Boolean = false,
     public val termsAndConditionsText: @Composable () -> AnnotatedString = { AnnotatedString("") },
     public val invoice: BitcoinPlanInvoice? = null,
+    public val paymentStatus: PlanPaymentStatus? = null,
     public val isLoading: Boolean = false,
     public val errorMessage: String? = null
 )

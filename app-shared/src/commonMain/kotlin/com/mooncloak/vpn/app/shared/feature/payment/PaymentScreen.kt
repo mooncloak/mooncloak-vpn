@@ -31,6 +31,7 @@ import com.mooncloak.vpn.app.shared.feature.payment.di.createPaymentComponent
 import com.mooncloak.vpn.app.shared.feature.payment.model.PaymentDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.payment_plans_title
+import com.mooncloak.vpn.app.shared.resource.payment_status_pending
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -104,7 +105,11 @@ public fun PaymentScreen(
                             modifier = Modifier.fillMaxSize()
                                 .padding(horizontal = 16.dp)
                                 .verticalScroll(scrollState),
-                            uri = viewModel.state.current.value.invoice?.uri ?: ""
+                            uri = viewModel.state.current.value.invoice?.uri ?: "",
+                            paymentStatusTitle = viewModel.state.current.value.paymentStatus?.title
+                                ?: stringResource(Res.string.payment_status_pending),
+                            paymentStatusDescription = viewModel.state.current.value.paymentStatus?.description,
+                            address = viewModel.state.current.value.invoice?.address
                         )
                     }
                 }

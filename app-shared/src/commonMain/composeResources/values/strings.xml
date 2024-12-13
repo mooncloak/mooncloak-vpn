@@ -116,5 +116,8 @@
     <string name="payment_link_text_terms">terms</string>
     <string name="payment_link_text_privacy_policy">privacy policy</string>
     <string name="payment_qr_scan_label">Scan to pay with your crypto wallet app.</string>
+    <string name="payment_bitcoin_address_label">Bitcoin Address</string>
+    <string name="payment_status_label">Payment Status</string>
+    <string name="payment_status_pending">Pending Payment</string>
 
 </resources>

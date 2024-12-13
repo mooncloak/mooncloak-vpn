@@ -15,6 +15,7 @@ import com.mooncloak.vpn.app.shared.api.BitcoinPlanInvoice
 import com.mooncloak.vpn.app.shared.api.Currency
 import com.mooncloak.vpn.app.shared.api.CurrencyType
 import com.mooncloak.vpn.app.shared.api.Plan
+import com.mooncloak.vpn.app.shared.api.PlanPaymentStatus
 import com.mooncloak.vpn.app.shared.api.Price
 import com.mooncloak.vpn.app.shared.api.TransactionToken
 import com.mooncloak.vpn.app.shared.di.ComponentScoped
@@ -159,6 +160,7 @@ public class PaymentViewModel @Inject public constructor(
                                 token = TransactionToken(value = "123"),
                                 created = Clock.System.now(),
                                 uri = "https://mooncloak.com/testinginvoice",
+                                address = "123",
                                 amount = Price(
                                     currency = Currency(
                                         type = CurrencyType.Crypto,
@@ -167,6 +169,11 @@ public class PaymentViewModel @Inject public constructor(
                                     amount = 1,
                                     formatted = "B 0.00000000001"
                                 )
+                            ),
+                            paymentStatus = PlanPaymentStatus.Pending(
+                                invoiceId = "123",
+                                title = "Pending Payment",
+                                timestamp = Clock.System.now()
                             ),
                             screenTitle = getString(Res.string.payment_title)
                         )
