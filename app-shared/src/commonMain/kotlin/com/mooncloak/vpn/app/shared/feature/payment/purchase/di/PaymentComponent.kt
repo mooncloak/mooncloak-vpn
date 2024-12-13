@@ -1,10 +1,10 @@
-package com.mooncloak.vpn.app.shared.feature.payment.di
+package com.mooncloak.vpn.app.shared.feature.payment.purchase.di
 
 import androidx.navigation.NavController
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.ComponentScoped
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
-import com.mooncloak.vpn.app.shared.feature.payment.PaymentViewModel
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentViewModel
 
 @ComponentScoped
 internal abstract class PaymentComponent internal constructor() : FeatureDependencies {

@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheet
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeBottomSheetDestination
-import com.mooncloak.vpn.app.shared.feature.payment.PaymentScreen
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.server.details.ServerDetailsScreen
 
 @Composable

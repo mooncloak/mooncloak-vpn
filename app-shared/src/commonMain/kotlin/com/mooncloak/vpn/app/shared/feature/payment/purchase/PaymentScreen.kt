@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.payment
+package com.mooncloak.vpn.app.shared.feature.payment.purchase
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
@@ -26,12 +26,11 @@ import androidx.navigation.compose.rememberNavController
 import com.mooncloak.vpn.app.shared.api.PlanPaymentStatus
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
-import com.mooncloak.vpn.app.shared.feature.payment.composable.BitcoinInvoiceLayout
-import com.mooncloak.vpn.app.shared.feature.payment.composable.PlansLayout
-import com.mooncloak.vpn.app.shared.feature.payment.di.createPaymentComponent
-import com.mooncloak.vpn.app.shared.feature.payment.model.PaymentDestination
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.composable.BitcoinInvoiceLayout
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.composable.PlansLayout
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.di.createPaymentComponent
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.model.PaymentDestination
 import com.mooncloak.vpn.app.shared.resource.Res
-import com.mooncloak.vpn.app.shared.resource.payment_plans_title
 import com.mooncloak.vpn.app.shared.resource.payment_status_pending
 import org.jetbrains.compose.resources.stringResource
 

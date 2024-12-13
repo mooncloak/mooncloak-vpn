@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.payment.composable
+package com.mooncloak.vpn.app.shared.feature.payment.purchase.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border

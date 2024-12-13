@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.payment.model
+package com.mooncloak.vpn.app.shared.feature.payment.purchase.model
 
 import androidx.compose.runtime.Immutable
 import kotlinx.serialization.SerialName

@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.payment.di
+package com.mooncloak.vpn.app.shared.feature.payment.purchase.di
 
 import androidx.navigation.NavController
 import com.mooncloak.kodetools.konstruct.annotations.Component
@@ -9,7 +9,7 @@ import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 
 @Component
 @ComponentScoped
-internal abstract class JvmPaymentComponent internal constructor(
+internal abstract class AndroidPaymentComponent internal constructor(
     @Component internal val applicationDependencies: ApplicationComponent,
     @get:Provides override val navController: NavController
 ) : PaymentComponent()
@@ -17,7 +17,7 @@ internal abstract class JvmPaymentComponent internal constructor(
 internal actual fun FeatureDependencies.Companion.createPaymentComponent(
     applicationDependencies: ApplicationComponent,
     navController: NavController
-): PaymentComponent = JvmPaymentComponent::class.create(
+): PaymentComponent = AndroidPaymentComponent::class.create(
     applicationDependencies = applicationDependencies,
     navController = navController
 )

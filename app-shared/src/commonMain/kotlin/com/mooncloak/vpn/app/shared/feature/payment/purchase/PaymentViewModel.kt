@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.payment
+package com.mooncloak.vpn.app.shared.feature.payment.purchase
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -20,7 +20,7 @@ import com.mooncloak.vpn.app.shared.api.Price
 import com.mooncloak.vpn.app.shared.api.TransactionToken
 import com.mooncloak.vpn.app.shared.di.ComponentScoped
 import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
-import com.mooncloak.vpn.app.shared.feature.payment.model.PaymentDestination
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.model.PaymentDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.resource.payment_accept_terms_and_conditions

@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.payment
+package com.mooncloak.vpn.app.shared.feature.payment.purchase
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -6,7 +6,7 @@ import androidx.compose.ui.text.AnnotatedString
 import com.mooncloak.vpn.app.shared.api.BitcoinPlanInvoice
 import com.mooncloak.vpn.app.shared.api.Plan
 import com.mooncloak.vpn.app.shared.api.PlanPaymentStatus
-import com.mooncloak.vpn.app.shared.feature.payment.model.PaymentDestination
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.model.PaymentDestination
 
 @Immutable
 public data class PaymentStateModel public constructor(
