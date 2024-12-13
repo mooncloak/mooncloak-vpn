@@ -1,0 +1,25 @@
+import kotlinx.datetime.Instant;
+
+CREATE TABLE PlanInvoice (
+    databaseId INTEGER PRIMARY KEY NOT NULL,
+    id TEXT NOT NULL,
+    type TEXT NOT NULL,
+    planId TEXT NOT NULL,
+    token TEXT NOT NULL,
+    created INTEGER AS Instant NOT NULL,
+    uri TEXT NOT NULL,
+    self TEXT,
+    address TEXT,
+    label TEXT,
+    message TEXT,
+    amount INTEGER NOT NULL,
+    amountFormatted TEXT,
+    currencyType TEXT NOT NULL,
+    currencyCode TEXT NOT NULL,
+    currencyDefaultFractionDigits INTEGER,
+    currencyNumericCode INTEGER,
+    currencySymbol TEXT
+);
+
+CREATE INDEX PlanInvoice_id_index ON PlanInvoice(id);
+CREATE INDEX PlanInvoice_plan_id_index ON PlanInvoice(planId);
