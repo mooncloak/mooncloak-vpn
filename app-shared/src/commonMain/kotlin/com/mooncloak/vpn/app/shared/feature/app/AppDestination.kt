@@ -103,7 +103,6 @@ public sealed interface RootDestination : AppDestination {
     }
 }
 
-
 @Immutable
 @Serializable
 public sealed interface OnboardingDestination : AppDestination {

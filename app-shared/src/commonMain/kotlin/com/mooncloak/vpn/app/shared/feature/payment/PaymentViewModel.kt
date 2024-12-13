@@ -8,27 +8,36 @@ import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.navigation.NavController
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.ViewModel
+import com.mooncloak.vpn.app.shared.api.BitcoinPlanInvoice
 import com.mooncloak.vpn.app.shared.api.Currency
 import com.mooncloak.vpn.app.shared.api.CurrencyType
 import com.mooncloak.vpn.app.shared.api.Plan
 import com.mooncloak.vpn.app.shared.api.Price
+import com.mooncloak.vpn.app.shared.api.TransactionToken
 import com.mooncloak.vpn.app.shared.di.ComponentScoped
 import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
+import com.mooncloak.vpn.app.shared.feature.payment.model.PaymentDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.resource.payment_accept_terms_and_conditions
 import com.mooncloak.vpn.app.shared.resource.payment_link_text_privacy_policy
 import com.mooncloak.vpn.app.shared.resource.payment_link_text_terms
+import com.mooncloak.vpn.app.shared.resource.payment_plans_title
+import com.mooncloak.vpn.app.shared.resource.payment_title
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.getString
 
 @Stable
 @ComponentScoped
 public class PaymentViewModel @Inject public constructor(
-    private val appClientInfo: AppClientInfo
+    private val appClientInfo: AppClientInfo,
+    private val navController: NavController
 ) : ViewModel<PaymentStateModel>(initialStateValue = PaymentStateModel()) {
 
     private val testPlans = listOf(
@@ -68,49 +77,116 @@ public class PaymentViewModel @Inject public constructor(
         )
     )
 
+    private val mutex = Mutex(locked = false)
+
     public fun load() {
         coroutineScope.launch {
-            emit(value = state.current.value.copy(isLoading = true))
+            mutex.withLock {
+                emit(value = state.current.value.copy(isLoading = true))
 
-            var termsAndConditionsText: (@Composable () -> AnnotatedString) = { AnnotatedString("") }
+                var termsAndConditionsText: (@Composable () -> AnnotatedString) = { AnnotatedString("") }
 
-            try {
-                termsAndConditionsText = getTermsAndConditionsText()
+                try {
+                    termsAndConditionsText = getTermsAndConditionsText()
 
-                emit(
-                    value = state.current.value.copy(
-                        isLoading = false,
-                        errorMessage = null,
-                        plans = testPlans,
-                        termsAndConditionsText = termsAndConditionsText
+                    // TODO: Load real plans
+                    // TODO: Obtain current plan invoice
+                    // TODO: Use presence of plan invoice to determine whether to show plans or invoice screen
+
+                    emit(
+                        value = state.current.value.copy(
+                            isLoading = false,
+                            errorMessage = null,
+                            plans = testPlans,
+                            termsAndConditionsText = termsAndConditionsText,
+                            startDestination = PaymentDestination.Plans, // TODO:
+                            screenTitle = getString(Res.string.payment_plans_title)
+                        )
                     )
-                )
-            } catch (e: Exception) {
+                } catch (e: Exception) {
+                    emit(
+                        value = state.current.value.copy(
+                            isLoading = false,
+                            errorMessage = e.message ?: getString(Res.string.global_unexpected_error),
+                            termsAndConditionsText = termsAndConditionsText,
+                            startDestination = PaymentDestination.Plans
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    public fun selectPlan(plan: Plan) {
+        coroutineScope.launch {
+            mutex.withLock {
                 emit(
                     value = state.current.value.copy(
-                        isLoading = false,
-                        errorMessage = e.message ?: getString(Res.string.global_unexpected_error),
-                        termsAndConditionsText = termsAndConditionsText
+                        selectedPlan = if (plan == state.current.value.selectedPlan) null else plan
                     )
                 )
             }
         }
     }
 
-    public fun selectPlan(plan: Plan) {
-        emit(
-            value = state.current.value.copy(
-                selectedPlan = plan
-            )
-        )
+    public fun toggleAcceptTerms(accepted: Boolean) {
+        coroutineScope.launch {
+            mutex.withLock {
+                emit(
+                    value = state.current.value.copy(
+                        acceptedTerms = accepted
+                    )
+                )
+            }
+        }
     }
 
-    public fun toggleAcceptTerms(accepted: Boolean) {
-        emit(
-            value = state.current.value.copy(
-                acceptedTerms = accepted
-            )
-        )
+    public fun createInvoice() {
+        coroutineScope.launch {
+            mutex.withLock {
+                try {
+                    emit(value = state.current.value.copy(isLoading = true))
+
+                    // TODO: Create new plan invoice
+
+                    emit(
+                        value = state.current.value.copy(
+                            isLoading = false,
+                            errorMessage = null,
+                            invoice = BitcoinPlanInvoice( // TODO: Remove test plan data
+                                id = "123",
+                                planId = "123",
+                                token = TransactionToken(value = "123"),
+                                created = Clock.System.now(),
+                                uri = "https://mooncloak.com/testinginvoice",
+                                amount = Price(
+                                    currency = Currency(
+                                        type = CurrencyType.Crypto,
+                                        code = "B"
+                                    ),
+                                    amount = 1,
+                                    formatted = "B 0.00000000001"
+                                )
+                            ),
+                            screenTitle = getString(Res.string.payment_title)
+                        )
+                    )
+
+                    navController.navigate(PaymentDestination.Invoice) {
+                        popUpTo(PaymentDestination.Plans) {
+                            inclusive = true
+                        }
+                    }
+                } catch (e: Exception) {
+                    emit(
+                        value = state.current.value.copy(
+                            isLoading = false,
+                            errorMessage = e.message ?: getString(Res.string.global_unexpected_error)
+                        )
+                    )
+                }
+            }
+        }
     }
 
     private suspend fun getTermsAndConditionsText(): (@Composable () -> AnnotatedString) {
