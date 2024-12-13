@@ -10,6 +10,8 @@ import kotlinx.serialization.Serializable
  *
  * @property [id] A unique identifier for this service plan.
  *
+ * @property [planId] The identifier of the [Plan] associated with this [ServiceSubscription].
+ *
  * @property [created] The [Instant] that this plan was first purchased.
  *
  * @property [boosted] The [Instant] that this plan was last boosted. "Boosting" is extending a plan.
@@ -24,6 +26,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class ServiceSubscription public constructor(
     @SerialName(value = "id") public val id: String,
+    @SerialName(value = "plan_id") public val planId: String,
     @SerialName(value = "created") public val created: Instant,
     @SerialName(value = "boosted") public val boosted: Instant,
     @SerialName(value = "expiration") public val expiration: Instant,

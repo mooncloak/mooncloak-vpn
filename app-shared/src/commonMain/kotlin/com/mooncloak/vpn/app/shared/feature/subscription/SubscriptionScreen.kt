@@ -3,6 +3,7 @@ package com.mooncloak.vpn.app.shared.feature.subscription
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -17,8 +18,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.subscription.composable.ActiveSubscriptionLayout
+import com.mooncloak.vpn.app.shared.feature.subscription.composable.NoActiveSubscriptionLayout
 import com.mooncloak.vpn.app.shared.feature.subscription.di.createSubscriptionComponent
 
 @Composable
@@ -50,6 +54,28 @@ public fun SubscriptionScreen(
                 .padding(paddingValues)
         ) {
             // TODO: Subscription UI
+
+            /*
+            NoActiveSubscriptionLayout(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                onProtect = {
+
+                }
+            )*/
+
+            ActiveSubscriptionLayout(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                planTitle = "The One Day Plan",
+                planDescription = "Access to a private and secure VPN for one day.",
+                subscriptionPurchased = "Today",
+                subscriptionExpiration = "Tomorrow",
+                subscriptionTotalData = "1 Gb",
+                subscriptionRemainingDuration = "< 1 Day",
+                subscriptionRemainingData = "500 Mb",
+                onBoost = {}
+            )
 
             AnimatedVisibility(
                 modifier = Modifier.align(Alignment.Center),
