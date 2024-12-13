@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.Plan
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -25,6 +26,7 @@ internal fun PlansLayout(
     selectedPlan: Plan?,
     plans: List<Plan>,
     acceptedTerms: Boolean,
+    termsAndConditionsText: AnnotatedString,
     onPlanSelected: (plan: Plan) -> Unit,
     onAcceptedTermsToggled: (accepted: Boolean) -> Unit,
     onSelect: () -> Unit,
@@ -73,7 +75,7 @@ internal fun PlansLayout(
 
                 Text(
                     modifier = Modifier.padding(start = 16.dp),
-                    text = "I have read and accepted the terms and conditions"
+                    text = termsAndConditionsText
                 )
             }
         }
