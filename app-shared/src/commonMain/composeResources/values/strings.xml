@@ -133,4 +133,6 @@
     <string name="payment_status_label">Payment Status</string>
     <string name="payment_status_pending">Pending Payment</string>
 
+    <string name="payment_history_title">Payment History</string>
+
 </resources>
