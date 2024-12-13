@@ -50,7 +50,7 @@ public data class BitcoinPlanInvoice public constructor(
     @SerialName(value = "plan_id") public val planId: String,
     @SerialName(value = "token") public val token: TransactionToken,
     @SerialName(value = "created") public val created: Instant,
-    @SerialName(value = "uri") public val uri: String? = null,
+    @SerialName(value = "uri") public val uri: String,
     @SerialName(value = "self") public val self: String? = null,
     @SerialName(value = "amount") public val amount: Price,
     @SerialName(value = "address") public val address: String? = null,

@@ -102,7 +102,9 @@ public fun PaymentScreen(
                     composable<PaymentDestination.Invoice> {
                         BitcoinInvoiceLayout(
                             modifier = Modifier.fillMaxSize()
-                                .verticalScroll(scrollState)
+                                .padding(horizontal = 16.dp)
+                                .verticalScroll(scrollState),
+                            uri = viewModel.state.current.value.invoice?.uri ?: ""
                         )
                     }
                 }

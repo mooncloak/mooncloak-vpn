@@ -115,5 +115,6 @@
     <string name="payment_accept_terms_and_conditions">I have read and accepted the terms and privacy policy.</string>
     <string name="payment_link_text_terms">terms</string>
     <string name="payment_link_text_privacy_policy">privacy policy</string>
+    <string name="payment_qr_scan_label">Scan to pay with your crypto wallet app.</string>
 
 </resources>
