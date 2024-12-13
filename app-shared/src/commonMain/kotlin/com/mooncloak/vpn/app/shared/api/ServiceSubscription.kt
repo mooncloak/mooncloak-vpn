@@ -28,7 +28,7 @@ public data class ServiceSubscription public constructor(
     @SerialName(value = "id") public val id: String,
     @SerialName(value = "plan_id") public val planId: String,
     @SerialName(value = "created") public val created: Instant,
-    @SerialName(value = "boosted") public val boosted: Instant,
+    @SerialName(value = "boosted") public val boosted: Instant? = null,
     @SerialName(value = "expiration") public val expiration: Instant,
     @SerialName(value = "boosts") public val boostCount: Int? = null,
     @SerialName(value = "bytes") public val byteCount: Long? = null
