@@ -50,7 +50,7 @@ public fun HomeScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-    val bottomSheetState = rememberModalNavigationBottomSheetState()
+    val bottomSheetState = rememberModalNavigationBottomSheetState<HomeBottomSheetDestination>()
     val hazeState = remember { HazeState() }
 
     LaunchedEffect(Unit) {
@@ -110,7 +110,7 @@ public fun HomeScreen(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = {
                             coroutineScope.launch {
-                                bottomSheetState.show(route = HomeBottomSheetDestination.Payment)
+                                bottomSheetState.show(destination = HomeBottomSheetDestination.Payment)
                             }
                         }
                     )

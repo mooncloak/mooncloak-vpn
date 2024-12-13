@@ -10,11 +10,6 @@ internal sealed interface HomeBottomSheetDestination {
 
     @Immutable
     @Serializable
-    @SerialName(value = "empty")
-    data object Empty : HomeBottomSheetDestination
-
-    @Immutable
-    @Serializable
     @SerialName(value = "payment")
     data object Payment : HomeBottomSheetDestination
 

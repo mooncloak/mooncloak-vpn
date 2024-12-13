@@ -110,10 +110,6 @@ internal fun MooncloakModalBottomSheet(
             properties = properties,
             content = content
         )
-
-        LaunchedEffect(sheetState.taskQueue) {
-            sheetState.executeTasks()
-        }
     }
 }
 
@@ -134,6 +130,7 @@ internal fun rememberMooncloakModalBottomSheetState(
     }
 }
 
+@Suppress("unused")
 @Composable
 internal fun rememberMooncloakModalBottomSheetState(
     sheetState: SheetState
@@ -160,28 +157,6 @@ internal class MooncloakModalBottomSheetState internal constructor(
     internal fun updateAttached(isAttached: Boolean) {
         if (isAttached != mutableIsAttached.value) {
             mutableIsAttached.value = isAttached
-        }
-    }
-
-    private val mutableTaskQueue = mutableStateListOf<suspend () -> Unit>()
-
-    internal val taskQueue: List<suspend () -> Unit> = mutableTaskQueue
-
-    suspend fun enqueueTask(task: suspend () -> Unit) {
-        mutex.withLock {
-            mutableTaskQueue.add(task)
-        }
-    }
-
-    suspend fun executeTasks() {
-        if (mutableTaskQueue.isNotEmpty()) {
-            while (mutableTaskQueue.isNotEmpty()) {
-                val task = mutex.withLock { mutableTaskQueue.removeAt(0) }
-
-                taskMutex.withLock {
-                    task.invoke()
-                }
-            }
         }
     }
 
@@ -235,9 +210,6 @@ internal class MooncloakModalBottomSheetState internal constructor(
     val hasPartiallyExpandedState: Boolean
         get() = sheetState.hasPartiallyExpandedState
 
-    private val mutex = Mutex(locked = false)
-    private val taskMutex = Mutex(locked = false)
-
     /**
      * Fully expand the bottom sheet with animation and suspend until it is fully expanded or
      * animation has been cancelled.
@@ -246,11 +218,9 @@ internal class MooncloakModalBottomSheetState internal constructor(
      * @throws [CancellationException] if the animation is interrupted
      */
     suspend fun expand() {
-        mutex.withLock {
-            mutableIsAttached.value = true
+        mutableIsAttached.value = true
 
-            sheetState.expand()
-        }
+        sheetState.expand()
     }
 
     /**
@@ -261,11 +231,9 @@ internal class MooncloakModalBottomSheetState internal constructor(
      * @throws [IllegalStateException] if [skipPartiallyExpanded] is set to true
      */
     suspend fun partialExpand() {
-        mutex.withLock {
-            mutableIsAttached.value = true
+        mutableIsAttached.value = true
 
-            sheetState.partialExpand()
-        }
+        sheetState.partialExpand()
     }
 
     /**
@@ -275,11 +243,9 @@ internal class MooncloakModalBottomSheetState internal constructor(
      * @throws [CancellationException] if the animation is interrupted
      */
     suspend fun show() {
-        mutex.withLock {
-            mutableIsAttached.value = true
+        mutableIsAttached.value = true
 
-            sheetState.show()
-        }
+        sheetState.show()
     }
 
     /**
@@ -289,10 +255,8 @@ internal class MooncloakModalBottomSheetState internal constructor(
      * @throws [CancellationException] if the animation is interrupted
      */
     suspend fun hide() {
-        mutex.withLock {
-            sheetState.hide()
+        sheetState.hide()
 
-            mutableIsAttached.value = false
-        }
+        mutableIsAttached.value = false
     }
 }
