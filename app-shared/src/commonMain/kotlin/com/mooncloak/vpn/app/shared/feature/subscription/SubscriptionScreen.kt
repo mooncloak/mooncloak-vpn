@@ -5,24 +5,22 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.subscription.composable.ActiveSubscriptionLayout
-import com.mooncloak.vpn.app.shared.feature.subscription.composable.NoActiveSubscriptionLayout
 import com.mooncloak.vpn.app.shared.feature.subscription.di.createSubscriptionComponent
 
 @Composable
@@ -34,15 +32,13 @@ public fun SubscriptionScreen(
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }
-    val topAppBarState = rememberTopAppBarState()
-    val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
 
     LaunchedEffect(Unit) {
         viewModel.load()
     }
 
     Scaffold(
-        modifier = modifier.nestedScroll(topAppBarBehavior.nestedScrollConnection),
+        modifier = modifier,
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         },
@@ -66,6 +62,7 @@ public fun SubscriptionScreen(
 
             ActiveSubscriptionLayout(
                 modifier = Modifier.fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
                     .padding(horizontal = 16.dp),
                 planTitle = "The One Day Plan",
                 planDescription = "Access to a private and secure VPN for one day.",
@@ -74,7 +71,10 @@ public fun SubscriptionScreen(
                 subscriptionTotalData = "1 Gb",
                 subscriptionRemainingDuration = "< 1 Day",
                 subscriptionRemainingData = "500 Mb",
-                onBoost = {}
+                lastPaymentTitle = "The One Day Plan - $5",
+                lastPaymentDescription = "Purchased yesterday",
+                onBoost = {},
+                onViewPaymentHistory = {}
             )
 
             AnimatedVisibility(

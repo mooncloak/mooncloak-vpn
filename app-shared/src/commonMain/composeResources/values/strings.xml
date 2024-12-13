@@ -116,6 +116,8 @@
     <string name="subscription_field_total_bytes">Total Bytes</string>
     <string name="subscription_label_usage">Current Usage</string>
     <string name="subscription_label_remaining">Remaining</string>
+    <string name="subscription_label_payment_history">Payment History</string>
+    <string name="subscription_action_payment_view_all">View All</string>
 
     <string name="dependency_list_title_none_found">No dependencies found</string>
     <string name="dependency_list_description_none_found">There was an unexpected issue loading the dependency license list.</string>

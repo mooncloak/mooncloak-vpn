@@ -27,6 +27,7 @@ import com.mooncloak.vpn.app.shared.resource.subscription_action_boost
 import com.mooncloak.vpn.app.shared.resource.subscription_field_expiration
 import com.mooncloak.vpn.app.shared.resource.subscription_field_purchased
 import com.mooncloak.vpn.app.shared.resource.subscription_field_total_bytes
+import com.mooncloak.vpn.app.shared.resource.subscription_label_payment_history
 import com.mooncloak.vpn.app.shared.resource.subscription_label_plan_details
 import com.mooncloak.vpn.app.shared.resource.subscription_label_usage
 import com.mooncloak.vpn.app.shared.resource.subscription_title_active_plan
@@ -42,6 +43,9 @@ internal fun ActiveSubscriptionLayout(
     subscriptionTotalData: String?,
     subscriptionRemainingDuration: String?,
     subscriptionRemainingData: String?,
+    lastPaymentTitle: String?,
+    lastPaymentDescription: String?,
+    onViewPaymentHistory: () -> Unit,
     onBoost: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -83,7 +87,9 @@ internal fun ActiveSubscriptionLayout(
             text = stringResource(Res.string.subscription_label_plan_details),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.labelLarge.copy(color = MaterialTheme.colorScheme.primary)
+            style = MaterialTheme.typography.labelLarge.copy(
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
+            )
         )
 
         DetailsContainer(
@@ -101,7 +107,9 @@ internal fun ActiveSubscriptionLayout(
             text = stringResource(Res.string.subscription_label_usage),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.labelLarge.copy(color = MaterialTheme.colorScheme.primary)
+            style = MaterialTheme.typography.labelLarge.copy(
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
+            )
         )
 
         PlanUsageCard(
@@ -111,9 +119,31 @@ internal fun ActiveSubscriptionLayout(
             bytesRemaining = subscriptionRemainingData ?: stringResource(Res.string.global_not_available)
         )
 
+        if (lastPaymentTitle != null) {
+            Text(
+                modifier = Modifier.wrapContentSize()
+                    .align(Alignment.Start)
+                    .padding(top = 32.dp),
+                text = stringResource(Res.string.subscription_label_payment_history),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.labelLarge.copy(
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
+                )
+            )
+
+            PaymentHistoryCard(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top = 16.dp),
+                title = lastPaymentTitle,
+                description = lastPaymentDescription,
+                onViewAll = onViewPaymentHistory
+            )
+        }
+
         Button(
             modifier = Modifier.fillMaxWidth()
-                .padding(top = 32.dp),
+                .padding(top = 32.dp, bottom = 16.dp),
             onClick = onBoost
         ) {
             Text(
