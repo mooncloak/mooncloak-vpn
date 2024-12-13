@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Support
+import androidx.compose.material.icons.filled.SupportAgent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.painter.Painter
@@ -189,7 +190,7 @@ public sealed interface MainDestination : AppDestination {
 
         override val icon: Painter
             @Composable
-            get() = rememberVectorPainter(Icons.Default.Support)
+            get() = rememberVectorPainter(Icons.Default.SupportAgent)
     }
 
     @Serializable
