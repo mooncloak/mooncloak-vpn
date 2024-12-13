@@ -1,12 +1,18 @@
 package com.mooncloak.vpn.app.shared.feature.app
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -56,6 +62,7 @@ public fun ApplicationRootScreen(
         val viewModel = remember { componentDependencies.viewModel }
         val imageLoaderFactory = remember(component) { component.imageLoaderFactory }
         val preferencesStorage = rememberApplicationDependency { preferencesStorage }
+        val snackbarHostState = remember { SnackbarHostState() }
 
         LaunchedEffect(Unit) {
             viewModel.load()
@@ -68,38 +75,62 @@ public fun ApplicationRootScreen(
         MooncloakTheme(
             themePreference = preferencesStorage.theme.current.value ?: ThemePreference.System
         ) {
-            Surface(modifier = modifier) {
-                Column(
-                    modifier = Modifier.sizeIn(
-                        maxWidth = 600.dp,
-                        maxHeight = 800.dp
-                    ).fillMaxWidth()
+            Scaffold(
+                modifier = modifier,
+                snackbarHost = {
+                    SnackbarHost(hostState = snackbarHostState)
+                }
+            ) { paddingValues ->
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                        .padding(paddingValues),
+                    contentAlignment = Alignment.Center
                 ) {
-                    NavHost(
-                        navController = navController,
-                        startDestination = viewModel.state.current.value.startDestination
+                    Column(
+                        modifier = Modifier.sizeIn(
+                            maxWidth = 600.dp,
+                            maxHeight = 800.dp
+                        ).fillMaxWidth()
                     ) {
-                        composable<RootDestination.Splash> {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                CircularProgressIndicator()
+                        AnimatedVisibility(
+                            visible = viewModel.state.current.value.startDestination != null,
+                            enter = fadeIn(),
+                            exit = fadeOut()
+                        ) {
+                            viewModel.state.current.value.startDestination?.let { startDestination ->
+                                NavHost(
+                                    navController = navController,
+                                    startDestination = startDestination
+                                ) {
+                                    composable<RootDestination.Onboarding> {
+                                        OnboardingScreen(
+                                            modifier = Modifier.fillMaxSize(),
+                                            onFinish = {
+                                                viewModel.finishOnboarding()
+                                            }
+                                        )
+                                    }
+                                    composable<RootDestination.Main> {
+                                        MainScreen(modifier = Modifier.fillMaxSize())
+                                    }
+                                }
                             }
                         }
-                        composable<RootDestination.Onboarding> {
-                            OnboardingScreen(
-                                modifier = Modifier.fillMaxSize(),
-                                onFinish = {
-                                    viewModel.finishOnboarding()
-                                }
-                            )
-                        }
-                        composable<RootDestination.Main> {
-                            MainScreen(modifier = Modifier.fillMaxSize())
-                        }
+                    }
+
+                    AnimatedVisibility(
+                        modifier = Modifier.align(Alignment.Center),
+                        visible = viewModel.state.current.value.isLoading
+                    ) {
+                        CircularProgressIndicator()
                     }
                 }
+            }
+        }
+
+        LaunchedEffect(viewModel.state.current.value.errorMessage) {
+            viewModel.state.current.value.errorMessage?.let { errorMessage ->
+                snackbarHostState.showSnackbar(message = errorMessage)
             }
         }
     }

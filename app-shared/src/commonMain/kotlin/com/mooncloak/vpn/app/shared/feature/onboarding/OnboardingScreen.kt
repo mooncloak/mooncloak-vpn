@@ -51,7 +51,11 @@ public fun OnboardingScreen(
                         modifier = Modifier.fillMaxSize(),
                         version = viewModel.state.current.value.appVersion,
                         onStart = {
-                            navController.navigate(OnboardingDestination.Tutorial)
+                            navController.navigate(OnboardingDestination.Tutorial) {
+                                popUpTo(OnboardingDestination.Landing) {
+                                    inclusive = true
+                                }
+                            }
                         }
                     )
                 }

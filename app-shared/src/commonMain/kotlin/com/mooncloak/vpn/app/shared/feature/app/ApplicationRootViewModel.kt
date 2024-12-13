@@ -23,15 +23,24 @@ public class ApplicationRootViewModel @Inject public constructor(
     private val mutex = Mutex(locked = false)
 
     public fun load() {
+        emit(value = state.current.value.copy(isLoading = true))
+
         coroutineScope.launch {
             mutex.withLock {
                 val viewedOnboarding = appStorage.viewedOnboarding.current.value
 
-                if (viewedOnboarding) {
-                    navController.navigate(RootDestination.Main)
+                val destination = if (viewedOnboarding) {
+                    RootDestination.Main
                 } else {
-                    navController.navigate(RootDestination.Onboarding)
+                    RootDestination.Onboarding
                 }
+
+                emit(
+                    value = state.current.value.copy(
+                        startDestination = destination,
+                        isLoading = false
+                    )
+                )
             }
         }
     }
@@ -41,7 +50,11 @@ public class ApplicationRootViewModel @Inject public constructor(
             mutex.withLock {
                 appStorage.viewedOnboarding.update(true)
 
-                navController.navigate(RootDestination.Main)
+                navController.navigate(RootDestination.Main) {
+                    popUpTo(RootDestination.Onboarding) {
+                        inclusive = true
+                    }
+                }
             }
         }
     }

@@ -72,22 +72,6 @@ public sealed interface RootDestination : AppDestination {
 
     @Immutable
     @Serializable
-    @SerialName(value = "splash")
-    public data object Splash : RootDestination {
-
-        override val path: String = "/splash"
-
-        override val title: String
-            @Composable
-            get() = stringResource(Res.string.app_name)
-
-        override val icon: Painter?
-            @Composable
-            get() = null
-    }
-
-    @Immutable
-    @Serializable
     @SerialName(value = "onboarding")
     public data object Onboarding : RootDestination {
 
