@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mooncloak.vpn.app.shared.api.PlanPaymentStatus
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.payment.composable.BitcoinInvoiceLayout
@@ -109,6 +110,7 @@ public fun PaymentScreen(
                             paymentStatusTitle = viewModel.state.current.value.paymentStatus?.title
                                 ?: stringResource(Res.string.payment_status_pending),
                             paymentStatusDescription = viewModel.state.current.value.paymentStatus?.description,
+                            paymentStatusPending = viewModel.state.current.value.paymentStatus is PlanPaymentStatus.Pending,
                             address = viewModel.state.current.value.invoice?.address
                         )
                     }

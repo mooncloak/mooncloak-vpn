@@ -46,6 +46,7 @@ internal fun BitcoinInvoiceLayout(
     address: String?,
     paymentStatusTitle: String,
     paymentStatusDescription: String?,
+    paymentStatusPending: Boolean,
     modifier: Modifier = Modifier
 ) {
     val clipboardManager = LocalClipboardManager.current
@@ -185,10 +186,12 @@ internal fun BitcoinInvoiceLayout(
                 )
             }
 
-            LinearProgressIndicator(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(top = 16.dp)
-            )
+            if (paymentStatusPending) {
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(top = 16.dp)
+                )
+            }
         }
 
         Spacer(modifier = Modifier.weight(1f))
