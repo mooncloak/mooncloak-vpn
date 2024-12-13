@@ -109,4 +109,8 @@
     <string name="dependency_list_title_none_found">No dependencies found</string>
     <string name="dependency_list_description_none_found">There was an unexpected issue loading the dependency license list.</string>
 
+    <string name="payment_plans_title">Select a plan</string>
+    <string name="payment_title">Payment</string>
+    <string name="payment_action_select">Select</string>
+
 </resources>
