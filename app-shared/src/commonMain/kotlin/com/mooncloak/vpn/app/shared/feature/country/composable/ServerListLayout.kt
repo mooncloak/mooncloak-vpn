@@ -42,7 +42,7 @@ internal fun ServerListLayout(
         ) { server ->
             ServerListItem(
                 modifier = Modifier.fillMaxWidth()
-                    .clickable(enabled = server.status.active && server.status.connectable) {
+                    .clickable(enabled = server.status?.active == true && server.status.connectable) {
                         onConnect.invoke(server)
                     },
                 server = server

@@ -27,11 +27,11 @@ internal fun ServerListItem(
         },
         trailingContent = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                val load = server.status.load ?: 0.5f
+                val load = server.status?.load ?: 0.5f
 
                 LinearProgressIndicator(
                     modifier = Modifier.width(100.dp),
-                    progress = { server.status.load ?: 0.5f },
+                    progress = { server.status?.load ?: 0.5f },
                     color = when {
                         load < 0.8f -> ColorPalette.Teal_500
                         load < 0.9f -> ColorPalette.MooncloakYellow

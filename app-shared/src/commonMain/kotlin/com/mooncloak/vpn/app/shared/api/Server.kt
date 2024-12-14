@@ -39,7 +39,7 @@ public data class Server public constructor(
     @SerialName(value = "name") public val name: String,
     @SerialName(value = "country_code") public val countryCode: CountryCode,
     @SerialName(value = "region_code") public val regionCode: RegionCode? = null,
-    @SerialName(value = "status") public val status: ServerStatus,
+    @SerialName(value = "status") public val status: ServerStatus? = null,
     @SerialName(value = "created") public val created: Instant? = null,
     @SerialName(value = "updated") public val updated: Instant? = null,
     @SerialName(value = "uri") public val uri: String? = null,
