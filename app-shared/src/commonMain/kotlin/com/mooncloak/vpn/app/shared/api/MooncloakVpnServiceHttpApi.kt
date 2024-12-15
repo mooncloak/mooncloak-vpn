@@ -11,6 +11,7 @@ import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
 import com.mooncloak.kodetools.pagex.Page
 import com.mooncloak.kodetools.pagex.PageRequest
 import com.mooncloak.kodetools.pagex.PageRequest.Companion.DEFAULT_COUNT
+import com.mooncloak.kodetools.pagex.ResolvedPage
 import com.mooncloak.kodetools.pagex.SortOptions
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -18,6 +19,8 @@ import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import kotlinx.coroutines.CancellationException
 
 @OptIn(ExperimentalApixApi::class)
@@ -162,7 +165,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         count: UInt = DEFAULT_COUNT,
         sort: SortOptions? = null,
         filters: CountryFilters? = null
-    ): Page<Country> {
+    ): ResolvedPage<Country> {
         val pageRequest = PageRequest<String, CountryFilters>(
             data = null,
             direction = direction,
@@ -173,10 +176,12 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         )
 
         val response = httpClient.post("https://mooncloak.com/api/vpn/service/country") {
+            contentType(ContentType.Application.Json)
+
             setBody(pageRequest)
         }
 
-        return response.body<HttpResponseBody<Page<Country>>>().getOrThrow()
+        return response.body<HttpResponseBody<ResolvedPage<Country>>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
@@ -200,7 +205,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         count: UInt = DEFAULT_COUNT,
         sort: SortOptions? = null,
         filters: ServerFilters? = null
-    ): Page<Server> {
+    ): ResolvedPage<Server> {
         val pageRequest = PageRequest<String, ServerFilters>(
             data = null,
             direction = direction,
@@ -216,6 +221,6 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
             setBody(pageRequest)
         }
 
-        return response.body<HttpResponseBody<Page<Server>>>().getOrThrow()
+        return response.body<HttpResponseBody<ResolvedPage<Server>>>().getOrThrow()
     }
 }
