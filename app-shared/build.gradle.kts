@@ -231,6 +231,11 @@ kotlin {
                 // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
                 implementation("app.cash.sqldelight:android-driver:_")
                 implementation("app.cash.sqldelight:primitive-adapters:_")
+
+                // VPN - WireGuard
+                //
+                //
+                implementation("com.wireguard.android:tunnel:_")
             }
         }
 
