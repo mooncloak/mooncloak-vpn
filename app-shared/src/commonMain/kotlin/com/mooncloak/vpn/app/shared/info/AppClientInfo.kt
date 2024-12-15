@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.app
+package com.mooncloak.vpn.app.shared.info
 
 import com.mooncloak.vpn.feature.app.SharedBuildConfig
 import kotlinx.datetime.Instant
@@ -31,6 +31,8 @@ public interface AppClientInfo {
     public val buildType: String?
 
     public val isDebug: Boolean
+
+    public val isGooglePlayBuild: Boolean
 
     public val supportEmail: String get() = "support@mooncloak.com"
 

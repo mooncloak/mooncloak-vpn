@@ -9,7 +9,7 @@ import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
 import com.mooncloak.kodetools.storagex.keyvalue.Settings
 import com.mooncloak.vpn.app.android.AndroidAppClientInfo
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
-import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
+import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.util.ActivityContext
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.russhwolf.settings.Settings

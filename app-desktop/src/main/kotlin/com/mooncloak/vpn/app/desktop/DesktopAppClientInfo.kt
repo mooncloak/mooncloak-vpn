@@ -1,12 +1,14 @@
 package com.mooncloak.vpn.app.desktop
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
+import com.mooncloak.vpn.app.shared.info.AppClientInfo
 
 internal class DesktopAppClientInfo @Inject internal constructor() : AppClientInfo {
 
     override val isDebug: Boolean
         get() = false // TODO: FIXME
+
+    override val isGooglePlayBuild: Boolean = false
 
     override val flavor: String? = null
 

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Stable
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.app.shared.di.ComponentScoped
-import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
+import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import kotlinx.coroutines.launch
 
 @Stable

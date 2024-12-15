@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.UriHandler
 import coil3.SingletonImageLoader
 import com.mooncloak.kodetools.logpile.core.Logger
-import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
+import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
 import io.ktor.client.HttpClient
 import kotlinx.datetime.Clock

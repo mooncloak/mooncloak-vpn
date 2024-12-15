@@ -9,7 +9,7 @@ import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
 import com.mooncloak.kodetools.storagex.keyvalue.Settings
 import com.mooncloak.vpn.app.desktop.DesktopAppClientInfo
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
-import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
+import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
 
