@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 
 @Composable
 internal fun FlagImage(
@@ -49,7 +50,7 @@ internal fun FlagImage(
                     .align(Alignment.Center),
                 imageVector = Icons.Default.Flag,
                 contentDescription = null,
-                tint = contentColor
+                tint = contentColor.copy(alpha = SecondaryAlpha)
             )
         }
     }
