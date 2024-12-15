@@ -8,7 +8,6 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.pagex.Cursor
 import com.mooncloak.kodetools.pagex.Direction
 import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
-import com.mooncloak.kodetools.pagex.Page
 import com.mooncloak.kodetools.pagex.PageRequest
 import com.mooncloak.kodetools.pagex.PageRequest.Companion.DEFAULT_COUNT
 import com.mooncloak.kodetools.pagex.ResolvedPage
@@ -83,19 +82,10 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
      */
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun exchangeToken(
-        paymentId: String,
-        token: TransactionToken,
-        secret: String? = null
+        receipt: PurchaseReceipt
     ): ServiceTokens {
         val response = httpClient.post("https://mooncloak.com/api/vpn/token/exchange") {
-            bearerAuth(token.value)
-
-            setBody(
-                ExchangeTokenRequestBody(
-                    paymentId = paymentId,
-                    secret = secret
-                )
-            )
+            setBody(receipt)
         }
 
         return response.body<HttpResponseBody<ServiceTokens>>().getOrThrow()

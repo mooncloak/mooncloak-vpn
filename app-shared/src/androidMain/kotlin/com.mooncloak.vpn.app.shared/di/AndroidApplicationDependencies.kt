@@ -1,5 +1,6 @@
 package com.mooncloak.vpn.app.shared.di
 
+import android.app.Activity
 import androidx.compose.ui.platform.UriHandler
 import coil3.SingletonImageLoader
 import com.mooncloak.kodetools.logpile.core.Logger
@@ -27,6 +28,7 @@ public actual interface ApplicationDependencies {
 
     public val applicationContext: ApplicationContext
     public val activityContext: ActivityContext
+    public val activity: Activity
 
     public actual companion object
 }

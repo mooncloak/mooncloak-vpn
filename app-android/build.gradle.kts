@@ -9,7 +9,7 @@ plugins {
 }
 
 kotlin {
-
+    explicitApi()
 }
 
 dependencies {

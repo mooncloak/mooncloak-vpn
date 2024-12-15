@@ -4,7 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
-class LauncherActivity : BaseActivity() {
+public class LauncherActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // If we are Android 12+ (API 31+) we use the Splash Screen APIs. Otherwise, we use our traditional splash

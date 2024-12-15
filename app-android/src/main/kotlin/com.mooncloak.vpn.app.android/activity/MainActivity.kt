@@ -13,7 +13,7 @@ import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.log.NoOpLogger
 import com.mooncloak.vpn.app.shared.util.platformDefaultUriHandler
 
-class MainActivity : BaseActivity() {
+public class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Prevents screen capture and displaying contents on the "recent" screen
@@ -27,7 +27,7 @@ class MainActivity : BaseActivity() {
         setContent {
             val platformUriHandler = platformDefaultUriHandler()
             val applicationDependencies = ApplicationComponent.create(
-                activityContext = this,
+                activity = this,
                 uriHandler = platformUriHandler
             )
 
@@ -43,9 +43,9 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    companion object {
+    public companion object {
 
-        fun newIntent(context: Context) =
+        public fun newIntent(context: Context): Intent =
             Intent(context, MainActivity::class.java)
     }
 }

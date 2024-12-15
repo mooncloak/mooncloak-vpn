@@ -10,6 +10,10 @@ import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
+import com.mooncloak.vpn.app.shared.api.repository.PlansRepository
+import com.mooncloak.vpn.app.shared.api.repository.ServiceAccessDetailsRepository
+import com.mooncloak.vpn.app.shared.api.source.DefaultPlansSource
+import com.mooncloak.vpn.app.shared.api.source.ServiceAccessDetailsDatabaseSource
 import com.mooncloak.vpn.app.shared.image.MooncloakImageLoaderFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.cache.HttpCache
@@ -104,6 +108,15 @@ public abstract class ApplicationComponent : ApplicationDependencies {
     @Provides
     @Singleton
     public fun provideClock(): Clock = Clock.System
+
+    @Provides
+    @Singleton
+    internal fun providePlansRepository(source: DefaultPlansSource): PlansRepository = source
+
+    @Provides
+    @Singleton
+    internal fun provideServiceAccessDetailsRepository(source: ServiceAccessDetailsDatabaseSource): ServiceAccessDetailsRepository =
+        source
 
     public companion object
 }

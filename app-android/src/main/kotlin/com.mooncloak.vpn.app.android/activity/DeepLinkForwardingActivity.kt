@@ -5,7 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 
-class DeepLinkForwardingActivity : BaseActivity() {
+public class DeepLinkForwardingActivity : BaseActivity() {
 
     private val redirectUri by lazy {
         intent?.extras?.getString(EXTRA_REDIRECT_URI)?.let { Uri.parse(it) }
@@ -29,11 +29,11 @@ class DeepLinkForwardingActivity : BaseActivity() {
         startActivity(MainActivity.newIntent(context = this))
     }
 
-    companion object {
+    public companion object {
 
         private const val EXTRA_REDIRECT_URI = "redirectUri"
 
-        fun newIntent(context: Context, redirectUri: String? = null) =
+        public fun newIntent(context: Context, redirectUri: String? = null): Intent =
             Intent(context, DeepLinkForwardingActivity::class.java).apply {
                 putExtra(EXTRA_REDIRECT_URI, redirectUri)
             }
