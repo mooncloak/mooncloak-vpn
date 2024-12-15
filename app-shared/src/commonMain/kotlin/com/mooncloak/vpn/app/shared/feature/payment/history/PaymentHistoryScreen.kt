@@ -30,7 +30,7 @@ public fun PaymentHistoryScreen(
 ) {
     val componentDependencies = rememberFeatureDependencies {
         FeatureDependencies.createPaymentHistoryComponent(
-            applicationDependencies = this
+            presentationDependencies = this
         )
     }
     val viewModel = remember { componentDependencies.viewModel }

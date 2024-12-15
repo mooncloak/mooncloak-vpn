@@ -50,7 +50,7 @@ public fun CountryListScreen(
     containerPaddingValues: PaddingValues = PaddingValues()
 ) {
     val componentDependencies = rememberFeatureDependencies {
-        FeatureDependencies.createCountryListComponent(applicationDependencies = this)
+        FeatureDependencies.createCountryListComponent(presentationDependencies = this)
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }

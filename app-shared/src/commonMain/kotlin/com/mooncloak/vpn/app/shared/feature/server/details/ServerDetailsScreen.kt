@@ -23,7 +23,7 @@ public fun ServerDetailsScreen(
 ) {
     val componentDependencies = rememberFeatureDependencies {
         FeatureDependencies.createServerDetailsComponent(
-            applicationDependencies = this
+            presentationDependencies = this
         )
     }
     val viewModel = remember { componentDependencies.viewModel }

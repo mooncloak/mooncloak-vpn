@@ -58,7 +58,7 @@ public fun SupportScreen(
 ) {
     val componentDependencies = rememberFeatureDependencies {
         FeatureDependencies.createSupportComponent(
-            applicationDependencies = this
+            presentationDependencies = this
         )
     }
     val viewModel = remember { componentDependencies.viewModel }

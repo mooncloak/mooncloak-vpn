@@ -1,6 +1,5 @@
 package com.mooncloak.vpn.app.desktop.di
 
-import androidx.compose.ui.platform.UriHandler
 import com.mooncloak.kodetools.konstruct.annotations.Component
 import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.kodetools.konstruct.annotations.Singleton
@@ -15,9 +14,7 @@ import kotlinx.serialization.json.Json
 
 @Component
 @Singleton
-internal abstract class JvmApplicationComponent internal constructor(
-    @get:Provides override val uriHandler: UriHandler,
-) : ApplicationComponent() {
+internal abstract class JvmApplicationComponent internal constructor() : ApplicationComponent() {
 
     override fun provideKeyValueStorage(format: Json): MutableKeyValueStorage<String> =
         KeyValueStorage.Settings(
@@ -31,8 +28,5 @@ internal abstract class JvmApplicationComponent internal constructor(
         appClientInfo
 }
 
-internal fun ApplicationComponent.Companion.create(
-    uriHandler: UriHandler
-): JvmApplicationComponent = JvmApplicationComponent::class.create(
-    uriHandler = uriHandler
-)
+internal fun ApplicationComponent.Companion.create(): JvmApplicationComponent =
+    JvmApplicationComponent::class.create()

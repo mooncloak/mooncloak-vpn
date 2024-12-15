@@ -1,18 +1,18 @@
 package com.mooncloak.vpn.app.shared.feature.home.di
 
 import com.mooncloak.kodetools.konstruct.annotations.Component
-import com.mooncloak.vpn.app.shared.di.ApplicationComponent
-import com.mooncloak.vpn.app.shared.di.ComponentScoped
+import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
+import com.mooncloak.vpn.app.shared.di.PresentationComponent
 
 @Component
-@ComponentScoped
+@FeatureScoped
 internal abstract class AndroidHomeComponent internal constructor(
-    @Component internal val applicationDependencies: ApplicationComponent
+    @Component internal val presentationDependencies: PresentationComponent
 ) : HomeComponent()
 
 internal actual fun FeatureDependencies.Companion.createHomeComponent(
-    applicationDependencies: ApplicationComponent
+    presentationDependencies: PresentationComponent
 ): HomeComponent = AndroidHomeComponent::class.create(
-    applicationDependencies = applicationDependencies
+    presentationDependencies = presentationDependencies
 )

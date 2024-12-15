@@ -38,7 +38,7 @@ public fun MainScreen(
     val navController = rememberNavController()
     val componentDependencies = rememberFeatureDependencies {
         FeatureDependencies.createMainComponent(
-            applicationDependencies = this,
+            presentationDependencies = this,
             navController = navController
         )
     }

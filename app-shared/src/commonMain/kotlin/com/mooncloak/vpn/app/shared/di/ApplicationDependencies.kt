@@ -25,8 +25,6 @@ public expect interface ApplicationDependencies {
 
     public val preferencesStorage: PreferencesStorage
 
-    public val uriHandler: UriHandler
-
     public val imageLoaderFactory: SingletonImageLoader.Factory
 
     public companion object

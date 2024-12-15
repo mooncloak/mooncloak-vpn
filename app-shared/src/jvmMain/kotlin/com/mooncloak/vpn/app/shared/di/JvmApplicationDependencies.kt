@@ -20,7 +20,6 @@ public actual interface ApplicationDependencies {
     public actual val logger: Logger
     public actual val appClientInfo: AppClientInfo
     public actual val preferencesStorage: PreferencesStorage
-    public actual val uriHandler: UriHandler
     public actual val imageLoaderFactory: SingletonImageLoader.Factory
 
     public actual companion object

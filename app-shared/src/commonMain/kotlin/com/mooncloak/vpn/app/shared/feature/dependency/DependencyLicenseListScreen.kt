@@ -31,7 +31,7 @@ public fun DependencyLicenseListScreen(
     modifier: Modifier = Modifier
 ) {
     val componentDependencies = rememberFeatureDependencies {
-        FeatureDependencies.createDependencyLicenseListComponent(applicationDependencies = this)
+        FeatureDependencies.createDependencyLicenseListComponent(presentationDependencies = this)
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }

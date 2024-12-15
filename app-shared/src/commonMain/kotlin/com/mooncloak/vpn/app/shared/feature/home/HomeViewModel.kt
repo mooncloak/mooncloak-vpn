@@ -12,7 +12,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionStatus
-import com.mooncloak.vpn.app.shared.di.ComponentScoped
+import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.onboarding_description_crypto_payment
@@ -33,7 +33,7 @@ import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalPersistentStateAPI::class)
 @Stable
-@ComponentScoped
+@FeatureScoped
 public class HomeViewModel @Inject public constructor(
     private val subscriptionStorage: SubscriptionStorage
 ) : ViewModel<HomeStateModel>(initialStateValue = HomeStateModel()) {

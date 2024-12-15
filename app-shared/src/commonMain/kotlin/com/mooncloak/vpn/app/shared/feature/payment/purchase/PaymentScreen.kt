@@ -41,7 +41,7 @@ public fun PaymentScreen(
     val navController = rememberNavController()
     val componentDependencies = rememberFeatureDependencies {
         FeatureDependencies.createPaymentComponent(
-            applicationDependencies = this,
+            presentationDependencies = this,
             navController = navController
         )
     }

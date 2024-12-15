@@ -44,7 +44,7 @@ public fun HomeScreen(
     containerPaddingValues: PaddingValues = PaddingValues()
 ) {
     val componentDependencies = rememberFeatureDependencies {
-        FeatureDependencies.createHomeComponent(applicationDependencies = this)
+        FeatureDependencies.createHomeComponent(presentationDependencies = this)
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }

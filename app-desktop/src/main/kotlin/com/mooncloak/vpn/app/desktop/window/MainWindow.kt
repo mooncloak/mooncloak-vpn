@@ -21,7 +21,7 @@ internal fun MainWindow(
         visible = visible
     ) {
         ApplicationRootScreen(
-            component = applicationDependencies
+            applicationComponent = applicationDependencies
         )
     }
 }

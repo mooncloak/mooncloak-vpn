@@ -9,4 +9,4 @@ import kotlin.annotation.AnnotationTarget.PROPERTY_GETTER
 @Scope
 @MustBeDocumented
 @Target(CLASS, FUNCTION, CONSTRUCTOR, PROPERTY_GETTER)
-public annotation class ComponentScoped
+public annotation class FeatureScoped

@@ -30,6 +30,8 @@ import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.LocalApplicationComponent
+import com.mooncloak.vpn.app.shared.di.LocalPresentationComponent
+import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.di.rememberApplicationDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.app.di.createApplicationRootComponent
@@ -42,25 +44,27 @@ import com.mooncloak.vpn.app.shared.theme.ThemePreference
 @OptIn(ExperimentalPersistentStateAPI::class)
 @Composable
 public fun ApplicationRootScreen(
-    component: ApplicationComponent,
+    applicationComponent: ApplicationComponent,
+    presentationComponent: PresentationComponent,
     modifier: Modifier = Modifier,
     uriHandler: UriHandler = LocalUriHandler.current
 ) {
     val navController = rememberNavController()
 
     CompositionLocalProvider(
-        LocalApplicationComponent provides component,
+        LocalApplicationComponent provides applicationComponent,
+        LocalPresentationComponent provides presentationComponent,
         LocalNavController provides navController,
         LocalUriHandler provides uriHandler
     ) {
         val componentDependencies = rememberFeatureDependencies {
             FeatureDependencies.createApplicationRootComponent(
-                applicationDependencies = this,
+                presentationDependencies = this,
                 navController = navController
             )
         }
         val viewModel = remember { componentDependencies.viewModel }
-        val imageLoaderFactory = remember(component) { component.imageLoaderFactory }
+        val imageLoaderFactory = remember(applicationComponent) { applicationComponent.imageLoaderFactory }
         val preferencesStorage = rememberApplicationDependency { preferencesStorage }
         val snackbarHostState = remember { SnackbarHostState() }
 

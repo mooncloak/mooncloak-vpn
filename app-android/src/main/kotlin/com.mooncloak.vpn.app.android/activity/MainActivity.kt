@@ -10,6 +10,7 @@ import com.mooncloak.kodetools.logpile.core.configure
 import com.mooncloak.vpn.app.android.di.create
 import com.mooncloak.vpn.app.shared.feature.app.ApplicationRootScreen
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
+import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.log.NoOpLogger
 import com.mooncloak.vpn.app.shared.util.platformDefaultUriHandler
 
@@ -27,6 +28,10 @@ public class MainActivity : BaseActivity() {
         setContent {
             val platformUriHandler = platformDefaultUriHandler()
             val applicationDependencies = ApplicationComponent.create(
+                applicationContext = this.applicationContext
+            )
+            val presentationDependencies = PresentationComponent.create(
+                applicationComponent = applicationDependencies,
                 activity = this,
                 uriHandler = platformUriHandler
             )
@@ -37,7 +42,8 @@ public class MainActivity : BaseActivity() {
             }
 
             ApplicationRootScreen(
-                component = applicationDependencies,
+                applicationComponent = applicationDependencies,
+                presentationComponent = presentationDependencies,
                 uriHandler = platformUriHandler
             )
         }

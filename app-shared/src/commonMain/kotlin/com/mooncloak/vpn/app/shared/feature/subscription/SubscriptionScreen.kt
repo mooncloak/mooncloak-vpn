@@ -28,7 +28,7 @@ public fun SubscriptionScreen(
     modifier: Modifier = Modifier
 ) {
     val componentDependencies = rememberFeatureDependencies {
-        FeatureDependencies.createSubscriptionComponent(applicationDependencies = this)
+        FeatureDependencies.createSubscriptionComponent(presentationDependencies = this)
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.mooncloak.kodetools.statex.ViewModel
 
-@ComponentScoped
+@FeatureScoped
 public interface FeatureDependencies {
 
     public val viewModel: ViewModel<*>
@@ -14,9 +14,9 @@ public interface FeatureDependencies {
 
 @Composable
 public fun <Dependencies : FeatureDependencies> rememberFeatureDependencies(
-    component: ApplicationComponent.() -> Dependencies
+    component: PresentationComponent.() -> Dependencies
 ): Dependencies {
-    val applicationDependencies = LocalApplicationComponent.current
+    val applicationDependencies = LocalPresentationComponent.current
 
     return remember(applicationDependencies) {
         component.invoke(applicationDependencies)

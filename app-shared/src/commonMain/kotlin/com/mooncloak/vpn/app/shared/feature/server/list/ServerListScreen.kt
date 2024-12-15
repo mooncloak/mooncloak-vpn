@@ -43,7 +43,7 @@ public fun ServerListScreen(
     modifier: Modifier = Modifier
 ) {
     val componentDependencies = rememberFeatureDependencies {
-        FeatureDependencies.createServerListComponent(applicationDependencies = this)
+        FeatureDependencies.createServerListComponent(presentationDependencies = this)
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }

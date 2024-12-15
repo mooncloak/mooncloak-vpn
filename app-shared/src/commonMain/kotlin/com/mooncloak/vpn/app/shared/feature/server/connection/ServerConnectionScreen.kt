@@ -23,7 +23,7 @@ public fun ServerConnectionScreen(
 ) {
     val componentDependencies = rememberFeatureDependencies {
         FeatureDependencies.createServerConnectionComponent(
-            applicationDependencies = this
+            presentationDependencies = this
         )
     }
     val viewModel = remember { componentDependencies.viewModel }

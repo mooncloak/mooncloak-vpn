@@ -1,18 +1,18 @@
 package com.mooncloak.vpn.app.shared.feature.support.di
 
 import com.mooncloak.kodetools.konstruct.annotations.Component
-import com.mooncloak.vpn.app.shared.di.ApplicationComponent
-import com.mooncloak.vpn.app.shared.di.ComponentScoped
+import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
+import com.mooncloak.vpn.app.shared.di.PresentationComponent
 
 @Component
-@ComponentScoped
+@FeatureScoped
 internal abstract class AndroidSupportComponent internal constructor(
-    @Component internal val applicationDependencies: ApplicationComponent
+    @Component internal val presentationDependencies: PresentationComponent
 ) : SupportComponent()
 
 internal actual fun FeatureDependencies.Companion.createSupportComponent(
-    applicationDependencies: ApplicationComponent
+    presentationDependencies: PresentationComponent
 ): SupportComponent = AndroidSupportComponent::class.create(
-    applicationDependencies = applicationDependencies
+    presentationDependencies = presentationDependencies
 )
