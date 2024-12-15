@@ -231,11 +231,6 @@ kotlin {
                 // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
                 implementation("app.cash.sqldelight:android-driver:_")
                 implementation("app.cash.sqldelight:primitive-adapters:_")
-
-                // VPN - WireGuard
-                // https://github.com/WireGuard/wireguard-android
-                // https://github.com/WireGuard/wireguard-android/blob/master/COPYING
-                implementation("com.wireguard.android:tunnel:_")
             }
         }
 
@@ -302,12 +297,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-        isCoreLibraryDesugaringEnabled = true
-    }
-
-    dependencies {
-        // Enables Java 8 APIs for Android - Required by the WireGuard dependency
-        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:_")
     }
 
     tasks.withType<KotlinCompile> {

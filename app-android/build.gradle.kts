@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("multiplatform")
+    kotlin("android")
     id("com.android.application")
     id("org.jetbrains.compose")
     id("org.jetbrains.kotlin.plugin.compose")
@@ -9,45 +9,43 @@ plugins {
 }
 
 kotlin {
-    androidTarget()
 
-    sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation(project(":app-shared"))
-
-                // Coroutines Android Lifecycle
-                implementation(AndroidX.lifecycle.runtime.ktx)
-
-                implementation(AndroidX.core.splashscreen)
-
-                implementation(AndroidX.activity.compose)
-                implementation(compose.ui)
-
-                // Android support libraries.
-                api(AndroidX.appCompat)
-
-                // UI Widgets - Compose Glance
-                implementation("androidx.glance:glance-appwidget:_")
-                implementation("androidx.glance:glance-material3:_")
-
-                // Async Image Loading - coil
-                // https://github.com/coil-kt/coil
-                implementation("io.coil-kt.coil3:coil:_")
-                implementation("io.coil-kt.coil3:coil-network-ktor:_")
-                implementation("io.coil-kt.coil3:coil-network-ktor3:_")
-            }
-        }
-    }
 }
 
 dependencies {
+    implementation(project(":app-shared"))
+
+    // Coroutines Android Lifecycle
+    implementation(AndroidX.lifecycle.runtime.ktx)
+
+    implementation(AndroidX.core.splashscreen)
+
+    implementation(AndroidX.activity.compose)
+    implementation(compose.ui)
+
+    // Android support libraries.
+    api(AndroidX.appCompat)
+
+    // UI Widgets - Compose Glance
+    implementation("androidx.glance:glance-appwidget:_")
+    implementation("androidx.glance:glance-material3:_")
+
+    // Async Image Loading - coil
+    // https://github.com/coil-kt/coil
+    implementation("io.coil-kt.coil3:coil:_")
+    implementation("io.coil-kt.coil3:coil-network-ktor:_")
+    implementation("io.coil-kt.coil3:coil-network-ktor3:_")
+
+    // VPN - WireGuard
+    // https://github.com/WireGuard/wireguard-android
+    // https://github.com/WireGuard/wireguard-android/blob/master/COPYING
+    implementation("com.wireguard.android:tunnel:_")
+
     // Annotation Processors:
 
     // konstruct - Dependency Injection
     // https://github.com/mooncloak/konstruct
-    add("kspCommonMainMetadata", "com.mooncloak.kodetools.konstruct:konstruct-compiler-ksp:_")
-    add("kspAndroid", "com.mooncloak.kodetools.konstruct:konstruct-compiler-ksp:_")
+    ksp("com.mooncloak.kodetools.konstruct:konstruct-compiler-ksp:_")
 }
 
 android {
@@ -97,27 +95,30 @@ android {
         }
     }
 
+    dependencies {
+        // Enables Java 8 APIs for Android - Required by the WireGuard dependency
+        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:_")
+
+        // Google Play Billing - Required for payments for apps installed via Google Play
+        // https://developer.android.com/google/play/billing
+        "playImplementation"("com.android.billingclient:billing-ktx:_")
+    }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = true
     }
 
     tasks.withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "17"
             // Opt-in to experimental compose APIs
             freeCompilerArgs = listOf(
                 "-Xopt-in=kotlin.RequiresOptIn"
             )
         }
     }
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].java.srcDirs("src/androidMain/kotlin")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
-
-    sourceSets["test"].java.srcDirs("src/androidTest/kotlin")
-    sourceSets["test"].res.srcDirs("src/androidTest/res")
 }
 
 tasks.withType<Jar> { duplicatesStrategy = DuplicatesStrategy.INHERIT }
