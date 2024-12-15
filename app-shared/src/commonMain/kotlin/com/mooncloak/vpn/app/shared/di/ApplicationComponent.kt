@@ -10,10 +10,10 @@ import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
-import com.mooncloak.vpn.app.shared.api.repository.PlansRepository
-import com.mooncloak.vpn.app.shared.api.repository.ServiceAccessDetailsRepository
-import com.mooncloak.vpn.app.shared.api.source.DefaultPlansSource
-import com.mooncloak.vpn.app.shared.api.source.ServiceAccessDetailsDatabaseSource
+import com.mooncloak.vpn.app.shared.api.plan.PlansRepository
+import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetailsRepository
+import com.mooncloak.vpn.app.shared.api.plan.DefaultPlansSource
+import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetailsDatabaseSource
 import com.mooncloak.vpn.app.shared.image.MooncloakImageLoaderFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.cache.HttpCache

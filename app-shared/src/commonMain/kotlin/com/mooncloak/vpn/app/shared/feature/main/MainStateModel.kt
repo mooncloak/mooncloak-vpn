@@ -1,7 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.main
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.api.ServerConnectionStatus
+import com.mooncloak.vpn.app.shared.api.server.ServerConnectionStatus
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
 
 @Immutable

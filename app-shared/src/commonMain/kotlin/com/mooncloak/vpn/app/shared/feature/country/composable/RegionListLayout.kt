@@ -13,8 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.api.Country
-import com.mooncloak.vpn.app.shared.api.Region
+import com.mooncloak.vpn.app.shared.api.location.Country
+import com.mooncloak.vpn.app.shared.api.location.Region
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.country_list_default_region_type
 import com.mooncloak.vpn.app.shared.resource.country_list_header_label_with_count

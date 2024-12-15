@@ -3,9 +3,9 @@ package com.mooncloak.vpn.app.shared.feature.payment.purchase
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.text.AnnotatedString
-import com.mooncloak.vpn.app.shared.api.BitcoinPlanInvoice
-import com.mooncloak.vpn.app.shared.api.Plan
-import com.mooncloak.vpn.app.shared.api.PlanPaymentStatus
+import com.mooncloak.vpn.app.shared.api.billing.BitcoinPlanInvoice
+import com.mooncloak.vpn.app.shared.api.plan.Plan
+import com.mooncloak.vpn.app.shared.api.billing.PlanPaymentStatus
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.model.PaymentDestination
 
 @Immutable

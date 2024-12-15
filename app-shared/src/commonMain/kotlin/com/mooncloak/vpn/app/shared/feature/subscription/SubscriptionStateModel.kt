@@ -1,9 +1,9 @@
 package com.mooncloak.vpn.app.shared.feature.subscription
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.api.Plan
-import com.mooncloak.vpn.app.shared.api.ServiceSubscription
-import com.mooncloak.vpn.app.shared.api.ServiceSubscriptionUsage
+import com.mooncloak.vpn.app.shared.api.plan.Plan
+import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
+import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionUsage
 
 @Immutable
 public data class SubscriptionStateModel public constructor(

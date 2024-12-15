@@ -2,9 +2,9 @@ package com.mooncloak.vpn.app.shared.feature.country
 
 import androidx.compose.runtime.Immutable
 import com.mooncloak.kodetools.pagex.LoadState
-import com.mooncloak.vpn.app.shared.api.Country
-import com.mooncloak.vpn.app.shared.api.Server
-import com.mooncloak.vpn.app.shared.api.ServerFilters
+import com.mooncloak.vpn.app.shared.api.location.Country
+import com.mooncloak.vpn.app.shared.api.server.Server
+import com.mooncloak.vpn.app.shared.api.server.ServerFilters
 
 @Immutable
 public data class CountryListStateModel public constructor(

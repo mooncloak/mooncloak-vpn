@@ -3,10 +3,10 @@ package com.mooncloak.vpn.app.shared.feature.home.model
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.painter.Painter
-import com.mooncloak.vpn.app.shared.api.ConnectionType
-import com.mooncloak.vpn.app.shared.api.Country
-import com.mooncloak.vpn.app.shared.api.Region
-import com.mooncloak.vpn.app.shared.api.Server
+import com.mooncloak.vpn.app.shared.api.server.ConnectionType
+import com.mooncloak.vpn.app.shared.api.location.Country
+import com.mooncloak.vpn.app.shared.api.location.Region
+import com.mooncloak.vpn.app.shared.api.server.Server
 import kotlinx.datetime.Instant
 import kotlin.time.Duration
 

@@ -10,7 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.mooncloak.vpn.app.shared.api.ServerConnectionStatus
+import com.mooncloak.vpn.app.shared.api.server.ServerConnectionStatus
 import com.mooncloak.vpn.app.shared.theme.ColorPalette
 
 @Composable

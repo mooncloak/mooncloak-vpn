@@ -1,6 +1,6 @@
 package com.mooncloak.vpn.app.shared.feature.country.composable
 
-import com.mooncloak.vpn.app.shared.api.Region
+import com.mooncloak.vpn.app.shared.api.location.Region
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size

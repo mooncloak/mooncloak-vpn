@@ -12,6 +12,24 @@ import com.mooncloak.kodetools.pagex.PageRequest
 import com.mooncloak.kodetools.pagex.PageRequest.Companion.DEFAULT_COUNT
 import com.mooncloak.kodetools.pagex.ResolvedPage
 import com.mooncloak.kodetools.pagex.SortOptions
+import com.mooncloak.vpn.app.shared.api.billing.BitcoinPlanInvoice
+import com.mooncloak.vpn.app.shared.api.billing.GetPaymentInvoiceRequestBody
+import com.mooncloak.vpn.app.shared.api.billing.GetPaymentStatusRequestBody
+import com.mooncloak.vpn.app.shared.api.billing.PlanPaymentStatus
+import com.mooncloak.vpn.app.shared.api.billing.PurchaseReceipt
+import com.mooncloak.vpn.app.shared.api.location.Country
+import com.mooncloak.vpn.app.shared.api.location.CountryCode
+import com.mooncloak.vpn.app.shared.api.location.CountryFilters
+import com.mooncloak.vpn.app.shared.api.plan.AvailablePlans
+import com.mooncloak.vpn.app.shared.api.server.Server
+import com.mooncloak.vpn.app.shared.api.server.ServerFilters
+import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
+import com.mooncloak.vpn.app.shared.api.service.ServiceTokens
+import com.mooncloak.vpn.app.shared.api.token.RevokeTokenRequestBody
+import com.mooncloak.vpn.app.shared.api.token.RevokedTokenResponseBody
+import com.mooncloak.vpn.app.shared.api.token.Token
+import com.mooncloak.vpn.app.shared.api.token.TokenTypeHint
+import com.mooncloak.vpn.app.shared.api.token.TransactionToken
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
@@ -44,7 +62,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
             token?.value?.let { bearerAuth(it) }
 
             setBody(
-                GetPaymentInfoRequestBody(
+                GetPaymentInvoiceRequestBody(
                     planId = planId,
                     secret = secret
                 )

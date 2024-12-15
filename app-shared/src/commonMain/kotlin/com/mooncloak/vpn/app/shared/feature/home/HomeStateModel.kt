@@ -1,11 +1,11 @@
 package com.mooncloak.vpn.app.shared.feature.home
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.api.LocalNetworkInfo
-import com.mooncloak.vpn.app.shared.api.Server
+import com.mooncloak.vpn.app.shared.api.network.LocalNetworkInfo
+import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
-import com.mooncloak.vpn.app.shared.api.ServerConnectionStatus
-import com.mooncloak.vpn.app.shared.api.ServiceSubscription
+import com.mooncloak.vpn.app.shared.api.server.ServerConnectionStatus
+import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
 
 @Immutable
 public data class HomeStateModel public constructor(
