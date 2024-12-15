@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,16 +31,19 @@ internal fun CountryListItem(
     country: Country,
     onMoreSelected: () -> Unit,
     modifier: Modifier = Modifier,
-    contentColor: Color = MaterialTheme.colorScheme.onSurface
+    contentColor: Color = MaterialTheme.colorScheme.onBackground
 ) {
     ListItem(
         modifier = modifier,
+        colors = ListItemDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.background
+        ),
         leadingContent = {
             Box(
                 modifier = Modifier.width(36.dp)
                     .aspectRatio(4f / 3f)
                     .clip(RoundedCornerShape(4.dp))
-                    .background(MaterialTheme.colorScheme.background)
+                    .background(MaterialTheme.colorScheme.surface)
             ) {
                 val imageUri = country.flag
 

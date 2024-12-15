@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.country
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -23,19 +24,24 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import com.mooncloak.kodetools.pagex.LoadState
+import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.country.composable.CountryListBottomSheet
 import com.mooncloak.vpn.app.shared.feature.country.composable.CountryListItem
 import com.mooncloak.vpn.app.shared.feature.country.composable.NoVPNServersCard
 import com.mooncloak.vpn.app.shared.feature.country.di.createCountryListComponent
+import com.mooncloak.vpn.app.shared.feature.country.model.CountryListBottomSheetDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_countries_title
 import com.mooncloak.vpn.app.shared.util.LaunchLazyLoader
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -51,6 +57,8 @@ public fun CountryListScreen(
     val lazyListState = rememberLazyListState()
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
+    val bottomSheetState = rememberModalNavigationBottomSheetState<CountryListBottomSheetDestination>()
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -102,10 +110,19 @@ public fun CountryListScreen(
                     contentType = { "CountryListItem" }
                 ) { country ->
                     CountryListItem(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
+                            .clickable {
+
+                            },
                         country = country,
                         onMoreSelected = {
-
+                            coroutineScope.launch {
+                                bottomSheetState.show(
+                                    destination = CountryListBottomSheetDestination.RegionList(
+                                        country = country
+                                    )
+                                )
+                            }
                         }
                     )
                 }
@@ -132,6 +149,13 @@ public fun CountryListScreen(
             }
         }
     }
+
+    CountryListBottomSheet(
+        modifier = Modifier.fillMaxWidth(),
+        state = bottomSheetState,
+        onConnectToRegion = { region ->},
+        onConnectToServer = { server -> }
+    )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {
         viewModel.state.current.value.errorMessage?.let { errorMessage ->

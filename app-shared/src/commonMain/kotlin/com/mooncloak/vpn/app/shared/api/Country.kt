@@ -28,6 +28,7 @@ public data class Country public constructor(
     @SerialName(value = "name") public val name: String,
     @SerialName(value = "flag") public val flag: String? = null,
     @SerialName(value = "regions") public val regions: List<Region> = emptyList(),
+    @SerialName(value = "region_type") public val regionType: String? = null,
     @SerialName(value = "description") public val connectionDescription: String? = null,
     @SerialName(value = "connection_types") public val connectionTypes: List<ConnectionType> = emptyList(),
     @SerialName(value = "server_count") public val serverCount: Int? = null
