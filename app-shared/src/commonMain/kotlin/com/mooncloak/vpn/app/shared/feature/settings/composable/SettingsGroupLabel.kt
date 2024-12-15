@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 
 @Composable
 internal fun SettingsGroupLabel(
@@ -18,6 +19,6 @@ internal fun SettingsGroupLabel(
         text = text,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
-        style = MaterialTheme.typography.labelLarge.copy(color = MaterialTheme.colorScheme.primary)
+        style = MaterialTheme.typography.labelLarge.copy(color = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha))
     )
 }
