@@ -26,7 +26,9 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.material.icons.filled.CurrencyBitcoin
+import androidx.compose.material.icons.filled.MoneyOff
 import androidx.compose.material.icons.filled.PersonOff
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Start
 import androidx.compose.material.icons.filled.Subscriptions
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -56,16 +58,20 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.onboarding_action_skip
-import com.mooncloak.vpn.app.shared.resource.onboarding_description_crypto_payment
 import com.mooncloak.vpn.app.shared.resource.onboarding_description_no_accounts
 import com.mooncloak.vpn.app.shared.resource.onboarding_description_no_data_creeps
+import com.mooncloak.vpn.app.shared.resource.onboarding_description_no_data_selling
 import com.mooncloak.vpn.app.shared.resource.onboarding_description_no_subscriptions
 import com.mooncloak.vpn.app.shared.resource.onboarding_description_no_tracking
-import com.mooncloak.vpn.app.shared.resource.onboarding_title_crypto_payment
+import com.mooncloak.vpn.app.shared.resource.onboarding_description_payment_crypto
+import com.mooncloak.vpn.app.shared.resource.onboarding_description_payment_google_play
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_accounts
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_data_creeps
+import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_data_selling
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_subscriptions
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_tracking
+import com.mooncloak.vpn.app.shared.resource.onboarding_title_payment_crypto
+import com.mooncloak.vpn.app.shared.resource.onboarding_title_payment_google_play
 import com.mooncloak.vpn.app.shared.theme.ColorPalette
 import com.mooncloak.vpn.app.shared.theme.TertiaryAlpha
 import kotlinx.coroutines.launch
@@ -74,6 +80,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 internal fun OnboardingLayout(
     onFinish: () -> Unit,
+    isGooglePlayBuild: Boolean,
     modifier: Modifier = Modifier
 ) {
     val items = listOf(
@@ -93,15 +100,28 @@ internal fun OnboardingLayout(
             description = { stringResource(Res.string.onboarding_description_no_data_creeps) }
         ),
         OnboardingScreenItem(
+            icon = { rememberVectorPainter(Icons.Default.MoneyOff) },
+            title = { stringResource(Res.string.onboarding_title_no_data_selling) },
+            description = { stringResource(Res.string.onboarding_description_no_data_selling) }
+        ),
+        OnboardingScreenItem(
             icon = { rememberVectorPainter(Icons.Default.Subscriptions) },
             title = { stringResource(Res.string.onboarding_title_no_subscriptions) },
             description = { stringResource(Res.string.onboarding_description_no_subscriptions) }
         ),
-        OnboardingScreenItem(
-            icon = { rememberVectorPainter(Icons.Default.CurrencyBitcoin) },
-            title = { stringResource(Res.string.onboarding_title_crypto_payment) },
-            description = { stringResource(Res.string.onboarding_description_crypto_payment) }
-        )
+        if (isGooglePlayBuild) {
+            OnboardingScreenItem(
+                icon = { rememberVectorPainter(Icons.Default.PlayArrow) },
+                title = { stringResource(Res.string.onboarding_title_payment_google_play) },
+                description = { stringResource(Res.string.onboarding_description_payment_google_play) }
+            )
+        } else {
+            OnboardingScreenItem(
+                icon = { rememberVectorPainter(Icons.Default.CurrencyBitcoin) },
+                title = { stringResource(Res.string.onboarding_title_payment_crypto) },
+                description = { stringResource(Res.string.onboarding_description_payment_crypto) }
+            )
+        }
     )
 
     val pagerState = rememberPagerState(pageCount = { items.size })

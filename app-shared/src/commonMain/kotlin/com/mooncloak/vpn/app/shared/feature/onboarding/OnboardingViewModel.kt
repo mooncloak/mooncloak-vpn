@@ -20,7 +20,8 @@ public class OnboardingViewModel @Inject public constructor(
         emit(
             value = state.current.value.copy(
                 appVersion = appClientInfo.versionName,
-                viewedOnboarding = appStorage.viewedOnboarding.current.value
+                viewedOnboarding = appStorage.viewedOnboarding.current.value,
+                isGooglePlayBuild = appClientInfo.isGooglePlayBuild
             )
         )
     }

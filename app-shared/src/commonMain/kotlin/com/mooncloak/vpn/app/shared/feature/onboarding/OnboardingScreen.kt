@@ -66,6 +66,7 @@ public fun OnboardingScreen(
                 composable<OnboardingDestination.Tutorial> {
                     OnboardingLayout(
                         modifier = Modifier.fillMaxSize(),
+                        isGooglePlayBuild = viewModel.state.current.value.isGooglePlayBuild,
                         onFinish = onFinish
                     )
                 }

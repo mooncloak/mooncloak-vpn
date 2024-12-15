@@ -24,12 +24,16 @@
     <string name="onboarding_title_no_accounts">No accounts</string>
     <string name="onboarding_title_no_data_creeps">No Data Creeps</string>
     <string name="onboarding_title_no_subscriptions">No subscriptions</string>
-    <string name="onboarding_title_crypto_payment">Pay with cryptocurrency</string>
+    <string name="onboarding_title_no_data_selling">No data mining</string>
+    <string name="onboarding_title_payment_crypto">Pay with cryptocurrency</string>
+    <string name="onboarding_title_payment_google_play">Secure payments</string>
     <string name="onboarding_description_no_tracking">Your IP address is never logged or associated with your online activity.</string>
     <string name="onboarding_description_no_accounts">No email, phone, or other identifier is required to use the VPN service. Therefore, this data is never tracked.</string>
-    <string name="onboarding_description_no_data_creeps">We never sell your data to third-parties.</string>
-    <string name="onboarding_description_no_subscriptions">No monthly subscriptions or overcharges. Pay upfront for what you use.</string>
-    <string name="onboarding_description_crypto_payment">Cryptocurrency helps provide an extra layer of anonymity.</string>
+    <string name="onboarding_description_no_data_creeps">Pull the blinds on the data creeps. Hide your online activity from your ISP, big corporations, and governments.</string>
+    <string name="onboarding_description_no_subscriptions">No monthly subscriptions or overcharges. Pay upfront for what you need.</string>
+    <string name="onboarding_description_no_data_selling">We never sell your data to third-parties.</string>
+    <string name="onboarding_description_payment_crypto">Cryptocurrency helps provide an extra layer of anonymity.</string>
+    <string name="onboarding_description_payment_google_play">Payments are handled via the trusted Google Play Billing service.</string>
     <string name="onboarding_action_skip">Skip</string>
 
     <string name="action_connect">Connect</string>
