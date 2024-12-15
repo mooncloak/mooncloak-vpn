@@ -104,6 +104,9 @@
     <string name="settings_title_code">View Source Code</string>
     <string name="settings_group_subscription">Subscription</string>
     <string name="settings_title_current_plan">Current Plan</string>
+    <string name="settings_group_preferences">Preferences</string>
+    <string name="settings_title_landing">Start on landing</string>
+    <string name="settings_description_landing">Display the landing screen whenever the app is opened</string>
 
     <string name="subscription_no_active_plan">No active plan</string>
     <string name="subscription_title_no_active_plan">No Active Plan</string>

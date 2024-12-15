@@ -235,7 +235,7 @@ kotlin {
                 // VPN - WireGuard
                 //
                 //
-                implementation("com.wireguard.android:tunnel:_")
+                // TODO: Re-enable when desugaring is working: implementation("com.wireguard.android:tunnel:_")
             }
         }
 

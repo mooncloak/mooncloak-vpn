@@ -3,19 +3,24 @@ package com.mooncloak.vpn.app.shared.feature.onboarding
 import androidx.compose.runtime.Stable
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.ViewModel
+import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.di.ComponentScoped
 import com.mooncloak.vpn.app.shared.feature.app.AppClientInfo
+import com.mooncloak.vpn.app.shared.storage.AppStorage
 
+@OptIn(ExperimentalPersistentStateAPI::class)
 @Stable
 @ComponentScoped
 public class OnboardingViewModel @Inject public constructor(
-    private val appClientInfo: AppClientInfo
+    private val appClientInfo: AppClientInfo,
+    private val appStorage: AppStorage
 ) : ViewModel<OnboardingStateModel>(initialStateValue = OnboardingStateModel()) {
 
     public fun load() {
         emit(
             value = state.current.value.copy(
-                appVersion = appClientInfo.versionName
+                appVersion = appClientInfo.versionName,
+                viewedOnboarding = appStorage.viewedOnboarding.current.value
             )
         )
     }

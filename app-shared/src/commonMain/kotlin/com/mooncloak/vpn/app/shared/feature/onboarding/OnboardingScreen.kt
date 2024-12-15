@@ -26,13 +26,13 @@ public fun OnboardingScreen(
     onFinish: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val navController = rememberNavController()
     val componentDependencies = rememberFeatureDependencies {
         FeatureDependencies.createOnboardingComponent(
             applicationDependencies = this
         )
     }
     val viewModel = remember { componentDependencies.viewModel }
-    val navController = rememberNavController()
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -51,9 +51,13 @@ public fun OnboardingScreen(
                         modifier = Modifier.fillMaxSize(),
                         version = viewModel.state.current.value.appVersion,
                         onStart = {
-                            navController.navigate(OnboardingDestination.Tutorial) {
-                                popUpTo(OnboardingDestination.Landing) {
-                                    inclusive = true
+                            if (viewModel.state.current.value.viewedOnboarding) {
+                                onFinish.invoke()
+                            } else {
+                                navController.navigate(OnboardingDestination.Tutorial) {
+                                    popUpTo(OnboardingDestination.Landing) {
+                                        inclusive = true
+                                    }
                                 }
                             }
                         }

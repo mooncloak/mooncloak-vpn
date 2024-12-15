@@ -20,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -45,13 +46,16 @@ import com.mooncloak.vpn.app.shared.feature.settings.di.createSettingsComponent
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
+import com.mooncloak.vpn.app.shared.resource.settings_description_landing
 import com.mooncloak.vpn.app.shared.resource.settings_group_app
 import com.mooncloak.vpn.app.shared.resource.settings_group_legal
+import com.mooncloak.vpn.app.shared.resource.settings_group_preferences
 import com.mooncloak.vpn.app.shared.resource.settings_group_subscription
 import com.mooncloak.vpn.app.shared.resource.settings_group_theme
 import com.mooncloak.vpn.app.shared.resource.settings_title_app_version
 import com.mooncloak.vpn.app.shared.resource.settings_title_code
 import com.mooncloak.vpn.app.shared.resource.settings_title_current_plan
+import com.mooncloak.vpn.app.shared.resource.settings_title_landing
 import com.mooncloak.vpn.app.shared.resource.settings_title_licenses
 import com.mooncloak.vpn.app.shared.resource.settings_title_privacy_policy
 import com.mooncloak.vpn.app.shared.resource.settings_title_terms
@@ -212,6 +216,43 @@ public fun SettingsScreen(
                         }
                     )
                 }
+
+                SettingsGroupLabel(
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                        .padding(top = 32.dp),
+                    text = stringResource(Res.string.settings_group_preferences)
+                )
+
+                ListItem(
+                    modifier = Modifier.fillMaxWidth()
+                        .clickable {
+                            coroutineScope.launch {
+
+                            }
+                        },
+                    colors = ListItemDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.background
+                    ),
+                    headlineContent = {
+                        Text(text = stringResource(Res.string.settings_title_landing))
+                    },
+                    supportingContent = {
+                        Text(
+                            text = stringResource(Res.string.settings_description_landing),
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
+                            )
+                        )
+                    },
+                    trailingContent = {
+                        Switch(
+                            checked = viewModel.state.current.value.startOnLandingScreen,
+                            onCheckedChange = { checked ->
+                                viewModel.toggleStartOnLandingScreen(checked)
+                            }
+                        )
+                    }
+                )
 
                 SettingsGroupLabel(
                     modifier = Modifier.padding(horizontal = 16.dp)

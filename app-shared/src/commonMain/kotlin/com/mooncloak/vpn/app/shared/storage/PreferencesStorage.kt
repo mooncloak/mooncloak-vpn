@@ -20,8 +20,15 @@ public class PreferencesStorage @Inject public constructor(
         serializersModule = serializersModule
     )
 
+    public val alwaysDisplayLanding: PersistableStateContainer<Boolean> = persistableStateContainerOf(
+        key = ALWAYS_DISPLAY_LANDING,
+        defaultValue = false,
+        serializersModule = serializersModule
+    )
+
     internal companion object Key {
 
         private const val THEME = "com.mooncloak.vpn.app.storage.key.theme"
+        private const val ALWAYS_DISPLAY_LANDING = "com.mooncloak.vpn.app.storage.key.landing"
     }
 }

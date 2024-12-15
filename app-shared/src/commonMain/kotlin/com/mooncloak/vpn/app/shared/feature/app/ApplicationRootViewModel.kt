@@ -8,6 +8,7 @@ import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.di.ComponentScoped
 import com.mooncloak.vpn.app.shared.storage.AppStorage
+import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -17,6 +18,7 @@ import kotlinx.coroutines.sync.withLock
 @ComponentScoped
 public class ApplicationRootViewModel @Inject public constructor(
     private val appStorage: AppStorage,
+    private val preferencesStorage: PreferencesStorage,
     private val navController: NavController
 ) : ViewModel<ApplicationRootStateModel>(initialStateValue = ApplicationRootStateModel()) {
 
@@ -28,8 +30,9 @@ public class ApplicationRootViewModel @Inject public constructor(
         coroutineScope.launch {
             mutex.withLock {
                 val viewedOnboarding = appStorage.viewedOnboarding.current.value
+                val alwaysDisplayLanding = preferencesStorage.alwaysDisplayLanding.current.value
 
-                val destination = if (viewedOnboarding) {
+                val destination = if (viewedOnboarding && !alwaysDisplayLanding) {
                     RootDestination.Main
                 } else {
                     RootDestination.Onboarding
