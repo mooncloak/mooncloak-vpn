@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +26,7 @@ import com.mooncloak.vpn.app.shared.api.Server
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheet
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.country.model.CountryListBottomSheetDestination
+import com.mooncloak.vpn.app.shared.feature.server.list.ServerListScreen
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import kotlinx.coroutines.launch
 
@@ -93,9 +93,10 @@ internal fun CountryListBottomSheet(
                     onConnect = onConnectToRegion
                 )
 
-                is CountryListBottomSheetDestination.ServerList -> ServerListLayout(
+                is CountryListBottomSheetDestination.ServerList -> ServerListScreen(
                     modifier = Modifier.fillMaxWidth(),
-                    servers = emptyList(), // TODO
+                    country = destination.country,
+                    region = destination.region,
                     onConnect = onConnectToServer
                 )
             }

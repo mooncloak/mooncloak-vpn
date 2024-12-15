@@ -45,7 +45,6 @@ import com.mooncloak.vpn.app.shared.feature.settings.di.createSettingsComponent
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
-import com.mooncloak.vpn.app.shared.resource.global_not_available
 import com.mooncloak.vpn.app.shared.resource.settings_group_app
 import com.mooncloak.vpn.app.shared.resource.settings_group_legal
 import com.mooncloak.vpn.app.shared.resource.settings_group_subscription
