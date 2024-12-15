@@ -53,7 +53,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getPaymentInfo(
+    public suspend fun getPaymentInvoice(
         planId: String,
         secret: String? = null,
         token: Token? = null

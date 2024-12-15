@@ -15,6 +15,8 @@ import com.mooncloak.vpn.app.shared.util.ActivityContext
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
+import com.mooncloak.vpn.app.shared.api.billing.BillingManager
+import com.mooncloak.vpn.app.shared.api.billing.MooncloakBillingManager
 
 @Component
 @Singleton
@@ -39,6 +41,10 @@ internal abstract class AndroidDirectApplicationComponent internal constructor(
     @Singleton
     internal fun provideAppClientInfo(appClientInfo: AndroidAppClientInfo): AppClientInfo =
         appClientInfo
+
+    @Provides
+    @Singleton
+    internal fun provideBillingManager(manager: MooncloakBillingManager): BillingManager = manager
 }
 
 internal fun ApplicationComponent.Companion.create(
