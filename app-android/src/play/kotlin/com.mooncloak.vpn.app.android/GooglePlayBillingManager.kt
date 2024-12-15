@@ -14,6 +14,7 @@ import com.android.billingclient.api.QueryPurchasesParams
 import com.android.billingclient.api.queryProductDetails
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.app.shared.api.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.billing.PaymentProvider
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.billing.PurchaseReceipt
@@ -34,9 +35,9 @@ public class GooglePlayBillingManager @Inject internal constructor(
     private val plansRepository: PlansRepository,
     private val api: MooncloakVpnServiceHttpApi,
     private val serviceAccessDetailsRepository: ServiceAccessDetailsRepository
-) {
+) : BillingManager {
 
-    public var isActive: Boolean = false
+    public override var isActive: Boolean = false
         private set
 
     private val purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
@@ -102,7 +103,7 @@ public class GooglePlayBillingManager @Inject internal constructor(
     private var isClientReady = false
     private lateinit var coroutineScope: CoroutineScope
 
-    public fun start() {
+    public override fun start() {
         if (!isActive) {
             coroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
             isActive = true
@@ -111,7 +112,7 @@ public class GooglePlayBillingManager @Inject internal constructor(
         }
     }
 
-    public fun cancel() {
+    public override fun cancel() {
         if (isActive) {
             isActive = false
             isClientReady = false
@@ -121,7 +122,7 @@ public class GooglePlayBillingManager @Inject internal constructor(
     }
 
     @Throws(IllegalStateException::class, CancellationException::class)
-    public suspend fun getAvailablePlans(): List<Plan> {
+    public override suspend fun getAvailablePlans(): List<Plan> {
         val plans = plansRepository.getAvailablePlans()
         val plansById = plans.associateBy { it.id }
 
@@ -136,7 +137,7 @@ public class GooglePlayBillingManager @Inject internal constructor(
     }
 
     @Throws(IllegalStateException::class, CancellationException::class)
-    public suspend fun purchasePlan(plan: Plan) {
+    public override suspend fun purchasePlan(plan: Plan) {
         val product = getGooglePlayProducts(planIds = listOf(plan.id)).first()
 
         val productDetailsParamsList = listOf(
