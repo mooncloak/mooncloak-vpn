@@ -233,9 +233,9 @@ kotlin {
                 implementation("app.cash.sqldelight:primitive-adapters:_")
 
                 // VPN - WireGuard
-                //
-                //
-                // TODO: Re-enable when desugaring is working: implementation("com.wireguard.android:tunnel:_")
+                // https://github.com/WireGuard/wireguard-android
+                // https://github.com/WireGuard/wireguard-android/blob/master/COPYING
+                implementation("com.wireguard.android:tunnel:_")
             }
         }
 
@@ -302,6 +302,12 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
+    }
+
+    dependencies {
+        // Enables Java 8 APIs for Android - Required by the WireGuard dependency
+        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:_")
     }
 
     tasks.withType<KotlinCompile> {
