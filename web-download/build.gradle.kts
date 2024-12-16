@@ -12,6 +12,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
     id("com.codingfeline.buildkonfig")
+    id("mooncloak.publishWebApp")
 }
 
 kotlin {

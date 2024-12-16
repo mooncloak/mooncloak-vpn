@@ -21,3 +21,10 @@ gradlePlugin {
         implementationClass = "BuildVariablesPlugin"
     }
 }
+
+gradlePlugin {
+    plugins.register("mooncloak.publishWebApp") {
+        id = "mooncloak.publishWebApp"
+        implementationClass = "PublishWebAppPlugin"
+    }
+}

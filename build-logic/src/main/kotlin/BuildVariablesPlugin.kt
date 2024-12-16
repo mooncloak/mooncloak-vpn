@@ -12,7 +12,14 @@ abstract class BuildVariablesPlugin : Plugin<Project> {
         projectBuildVariables[target.name] = BuildVariables(
             kenv = Kenv {
                 system()
+
                 properties(file = target.rootProject.layout.projectDirectory.file("app.properties").asFile)
+
+                val envFile = target.rootProject.layout.projectDirectory.file(".env").asFile
+
+                if (envFile.exists()) {
+                    dotenv(file = envFile)
+                }
             }
         )
     }
@@ -58,18 +65,9 @@ class BuildVariables internal constructor(
     val versionCode: Int
         get() = getCommitCount()
 
-    val stage: String
-        get() = runCatching { kenv.getStringOrNull("stage") }.getOrNull() ?: "release"
-
     val environment: String
         get() = runCatching { kenv.getStringOrNull("environment") }.getOrNull()
             ?: "production"
-
-    val flavor: String?
-        get() = runCatching { kenv.getStringOrNull("flavor") }.getOrNull()
-
-    val serverHost: String?
-        get() = runCatching { kenv.getStringOrNull("serverHost") }.getOrNull()
 
     val cdnPublishAccessKey: String?
         get() = runCatching { kenv.getStringOrNull("mooncloakCdnAccessKey") }.getOrNull()
