@@ -111,11 +111,11 @@ public abstract class ApplicationComponent : ApplicationDependencies {
 
     @Provides
     @Singleton
-    internal fun providePlansRepository(source: DefaultPlansSource): PlansRepository = source
+    public fun providePlansRepository(source: DefaultPlansSource): PlansRepository = source
 
     @Provides
     @Singleton
-    internal fun provideServiceAccessDetailsRepository(source: ServiceAccessDetailsDatabaseSource): ServiceAccessDetailsRepository =
+    public fun provideServiceAccessDetailsRepository(source: ServiceAccessDetailsDatabaseSource): ServiceAccessDetailsRepository =
         source
 
     public companion object

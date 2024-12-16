@@ -140,6 +140,8 @@
     <string name="payment_bitcoin_address_label">Bitcoin Address</string>
     <string name="payment_status_label">Payment Status</string>
     <string name="payment_status_pending">Pending Payment</string>
+    <string name="payment_error_no_plans_title">No Plan Data</string>
+    <string name="payment_error_no_plans_description">There was an error loading plans. Please try again later.</string>
 
     <string name="payment_history_title">Payment History</string>
 

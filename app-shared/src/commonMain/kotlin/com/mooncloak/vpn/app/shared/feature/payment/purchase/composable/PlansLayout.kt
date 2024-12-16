@@ -26,6 +26,7 @@ internal fun PlansLayout(
     selectedPlan: Plan?,
     plans: List<Plan>,
     acceptedTerms: Boolean,
+    loading: Boolean,
     termsAndConditionsText: AnnotatedString,
     onPlanSelected: (plan: Plan) -> Unit,
     onAcceptedTermsToggled: (accepted: Boolean) -> Unit,
@@ -37,57 +38,65 @@ internal fun PlansLayout(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(
-            items = plans,
-            key = { plan -> plan.id },
-            contentType = { "PlanCard" }
-        ) { plan ->
-            PlanCard(
-                modifier = Modifier.fillMaxWidth(),
-                title = plan.title,
-                description = plan.description,
-                price = plan.price.formatted ?: "", // TODO: Format price
-                highlight = plan.highlight,
-                selected = selectedPlan == plan,
-                enabled = plan.active,
-                onSelected = {
-                    onPlanSelected.invoke(plan)
-                }
-            )
-        }
-
-        item(key = "TermsAndConditions") {
-            Row(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(top = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = acceptedTerms,
-                    onClick = {
-                        onAcceptedTermsToggled.invoke(!acceptedTerms)
-                    },
-                    colors = RadioButtonDefaults.colors(
-                        selectedColor = MaterialTheme.colorScheme.primary,
-                        unselectedColor = MaterialTheme.colorScheme.onSurface
-                    )
-                )
-
-                Text(
-                    modifier = Modifier.padding(start = 16.dp),
-                    text = termsAndConditionsText
+        if (!loading && plans.isNotEmpty()) {
+            items(
+                items = plans,
+                key = { plan -> plan.id },
+                contentType = { "PlanCard" }
+            ) { plan ->
+                PlanCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    title = plan.title,
+                    description = plan.description,
+                    price = plan.price.formatted ?: "", // TODO: Format price
+                    highlight = plan.highlight,
+                    selected = selectedPlan == plan,
+                    enabled = plan.active,
+                    onSelected = {
+                        onPlanSelected.invoke(plan)
+                    }
                 )
             }
-        }
 
-        item(key = "Select") {
-            Button(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(top = 32.dp),
-                enabled = selectedPlan != null && acceptedTerms,
-                onClick = onSelect
-            ) {
-                Text(text = stringResource(Res.string.payment_action_select))
+            item(key = "TermsAndConditions") {
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(top = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
+                        selected = acceptedTerms,
+                        onClick = {
+                            onAcceptedTermsToggled.invoke(!acceptedTerms)
+                        },
+                        colors = RadioButtonDefaults.colors(
+                            selectedColor = MaterialTheme.colorScheme.primary,
+                            unselectedColor = MaterialTheme.colorScheme.onSurface
+                        )
+                    )
+
+                    Text(
+                        modifier = Modifier.padding(start = 16.dp),
+                        text = termsAndConditionsText
+                    )
+                }
+            }
+
+            item(key = "Select") {
+                Button(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(top = 32.dp),
+                    enabled = selectedPlan != null && acceptedTerms,
+                    onClick = onSelect
+                ) {
+                    Text(text = stringResource(Res.string.payment_action_select))
+                }
+            }
+        } else if (!loading) {
+            item(key = "NoPlanDataAvailable") {
+                NoPlansCard(
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     }

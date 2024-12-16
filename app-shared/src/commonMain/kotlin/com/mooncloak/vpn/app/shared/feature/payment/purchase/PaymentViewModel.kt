@@ -11,6 +11,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.navigation.NavController
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.ViewModel
+import com.mooncloak.vpn.app.shared.api.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.billing.BitcoinPlanInvoice
 import com.mooncloak.vpn.app.shared.api.money.Currency
 import com.mooncloak.vpn.app.shared.api.money.CurrencyType
@@ -38,45 +39,9 @@ import org.jetbrains.compose.resources.getString
 @ComponentScoped
 public class PaymentViewModel @Inject public constructor(
     private val appClientInfo: AppClientInfo,
-    private val navController: NavController
+    private val navController: NavController,
+    private val billingManager: BillingManager
 ) : ViewModel<PaymentStateModel>(initialStateValue = PaymentStateModel()) {
-
-    private val testPlans = listOf(
-        Plan(
-            id = "1",
-            title = "One Day",
-            description = "Valid for one day or 1Gb of usage. Whichever comes first.",
-            price = Price(
-                currency = Currency(type = CurrencyType.Iso4217, code = "USD"),
-                amount = 3,
-                formatted = "$3"
-            ),
-            created = Clock.System.now()
-        ),
-        Plan(
-            id = "2",
-            title = "One Week",
-            description = "Valid for one week or 10Gb of usage. Whichever comes first.",
-            price = Price(
-                currency = Currency(type = CurrencyType.Iso4217, code = "USD"),
-                amount = 5,
-                formatted = "$5"
-            ),
-            highlight = "Most Popular",
-            created = Clock.System.now()
-        ),
-        Plan(
-            id = "3",
-            title = "One Month",
-            description = "Valid for one month or 100Gb of usage. Whichever comes first.",
-            price = Price(
-                currency = Currency(type = CurrencyType.Iso4217, code = "USD"),
-                amount = 8,
-                formatted = "$8"
-            ),
-            created = Clock.System.now()
-        )
-    )
 
     private val mutex = Mutex(locked = false)
 
@@ -86,9 +51,11 @@ public class PaymentViewModel @Inject public constructor(
                 emit(value = state.current.value.copy(isLoading = true))
 
                 var termsAndConditionsText: (@Composable () -> AnnotatedString) = { AnnotatedString("") }
+                var plans = emptyList<Plan>()
 
                 try {
                     termsAndConditionsText = getTermsAndConditionsText()
+                    plans = billingManager.getAvailablePlans()
 
                     // TODO: Load real plans
                     // TODO: Obtain current plan invoice
@@ -98,8 +65,8 @@ public class PaymentViewModel @Inject public constructor(
                         value = state.current.value.copy(
                             isLoading = false,
                             errorMessage = null,
-                            plans = testPlans,
                             termsAndConditionsText = termsAndConditionsText,
+                            plans = plans,
                             startDestination = PaymentDestination.Plans, // TODO:
                             screenTitle = getString(Res.string.payment_plans_title)
                         )
@@ -110,6 +77,7 @@ public class PaymentViewModel @Inject public constructor(
                             isLoading = false,
                             errorMessage = e.message ?: getString(Res.string.global_unexpected_error),
                             termsAndConditionsText = termsAndConditionsText,
+                            plans = plans,
                             startDestination = PaymentDestination.Plans
                         )
                     )

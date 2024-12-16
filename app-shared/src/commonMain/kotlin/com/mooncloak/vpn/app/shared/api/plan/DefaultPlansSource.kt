@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 // TODO: Implement a cache: Perhaps an HTTP cache is enough?
-internal class DefaultPlansSource @Inject internal constructor(
+public class DefaultPlansSource @Inject public constructor(
     private val api: MooncloakVpnServiceHttpApi
 ) : PlansRepository {
 

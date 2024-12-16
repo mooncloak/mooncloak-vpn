@@ -6,6 +6,7 @@ import com.android.billingclient.api.BillingClient.BillingResponseCode
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
@@ -64,6 +65,12 @@ public class GooglePlayBillingManager @Inject internal constructor(
 
     private val billingClient = BillingClient.newBuilder(context)
         .setListener(purchasesUpdatedListener)
+        .enablePendingPurchases(
+            PendingPurchasesParams.newBuilder()
+                .enablePrepaidPlans()
+                .enableOneTimeProducts()
+                .build()
+        )
         .build()
 
     private val connectionStateListener = object : BillingClientStateListener {
