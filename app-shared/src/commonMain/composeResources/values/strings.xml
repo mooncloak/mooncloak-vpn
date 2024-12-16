@@ -28,7 +28,7 @@
     <string name="onboarding_title_payment_crypto">Pay with cryptocurrency</string>
     <string name="onboarding_title_payment_google_play">Secure payments</string>
     <string name="onboarding_description_no_tracking">Your IP address is never logged or associated with your online activity.</string>
-    <string name="onboarding_description_no_accounts">No email, phone, or other identifier is required to use the VPN service. Therefore, this data is never tracked.</string>
+    <string name="onboarding_description_no_accounts">No email or phone is required to use the VPN service. Therefore, this data is never tracked.</string>
     <string name="onboarding_description_no_data_creeps">Pull the blinds on the data creeps. Hide your online activity from your ISP, big corporations, and governments.</string>
     <string name="onboarding_description_no_subscriptions">No monthly subscriptions or overcharges. Pay upfront for what you need.</string>
     <string name="onboarding_description_no_data_selling">We never sell your data to third-parties.</string>
