@@ -2,6 +2,8 @@ package com.mooncloak.vpn.app.shared.feature.main
 
 import androidx.compose.runtime.Stable
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavOptions
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
@@ -38,7 +40,22 @@ public class MainViewModel @Inject public constructor(
     public fun select(destination: MainDestination) {
         coroutineScope.launch {
             mutex.withLock {
-                navController.navigate(destination)
+                navController.navigate(
+                    route = destination,
+                    navOptions = NavOptions.Builder()
+                        .setLaunchSingleTop(true)
+                        .setRestoreState(true)
+                        // This only sets a single destination in the backstack.
+                        // This way the back function is handled appropriately.
+                        // Adapted from the following documentation:
+                        // https://developer.android.com/develop/ui/compose/navigation#bottom-nav
+                        .setPopUpTo(
+                            destinationId = navController.graph.findStartDestination().id,
+                            inclusive = true,
+                            saveState = true
+                        )
+                        .build()
+                )
 
                 emit(
                     value = state.current.value.copy(
