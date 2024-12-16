@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="app_name">mooncloak VPN</string>
+
+    <string name="app_slogan_line_1">Go \nDark,</string>
+    <string name="app_slogan_line_2">Stay \nBright</string>
+
+    <string name="app_not_released">Application coming soon.</string>
+
+</resources>

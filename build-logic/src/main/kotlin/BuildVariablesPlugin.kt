@@ -59,26 +59,35 @@ class BuildVariables internal constructor(
         get() = getCommitCount()
 
     val stage: String
-        get() = kotlin.runCatching { kenv.getStringOrNull("stage") }.getOrNull() ?: "release"
+        get() = runCatching { kenv.getStringOrNull("stage") }.getOrNull() ?: "release"
 
     val environment: String
-        get() = kotlin.runCatching { kenv.getStringOrNull("environment") }.getOrNull()
+        get() = runCatching { kenv.getStringOrNull("environment") }.getOrNull()
             ?: "production"
 
     val flavor: String?
-        get() = kotlin.runCatching { kenv.getStringOrNull("flavor") }.getOrNull()
+        get() = runCatching { kenv.getStringOrNull("flavor") }.getOrNull()
 
     val serverHost: String?
-        get() = kotlin.runCatching { kenv.getStringOrNull("serverHost") }.getOrNull()
+        get() = runCatching { kenv.getStringOrNull("serverHost") }.getOrNull()
 
     val cdnPublishAccessKey: String?
-        get() = kotlin.runCatching { kenv.getStringOrNull("mooncloakCdnAccessKey") }.getOrNull()
+        get() = runCatching { kenv.getStringOrNull("mooncloakCdnAccessKey") }.getOrNull()
 
     val cdnPublishSecretKey: String?
-        get() = kotlin.runCatching { kenv.getStringOrNull("mooncloakCdnSecretKey") }.getOrNull()
+        get() = runCatching { kenv.getStringOrNull("mooncloakCdnSecretKey") }.getOrNull()
 
     val publishAsLatest: Boolean
-        get() = kotlin.runCatching { kenv.getBooleanOrNull("publishAsLatest") }.getOrNull() ?: true
+        get() = runCatching { kenv.getBooleanOrNull("publishAsLatest") }.getOrNull() ?: true
+
+    val playStoreUrl: String?
+        get() = runCatching { kenv.getStringOrNull("playStoreUrl") }.getOrNull()
+
+    val playStorePreRegisterUrl: String?
+        get() = runCatching { kenv.getStringOrNull("playStorePreRegisterUrl") }.getOrNull()
+
+    val directDownloadUrl: String?
+        get() = runCatching { kenv.getStringOrNull("directDownloadUrl") }.getOrNull()
 }
 
 val Project.buildVariables: BuildVariables

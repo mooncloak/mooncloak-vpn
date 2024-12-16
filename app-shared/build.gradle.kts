@@ -323,7 +323,7 @@ compose.resources {
     generateResClass = always
 }
 
-// `./gradlew :app-client-info:generateBuildKonfig`
+// `./gradlew :app-shared:generateBuildKonfig`
 buildkonfig {
     packageName = "com.mooncloak.vpn.feature.app"
     objectName = "SharedBuildConfig"
