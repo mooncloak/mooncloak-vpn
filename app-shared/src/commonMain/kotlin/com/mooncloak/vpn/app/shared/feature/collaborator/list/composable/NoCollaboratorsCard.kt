@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.payment.purchase.composable
+package com.mooncloak.vpn.app.shared.feature.collaborator.list.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -22,17 +20,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.resource.Res
-import com.mooncloak.vpn.app.shared.resource.payment_error_no_plans_description
-import com.mooncloak.vpn.app.shared.resource.payment_error_no_plans_title
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
-internal fun NoPlansCard(
+internal fun NoCollaboratorsCard(
+    title: String,
+    description: String? = null,
+    icon: Painter,
+    error: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -46,34 +43,51 @@ internal fun NoPlansCard(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ErrorHeaderGraphic(
+            HeaderGraphic(
                 modifier = Modifier.size(64.dp)
                     .align(Alignment.CenterHorizontally),
-                painter = rememberVectorPainter(Icons.Default.Error)
+                painter = icon,
+                containerColor = if (error) {
+                    MaterialTheme.colorScheme.errorContainer.copy(alpha = SecondaryAlpha)
+                } else {
+                    MaterialTheme.colorScheme.background
+                },
+                contentColor = if (error) {
+                    MaterialTheme.colorScheme.onErrorContainer
+                } else {
+                    MaterialTheme.colorScheme.onBackground
+                }
             )
 
             Text(
                 modifier = Modifier.padding(top = 16.dp),
-                text = stringResource(Res.string.payment_error_no_plans_title),
+                text = title,
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center
             )
 
-            Text(
-                modifier = Modifier.padding(top = 8.dp),
-                text = stringResource(Res.string.payment_error_no_plans_description),
-                style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)),
-                textAlign = TextAlign.Center
-            )
+            if (description != null) {
+                Text(
+                    modifier = Modifier.padding(top = 8.dp),
+                    text = description,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurface.copy(
+                            alpha = SecondaryAlpha
+                        )
+                    ),
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun ErrorHeaderGraphic(
+private fun HeaderGraphic(
     painter: Painter,
     modifier: Modifier = Modifier,
     shape: Shape = CircleShape,
+    containerColor: Color = MaterialTheme.colorScheme.errorContainer.copy(alpha = SecondaryAlpha),
     contentColor: Color = MaterialTheme.colorScheme.onErrorContainer,
     contentDescription: String? = null
 ) {
@@ -84,7 +98,7 @@ private fun ErrorHeaderGraphic(
         Box(
             modifier = Modifier.matchParentSize()
                 .clip(shape)
-                .background(MaterialTheme.colorScheme.errorContainer.copy(alpha = SecondaryAlpha))
+                .background(containerColor)
         )
 
         val iconSize = minOf(maxWidth, maxHeight) / 2

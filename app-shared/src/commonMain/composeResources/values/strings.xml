@@ -108,6 +108,7 @@
     <string name="settings_group_app">App</string>
     <string name="settings_title_app_version">Version</string>
     <string name="settings_title_licenses">Open Source Licenses</string>
+    <string name="settings_title_collaborators">Contributors</string>
     <string name="settings_title_code">View Source Code</string>
     <string name="settings_group_subscription">Subscription</string>
     <string name="settings_title_current_plan">Current Plan</string>
@@ -147,5 +148,11 @@
     <string name="payment_error_no_plans_description">There was an error loading plans. Please try again later.</string>
 
     <string name="payment_history_title">Payment History</string>
+
+    <string name="collaborator_list_header">Top Contributors</string>
+    <string name="collaborator_list_title_error">Error loading collaborators</string>
+    <string name="collaborator_list_title_empty">No collaborators found</string>
+    <string name="collaborator_list_description_error">There was an unexpected issue loading the contributors of the project. Please try again later.</string>
+    <string name="collaborator_list_description_empty">The top contributors of the project will be displayed here.</string>
 
 </resources>

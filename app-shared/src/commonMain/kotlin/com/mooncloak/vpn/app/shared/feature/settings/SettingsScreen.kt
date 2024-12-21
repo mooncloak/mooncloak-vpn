@@ -56,6 +56,7 @@ import com.mooncloak.vpn.app.shared.resource.settings_group_subscription
 import com.mooncloak.vpn.app.shared.resource.settings_group_theme
 import com.mooncloak.vpn.app.shared.resource.settings_title_app_version
 import com.mooncloak.vpn.app.shared.resource.settings_title_code
+import com.mooncloak.vpn.app.shared.resource.settings_title_collaborators
 import com.mooncloak.vpn.app.shared.resource.settings_title_current_plan
 import com.mooncloak.vpn.app.shared.resource.settings_title_landing
 import com.mooncloak.vpn.app.shared.resource.settings_title_licenses
@@ -218,6 +219,21 @@ public fun SettingsScreen(
                         }
                     )
                 }
+
+                ListItem(
+                    modifier = Modifier.fillMaxWidth()
+                        .clickable {
+                            coroutineScope.launch {
+                                bottomSheetState.show(SettingsBottomSheetDestination.Collaborators)
+                            }
+                        },
+                    colors = ListItemDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.background
+                    ),
+                    headlineContent = {
+                        Text(text = stringResource(Res.string.settings_title_collaborators))
+                    }
+                )
 
                 SettingsGroupLabel(
                     modifier = Modifier.padding(horizontal = 16.dp)

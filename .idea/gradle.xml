@@ -26,6 +26,7 @@
             <option value="$PROJECT_DIR$/app-desktop" />
             <option value="$PROJECT_DIR$/app-shared" />
             <option value="$PROJECT_DIR$/build-logic" />
+            <option value="$PROJECT_DIR$/web-download" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

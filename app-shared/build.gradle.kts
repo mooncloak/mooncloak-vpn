@@ -364,6 +364,12 @@ buildkonfig {
             name = "appBuildTime",
             value = nowTimestamp()
         )
+        buildConfigField(
+            type = STRING,
+            name = "githubApiToken",
+            nullable = true,
+            value = buildVariables.githubApiToken
+        )
     }
 }
 

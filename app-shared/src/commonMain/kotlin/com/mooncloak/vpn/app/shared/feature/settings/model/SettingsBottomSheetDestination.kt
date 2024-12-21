@@ -17,4 +17,9 @@ internal sealed interface SettingsBottomSheetDestination {
     @Serializable
     @SerialName(value = "subscription")
     data object Subscription : SettingsBottomSheetDestination
+
+    @Immutable
+    @Serializable
+    @SerialName(value = "collaborators")
+    data object Collaborators : SettingsBottomSheetDestination
 }
