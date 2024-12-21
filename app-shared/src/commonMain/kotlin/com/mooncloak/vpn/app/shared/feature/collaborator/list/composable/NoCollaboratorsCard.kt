@@ -50,7 +50,7 @@ internal fun NoCollaboratorsCard(
                 containerColor = if (error) {
                     MaterialTheme.colorScheme.errorContainer.copy(alpha = SecondaryAlpha)
                 } else {
-                    MaterialTheme.colorScheme.background
+                    MaterialTheme.colorScheme.background.copy(alpha = SecondaryAlpha)
                 },
                 contentColor = if (error) {
                     MaterialTheme.colorScheme.onErrorContainer
