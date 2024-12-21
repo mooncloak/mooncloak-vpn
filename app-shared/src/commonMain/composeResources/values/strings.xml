@@ -150,8 +150,8 @@
     <string name="payment_history_title">Payment History</string>
 
     <string name="collaborator_list_header">Top Contributors</string>
-    <string name="collaborator_list_title_error">Error loading collaborators</string>
-    <string name="collaborator_list_title_empty">No collaborators found</string>
+    <string name="collaborator_list_title_error">Error loading contributors</string>
+    <string name="collaborator_list_title_empty">No contributors found</string>
     <string name="collaborator_list_description_error">There was an unexpected issue loading the contributors of the project. Please try again later.</string>
     <string name="collaborator_list_description_empty">The top contributors of the project will be displayed here.</string>
 
