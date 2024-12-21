@@ -64,9 +64,6 @@ import com.mooncloak.vpn.app.shared.resource.settings_title_terms
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalPersistentStateAPI::class)
