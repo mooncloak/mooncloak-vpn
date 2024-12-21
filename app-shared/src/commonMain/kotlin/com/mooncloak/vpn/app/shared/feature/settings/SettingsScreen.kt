@@ -40,11 +40,13 @@ import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberApplicationDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsBottomSheet
+import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsFooterItem
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsGroupLabel
 import com.mooncloak.vpn.app.shared.feature.settings.composable.ThemePreferenceSegmentedButton
 import com.mooncloak.vpn.app.shared.feature.settings.di.createSettingsComponent
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.app_built_description
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
 import com.mooncloak.vpn.app.shared.resource.settings_description_landing
 import com.mooncloak.vpn.app.shared.resource.settings_group_app
@@ -62,6 +64,9 @@ import com.mooncloak.vpn.app.shared.resource.settings_title_terms
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalPersistentStateAPI::class)
@@ -284,6 +289,12 @@ public fun SettingsScreen(
                         }
                     )
                 }
+
+                SettingsFooterItem(
+                    modifier = Modifier.fillMaxWidth(),
+                    copyright = viewModel.state.current.value.copyright,
+                    description = stringResource(Res.string.app_built_description)
+                )
 
                 Spacer(modifier = Modifier.height(containerPaddingValues.calculateBottomPadding() + 28.dp))
             }

@@ -6,6 +6,9 @@
     <string name="app_slogan_line_1">Go \nDark,</string>
     <string name="app_slogan_line_2">Stay \nBright</string>
 
+    <string name="app_copyright">© %1$s Mooncloak LLC. All rights reserved.</string>
+    <string name="app_built_description">Built with ❤️ by mooncloak and contributors</string>
+
     <string name="destination_main_home_title">Home</string>
     <string name="destination_main_countries_title">Countries</string>
     <string name="destination_main_support_title">Support</string>

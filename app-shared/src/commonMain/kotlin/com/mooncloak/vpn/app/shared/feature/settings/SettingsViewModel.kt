@@ -10,11 +10,15 @@ import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.di.ComponentScoped
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.app_copyright
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.resource.subscription_no_active_plan
 import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.getString
 
 @OptIn(ExperimentalPersistentStateAPI::class)
@@ -23,7 +27,8 @@ import org.jetbrains.compose.resources.getString
 public class SettingsViewModel @Inject public constructor(
     private val appClientInfo: AppClientInfo,
     private val subscriptionStorage: SubscriptionStorage,
-    private val preferencesStorage: PreferencesStorage
+    private val preferencesStorage: PreferencesStorage,
+    private val clock: Clock
 ) : ViewModel<SettingsStateModel>(initialStateValue = SettingsStateModel()) {
 
     @OptIn(ExperimentalPersistentStateAPI::class)
@@ -37,6 +42,7 @@ public class SettingsViewModel @Inject public constructor(
             var sourceCodeUri: String? = null
             var currentPlan: String? = null
             var startOnLandingScreen = false
+            var copyright: String? = null
 
             try {
                 appVersion = appClientInfo.versionName
@@ -44,6 +50,10 @@ public class SettingsViewModel @Inject public constructor(
                 termsUri = appClientInfo.termsAndConditionsUri
                 sourceCodeUri = appClientInfo.sourceCodeUri
                 startOnLandingScreen = preferencesStorage.alwaysDisplayLanding.current.value
+                copyright = getString(
+                    Res.string.app_copyright,
+                    clock.now().toLocalDateTime(TimeZone.currentSystemDefault()).year.toString()
+                )
 
                 val subscription = subscriptionStorage.subscription.current.value
 
@@ -60,7 +70,8 @@ public class SettingsViewModel @Inject public constructor(
                         privacyPolicyUri = privacyPolicyUri,
                         termsUri = termsUri,
                         sourceCodeUri = sourceCodeUri,
-                        startOnLandingScreen = startOnLandingScreen
+                        startOnLandingScreen = startOnLandingScreen,
+                        copyright = copyright
                     )
                 )
             } catch (e: Exception) {
@@ -73,7 +84,8 @@ public class SettingsViewModel @Inject public constructor(
                         privacyPolicyUri = privacyPolicyUri,
                         termsUri = termsUri,
                         sourceCodeUri = sourceCodeUri,
-                        startOnLandingScreen = startOnLandingScreen
+                        startOnLandingScreen = startOnLandingScreen,
+                        copyright = copyright
                     )
                 )
             }
