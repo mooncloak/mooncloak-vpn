@@ -19,8 +19,9 @@ internal class GithubApi @Inject internal constructor(
         repository: String
     ): List<GithubCollaborator> {
         val httpResponse = httpClient.get("https://api.github.com/repos/$owner/$repository/collaborators") {
+            getGithubApiToken()?.let { bearerAuth(it) }
+
             accept(ContentType.Application.Json)
-            bearerAuth(getGithubApiToken())
         }
 
         return httpResponse.body()
@@ -35,8 +36,9 @@ internal class GithubApi @Inject internal constructor(
         page: Int? = null
     ): List<GithubCommit> {
         val httpResponse = httpClient.get("https://api.github.com/repos/$owner/$repository/commits") {
+            getGithubApiToken()?.let { bearerAuth(it) }
+
             accept(ContentType.Application.Json)
-            bearerAuth(getGithubApiToken())
 
             if (author != null) {
                 parameter(key = "author", value = author)
@@ -58,5 +60,5 @@ internal class GithubApi @Inject internal constructor(
         return httpResponse.body()
     }
 
-    private fun getGithubApiToken(): String = SharedBuildConfig.githubApiToken!!
+    private fun getGithubApiToken(): String? = SharedBuildConfig.githubApiToken
 }
