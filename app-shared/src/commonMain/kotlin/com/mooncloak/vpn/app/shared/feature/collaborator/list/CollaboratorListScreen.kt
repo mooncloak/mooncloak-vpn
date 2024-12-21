@@ -14,8 +14,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,7 +43,6 @@ public fun CollaboratorListScreen(
         FeatureDependencies.createCollaboratorListComponent(applicationDependencies = this)
     }
     val viewModel = remember { componentDependencies.viewModel }
-    val snackbarHostState = remember { SnackbarHostState() }
     val lazyListState = rememberLazyListState()
 
     LaunchedEffect(Unit) {
@@ -54,9 +51,6 @@ public fun CollaboratorListScreen(
 
     Scaffold(
         modifier = modifier,
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        },
         containerColor = MaterialTheme.colorScheme.surface,
         contentColor = MaterialTheme.colorScheme.onSurface
     ) { paddingValues ->
@@ -96,7 +90,8 @@ public fun CollaboratorListScreen(
                             NoCollaboratorsCard(
                                 title = stringResource(Res.string.collaborator_list_title_error),
                                 description = stringResource(Res.string.collaborator_list_description_error),
-                                icon = rememberVectorPainter(Icons.Default.Error)
+                                icon = rememberVectorPainter(Icons.Default.Error),
+                                error = true
                             )
                         }
                     } else {
@@ -104,7 +99,8 @@ public fun CollaboratorListScreen(
                             NoCollaboratorsCard(
                                 title = stringResource(Res.string.collaborator_list_title_empty),
                                 description = stringResource(Res.string.collaborator_list_description_empty),
-                                icon = rememberVectorPainter(Icons.Default.Search)
+                                icon = rememberVectorPainter(Icons.Default.Search),
+                                error = false
                             )
                         }
                     }
@@ -117,12 +113,6 @@ public fun CollaboratorListScreen(
             ) {
                 CircularProgressIndicator()
             }
-        }
-    }
-
-    LaunchedEffect(viewModel.state.current.value.errorMessage) {
-        viewModel.state.current.value.errorMessage?.let { errorMessage ->
-            snackbarHostState.showSnackbar(message = errorMessage)
         }
     }
 }
