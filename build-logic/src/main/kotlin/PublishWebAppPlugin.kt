@@ -80,7 +80,7 @@ private fun Project.registerPublishWebApp() {
                     if (lastPathSeparator != -1 && lastPathSeparator + 1 < file.name.length) {
                         val filename = file.name.substring(startIndex = lastPathSeparator + 1)
 
-                        filename.startsWith("mooncloak-app") && filename.endsWith(".wasm")
+                        filename.startsWith("mooncloak-vpn") && filename.endsWith(".wasm")
                     } else {
                         false
                     }
