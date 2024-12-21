@@ -224,12 +224,7 @@ public fun SettingsScreen(
                 )
 
                 ListItem(
-                    modifier = Modifier.fillMaxWidth()
-                        .clickable {
-                            coroutineScope.launch {
-
-                            }
-                        },
+                    modifier = Modifier.fillMaxWidth(),
                     colors = ListItemDefaults.colors(
                         containerColor = MaterialTheme.colorScheme.background
                     ),
