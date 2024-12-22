@@ -21,6 +21,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.getString
+import kotlin.time.Duration
 
 @OptIn(ExperimentalPersistentStateAPI::class)
 @Stable
@@ -38,15 +39,16 @@ public class SettingsViewModel @Inject public constructor(
         coroutineScope.launch {
             emit(value = state.current.value.copy(isLoading = true))
 
-            var appVersion: String? = null
-            var privacyPolicyUri: String? = null
-            var termsUri: String? = null
-            var sourceCodeUri: String? = null
-            var currentPlan: String? = null
-            var startOnLandingScreen = false
-            var copyright: String? = null
-            var isSystemAuthSupported = false
-            var requireSystemAuth = false
+            var appVersion: String? = state.current.value.appVersion
+            var privacyPolicyUri: String? = state.current.value.privacyPolicyUri
+            var termsUri: String? = state.current.value.termsUri
+            var sourceCodeUri: String? = state.current.value.sourceCodeUri
+            var currentPlan: String? = state.current.value.currentPlan
+            var startOnLandingScreen = state.current.value.startOnLandingScreen
+            var copyright: String? = state.current.value.copyright
+            var isSystemAuthSupported = state.current.value.isSystemAuthSupported
+            var requireSystemAuth = state.current.value.requireSystemAuth
+            var systemAuthTimeout = state.current.value.systemAuthTimeout
 
             try {
                 appVersion = appClientInfo.versionName
@@ -68,6 +70,7 @@ public class SettingsViewModel @Inject public constructor(
 
                 isSystemAuthSupported = systemAuthenticationProvider.isSupported
                 requireSystemAuth = preferencesStorage.requireSystemAuth.current.value
+                systemAuthTimeout = preferencesStorage.systemAuthTimeout.current.value
 
                 emit(
                     value = state.current.value.copy(
@@ -80,7 +83,8 @@ public class SettingsViewModel @Inject public constructor(
                         startOnLandingScreen = startOnLandingScreen,
                         copyright = copyright,
                         isSystemAuthSupported = isSystemAuthSupported,
-                        requireSystemAuth = requireSystemAuth
+                        requireSystemAuth = requireSystemAuth,
+                        systemAuthTimeout = systemAuthTimeout
                     )
                 )
             } catch (e: Exception) {
@@ -96,7 +100,8 @@ public class SettingsViewModel @Inject public constructor(
                         startOnLandingScreen = startOnLandingScreen,
                         copyright = copyright,
                         isSystemAuthSupported = isSystemAuthSupported,
-                        requireSystemAuth = requireSystemAuth
+                        requireSystemAuth = requireSystemAuth,
+                        systemAuthTimeout = systemAuthTimeout
                     )
                 )
             }
@@ -142,6 +147,31 @@ public class SettingsViewModel @Inject public constructor(
                 emit(
                     value = state.current.value.copy(
                         requireSystemAuth = !checked,
+                        errorMessage = getString(Res.string.global_unexpected_error)
+                    )
+                )
+            }
+        }
+    }
+
+    public fun updateSystemAuthTimeout(timeout: Duration) {
+        coroutineScope.launch {
+            val current = state.current.value.systemAuthTimeout
+
+            emit(
+                value = state.current.value.copy(
+                    systemAuthTimeout = timeout
+                )
+            )
+
+            try {
+                preferencesStorage.systemAuthTimeout.update(timeout)
+            } catch (e: Exception) {
+                LogPile.error(message = "Error storing 'system auth timeout' value.", cause = e)
+
+                emit(
+                    value = state.current.value.copy(
+                        systemAuthTimeout = current,
                         errorMessage = getString(Res.string.global_unexpected_error)
                     )
                 )

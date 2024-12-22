@@ -255,11 +255,15 @@ public fun SettingsScreen(
                     startOnLandingScreen = viewModel.state.current.value.startOnLandingScreen,
                     isSystemAuthSupported = viewModel.state.current.value.isSystemAuthSupported,
                     requireSystemAuth = viewModel.state.current.value.requireSystemAuth,
+                    systemAuthTimeout = viewModel.state.current.value.systemAuthTimeout,
                     onToggleStartOnLandingScreen = { checked ->
                         viewModel.toggleStartOnLandingScreen(checked)
                     },
                     onToggleRequireSystemAuth = { checked ->
                         viewModel.toggleRequireSystemAuth(checked)
+                    },
+                    onSystemAuthTimeoutChanged = { timeout ->
+                        viewModel.updateSystemAuthTimeout(timeout)
                     }
                 )
 
