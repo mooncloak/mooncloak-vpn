@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Search
@@ -24,6 +26,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.collaborator.list.composable.CollaboratorHeader
 import com.mooncloak.vpn.app.shared.feature.collaborator.list.composable.CollaboratorListItem
 import com.mooncloak.vpn.app.shared.feature.collaborator.list.composable.NoCollaboratorsCard
 import com.mooncloak.vpn.app.shared.feature.collaborator.list.di.createCollaboratorListComponent
@@ -43,7 +46,7 @@ public fun CollaboratorListScreen(
         FeatureDependencies.createCollaboratorListComponent(applicationDependencies = this)
     }
     val viewModel = remember { componentDependencies.viewModel }
-    val lazyListState = rememberLazyListState()
+    val lazyListState = rememberLazyGridState()
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -58,18 +61,20 @@ public fun CollaboratorListScreen(
             modifier = Modifier.fillMaxSize()
                 .padding(paddingValues)
         ) {
-            LazyColumn(
+            LazyVerticalGrid(
                 modifier = Modifier.fillMaxWidth(),
-                state = lazyListState
+                state = lazyListState,
+                columns = GridCells.Adaptive(minSize = 150.dp)
             ) {
                 if (viewModel.state.current.value.collaborators.isNotEmpty()) {
-                    item(key = "CollaboratorListHeader") {
-                        Text(
+                    item(
+                        key = "CollaboratorListHeader",
+                        span = { GridItemSpan(currentLineSpan = maxLineSpan) }
+                    ) {
+                        CollaboratorHeader(
                             modifier = Modifier.fillMaxWidth()
                                 .padding(horizontal = 16.dp)
-                                .padding(top = 16.dp),
-                            text = stringResource(Res.string.collaborator_list_header),
-                            style = MaterialTheme.typography.titleLarge
+                                .padding(bottom = 16.dp)
                         )
                     }
                 }
@@ -79,14 +84,18 @@ public fun CollaboratorListScreen(
                     key = { collaborator -> collaborator.id }
                 ) { collaborator ->
                     CollaboratorListItem(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(16.dp),
                         collaborator = collaborator
                     )
                 }
 
                 if (viewModel.state.current.value.collaborators.isEmpty()) {
                     if (viewModel.state.current.value.isError) {
-                        item(key = "ErrorLoadingCollaboratorsItem") {
+                        item(
+                            key = "ErrorLoadingCollaboratorsItem",
+                            span = { GridItemSpan(currentLineSpan = maxLineSpan) }
+                        ) {
                             NoCollaboratorsCard(
                                 title = stringResource(Res.string.collaborator_list_title_error),
                                 description = stringResource(Res.string.collaborator_list_description_error),
@@ -95,7 +104,10 @@ public fun CollaboratorListScreen(
                             )
                         }
                     } else {
-                        item(key = "NoCollaboratorsItem") {
+                        item(
+                            key = "NoCollaboratorsItem",
+                            span = { GridItemSpan(currentLineSpan = maxLineSpan) }
+                        ) {
                             NoCollaboratorsCard(
                                 title = stringResource(Res.string.collaborator_list_title_empty),
                                 description = stringResource(Res.string.collaborator_list_description_empty),
