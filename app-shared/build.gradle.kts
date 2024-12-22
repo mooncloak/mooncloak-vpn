@@ -231,6 +231,11 @@ kotlin {
                 // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
                 implementation("app.cash.sqldelight:android-driver:_")
                 implementation("app.cash.sqldelight:primitive-adapters:_")
+
+                // Biometric authentication support
+                // https://developer.android.com/jetpack/androidx/releases/biometric#declaring_dependencies
+                // https://developer.android.com/identity/sign-in/biometric-auth
+                implementation("androidx.biometric:biometric-ktx:_")
             }
         }
 

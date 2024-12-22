@@ -10,6 +10,8 @@ import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationScoped
 import com.mooncloak.vpn.app.shared.util.ActivityContext
+import com.mooncloak.vpn.app.shared.util.AndroidSystemAuthenticationProvider
+import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 
 @Component
 @PresentationScoped
@@ -23,6 +25,11 @@ internal abstract class AndroidPresentationComponent internal constructor(
     @Provides
     @PresentationScoped
     internal fun provideBillingManager(manager: GooglePlayBillingManager): BillingManager = manager
+
+    @Provides
+    @PresentationScoped
+    internal fun provideSystemAuthenticationProvider(provider: AndroidSystemAuthenticationProvider): SystemAuthenticationProvider =
+        provider
 }
 
 internal fun PresentationComponent.Companion.create(
