@@ -38,7 +38,7 @@ import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
-import com.mooncloak.vpn.app.shared.di.rememberApplicationDependency
+import com.mooncloak.vpn.app.shared.di.rememberDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsBottomSheet
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsFooterItem
@@ -85,7 +85,7 @@ public fun SettingsScreen(
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
-    val preferencesStorage = rememberApplicationDependency { preferencesStorage }
+    val preferencesStorage = rememberDependency { preferencesStorage }
 
     LaunchedEffect(Unit) {
         viewModel.load()

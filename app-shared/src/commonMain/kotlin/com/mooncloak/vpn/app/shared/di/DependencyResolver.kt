@@ -10,10 +10,10 @@ public interface DependencyResolverScope : ApplicationDependencies,
 }
 
 @Composable
-public fun <T> rememberApplicationDependency(getter: ApplicationDependencies.() -> T): T {
-    val dependencies = LocalApplicationComponent.current
+public fun <T> rememberDependency(getter: DependencyResolverScope.() -> T): T {
+    val resolver = rememberDependencyResolverScope()
 
-    return remember(dependencies) { getter.invoke(dependencies) }
+    return remember(resolver) { getter.invoke(resolver) }
 }
 
 @Composable

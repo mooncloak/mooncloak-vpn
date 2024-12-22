@@ -32,7 +32,7 @@ import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.LocalApplicationComponent
 import com.mooncloak.vpn.app.shared.di.LocalPresentationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
-import com.mooncloak.vpn.app.shared.di.rememberApplicationDependency
+import com.mooncloak.vpn.app.shared.di.rememberDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.app.di.createApplicationRootComponent
 import com.mooncloak.vpn.app.shared.feature.main.MainScreen
@@ -65,7 +65,7 @@ public fun ApplicationRootScreen(
         }
         val viewModel = remember { componentDependencies.viewModel }
         val imageLoaderFactory = remember(applicationComponent) { applicationComponent.imageLoaderFactory }
-        val preferencesStorage = rememberApplicationDependency { preferencesStorage }
+        val preferencesStorage = rememberDependency { preferencesStorage }
         val snackbarHostState = remember { SnackbarHostState() }
 
         LaunchedEffect(Unit) {
