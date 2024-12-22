@@ -26,9 +26,16 @@ public class PreferencesStorage @Inject public constructor(
         serializersModule = serializersModule
     )
 
+    public val requireSystemAuth: PersistableStateContainer<Boolean> = persistableStateContainerOf(
+        key = REQUIRE_SYSTEM_AUTH,
+        defaultValue = false,
+        serializersModule = serializersModule
+    )
+
     internal companion object Key {
 
         private const val THEME = "com.mooncloak.vpn.app.storage.key.theme"
         private const val ALWAYS_DISPLAY_LANDING = "com.mooncloak.vpn.app.storage.key.landing"
+        private const val REQUIRE_SYSTEM_AUTH = "com.mooncloak.vpn.app.storage.key.system_auth"
     }
 }

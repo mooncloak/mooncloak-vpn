@@ -21,7 +21,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -43,23 +42,21 @@ import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsBottomSheet
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsFooterItem
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsGroupLabel
+import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsPreferenceGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.ThemePreferenceSegmentedButton
 import com.mooncloak.vpn.app.shared.feature.settings.di.createSettingsComponent
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.app_built_description
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
-import com.mooncloak.vpn.app.shared.resource.settings_description_landing
 import com.mooncloak.vpn.app.shared.resource.settings_group_app
 import com.mooncloak.vpn.app.shared.resource.settings_group_legal
-import com.mooncloak.vpn.app.shared.resource.settings_group_preferences
 import com.mooncloak.vpn.app.shared.resource.settings_group_subscription
 import com.mooncloak.vpn.app.shared.resource.settings_group_theme
 import com.mooncloak.vpn.app.shared.resource.settings_title_app_version
 import com.mooncloak.vpn.app.shared.resource.settings_title_code
 import com.mooncloak.vpn.app.shared.resource.settings_title_collaborators
 import com.mooncloak.vpn.app.shared.resource.settings_title_current_plan
-import com.mooncloak.vpn.app.shared.resource.settings_title_landing
 import com.mooncloak.vpn.app.shared.resource.settings_title_licenses
 import com.mooncloak.vpn.app.shared.resource.settings_title_privacy_policy
 import com.mooncloak.vpn.app.shared.resource.settings_title_terms
@@ -254,35 +251,15 @@ public fun SettingsScreen(
                     color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
                 )
 
-                SettingsGroupLabel(
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                        .padding(top = 32.dp),
-                    text = stringResource(Res.string.settings_group_preferences)
-                )
-
-                ListItem(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    ),
-                    headlineContent = {
-                        Text(text = stringResource(Res.string.settings_title_landing))
+                SettingsPreferenceGroup(
+                    startOnLandingScreen = viewModel.state.current.value.startOnLandingScreen,
+                    isSystemAuthSupported = viewModel.state.current.value.isSystemAuthSupported,
+                    requireSystemAuth = viewModel.state.current.value.requireSystemAuth,
+                    onToggleStartOnLandingScreen = { checked ->
+                        viewModel.toggleStartOnLandingScreen(checked)
                     },
-                    supportingContent = {
-                        Text(
-                            text = stringResource(Res.string.settings_description_landing),
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
-                            )
-                        )
-                    },
-                    trailingContent = {
-                        Switch(
-                            checked = viewModel.state.current.value.startOnLandingScreen,
-                            onCheckedChange = { checked ->
-                                viewModel.toggleStartOnLandingScreen(checked)
-                            }
-                        )
+                    onToggleRequireSystemAuth = { checked ->
+                        viewModel.toggleRequireSystemAuth(checked)
                     }
                 )
 

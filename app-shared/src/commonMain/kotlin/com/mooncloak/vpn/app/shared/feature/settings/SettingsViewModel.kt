@@ -15,6 +15,7 @@ import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.resource.subscription_no_active_plan
 import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
+import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -28,6 +29,7 @@ public class SettingsViewModel @Inject public constructor(
     private val appClientInfo: AppClientInfo,
     private val subscriptionStorage: SubscriptionStorage,
     private val preferencesStorage: PreferencesStorage,
+    private val systemAuthenticationProvider: SystemAuthenticationProvider,
     private val clock: Clock
 ) : ViewModel<SettingsStateModel>(initialStateValue = SettingsStateModel()) {
 
@@ -43,6 +45,8 @@ public class SettingsViewModel @Inject public constructor(
             var currentPlan: String? = null
             var startOnLandingScreen = false
             var copyright: String? = null
+            var isSystemAuthSupported = false
+            var requireSystemAuth = false
 
             try {
                 appVersion = appClientInfo.versionName
@@ -62,6 +66,9 @@ public class SettingsViewModel @Inject public constructor(
                     else -> "Active plan" // TODO: Format Remaining data and time
                 }
 
+                isSystemAuthSupported = systemAuthenticationProvider.isSupported
+                requireSystemAuth = preferencesStorage.requireSystemAuth.current.value
+
                 emit(
                     value = state.current.value.copy(
                         isLoading = false,
@@ -71,7 +78,9 @@ public class SettingsViewModel @Inject public constructor(
                         termsUri = termsUri,
                         sourceCodeUri = sourceCodeUri,
                         startOnLandingScreen = startOnLandingScreen,
-                        copyright = copyright
+                        copyright = copyright,
+                        isSystemAuthSupported = isSystemAuthSupported,
+                        requireSystemAuth = requireSystemAuth
                     )
                 )
             } catch (e: Exception) {
@@ -85,7 +94,9 @@ public class SettingsViewModel @Inject public constructor(
                         termsUri = termsUri,
                         sourceCodeUri = sourceCodeUri,
                         startOnLandingScreen = startOnLandingScreen,
-                        copyright = copyright
+                        copyright = copyright,
+                        isSystemAuthSupported = isSystemAuthSupported,
+                        requireSystemAuth = requireSystemAuth
                     )
                 )
             }
@@ -105,7 +116,35 @@ public class SettingsViewModel @Inject public constructor(
             } catch (e: Exception) {
                 LogPile.error(message = "Error storing 'start on landing screen' toggle value.", cause = e)
 
-                emit(value = state.current.value.copy(errorMessage = getString(Res.string.global_unexpected_error)))
+                emit(
+                    value = state.current.value.copy(
+                        startOnLandingScreen = !checked,
+                        errorMessage = getString(Res.string.global_unexpected_error)
+                    )
+                )
+            }
+        }
+    }
+
+    public fun toggleRequireSystemAuth(checked: Boolean) {
+        coroutineScope.launch {
+            emit(
+                value = state.current.value.copy(
+                    requireSystemAuth = checked
+                )
+            )
+
+            try {
+                preferencesStorage.requireSystemAuth.update(checked)
+            } catch (e: Exception) {
+                LogPile.error(message = "Error storing 'require system auth' toggle value.", cause = e)
+
+                emit(
+                    value = state.current.value.copy(
+                        requireSystemAuth = !checked,
+                        errorMessage = getString(Res.string.global_unexpected_error)
+                    )
+                )
             }
         }
     }

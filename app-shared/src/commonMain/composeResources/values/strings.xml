@@ -113,8 +113,17 @@
     <string name="settings_group_subscription">Subscription</string>
     <string name="settings_title_current_plan">Current Plan</string>
     <string name="settings_group_preferences">Preferences</string>
+    <string name="settings_group_general">General</string>
+    <string name="settings_group_privacy">Privacy</string>
     <string name="settings_title_landing">Start on landing</string>
     <string name="settings_description_landing">Display the landing screen whenever the app is opened</string>
+    <string name="settings_title_screen_lock">Screen Lock</string>
+    <string name="settings_description_screen_lock">Requires system authentication when you leave or switch apps after a timeout.</string>
+    <string name="settings_title_screen_lock_timeout">Lock Screen After</string>
+    <string name="settings_option_screen_lock_timeout_1_minute">1 minute</string>
+    <string name="settings_option_screen_lock_timeout_5_minutes">5 minutes</string>
+    <string name="settings_option_screen_lock_timeout_30_minutes">30 minutes</string>
+    <string name="settings_option_screen_lock_timeout_custom_time">Custom time</string>
 
     <string name="subscription_no_active_plan">No active plan</string>
     <string name="subscription_title_no_active_plan">No Active Plan</string>

@@ -11,6 +11,8 @@ public data class SettingsStateModel public constructor(
     public val sourceCodeUri: String? = null,
     public val copyright: String? = null,
     public val startOnLandingScreen: Boolean = false,
+    public val isSystemAuthSupported: Boolean = false,
+    public val requireSystemAuth: Boolean = false,
     public val isLoading: Boolean = false,
     public val errorMessage: String? = null
 )
