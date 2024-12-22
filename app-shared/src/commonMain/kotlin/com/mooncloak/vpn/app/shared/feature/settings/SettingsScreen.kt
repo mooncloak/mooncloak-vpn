@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -148,6 +149,11 @@ public fun SettingsScreen(
                     }).takeIf { viewModel.state.current.value.currentPlan != null }
                 )
 
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
+                )
+
                 SettingsGroupLabel(
                     modifier = Modifier.padding(horizontal = 16.dp)
                         .padding(top = 32.dp),
@@ -157,13 +163,18 @@ public fun SettingsScreen(
                 ThemePreferenceSegmentedButton(
                     modifier = Modifier.fillMaxWidth()
                         .padding(horizontal = 12.dp)
-                        .padding(top = 16.dp),
+                        .padding(top = 16.dp, bottom = 16.dp),
                     themePreference = preferencesStorage.theme.current.value ?: ThemePreference.System,
                     onThemePreferenceSelected = { preference ->
                         coroutineScope.launch {
                             preferencesStorage.theme.update(preference)
                         }
                     }
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
                 )
 
                 SettingsGroupLabel(
@@ -235,6 +246,11 @@ public fun SettingsScreen(
                     }
                 )
 
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
+                )
+
                 SettingsGroupLabel(
                     modifier = Modifier.padding(horizontal = 16.dp)
                         .padding(top = 32.dp),
@@ -265,6 +281,11 @@ public fun SettingsScreen(
                             }
                         )
                     }
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
                 )
 
                 SettingsGroupLabel(
@@ -302,6 +323,11 @@ public fun SettingsScreen(
                         }
                     )
                 }
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
+                )
 
                 SettingsFooterItem(
                     modifier = Modifier.fillMaxWidth(),
