@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
+import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.feature.main.MainViewModel
 
 @FeatureScoped
@@ -15,6 +16,7 @@ internal abstract class MainComponent internal constructor() : FeatureDependenci
 }
 
 internal expect fun FeatureDependencies.Companion.createMainComponent(
-    applicationDependencies: ApplicationComponent,
+    applicationComponent: ApplicationComponent,
+    presentationComponent: PresentationComponent,
     navController: NavController
 ): MainComponent

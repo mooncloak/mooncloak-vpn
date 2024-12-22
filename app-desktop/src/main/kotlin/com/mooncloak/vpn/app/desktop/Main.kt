@@ -13,9 +13,7 @@ import com.mooncloak.vpn.app.shared.util.platformDefaultUriHandler
 public fun main(): Unit = application {
     val platformUriHandler = platformDefaultUriHandler()
 
-    val applicationDependencies = ApplicationComponent.create(
-        uriHandler = platformUriHandler
-    )
+    val applicationDependencies = ApplicationComponent.create()
     val presentationDependencies = PresentationComponent.create(
         applicationComponent = applicationDependencies,
         uriHandler = platformUriHandler

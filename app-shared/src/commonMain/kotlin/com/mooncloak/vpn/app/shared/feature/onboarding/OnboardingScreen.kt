@@ -27,9 +27,10 @@ public fun OnboardingScreen(
     modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
-    val componentDependencies = rememberFeatureDependencies {
+    val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
         FeatureDependencies.createOnboardingComponent(
-            applicationDependencies = this
+            applicationComponent = applicationComponent,
+            presentationComponent = presentationComponent
         )
     }
     val viewModel = remember { componentDependencies.viewModel }

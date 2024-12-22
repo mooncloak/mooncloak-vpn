@@ -28,8 +28,7 @@ public class MainActivity : BaseActivity() {
         setContent {
             val platformUriHandler = platformDefaultUriHandler()
             val applicationDependencies = ApplicationComponent.create(
-                activity = this,
-                uriHandler = platformUriHandler
+                applicationContext = this.applicationContext
             )
             val presentationDependencies = PresentationComponent.create(
                 applicationComponent = applicationDependencies,

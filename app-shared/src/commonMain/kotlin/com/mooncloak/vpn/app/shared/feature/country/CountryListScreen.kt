@@ -49,8 +49,11 @@ public fun CountryListScreen(
     modifier: Modifier = Modifier,
     containerPaddingValues: PaddingValues = PaddingValues()
 ) {
-    val componentDependencies = rememberFeatureDependencies {
-        FeatureDependencies.createCountryListComponent(applicationDependencies = this)
+    val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
+        FeatureDependencies.createCountryListComponent(
+            applicationComponent = applicationComponent,
+            presentationComponent = presentationComponent
+        )
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }
@@ -153,7 +156,7 @@ public fun CountryListScreen(
     CountryListBottomSheet(
         modifier = Modifier.fillMaxWidth(),
         state = bottomSheetState,
-        onConnectToRegion = { region ->},
+        onConnectToRegion = { region -> },
         onConnectToServer = { server -> }
     )
 

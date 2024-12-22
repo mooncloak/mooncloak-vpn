@@ -14,11 +14,12 @@ public interface FeatureDependencies {
 
 @Composable
 public fun <Dependencies : FeatureDependencies> rememberFeatureDependencies(
-    component: ApplicationComponent.() -> Dependencies
+    component: (applicationComponent: ApplicationComponent, presentationComponent: PresentationComponent) -> Dependencies
 ): Dependencies {
-    val applicationDependencies = LocalApplicationComponent.current
+    val applicationComponent = LocalApplicationComponent.current
+    val presentationComponent = LocalPresentationComponent.current
 
-    return remember(applicationDependencies) {
-        component.invoke(applicationDependencies)
+    return remember(presentationComponent) {
+        component.invoke(applicationComponent, presentationComponent)
     }
 }

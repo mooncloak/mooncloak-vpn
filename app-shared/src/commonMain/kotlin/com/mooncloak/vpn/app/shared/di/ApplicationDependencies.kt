@@ -1,6 +1,5 @@
 package com.mooncloak.vpn.app.shared.di
 
-import androidx.compose.ui.platform.UriHandler
 import coil3.SingletonImageLoader
 import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.vpn.app.shared.api.billing.BillingManager
@@ -21,9 +20,7 @@ public expect interface ApplicationDependencies {
     public val logger: Logger
     public val appClientInfo: AppClientInfo
     public val preferencesStorage: PreferencesStorage
-    public val uriHandler: UriHandler
     public val imageLoaderFactory: SingletonImageLoader.Factory
-    public val billingManager: BillingManager
 
     public companion object
 }

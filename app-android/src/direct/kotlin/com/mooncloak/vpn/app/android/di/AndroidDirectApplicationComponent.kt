@@ -1,7 +1,5 @@
 package com.mooncloak.vpn.app.android.di
 
-import android.app.Activity
-import androidx.compose.ui.platform.UriHandler
 import com.mooncloak.kodetools.konstruct.annotations.Component
 import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.kodetools.konstruct.annotations.Singleton
@@ -15,15 +13,11 @@ import com.mooncloak.vpn.app.shared.util.ActivityContext
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
-import com.mooncloak.vpn.app.shared.api.billing.BillingManager
-import com.mooncloak.vpn.app.shared.api.billing.MooncloakBillingManager
 
 @Component
 @Singleton
 internal abstract class AndroidDirectApplicationComponent internal constructor(
-    @get:Provides override val uriHandler: UriHandler,
-    @get:Provides override val activityContext: ActivityContext,
-    @get:Provides override val activity: Activity
+    @get:Provides override val applicationContext: ApplicationContext
 ) : ApplicationComponent() {
 
     override fun provideKeyValueStorage(format: Json): MutableKeyValueStorage<String> =
@@ -41,17 +35,10 @@ internal abstract class AndroidDirectApplicationComponent internal constructor(
     @Singleton
     internal fun provideAppClientInfo(appClientInfo: AndroidAppClientInfo): AppClientInfo =
         appClientInfo
-
-    @Provides
-    @Singleton
-    internal fun provideBillingManager(manager: MooncloakBillingManager): BillingManager = manager
 }
 
 internal fun ApplicationComponent.Companion.create(
-    activity: Activity,
-    uriHandler: UriHandler
+    applicationContext: ApplicationContext
 ): AndroidDirectApplicationComponent = AndroidDirectApplicationComponent::class.create(
-    activityContext = activity,
-    activity = activity,
-    uriHandler = uriHandler
+    applicationContext = applicationContext
 )

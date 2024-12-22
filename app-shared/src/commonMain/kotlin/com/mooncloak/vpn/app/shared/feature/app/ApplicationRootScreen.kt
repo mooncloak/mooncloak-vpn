@@ -57,9 +57,10 @@ public fun ApplicationRootScreen(
         LocalNavController provides navController,
         LocalUriHandler provides uriHandler
     ) {
-        val componentDependencies = rememberFeatureDependencies {
+        val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
             FeatureDependencies.createApplicationRootComponent(
-                applicationDependencies = this,
+                applicationComponent = applicationComponent,
+                presentationComponent = presentationComponent,
                 navController = navController
             )
         }

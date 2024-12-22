@@ -27,8 +27,11 @@ import com.mooncloak.vpn.app.shared.feature.subscription.di.createSubscriptionCo
 public fun SubscriptionScreen(
     modifier: Modifier = Modifier
 ) {
-    val componentDependencies = rememberFeatureDependencies {
-        FeatureDependencies.createSubscriptionComponent(applicationDependencies = this)
+    val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
+        FeatureDependencies.createSubscriptionComponent(
+            applicationComponent = applicationComponent,
+            presentationComponent = presentationComponent
+        )
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }

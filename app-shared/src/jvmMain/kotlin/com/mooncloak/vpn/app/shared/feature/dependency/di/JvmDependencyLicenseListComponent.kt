@@ -5,13 +5,15 @@ import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
+import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.feature.dependency.util.JvmLibsLoader
 import com.mooncloak.vpn.app.shared.feature.dependency.util.LibsLoader
 
 @Component
 @FeatureScoped
 internal abstract class JvmDependencyLicenseListComponent internal constructor(
-    @Component internal val applicationDependencies: ApplicationComponent
+    @Component internal val applicationComponent: ApplicationComponent,
+    @Component internal val presentationComponent: PresentationComponent,
 ) : DependencyLicenseListComponent() {
 
     @Provides
@@ -20,7 +22,9 @@ internal abstract class JvmDependencyLicenseListComponent internal constructor(
 }
 
 internal actual fun FeatureDependencies.Companion.createDependencyLicenseListComponent(
-    applicationDependencies: ApplicationComponent
+    applicationComponent: ApplicationComponent,
+    presentationComponent: PresentationComponent,
 ): DependencyLicenseListComponent = JvmDependencyLicenseListComponent::class.create(
-    applicationDependencies = applicationDependencies
+    applicationComponent = applicationComponent,
+    presentationComponent = presentationComponent
 )

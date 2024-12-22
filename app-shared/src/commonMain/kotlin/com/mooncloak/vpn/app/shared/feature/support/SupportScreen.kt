@@ -56,9 +56,10 @@ public fun SupportScreen(
     modifier: Modifier = Modifier,
     containerPaddingValues: PaddingValues = PaddingValues()
 ) {
-    val componentDependencies = rememberFeatureDependencies {
+    val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
         FeatureDependencies.createSupportComponent(
-            applicationDependencies = this
+            applicationComponent = applicationComponent,
+            presentationComponent = presentationComponent
         )
     }
     val viewModel = remember { componentDependencies.viewModel }

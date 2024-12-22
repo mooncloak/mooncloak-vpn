@@ -3,6 +3,7 @@ package com.mooncloak.vpn.app.shared.feature.collaborator.detail.di
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
+import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.feature.collaborator.detail.CollaboratorDetailViewModel
 
 @FeatureScoped
@@ -12,5 +13,6 @@ internal abstract class CollaboratorDetailComponent internal constructor() : Fea
 }
 
 internal expect fun FeatureDependencies.Companion.createCollaboratorDetailComponent(
-    applicationDependencies: ApplicationComponent
+    applicationComponent: ApplicationComponent,
+    presentationComponent: PresentationComponent,
 ): CollaboratorDetailComponent

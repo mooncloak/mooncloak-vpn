@@ -16,7 +16,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -33,7 +32,6 @@ import com.mooncloak.vpn.app.shared.feature.collaborator.list.di.createCollabora
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.collaborator_list_description_empty
 import com.mooncloak.vpn.app.shared.resource.collaborator_list_description_error
-import com.mooncloak.vpn.app.shared.resource.collaborator_list_header
 import com.mooncloak.vpn.app.shared.resource.collaborator_list_title_empty
 import com.mooncloak.vpn.app.shared.resource.collaborator_list_title_error
 import org.jetbrains.compose.resources.stringResource
@@ -42,8 +40,11 @@ import org.jetbrains.compose.resources.stringResource
 public fun CollaboratorListScreen(
     modifier: Modifier = Modifier
 ) {
-    val componentDependencies = rememberFeatureDependencies {
-        FeatureDependencies.createCollaboratorListComponent(applicationDependencies = this)
+    val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
+        FeatureDependencies.createCollaboratorListComponent(
+            applicationComponent = applicationComponent,
+            presentationComponent = presentationComponent
+        )
     }
     val viewModel = remember { componentDependencies.viewModel }
     val lazyListState = rememberLazyGridState()

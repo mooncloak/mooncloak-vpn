@@ -39,9 +39,10 @@ public fun PaymentScreen(
     modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
-    val componentDependencies = rememberFeatureDependencies {
+    val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
         FeatureDependencies.createPaymentComponent(
-            applicationDependencies = this,
+            applicationComponent = applicationComponent,
+            presentationComponent = presentationComponent,
             navController = navController
         )
     }

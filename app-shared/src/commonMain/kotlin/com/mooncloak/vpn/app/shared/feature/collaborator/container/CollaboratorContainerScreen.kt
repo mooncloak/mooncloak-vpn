@@ -14,8 +14,11 @@ import com.mooncloak.vpn.app.shared.feature.collaborator.list.CollaboratorListSc
 public fun CollaboratorContainerScreen(
     modifier: Modifier = Modifier
 ) {
-    val componentDependencies = rememberFeatureDependencies {
-        FeatureDependencies.createCollaboratorContainerComponent(applicationDependencies = this)
+    val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
+        FeatureDependencies.createCollaboratorContainerComponent(
+            applicationComponent = applicationComponent,
+            presentationComponent = presentationComponent
+        )
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }

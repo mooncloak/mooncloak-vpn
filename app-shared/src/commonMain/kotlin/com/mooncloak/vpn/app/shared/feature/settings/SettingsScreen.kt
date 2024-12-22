@@ -74,8 +74,11 @@ public fun SettingsScreen(
     modifier: Modifier = Modifier,
     containerPaddingValues: PaddingValues = PaddingValues()
 ) {
-    val componentDependencies = rememberFeatureDependencies {
-        FeatureDependencies.createSettingsComponent(applicationDependencies = this)
+    val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
+        FeatureDependencies.createSettingsComponent(
+            applicationComponent = applicationComponent,
+            presentationComponent = presentationComponent
+        )
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }

@@ -19,8 +19,11 @@ import com.mooncloak.vpn.app.shared.feature.collaborator.detail.di.createCollabo
 public fun CollaboratorDetailScreen(
     modifier: Modifier = Modifier
 ) {
-    val componentDependencies = rememberFeatureDependencies {
-        FeatureDependencies.createCollaboratorDetailComponent(applicationDependencies = this)
+    val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
+        FeatureDependencies.createCollaboratorDetailComponent(
+            applicationComponent = applicationComponent,
+            presentationComponent = presentationComponent
+        )
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }

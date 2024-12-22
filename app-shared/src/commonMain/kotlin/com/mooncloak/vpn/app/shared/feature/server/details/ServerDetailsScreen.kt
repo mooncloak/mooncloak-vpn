@@ -21,9 +21,10 @@ import org.jetbrains.compose.resources.stringResource
 public fun ServerDetailsScreen(
     modifier: Modifier = Modifier
 ) {
-    val componentDependencies = rememberFeatureDependencies {
+    val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
         FeatureDependencies.createServerDetailsComponent(
-            applicationDependencies = this
+            applicationComponent = applicationComponent,
+            presentationComponent = presentationComponent
         )
     }
     val viewModel = remember { componentDependencies.viewModel }

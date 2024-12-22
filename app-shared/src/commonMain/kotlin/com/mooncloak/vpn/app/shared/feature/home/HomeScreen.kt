@@ -43,8 +43,11 @@ public fun HomeScreen(
     modifier: Modifier = Modifier,
     containerPaddingValues: PaddingValues = PaddingValues()
 ) {
-    val componentDependencies = rememberFeatureDependencies {
-        FeatureDependencies.createHomeComponent(applicationDependencies = this)
+    val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
+        FeatureDependencies.createHomeComponent(
+            applicationComponent = applicationComponent,
+            presentationComponent = presentationComponent
+        )
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }

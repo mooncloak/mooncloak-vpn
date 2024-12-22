@@ -28,9 +28,10 @@ import org.jetbrains.compose.resources.stringResource
 public fun PaymentHistoryScreen(
     modifier: Modifier = Modifier
 ) {
-    val componentDependencies = rememberFeatureDependencies {
+    val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
         FeatureDependencies.createPaymentHistoryComponent(
-            applicationDependencies = this
+            applicationComponent = applicationComponent,
+            presentationComponent = presentationComponent
         )
     }
     val viewModel = remember { componentDependencies.viewModel }
