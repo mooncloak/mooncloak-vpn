@@ -327,11 +327,6 @@ public fun SettingsScreen(
                     )
                 }
 
-                HorizontalDivider(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
-                )
-
                 SettingsFooterItem(
                     modifier = Modifier.fillMaxWidth(),
                     copyright = viewModel.state.current.value.copyright,
