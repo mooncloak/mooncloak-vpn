@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.mooncloak.kodetools.statex.ViewModel
 
-@ComponentScoped
+@FeatureScoped
 public interface FeatureDependencies {
 
     public val viewModel: ViewModel<*>

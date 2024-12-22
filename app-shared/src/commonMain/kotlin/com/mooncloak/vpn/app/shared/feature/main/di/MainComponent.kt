@@ -2,11 +2,11 @@ package com.mooncloak.vpn.app.shared.feature.main.di
 
 import androidx.navigation.NavController
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
-import com.mooncloak.vpn.app.shared.di.ComponentScoped
+import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.main.MainViewModel
 
-@ComponentScoped
+@FeatureScoped
 internal abstract class MainComponent internal constructor() : FeatureDependencies {
 
     abstract override val viewModel: MainViewModel

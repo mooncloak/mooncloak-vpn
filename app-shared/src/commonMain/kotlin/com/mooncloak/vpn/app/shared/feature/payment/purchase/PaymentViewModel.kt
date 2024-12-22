@@ -19,7 +19,7 @@ import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.billing.PlanPaymentStatus
 import com.mooncloak.vpn.app.shared.api.money.Price
 import com.mooncloak.vpn.app.shared.api.token.TransactionToken
-import com.mooncloak.vpn.app.shared.di.ComponentScoped
+import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.model.PaymentDestination
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -36,7 +36,7 @@ import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.getString
 
 @Stable
-@ComponentScoped
+@FeatureScoped
 public class PaymentViewModel @Inject public constructor(
     private val appClientInfo: AppClientInfo,
     private val navController: NavController,

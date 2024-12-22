@@ -6,7 +6,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
-import com.mooncloak.vpn.app.shared.di.ComponentScoped
+import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.storage.AppStorage
 import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
 import kotlinx.coroutines.launch
@@ -15,7 +15,7 @@ import kotlinx.coroutines.sync.withLock
 
 @OptIn(ExperimentalPersistentStateAPI::class)
 @Stable
-@ComponentScoped
+@FeatureScoped
 public class ApplicationRootViewModel @Inject public constructor(
     private val appStorage: AppStorage,
     private val preferencesStorage: PreferencesStorage,

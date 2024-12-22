@@ -6,8 +6,6 @@ import androidx.compose.material.icons.filled.CurrencyBitcoin
 import androidx.compose.material.icons.filled.MoneyOff
 import androidx.compose.material.icons.filled.PersonOff
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.PublicOff
-import androidx.compose.material.icons.filled.ReportOff
 import androidx.compose.material.icons.filled.Subscriptions
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Stable
@@ -16,7 +14,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionStatus
-import com.mooncloak.vpn.app.shared.di.ComponentScoped
+import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -42,7 +40,7 @@ import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalPersistentStateAPI::class)
 @Stable
-@ComponentScoped
+@FeatureScoped
 public class HomeViewModel @Inject public constructor(
     private val appClientInfo: AppClientInfo,
     private val subscriptionStorage: SubscriptionStorage

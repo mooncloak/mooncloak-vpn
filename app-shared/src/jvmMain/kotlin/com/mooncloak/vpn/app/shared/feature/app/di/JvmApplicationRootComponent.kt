@@ -4,11 +4,11 @@ import androidx.navigation.NavController
 import com.mooncloak.kodetools.konstruct.annotations.Component
 import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
-import com.mooncloak.vpn.app.shared.di.ComponentScoped
+import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 
 @Component
-@ComponentScoped
+@FeatureScoped
 internal abstract class JvmApplicationRootComponent internal constructor(
     @Component internal val applicationDependencies: ApplicationComponent,
     @get:Provides override val navController: NavController

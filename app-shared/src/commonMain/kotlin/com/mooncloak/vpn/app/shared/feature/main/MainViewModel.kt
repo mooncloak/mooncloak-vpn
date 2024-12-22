@@ -7,13 +7,13 @@ import androidx.navigation.NavOptions
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
-import com.mooncloak.vpn.app.shared.di.ComponentScoped
+import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 @Stable
-@ComponentScoped
+@FeatureScoped
 public class MainViewModel @Inject public constructor(
     private val navController: NavController
 ) : ViewModel<MainStateModel>(initialStateValue = MainStateModel()) {
