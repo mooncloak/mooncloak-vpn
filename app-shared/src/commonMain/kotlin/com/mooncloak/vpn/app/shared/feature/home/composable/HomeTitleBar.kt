@@ -86,7 +86,9 @@ internal fun HomeTitleBar(
             Text(
                 modifier = Modifier.padding(top = 16.dp),
                 text = status.title,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleLarge.copy(
+                    color = status.contentColor
+                ),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -162,7 +164,8 @@ private fun TitleBarIcon(
             Icon(
                 modifier = modifier,
                 imageVector = Icons.Default.LockOpen,
-                contentDescription = null
+                contentDescription = null,
+                tint = status.contentColor
             )
         }
 
@@ -182,7 +185,8 @@ private fun TitleBarIcon(
             Icon(
                 modifier = modifier,
                 imageVector = Icons.Default.VpnLock,
-                contentDescription = null
+                contentDescription = null,
+                tint = status.contentColor
             )
         }
     }
