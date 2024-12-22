@@ -1,7 +1,5 @@
 package com.mooncloak.vpn.app.shared.di
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.UriHandler
 import coil3.SingletonImageLoader
 import com.mooncloak.kodetools.logpile.core.Logger
@@ -28,11 +26,4 @@ public expect interface ApplicationDependencies {
     public val billingManager: BillingManager
 
     public companion object
-}
-
-@Composable
-public fun <T> rememberApplicationDependency(getter: ApplicationDependencies.() -> T): T {
-    val dependencies = LocalApplicationComponent.current
-
-    return remember(dependencies) { getter.invoke(dependencies) }
 }

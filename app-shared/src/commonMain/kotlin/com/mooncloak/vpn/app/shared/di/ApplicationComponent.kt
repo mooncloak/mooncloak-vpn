@@ -125,4 +125,4 @@ public abstract class ApplicationComponent : ApplicationDependencies {
  * Provides access to the [ApplicationComponent] from [Composable] functions.
  */
 internal val LocalApplicationComponent: ProvidableCompositionLocal<ApplicationComponent> =
-    staticCompositionLocalOf { error("No ApplicationComponent were provided.") }
+    staticCompositionLocalOf { error("No ApplicationComponent was provided.") }

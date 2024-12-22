@@ -6,6 +6,7 @@ import com.mooncloak.kodetools.logpile.core.configure
 import com.mooncloak.vpn.app.desktop.di.create
 import com.mooncloak.vpn.app.shared.feature.app.ApplicationRootScreen
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
+import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.log.NoOpLogger
 import com.mooncloak.vpn.app.shared.util.platformDefaultUriHandler
 
@@ -15,6 +16,10 @@ public fun main(): Unit = application {
     val applicationDependencies = ApplicationComponent.create(
         uriHandler = platformUriHandler
     )
+    val presentationDependencies = PresentationComponent.create(
+        applicationComponent = applicationDependencies,
+        uriHandler = platformUriHandler
+    )
 
     // Disable logging if we are not in debug mode.
     if (!applicationDependencies.appClientInfo.isDebug) {
@@ -22,7 +27,8 @@ public fun main(): Unit = application {
     }
 
     ApplicationRootScreen(
-        component = applicationDependencies,
+        applicationComponent = applicationDependencies,
+        presentationComponent = presentationDependencies,
         uriHandler = platformUriHandler
     )
 }
