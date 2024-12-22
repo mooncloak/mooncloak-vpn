@@ -16,7 +16,6 @@ import androidx.compose.material.FabPosition
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationDrawerItem
@@ -46,9 +45,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.util.SystemBarStyle
-import com.mooncloak.vpn.app.shared.util.SystemUi
-import com.mooncloak.vpn.app.shared.util.EnableEdgeToEdge
 
 @Composable
 internal fun MooncloakNavigationScaffold(
@@ -136,6 +132,15 @@ internal fun MooncloakNavigationScaffold(
                 )
             }
         }
+
+        // FIXME: The EnableToEdge function call is adding weird top padding to the top app bars.
+        /*
+        SystemUi.EnableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.auto(
+                lightScrim = MaterialTheme.colorScheme.surface,
+                darkScrim = MaterialTheme.colorScheme.surface
+            )
+        ) {}*/
 
         // We are in compact screen mode. So use a bottom navigation component.
         androidx.compose.material.Scaffold(
