@@ -36,7 +36,6 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.DurationUnit
 
-@Suppress("UnusedReceiverParameter")
 @Composable
 internal fun ColumnScope.SettingsPreferenceGroup(
     startOnLandingScreen: Boolean,

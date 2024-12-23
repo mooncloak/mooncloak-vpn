@@ -39,10 +39,14 @@ import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomShee
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsAppGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsBottomSheet
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsFooterItem
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsGroupLabel
+import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsLegalGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsPreferenceGroup
+import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsSubscriptionGroup
+import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsThemeGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.ThemePreferenceSegmentedButton
 import com.mooncloak.vpn.app.shared.feature.settings.di.createSettingsComponent
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
@@ -120,33 +124,13 @@ public fun SettingsScreen(
             ) {
                 Spacer(modifier = Modifier.height(containerPaddingValues.calculateTopPadding()))
 
-                SettingsGroupLabel(
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                        .padding(top = 32.dp),
-                    text = stringResource(Res.string.settings_group_subscription)
-                )
-
-                ListItem(
-                    modifier = Modifier.fillMaxWidth()
-                        .clickable {
-                            coroutineScope.launch {
-                                bottomSheetState.show(SettingsBottomSheetDestination.Subscription)
-                            }
-                        },
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    ),
-                    headlineContent = {
-                        Text(text = stringResource(Res.string.settings_title_current_plan))
-                    },
-                    supportingContent = (@Composable {
-                        Text(
-                            text = viewModel.state.current.value.currentPlan ?: "",
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
-                            )
-                        )
-                    }).takeIf { viewModel.state.current.value.currentPlan != null }
+                SettingsSubscriptionGroup(
+                    currentPlan = viewModel.state.current.value.currentPlan,
+                    onOpenSubscription = {
+                        coroutineScope.launch {
+                            bottomSheetState.show(SettingsBottomSheetDestination.Subscription)
+                        }
+                    }
                 )
 
                 HorizontalDivider(
@@ -154,18 +138,9 @@ public fun SettingsScreen(
                     color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
                 )
 
-                SettingsGroupLabel(
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                        .padding(top = 32.dp),
-                    text = stringResource(Res.string.settings_group_theme)
-                )
-
-                ThemePreferenceSegmentedButton(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(horizontal = 12.dp)
-                        .padding(top = 16.dp, bottom = 16.dp),
-                    themePreference = preferencesStorage.theme.current.value ?: ThemePreference.System,
-                    onThemePreferenceSelected = { preference ->
+                SettingsThemeGroup(
+                    themePreference = preferencesStorage.theme.current.value,
+                    onThemePreferenceValueChanged = { preference ->
                         coroutineScope.launch {
                             preferencesStorage.theme.update(preference)
                         }
@@ -177,72 +152,18 @@ public fun SettingsScreen(
                     color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
                 )
 
-                SettingsGroupLabel(
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                        .padding(top = 32.dp),
-                    text = stringResource(Res.string.settings_group_app)
-                )
-
-                ListItem(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    ),
-                    headlineContent = {
-                        Text(text = stringResource(Res.string.settings_title_app_version))
-                    },
-                    supportingContent = (@Composable {
-                        Text(
-                            text = viewModel.state.current.value.appVersion ?: "",
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                color = MaterialTheme.colorScheme.secondary
-                            )
-                        )
-                    }).takeIf { viewModel.state.current.value.appVersion != null }
-                )
-
-                ListItem(
-                    modifier = Modifier.fillMaxWidth()
-                        .clickable {
-                            coroutineScope.launch {
-                                bottomSheetState.show(SettingsBottomSheetDestination.DependencyLicenseList)
-                            }
-                        },
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    ),
-                    headlineContent = {
-                        Text(text = stringResource(Res.string.settings_title_licenses))
-                    }
-                )
-
-                viewModel.state.current.value.sourceCodeUri?.let { sourceCodeUri ->
-                    ListItem(
-                        modifier = Modifier.fillMaxWidth()
-                            .clickable {
-                                uriHandler.openUri(sourceCodeUri)
-                            },
-                        colors = ListItemDefaults.colors(
-                            containerColor = MaterialTheme.colorScheme.background
-                        ),
-                        headlineContent = {
-                            Text(text = stringResource(Res.string.settings_title_code))
+                SettingsAppGroup(
+                    appVersion = null,
+                    sourceCodeUri = null,
+                    onOpenDependencyList = {
+                        coroutineScope.launch {
+                            bottomSheetState.show(SettingsBottomSheetDestination.DependencyLicenseList)
                         }
-                    )
-                }
-
-                ListItem(
-                    modifier = Modifier.fillMaxWidth()
-                        .clickable {
-                            coroutineScope.launch {
-                                bottomSheetState.show(SettingsBottomSheetDestination.Collaborators)
-                            }
-                        },
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    ),
-                    headlineContent = {
-                        Text(text = stringResource(Res.string.settings_title_collaborators))
+                    },
+                    onOpenCollaboratorList = {
+                        coroutineScope.launch {
+                            bottomSheetState.show(SettingsBottomSheetDestination.Collaborators)
+                        }
                     }
                 )
 
@@ -272,41 +193,10 @@ public fun SettingsScreen(
                     color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
                 )
 
-                SettingsGroupLabel(
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                        .padding(top = 32.dp),
-                    text = stringResource(Res.string.settings_group_legal)
+                SettingsLegalGroup(
+                    privacyPolicyUri = viewModel.state.current.value.privacyPolicyUri,
+                    termsUri = viewModel.state.current.value.termsUri
                 )
-
-                viewModel.state.current.value.privacyPolicyUri?.let { privacyPolicyUri ->
-                    ListItem(
-                        modifier = Modifier.fillMaxWidth()
-                            .clickable {
-                                uriHandler.openUri(privacyPolicyUri)
-                            },
-                        colors = ListItemDefaults.colors(
-                            containerColor = MaterialTheme.colorScheme.background
-                        ),
-                        headlineContent = {
-                            Text(text = stringResource(Res.string.settings_title_privacy_policy))
-                        }
-                    )
-                }
-
-                viewModel.state.current.value.termsUri?.let { termsUri ->
-                    ListItem(
-                        modifier = Modifier.fillMaxWidth()
-                            .clickable {
-                                uriHandler.openUri(termsUri)
-                            },
-                        colors = ListItemDefaults.colors(
-                            containerColor = MaterialTheme.colorScheme.background
-                        ),
-                        headlineContent = {
-                            Text(text = stringResource(Res.string.settings_title_terms))
-                        }
-                    )
-                }
 
                 SettingsFooterItem(
                     modifier = Modifier.fillMaxWidth(),
