@@ -1,0 +1,63 @@
+import kotlinx.datetime.Instant;
+
+CREATE TABLE ServiceTokens (
+    databaseId INTEGER PRIMARY KEY NOT NULL,
+    id TEXT NOT NULL UNIQUE,
+    created INTEGER AS Instant NOT NULL,
+    updated INTEGER AS Instant NOT NULL,
+    issued INTEGER AS Instant NOT NULL,
+    expiration INTEGER AS Instant NOT NULL,
+    accessToken TEXT NOT NULL,
+    type TEXT NOT NULL,
+    refreshToken TEXT,
+    scope TEXT,
+    userId TEXT
+);
+
+CREATE INDEX ServiceTokens_id_index ON ServiceTokens(id);
+
+insert:
+INSERT OR REPLACE INTO ServiceTokens(databaseId, id, created, updated, issued, expiration, accessToken, type, refreshToken, scope, userId)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+updateById:
+UPDATE ServiceTokens
+SET updated = :updated,
+    issued = :issued,
+    expiration = :expiration,
+    accessToken = :accessToken,
+    type = :type,
+    refreshToken = :refreshToken,
+    scope = :scope,
+    userId = :userId
+WHERE id = :id;
+
+selectAll:
+SELECT *
+FROM ServiceTokens
+ORDER BY issued DESC, expiration DESC;
+
+selectPage:
+SELECT *
+FROM ServiceTokens
+ORDER BY issued DESC, expiration DESC
+LIMIT :count
+OFFSET :offset;
+
+selectLatest:
+SELECT *
+FROM ServiceTokens
+ORDER BY issued DESC, expiration DESC
+LIMIT 1;
+
+selectById:
+SELECT *
+FROM ServiceTokens
+WHERE id = :id;
+
+deleteById:
+DELETE FROM ServiceTokens
+WHERE id = :id;
+
+deleteAll:
+DELETE FROM ServiceTokens;

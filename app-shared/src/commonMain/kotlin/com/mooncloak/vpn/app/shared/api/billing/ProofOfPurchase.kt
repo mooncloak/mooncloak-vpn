@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 
 @Immutable
 @Serializable
-public data class PurchaseReceipt public constructor(
+public data class ProofOfPurchase public constructor(
     @SerialName(value = "provider") public val paymentProvider: PaymentProvider,
     @SerialName(value = "id") public val id: String? = null,
     @SerialName(value = "client_secret") public val clientSecret: String? = null,

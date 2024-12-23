@@ -2,7 +2,7 @@ import kotlinx.datetime.Instant;
 
 CREATE TABLE PlanInvoice (
     databaseId INTEGER PRIMARY KEY NOT NULL,
-    id TEXT NOT NULL,
+    id TEXT NOT NULL UNIQUE,
     type TEXT NOT NULL,
     planId TEXT NOT NULL,
     token TEXT NOT NULL,

@@ -18,7 +18,7 @@ import com.mooncloak.vpn.app.shared.api.billing.BitcoinPlanInvoice
 import com.mooncloak.vpn.app.shared.api.billing.GetPaymentInvoiceRequestBody
 import com.mooncloak.vpn.app.shared.api.billing.GetPaymentStatusRequestBody
 import com.mooncloak.vpn.app.shared.api.billing.PlanPaymentStatus
-import com.mooncloak.vpn.app.shared.api.billing.PurchaseReceipt
+import com.mooncloak.vpn.app.shared.api.billing.ProofOfPurchase
 import com.mooncloak.vpn.app.shared.api.location.Country
 import com.mooncloak.vpn.app.shared.api.location.CountryCode
 import com.mooncloak.vpn.app.shared.api.location.CountryFilters
@@ -102,7 +102,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
      */
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun exchangeToken(
-        receipt: PurchaseReceipt
+        receipt: ProofOfPurchase
     ): ServiceTokens {
         val response = httpClient.post("https://mooncloak.com/api/vpn/token/exchange") {
             setBody(receipt)

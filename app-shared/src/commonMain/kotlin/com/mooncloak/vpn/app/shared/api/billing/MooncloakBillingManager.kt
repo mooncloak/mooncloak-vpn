@@ -58,7 +58,7 @@ internal class MooncloakBillingManager @Inject internal constructor(
         invoiceId: String,
         token: TransactionToken
     ): ServiceAccessDetails {
-        val receipt = PurchaseReceipt(
+        val receipt = ProofOfPurchase(
             paymentProvider = PaymentProvider.Mooncloak,
             id = invoiceId,
             clientSecret = null,

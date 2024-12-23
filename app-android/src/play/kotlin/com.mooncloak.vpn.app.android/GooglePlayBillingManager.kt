@@ -18,7 +18,7 @@ import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.billing.PaymentProvider
 import com.mooncloak.vpn.app.shared.api.plan.Plan
-import com.mooncloak.vpn.app.shared.api.billing.PurchaseReceipt
+import com.mooncloak.vpn.app.shared.api.billing.ProofOfPurchase
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetails
 import com.mooncloak.vpn.app.shared.api.token.TransactionToken
 import com.mooncloak.vpn.app.shared.api.plan.PlansRepository
@@ -190,7 +190,7 @@ public class GooglePlayBillingManager @Inject internal constructor(
     }
 
     private suspend fun exchangePurchaseForServiceAccess(purchase: Purchase): ServiceAccessDetails {
-        val receipt = PurchaseReceipt(
+        val receipt = ProofOfPurchase(
             paymentProvider = PaymentProvider.GooglePlay,
             id = purchase.orderId,
             clientSecret = null,
