@@ -2,6 +2,7 @@ package com.mooncloak.vpn.app.shared.feature.settings.composable
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -119,45 +120,48 @@ internal fun ColumnScope.SettingsPreferenceGroup(
                     Text(text = stringResource(Res.string.settings_title_screen_lock_timeout))
                 },
                 trailingContent = {
-                    Row(
-                        modifier = Modifier.clickable {
-                            systemAuthTimeoutDropDownExpanded.value = !systemAuthTimeoutDropDownExpanded.value
-                        },
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = systemAuthTimeout.toString(
-                                unit = DurationUnit.MINUTES,
-                                decimals = 0
-                            ),
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
+                    Box {
+                        Row(
+                            modifier = Modifier.clickable {
+                                systemAuthTimeoutDropDownExpanded.value = !systemAuthTimeoutDropDownExpanded.value
+                            },
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = systemAuthTimeout.toString(
+                                    unit = DurationUnit.MINUTES,
+                                    decimals = 0
+                                ),
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
+                                )
                             )
-                        )
 
-                        Icon(
-                            modifier = Modifier.padding(start = 16.dp)
-                                .size(24.dp),
-                            imageVector = Icons.Default.ArrowDropDown,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
+                            Icon(
+                                modifier = Modifier.padding(start = 16.dp)
+                                    .size(24.dp),
+                                imageVector = Icons.Default.ArrowDropDown,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
+                            )
+                        }
+
+                        DurationDropdown(
+                            modifier = Modifier.align(Alignment.CenterEnd),
+                            value = systemAuthTimeout,
+                            durations = setOf(
+                                1.minutes,
+                                5.minutes,
+                                30.minutes
+                            ),
+                            expanded = systemAuthTimeoutDropDownExpanded.value,
+                            onDismissRequest = {
+                                systemAuthTimeoutDropDownExpanded.value = false
+                            },
+                            onValueChanged = onSystemAuthTimeoutChanged
                         )
                     }
                 }
-            )
-
-            DurationDropdown(
-                value = systemAuthTimeout,
-                durations = setOf(
-                    1.minutes,
-                    5.minutes,
-                    30.minutes
-                ),
-                expanded = systemAuthTimeoutDropDownExpanded.value,
-                onDismissRequest = {
-                    systemAuthTimeoutDropDownExpanded.value = false
-                },
-                onValueChanged = onSystemAuthTimeoutChanged
             )
         }
     }
