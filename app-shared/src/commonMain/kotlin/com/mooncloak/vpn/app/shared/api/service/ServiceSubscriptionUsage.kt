@@ -15,9 +15,21 @@ import kotlin.time.Duration
  *
  * @property [active] Whether the corresponding [ServiceSubscription] is active at the [timestamp].
  *
- * @property [bytesUsed] The amount of Bytes that were already used, or `null` if unknown.
+ * @property [totalThroughputUsed] The total amount of throughput Bytes that were already used, or `null` if unknown.
  *
- * @property [bytesRemaining] The amount of Bytes that are remaining, or `null` if unknown.
+ * @property [totalThroughputRemaining] The total amount of throughput Bytes that are remaining, or `null` if unknown.
+ *
+ * @property [rxThroughputUsed] The total amount of incoming throughput Bytes that were already used, or `null` if
+ * unknown.
+ *
+ * @property [rxThroughputRemaining] The total amount of incoming throughput Bytes that are remaining, or `null` if
+ * unknown.
+ *
+ * @property [txThroughputUsed] The total amount of outgoing throughput Bytes that were already used, or `null` if
+ * unknown.
+ *
+ * @property [txThroughputRemaining] The total amount of outgoing throughput Bytes that are remaining, or `null` if
+ * unknown.
  *
  * @property [durationUsed] The [Duration] of time that has elapsed since the start of the [ServiceSubscription], or
  * `null` if unknown.
@@ -31,8 +43,12 @@ public data class ServiceSubscriptionUsage public constructor(
     @SerialName(value = "subscription_id") public val subscriptionId: String,
     @SerialName(value = "timestamp") public val timestamp: Instant,
     @SerialName(value = "active") public val active: Boolean = false,
-    @SerialName(value = "bytes_used") public val bytesUsed: Long? = null,
-    @SerialName(value = "bytes_remaining") public val bytesRemaining: Long? = null,
+    @SerialName(value = "bytes_used") public val totalThroughputUsed: Long? = null,
+    @SerialName(value = "bytes_remaining") public val totalThroughputRemaining: Long? = null,
+    @SerialName(value = "rx_used") public val rxThroughputUsed: Long? = null,
+    @SerialName(value = "rx_remaining") public val rxThroughputRemaining: Long? = null,
+    @SerialName(value = "tx_used") public val txThroughputUsed: Long? = null,
+    @SerialName(value = "tx_remaining") public val txThroughputRemaining: Long? = null,
     @SerialName(value = "duration_used") public val durationUsed: Duration? = null,
     @SerialName(value = "duration_remaining") public val durationRemaining: Duration? = null
 )

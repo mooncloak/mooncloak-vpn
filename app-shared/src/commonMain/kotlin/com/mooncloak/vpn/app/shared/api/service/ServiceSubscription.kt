@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.api.service
 
 import androidx.compose.runtime.Immutable
+import com.mooncloak.vpn.app.shared.api.plan.Plan
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -20,7 +21,14 @@ import kotlinx.serialization.Serializable
  *
  * @property [boostCount] The amount of times this plan was boosted, or `null` if unknown.
  *
- * @property [byteCount] The amount of bytes allowed by this plan, or `null` if unknown.
+ * @property [totalThroughput] The total amount of throughput bytes allowed by this plan, or `null` if unknown or
+ * doesn't apply.
+ *
+ * @property [rxThroughput] The amount of incoming throughput bytes allowed by this plan, or `null` if unknown or
+ * doesn't apply.
+ *
+ * @property [txThroughput] The amount of outgoing throughput bytes allowed by this plan, or `null` if unknown or
+ * doesn't apply.
  */
 @Immutable
 @Serializable
@@ -31,5 +39,7 @@ public data class ServiceSubscription public constructor(
     @SerialName(value = "boosted") public val boosted: Instant? = null,
     @SerialName(value = "expiration") public val expiration: Instant,
     @SerialName(value = "boosts") public val boostCount: Int? = null,
-    @SerialName(value = "bytes") public val byteCount: Long? = null
+    @SerialName(value = "total_throughput") public val totalThroughput: Long? = null,
+    @SerialName(value = "rx_throughput") public val rxThroughput: Long? = null,
+    @SerialName(value = "tx_throughput") public val txThroughput: Long? = null
 )

@@ -26,6 +26,7 @@ import com.mooncloak.vpn.app.shared.api.plan.AvailablePlans
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.ServerFilters
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
+import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionUsage
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokens
 import com.mooncloak.vpn.app.shared.api.token.RevokeTokenRequestBody
 import com.mooncloak.vpn.app.shared.api.token.RevokedTokenResponseBody
@@ -149,6 +150,17 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         }
 
         return response.body<HttpResponseBody<ServiceSubscription>>().getOrThrow()
+    }
+
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun getCurrentSubscriptionUsage(
+        token: Token
+    ): ServiceSubscriptionUsage {
+        val response = httpClient.post("https://mooncloak.com/api/vpn/subscription/usage") {
+            bearerAuth(token.value)
+        }
+
+        return response.body<HttpResponseBody<ServiceSubscriptionUsage>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
