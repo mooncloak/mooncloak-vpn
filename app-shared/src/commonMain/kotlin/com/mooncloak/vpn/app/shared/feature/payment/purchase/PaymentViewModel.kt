@@ -14,10 +14,10 @@ import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.app.shared.api.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.billing.BitcoinPlanInvoice
 import com.mooncloak.vpn.app.shared.api.money.Currency
-import com.mooncloak.vpn.app.shared.api.money.CurrencyType
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.billing.PlanPaymentStatus
 import com.mooncloak.vpn.app.shared.api.money.Price
+import com.mooncloak.vpn.app.shared.api.money.USD
 import com.mooncloak.vpn.app.shared.api.token.TransactionToken
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
@@ -130,10 +130,7 @@ public class PaymentViewModel @Inject public constructor(
                                 uri = "https://mooncloak.com/testinginvoice",
                                 address = "123",
                                 amount = Price(
-                                    currency = Currency(
-                                        type = CurrencyType.Crypto,
-                                        code = "B"
-                                    ),
+                                    currency = Currency.USD,
                                     amount = 1,
                                     formatted = "B 0.00000000001"
                                 )

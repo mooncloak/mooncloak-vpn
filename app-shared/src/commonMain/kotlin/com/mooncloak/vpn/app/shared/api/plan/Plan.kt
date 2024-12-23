@@ -1,16 +1,12 @@
 package com.mooncloak.vpn.app.shared.api.plan
 
-import androidx.compose.runtime.Immutable
 import com.mooncloak.vpn.app.shared.api.money.Price
 import kotlinx.datetime.Instant
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
 
 /**
  * Represents a plan to the mooncloak VPN service.
- *
- * @property [type] The type of this product model. This should always be "plan" for a [Plan] model.
  *
  * @property [id] An opaque, unique identifier value for this plan.
  *
@@ -25,7 +21,7 @@ import kotlinx.serialization.json.JsonObject
  *
  * @property [updated] When this plan model was last updated.
  *
- * @property [usageType] Information about how the plan is calculated in regards to usage.
+ * @property [usageType] Information about how the plan is calculated in respect to usage.
  *
  * @property [trial] If this plan offers a free trial, provides details about the trial period and how often it lasts.
  *
@@ -53,25 +49,29 @@ import kotlinx.serialization.json.JsonObject
  * @property [breakdown] Detailed information about this plan typically displayed in a bulleted list.
  */
 @Serializable
-@Immutable
-public data class Plan public constructor(
-    @SerialName(value = "type") public val type: String = "plan", // Used for future improvements to the API, such as using sealed classes for different product types.
-    @SerialName(value = "id") public val id: String,
-    @SerialName(value = "price") public val price: Price,
-    @SerialName(value = "crypto_estimate") public val cryptoEstimate: Price? = null,
-    @SerialName(value = "active") public val active: Boolean = true,
-    @SerialName(value = "created") public val created: Instant,
-    @SerialName(value = "updated") public val updated: Instant? = null,
-    @SerialName(value = "usage_type") public val usageType: UsageType = UsageType.Licensed,
-    @SerialName(value = "trial") public val trial: TrialPeriod? = null,
-    @SerialName(value = "subscription") public val subscription: SubscriptionPeriod? = null,
-    @SerialName(value = "live_mode") public val liveMode: Boolean = false,
-    @SerialName(value = "nickname") public val nickname: String? = null,
-    @SerialName(value = "title") public val title: String,
-    @SerialName(value = "description") public val description: String? = null,
-    @SerialName(value = "highlight") public val highlight: String? = null,
-    @SerialName(value = "self") public val self: String? = null,
-    @SerialName(value = "metadata") public val metadata: JsonObject? = null,
-    @SerialName(value = "tax_code") public val taxCode: TaxCode? = null,
-    @SerialName(value = "breakdown") public val breakdown: PlanBreakdown? = null
-)
+public sealed interface Plan : Product {
+
+    public val id: String
+    public val price: Price
+    public val cryptoEstimate: Price?
+    public val active: Boolean
+    public val created: Instant
+    public val updated: Instant?
+    public val usageType: UsageType
+    public val trial: TrialPeriod?
+    public val subscription: SubscriptionPeriod?
+    public val liveMode: Boolean
+    public val nickname: String?
+    public val title: String
+    public val description: String?
+    public val highlight: String?
+    public val self: String?
+    public val metadata: JsonObject?
+    public val taxCode: TaxCode?
+    public val breakdown: PlanBreakdown?
+
+    public companion object {
+
+        public const val TYPE_VPN_SERVICE_PLAN: String = "vpn_plan"
+    }
+}

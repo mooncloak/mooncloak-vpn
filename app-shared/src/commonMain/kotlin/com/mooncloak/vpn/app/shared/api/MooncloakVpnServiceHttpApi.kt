@@ -23,6 +23,7 @@ import com.mooncloak.vpn.app.shared.api.location.Country
 import com.mooncloak.vpn.app.shared.api.location.CountryCode
 import com.mooncloak.vpn.app.shared.api.location.CountryFilters
 import com.mooncloak.vpn.app.shared.api.plan.AvailablePlans
+import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.ServerFilters
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
@@ -53,6 +54,13 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         val response = httpClient.get("https://mooncloak.com/api/vpn/marketing/plans")
 
         return response.body<HttpResponseBody<AvailablePlans>>().getOrThrow()
+    }
+
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun getPlan(id: String): Plan {
+        val response = httpClient.get("https://mooncloak.com/api/vpn/marketing/plan/$id")
+
+        return response.body<HttpResponseBody<Plan>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)

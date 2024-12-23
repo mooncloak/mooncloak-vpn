@@ -10,9 +10,9 @@ import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
-import com.mooncloak.vpn.app.shared.api.plan.PlansRepository
+import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlansRepository
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetailsRepository
-import com.mooncloak.vpn.app.shared.api.plan.DefaultPlansSource
+import com.mooncloak.vpn.app.shared.api.plan.PlansApiSource
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetailsDatabaseSource
 import com.mooncloak.vpn.app.shared.image.MooncloakImageLoaderFactory
 import io.ktor.client.HttpClient
@@ -111,7 +111,7 @@ public abstract class ApplicationComponent : ApplicationDependencies {
 
     @Provides
     @Singleton
-    public fun providePlansRepository(source: DefaultPlansSource): PlansRepository = source
+    public fun providePlansRepository(source: PlansApiSource): VPNServicePlansRepository = source
 
     @Provides
     @Singleton

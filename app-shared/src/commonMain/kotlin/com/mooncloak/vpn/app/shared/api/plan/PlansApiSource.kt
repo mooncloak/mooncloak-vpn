@@ -6,17 +6,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 // TODO: Implement a cache: Perhaps an HTTP cache is enough?
-public class DefaultPlansSource @Inject public constructor(
+public class PlansApiSource @Inject public constructor(
     private val api: MooncloakVpnServiceHttpApi
-) : PlansRepository {
+) : VPNServicePlansRepository {
 
-    override suspend fun getAvailablePlans(): List<Plan> =
+    override suspend fun getAvailablePlans(): List<VPNServicePlan> =
         withContext(Dispatchers.IO) {
-            api.getAvailablePlans().plans
+            api.getAvailablePlans().plans.filterIsInstance<VPNServicePlan>()
         }
 
-    override suspend fun getPlan(id: String): Plan =
+    override suspend fun getPlan(id: String): VPNServicePlan =
         withContext(Dispatchers.IO) {
-            api.getAvailablePlans().plans.first { plan -> plan.id == id }
+            (api.getPlan(id = id) as? VPNServicePlan) ?: error("Plan was NOT a VPNServicePlan instance.")
         }
 }

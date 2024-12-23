@@ -1,5 +1,6 @@
 import kotlin.Boolean;
 import kotlinx.datetime.Instant;
+import kotlinx.serialization.json.JsonElement;
 import kotlinx.serialization.json.JsonObject;
 
 CREATE TABLE ServicePlan (
@@ -28,10 +29,10 @@ CREATE TABLE ServicePlan (
     totalThroughput INTEGER,
     rxThroughput INTEGER,
     txThroughput INTEGER,
-    breakdown TEXT AS JsonObject,
+    breakdown TEXT AS JsonElement,
     metadata TEXT AS JsonObject,
-    subscription TEXT AS JsonObject,
-    trial TEXT AS JsonObject
+    subscription TEXT AS JsonElement,
+    trial TEXT AS JsonElement
 );
 
 CREATE INDEX ServicePlan_id_index ON ServicePlan(id);

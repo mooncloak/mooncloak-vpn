@@ -19,9 +19,10 @@ import com.mooncloak.vpn.app.shared.api.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.billing.PaymentProvider
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.billing.ProofOfPurchase
+import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlan
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetails
 import com.mooncloak.vpn.app.shared.api.token.TransactionToken
-import com.mooncloak.vpn.app.shared.api.plan.PlansRepository
+import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlansRepository
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetailsRepository
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -33,7 +34,7 @@ import kotlin.jvm.Throws
 
 public class GooglePlayBillingManager @Inject internal constructor(
     private val context: Activity,
-    private val plansRepository: PlansRepository,
+    private val plansRepository: VPNServicePlansRepository,
     private val api: MooncloakVpnServiceHttpApi,
     private val serviceAccessDetailsRepository: ServiceAccessDetailsRepository
 ) : BillingManager {
@@ -129,7 +130,7 @@ public class GooglePlayBillingManager @Inject internal constructor(
     }
 
     @Throws(IllegalStateException::class, CancellationException::class)
-    public override suspend fun getAvailablePlans(): List<Plan> {
+    public override suspend fun getAvailablePlans(): List<VPNServicePlan> {
         val plans = plansRepository.getAvailablePlans()
         val plansById = plans.associateBy { it.id }
 
@@ -141,6 +142,10 @@ public class GooglePlayBillingManager @Inject internal constructor(
                 description = product.description
             )
         }
+    }
+
+    public override suspend fun getPlan(id: String): VPNServicePlan {
+        TODO("Not yet implemented")
     }
 
     @Throws(IllegalStateException::class, CancellationException::class)
