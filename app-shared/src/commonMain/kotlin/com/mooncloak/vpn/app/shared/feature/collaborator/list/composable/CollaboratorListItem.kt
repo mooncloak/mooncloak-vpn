@@ -12,12 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.feature.collaborator.model.Collaborator
+import com.mooncloak.vpn.app.shared.api.app.Contributor
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun CollaboratorListItem(
-    collaborator: Collaborator,
+    collaborator: Contributor,
     modifier: Modifier = Modifier
 ) {
     FlowRow(

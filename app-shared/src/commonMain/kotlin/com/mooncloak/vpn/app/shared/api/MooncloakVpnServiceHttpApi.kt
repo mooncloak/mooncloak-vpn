@@ -12,6 +12,8 @@ import com.mooncloak.kodetools.pagex.PageRequest
 import com.mooncloak.kodetools.pagex.PageRequest.Companion.DEFAULT_COUNT
 import com.mooncloak.kodetools.pagex.ResolvedPage
 import com.mooncloak.kodetools.pagex.SortOptions
+import com.mooncloak.vpn.app.shared.api.app.Contributor
+import com.mooncloak.vpn.app.shared.api.app.CurrentContributors
 import com.mooncloak.vpn.app.shared.api.billing.BitcoinPlanInvoice
 import com.mooncloak.vpn.app.shared.api.billing.GetPaymentInvoiceRequestBody
 import com.mooncloak.vpn.app.shared.api.billing.GetPaymentStatusRequestBody
@@ -230,5 +232,19 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         }
 
         return response.body<HttpResponseBody<ResolvedPage<Server>>>().getOrThrow()
+    }
+
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun getContributors(): CurrentContributors {
+        val response = httpClient.get("https://mooncloak.com/api/vpn/app/contributor")
+
+        return response.body<HttpResponseBody<CurrentContributors>>().getOrThrow()
+    }
+
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun getContributor(id: String): Contributor {
+        val response = httpClient.get("https://mooncloak.com/api/vpn/app/contributor/$id")
+
+        return response.body<HttpResponseBody<Contributor>>().getOrThrow()
     }
 }
