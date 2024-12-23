@@ -86,9 +86,6 @@ class BuildVariables internal constructor(
 
     val directDownloadUrl: String?
         get() = runCatching { kenv.getStringOrNull("directDownloadUrl") }.getOrNull()
-
-    val githubApiToken: String?
-        get() = runCatching { kenv.getStringOrNull("githubApiToken") }.getOrNull()
 }
 
 val Project.buildVariables: BuildVariables
