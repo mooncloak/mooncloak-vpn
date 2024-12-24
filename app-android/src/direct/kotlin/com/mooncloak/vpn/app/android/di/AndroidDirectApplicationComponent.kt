@@ -39,6 +39,11 @@ internal abstract class AndroidDirectApplicationComponent internal constructor(
     @Provides
     @Singleton
     internal fun provideDatabaseDriverFactory(factory: AndroidDatabaseDriverFactory): DatabaseDriverFactory = factory
+
+    @Provides
+    @Singleton
+    internal fun provideServerConnectionManager(manager: AndroidServerConnectionManager): ServerConnectionManager =
+        manager
 }
 
 internal fun ApplicationComponent.Companion.create(

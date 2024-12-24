@@ -6,7 +6,9 @@ import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.kodetools.storagex.keyvalue.KeyValueStorage
 import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
 import com.mooncloak.kodetools.storagex.keyvalue.Settings
-import com.mooncloak.vpn.app.android.AndroidAppClientInfo
+import com.mooncloak.vpn.app.android.info.AndroidAppClientInfo
+import com.mooncloak.vpn.app.android.AndroidServerConnectionManager
+import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.storage.database.AndroidDatabaseDriverFactory
@@ -35,6 +37,11 @@ internal abstract class AndroidGooglePlayApplicationComponent internal construct
     @Provides
     @Singleton
     internal fun provideDatabaseDriverFactory(factory: AndroidDatabaseDriverFactory): DatabaseDriverFactory = factory
+
+    @Provides
+    @Singleton
+    internal fun provideServerConnectionManager(manager: AndroidServerConnectionManager): ServerConnectionManager =
+        manager
 }
 
 internal fun ApplicationComponent.Companion.create(

@@ -1,6 +1,7 @@
-package com.mooncloak.vpn.app.android
+package com.mooncloak.vpn.app.android.info
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.vpn.app.android.BuildConfig
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 
 internal class AndroidAppClientInfo @Inject internal constructor() : AppClientInfo {
