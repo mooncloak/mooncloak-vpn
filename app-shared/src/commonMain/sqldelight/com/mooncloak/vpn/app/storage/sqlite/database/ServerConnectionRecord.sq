@@ -4,8 +4,10 @@ import kotlinx.serialization.json.JsonElement;
 CREATE TABLE ServerConnectionRecord (
     databaseId INTEGER PRIMARY KEY NOT NULL,
     id TEXT NOT NULL UNIQUE,
-    created INTEGER AS Instant,
-    updated INTEGER AS Instant,
+    created INTEGER AS Instant NOT NULL,
+    updated INTEGER AS Instant NOT NULL,
+    serverCreated INTEGER AS Instant,
+    serverUpdated INTEGER AS Instant,
     connected INTEGER AS Instant,
     starred INTEGER AS Instant,
     name TEXT NOT NULL,
@@ -17,14 +19,15 @@ CREATE TABLE ServerConnectionRecord (
     ipv6 TEXT,
     connectionTypes TEXT AS JsonElement NOT NULL,
     protocols TEXT AS JsonElement NOT NULL,
-    tags TEXT AS JsonElement NOT NULL
+    tags TEXT AS JsonElement NOT NULL,
+    note TEXT
 );
 
 CREATE INDEX ServerConnectionRecord_id_index ON ServerConnectionRecord(id);
 
 insert:
-INSERT OR REPLACE INTO ServerConnectionRecord(databaseId, id, created, updated, connected, starred, name, countryCode, regionCode, uri, self, ipv4, ipv6, connectionTypes, protocols, tags)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT OR REPLACE INTO ServerConnectionRecord(databaseId, id, created, updated, serverCreated, serverUpdated, connected, starred, name, countryCode, regionCode, uri, self, ipv4, ipv6, connectionTypes, protocols, tags, note)
+VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 updateConnectedById:
 UPDATE ServerConnectionRecord
@@ -34,6 +37,11 @@ WHERE id = :id;
 updatedStarredById:
 UPDATE ServerConnectionRecord
 SET starred = :starred
+WHERE id = :id;
+
+updateNoteById:
+UPDATE ServerConnectionRecord
+SET note = :note
 WHERE id = :id;
 
 selectAll:
@@ -47,6 +55,26 @@ FROM ServerConnectionRecord
 ORDER BY connected DESC, starred DESC, updated DESC
 LIMIT :count
 OFFSET :offset;
+
+selectAllStarred:
+SELECT *
+FROM ServerConnectionRecord
+WHERE starred IS NOT NULL
+ORDER BY connected DESC, starred DESC, updated DESC;
+
+selectStarredPage:
+SELECT *
+FROM ServerConnectionRecord
+WHERE starred IS NOT NULL
+ORDER BY connected DESC, starred DESC, updated DESC
+LIMIT :count
+OFFSET :offset;
+
+selectLastConnected:
+SELECT *
+FROM ServerConnectionRecord
+ORDER BY connected DESC
+LIMIT 1;
 
 selectById:
 SELECT *

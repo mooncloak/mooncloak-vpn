@@ -4,6 +4,8 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.app.shared.api.location.CountryCode
 import com.mooncloak.vpn.app.shared.api.location.RegionCode
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
+import com.mooncloak.vpn.app.storage.sqlite.database.SelectAllStarred
+import com.mooncloak.vpn.app.storage.sqlite.database.SelectStarredPage
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
@@ -26,6 +28,11 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
             ?.toServerConnectionRecord()
             ?: throw NoSuchElementException("No ServerConnectionRecord found with id '$id'.")
 
+    override suspend fun getLastConnected(): ServerConnectionRecord? =
+        database.serverConnectionRecordQueries.selectLastConnected()
+            .executeAsOneOrNull()
+            ?.toServerConnectionRecord()
+
     override suspend fun getAll(): List<ServerConnectionRecord> =
         database.serverConnectionRecordQueries.selectAll()
             .executeAsList()
@@ -38,10 +45,23 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
         ).executeAsList()
             .map { record -> record.toServerConnectionRecord() }
 
+    override suspend fun getAllStarred(): List<ServerConnectionRecord> =
+        database.serverConnectionRecordQueries.selectAllStarred()
+            .executeAsList()
+            .map { record -> record.toServerConnectionRecord() }
+
+    override suspend fun getStarredPage(count: Int, offset: Int): List<ServerConnectionRecord> =
+        database.serverConnectionRecordQueries.selectStarredPage(
+            count = count.toLong(),
+            offset = offset.toLong()
+        ).executeAsList()
+            .map { record -> record.toServerConnectionRecord() }
+
     override suspend fun add(
         server: Server,
         lastConnected: Instant?,
-        starred: Boolean
+        starred: Boolean,
+        note: String?
     ) {
         add(
             server = server,
@@ -50,17 +70,22 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
                 clock.now()
             } else {
                 null
-            }
+            },
+            note = note
         )
     }
 
-    override suspend fun add(server: Server, lastConnected: Instant?, starred: Instant?) {
+    override suspend fun add(server: Server, lastConnected: Instant?, starred: Instant?, note: String?) {
         mutex.withLock {
+            val now = clock.now()
+
             database.serverConnectionRecordQueries.insert(
                 databaseId = null,
                 id = server.id,
-                created = server.created,
-                updated = server.updated,
+                created = now,
+                updated = now,
+                serverCreated = server.created,
+                serverUpdated = server.updated,
                 connected = lastConnected,
                 starred = starred,
                 name = server.name,
@@ -81,7 +106,8 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
                 tags = json.encodeToJsonElement(
                     serializer = ListSerializer(String.serializer()),
                     value = server.tags
-                )
+                ),
+                note = note
             )
         }
     }
@@ -108,6 +134,15 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
         }
     }
 
+    override suspend fun update(id: String, note: String?) {
+        mutex.withLock {
+            database.serverConnectionRecordQueries.updateNoteById(
+                id = id,
+                note = note
+            )
+        }
+    }
+
     override suspend fun remove(id: String) {
         mutex.withLock {
             database.serverConnectionRecordQueries.deleteById(id = id)
@@ -121,6 +156,64 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
     }
 
     private fun com.mooncloak.vpn.app.storage.sqlite.database.ServerConnectionRecord.toServerConnectionRecord(): ServerConnectionRecord =
+        ServerConnectionRecord(
+            server = Server(
+                id = this.id,
+                name = this.name,
+                countryCode = CountryCode(value = this.countryCode),
+                regionCode = this.regionCode?.let { RegionCode(value = it) },
+                status = null,
+                created = this.created,
+                updated = this.updated,
+                uri = this.uri,
+                self = this.self,
+                ipV4Address = this.ipv4,
+                ipV6Address = this.ipv6,
+                connectionTypes = json.decodeFromJsonElement(
+                    deserializer = ListSerializer(ConnectionType.serializer()),
+                    element = this.connectionTypes
+                ),
+                protocols = json.decodeFromJsonElement(
+                    deserializer = ListSerializer(VPNProtocol.serializer()),
+                    element = this.protocols
+                ),
+                tags = json.decodeFromJsonElement(
+                    deserializer = ListSerializer(String.serializer()),
+                    element = this.tags
+                )
+            )
+        )
+
+    private fun SelectAllStarred.toServerConnectionRecord(): ServerConnectionRecord =
+        ServerConnectionRecord(
+            server = Server(
+                id = this.id,
+                name = this.name,
+                countryCode = CountryCode(value = this.countryCode),
+                regionCode = this.regionCode?.let { RegionCode(value = it) },
+                status = null,
+                created = this.created,
+                updated = this.updated,
+                uri = this.uri,
+                self = this.self,
+                ipV4Address = this.ipv4,
+                ipV6Address = this.ipv6,
+                connectionTypes = json.decodeFromJsonElement(
+                    deserializer = ListSerializer(ConnectionType.serializer()),
+                    element = this.connectionTypes
+                ),
+                protocols = json.decodeFromJsonElement(
+                    deserializer = ListSerializer(VPNProtocol.serializer()),
+                    element = this.protocols
+                ),
+                tags = json.decodeFromJsonElement(
+                    deserializer = ListSerializer(String.serializer()),
+                    element = this.tags
+                )
+            )
+        )
+
+    private fun SelectStarredPage.toServerConnectionRecord(): ServerConnectionRecord =
         ServerConnectionRecord(
             server = Server(
                 id = this.id,

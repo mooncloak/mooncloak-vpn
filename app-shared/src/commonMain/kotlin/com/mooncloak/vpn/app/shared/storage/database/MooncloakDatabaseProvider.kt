@@ -43,7 +43,9 @@ public class MooncloakDatabaseProvider @Inject public constructor(
             starredAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
             connectionTypesAdapter = DatabaseAdapter.jsonElementAsString(),
             protocolsAdapter = DatabaseAdapter.jsonElementAsString(),
-            tagsAdapter = DatabaseAdapter.jsonElementAsString()
+            tagsAdapter = DatabaseAdapter.jsonElementAsString(),
+            serverCreatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+            serverUpdatedAdapter = DatabaseAdapter.instantAsMillisecondsLong()
         )
     )
 }

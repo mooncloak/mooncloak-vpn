@@ -8,5 +8,6 @@ import kotlinx.serialization.Serializable
 public data class ServerConnectionRecord public constructor(
     @SerialName(value = "server") public val server: Server,
     @SerialName(value = "connected") public val lastConnected: Instant? = null,
-    @SerialName(value = "starred") public val starred: Instant? = null
+    @SerialName(value = "starred") public val starred: Instant? = null,
+    @SerialName(value = "note") public val note: String? = null
 )
