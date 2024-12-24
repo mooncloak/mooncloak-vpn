@@ -7,6 +7,7 @@ import com.mooncloak.vpn.app.shared.storage.database.adapter.jsonElementAsString
 import com.mooncloak.vpn.app.shared.storage.database.adapter.jsonObjectAsString
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.app.storage.sqlite.database.PurchaseReceipt
+import com.mooncloak.vpn.app.storage.sqlite.database.ServerConnectionRecord
 import com.mooncloak.vpn.app.storage.sqlite.database.ServicePlan
 import com.mooncloak.vpn.app.storage.sqlite.database.ServiceTokens
 
@@ -34,6 +35,15 @@ public class MooncloakDatabaseProvider @Inject public constructor(
             updatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
             issuedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
             expirationAdapter = DatabaseAdapter.instantAsMillisecondsLong()
+        ),
+        ServerConnectionRecordAdapter = ServerConnectionRecord.Adapter(
+            createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+            updatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+            connectedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+            starredAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+            connectionTypesAdapter = DatabaseAdapter.jsonElementAsString(),
+            protocolsAdapter = DatabaseAdapter.jsonElementAsString(),
+            tagsAdapter = DatabaseAdapter.jsonElementAsString()
         )
     )
 }
