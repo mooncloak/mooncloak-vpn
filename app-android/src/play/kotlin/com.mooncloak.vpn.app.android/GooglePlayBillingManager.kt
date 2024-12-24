@@ -14,17 +14,22 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import com.android.billingclient.api.queryProductDetails
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
+import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.billing.PaymentProvider
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.billing.ProofOfPurchase
-import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlan
-import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlansApiSource
+import com.mooncloak.vpn.app.shared.api.plan.ServicePlan
+import com.mooncloak.vpn.app.shared.api.plan.ServicePlansApiSource
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetails
 import com.mooncloak.vpn.app.shared.api.token.TransactionToken
-import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlansRepository
+import com.mooncloak.vpn.app.shared.api.plan.ServicePlansRepository
+import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
+import com.mooncloak.vpn.app.shared.api.service.ServiceTokens
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
+import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,11 +42,12 @@ import kotlin.jvm.Throws
 
 internal class GooglePlayBillingManager @Inject internal constructor(
     private val context: Activity,
-    private val plansApiSource: VPNServicePlansApiSource,
+    private val plansApiSource: ServicePlansApiSource,
     private val api: MooncloakVpnServiceHttpApi,
-    private val serviceAccessDetailsRepository: ServiceTokensRepository
+    private val serviceAccessDetailsRepository: ServiceTokensRepository,
+    private val subscriptionStorage: SubscriptionStorage
 ) : BillingManager,
-    VPNServicePlansRepository {
+    ServicePlansRepository {
 
     public override var isActive: Boolean = false
         private set
@@ -134,7 +140,7 @@ internal class GooglePlayBillingManager @Inject internal constructor(
     }
 
     @Throws(IllegalStateException::class, CancellationException::class)
-    override suspend fun getPlans(): List<VPNServicePlan> {
+    override suspend fun getPlans(): List<ServicePlan> {
         val plans = plansApiSource.getPlans()
         val plansById = plans.associateBy { it.id }
 
@@ -148,7 +154,7 @@ internal class GooglePlayBillingManager @Inject internal constructor(
         }
     }
 
-    override suspend fun getPlan(id: String): VPNServicePlan =
+    override suspend fun getPlan(id: String): ServicePlan =
         coroutineScope {
             val deferredPlan = async { plansApiSource.getPlan(id = id) }
             val product = runCatching { getGooglePlayProducts(planIds = listOf(id)).first() }.getOrNull()
@@ -218,21 +224,34 @@ internal class GooglePlayBillingManager @Inject internal constructor(
             token = TransactionToken(value = purchase.purchaseToken)
         )
 
-        val tokens = withContext(Dispatchers.IO) {
-            api.exchangeToken(receipt = receipt)
-        }
-
-        serviceAccessDetailsRepository.add(tokens)
-
-        val subscription = withContext(Dispatchers.IO) {
-            api.getCurrentSubscription(token = tokens.accessToken)
-        }
-
+        val tokens = getTokens(receipt)
+        val subscription = getSubscription(tokens)
         val accessDetails = ServiceAccessDetails(
             tokens = tokens,
             subscription = subscription
         )
 
         return accessDetails
+    }
+
+    private suspend fun getTokens(receipt: ProofOfPurchase): ServiceTokens {
+        val tokens = withContext(Dispatchers.IO) {
+            api.exchangeToken(receipt = receipt)
+        }
+
+        serviceAccessDetailsRepository.add(tokens)
+
+        return tokens
+    }
+
+    @OptIn(ExperimentalPersistentStateAPI::class)
+    private suspend fun getSubscription(tokens: ServiceTokens): ServiceSubscription {
+        val subscription = withContext(Dispatchers.IO) {
+            api.getCurrentSubscription(token = tokens.accessToken)
+        }
+
+        subscriptionStorage.subscription.update(subscription)
+
+        return subscription
     }
 }

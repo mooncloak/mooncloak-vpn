@@ -11,19 +11,19 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import kotlin.time.Duration
 
-public class VPNServicePlansDatabaseSource @Inject public constructor(
+public class ServicePlansDatabaseSource @Inject public constructor(
     private val database: MooncloakDatabase,
     private val json: Json
-) : VPNServicePlansRepository {
+) : ServicePlansRepository {
 
-    override suspend fun getPlans(): List<VPNServicePlan> =
+    override suspend fun getPlans(): List<com.mooncloak.vpn.app.shared.api.plan.ServicePlan> =
         withContext(Dispatchers.IO) {
             database.servicePlanQueries.selectAll()
                 .executeAsList()
                 .map { plan -> plan.toVPNServicePlan() }
         }
 
-    override suspend fun getPlan(id: String): VPNServicePlan =
+    override suspend fun getPlan(id: String): com.mooncloak.vpn.app.shared.api.plan.ServicePlan =
         withContext(Dispatchers.IO) {
             database.servicePlanQueries.selectById(id = id)
                 .executeAsOneOrNull()
@@ -31,7 +31,7 @@ public class VPNServicePlansDatabaseSource @Inject public constructor(
                 ?: throw NoSuchElementException("No plan found with id '$id'.")
         }
 
-    internal suspend fun insertAll(plans: List<VPNServicePlan>) {
+    internal suspend fun insertAll(plans: List<com.mooncloak.vpn.app.shared.api.plan.ServicePlan>) {
         withContext(Dispatchers.IO) {
             database.transaction {
                 plans.forEach { plan -> performInsert(plan) }
@@ -39,7 +39,7 @@ public class VPNServicePlansDatabaseSource @Inject public constructor(
         }
     }
 
-    internal suspend fun insert(plan: VPNServicePlan) {
+    internal suspend fun insert(plan: com.mooncloak.vpn.app.shared.api.plan.ServicePlan) {
         withContext(Dispatchers.IO) {
             performInsert(plan)
         }
@@ -57,7 +57,7 @@ public class VPNServicePlansDatabaseSource @Inject public constructor(
         }
     }
 
-    private fun performInsert(plan: VPNServicePlan) {
+    private fun performInsert(plan: com.mooncloak.vpn.app.shared.api.plan.ServicePlan) {
         database.servicePlanQueries.insert(
             databaseId = null,
             id = plan.id,
@@ -106,53 +106,54 @@ public class VPNServicePlansDatabaseSource @Inject public constructor(
         )
     }
 
-    private fun ServicePlan.toVPNServicePlan(): VPNServicePlan = VPNServicePlan(
-        id = this.id,
-        price = Price(
-            currency = Currency.invoke(
-                type = this.currencyType,
-                code = this.currencyCode,
-                defaultFractionDigits = this.currencyDefaultFractionDigits?.toInt(),
-                numericCode = this.currencyNumericCode?.toInt(),
-                symbol = this.currencySymbol
+    private fun ServicePlan.toVPNServicePlan(): com.mooncloak.vpn.app.shared.api.plan.ServicePlan =
+        ServicePlan(
+            id = id,
+            price = Price(
+                currency = Currency.invoke(
+                    type = currencyType,
+                    code = currencyCode,
+                    defaultFractionDigits = currencyDefaultFractionDigits?.toInt(),
+                    numericCode = currencyNumericCode?.toInt(),
+                    symbol = currencySymbol
+                ),
+                amount = amount,
+                formatted = amountFormatted
             ),
-            amount = this.amount,
-            formatted = this.amountFormatted
-        ),
-        cryptoEstimate = null,
-        active = this.active,
-        created = this.created,
-        updated = this.updated,
-        usageType = UsageType(value = this.usageType),
-        trial = this.trial?.let {
-            json.decodeFromJsonElement(
-                deserializer = TrialPeriod.serializer(),
-                element = it
-            )
-        },
-        subscription = this.subscription?.let {
-            json.decodeFromJsonElement(
-                deserializer = SubscriptionPeriod.serializer(),
-                element = it
-            )
-        },
-        liveMode = this.live,
-        nickname = this.nickname,
-        title = this.title,
-        description = this.description,
-        highlight = this.highlight,
-        self = this.self,
-        metadata = this.metadata,
-        taxCode = this.taxCode?.let { TaxCode(value = it) },
-        breakdown = this.breakdown?.let {
-            json.decodeFromJsonElement(
-                deserializer = PlanBreakdown.serializer(),
-                element = it
-            )
-        },
-        duration = Duration.parseIsoString(this.duration),
-        totalThroughput = this.totalThroughput,
-        rxThroughput = this.rxThroughput,
-        txThroughput = this.txThroughput
-    )
+            cryptoEstimate = null,
+            active = active,
+            created = created,
+            updated = updated,
+            usageType = UsageType(value = usageType),
+            trial = trial?.let {
+                json.decodeFromJsonElement(
+                    deserializer = TrialPeriod.serializer(),
+                    element = it
+                )
+            },
+            subscription = subscription?.let {
+                json.decodeFromJsonElement(
+                    deserializer = SubscriptionPeriod.serializer(),
+                    element = it
+                )
+            },
+            liveMode = live,
+            nickname = nickname,
+            title = title,
+            description = description,
+            highlight = highlight,
+            self = self,
+            metadata = metadata,
+            taxCode = taxCode?.let { TaxCode(value = it) },
+            breakdown = breakdown?.let {
+                json.decodeFromJsonElement(
+                    deserializer = PlanBreakdown.serializer(),
+                    element = it
+                )
+            },
+            duration = Duration.parseIsoString(duration),
+            totalThroughput = totalThroughput,
+            rxThroughput = rxThroughput,
+            txThroughput = txThroughput
+        )
 }

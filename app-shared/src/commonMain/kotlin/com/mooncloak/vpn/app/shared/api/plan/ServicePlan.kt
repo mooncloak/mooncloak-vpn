@@ -16,7 +16,7 @@ import kotlin.time.Duration
  */
 @Serializable
 @SerialName(value = Plan.TYPE_VPN_SERVICE_PLAN)
-public data class VPNServicePlan public constructor(
+public data class ServicePlan public constructor(
     @SerialName(value = "id") public override val id: String,
     @SerialName(value = "price") public override val price: Price,
     @SerialName(value = "crypto_estimate") public override val cryptoEstimate: Price? = null,

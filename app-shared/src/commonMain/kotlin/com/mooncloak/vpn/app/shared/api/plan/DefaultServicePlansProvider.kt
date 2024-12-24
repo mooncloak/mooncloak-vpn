@@ -6,12 +6,12 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 
-public class DefaultVPNServicePlansProvider @Inject public constructor(
-    private val freshSource: VPNServicePlansRepository,
-    private val cacheSource: VPNServicePlansDatabaseSource
-) : VPNServicePlansProvider {
+public class DefaultServicePlansProvider @Inject public constructor(
+    private val freshSource: ServicePlansRepository,
+    private val cacheSource: ServicePlansDatabaseSource
+) : ServicePlansProvider {
 
-    override fun getPlansFlow(): Flow<List<VPNServicePlan>> =
+    override fun getPlansFlow(): Flow<List<ServicePlan>> =
         flow { emit(freshSource.getPlans()) }
             .onEach { plans -> cacheSource.insertAll(plans) }
             .onStart { emit(cacheSource.getPlans()) }

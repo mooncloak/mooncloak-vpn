@@ -6,6 +6,8 @@ import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetails
+import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
+import com.mooncloak.vpn.app.shared.api.service.ServiceTokens
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
 import com.mooncloak.vpn.app.shared.api.token.TransactionToken
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
@@ -60,25 +62,34 @@ internal class MooncloakBillingManager @Inject internal constructor(
             token = token
         )
 
-        val tokens = withContext(Dispatchers.IO) {
-            api.exchangeToken(receipt = receipt)
-        }
-
-        serviceAccessDetailsRepository.add(tokens)
-
-        val subscription = withContext(Dispatchers.IO) {
-            api.getCurrentSubscription(token = tokens.accessToken)
-        }
-
-        // Update the current values
-        subscriptionStorage.tokens.update(tokens)
-        subscriptionStorage.subscription.update(subscription)
-
+        val tokens = getTokens(receipt)
+        val subscription = getSubscription(tokens)
         val accessDetails = ServiceAccessDetails(
             tokens = tokens,
             subscription = subscription
         )
 
         return accessDetails
+    }
+
+    private suspend fun getTokens(receipt: ProofOfPurchase): ServiceTokens {
+        val tokens = withContext(Dispatchers.IO) {
+            api.exchangeToken(receipt = receipt)
+        }
+
+        serviceAccessDetailsRepository.add(tokens)
+
+        return tokens
+    }
+
+    @OptIn(ExperimentalPersistentStateAPI::class)
+    private suspend fun getSubscription(tokens: ServiceTokens): ServiceSubscription {
+        val subscription = withContext(Dispatchers.IO) {
+            api.getCurrentSubscription(token = tokens.accessToken)
+        }
+
+        subscriptionStorage.subscription.update(subscription)
+
+        return subscription
     }
 }

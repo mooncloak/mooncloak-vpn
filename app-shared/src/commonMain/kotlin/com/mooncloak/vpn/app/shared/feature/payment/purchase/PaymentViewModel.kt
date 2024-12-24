@@ -17,7 +17,7 @@ import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.billing.PlanPaymentStatus
 import com.mooncloak.vpn.app.shared.api.money.Price
 import com.mooncloak.vpn.app.shared.api.money.USD
-import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlansProvider
+import com.mooncloak.vpn.app.shared.api.plan.ServicePlansProvider
 import com.mooncloak.vpn.app.shared.api.token.TransactionToken
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
@@ -45,7 +45,7 @@ import org.jetbrains.compose.resources.getString
 public class PaymentViewModel @Inject public constructor(
     private val appClientInfo: AppClientInfo,
     private val navController: NavController,
-    private val plansProvider: VPNServicePlansProvider
+    private val plansProvider: ServicePlansProvider
 ) : ViewModel<PaymentStateModel>(initialStateValue = PaymentStateModel()) {
 
     private val mutex = Mutex(locked = false)

@@ -4,15 +4,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.mooncloak.kodetools.konstruct.annotations.Provides
-import com.mooncloak.vpn.app.shared.api.plan.DefaultVPNServicePlansProvider
-import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlansProvider
+import com.mooncloak.vpn.app.shared.api.plan.DefaultServicePlansProvider
+import com.mooncloak.vpn.app.shared.api.plan.ServicePlansProvider
 
 @PresentationScoped
 public abstract class PresentationComponent : PresentationDependencies {
 
     @Provides
     @PresentationScoped
-    public fun provideVPNServicePlansProvider(provider: DefaultVPNServicePlansProvider): VPNServicePlansProvider =
+    public fun provideVPNServicePlansProvider(provider: DefaultServicePlansProvider): ServicePlansProvider =
         provider
 
     public companion object
