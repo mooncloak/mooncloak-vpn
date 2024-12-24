@@ -24,7 +24,7 @@ import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlansApiSource
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetails
 import com.mooncloak.vpn.app.shared.api.token.TransactionToken
 import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlansRepository
-import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetailsRepository
+import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,7 +39,7 @@ internal class GooglePlayBillingManager @Inject internal constructor(
     private val context: Activity,
     private val plansApiSource: VPNServicePlansApiSource,
     private val api: MooncloakVpnServiceHttpApi,
-    private val serviceAccessDetailsRepository: ServiceAccessDetailsRepository
+    private val serviceAccessDetailsRepository: ServiceTokensRepository
 ) : BillingManager,
     VPNServicePlansRepository {
 

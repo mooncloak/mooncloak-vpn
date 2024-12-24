@@ -6,7 +6,7 @@ import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetails
-import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetailsRepository
+import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
 import com.mooncloak.vpn.app.shared.api.token.TransactionToken
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +16,7 @@ import kotlinx.coroutines.withContext
 internal class MooncloakBillingManager @Inject internal constructor(
     private val api: MooncloakVpnServiceHttpApi,
     private val subscriptionStorage: SubscriptionStorage,
-    private val serviceAccessDetailsRepository: ServiceAccessDetailsRepository
+    private val serviceAccessDetailsRepository: ServiceTokensRepository
 ) : BillingManager {
 
     override var isActive: Boolean = false
