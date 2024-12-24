@@ -20,6 +20,7 @@ import com.mooncloak.vpn.app.shared.api.billing.PaymentProvider
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.billing.ProofOfPurchase
 import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlan
+import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlansApiSource
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetails
 import com.mooncloak.vpn.app.shared.api.token.TransactionToken
 import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlansRepository
@@ -28,16 +29,19 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.jvm.Throws
 
-public class GooglePlayBillingManager @Inject internal constructor(
+internal class GooglePlayBillingManager @Inject internal constructor(
     private val context: Activity,
-    private val plansRepository: VPNServicePlansRepository,
+    private val plansApiSource: VPNServicePlansApiSource,
     private val api: MooncloakVpnServiceHttpApi,
     private val serviceAccessDetailsRepository: ServiceAccessDetailsRepository
-) : BillingManager {
+) : BillingManager,
+    VPNServicePlansRepository {
 
     public override var isActive: Boolean = false
         private set
@@ -111,7 +115,7 @@ public class GooglePlayBillingManager @Inject internal constructor(
     private var isClientReady = false
     private lateinit var coroutineScope: CoroutineScope
 
-    public override fun start() {
+    override fun start() {
         if (!isActive) {
             coroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
             isActive = true
@@ -120,7 +124,7 @@ public class GooglePlayBillingManager @Inject internal constructor(
         }
     }
 
-    public override fun cancel() {
+    override fun cancel() {
         if (isActive) {
             isActive = false
             isClientReady = false
@@ -130,8 +134,8 @@ public class GooglePlayBillingManager @Inject internal constructor(
     }
 
     @Throws(IllegalStateException::class, CancellationException::class)
-    public override suspend fun getAvailablePlans(): List<VPNServicePlan> {
-        val plans = plansRepository.getAvailablePlans()
+    override suspend fun getPlans(): List<VPNServicePlan> {
+        val plans = plansApiSource.getPlans()
         val plansById = plans.associateBy { it.id }
 
         return getGooglePlayProducts(planIds = plans.map { plan -> plan.id }).mapNotNull { product ->
@@ -144,12 +148,24 @@ public class GooglePlayBillingManager @Inject internal constructor(
         }
     }
 
-    public override suspend fun getPlan(id: String): VPNServicePlan {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getPlan(id: String): VPNServicePlan =
+        coroutineScope {
+            val deferredPlan = async { plansApiSource.getPlan(id = id) }
+            val product = runCatching { getGooglePlayProducts(planIds = listOf(id)).first() }.getOrNull()
+
+            if (product == null) {
+                throw NoSuchElementException("No Google Play Product with id '$id'.")
+            }
+
+            return@coroutineScope deferredPlan.await().copy(
+                nickname = product.name,
+                title = product.title,
+                description = product.description
+            )
+        }
 
     @Throws(IllegalStateException::class, CancellationException::class)
-    public override suspend fun purchasePlan(plan: Plan) {
+    override suspend fun purchasePlan(plan: Plan) {
         val product = getGooglePlayProducts(planIds = listOf(plan.id)).first()
 
         val productDetailsParamsList = listOf(

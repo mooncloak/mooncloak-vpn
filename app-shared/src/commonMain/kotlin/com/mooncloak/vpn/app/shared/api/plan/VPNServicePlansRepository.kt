@@ -5,7 +5,7 @@ import kotlin.jvm.Throws
 
 public interface VPNServicePlansRepository {
 
-    public suspend fun getAvailablePlans(): List<VPNServicePlan>
+    public suspend fun getPlans(): List<VPNServicePlan>
 
     @Throws(NoSuchElementException::class, CancellationException::class)
     public suspend fun getPlan(id: String): VPNServicePlan

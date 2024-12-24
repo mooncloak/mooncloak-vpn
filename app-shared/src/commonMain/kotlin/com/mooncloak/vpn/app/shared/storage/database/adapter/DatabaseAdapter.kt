@@ -10,6 +10,7 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.StringFormat
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.serializer
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -57,6 +58,14 @@ public fun DatabaseAdapter.Companion.jsonElementAsString(
     json: Json = Json.Default
 ): DatabaseAdapter<JsonElement, String> =
     JsonElementDatabaseAdapter(json = json)
+
+/**
+ * A convenience function for creating a [JsonObjectDatabaseAdapter] instance.
+ */
+public fun DatabaseAdapter.Companion.jsonObjectAsString(
+    json: Json = Json.Default
+): DatabaseAdapter<JsonObject, String> =
+    JsonObjectDatabaseAdapter(json = json)
 
 /**
  * A convenience function for creating a [SerializableValueAsStringDatabaseAdapter] instance.

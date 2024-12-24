@@ -1,12 +1,10 @@
 package com.mooncloak.vpn.app.shared.api.billing
 
 import com.mooncloak.vpn.app.shared.api.plan.Plan
-import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlansRepository
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.jvm.Throws
 
-public interface BillingManager : AutoCloseable,
-    VPNServicePlansRepository {
+public interface BillingManager : AutoCloseable {
 
     public val isActive: Boolean
 

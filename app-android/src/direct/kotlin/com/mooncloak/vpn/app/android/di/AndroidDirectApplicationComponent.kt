@@ -35,6 +35,10 @@ internal abstract class AndroidDirectApplicationComponent internal constructor(
     @Singleton
     internal fun provideAppClientInfo(appClientInfo: AndroidAppClientInfo): AppClientInfo =
         appClientInfo
+
+    @Provides
+    @Singleton
+    internal fun provideDatabaseDriverFactory(factory: AndroidDatabaseDriverFactory): DatabaseDriverFactory = factory
 }
 
 internal fun ApplicationComponent.Companion.create(

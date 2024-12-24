@@ -2,9 +2,9 @@ package com.mooncloak.vpn.app.shared.di
 
 import coil3.SingletonImageLoader
 import com.mooncloak.kodetools.logpile.core.Logger
-import com.mooncloak.vpn.app.shared.api.billing.BillingManager
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
+import com.mooncloak.vpn.app.shared.storage.database.DatabaseDriverFactory
 import io.ktor.client.HttpClient
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
@@ -21,6 +21,7 @@ public expect interface ApplicationDependencies {
     public val appClientInfo: AppClientInfo
     public val preferencesStorage: PreferencesStorage
     public val imageLoaderFactory: SingletonImageLoader.Factory
+    public val databaseDriverFactory: DatabaseDriverFactory
 
     public companion object
 }

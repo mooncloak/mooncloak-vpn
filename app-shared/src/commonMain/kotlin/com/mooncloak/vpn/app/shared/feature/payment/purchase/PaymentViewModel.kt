@@ -11,13 +11,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.navigation.NavController
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.app.shared.api.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.billing.BitcoinPlanInvoice
 import com.mooncloak.vpn.app.shared.api.money.Currency
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.billing.PlanPaymentStatus
 import com.mooncloak.vpn.app.shared.api.money.Price
 import com.mooncloak.vpn.app.shared.api.money.USD
+import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlansProvider
 import com.mooncloak.vpn.app.shared.api.token.TransactionToken
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
@@ -29,6 +29,11 @@ import com.mooncloak.vpn.app.shared.resource.payment_link_text_privacy_policy
 import com.mooncloak.vpn.app.shared.resource.payment_link_text_terms
 import com.mooncloak.vpn.app.shared.resource.payment_plans_title
 import com.mooncloak.vpn.app.shared.resource.payment_title
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -40,22 +45,24 @@ import org.jetbrains.compose.resources.getString
 public class PaymentViewModel @Inject public constructor(
     private val appClientInfo: AppClientInfo,
     private val navController: NavController,
-    private val billingManager: BillingManager
+    private val plansProvider: VPNServicePlansProvider
 ) : ViewModel<PaymentStateModel>(initialStateValue = PaymentStateModel()) {
 
     private val mutex = Mutex(locked = false)
+
+    private var plansJob: Job? = null
 
     public fun load() {
         coroutineScope.launch {
             mutex.withLock {
                 emit(value = state.current.value.copy(isLoading = true))
 
+                subscribeToPlans()
+
                 var termsAndConditionsText: (@Composable () -> AnnotatedString) = { AnnotatedString("") }
-                var plans = emptyList<Plan>()
 
                 try {
                     termsAndConditionsText = getTermsAndConditionsText()
-                    plans = billingManager.getAvailablePlans()
 
                     // TODO: Load real plans
                     // TODO: Obtain current plan invoice
@@ -66,7 +73,6 @@ public class PaymentViewModel @Inject public constructor(
                             isLoading = false,
                             errorMessage = null,
                             termsAndConditionsText = termsAndConditionsText,
-                            plans = plans,
                             startDestination = PaymentDestination.Plans, // TODO:
                             screenTitle = getString(Res.string.payment_plans_title)
                         )
@@ -77,7 +83,6 @@ public class PaymentViewModel @Inject public constructor(
                             isLoading = false,
                             errorMessage = e.message ?: getString(Res.string.global_unexpected_error),
                             termsAndConditionsText = termsAndConditionsText,
-                            plans = plans,
                             startDestination = PaymentDestination.Plans
                         )
                     )
@@ -159,6 +164,16 @@ public class PaymentViewModel @Inject public constructor(
                 }
             }
         }
+    }
+
+    private fun subscribeToPlans() {
+        plansJob?.cancel()
+
+        plansJob = plansProvider.getPlansFlow()
+            .flowOn(Dispatchers.IO)
+            .onEach { plans -> emit(value = state.current.value.copy(plans = plans)) }
+            .flowOn(Dispatchers.Main)
+            .launchIn(coroutineScope)
     }
 
     private suspend fun getTermsAndConditionsText(): (@Composable () -> AnnotatedString) {

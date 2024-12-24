@@ -6,6 +6,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Component
 import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.vpn.app.android.GooglePlayBillingManager
 import com.mooncloak.vpn.app.shared.api.billing.BillingManager
+import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlansRepository
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationScoped
@@ -25,6 +26,10 @@ internal abstract class AndroidPresentationComponent internal constructor(
     @Provides
     @PresentationScoped
     internal fun provideBillingManager(manager: GooglePlayBillingManager): BillingManager = manager
+
+    @Provides
+    @PresentationScoped
+    internal fun providePlansRepository(source: GooglePlayBillingManager): VPNServicePlansRepository = source
 
     @Provides
     @PresentationScoped

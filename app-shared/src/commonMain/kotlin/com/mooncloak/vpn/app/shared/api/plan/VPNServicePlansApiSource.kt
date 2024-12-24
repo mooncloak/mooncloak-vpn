@@ -5,12 +5,11 @@ import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-// TODO: Implement a cache: Perhaps an HTTP cache is enough?
-public class PlansApiSource @Inject public constructor(
+public class VPNServicePlansApiSource @Inject public constructor(
     private val api: MooncloakVpnServiceHttpApi
 ) : VPNServicePlansRepository {
 
-    override suspend fun getAvailablePlans(): List<VPNServicePlan> =
+    override suspend fun getPlans(): List<VPNServicePlan> =
         withContext(Dispatchers.IO) {
             api.getAvailablePlans().plans.filterIsInstance<VPNServicePlan>()
         }

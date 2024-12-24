@@ -32,11 +32,6 @@ internal class MooncloakBillingManager @Inject internal constructor(
         isActive = false
     }
 
-    override suspend fun getAvailablePlans(): List<Plan> =
-        withContext(Dispatchers.IO) {
-            api.getAvailablePlans().plans
-        }
-
     override suspend fun purchasePlan(plan: Plan) {
         val invoice = withContext(Dispatchers.IO) {
             api.getPaymentInvoice(

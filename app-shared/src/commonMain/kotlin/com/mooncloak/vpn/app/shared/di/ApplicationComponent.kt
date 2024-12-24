@@ -10,11 +10,12 @@ import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
-import com.mooncloak.vpn.app.shared.api.plan.VPNServicePlansRepository
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetailsRepository
-import com.mooncloak.vpn.app.shared.api.plan.PlansApiSource
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetailsDatabaseSource
 import com.mooncloak.vpn.app.shared.image.MooncloakImageLoaderFactory
+import com.mooncloak.vpn.app.shared.storage.database.DatabaseDriverFactory
+import com.mooncloak.vpn.app.shared.storage.database.MooncloakDatabaseProvider
+import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.compression.ContentEncoding
@@ -111,12 +112,12 @@ public abstract class ApplicationComponent : ApplicationDependencies {
 
     @Provides
     @Singleton
-    public fun providePlansRepository(source: PlansApiSource): VPNServicePlansRepository = source
+    public fun provideServiceAccessDetailsRepository(source: ServiceAccessDetailsDatabaseSource): ServiceAccessDetailsRepository =
+        source
 
     @Provides
     @Singleton
-    public fun provideServiceAccessDetailsRepository(source: ServiceAccessDetailsDatabaseSource): ServiceAccessDetailsRepository =
-        source
+    public fun provideDatabase(provider: MooncloakDatabaseProvider): MooncloakDatabase = provider.get()
 
     public companion object
 }

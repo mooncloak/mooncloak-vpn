@@ -11,12 +11,12 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import kotlin.time.Duration
 
-internal class PlansDatabaseSource @Inject internal constructor(
+public class VPNServicePlansDatabaseSource @Inject public constructor(
     private val database: MooncloakDatabase,
     private val json: Json
 ) : VPNServicePlansRepository {
 
-    override suspend fun getAvailablePlans(): List<VPNServicePlan> =
+    override suspend fun getPlans(): List<VPNServicePlan> =
         withContext(Dispatchers.IO) {
             database.servicePlanQueries.selectAll()
                 .executeAsList()
@@ -31,54 +31,17 @@ internal class PlansDatabaseSource @Inject internal constructor(
                 ?: throw NoSuchElementException("No plan found with id '$id'.")
         }
 
+    internal suspend fun insertAll(plans: List<VPNServicePlan>) {
+        withContext(Dispatchers.IO) {
+            database.transaction {
+                plans.forEach { plan -> performInsert(plan) }
+            }
+        }
+    }
+
     internal suspend fun insert(plan: VPNServicePlan) {
         withContext(Dispatchers.IO) {
-            database.servicePlanQueries.insert(
-                databaseId = null,
-                id = plan.id,
-                created = plan.created,
-                updated = plan.updated ?: plan.created,
-                active = plan.active,
-                usageType = plan.usageType.value,
-                live = plan.liveMode,
-                nickname = plan.nickname,
-                title = plan.title,
-                description = plan.description,
-                highlight = plan.highlight,
-                url = null,
-                self = plan.self,
-                taxCode = plan.taxCode?.value,
-                amount = plan.price.amount,
-                amountFormatted = plan.price.formatted,
-                currencyType = plan.price.currency.type,
-                currencyCode = plan.price.currency.code,
-                currencyNumericCode = plan.price.currency.numericCode?.toLong(),
-                currencyDefaultFractionDigits = plan.price.currency.defaultFractionDigits?.toLong(),
-                currencySymbol = plan.price.currency.symbol,
-                duration = plan.duration.toIsoString(),
-                totalThroughput = plan.totalThroughput,
-                rxThroughput = plan.rxThroughput,
-                txThroughput = plan.txThroughput,
-                trial = plan.trial?.let {
-                    json.encodeToJsonElement(
-                        serializer = TrialPeriod.serializer(),
-                        value = it
-                    )
-                },
-                subscription = plan.subscription?.let {
-                    json.encodeToJsonElement(
-                        serializer = SubscriptionPeriod.serializer(),
-                        value = it
-                    )
-                },
-                metadata = plan.metadata,
-                breakdown = plan.breakdown?.let {
-                    json.encodeToJsonElement(
-                        serializer = PlanBreakdown.serializer(),
-                        value = it
-                    )
-                }
-            )
+            performInsert(plan)
         }
     }
 
@@ -92,6 +55,55 @@ internal class PlansDatabaseSource @Inject internal constructor(
         withContext(Dispatchers.IO) {
             database.servicePlanQueries.deleteAll()
         }
+    }
+
+    private fun performInsert(plan: VPNServicePlan) {
+        database.servicePlanQueries.insert(
+            databaseId = null,
+            id = plan.id,
+            created = plan.created,
+            updated = plan.updated ?: plan.created,
+            active = plan.active,
+            usageType = plan.usageType.value,
+            live = plan.liveMode,
+            nickname = plan.nickname,
+            title = plan.title,
+            description = plan.description,
+            highlight = plan.highlight,
+            url = null,
+            self = plan.self,
+            taxCode = plan.taxCode?.value,
+            amount = plan.price.amount,
+            amountFormatted = plan.price.formatted,
+            currencyType = plan.price.currency.type,
+            currencyCode = plan.price.currency.code,
+            currencyNumericCode = plan.price.currency.numericCode?.toLong(),
+            currencyDefaultFractionDigits = plan.price.currency.defaultFractionDigits?.toLong(),
+            currencySymbol = plan.price.currency.symbol,
+            duration = plan.duration.toIsoString(),
+            totalThroughput = plan.totalThroughput,
+            rxThroughput = plan.rxThroughput,
+            txThroughput = plan.txThroughput,
+            trial = plan.trial?.let {
+                json.encodeToJsonElement(
+                    serializer = TrialPeriod.serializer(),
+                    value = it
+                )
+            },
+            subscription = plan.subscription?.let {
+                json.encodeToJsonElement(
+                    serializer = SubscriptionPeriod.serializer(),
+                    value = it
+                )
+            },
+            metadata = plan.metadata,
+            breakdown = plan.breakdown?.let {
+                json.encodeToJsonElement(
+                    serializer = PlanBreakdown.serializer(),
+                    value = it
+                )
+            }
+        )
     }
 
     private fun ServicePlan.toVPNServicePlan(): VPNServicePlan = VPNServicePlan(
