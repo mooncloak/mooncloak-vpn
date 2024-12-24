@@ -165,4 +165,14 @@
     <string name="collaborator_list_description_error">There was an unexpected issue loading the contributors of the project. Please try again later.</string>
     <string name="collaborator_list_description_empty">The top contributors of the project will be displayed here.</string>
 
+    <string name="server_connection_disconnected_title">Disconnected</string>
+    <string name="server_connection_disconnected_description">Connect to a secure VPN server to cloak your data from data creeps.</string>
+    <string name="server_connection_action_connect">Connect</string>
+    <string name="server_connection_action_disconnect">Disconnect</string>
+    <string name="server_connection_connecting_title">Connecting</string>
+    <string name="server_connection_connected_title">Connected</string>
+    <string name="server_connection_connected_label_timestamp">Timestamp</string>
+    <string name="server_connection_connected_label_rx_throughput">Incoming</string>
+    <string name="server_connection_connected_label_tx_throughput">Outgoing</string>
+
 </resources>
