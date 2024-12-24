@@ -38,5 +38,5 @@ public val HomeStateModel.connectedIpAddress: String?
     inline get() = if (this.isDisconnected) {
         localNetwork?.ipAddress
     } else {
-        servers.firstOrNull()?.ipAddress
+        servers.firstOrNull()?.let { it.ipV4Address ?: it.ipV6Address }
     }

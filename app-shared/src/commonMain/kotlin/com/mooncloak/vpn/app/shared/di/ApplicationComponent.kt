@@ -12,6 +12,8 @@ import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
 import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptDatabaseSource
 import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptRepository
+import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordDatabaseSource
+import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensSource
 import com.mooncloak.vpn.app.shared.image.MooncloakImageLoaderFactory
@@ -119,6 +121,11 @@ public abstract class ApplicationComponent : ApplicationDependencies {
     @Provides
     @Singleton
     public fun provideServicePurchaseReceiptRepository(source: ServicePurchaseReceiptDatabaseSource): ServicePurchaseReceiptRepository =
+        source
+
+    @Provides
+    @Singleton
+    public fun provideServerConnectionRecordRepository(source: ServerConnectionRecordDatabaseSource): ServerConnectionRecordRepository =
         source
 
     @Provides

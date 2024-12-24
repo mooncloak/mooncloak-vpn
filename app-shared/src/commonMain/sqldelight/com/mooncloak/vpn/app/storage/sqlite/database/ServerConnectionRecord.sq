@@ -1,0 +1,61 @@
+import kotlinx.datetime.Instant;
+import kotlinx.serialization.json.JsonElement;
+
+CREATE TABLE ServerConnectionRecord (
+    databaseId INTEGER PRIMARY KEY NOT NULL,
+    id TEXT NOT NULL UNIQUE,
+    created INTEGER AS Instant,
+    updated INTEGER AS Instant,
+    connected INTEGER AS Instant,
+    starred INTEGER AS Instant,
+    name TEXT NOT NULL,
+    countryCode TEXT NOT NULL,
+    regionCode TEXT,
+    uri TEXT,
+    self TEXT,
+    ipv4 TEXT,
+    ipv6 TEXT,
+    connectionTypes TEXT AS JsonElement NOT NULL,
+    protocols TEXT AS JsonElement NOT NULL,
+    tags TEXT AS JsonElement NOT NULL
+);
+
+CREATE INDEX ServerConnectionRecord_id_index ON ServerConnectionRecord(id);
+
+insert:
+INSERT OR REPLACE INTO ServerConnectionRecord(databaseId, id, created, updated, connected, starred, name, countryCode, regionCode, uri, self, ipv4, ipv6, connectionTypes, protocols, tags)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+updateConnectedById:
+UPDATE ServerConnectionRecord
+SET connected = :connected
+WHERE id = :id;
+
+updatedStarredById:
+UPDATE ServerConnectionRecord
+SET starred = :starred
+WHERE id = :id;
+
+selectAll:
+SELECT *
+FROM ServerConnectionRecord
+ORDER BY connected DESC, starred DESC, updated DESC;
+
+selectPage:
+SELECT *
+FROM ServerConnectionRecord
+ORDER BY connected DESC, starred DESC, updated DESC
+LIMIT :count
+OFFSET :offset;
+
+selectById:
+SELECT *
+FROM ServerConnectionRecord
+WHERE id = :id;
+
+deleteById:
+DELETE FROM ServerConnectionRecord
+WHERE id = :id;
+
+deleteAll:
+DELETE FROM ServerConnectionRecord;
