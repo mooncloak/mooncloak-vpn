@@ -11,7 +11,7 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
-import com.mooncloak.vpn.app.shared.api.service.ServiceTokensDatabaseSource
+import com.mooncloak.vpn.app.shared.api.service.ServiceTokensSource
 import com.mooncloak.vpn.app.shared.image.MooncloakImageLoaderFactory
 import com.mooncloak.vpn.app.shared.storage.database.MooncloakDatabaseProvider
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
@@ -111,7 +111,7 @@ public abstract class ApplicationComponent : ApplicationDependencies {
 
     @Provides
     @Singleton
-    public fun provideServiceTokensRepository(source: ServiceTokensDatabaseSource): ServiceTokensRepository =
+    public fun provideServiceTokensRepository(source: ServiceTokensSource): ServiceTokensRepository =
         source
 
     @Provides

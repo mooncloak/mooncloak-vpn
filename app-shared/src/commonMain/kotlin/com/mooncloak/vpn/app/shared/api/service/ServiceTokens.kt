@@ -10,7 +10,22 @@ import kotlinx.serialization.SerialName
 import kotlin.time.Duration
 
 /**
- * Represents a successful response model that can be returned from the OAuth 2.0 endpoint.
+ * Represents a successful response model that can be returned from the OAuth 2.0 endpoint. These represent token
+ * values obtained via the mooncloak VPN service exchange token API endpoint.
+ *
+ * > [!Note]
+ * > That this class is modeled after the OAuth 2.0 specification, however there are notable deviations. This model may
+ * > contain required properties that are not defined in the OAuth 2.0 specification, and therefore this class cannot
+ * > be used generally with an OAuth 2.0 API.
+ *
+ * > [!Note]
+ * > Attempting to access a protected resource with an invalid or expired token will result in an HTTP response of 401
+ * > unauthenticated. In the event that occurs, one would need to use the [ServiceTokens.refreshToken], if available,
+ * > to obtain a new [ServiceTokens], via the API refresh tokens endpoint, to access the protected resource.
+ *
+ * @property [id] The unique identifier for this [ServiceTokens] instance. This is typically the identifier for the
+ * [ServiceTokens.accessToken] value, but no guarantees are made that they are the same. This is an extension property
+ * and it is not defined by the OAuth specification.
  *
  * @property [accessToken] REQUIRED. The access token issued by the authorization server.
  *
@@ -38,23 +53,36 @@ import kotlin.time.Duration
  *
  * @property [userId] A unique identifier value used to identify the user associated with these [ServiceTokens]. This
  * value is typically automatically generated via the service during the token exchange process since there are no user
- * accounts with the mooncloak VPN service.
+ * accounts with the mooncloak VPN service. This is an extension property and it is not defined by the OAuth
+ * specification.
  *
  * @see [OAuth Specification](https://www.rfc-editor.org/rfc/rfc6749.html#section-5)
  */
 @Immutable
 @Serializable
 public data class ServiceTokens public constructor(
+    @SerialName(value = "id") public val id: String,
     @SerialName(value = "access_token") public val accessToken: Token,
     @SerialName(value = "token_type") public val tokenType: TokenType = TokenType.Bearer,
     @SerialName(value = "expires_in") @Serializable(with = DurationAsSecondsSerializer::class) public val expiresIn: Duration,
     @SerialName(value = "refresh_token") public val refreshToken: Token? = null,
     @SerialName(value = "scope") public val scopeString: String? = null,
-    @SerialName(value = "issued") public val issued: Instant? = null,
-    @SerialName(value = "expiration") public val expiration: Instant? = null,
+    @SerialName(value = "issued") public val issued: Instant,
+    @SerialName(value = "expiration") public val expiration: Instant,
     @SerialName(value = "user_id") public val userId: String? = null
 )
 
+/**
+ * Represents the [ServiceTokens.scopeString] value as a [List] of scope [String]s. The [ServiceTokens.scopeString]
+ * value is a space separated list of scopes, whereas this is a kotlin [List] of scopes.
+ */
 public val ServiceTokens.scopes: List<String>
     inline get() = scopeString?.split(' ')
         ?: emptyList()
+
+/**
+ * Returns whether the [ServiceTokens.accessToken] is considered valid at the provided [instant], according to the
+ * [ServiceTokens.issued] and [ServiceTokens.expiration] values.
+ */
+public fun ServiceTokens.isValidAt(instant: Instant): Boolean =
+    instant >= issued && instant < expiration

@@ -7,10 +7,6 @@ import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 public class ServiceTokensDatabaseSource @Inject public constructor(
     private val database: MooncloakDatabase,
@@ -30,14 +26,13 @@ public class ServiceTokensDatabaseSource @Inject public constructor(
             ?.toServiceTokens()
             ?: throw NoSuchElementException("No ServiceTokens found with id '$id'.")
 
-    @OptIn(ExperimentalUuidApi::class)
     override suspend fun add(tokens: ServiceTokens) {
         mutex.withLock {
             val now = clock.now()
 
             database.serviceTokensQueries.insert(
                 databaseId = null,
-                id = Uuid.random().toHexString(),
+                id = tokens.id,
                 created = now,
                 updated = now,
                 issued = tokens.issued,
@@ -59,22 +54,14 @@ public class ServiceTokensDatabaseSource @Inject public constructor(
 
     private fun com.mooncloak.vpn.app.storage.sqlite.database.ServiceTokens.toServiceTokens(): ServiceTokens =
         ServiceTokens(
+            id = this.id,
             accessToken = Token(value = this.accessToken),
             tokenType = TokenType(value = this.type),
             expiration = this.expiration,
-            expiresIn = this.expiresIn(),
+            expiresIn = expiration - clock.now(),
             refreshToken = this.refreshToken?.let { Token(value = it) },
             scopeString = this.scope,
             issued = this.issued,
             userId = this.userId
         )
-
-    private fun com.mooncloak.vpn.app.storage.sqlite.database.ServiceTokens.expiresIn(): Duration {
-        val now = clock.now()
-
-        return when {
-            expiration != null -> expiration - now
-            else -> 0.seconds
-        }
-    }
 }

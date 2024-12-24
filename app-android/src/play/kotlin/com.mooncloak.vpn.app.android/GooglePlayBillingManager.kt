@@ -222,6 +222,8 @@ internal class GooglePlayBillingManager @Inject internal constructor(
             api.exchangeToken(receipt = receipt)
         }
 
+        serviceAccessDetailsRepository.add(tokens)
+
         val subscription = withContext(Dispatchers.IO) {
             api.getCurrentSubscription(token = tokens.accessToken)
         }
@@ -230,8 +232,6 @@ internal class GooglePlayBillingManager @Inject internal constructor(
             tokens = tokens,
             subscription = subscription
         )
-
-        serviceAccessDetailsRepository.add(accessDetails)
 
         return accessDetails
     }
