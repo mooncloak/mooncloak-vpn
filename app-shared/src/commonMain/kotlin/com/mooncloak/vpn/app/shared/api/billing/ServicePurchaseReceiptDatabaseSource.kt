@@ -32,6 +32,7 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
     @OptIn(ExperimentalUuidApi::class)
     override suspend fun add(
         planId: String,
+        invoiceId: String?,
         purchased: Instant,
         provider: PaymentProvider,
         created: Instant?,
@@ -51,6 +52,7 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
                     databaseId = null,
                     id = id,
                     planId = planId,
+                    invoiceId = invoiceId,
                     created = created ?: now,
                     updated = updated ?: now,
                     purchased = purchased,
@@ -78,6 +80,7 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
         ServicePurchaseReceipt(
             id = this.id,
             planId = this.planId,
+            invoiceId = this.invoiceId,
             created = this.created,
             updated = this.updated,
             purchased = this.purchased,

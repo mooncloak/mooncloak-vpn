@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
 public data class ServicePurchaseReceipt public constructor(
     @SerialName(value = "id") public val id: String,
     @SerialName(value = "plan_id") public val planId: String,
+    @SerialName(value = "invoice_id") public val invoiceId: String? = null,
     @SerialName(value = "created") public val created: Instant,
     @SerialName(value = "updated") public val updated: Instant,
     @SerialName(value = "purchased") public val purchased: Instant,

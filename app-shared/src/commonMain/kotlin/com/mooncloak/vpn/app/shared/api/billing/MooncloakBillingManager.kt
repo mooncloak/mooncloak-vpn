@@ -13,12 +13,15 @@ import com.mooncloak.vpn.app.shared.api.token.TransactionToken
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Clock
 
 @OptIn(ExperimentalPersistentStateAPI::class)
 internal class MooncloakBillingManager @Inject internal constructor(
     private val api: MooncloakVpnServiceHttpApi,
     private val subscriptionStorage: SubscriptionStorage,
-    private val serviceAccessDetailsRepository: ServiceTokensRepository
+    private val serviceTokensRepository: ServiceTokensRepository,
+    private val servicePurchaseReceiptRepository: ServicePurchaseReceiptRepository,
+    private val clock: Clock
 ) : BillingManager {
 
     override var isActive: Boolean = false
@@ -52,6 +55,7 @@ internal class MooncloakBillingManager @Inject internal constructor(
     }
 
     private suspend fun exchangePurchaseForServiceAccess(
+        planId: String,
         invoiceId: String,
         token: TransactionToken
     ): ServiceAccessDetails {
@@ -60,6 +64,19 @@ internal class MooncloakBillingManager @Inject internal constructor(
             id = invoiceId,
             clientSecret = null,
             token = token
+        )
+
+        // Store the purchase receipt locally on device so that we can always look it up later if needed.
+        servicePurchaseReceiptRepository.add(
+            planId = planId,
+            invoiceId = invoiceId,
+            purchased = clock.now(),
+            provider = PaymentProvider.GooglePlay,
+            subscription = false,
+            clientSecret = null,
+            token = token,
+            signature = null,
+            quantity = null
         )
 
         val tokens = getTokens(receipt)
@@ -77,7 +94,7 @@ internal class MooncloakBillingManager @Inject internal constructor(
             api.exchangeToken(receipt = receipt)
         }
 
-        serviceAccessDetailsRepository.add(tokens)
+        serviceTokensRepository.add(tokens)
 
         return tokens
     }

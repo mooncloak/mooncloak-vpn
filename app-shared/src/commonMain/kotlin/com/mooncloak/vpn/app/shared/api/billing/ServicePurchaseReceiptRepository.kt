@@ -16,6 +16,7 @@ public interface ServicePurchaseReceiptRepository {
 
     public suspend fun add(
         planId: String,
+        invoiceId: String? = null,
         purchased: Instant,
         provider: PaymentProvider,
         created: Instant? = null,

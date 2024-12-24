@@ -5,6 +5,7 @@ CREATE TABLE PurchaseReceipt (
     databaseId INTEGER PRIMARY KEY NOT NULL,
     id TEXT NOT NULL UNIQUE,
     planId TEXT NOT NULL,
+    invoiceId TEXT,
     created INTEGER AS Instant NOT NULL,
     updated INTEGER AS Instant NOT NULL,
     purchased INTEGER AS Instant NOT NULL,
@@ -20,8 +21,8 @@ CREATE INDEX PurchaseReceipt_id_index ON PurchaseReceipt(id);
 CREATE INDEX PurchaseReceipt_plan_id_index ON PurchaseReceipt(planId);
 
 insert:
-INSERT OR REPLACE INTO PurchaseReceipt(databaseId, id, planId, created, updated, purchased, provider, subscription, clientSecret, token, signature, quantity)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT OR REPLACE INTO PurchaseReceipt(databaseId, id, planId, invoiceId, created, updated, purchased, provider, subscription, clientSecret, token, signature, quantity)
+VALUES (?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 selectAll:
 SELECT *

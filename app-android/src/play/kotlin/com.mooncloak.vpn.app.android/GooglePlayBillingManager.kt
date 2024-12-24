@@ -21,6 +21,7 @@ import com.mooncloak.vpn.app.shared.api.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.billing.PaymentProvider
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.billing.ProofOfPurchase
+import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptRepository
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlan
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansApiSource
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetails
@@ -38,14 +39,16 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Instant
 import kotlin.jvm.Throws
 
 internal class GooglePlayBillingManager @Inject internal constructor(
     private val context: Activity,
     private val plansApiSource: ServicePlansApiSource,
     private val api: MooncloakVpnServiceHttpApi,
-    private val serviceAccessDetailsRepository: ServiceTokensRepository,
-    private val subscriptionStorage: SubscriptionStorage
+    private val serviceTokensRepository: ServiceTokensRepository,
+    private val subscriptionStorage: SubscriptionStorage,
+    private val servicePurchaseReceiptRepository: ServicePurchaseReceiptRepository
 ) : BillingManager,
     ServicePlansRepository {
 
@@ -217,14 +220,26 @@ internal class GooglePlayBillingManager @Inject internal constructor(
     }
 
     private suspend fun exchangePurchaseForServiceAccess(purchase: Purchase): ServiceAccessDetails {
-        val receipt = ProofOfPurchase(
+        val proofOfPurchase = ProofOfPurchase(
             paymentProvider = PaymentProvider.GooglePlay,
             id = purchase.orderId,
             clientSecret = null,
             token = TransactionToken(value = purchase.purchaseToken)
         )
 
-        val tokens = getTokens(receipt)
+        // Store the purchase receipt locally on device so that we can always look it up later if needed.
+        servicePurchaseReceiptRepository.add(
+            planId = purchase.orderId!!,
+            purchased = Instant.fromEpochMilliseconds(purchase.purchaseTime),
+            provider = PaymentProvider.GooglePlay,
+            subscription = false,
+            clientSecret = null,
+            token = TransactionToken(value = purchase.purchaseToken),
+            signature = purchase.signature,
+            quantity = purchase.quantity
+        )
+
+        val tokens = getTokens(proofOfPurchase)
         val subscription = getSubscription(tokens)
         val accessDetails = ServiceAccessDetails(
             tokens = tokens,
@@ -239,7 +254,7 @@ internal class GooglePlayBillingManager @Inject internal constructor(
             api.exchangeToken(receipt = receipt)
         }
 
-        serviceAccessDetailsRepository.add(tokens)
+        serviceTokensRepository.add(tokens)
 
         return tokens
     }
