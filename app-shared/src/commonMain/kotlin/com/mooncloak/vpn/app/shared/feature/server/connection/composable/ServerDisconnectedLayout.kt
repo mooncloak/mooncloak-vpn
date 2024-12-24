@@ -46,6 +46,7 @@ internal fun ServerDisconnectedLayout(
             ),
             textAlign = TextAlign.Center
         )
+
         Button(
             modifier = Modifier.padding(vertical = 32.dp)
                 .sizeIn(maxWidth = 400.dp)
