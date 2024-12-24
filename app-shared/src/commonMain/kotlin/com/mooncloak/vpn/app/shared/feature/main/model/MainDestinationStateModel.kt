@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.main
+package com.mooncloak.vpn.app.shared.feature.main.model
 
 import androidx.compose.runtime.Immutable
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination

@@ -2,6 +2,7 @@ package com.mooncloak.vpn.app.shared.feature.main
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.FloatingActionButton
@@ -13,23 +14,28 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaul
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.country.CountryListScreen
 import com.mooncloak.vpn.app.shared.feature.home.HomeScreen
+import com.mooncloak.vpn.app.shared.feature.main.composable.MainBottomSheet
 import com.mooncloak.vpn.app.shared.feature.main.composable.MooncloakNavigationScaffold
 import com.mooncloak.vpn.app.shared.feature.main.di.createMainComponent
+import com.mooncloak.vpn.app.shared.feature.main.model.MainBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.main.util.containerColor
 import com.mooncloak.vpn.app.shared.feature.main.util.contentColor
 import com.mooncloak.vpn.app.shared.feature.main.util.floatingActionBarContent
 import com.mooncloak.vpn.app.shared.feature.settings.SettingsScreen
 import com.mooncloak.vpn.app.shared.feature.support.SupportScreen
 import com.mooncloak.vpn.app.shared.navigation.LocalNavController
+import kotlinx.coroutines.launch
 
 @Composable
 public fun MainScreen(
@@ -44,6 +50,8 @@ public fun MainScreen(
         )
     }
     val viewModel = remember { componentDependencies.viewModel }
+    val bottomSheetState = rememberModalNavigationBottomSheetState<MainBottomSheetDestination>()
+    val coroutineScope = rememberCoroutineScope()
 
     val itemColors = NavigationSuiteDefaults.itemColors(
         navigationBarItemColors = NavigationBarItemDefaults.colors(
@@ -107,7 +115,9 @@ public fun MainScreen(
                 containerColor = containerColor.value,
                 contentColor = contentColor.value,
                 onClick = {
-                    // TODO: Handle connecting to the VPN server
+                    coroutineScope.launch {
+                        bottomSheetState.show(MainBottomSheetDestination.ServerConnection)
+                    }
                 },
                 content = {
                     viewModel.state.current.value.serverConnection.floatingActionBarContent()
@@ -151,5 +161,10 @@ public fun MainScreen(
                 }
             }
         }
+    )
+
+    MainBottomSheet(
+        modifier = Modifier.fillMaxWidth(),
+        state = bottomSheetState
     )
 }
