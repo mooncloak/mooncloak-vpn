@@ -185,5 +185,6 @@
     <string name="server_details_info_field_load">Server load</string>
     <string name="server_details_info_field_protocol">Protocol</string>
     <string name="server_details_info_field_performance">Performance</string>
+    <string name="server_details_title_time">Data cloaked for</string>
 
 </resources>

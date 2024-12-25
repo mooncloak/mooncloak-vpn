@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.server.details.composable.CloakedLayout
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.TimerText
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.SolarEclipseLayout
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.IpAddressCard
@@ -53,16 +54,11 @@ public fun ServerDetailsScreen(
         Column {
             val visible = remember { mutableStateOf(false) }
 
-            SolarEclipseLayout(
+            CloakedLayout(
                 modifier = Modifier.fillMaxWidth()
                     .aspectRatio(1f)
                     .padding(16.dp)
-            ) {
-                TimerText(
-                    modifier = Modifier.wrapContentSize(),
-                    style = MaterialTheme.typography.titleLarge
-                )
-            }
+            )
 
             IpAddressCard(
                 modifier = Modifier.fillMaxWidth()
