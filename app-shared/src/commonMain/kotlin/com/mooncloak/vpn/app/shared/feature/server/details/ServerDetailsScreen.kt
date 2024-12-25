@@ -1,12 +1,14 @@
 package com.mooncloak.vpn.app.shared.feature.server.details
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -16,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.server.details.composable.SolarEclipseLayout
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.IpAddressCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.ServerInfoCard
 import com.mooncloak.vpn.app.shared.feature.server.details.di.createServerDetailsComponent
@@ -48,6 +51,14 @@ public fun ServerDetailsScreen(
     ) {
         Column {
             val visible = remember { mutableStateOf(false) }
+
+            SolarEclipseLayout(
+                modifier = Modifier.fillMaxWidth()
+                    .aspectRatio(1f)
+                    .padding(16.dp)
+            ) {
+                Text("Test")
+            }
 
             IpAddressCard(
                 modifier = Modifier.fillMaxWidth()
