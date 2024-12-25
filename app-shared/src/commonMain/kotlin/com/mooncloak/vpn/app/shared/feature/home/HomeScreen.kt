@@ -140,6 +140,9 @@ public fun HomeScreen(
                         },
                         onDetails = {
                             // TODO: Open Server Details Screen
+                            coroutineScope.launch {
+                                bottomSheetState.show(HomeBottomSheetDestination.ServerDetails(item.server))
+                            }
                         }
                     )
 

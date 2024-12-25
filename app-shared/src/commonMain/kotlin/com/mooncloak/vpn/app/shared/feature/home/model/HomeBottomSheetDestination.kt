@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.home.model
 
 import androidx.compose.runtime.Immutable
+import com.mooncloak.vpn.app.shared.api.server.Server
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -16,5 +17,7 @@ internal sealed interface HomeBottomSheetDestination {
     @Immutable
     @Serializable
     @SerialName(value = "server_details")
-    data object ServerDetails : HomeBottomSheetDestination
+    data class ServerDetails internal constructor(
+        val server: Server
+    ) : HomeBottomSheetDestination
 }

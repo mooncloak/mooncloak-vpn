@@ -13,6 +13,10 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
+import com.mooncloak.vpn.app.shared.api.location.Country
+import com.mooncloak.vpn.app.shared.api.location.CountryCode
+import com.mooncloak.vpn.app.shared.api.server.ConnectionType
+import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionStatus
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
@@ -36,6 +40,7 @@ import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalPersistentStateAPI::class)
@@ -47,6 +52,19 @@ public class HomeViewModel @Inject public constructor(
 ) : ViewModel<HomeStateModel>(initialStateValue = HomeStateModel()) {
 
     private val noSubscriptionItems = listOf(
+        HomeFeedItem.ServerConnectionItem(
+            country = Country(
+                code = CountryCode(value = "us"),
+                name = "US"
+            ),
+            server = Server(
+                id = "1",
+                name = "Default Server",
+                countryCode = CountryCode(value = "us")
+            ),
+            connectionType = ConnectionType.MultipleVpn,
+            connected = false
+        ),
         HomeFeedItem.GetVPNServiceItem,
         HomeFeedItem.ShowcaseItem(
             icon = { rememberVectorPainter(Icons.Default.CloudOff) },

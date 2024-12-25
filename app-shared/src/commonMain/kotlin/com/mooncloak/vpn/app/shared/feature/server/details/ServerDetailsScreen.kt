@@ -1,24 +1,20 @@
 package com.mooncloak.vpn.app.shared.feature.server.details
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.server.details.di.createServerDetailsComponent
-import com.mooncloak.vpn.app.shared.resource.Res
-import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 public fun ServerDetailsScreen(
+    server: Server,
     modifier: Modifier = Modifier
 ) {
     val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
@@ -31,21 +27,13 @@ public fun ServerDetailsScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
-        viewModel.load()
+        viewModel.load(server)
     }
 
     Scaffold(
         modifier = modifier,
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
-        },
-        topBar = {
-            LargeTopAppBar(
-                modifier = Modifier.fillMaxWidth(),
-                title = {
-                    Text(text = stringResource(Res.string.destination_main_settings_title))
-                }
-            )
         }
     ) {
 
