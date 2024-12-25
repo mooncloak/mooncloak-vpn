@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -50,6 +51,7 @@ internal fun IpAddressCard(
         ) {
             Column(
                 modifier = Modifier.weight(1f)
+                    .clip(CardDefaults.shape)
                     .clickable { onHideDeviceIpAddressChanged.invoke() },
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
