@@ -175,4 +175,8 @@
     <string name="server_connection_connected_label_rx_throughput">Incoming</string>
     <string name="server_connection_connected_label_tx_throughput">Outgoing</string>
 
+    <string name="server_details_label_device_ip_address">Device IP</string>
+    <string name="server_details_label_server_ip_address">Server IP</string>
+    <string name="server_details_hidden_ip_address">***.**.**.***</string>
+
 </resources>
