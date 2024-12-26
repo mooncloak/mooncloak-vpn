@@ -4,10 +4,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +25,9 @@ import com.mooncloak.vpn.app.shared.feature.server.details.composable.IpAddressC
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.ServerInfoCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.SpeedCard
 import com.mooncloak.vpn.app.shared.feature.server.details.di.createServerDetailsComponent
+import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.server_connection_disconnected_title
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 public fun ServerDetailsScreen(
@@ -78,12 +84,25 @@ public fun ServerDetailsScreen(
             )
 
             ServerInfoCard(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(top = 16.dp)
+                    .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
                 country = "USA",
                 region = "Johnson City",
                 serverName = "Server-1"
             )
+
+            Button(
+                modifier = Modifier.sizeIn(maxWidth = 400.dp)
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, bottom = 32.dp)
+                    .padding(horizontal = 16.dp),
+                onClick = {}
+            ) {
+                Text(
+                    text = stringResource(Res.string.server_connection_disconnected_title)
+                )
+            }
         }
     }
 }
