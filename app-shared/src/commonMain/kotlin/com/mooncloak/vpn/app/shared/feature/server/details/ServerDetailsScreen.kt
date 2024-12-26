@@ -24,6 +24,7 @@ import com.mooncloak.vpn.app.shared.feature.server.details.composable.CloakedLay
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.IpAddressCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.ServerInfoCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.SpeedCard
+import com.mooncloak.vpn.app.shared.feature.server.details.composable.UsageCard
 import com.mooncloak.vpn.app.shared.feature.server.details.di.createServerDetailsComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.server_connection_disconnected_title
@@ -81,6 +82,14 @@ public fun ServerDetailsScreen(
                     .padding(top = 16.dp),
                 downloadBits = 10000,
                 uploadBits = 1000
+            )
+
+            UsageCard(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp),
+                downloadBytes = 10000,
+                uploadBytes = 1000
             )
 
             ServerInfoCard(
