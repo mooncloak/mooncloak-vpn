@@ -4,11 +4,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -19,10 +18,9 @@ import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.CloakedLayout
-import com.mooncloak.vpn.app.shared.feature.server.details.composable.TimerText
-import com.mooncloak.vpn.app.shared.feature.server.details.composable.SolarEclipseLayout
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.IpAddressCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.ServerInfoCard
+import com.mooncloak.vpn.app.shared.feature.server.details.composable.SpeedCard
 import com.mooncloak.vpn.app.shared.feature.server.details.di.createServerDetailsComponent
 
 @Composable
@@ -37,27 +35,27 @@ public fun ServerDetailsScreen(
         )
     }
     val viewModel = remember { componentDependencies.viewModel }
-    val snackbarHostState = remember { SnackbarHostState() }
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(Unit) {
         viewModel.load(server)
     }
 
-    Scaffold(
+    Surface(
         modifier = modifier,
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        },
-        containerColor = MaterialTheme.colorScheme.surface,
+        color = MaterialTheme.colorScheme.surface,
         contentColor = MaterialTheme.colorScheme.onSurface
     ) {
-        Column {
+        Column(
+            modifier = Modifier.fillMaxWidth()
+                .verticalScroll(scrollState)
+        ) {
             val visible = remember { mutableStateOf(false) }
 
             CloakedLayout(
                 modifier = Modifier.fillMaxWidth()
                     .aspectRatio(1f)
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp)
             )
 
             IpAddressCard(
@@ -71,6 +69,14 @@ public fun ServerDetailsScreen(
                 }
             )
 
+            SpeedCard(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp),
+                downloadBits = 10000,
+                uploadBits = 1000
+            )
+
             ServerInfoCard(
                 modifier = Modifier.padding(16.dp)
                     .fillMaxWidth(),
@@ -78,12 +84,6 @@ public fun ServerDetailsScreen(
                 region = "Johnson City",
                 serverName = "Server-1"
             )
-        }
-    }
-
-    LaunchedEffect(viewModel.state.current.value.errorMessage) {
-        viewModel.state.current.value.errorMessage?.let { errorMessage ->
-            snackbarHostState.showSnackbar(message = errorMessage)
         }
     }
 }

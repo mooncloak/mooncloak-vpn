@@ -91,6 +91,12 @@
     <string name="data_format_abbr_gigabytes">Gb</string>
     <string name="data_format_abbr_terabytes">Tb</string>
 
+    <string name="data_format_abbr_bps">Bps</string>
+    <string name="data_format_abbr_kbps">Kbps</string>
+    <string name="data_format_abbr_mbps">Mbps</string>
+    <string name="data_format_abbr_gbps">Gbps</string>
+    <string name="data_format_abbr_tbps">Tbps</string>
+
     <string name="global_not_available">N/A</string>
     <string name="global_unexpected_error">Unexpected error</string>
 
@@ -181,10 +187,17 @@
     <string name="server_details_info_field_country">Country</string>
     <string name="server_details_info_field_region">Region</string>
     <string name="server_details_info_field_connected">Connected</string>
+    <string name="server_details_info_field_last_connected">Last Connected</string>
     <string name="server_details_info_field_server">Server</string>
+    <string name="server_details_info_field_ip_address">IP Address</string>
     <string name="server_details_info_field_load">Server load</string>
     <string name="server_details_info_field_protocol">Protocol</string>
     <string name="server_details_info_field_performance">Performance</string>
+    <string name="server_details_info_value_not_connected">Not Connected</string>
     <string name="server_details_title_time">Data cloaked for</string>
+    <string name="server_details_title_speed">Current Speed</string>
+    <string name="server_details_title_data_usage">Data Usage</string>
+    <string name="server_details_label_download">Download</string>
+    <string name="server_details_label_upload">Upload</string>
 
 </resources>

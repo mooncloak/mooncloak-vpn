@@ -19,7 +19,7 @@ import com.mooncloak.vpn.app.shared.resource.global_not_available
 import com.mooncloak.vpn.app.shared.resource.plan_usage_action_boost
 import com.mooncloak.vpn.app.shared.resource.plan_usage_label_remaining
 import com.mooncloak.vpn.app.shared.resource.plan_usage_title
-import com.mooncloak.vpn.app.shared.util.BytesFormatter
+import com.mooncloak.vpn.app.shared.util.DataFormatter
 import com.mooncloak.vpn.app.shared.util.Default
 import com.mooncloak.vpn.app.shared.util.formatWithUnit
 import org.jetbrains.compose.resources.stringResource
@@ -63,9 +63,10 @@ internal fun PlanUsageCard(
                     modifier = Modifier.weight(1f),
                     label = stringResource(Res.string.plan_usage_label_remaining),
                     value = bytesRemaining?.let { bytes ->
-                        BytesFormatter.Default.formatWithUnit(
-                            bytes = bytes,
-                            type = BytesFormatter.Type.Megabytes
+                        DataFormatter.Default.formatWithUnit(
+                            value = bytes,
+                            inputType = DataFormatter.Type.Bytes,
+                            outputType = DataFormatter.Type.Megabytes
                         )
                     } ?: stringResource(Res.string.global_not_available)
                 )

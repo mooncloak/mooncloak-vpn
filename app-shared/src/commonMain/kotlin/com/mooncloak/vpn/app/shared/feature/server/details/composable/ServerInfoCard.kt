@@ -20,11 +20,13 @@ import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_not_available
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_connected
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_country
+import com.mooncloak.vpn.app.shared.resource.server_details_info_field_ip_address
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_load
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_performance
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_protocol
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_region
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_server
+import com.mooncloak.vpn.app.shared.resource.server_details_info_value_not_connected
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import org.jetbrains.compose.resources.stringResource
 
@@ -34,6 +36,7 @@ internal fun ServerInfoCard(
     region: String? = null,
     connected: String? = null,
     serverName: String,
+    ipAddress: String? = null,
     serverLoad: String? = null,
     protocol: String? = null,
     performance: String? = null,
@@ -74,8 +77,15 @@ internal fun ServerInfoCard(
             DetailRow(
                 modifier = Modifier.fillMaxWidth()
                     .padding(vertical = 8.dp),
+                label = stringResource(Res.string.server_details_info_field_ip_address),
+                value = ipAddress ?: stringResource(Res.string.global_not_available)
+            )
+
+            DetailRow(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(vertical = 8.dp),
                 label = stringResource(Res.string.server_details_info_field_connected),
-                value = connected ?: stringResource(Res.string.global_not_available)
+                value = connected ?: stringResource(Res.string.server_details_info_value_not_connected)
             )
 
             DetailRow(
