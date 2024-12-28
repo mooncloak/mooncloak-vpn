@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.location.Country
+import com.mooncloak.vpn.app.shared.composable.FlagImage
 
 @Composable
 internal fun CountryListItem(

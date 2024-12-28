@@ -23,6 +23,7 @@ import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.CloakedLayout
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.IpAddressCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.ServerInfoCard
+import com.mooncloak.vpn.app.shared.feature.server.details.composable.ServerLocationCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.SpeedCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.UsageCard
 import com.mooncloak.vpn.app.shared.feature.server.details.di.createServerDetailsComponent
@@ -65,9 +66,19 @@ public fun ServerDetailsScreen(
                     .padding(horizontal = 16.dp)
             )
 
-            IpAddressCard(
+            ServerLocationCard(
                 modifier = Modifier.fillMaxWidth()
                     .padding(horizontal = 16.dp),
+                countryName = "United States",
+                regionName = "Florida",
+                serverName = "Florida #1",
+                flagImageUri = null
+            )
+
+            IpAddressCard(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp),
                 deviceIpAddress = "146.70.228.142",
                 serverIpAddress = "146.70.228.142",
                 hideDeviceIpAddress = visible.value,
