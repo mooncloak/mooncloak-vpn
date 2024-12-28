@@ -40,7 +40,7 @@ internal fun StatContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                modifier = Modifier.padding(end = 16.dp)
+                modifier = Modifier.padding(end = 12.dp)
                     .size(18.dp),
                 imageVector = icon,
                 contentDescription = null,

@@ -125,7 +125,7 @@ private fun DetailRow(
         Text(
             modifier = Modifier.wrapContentSize(),
             text = label,
-            style = MaterialTheme.typography.titleMedium.copy(
+            style = MaterialTheme.typography.titleSmall.copy(
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
             ),
             maxLines = 1,
@@ -138,7 +138,7 @@ private fun DetailRow(
         Text(
             modifier = Modifier.wrapContentSize(),
             text = value,
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleSmall,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Start
