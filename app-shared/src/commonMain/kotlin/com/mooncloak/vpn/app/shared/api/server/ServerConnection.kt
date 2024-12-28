@@ -22,6 +22,7 @@ public sealed interface ServerConnection {
 
     @Serializable
     public data class Connected public constructor(
+        @SerialName(value = "session_id") public val sessionId: String,
         @SerialName(value = "server") public val server: Server,
         @SerialName(value = "timestamp") public val timestamp: Instant,
         @SerialName(value = "rx_throughput") public val rxThroughput: Long? = null,

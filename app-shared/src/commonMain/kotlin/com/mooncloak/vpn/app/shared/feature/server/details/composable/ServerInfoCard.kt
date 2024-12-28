@@ -26,7 +26,6 @@ import com.mooncloak.vpn.app.shared.resource.server_details_info_field_performan
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_protocol
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_region
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_server
-import com.mooncloak.vpn.app.shared.resource.server_details_info_value_not_connected
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import org.jetbrains.compose.resources.stringResource
 
@@ -34,6 +33,7 @@ import org.jetbrains.compose.resources.stringResource
 internal fun ServerInfoCard(
     country: String,
     region: String? = null,
+    connectedLabel: String = stringResource(Res.string.server_details_info_field_connected),
     connected: String? = null,
     serverName: String,
     ipAddress: String? = null,
@@ -84,8 +84,8 @@ internal fun ServerInfoCard(
             DetailRow(
                 modifier = Modifier.fillMaxWidth()
                     .padding(vertical = 8.dp),
-                label = stringResource(Res.string.server_details_info_field_connected),
-                value = connected ?: stringResource(Res.string.server_details_info_value_not_connected)
+                label = connectedLabel,
+                value = connected ?: stringResource(Res.string.global_not_available)
             )
 
             DetailRow(

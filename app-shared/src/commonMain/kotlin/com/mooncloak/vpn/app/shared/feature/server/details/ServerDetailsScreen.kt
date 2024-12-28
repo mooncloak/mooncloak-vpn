@@ -1,12 +1,12 @@
 package com.mooncloak.vpn.app.shared.feature.server.details
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -18,6 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.server.Server
+import com.mooncloak.vpn.app.shared.api.server.ServerConnection
+import com.mooncloak.vpn.app.shared.api.server.ipAddress
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.CloakedLayout
@@ -29,7 +31,10 @@ import com.mooncloak.vpn.app.shared.feature.server.details.composable.SpeedCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.UsageCard
 import com.mooncloak.vpn.app.shared.feature.server.details.di.createServerDetailsComponent
 import com.mooncloak.vpn.app.shared.resource.Res
-import com.mooncloak.vpn.app.shared.resource.server_connection_disconnected_title
+import com.mooncloak.vpn.app.shared.resource.server_details_action_connect
+import com.mooncloak.vpn.app.shared.resource.server_details_action_disconnect
+import com.mooncloak.vpn.app.shared.resource.server_details_info_field_connected
+import com.mooncloak.vpn.app.shared.resource.server_details_info_field_last_connected
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -44,7 +49,8 @@ public fun ServerDetailsScreen(
         )
     }
     val viewModel = remember { componentDependencies.viewModel }
-    val scrollState = rememberScrollState()
+    val lazyListState = rememberLazyListState()
+    val hideLocalIpAddress = remember { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
         viewModel.load(server)
@@ -55,80 +61,105 @@ public fun ServerDetailsScreen(
         color = MaterialTheme.colorScheme.surface,
         contentColor = MaterialTheme.colorScheme.onSurface
     ) {
-        Column(
+        LazyColumn(
             modifier = Modifier.fillMaxWidth()
-                .verticalScroll(scrollState)
+                .padding(horizontal = 16.dp),
+            state = lazyListState,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            val visible = remember { mutableStateOf(false) }
-
-            CloakedLayout(
-                modifier = Modifier.fillMaxWidth()
-                    .aspectRatio(1f)
-                    .padding(horizontal = 16.dp)
-            )
-
-            ServerLocationCard(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                countryName = "United States",
-                regionName = "Florida",
-                serverName = "Florida #1",
-                flagImageUri = null
-            )
-
-            IpAddressCard(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp),
-                deviceIpAddress = "146.70.228.142",
-                serverIpAddress = "146.70.228.142",
-                hideDeviceIpAddress = visible.value,
-                onHideDeviceIpAddressChanged = {
-                    visible.value = !visible.value
+            if (viewModel.state.current.value.isConnectedServer) {
+                item(key = "ServerCloakedItem") {
+                    CloakedLayout(
+                        modifier = Modifier.fillMaxWidth()
+                            .aspectRatio(1f)
+                    )
                 }
-            )
+            }
 
-            SpeedCard(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp),
-                downloadBits = 10000,
-                uploadBits = 1000
-            )
-
-            UsageCard(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp),
-                downloadBytes = 10000,
-                uploadBytes = 1000
-            )
-
-            ServerInfoCard(
-                modifier = Modifier.padding(top = 16.dp)
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth(),
-                country = "USA",
-                region = "Johnson City",
-                serverName = "Server-1"
-            )
-
-            ConnectingCard(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp)
-            )
-
-            Button(
-                modifier = Modifier.sizeIn(maxWidth = 400.dp)
-                    .fillMaxWidth()
-                    .padding(top = 16.dp, bottom = 32.dp)
-                    .padding(horizontal = 16.dp),
-                onClick = {}
-            ) {
-                Text(
-                    text = stringResource(Res.string.server_connection_disconnected_title)
+            item(key = "ServerLocationItem") {
+                ServerLocationCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    countryName = viewModel.state.current.value.country?.name ?: "",
+                    regionName = viewModel.state.current.value.region?.name,
+                    serverName = server.name,
+                    flagImageUri = viewModel.state.current.value.country?.flag
                 )
+            }
+
+            if (viewModel.state.current.value.isConnectedServer) {
+                item(key = "ServerIpAddressItem") {
+                    IpAddressCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        deviceIpAddress = viewModel.state.current.value.localNetworkInfo?.ipAddress ?: "",
+                        serverIpAddress = server.ipAddress ?: "",
+                        hideDeviceIpAddress = hideLocalIpAddress.value,
+                        onHideDeviceIpAddressChanged = {
+                            hideLocalIpAddress.value = !hideLocalIpAddress.value
+                        }
+                    )
+                }
+
+
+                item(key = "ServerSpeedItem") {
+                    SpeedCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        downloadBits = 10000,
+                        uploadBits = 1000
+                    )
+                }
+
+                item(key = "ServerUsageItem") {
+                    UsageCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        downloadBytes = 10000,
+                        uploadBytes = 1000
+                    )
+                }
+            }
+
+            if (viewModel.state.current.value.connection is ServerConnection.Connecting) {
+                item(key = "ConnectionItem") {
+                    ConnectingCard(
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+
+            item(key = "ServerInfoItem") {
+                ServerInfoCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    country = viewModel.state.current.value.country?.name ?: "",
+                    region = viewModel.state.current.value.region?.name,
+                    serverName = server.name,
+                    connectedLabel = if (viewModel.state.current.value.isConnectedServer) {
+                        stringResource(Res.string.server_details_info_field_connected)
+                    } else {
+                        stringResource(Res.string.server_details_info_field_last_connected)
+                    },
+                    connected = null, // TODO: Format date time
+                    ipAddress = viewModel.state.current.value.server?.ipAddress,
+                    serverLoad = null,
+                    protocol = viewModel.state.current.value.server?.protocols?.firstOrNull()?.value,
+                    performance = null
+                )
+            }
+
+            item(key = "ServerConnectActionItem") {
+                Button(
+                    modifier = Modifier.sizeIn(maxWidth = 400.dp)
+                        .fillMaxWidth(),
+                    onClick = {
+                        // TODO:
+                    }
+                ) {
+                    Text(
+                        text = if (viewModel.state.current.value.isConnectedServer) {
+                            stringResource(Res.string.server_details_action_disconnect)
+                        } else {
+                            stringResource(Res.string.server_details_action_connect)
+                        }
+                    )
+                }
             }
         }
     }
