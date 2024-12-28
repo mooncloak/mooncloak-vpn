@@ -21,6 +21,7 @@ import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.CloakedLayout
+import com.mooncloak.vpn.app.shared.feature.server.details.composable.ConnectingCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.IpAddressCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.ServerInfoCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.ServerLocationCard
@@ -110,6 +111,12 @@ public fun ServerDetailsScreen(
                 country = "USA",
                 region = "Johnson City",
                 serverName = "Server-1"
+            )
+
+            ConnectingCard(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp)
             )
 
             Button(

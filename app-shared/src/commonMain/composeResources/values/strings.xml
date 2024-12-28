@@ -199,5 +199,6 @@
     <string name="server_details_title_data_usage">Data Usage</string>
     <string name="server_details_label_download">Download</string>
     <string name="server_details_label_upload">Upload</string>
+    <string name="server_details_title_connecting">Connecting</string>
 
 </resources>
