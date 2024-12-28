@@ -52,3 +52,6 @@ public data class Server public constructor(
     @SerialName(value = "vpn_protocols") public val protocols: List<VPNProtocol> = emptyList(),
     @SerialName(value = "tags") public val tags: List<String> = emptyList()
 )
+
+public val Server.ipAddress: String?
+    inline get() = ipV4Address ?: ipV6Address

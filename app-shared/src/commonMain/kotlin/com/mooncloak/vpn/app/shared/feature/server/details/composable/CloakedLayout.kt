@@ -1,7 +1,6 @@
 package com.mooncloak.vpn.app.shared.feature.server.details.composable
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -15,13 +14,18 @@ import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.server_details_title_time
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 internal fun CloakedLayout(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    multiplier: Float = 1f,
+    extra: Duration = 0.seconds
 ) {
     SolarEclipseLayout(
-        modifier = modifier
+        modifier = modifier,
+        multiplier = multiplier
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -39,7 +43,8 @@ internal fun CloakedLayout(
             TimerText(
                 modifier = Modifier.wrapContentSize()
                     .padding(top = 12.dp),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                extra = extra
             )
         }
     }
