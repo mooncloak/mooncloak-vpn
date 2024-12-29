@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.util
+package com.mooncloak.vpn.app.shared.util.time
 
 import kotlinx.datetime.Clock
 import kotlin.time.Duration

@@ -17,9 +17,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import com.mooncloak.vpn.app.shared.util.Default
-import com.mooncloak.vpn.app.shared.util.TimerFormatter
-import com.mooncloak.vpn.app.shared.util.elapsedTime
+import com.mooncloak.vpn.app.shared.util.time.Default
+import com.mooncloak.vpn.app.shared.util.time.TimerFormatter
+import com.mooncloak.vpn.app.shared.util.time.elapsedTime
 import kotlinx.coroutines.delay
 import kotlinx.datetime.Clock
 import kotlin.time.Duration

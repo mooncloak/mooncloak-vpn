@@ -1,8 +1,8 @@
-package com.mooncloak.vpn.app.shared.util
+package com.mooncloak.vpn.app.shared.util.time
 
 import kotlin.time.Duration
 
-public interface TimerFormatter {
+public fun interface TimerFormatter {
 
     public fun format(duration: Duration): String
 

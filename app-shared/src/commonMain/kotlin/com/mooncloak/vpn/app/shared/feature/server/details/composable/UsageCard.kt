@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DataUsage
 import androidx.compose.material.icons.filled.Download
-import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -24,7 +23,6 @@ import com.mooncloak.vpn.app.shared.resource.global_not_available
 import com.mooncloak.vpn.app.shared.resource.server_details_label_download
 import com.mooncloak.vpn.app.shared.resource.server_details_label_upload
 import com.mooncloak.vpn.app.shared.resource.server_details_title_data_usage
-import com.mooncloak.vpn.app.shared.resource.server_details_title_speed
 import com.mooncloak.vpn.app.shared.util.DataFormatter
 import com.mooncloak.vpn.app.shared.util.Default
 import com.mooncloak.vpn.app.shared.util.formatWithUnit

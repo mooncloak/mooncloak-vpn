@@ -35,6 +35,9 @@ import com.mooncloak.vpn.app.shared.resource.server_details_action_connect
 import com.mooncloak.vpn.app.shared.resource.server_details_action_disconnect
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_connected
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_last_connected
+import com.mooncloak.vpn.app.shared.util.time.DateTimeFormatter
+import com.mooncloak.vpn.app.shared.util.time.Full
+import com.mooncloak.vpn.app.shared.util.time.format
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -129,7 +132,9 @@ public fun ServerDetailsScreen(
                     } else {
                         stringResource(Res.string.server_details_info_field_last_connected)
                     },
-                    connected = null, // TODO: Format date time
+                    connected = viewModel.state.current.value.connectionTimestamp?.let { timestamp ->
+                        DateTimeFormatter.Full.format(timestamp)
+                    },
                     ipAddress = viewModel.state.current.value.server?.ipAddress,
                     serverLoad = null,
                     protocol = viewModel.state.current.value.server?.protocols?.firstOrNull()?.value,
