@@ -26,7 +26,9 @@ public sealed interface ServerConnection {
         @SerialName(value = "server") public val server: Server,
         @SerialName(value = "timestamp") public val timestamp: Instant,
         @SerialName(value = "rx_throughput") public val rxThroughput: Long? = null,
-        @SerialName(value = "tx_throughput") public val txThroughput: Long? = null
+        @SerialName(value = "tx_throughput") public val txThroughput: Long? = null,
+        @SerialName(value = "total_rx") public val totalRx: Long? = null,
+        @SerialName(value = "total_tx") public val totalTx: Long? = null
     ) : ServerConnection {
 
         @Transient

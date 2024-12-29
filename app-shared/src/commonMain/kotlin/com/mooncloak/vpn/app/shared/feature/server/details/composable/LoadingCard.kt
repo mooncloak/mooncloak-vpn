@@ -17,7 +17,8 @@ import com.mooncloak.vpn.app.shared.resource.server_details_title_connecting
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-internal fun ConnectingCard(
+internal fun LoadingCard(
+    text: String = stringResource(Res.string.server_details_title_connecting),
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -36,7 +37,7 @@ internal fun ConnectingCard(
 
             Text(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                text = stringResource(Res.string.server_details_title_connecting),
+                text = text,
                 style = MaterialTheme.typography.titleMedium
             )
         }

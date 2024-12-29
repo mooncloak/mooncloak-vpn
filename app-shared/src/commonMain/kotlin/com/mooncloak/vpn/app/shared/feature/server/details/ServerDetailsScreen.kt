@@ -23,7 +23,7 @@ import com.mooncloak.vpn.app.shared.api.server.ipAddress
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.CloakedLayout
-import com.mooncloak.vpn.app.shared.feature.server.details.composable.ConnectingCard
+import com.mooncloak.vpn.app.shared.feature.server.details.composable.LoadingCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.IpAddressCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.ServerInfoCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.ServerLocationCard
@@ -99,29 +99,22 @@ public fun ServerDetailsScreen(
                     )
                 }
 
+                (viewModel.state.current.value.connection as? ServerConnection.Connected)?.let { connection ->
+                    item(key = "ServerSpeedItem") {
+                        SpeedCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            downloadBits = connection.rxThroughput,
+                            uploadBits = connection.txThroughput
+                        )
+                    }
 
-                item(key = "ServerSpeedItem") {
-                    SpeedCard(
-                        modifier = Modifier.fillMaxWidth(),
-                        downloadBits = 10000,
-                        uploadBits = 1000
-                    )
-                }
-
-                item(key = "ServerUsageItem") {
-                    UsageCard(
-                        modifier = Modifier.fillMaxWidth(),
-                        downloadBytes = 10000,
-                        uploadBytes = 1000
-                    )
-                }
-            }
-
-            if (viewModel.state.current.value.connection is ServerConnection.Connecting) {
-                item(key = "ConnectionItem") {
-                    ConnectingCard(
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    item(key = "ServerUsageItem") {
+                        UsageCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            downloadBytes = connection.totalRx,
+                            uploadBytes = connection.totalTx
+                        )
+                    }
                 }
             }
 
@@ -144,13 +137,22 @@ public fun ServerDetailsScreen(
                 )
             }
 
+            if (viewModel.state.current.value.connection is ServerConnection.Connecting) {
+                item(key = "ConnectionItem") {
+                    LoadingCard(
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+
             item(key = "ServerConnectActionItem") {
                 Button(
                     modifier = Modifier.sizeIn(maxWidth = 400.dp)
                         .fillMaxWidth(),
                     onClick = {
                         // TODO:
-                    }
+                    },
+                    enabled = viewModel.state.current.value.connection !is ServerConnection.Connecting
                 ) {
                     Text(
                         text = if (viewModel.state.current.value.isConnectedServer) {

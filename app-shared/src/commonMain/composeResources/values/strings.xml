@@ -200,6 +200,7 @@
     <string name="server_details_label_download">Download</string>
     <string name="server_details_label_upload">Upload</string>
     <string name="server_details_title_connecting">Connecting</string>
+    <string name="server_details_title_disconnecting">Disconnecting</string>
     <string name="server_details_action_connect">Connect</string>
     <string name="server_details_action_disconnect">Disconnect</string>
 
