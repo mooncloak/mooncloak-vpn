@@ -8,6 +8,8 @@ import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
 import com.mooncloak.kodetools.storagex.keyvalue.Settings
 import com.mooncloak.vpn.app.android.info.AndroidAppClientInfo
 import com.mooncloak.vpn.app.android.AndroidServerConnectionManager
+import com.mooncloak.vpn.app.shared.api.network.AndroidLocalNetworkManager
+import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
@@ -42,6 +44,10 @@ internal abstract class AndroidGooglePlayApplicationComponent internal construct
     @Singleton
     internal fun provideServerConnectionManager(manager: AndroidServerConnectionManager): ServerConnectionManager =
         manager
+
+    @Provides
+    @Singleton
+    internal fun provideLocalNetworkManager(manager: AndroidLocalNetworkManager): LocalNetworkManager = manager
 }
 
 internal fun ApplicationComponent.Companion.create(

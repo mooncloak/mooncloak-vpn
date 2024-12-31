@@ -13,6 +13,9 @@ import com.mooncloak.vpn.app.shared.util.ActivityContext
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
+import com.mooncloak.vpn.app.shared.api.network.AndroidLocalNetworkManager
+import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
+import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
 
 @Component
 @Singleton
@@ -44,6 +47,10 @@ internal abstract class AndroidDirectApplicationComponent internal constructor(
     @Singleton
     internal fun provideServerConnectionManager(manager: AndroidServerConnectionManager): ServerConnectionManager =
         manager
+
+    @Provides
+    @Singleton
+    internal fun provideLocalNetworkManager(manager: AndroidLocalNetworkManager): LocalNetworkManager = manager
 }
 
 internal fun ApplicationComponent.Companion.create(
