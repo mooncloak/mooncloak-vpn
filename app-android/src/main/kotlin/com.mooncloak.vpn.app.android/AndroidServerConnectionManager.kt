@@ -24,7 +24,6 @@ public class AndroidServerConnectionManager @Inject public constructor(
 
     override suspend fun connect(server: Server) {
         val serverPublicKey = api.registerClient(
-            serverId = server.id,
             clientPublicKey = "", // TODO: Generate client keypair
             token = subscriptionStorage.tokens.current.value?.accessToken
                 ?: error("Not authorized. Must be authorized to connect to a VPN server.")

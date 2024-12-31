@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 /**
  * Represents activated service plan details. An activated service plan, is a purchased plan.
  *
- * @property [id] A unique identifier for this service plan.
+ * @property [id] A unique identifier for this service subscription.
  *
  * @property [planId] The identifier of the [Plan] associated with this [ServiceSubscription].
  *
