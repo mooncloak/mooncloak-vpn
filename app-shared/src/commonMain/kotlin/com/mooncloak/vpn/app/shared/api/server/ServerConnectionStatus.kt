@@ -19,6 +19,11 @@ public enum class ServerConnectionStatus {
     Connecting,
 
     /**
+     * The device is attempting to disconnect from a VPN server.
+     */
+    Disconnecting,
+
+    /**
      * The device is connected to a VPN server.
      */
     Connected,

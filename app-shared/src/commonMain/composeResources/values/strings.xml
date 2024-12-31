@@ -60,6 +60,7 @@
     <string name="home_title_bar_unprotected">You are uncloaked</string>
     <string name="home_title_bar_protected">Cloaked</string>
     <string name="home_title_bar_connecting">Connecting to a secure VPN</string>
+    <string name="home_title_bar_disconnecting">Disconnecting...</string>
     <string name="home_title_bar_checking">Checking connection</string>
     <string name="home_title_bar_description_unprotected">Connect to a secure VPN server to protect your data</string>
 

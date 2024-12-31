@@ -34,6 +34,13 @@ internal fun ServerConnectionStatus.floatingActionBarContent(
             )
         }
 
+        ServerConnectionStatus.Disconnecting -> {
+            CircularProgressIndicator(
+                modifier = modifier,
+                color = LocalContentColor.current
+            )
+        }
+
         ServerConnectionStatus.Connected -> {
             Icon(
                 modifier = modifier,
@@ -59,6 +66,7 @@ internal val ServerConnectionStatus.containerColor: Color
     get() = when (this) {
         ServerConnectionStatus.Disconnected -> ColorPalette.MooncloakYellow
         ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.surface
+        ServerConnectionStatus.Disconnecting -> MaterialTheme.colorScheme.surface
         ServerConnectionStatus.Connected -> ColorPalette.MooncloakDarkPrimary
         ServerConnectionStatus.Checking -> ColorPalette.MooncloakYellow
     }
@@ -68,6 +76,7 @@ internal val ServerConnectionStatus.contentColor: Color
     get() = when (this) {
         ServerConnectionStatus.Disconnected -> ColorPalette.MooncloakDarkPrimaryDark
         ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.onSurface
+        ServerConnectionStatus.Disconnecting -> MaterialTheme.colorScheme.onSurface
         ServerConnectionStatus.Connected -> Color.White
         ServerConnectionStatus.Checking -> ColorPalette.MooncloakDarkPrimaryDark
     }

@@ -35,6 +35,7 @@ import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_checking
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_connecting
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_description_unprotected
+import com.mooncloak.vpn.app.shared.resource.home_title_bar_disconnecting
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_protected
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_unprotected
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
@@ -124,6 +125,7 @@ private val ServerConnectionStatus.title: String
     get() = when (this) {
         ServerConnectionStatus.Disconnected -> stringResource(Res.string.home_title_bar_unprotected)
         ServerConnectionStatus.Connecting -> stringResource(Res.string.home_title_bar_connecting)
+        ServerConnectionStatus.Disconnecting -> stringResource(Res.string.home_title_bar_disconnecting)
         ServerConnectionStatus.Connected -> stringResource(Res.string.home_title_bar_protected)
         ServerConnectionStatus.Checking -> stringResource(Res.string.home_title_bar_checking)
     }
@@ -140,6 +142,7 @@ private val ServerConnectionStatus.containerColor: Color
     get() = when (this) {
         ServerConnectionStatus.Disconnected -> MaterialTheme.colorScheme.errorContainer
         ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.surface
+        ServerConnectionStatus.Disconnecting -> MaterialTheme.colorScheme.surface
         ServerConnectionStatus.Connected -> MaterialTheme.colorScheme.tertiaryContainer
         ServerConnectionStatus.Checking -> MaterialTheme.colorScheme.surface
     }
@@ -150,6 +153,7 @@ private val ServerConnectionStatus.contentColor: Color
     get() = when (this) {
         ServerConnectionStatus.Disconnected -> MaterialTheme.colorScheme.onErrorContainer
         ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.onSurface
+        ServerConnectionStatus.Disconnecting -> MaterialTheme.colorScheme.onSurface
         ServerConnectionStatus.Connected -> MaterialTheme.colorScheme.onTertiaryContainer
         ServerConnectionStatus.Checking -> MaterialTheme.colorScheme.onSurface
     }
@@ -176,6 +180,12 @@ private fun TitleBarIcon(
         }
 
         ServerConnectionStatus.Connecting -> {
+            CircularProgressIndicator(
+                modifier = modifier
+            )
+        }
+
+        ServerConnectionStatus.Disconnecting -> {
             CircularProgressIndicator(
                 modifier = modifier
             )
