@@ -60,7 +60,7 @@ public fun ServerConnectionScreen(
                     rxThroughput = connection.rxThroughput,
                     txThroughput = connection.txThroughput,
                     onDisconnect = {
-
+                        viewModel.disconnect()
                     }
                 )
 
@@ -68,7 +68,7 @@ public fun ServerConnectionScreen(
                     modifier = Modifier.fillMaxWidth()
                         .padding(horizontal = 16.dp),
                     onConnect = {
-
+                        viewModel.connect()
                     }
                 )
             }

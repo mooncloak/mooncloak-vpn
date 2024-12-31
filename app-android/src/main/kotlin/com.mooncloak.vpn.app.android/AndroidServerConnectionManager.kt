@@ -8,7 +8,7 @@ import com.mooncloak.vpn.app.shared.api.server.ServerConnection
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 @OptIn(ExperimentalPersistentStateAPI::class)
@@ -17,7 +17,7 @@ public class AndroidServerConnectionManager @Inject public constructor(
     private val subscriptionStorage: SubscriptionStorage
 ) : ServerConnectionManager {
 
-    override val connection: SharedFlow<ServerConnection>
+    override val connection: StateFlow<ServerConnection>
         get() = mutableConnection.asStateFlow()
 
     private val mutableConnection = MutableStateFlow(ServerConnection.Disconnected)

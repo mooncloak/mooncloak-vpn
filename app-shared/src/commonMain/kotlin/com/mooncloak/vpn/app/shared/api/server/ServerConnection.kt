@@ -4,6 +4,8 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
 
 @Serializable
 public sealed interface ServerConnection {
@@ -57,4 +59,60 @@ public sealed interface ServerConnection {
     }
 
     public companion object
+}
+
+/**
+ * Returns `true` if this [ServerConnection] is [ServerConnection.Connecting] or [ServerConnection.Disconnecting],
+ * `false` otherwise.
+ */
+@Suppress("NOTHING_TO_INLINE")
+@OptIn(ExperimentalContracts::class)
+public inline fun ServerConnection.isToggling(): Boolean {
+    contract { returns(true) implies (this@isToggling is ServerConnection.Connecting || this@isToggling is ServerConnection.Disconnecting) }
+
+    return this is ServerConnection.Connecting || this is ServerConnection.Disconnecting
+}
+
+/**
+ * A convenience function for checking if this [ServerConnection] instance is [ServerConnection.Connecting].
+ */
+@Suppress("NOTHING_TO_INLINE")
+@OptIn(ExperimentalContracts::class)
+public inline fun ServerConnection.isConnecting(): Boolean {
+    contract { returns(true) implies (this@isConnecting is ServerConnection.Connecting) }
+
+    return this is ServerConnection.Connecting
+}
+
+/**
+ * A convenience function for checking if this [ServerConnection] instance is [ServerConnection.Disconnecting].
+ */
+@Suppress("NOTHING_TO_INLINE")
+@OptIn(ExperimentalContracts::class)
+public inline fun ServerConnection.isDisconnecting(): Boolean {
+    contract { returns(true) implies (this@isDisconnecting is ServerConnection.Disconnecting) }
+
+    return this is ServerConnection.Disconnecting
+}
+
+/**
+ * A convenience function for checking if this [ServerConnection] instance is [ServerConnection.Connected].
+ */
+@Suppress("NOTHING_TO_INLINE")
+@OptIn(ExperimentalContracts::class)
+public inline fun ServerConnection.isConnected(): Boolean {
+    contract { returns(true) implies (this@isConnected is ServerConnection.Connected) }
+
+    return this is ServerConnection.Connected
+}
+
+/**
+ * A convenience function for checking if this [ServerConnection] instance is [ServerConnection.Disconnected].
+ */
+@Suppress("NOTHING_TO_INLINE")
+@OptIn(ExperimentalContracts::class)
+public inline fun ServerConnection.isDisconnected(): Boolean {
+    contract { returns(true) implies (this@isDisconnected is ServerConnection.Disconnected) }
+
+    return this is ServerConnection.Disconnected
 }

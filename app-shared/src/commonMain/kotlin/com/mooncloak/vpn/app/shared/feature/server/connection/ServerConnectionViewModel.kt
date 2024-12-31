@@ -2,6 +2,8 @@ package com.mooncloak.vpn.app.shared.feature.server.connection
 
 import androidx.compose.runtime.Stable
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.kodetools.logpile.core.LogPile
+import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
 import com.mooncloak.kodetools.pagex.getOrNull
 import com.mooncloak.kodetools.statex.ViewModel
@@ -9,13 +11,19 @@ import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordRepository
+import com.mooncloak.vpn.app.shared.api.server.isConnected
+import com.mooncloak.vpn.app.shared.api.server.isDisconnected
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.getString
 
 @Stable
@@ -28,7 +36,11 @@ public class ServerConnectionViewModel @Inject public constructor(
 
     private var connectionJob: Job? = null
 
+    private val mutex = Mutex(locked = false)
+
     public fun load() {
+        val current = serverConnectionManager.connection.value
+
         connectionJob?.cancel()
         connectionJob = serverConnectionManager.connection
             .onEach { connection ->
@@ -40,29 +52,59 @@ public class ServerConnectionViewModel @Inject public constructor(
             }
             .launchIn(coroutineScope)
 
-        emit(value = state.current.value.copy(isLoading = true))
+        if (current.isConnected()) {
+            disconnect()
+        } else if (current.isDisconnected()) {
+            connect()
+        }
+    }
 
+    public fun connect() {
         coroutineScope.launch {
-            try {
-                val server = getServer()
+            mutex.withLock {
+                emit(value = state.current.value.copy(isLoading = true))
 
-                emit(
-                    value = state.current.value.copy(
-                        isLoading = false,
-                        errorMessage = null
+                try {
+                    val server = getServer()
+
+                    emit(
+                        value = state.current.value.copy(
+                            isLoading = false,
+                            errorMessage = null
+                        )
                     )
-                )
 
-                if (server != null) {
-                    serverConnectionManager.connect(server)
+                    if (server != null) {
+                        serverConnectionManager.connect(server)
+                    }
+                } catch (e: Exception) {
+                    LogPile.error(message = "Error connecting to VPN server.", cause = e)
+
+                    emit(
+                        value = state.current.value.copy(
+                            isLoading = false,
+                            errorMessage = getString(Res.string.global_unexpected_error)
+                        )
+                    )
                 }
-            } catch (e: Exception) {
-                emit(
-                    value = state.current.value.copy(
-                        isLoading = false,
-                        errorMessage = getString(Res.string.global_unexpected_error)
+            }
+        }
+    }
+
+    public fun disconnect() {
+        coroutineScope.launch {
+            mutex.withLock {
+                try {
+                    serverConnectionManager.disconnect()
+                } catch (e: Exception) {
+                    LogPile.error(message = "Error disconnecting from VPN server.", cause = e)
+
+                    emit(
+                        value = state.current.value.copy(
+                            errorMessage = getString(Res.string.global_unexpected_error)
+                        )
                     )
-                )
+                }
             }
         }
     }
@@ -73,6 +115,8 @@ public class ServerConnectionViewModel @Inject public constructor(
 
         serverConnectionRecordRepository.getStarredPage().firstOrNull()?.server?.let { return it }
 
-        return api.paginateServers().getOrNull()?.firstOrNull()
+        return withContext(Dispatchers.IO) {
+            api.paginateServers().getOrNull()?.firstOrNull()
+        }
     }
 }
