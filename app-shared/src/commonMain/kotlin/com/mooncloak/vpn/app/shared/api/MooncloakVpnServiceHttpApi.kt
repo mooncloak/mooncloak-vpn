@@ -24,6 +24,8 @@ import com.mooncloak.vpn.app.shared.api.location.CountryCode
 import com.mooncloak.vpn.app.shared.api.location.CountryFilters
 import com.mooncloak.vpn.app.shared.api.plan.AvailablePlans
 import com.mooncloak.vpn.app.shared.api.plan.Plan
+import com.mooncloak.vpn.app.shared.api.server.ClientRegistrationRequestBody
+import com.mooncloak.vpn.app.shared.api.server.ClientRegistrationResponseBody
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.ServerFilters
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
@@ -104,9 +106,9 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
     }
 
     /**
-     * Exchanges a [TransactionToken] for a [ServiceTokens]. This requires the provided [TransactionToken] to be valid,
-     * to be associated with the provided [paymentId], for the payment to be successfully processed, for the provided
-     * [secret] to be valid for this payment, for the exchange to not have occurred before, and possibly other
+     * Exchanges a [TransactionToken] for a set of [ServiceTokens]. This requires the provided [TransactionToken] to be
+     * valid, to be associated with the provided [paymentId], for the payment to be successfully processed, for the
+     * provided [secret] to be valid for this payment, for the exchange to not have occurred before, and possibly other
      * conditions.
      */
     @Throws(ApiException::class, CancellationException::class)
@@ -172,13 +174,6 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun registerWireGuardPublicKey() {
-        val response = httpClient.post("https://mooncloak.com/api/vpn/wireguard/register")
-
-        TODO()
-    }
-
-    @Throws(ApiException::class, CancellationException::class)
     public suspend fun getCountry(
         code: CountryCode
     ): Country {
@@ -212,6 +207,20 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         }
 
         return response.body<HttpResponseBody<ResolvedPage<Country>>>().getOrThrow()
+    }
+
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun registerClient(
+        clientPublicKey: String,
+        token: Token
+    ): ClientRegistrationResponseBody {
+        val response = httpClient.post("https://mooncloak.com/api/vpn/service/client/register") {
+            bearerAuth(token.value)
+
+            setBody(ClientRegistrationRequestBody(publicKey = clientPublicKey))
+        }
+
+        return response.body<HttpResponseBody<ClientRegistrationResponseBody>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)

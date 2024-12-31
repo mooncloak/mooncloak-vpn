@@ -33,4 +33,16 @@ public class WireGuardTunnel internal constructor(
     internal fun onStatisticsChanged(statistics: Statistics?) {
         mutableStatistics.value = statistics
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is WireGuardTunnel) return false
+
+        return name == other.name
+    }
+
+    override fun hashCode(): Int = name.hashCode()
+
+    override fun toString(): String =
+        "WireGuardTunnel(name='$name', state=$state, statistics=$statistics)"
 }

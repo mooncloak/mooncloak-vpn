@@ -26,7 +26,9 @@ import kotlinx.serialization.Serializable
  *
  * @property [uri] The URI [String] to this server instance.
  *
- * @property [ipAddress] The IP Address for this server instance.
+ * @property [ipV4Address] The IPv4 Address for this server instance.
+ *
+ * @property [ipV6Address] The IPv6 Address for this server instance.
  *
  * @property [self] An optional URI [String] that points to a website describing this server instance.
  *
@@ -44,9 +46,9 @@ public data class Server public constructor(
     @SerialName(value = "status") public val status: ServerStatus? = null,
     @SerialName(value = "created") public val created: Instant? = null,
     @SerialName(value = "updated") public val updated: Instant? = null,
-    @SerialName(value = "uri") public val uri: String? = null,
     @SerialName(value = "ipv4") public val ipV4Address: String? = null,
     @SerialName(value = "ipv6") public val ipV6Address: String? = null,
+    @SerialName(value = "uri") public val uri: String? = null,
     @SerialName(value = "self") public val self: String? = null,
     @SerialName(value = "connection_types") public val connectionTypes: List<ConnectionType> = emptyList(),
     @SerialName(value = "vpn_protocols") public val protocols: List<VPNProtocol> = emptyList(),
