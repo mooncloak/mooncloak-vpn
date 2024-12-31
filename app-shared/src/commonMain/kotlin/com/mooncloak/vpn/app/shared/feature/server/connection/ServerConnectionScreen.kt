@@ -48,6 +48,11 @@ public fun ServerConnectionScreen(
                     server = connection.server
                 )
 
+                is ServerConnection.Disconnecting -> ServerConnectingLayout(
+                    modifier = Modifier.fillMaxWidth(),
+                    server = connection.server
+                )
+
                 is ServerConnection.Connected -> ServerConnectedLayout(
                     modifier = Modifier.fillMaxWidth(),
                     server = connection.server,

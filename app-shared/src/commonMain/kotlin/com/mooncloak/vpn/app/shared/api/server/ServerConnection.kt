@@ -11,6 +11,7 @@ public sealed interface ServerConnection {
     public val status: ServerConnectionStatus
 
     @Serializable
+    @SerialName(value = "connecting")
     public data class Connecting public constructor(
         @SerialName(value = "server") public val server: Server,
         @SerialName(value = "timestamp") public val timestamp: Instant
@@ -21,6 +22,7 @@ public sealed interface ServerConnection {
     }
 
     @Serializable
+    @SerialName(value = "connected")
     public data class Connected public constructor(
         @SerialName(value = "session_id") public val sessionId: String,
         @SerialName(value = "server") public val server: Server,
@@ -36,6 +38,18 @@ public sealed interface ServerConnection {
     }
 
     @Serializable
+    @SerialName(value = "disconnecting")
+    public data class Disconnecting public constructor(
+        @SerialName(value = "server") public val server: Server,
+        @SerialName(value = "timestamp") public val timestamp: Instant
+    ) : ServerConnection {
+
+        @Transient
+        override val status: ServerConnectionStatus = ServerConnectionStatus.Disconnecting
+    }
+
+    @Serializable
+    @SerialName(value = "disconnected")
     public data object Disconnected : ServerConnection {
 
         @Transient
