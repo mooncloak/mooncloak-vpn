@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.mooncloak.vpn.app.shared.api.location.CountryWithVPNService
 import com.mooncloak.vpn.app.shared.api.location.Region
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.composable.FlagImage
@@ -56,8 +57,8 @@ internal fun CountryListBottomSheet(
                     is CountryListBottomSheetDestination.ServerList -> destination.region.name
                 },
                 description = when (destination) {
-                    is CountryListBottomSheetDestination.RegionList -> destination.country.connectionDescription
-                    is CountryListBottomSheetDestination.ServerList -> destination.country.connectionDescription
+                    is CountryListBottomSheetDestination.RegionList -> (destination.country as? CountryWithVPNService)?.connectionDescription
+                    is CountryListBottomSheetDestination.ServerList -> (destination.country as? CountryWithVPNService)?.connectionDescription
                 },
                 imageUri = when (destination) {
                     is CountryListBottomSheetDestination.RegionList -> destination.country.flag

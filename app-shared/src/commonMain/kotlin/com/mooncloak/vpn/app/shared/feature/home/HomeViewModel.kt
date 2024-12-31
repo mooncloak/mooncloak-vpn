@@ -15,6 +15,7 @@ import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.location.Country
 import com.mooncloak.vpn.app.shared.api.location.CountryCode
+import com.mooncloak.vpn.app.shared.api.location.invoke
 import com.mooncloak.vpn.app.shared.api.server.ConnectionType
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionStatus
