@@ -16,6 +16,7 @@ import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerConnectedLayout
 import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerConnectingLayout
 import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerDisconnectedLayout
+import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerDisconnectingLayout
 import com.mooncloak.vpn.app.shared.feature.server.connection.di.createServerConnectionComponent
 
 @Composable
@@ -48,9 +49,8 @@ public fun ServerConnectionScreen(
                     server = connection.server
                 )
 
-                is ServerConnection.Disconnecting -> ServerConnectingLayout(
-                    modifier = Modifier.fillMaxWidth(),
-                    server = connection.server
+                is ServerConnection.Disconnecting -> ServerDisconnectingLayout(
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 is ServerConnection.Connected -> ServerConnectedLayout(

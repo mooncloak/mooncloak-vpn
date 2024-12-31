@@ -177,6 +177,7 @@
     <string name="server_connection_action_connect">Connect</string>
     <string name="server_connection_action_disconnect">Disconnect</string>
     <string name="server_connection_connecting_title">Connecting</string>
+    <string name="server_connection_disconnecting_title">Disconnecting</string>
     <string name="server_connection_connected_title">Connected</string>
     <string name="server_connection_connected_label_timestamp">Timestamp</string>
     <string name="server_connection_connected_label_rx_throughput">Incoming</string>
