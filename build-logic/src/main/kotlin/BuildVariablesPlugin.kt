@@ -86,6 +86,15 @@ class BuildVariables internal constructor(
 
     val directDownloadUrl: String?
         get() = runCatching { kenv.getStringOrNull("directDownloadUrl") }.getOrNull()
+
+    val googlePlaySigningKeyStorePassword: String?
+        get() = runCatching { kenv.getStringOrNull("googlePlaySigningKeyStorePassword") }.getOrNull()
+
+    val googlePlaySigningKeyAlias: String?
+        get() = runCatching { kenv.getStringOrNull("googlePlaySigningKeyStoreAlias") }.getOrNull()
+
+    val googlePlaySigningKeyPassword: String?
+        get() = runCatching { kenv.getStringOrNull("googlePlaySigningKeyPassword") }.getOrNull()
 }
 
 val Project.buildVariables: BuildVariables

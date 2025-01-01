@@ -14,8 +14,6 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import com.android.billingclient.api.queryProductDetails
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.kodetools.logpile.core.LogPile
-import com.mooncloak.kodetools.logpile.core.warning
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi

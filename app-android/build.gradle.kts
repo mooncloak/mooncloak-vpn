@@ -65,6 +65,15 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("playRelease") {
+            storeFile = project.rootProject.layout.projectDirectory.file(".keystore/upload-key.jks").asFile
+            storePassword = buildVariables.googlePlaySigningKeyStorePassword
+            keyAlias = buildVariables.googlePlaySigningKeyAlias
+            keyPassword = buildVariables.googlePlaySigningKeyPassword
+        }
+    }
+
     buildTypes {
         getByName("release") {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
@@ -80,9 +89,13 @@ android {
     flavorDimensions += "store"
 
     productFlavors {
+        val playSigningConfig = signingConfigs.getByName("playRelease")
+
         create("play") {
             dimension = "store"
             applicationIdSuffix = ".play"
+
+            signingConfig = playSigningConfig
 
             resValue("string", "mooncloak_app_name", buildVariables.appName)
         }
