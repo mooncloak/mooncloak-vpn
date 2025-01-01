@@ -73,3 +73,6 @@ bin/
 **/**.env
 **/.env
 .env
+
+### Signing Keys ###
+.keystore

@@ -85,3 +85,6 @@ mooncloak-server/src/main/resources/assets/web/
 **/node_modules
 node_modules
 **/dist
+
+### Signing Keys ###
+.keystore
