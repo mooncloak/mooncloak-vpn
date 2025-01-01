@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -51,7 +52,7 @@ internal fun HomeTitleBar(
     status: ServerConnectionStatus,
     connectedName: String?,
     ipAddress: String?,
-    hideIpAddress: Boolean = true,
+    hideIpAddress: Boolean = false,
     hazeState: HazeState,
     modifier: Modifier = Modifier
 ) {
@@ -107,13 +108,14 @@ internal fun HomeTitleBar(
 
             if (status.description != null && (!connectedName.isNullOrBlank() || !ipAddress.isNullOrBlank())) {
                 HomeTitleChip(
-                    modifier = Modifier.wrapContentSize()
+                    modifier = Modifier.sizeIn(minWidth = 200.dp)
+                        .wrapContentSize()
                         .padding(top = 12.dp),
                     countryName = connectedName,
                     ipAddress = ipAddress,
                     hideIpAddress = hideIpAddress,
                     containerColor = Color.Transparent,
-                    contentColor = status.contentColor
+                    contentColor = status.contentColor.copy(alpha = SecondaryAlpha)
                 )
             }
         }
@@ -229,9 +231,10 @@ private fun HomeTitleChip(
                 if (hasCountryName) {
                     Text(
                         text = countryName ?: "",
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MaterialTheme.typography.labelLarge,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        textAlign = TextAlign.Center
                     )
                 }
 
@@ -243,13 +246,12 @@ private fun HomeTitleChip(
                         } else {
                             ipAddress ?: ""
                         },
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            color = MaterialTheme.colorScheme.onSurface.copy(
-                                alpha = SecondaryAlpha
-                            )
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            color = contentColor
                         ),
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        textAlign = TextAlign.Center
                     )
                 }
             }
