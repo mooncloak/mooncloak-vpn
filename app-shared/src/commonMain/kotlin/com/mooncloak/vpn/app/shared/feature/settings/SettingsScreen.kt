@@ -1,7 +1,6 @@
 package com.mooncloak.vpn.app.shared.feature.settings
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,8 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LargeTopAppBar
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -42,30 +39,16 @@ import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsAppGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsBottomSheet
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsFooterItem
-import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsGroupLabel
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsLegalGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsPreferenceGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsSubscriptionGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsThemeGroup
-import com.mooncloak.vpn.app.shared.feature.settings.composable.ThemePreferenceSegmentedButton
 import com.mooncloak.vpn.app.shared.feature.settings.di.createSettingsComponent
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.app_built_description
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
-import com.mooncloak.vpn.app.shared.resource.settings_group_app
-import com.mooncloak.vpn.app.shared.resource.settings_group_legal
-import com.mooncloak.vpn.app.shared.resource.settings_group_subscription
-import com.mooncloak.vpn.app.shared.resource.settings_group_theme
-import com.mooncloak.vpn.app.shared.resource.settings_title_app_version
-import com.mooncloak.vpn.app.shared.resource.settings_title_code
-import com.mooncloak.vpn.app.shared.resource.settings_title_collaborators
-import com.mooncloak.vpn.app.shared.resource.settings_title_current_plan
-import com.mooncloak.vpn.app.shared.resource.settings_title_licenses
-import com.mooncloak.vpn.app.shared.resource.settings_title_privacy_policy
-import com.mooncloak.vpn.app.shared.resource.settings_title_terms
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
-import com.mooncloak.vpn.app.shared.theme.ThemePreference
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -153,8 +136,8 @@ public fun SettingsScreen(
                 )
 
                 SettingsAppGroup(
-                    appVersion = null,
-                    sourceCodeUri = null,
+                    appVersion = viewModel.state.current.value.appVersion,
+                    sourceCodeUri = viewModel.state.current.value.sourceCodeUri,
                     onOpenDependencyList = {
                         coroutineScope.launch {
                             bottomSheetState.show(SettingsBottomSheetDestination.DependencyLicenseList)
