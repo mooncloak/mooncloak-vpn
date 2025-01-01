@@ -1,11 +1,11 @@
 package com.mooncloak.vpn.app.shared.api.plan
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.vpn.app.shared.api.billing.PaymentProvider
 import com.mooncloak.vpn.app.shared.api.money.Currency
 import com.mooncloak.vpn.app.shared.api.money.Price
 import com.mooncloak.vpn.app.shared.api.money.invoke
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
-import com.mooncloak.vpn.app.storage.sqlite.database.ServicePlan
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
@@ -16,14 +16,14 @@ public class ServicePlansDatabaseSource @Inject public constructor(
     private val json: Json
 ) : ServicePlansRepository {
 
-    override suspend fun getPlans(): List<com.mooncloak.vpn.app.shared.api.plan.ServicePlan> =
+    override suspend fun getPlans(): List<ServicePlan> =
         withContext(Dispatchers.IO) {
             database.servicePlanQueries.selectAll()
                 .executeAsList()
                 .map { plan -> plan.toVPNServicePlan() }
         }
 
-    override suspend fun getPlan(id: String): com.mooncloak.vpn.app.shared.api.plan.ServicePlan =
+    override suspend fun getPlan(id: String): ServicePlan =
         withContext(Dispatchers.IO) {
             database.servicePlanQueries.selectById(id = id)
                 .executeAsOneOrNull()
@@ -31,7 +31,7 @@ public class ServicePlansDatabaseSource @Inject public constructor(
                 ?: throw NoSuchElementException("No plan found with id '$id'.")
         }
 
-    internal suspend fun insertAll(plans: List<com.mooncloak.vpn.app.shared.api.plan.ServicePlan>) {
+    internal suspend fun insertAll(plans: List<ServicePlan>) {
         withContext(Dispatchers.IO) {
             database.transaction {
                 plans.forEach { plan -> performInsert(plan) }
@@ -39,7 +39,7 @@ public class ServicePlansDatabaseSource @Inject public constructor(
         }
     }
 
-    internal suspend fun insert(plan: com.mooncloak.vpn.app.shared.api.plan.ServicePlan) {
+    internal suspend fun insert(plan: ServicePlan) {
         withContext(Dispatchers.IO) {
             performInsert(plan)
         }
@@ -57,12 +57,13 @@ public class ServicePlansDatabaseSource @Inject public constructor(
         }
     }
 
-    private fun performInsert(plan: com.mooncloak.vpn.app.shared.api.plan.ServicePlan) {
+    private fun performInsert(plan: ServicePlan) {
         database.servicePlanQueries.insert(
             databaseId = null,
             id = plan.id,
             created = plan.created,
             updated = plan.updated ?: plan.created,
+            provider = plan.provider.value,
             active = plan.active,
             usageType = plan.usageType.value,
             live = plan.liveMode,
@@ -80,10 +81,10 @@ public class ServicePlansDatabaseSource @Inject public constructor(
             currencyNumericCode = plan.price.currency.numericCode?.toLong(),
             currencyDefaultFractionDigits = plan.price.currency.defaultFractionDigits?.toLong(),
             currencySymbol = plan.price.currency.symbol,
-            duration = plan.duration.toIsoString(),
-            totalThroughput = plan.totalThroughput,
-            rxThroughput = plan.rxThroughput,
-            txThroughput = plan.txThroughput,
+            duration = plan.details.duration.toIsoString(),
+            totalThroughput = plan.details.totalThroughput,
+            rxThroughput = plan.details.rxThroughput,
+            txThroughput = plan.details.txThroughput,
             trial = plan.trial?.let {
                 json.encodeToJsonElement(
                     serializer = TrialPeriod.serializer(),
@@ -106,9 +107,10 @@ public class ServicePlansDatabaseSource @Inject public constructor(
         )
     }
 
-    private fun ServicePlan.toVPNServicePlan(): com.mooncloak.vpn.app.shared.api.plan.ServicePlan =
+    private fun com.mooncloak.vpn.app.storage.sqlite.database.ServicePlan.toVPNServicePlan(): ServicePlan =
         ServicePlan(
             id = id,
+            provider = PaymentProvider(value = this.provider),
             price = Price(
                 currency = Currency.invoke(
                     type = currencyType,
@@ -151,9 +153,11 @@ public class ServicePlansDatabaseSource @Inject public constructor(
                     element = it
                 )
             },
-            duration = Duration.parseIsoString(duration),
-            totalThroughput = totalThroughput,
-            rxThroughput = rxThroughput,
-            txThroughput = txThroughput
+            details = ServicePlanDetails(
+                duration = Duration.parseIsoString(duration),
+                totalThroughput = totalThroughput,
+                rxThroughput = rxThroughput,
+                txThroughput = txThroughput
+            )
         )
 }

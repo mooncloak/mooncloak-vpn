@@ -8,6 +8,7 @@ CREATE TABLE ServicePlan (
     id TEXT NOT NULL UNIQUE,
     created INTEGER AS Instant NOT NULL,
     updated INTEGER AS Instant NOT NULL,
+    provider TEXT NOT NULL,
     active INTEGER AS Boolean NOT NULL,
     usageType TEXT NOT NULL,
     live INTEGER AS Boolean NOT NULL,
@@ -38,8 +39,8 @@ CREATE TABLE ServicePlan (
 CREATE INDEX ServicePlan_id_index ON ServicePlan(id);
 
 insert:
-INSERT OR REPLACE INTO ServicePlan(databaseId, id, created, updated, active, usageType, live, nickname, title, description, highlight, url, self, taxCode, amount, amountFormatted, currencyType, currencyCode, currencyDefaultFractionDigits, currencyNumericCode, currencySymbol, duration, totalThroughput, rxThroughput, txThroughput, breakdown, metadata, subscription, trial)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT OR REPLACE INTO ServicePlan(databaseId, id, created, updated, provider, active, usageType, live, nickname, title, description, highlight, url, self, taxCode, amount, amountFormatted, currencyType, currencyCode, currencyDefaultFractionDigits, currencyNumericCode, currencySymbol, duration, totalThroughput, rxThroughput, txThroughput, breakdown, metadata, subscription, trial)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 selectAll:
 SELECT *

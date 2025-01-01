@@ -146,8 +146,11 @@ internal class GooglePlayBillingManager @Inject internal constructor(
     override suspend fun getPlans(): List<ServicePlan> {
         val plans = plansApiSource.getPlans()
         val plansById = plans.associateBy { it.id }
+        val googlePlayPlanIds = plans.filter { plan ->
+            plan.provider == PaymentProvider.GooglePlay
+        }.map { plan -> plan.id }
 
-        return getGooglePlayProducts(planIds = plans.map { plan -> plan.id }).mapNotNull { product ->
+        return getGooglePlayProducts(planIds = googlePlayPlanIds).mapNotNull { product ->
             // Override the billing details with the Google Play Information, just in case they become out of sync.
             plansById[product.productId]?.copy(
                 nickname = product.name,

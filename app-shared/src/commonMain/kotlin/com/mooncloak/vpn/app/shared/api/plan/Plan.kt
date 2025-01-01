@@ -1,5 +1,6 @@
 package com.mooncloak.vpn.app.shared.api.plan
 
+import com.mooncloak.vpn.app.shared.api.billing.PaymentProvider
 import com.mooncloak.vpn.app.shared.api.money.Price
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
@@ -9,6 +10,8 @@ import kotlinx.serialization.json.JsonObject
  * Represents a plan to the mooncloak VPN service.
  *
  * @property [id] An opaque, unique identifier value for this plan.
+ *
+ * @property [provider] The [PaymentProvider] that handles the payment when signing-up to the plans.
  *
  * @property [price] The [Price] model for this plan.
  *
@@ -52,6 +55,7 @@ import kotlinx.serialization.json.JsonObject
 public sealed interface Plan : Product {
 
     public val id: String
+    public val provider: PaymentProvider
     public val price: Price
     public val cryptoEstimate: Price?
     public val active: Boolean

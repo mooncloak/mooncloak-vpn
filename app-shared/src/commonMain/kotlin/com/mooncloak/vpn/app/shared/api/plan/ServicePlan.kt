@@ -1,23 +1,20 @@
 package com.mooncloak.vpn.app.shared.api.plan
 
+import com.mooncloak.vpn.app.shared.api.billing.PaymentProvider
 import com.mooncloak.vpn.app.shared.api.money.Price
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
-import kotlin.time.Duration
 
 /**
  * A specific [Plan] that is for the mooncloak VPN service.
- *
- * @property [duration] The duration that this plan provides access for.
- *
- * @property [totalThroughput] The amount of bytes that are allowed for throughput with this plan.
  */
 @Serializable
 @SerialName(value = Plan.TYPE_VPN_SERVICE_PLAN)
 public data class ServicePlan public constructor(
     @SerialName(value = "id") public override val id: String,
+    @SerialName(value = "provider") public override val provider: PaymentProvider,
     @SerialName(value = "price") public override val price: Price,
     @SerialName(value = "crypto_estimate") public override val cryptoEstimate: Price? = null,
     @SerialName(value = "active") public override val active: Boolean = true,
@@ -35,8 +32,5 @@ public data class ServicePlan public constructor(
     @SerialName(value = "metadata") public override val metadata: JsonObject? = null,
     @SerialName(value = "tax_code") public override val taxCode: TaxCode? = null,
     @SerialName(value = "breakdown") public override val breakdown: PlanBreakdown? = null,
-    @SerialName(value = "duration") public val duration: Duration,
-    @SerialName(value = "throughput") public val totalThroughput: Long? = null,
-    @SerialName(value = "rx_throughput") public val rxThroughput: Long? = null,
-    @SerialName(value = "tx_throughput") public val txThroughput: Long? = null
+    @SerialName(value = "details") public val details: ServicePlanDetails
 ) : Plan
