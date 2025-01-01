@@ -74,7 +74,7 @@ public fun HomeScreen(
                 modifier = Modifier.animateContentSize()
                     .fillMaxWidth()
                     .shadow(elevation = 8.dp),
-                status = viewModel.state.current.value.connection,
+                status = viewModel.state.current.value.connectionStatus,
                 connectedName = viewModel.state.current.value.connectedName,
                 ipAddress = viewModel.state.current.value.connectedIpAddress,
                 hazeState = hazeState

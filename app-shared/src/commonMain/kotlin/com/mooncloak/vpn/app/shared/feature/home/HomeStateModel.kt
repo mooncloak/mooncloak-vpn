@@ -12,20 +12,20 @@ public data class HomeStateModel public constructor(
     public val subscription: ServiceSubscription? = null,
     public val localNetwork: LocalNetworkInfo? = null,
     public val servers: List<Server> = emptyList(),
-    public val connection: ServerConnectionStatus = ServerConnectionStatus.Checking,
+    public val connectionStatus: ServerConnectionStatus = ServerConnectionStatus.Checking,
     public val items: List<HomeFeedItem> = emptyList(),
     public val isLoading: Boolean = false,
     public val errorMessage: String? = null
 )
 
 public val HomeStateModel.isConnected: Boolean
-    inline get() = connection == ServerConnectionStatus.Connected
+    inline get() = connectionStatus == ServerConnectionStatus.Connected
 
 public val HomeStateModel.isDisconnected: Boolean
-    inline get() = connection == ServerConnectionStatus.Disconnected
+    inline get() = connectionStatus == ServerConnectionStatus.Disconnected
 
 public val HomeStateModel.isConnecting: Boolean
-    inline get() = connection == ServerConnectionStatus.Connecting
+    inline get() = connectionStatus == ServerConnectionStatus.Connecting
 
 public val HomeStateModel.connectedName: String?
     inline get() = if (this.isDisconnected) {

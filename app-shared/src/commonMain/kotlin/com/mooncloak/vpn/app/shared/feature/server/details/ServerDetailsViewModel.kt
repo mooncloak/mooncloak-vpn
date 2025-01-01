@@ -16,6 +16,7 @@ import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -41,6 +42,7 @@ public class ServerDetailsViewModel @Inject public constructor(
                     )
                 )
             }
+            .catch { e -> LogPile.error(message = "Error listening to connection changes.", cause = e) }
             .launchIn(coroutineScope)
 
         coroutineScope.launch {
