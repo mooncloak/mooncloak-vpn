@@ -72,7 +72,7 @@ public fun SettingsScreen(
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
-    val preferencesStorage = rememberDependency { preferencesStorage }
+    val preferencesStorage = rememberDependency { keyValueStorage.preferences }
 
     LaunchedEffect(Unit) {
         viewModel.load()

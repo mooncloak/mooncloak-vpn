@@ -7,9 +7,16 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
+import com.mooncloak.vpn.app.shared.storage.AppStorage
+import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
+import kotlinx.datetime.Clock
 
 public class AndroidSystemAuthenticationProvider @Inject public constructor(
-    private val activity: Activity
+    private val activity: Activity,
+    private val preferencesStorage: PreferencesStorage,
+    private val appStorage: AppStorage,
+    private val clock: Clock
 ) : SystemAuthenticationProvider {
 
     private val biometricManager: BiometricManager = BiometricManager.from(activity)
@@ -25,6 +32,18 @@ public class AndroidSystemAuthenticationProvider @Inject public constructor(
         BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL
     } else {
         BiometricManager.Authenticators.BIOMETRIC_STRONG
+    }
+
+    @OptIn(ExperimentalPersistentStateAPI::class)
+    override fun shouldLaunch(): Boolean {
+        if (!isSupported) return false
+        if (!preferencesStorage.requireSystemAuth.current.value) return false
+
+        val lastAuthenticated = appStorage.lastAuthenticated.current.value ?: return true
+        val timeout = preferencesStorage.systemAuthTimeout.current.value
+        val now = clock.now()
+
+        return now > lastAuthenticated + timeout
     }
 
     override fun launchAuthentication(

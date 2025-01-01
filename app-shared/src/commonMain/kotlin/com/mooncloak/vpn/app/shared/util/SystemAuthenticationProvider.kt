@@ -13,6 +13,12 @@ public interface SystemAuthenticationProvider {
     public val isSupported: Boolean
 
     /**
+     * Determines whether a system authentication prompt should be displayed. If [isSupported] returns `false`, this
+     * function should return `false` as well. This function may take into account user preferences.
+     */
+    public fun shouldLaunch(): Boolean
+
+    /**
      * Launches the system authentication prompt.
      *
      * @param [title] The title text to display in the system authentication prompt.

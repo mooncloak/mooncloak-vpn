@@ -66,13 +66,15 @@ public fun ApplicationRootScreen(
             )
         }
         val viewModel = remember { componentDependencies.viewModel }
-        val imageLoaderFactory = remember(applicationComponent) { applicationComponent.imageLoaderFactory }
-        val preferencesStorage = rememberDependency { preferencesStorage }
         val snackbarHostState = remember { SnackbarHostState() }
+        val imageLoaderFactory = remember(applicationComponent) { applicationComponent.imageLoaderFactory }
+        val preferencesStorage = rememberDependency { keyValueStorage.preferences }
+        val appStorage = rememberDependency { keyValueStorage.app }
+        val systemAuthenticationProvider = rememberDependency { systemAuthenticationProvider }
 
         // Make sure to start the billing manager's scope. This allows it to subscribe to events and handle logic
         // correctly.
-        val billingManager = rememberDependency { this.billingManager }
+        val billingManager = rememberDependency { billingManager }
         DisposableEffect(Unit) {
             billingManager.start()
 
@@ -129,6 +131,9 @@ public fun ApplicationRootScreen(
                                     }
                                     composable<RootDestination.Main> {
                                         MainScreen(modifier = Modifier.fillMaxSize())
+                                    }
+                                    composable<RootDestination.SystemAuth> {
+                                        // TODO: System Auth layout.
                                     }
                                 }
                             }

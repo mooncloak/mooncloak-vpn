@@ -3,15 +3,21 @@ package com.mooncloak.vpn.app.shared.feature.app
 import androidx.compose.runtime.Stable
 import androidx.navigation.NavController
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.kodetools.logpile.core.LogPile
+import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.storage.AppStorage
 import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
+import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.datetime.Clock
+import kotlin.coroutines.resume
 
 @OptIn(ExperimentalPersistentStateAPI::class)
 @Stable
@@ -19,7 +25,9 @@ import kotlinx.coroutines.sync.withLock
 public class ApplicationRootViewModel @Inject public constructor(
     private val appStorage: AppStorage,
     private val preferencesStorage: PreferencesStorage,
-    private val navController: NavController
+    private val navController: NavController,
+    private val systemAuthenticationProvider: SystemAuthenticationProvider,
+    private val clock: Clock
 ) : ViewModel<ApplicationRootStateModel>(initialStateValue = ApplicationRootStateModel()) {
 
     private val mutex = Mutex(locked = false)
@@ -31,11 +39,12 @@ public class ApplicationRootViewModel @Inject public constructor(
             mutex.withLock {
                 val viewedOnboarding = appStorage.viewedOnboarding.current.value
                 val alwaysDisplayLanding = preferencesStorage.alwaysDisplayLanding.current.value
+                val requireAuth = systemAuthenticationProvider.shouldLaunch()
 
-                val destination = if (viewedOnboarding && !alwaysDisplayLanding) {
-                    RootDestination.Main
-                } else {
-                    RootDestination.Onboarding
+                val destination = when {
+                    requireAuth -> RootDestination.SystemAuth
+                    viewedOnboarding && !alwaysDisplayLanding -> RootDestination.Main
+                    else -> RootDestination.Onboarding
                 }
 
                 emit(
@@ -44,6 +53,40 @@ public class ApplicationRootViewModel @Inject public constructor(
                         isLoading = false
                     )
                 )
+
+                if (requireAuth) {
+                    val authenticated = suspendCancellableCoroutine { continuation ->
+                        systemAuthenticationProvider.launchAuthentication(
+                            title = "Authentication Required", // TODO: Fix hardcoded string resource
+                            onError = { code, message ->
+                                LogPile.error(message = "Error authenticating. $code: $message")
+
+                                continuation.resume(false)
+                            },
+                            onFailed = {
+                                continuation.resume(false)
+                            },
+                            onSuccess = {
+                                continuation.resume(true)
+                            }
+                        )
+                    }
+
+                    if (authenticated) {
+                        appStorage.lastAuthenticated.update { clock.now() }
+
+                        val nextDestination = when {
+                            viewedOnboarding && !alwaysDisplayLanding -> RootDestination.Main
+                            else -> RootDestination.Onboarding
+                        }
+
+                        navController.navigate(nextDestination) {
+                            popUpTo(RootDestination.SystemAuth) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                }
             }
         }
     }

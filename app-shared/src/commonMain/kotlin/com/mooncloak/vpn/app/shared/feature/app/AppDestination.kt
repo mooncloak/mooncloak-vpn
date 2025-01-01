@@ -18,6 +18,7 @@ import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_support_title
 import com.mooncloak.vpn.app.shared.resource.destination_onboarding_landing_title
 import com.mooncloak.vpn.app.shared.resource.destination_onboarding_tutorial_title
+import com.mooncloak.vpn.app.shared.resource.destination_root_onboarding_auth_title
 import com.mooncloak.vpn.app.shared.resource.destination_root_onboarding_title
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -70,6 +71,22 @@ public sealed interface AppDestination {
 @Immutable
 @Serializable
 public sealed interface RootDestination : AppDestination {
+
+    @Immutable
+    @Serializable
+    @SerialName(value = "auth")
+    public data object SystemAuth : RootDestination {
+
+        override val path: String = "/auth"
+
+        override val title: String
+            @Composable
+            get() = stringResource(Res.string.destination_root_onboarding_auth_title)
+
+        override val icon: Painter?
+            @Composable
+            get() = null
+    }
 
     @Immutable
     @Serializable

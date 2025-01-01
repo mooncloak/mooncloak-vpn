@@ -5,6 +5,7 @@ import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
+import com.mooncloak.vpn.app.shared.storage.KeyValueStorage
 import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
 import com.mooncloak.vpn.app.shared.storage.database.DatabaseDriverFactory
 import io.ktor.client.HttpClient
@@ -21,7 +22,7 @@ public expect interface ApplicationDependencies {
     public val clock: Clock
     public val logger: Logger
     public val appClientInfo: AppClientInfo
-    public val preferencesStorage: PreferencesStorage
+    public val keyValueStorage: KeyValueStorage
     public val imageLoaderFactory: SingletonImageLoader.Factory
     public val databaseDriverFactory: DatabaseDriverFactory
     public val serverConnectionManager: ServerConnectionManager
