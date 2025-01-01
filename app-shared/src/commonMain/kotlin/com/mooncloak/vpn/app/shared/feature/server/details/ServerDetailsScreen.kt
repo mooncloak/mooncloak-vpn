@@ -155,7 +155,7 @@ public fun ServerDetailsScreen(
                     modifier = Modifier.sizeIn(maxWidth = 400.dp)
                         .fillMaxWidth(),
                     onClick = {
-                        // TODO:
+                        viewModel.toggleConnection()
                     },
                     enabled = viewModel.state.current.value.connection !is ServerConnection.Connecting
                 ) {

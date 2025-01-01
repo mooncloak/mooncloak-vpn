@@ -1,8 +1,8 @@
 package com.mooncloak.vpn.app.shared.api.server
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.vpn.app.shared.api.location.CountryCode
-import com.mooncloak.vpn.app.shared.api.location.RegionCode
+import com.mooncloak.vpn.app.shared.api.location.Country
+import com.mooncloak.vpn.app.shared.api.location.Region
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.app.storage.sqlite.database.SelectAllStarred
 import com.mooncloak.vpn.app.storage.sqlite.database.SelectStarredPage
@@ -89,8 +89,18 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
                 connected = lastConnected,
                 starred = starred,
                 name = server.name,
-                countryCode = server.countryCode.value,
-                regionCode = server.regionCode?.value,
+                countryCode = server.country.code.value,
+                regionCode = server.region?.code?.value,
+                country = json.encodeToJsonElement(
+                    serializer = Country.serializer(),
+                    value = server.country
+                ),
+                region = server.region?.let { region ->
+                    json.encodeToJsonElement(
+                        serializer = Region.serializer(),
+                        value = region
+                    )
+                },
                 uri = server.uri,
                 self = server.self,
                 ipv4 = server.ipV4Address,
@@ -160,8 +170,16 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
             server = Server(
                 id = this.id,
                 name = this.name,
-                countryCode = CountryCode(value = this.countryCode),
-                regionCode = this.regionCode?.let { RegionCode(value = it) },
+                country = json.decodeFromJsonElement(
+                    deserializer = Country.serializer(),
+                    element = this.country
+                ),
+                region = this.region?.let {
+                    json.decodeFromJsonElement(
+                        deserializer = Region.serializer(),
+                        element = it
+                    )
+                },
                 status = null,
                 created = this.created,
                 updated = this.updated,
@@ -189,8 +207,16 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
             server = Server(
                 id = this.id,
                 name = this.name,
-                countryCode = CountryCode(value = this.countryCode),
-                regionCode = this.regionCode?.let { RegionCode(value = it) },
+                country = json.decodeFromJsonElement(
+                    deserializer = Country.serializer(),
+                    element = this.country
+                ),
+                region = this.region?.let {
+                    json.decodeFromJsonElement(
+                        deserializer = Region.serializer(),
+                        element = it
+                    )
+                },
                 status = null,
                 created = this.created,
                 updated = this.updated,
@@ -218,8 +244,16 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
             server = Server(
                 id = this.id,
                 name = this.name,
-                countryCode = CountryCode(value = this.countryCode),
-                regionCode = this.regionCode?.let { RegionCode(value = it) },
+                country = json.decodeFromJsonElement(
+                    deserializer = Country.serializer(),
+                    element = this.country
+                ),
+                region = this.region?.let {
+                    json.decodeFromJsonElement(
+                        deserializer = Region.serializer(),
+                        element = it
+                    )
+                },
                 status = null,
                 created = this.created,
                 updated = this.updated,

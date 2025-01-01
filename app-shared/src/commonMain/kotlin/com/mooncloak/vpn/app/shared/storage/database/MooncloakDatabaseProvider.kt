@@ -15,37 +15,51 @@ public class MooncloakDatabaseProvider @Inject public constructor(
     private val databaseDriverFactory: DatabaseDriverFactory
 ) {
 
-    public fun get(): MooncloakDatabase = MooncloakDatabase(
-        driver = databaseDriverFactory.create(),
-        PurchaseReceiptAdapter = PurchaseReceipt.Adapter(
-            createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
-            updatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
-            purchasedAdapter = DatabaseAdapter.instantAsMillisecondsLong()
-        ),
-        ServicePlanAdapter = ServicePlan.Adapter(
-            createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
-            updatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
-            breakdownAdapter = DatabaseAdapter.jsonElementAsString(),
-            metadataAdapter = DatabaseAdapter.jsonObjectAsString(),
-            subscriptionAdapter = DatabaseAdapter.jsonElementAsString(),
-            trialAdapter = DatabaseAdapter.jsonElementAsString()
-        ),
-        ServiceTokensAdapter = ServiceTokens.Adapter(
-            createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
-            updatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
-            issuedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
-            expirationAdapter = DatabaseAdapter.instantAsMillisecondsLong()
-        ),
-        ServerConnectionRecordAdapter = ServerConnectionRecord.Adapter(
-            createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
-            updatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
-            connectedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
-            starredAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
-            connectionTypesAdapter = DatabaseAdapter.jsonElementAsString(),
-            protocolsAdapter = DatabaseAdapter.jsonElementAsString(),
-            tagsAdapter = DatabaseAdapter.jsonElementAsString(),
-            serverCreatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
-            serverUpdatedAdapter = DatabaseAdapter.instantAsMillisecondsLong()
-        )
-    )
+    private var cached: MooncloakDatabase? = null
+
+    public fun get(): MooncloakDatabase {
+        var database = cached
+
+        if (database == null) {
+            database = MooncloakDatabase(
+                driver = databaseDriverFactory.create(),
+                PurchaseReceiptAdapter = PurchaseReceipt.Adapter(
+                    createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    updatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    purchasedAdapter = DatabaseAdapter.instantAsMillisecondsLong()
+                ),
+                ServicePlanAdapter = ServicePlan.Adapter(
+                    createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    updatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    breakdownAdapter = DatabaseAdapter.jsonElementAsString(),
+                    metadataAdapter = DatabaseAdapter.jsonObjectAsString(),
+                    subscriptionAdapter = DatabaseAdapter.jsonElementAsString(),
+                    trialAdapter = DatabaseAdapter.jsonElementAsString()
+                ),
+                ServiceTokensAdapter = ServiceTokens.Adapter(
+                    createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    updatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    issuedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    expirationAdapter = DatabaseAdapter.instantAsMillisecondsLong()
+                ),
+                ServerConnectionRecordAdapter = ServerConnectionRecord.Adapter(
+                    createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    updatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    connectedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    starredAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    connectionTypesAdapter = DatabaseAdapter.jsonElementAsString(),
+                    protocolsAdapter = DatabaseAdapter.jsonElementAsString(),
+                    tagsAdapter = DatabaseAdapter.jsonElementAsString(),
+                    serverCreatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    serverUpdatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    countryAdapter = DatabaseAdapter.jsonElementAsString(),
+                    regionAdapter = DatabaseAdapter.jsonElementAsString()
+                )
+            )
+
+            cached = database
+        }
+
+        return database
+    }
 }

@@ -60,6 +60,8 @@ public fun HomeScreen(
         viewModel.load()
     }
 
+    println("HomeScreen: state: ${viewModel.state.current.value}")
+
     // TODOS:
     // * Recently used VPN service card
     // * Starred VPN service card
@@ -136,7 +138,7 @@ public fun HomeScreen(
                         connectionType = item.connectionType,
                         connected = item.connected,
                         onConnect = {
-                            // TODO: Invoke ViewModel connect function
+                            viewModel.toggleConnection(server = item.server)
                         },
                         onDetails = {
                             // TODO: Open Server Details Screen

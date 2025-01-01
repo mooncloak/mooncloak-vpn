@@ -1,7 +1,9 @@
 package com.mooncloak.vpn.app.shared.api.server
 
 import androidx.compose.runtime.Immutable
+import com.mooncloak.vpn.app.shared.api.location.Country
 import com.mooncloak.vpn.app.shared.api.location.CountryCode
+import com.mooncloak.vpn.app.shared.api.location.Region
 import com.mooncloak.vpn.app.shared.api.location.RegionCode
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
@@ -14,9 +16,9 @@ import kotlinx.serialization.Serializable
  *
  * @property [name] A human-readable name for this server.
  *
- * @property [countryCode] The [CountryCode] representing the country this server resides in.
+ * @property [country] The [Country] representing the country this server resides in.
  *
- * @property [regionCode] The [RegionCode] representing the region this server resides in.
+ * @property [region] The [Region] representing the region this server resides in.
  *
  * @property [status] The current [ServerStatus] details.
  *
@@ -41,8 +43,8 @@ import kotlinx.serialization.Serializable
 public data class Server public constructor(
     @SerialName(value = "id") public val id: String,
     @SerialName(value = "name") public val name: String,
-    @SerialName(value = "country_code") public val countryCode: CountryCode,
-    @SerialName(value = "region_code") public val regionCode: RegionCode? = null,
+    @SerialName(value = "country") public val country: Country,
+    @SerialName(value = "region") public val region: Region? = null,
     @SerialName(value = "status") public val status: ServerStatus? = null,
     @SerialName(value = "created") public val created: Instant? = null,
     @SerialName(value = "updated") public val updated: Instant? = null,

@@ -15,13 +15,10 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
-import com.mooncloak.vpn.app.shared.api.location.Country
-import com.mooncloak.vpn.app.shared.api.location.CountryCode
-import com.mooncloak.vpn.app.shared.api.location.invoke
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkInfo
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
-import com.mooncloak.vpn.app.shared.api.server.ConnectionType
 import com.mooncloak.vpn.app.shared.api.server.Server
+import com.mooncloak.vpn.app.shared.api.server.ServerConnection
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
@@ -44,11 +41,15 @@ import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_tracking
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_payment_crypto
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_payment_google_play
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 
@@ -63,19 +64,6 @@ public class HomeViewModel @Inject public constructor(
 ) : ViewModel<HomeStateModel>(initialStateValue = HomeStateModel()) {
 
     private val noSubscriptionItems = listOf(
-        HomeFeedItem.ServerConnectionItem(
-            country = Country(
-                code = CountryCode(value = "us"),
-                name = "US"
-            ),
-            server = Server(
-                id = "1",
-                name = "Default Server",
-                countryCode = CountryCode(value = "us")
-            ),
-            connectionType = ConnectionType.MultipleVpn,
-            connected = false
-        ),
         HomeFeedItem.GetVPNServiceItem,
         HomeFeedItem.ShowcaseItem(
             icon = { rememberVectorPainter(Icons.Default.CloudOff) },
@@ -117,6 +105,8 @@ public class HomeViewModel @Inject public constructor(
         }
     )
 
+    private val mutex = Mutex(locked = false)
+
     private var connectionJob: Job? = null
 
     public fun load() {
@@ -126,13 +116,15 @@ public class HomeViewModel @Inject public constructor(
             connectionJob?.cancel()
             connectionJob = serverConnectionManager.connection
                 .onEach { connection ->
-                    emit(
-                        value = state.current.value.copy(
-                            connectionStatus = connection.status
+                    emit { current ->
+                        current.copy(
+                            connection = connection,
+                            isCheckingStatus = false
                         )
-                    )
+                    }
                 }
                 .catch { e -> LogPile.error(message = "Error listening to connection changes.", cause = e) }
+                .flowOn(Dispatchers.Main)
                 .launchIn(coroutineScope)
 
             var subscription: ServiceSubscription? = null
@@ -151,14 +143,13 @@ public class HomeViewModel @Inject public constructor(
                     emptyList<HomeFeedItem>()
                 }
 
-                println("load: items: $items")
-
                 emit(
                     value = state.current.value.copy(
                         subscription = subscription,
                         localNetwork = localNetworkInfo,
                         items = items,
-                        isLoading = false
+                        isLoading = false,
+                        isCheckingStatus = false
                     )
                 )
             } catch (e: Exception) {
@@ -169,9 +160,35 @@ public class HomeViewModel @Inject public constructor(
                         subscription = subscription,
                         localNetwork = localNetworkInfo,
                         isLoading = false,
+                        isCheckingStatus = false,
                         errorMessage = getString(Res.string.global_unexpected_error)
                     )
                 )
+            }
+        }
+    }
+
+    public fun toggleConnection(server: Server) {
+        coroutineScope.launch {
+            mutex.withLock {
+                try {
+                    val currentConnection = state.current.value.connection
+
+                    if (currentConnection is ServerConnection.Connected && currentConnection.server == server) {
+                        serverConnectionManager.disconnect()
+                    } else {
+                        serverConnectionManager.connect(server)
+                    }
+                } catch (e: Exception) {
+                    LogPile.error(message = "Error connecting to VPN server.", cause = e)
+
+                    emit(
+                        value = state.current.value.copy(
+                            isLoading = false,
+                            errorMessage = getString(Res.string.global_unexpected_error)
+                        )
+                    )
+                }
             }
         }
     }

@@ -18,6 +18,8 @@ import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -44,12 +46,12 @@ public class ServerConnectionViewModel @Inject public constructor(
         connectionJob?.cancel()
         connectionJob = serverConnectionManager.connection
             .onEach { connection ->
-                emit(
-                    value = state.current.value.copy(
-                        connection = connection
-                    )
-                )
+                emit { current ->
+                    current.copy(connection = connection)
+                }
             }
+            .catch { e -> LogPile.error(message = "Error listening to connection changes.", cause = e) }
+            .flowOn(Dispatchers.Main)
             .launchIn(coroutineScope)
 
         if (current.isConnected()) {
