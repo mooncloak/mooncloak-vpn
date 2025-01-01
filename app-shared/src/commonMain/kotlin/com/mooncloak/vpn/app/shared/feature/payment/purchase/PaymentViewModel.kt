@@ -10,6 +10,8 @@ import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.navigation.NavController
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.kodetools.logpile.core.LogPile
+import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.app.shared.api.billing.BitcoinPlanInvoice
 import com.mooncloak.vpn.app.shared.api.money.Currency
@@ -31,6 +33,7 @@ import com.mooncloak.vpn.app.shared.resource.payment_plans_title
 import com.mooncloak.vpn.app.shared.resource.payment_title
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -78,6 +81,8 @@ public class PaymentViewModel @Inject public constructor(
                         )
                     )
                 } catch (e: Exception) {
+                    LogPile.error(message = "Error loading data.", cause = e)
+
                     emit(
                         value = state.current.value.copy(
                             isLoading = false,
@@ -155,6 +160,8 @@ public class PaymentViewModel @Inject public constructor(
                         }
                     }
                 } catch (e: Exception) {
+                    LogPile.error(message = "Error creating invoice.", cause = e)
+
                     emit(
                         value = state.current.value.copy(
                             isLoading = false,
@@ -171,7 +178,8 @@ public class PaymentViewModel @Inject public constructor(
 
         plansJob = plansProvider.getPlansFlow()
             .flowOn(Dispatchers.IO)
-            .onEach { plans -> emit(value = state.current.value.copy(plans = plans)) }
+            .onEach { plans -> emit { current -> current.copy(plans = plans) } }
+            .catch { e -> LogPile.error(message = "Error retrieving plans.", cause = e) }
             .flowOn(Dispatchers.Main)
             .launchIn(coroutineScope)
     }
