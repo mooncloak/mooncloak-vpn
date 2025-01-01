@@ -14,6 +14,8 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import com.android.billingclient.api.queryProductDetails
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.kodetools.logpile.core.LogPile
+import com.mooncloak.kodetools.logpile.core.warning
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
@@ -30,6 +32,7 @@ import com.mooncloak.vpn.app.shared.api.plan.ServicePlansRepository
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokens
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
+import com.mooncloak.vpn.app.shared.di.PresentationScoped
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -42,6 +45,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.datetime.Instant
 import kotlin.jvm.Throws
 
+@PresentationScoped
 internal class GooglePlayBillingManager @Inject internal constructor(
     private val context: Activity,
     private val plansApiSource: ServicePlansApiSource,
@@ -77,7 +81,7 @@ internal class GooglePlayBillingManager @Inject internal constructor(
         }
     }
 
-    private val billingClient = BillingClient.newBuilder(context)
+    private val billingClient = BillingClient.newBuilder(context.applicationContext)
         .setListener(purchasesUpdatedListener)
         .enablePendingPurchases(
             PendingPurchasesParams.newBuilder()
@@ -203,7 +207,7 @@ internal class GooglePlayBillingManager @Inject internal constructor(
         val productFilters = planIds.map { id ->
             QueryProductDetailsParams.Product.newBuilder()
                 .setProductId(id)
-                .setProductType(BillingClient.ProductType.SUBS)
+                .setProductType(BillingClient.ProductType.INAPP)
                 .build()
         }
 

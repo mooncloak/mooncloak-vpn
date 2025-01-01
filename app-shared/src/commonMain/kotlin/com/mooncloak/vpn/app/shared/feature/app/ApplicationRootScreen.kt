@@ -15,6 +15,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -68,6 +69,17 @@ public fun ApplicationRootScreen(
         val imageLoaderFactory = remember(applicationComponent) { applicationComponent.imageLoaderFactory }
         val preferencesStorage = rememberDependency { preferencesStorage }
         val snackbarHostState = remember { SnackbarHostState() }
+
+        // Make sure to start the billing manager's scope. This allows it to subscribe to events and handle logic
+        // correctly.
+        val billingManager = rememberDependency { this.billingManager }
+        DisposableEffect(Unit) {
+            billingManager.start()
+
+            onDispose {
+                billingManager.cancel()
+            }
+        }
 
         LaunchedEffect(Unit) {
             viewModel.load()
