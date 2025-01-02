@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <include
+        domain="sharedpref"
+        path="."
+        requireFlags="clientSideEncryption" />
+    <exclude
+        domain="sharedpref"
+        path="wire_guard_keys" />
+</full-backup-content>
