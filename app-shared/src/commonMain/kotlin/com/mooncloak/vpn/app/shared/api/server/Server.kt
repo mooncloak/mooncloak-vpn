@@ -52,6 +52,7 @@ public data class Server public constructor(
     @SerialName(value = "ipv6") public val ipV6Address: String? = null,
     @SerialName(value = "uri") public val uri: String? = null,
     @SerialName(value = "self") public val self: String? = null,
+    @SerialName(value = "public_key") public val publicKey: String? = null,
     @SerialName(value = "connection_types") public val connectionTypes: List<ConnectionType> = emptyList(),
     @SerialName(value = "vpn_protocols") public val protocols: List<VPNProtocol> = emptyList(),
     @SerialName(value = "tags") public val tags: List<String> = emptyList()

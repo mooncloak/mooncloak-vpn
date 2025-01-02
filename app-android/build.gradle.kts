@@ -36,6 +36,9 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-network-ktor:_")
     implementation("io.coil-kt.coil3:coil-network-ktor3:_")
 
+    // Android Cryptography
+    implementation("androidx.security:security-crypto:_")
+
     // VPN - WireGuard
     // https://github.com/WireGuard/wireguard-android
     // https://github.com/WireGuard/wireguard-android/blob/master/COPYING

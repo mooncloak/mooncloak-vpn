@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.android
+package com.mooncloak.vpn.app.android.api.wireguard
 
 import com.wireguard.android.backend.Statistics
 import com.wireguard.android.backend.Tunnel
