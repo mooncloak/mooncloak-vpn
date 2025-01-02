@@ -204,9 +204,7 @@ public fun SettingsScreen(
         state = bottomSheetState,
         onOpenPlans = {
             coroutineScope.launch {
-                bottomSheetState.hide()
-
-                // TODO: Open Plans Bottom Sheet
+                bottomSheetState.show(SettingsBottomSheetDestination.SelectPlan)
             }
         }
     )

@@ -1,12 +1,13 @@
 package com.mooncloak.vpn.app.shared.feature.settings.composable
 
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheet
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.collaborator.container.CollaboratorContainerScreen
 import com.mooncloak.vpn.app.shared.feature.dependency.DependencyLicenseListScreen
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.subscription.SubscriptionScreen
 
@@ -21,14 +22,22 @@ internal fun SettingsBottomSheet(
         modifier = modifier
     ) { destination ->
         when (destination) {
-            SettingsBottomSheetDestination.DependencyLicenseList -> DependencyLicenseListScreen(modifier = Modifier.fillMaxSize())
+            is SettingsBottomSheetDestination.DependencyLicenseList -> DependencyLicenseListScreen(
+                modifier = Modifier.fillMaxWidth()
+            )
 
-            SettingsBottomSheetDestination.Subscription -> SubscriptionScreen(
-                modifier = Modifier.fillMaxSize(),
+            is SettingsBottomSheetDestination.Subscription -> SubscriptionScreen(
+                modifier = Modifier.fillMaxWidth(),
                 onOpenPlans = onOpenPlans
             )
 
-            SettingsBottomSheetDestination.Collaborators -> CollaboratorContainerScreen(modifier = Modifier.fillMaxSize())
+            is SettingsBottomSheetDestination.SelectPlan -> PaymentScreen(
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            is SettingsBottomSheetDestination.Collaborators -> CollaboratorContainerScreen(
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }

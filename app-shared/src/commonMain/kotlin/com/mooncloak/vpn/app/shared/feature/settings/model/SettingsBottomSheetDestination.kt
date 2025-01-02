@@ -20,6 +20,11 @@ internal sealed interface SettingsBottomSheetDestination {
 
     @Immutable
     @Serializable
+    @SerialName(value = "plan")
+    data object SelectPlan : SettingsBottomSheetDestination
+
+    @Immutable
+    @Serializable
     @SerialName(value = "collaborators")
     data object Collaborators : SettingsBottomSheetDestination
 }
