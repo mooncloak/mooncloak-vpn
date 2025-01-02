@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
@@ -88,7 +90,8 @@ public fun HomeScreen(
                 .haze(state = hazeState)
                 .padding(horizontal = 12.dp),
             state = lazyListState,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item(key = "TopSpacing") {
                 Spacer(modifier = Modifier.height(paddingValues.calculateTopPadding() + containerPaddingValues.calculateTopPadding()))
@@ -101,7 +104,8 @@ public fun HomeScreen(
             ) { item ->
                 when (item) {
                     is HomeFeedItem.AdShieldItem -> AdShieldCard(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                            .fillMaxWidth(),
                         adsBlocked = item.adsBlocked ?: 0,
                         trackersBlocked = item.trackersBlocked ?: 0,
                         bytesSaved = item.estimatedBytesSaved,
@@ -112,7 +116,8 @@ public fun HomeScreen(
                     )
 
                     HomeFeedItem.GetVPNServiceItem -> GetVPNServiceCard(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                            .fillMaxWidth(),
                         onClick = {
                             coroutineScope.launch {
                                 bottomSheetState.show(destination = HomeBottomSheetDestination.Payment)
@@ -121,7 +126,8 @@ public fun HomeScreen(
                     )
 
                     is HomeFeedItem.PlanUsageItem -> PlanUsageCard(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                            .fillMaxWidth(),
                         durationRemaining = item.durationRemaining,
                         bytesRemaining = item.bytesRemaining,
                         boost = item.showBoost,
@@ -131,7 +137,8 @@ public fun HomeScreen(
                     )
 
                     is HomeFeedItem.ServerConnectionItem -> ServerConnectionCard(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                            .fillMaxWidth(),
                         countryName = item.country.name,
                         countryFlag = item.country.flag,
                         serverName = item.server.name,
@@ -149,7 +156,8 @@ public fun HomeScreen(
                     )
 
                     is HomeFeedItem.ShowcaseItem -> ShowcaseCard(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                            .fillMaxWidth(),
                         icon = item.icon.invoke(),
                         title = item.title.invoke(),
                         description = item.description.invoke()
