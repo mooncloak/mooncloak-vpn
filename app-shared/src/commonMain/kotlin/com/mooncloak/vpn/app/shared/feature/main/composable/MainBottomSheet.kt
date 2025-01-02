@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheet
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.main.model.MainBottomSheetDestination
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.server.connection.ServerConnectionScreen
 
 @Composable
@@ -19,6 +20,10 @@ internal fun MainBottomSheet(
     ) { destination ->
         when (destination) {
             is MainBottomSheetDestination.ServerConnection -> ServerConnectionScreen(
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            is MainBottomSheetDestination.SelectPlan -> PaymentScreen(
                 modifier = Modifier.fillMaxWidth()
             )
         }

@@ -12,4 +12,9 @@ internal sealed interface MainBottomSheetDestination {
     @Serializable
     @SerialName(value = "connection")
     data object ServerConnection : MainBottomSheetDestination
+
+    @Immutable
+    @Serializable
+    @SerialName(value = "plan")
+    data object SelectPlan : MainBottomSheetDestination
 }

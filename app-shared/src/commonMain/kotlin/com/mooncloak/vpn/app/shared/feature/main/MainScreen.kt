@@ -13,12 +13,14 @@ import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mooncloak.vpn.app.shared.api.server.isConnected
 import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
@@ -71,6 +73,10 @@ public fun MainScreen(
         )
     )
 
+    LaunchedEffect(Unit) {
+        viewModel.load()
+    }
+
     MooncloakNavigationScaffold(
         modifier = modifier,
         navigationItems = {
@@ -105,10 +111,10 @@ public fun MainScreen(
         },
         floatingActionButton = {
             val containerColor = animateColorAsState(
-                targetValue = viewModel.state.current.value.serverConnection.containerColor
+                targetValue = viewModel.state.current.value.serverConnection.status.containerColor
             )
             val contentColor = animateColorAsState(
-                targetValue = viewModel.state.current.value.serverConnection.contentColor
+                targetValue = viewModel.state.current.value.serverConnection.status.contentColor
             )
 
             FloatingActionButton(
@@ -117,11 +123,15 @@ public fun MainScreen(
                 contentColor = contentColor.value,
                 onClick = {
                     coroutineScope.launch {
-                        bottomSheetState.show(MainBottomSheetDestination.ServerConnection)
+                        if (viewModel.state.current.value.subscription != null || viewModel.state.current.value.serverConnection.isConnected()) {
+                            bottomSheetState.show(MainBottomSheetDestination.ServerConnection)
+                        } else {
+                            bottomSheetState.show(MainBottomSheetDestination.SelectPlan)
+                        }
                     }
                 },
                 content = {
-                    viewModel.state.current.value.serverConnection.floatingActionBarContent()
+                    viewModel.state.current.value.serverConnection.status.floatingActionBarContent()
                 }
             )
         },
