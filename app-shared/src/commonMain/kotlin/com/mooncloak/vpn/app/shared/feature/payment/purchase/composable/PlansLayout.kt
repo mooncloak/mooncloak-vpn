@@ -85,7 +85,7 @@ internal fun PlansLayout(
             item(key = "Select") {
                 Button(
                     modifier = Modifier.fillMaxWidth()
-                        .padding(top = 32.dp),
+                        .padding(vertical = 32.dp),
                     enabled = selectedPlan != null && acceptedTerms,
                     onClick = onSelect
                 ) {

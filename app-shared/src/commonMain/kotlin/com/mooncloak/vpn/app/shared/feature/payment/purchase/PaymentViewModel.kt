@@ -13,14 +13,9 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.app.shared.api.billing.BitcoinPlanInvoice
-import com.mooncloak.vpn.app.shared.api.money.Currency
+import com.mooncloak.vpn.app.shared.api.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.plan.Plan
-import com.mooncloak.vpn.app.shared.api.billing.PlanPaymentStatus
-import com.mooncloak.vpn.app.shared.api.money.Price
-import com.mooncloak.vpn.app.shared.api.money.USD
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansProvider
-import com.mooncloak.vpn.app.shared.api.token.TransactionToken
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.model.PaymentDestination
@@ -30,7 +25,6 @@ import com.mooncloak.vpn.app.shared.resource.payment_accept_terms_and_conditions
 import com.mooncloak.vpn.app.shared.resource.payment_link_text_privacy_policy
 import com.mooncloak.vpn.app.shared.resource.payment_link_text_terms
 import com.mooncloak.vpn.app.shared.resource.payment_plans_title
-import com.mooncloak.vpn.app.shared.resource.payment_title
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
@@ -40,7 +34,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.getString
 
 @Stable
@@ -48,7 +41,8 @@ import org.jetbrains.compose.resources.getString
 public class PaymentViewModel @Inject public constructor(
     private val appClientInfo: AppClientInfo,
     private val navController: NavController,
-    private val plansProvider: ServicePlansProvider
+    private val plansProvider: ServicePlansProvider,
+    private val billingManager: BillingManager
 ) : ViewModel<PaymentStateModel>(initialStateValue = PaymentStateModel()) {
 
     private val mutex = Mutex(locked = false)
@@ -124,40 +118,8 @@ public class PaymentViewModel @Inject public constructor(
         coroutineScope.launch {
             mutex.withLock {
                 try {
-                    emit(value = state.current.value.copy(isLoading = true))
-
-                    // TODO: Create new plan invoice
-
-                    emit(
-                        value = state.current.value.copy(
-                            isLoading = false,
-                            errorMessage = null,
-                            invoice = BitcoinPlanInvoice( // TODO: Remove test plan data
-                                id = "123",
-                                planId = "123",
-                                token = TransactionToken(value = "123"),
-                                created = Clock.System.now(),
-                                uri = "https://mooncloak.com/testinginvoice",
-                                address = "123",
-                                amount = Price(
-                                    currency = Currency.USD,
-                                    amount = 1,
-                                    formatted = "B 0.00000000001"
-                                )
-                            ),
-                            paymentStatus = PlanPaymentStatus.Pending(
-                                invoiceId = "123",
-                                title = "Pending Payment",
-                                timestamp = Clock.System.now()
-                            ),
-                            screenTitle = getString(Res.string.payment_title)
-                        )
-                    )
-
-                    navController.navigate(PaymentDestination.Invoice) {
-                        popUpTo(PaymentDestination.Plans) {
-                            inclusive = true
-                        }
+                    state.current.value.selectedPlan?.let { plan ->
+                        billingManager.purchasePlan(plan)
                     }
                 } catch (e: Exception) {
                     LogPile.error(message = "Error creating invoice.", cause = e)
