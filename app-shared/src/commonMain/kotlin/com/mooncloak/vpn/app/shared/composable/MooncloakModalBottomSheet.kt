@@ -2,6 +2,7 @@ package com.mooncloak.vpn.app.shared.composable
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -18,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -30,8 +30,6 @@ import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 
 /**
  * An extension on the material3 [ModalBottomSheet] that automatically removes the composable from the UI when it is no
@@ -73,6 +71,8 @@ internal fun MooncloakModalBottomSheet(
     containerColor: Color = BottomSheetDefaults.ContainerColor,
     contentColor: Color = contentColorFor(containerColor),
     tonalElevation: Dp = 0.dp,
+    minWidth: Dp = 200.dp,
+    maxWidth: Dp = 600.dp,
     scrimColor: Color = BottomSheetDefaults.ScrimColor,
     dragHandle: @Composable (() -> Unit)? = {
         BottomSheetDefaults.DragHandle(
@@ -97,7 +97,10 @@ internal fun MooncloakModalBottomSheet(
                     onDismissRequest.invoke()
                 }
             },
-            modifier = modifier,
+            modifier = Modifier.sizeIn(
+                minWidth = minWidth,
+                maxWidth = maxWidth
+            ).then(modifier),
             sheetState = sheetState.sheetState,
             sheetMaxWidth = sheetMaxWidth,
             shape = shape,
