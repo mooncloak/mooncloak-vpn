@@ -36,7 +36,7 @@ internal fun PlansLayout(
     LazyColumn(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         if (!loading && plans.isNotEmpty()) {
             items(

@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -50,12 +52,12 @@ internal fun PlanCard(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.Top
             ) {
-                Column {
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = title,
                         style = MaterialTheme.typography.titleMedium,
-                        maxLines = 2,
-                        overflow = TextOverflow.Clip,
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis,
                         textAlign = TextAlign.Start
                     )
 
@@ -65,10 +67,11 @@ internal fun PlanCard(
                     )
                 }
 
-                Spacer(modifier = Modifier.weight(1f))
-
-                if (highlight != null) {
+                if (!highlight.isNullOrBlank()) {
                     SuggestionChip(
+                        modifier = Modifier.padding(start = 16.dp)
+                            .wrapContentWidth()
+                            .wrapContentHeight(),
                         onClick = {},
                         enabled = false,
                         colors = SuggestionChipDefaults.suggestionChipColors(
