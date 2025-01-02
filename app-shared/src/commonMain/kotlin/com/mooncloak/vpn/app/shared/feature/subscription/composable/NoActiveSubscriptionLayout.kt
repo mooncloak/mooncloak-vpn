@@ -60,13 +60,14 @@ internal fun NoActiveSubscriptionLayout(
                 )
             )
 
+            /* TODO: Re-enable payment history
             PaymentHistoryCard(
                 modifier = Modifier.fillMaxWidth()
                     .padding(top = 16.dp),
                 title = lastPaymentTitle,
                 description = lastPaymentDescription,
                 onViewAll = onViewPaymentHistory
-            )
+            )*/
         }
 
         Button(

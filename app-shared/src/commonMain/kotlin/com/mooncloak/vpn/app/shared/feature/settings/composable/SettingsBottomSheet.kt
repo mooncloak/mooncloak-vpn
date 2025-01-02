@@ -13,6 +13,7 @@ import com.mooncloak.vpn.app.shared.feature.subscription.SubscriptionScreen
 @Composable
 internal fun SettingsBottomSheet(
     state: ModalNavigationBottomSheetState<SettingsBottomSheetDestination>,
+    onOpenPlans: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     ModalNavigationBottomSheet(
@@ -21,7 +22,12 @@ internal fun SettingsBottomSheet(
     ) { destination ->
         when (destination) {
             SettingsBottomSheetDestination.DependencyLicenseList -> DependencyLicenseListScreen(modifier = Modifier.fillMaxSize())
-            SettingsBottomSheetDestination.Subscription -> SubscriptionScreen(modifier = Modifier.fillMaxSize())
+
+            SettingsBottomSheetDestination.Subscription -> SubscriptionScreen(
+                modifier = Modifier.fillMaxSize(),
+                onOpenPlans = onOpenPlans
+            )
+
             SettingsBottomSheetDestination.Collaborators -> CollaboratorContainerScreen(modifier = Modifier.fillMaxSize())
         }
     }

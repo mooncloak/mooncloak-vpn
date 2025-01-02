@@ -201,7 +201,14 @@ public fun SettingsScreen(
 
     SettingsBottomSheet(
         modifier = Modifier.fillMaxWidth(),
-        state = bottomSheetState
+        state = bottomSheetState,
+        onOpenPlans = {
+            coroutineScope.launch {
+                bottomSheetState.hide()
+
+                // TODO: Open Plans Bottom Sheet
+            }
+        }
     )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {
