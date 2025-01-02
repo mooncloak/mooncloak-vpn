@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -101,7 +102,8 @@ public fun CountryListScreen(
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                state = lazyListState
+                state = lazyListState,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 item(key = "TopSpacing") {
                     Spacer(modifier = Modifier.height(containerPaddingValues.calculateTopPadding()))
@@ -113,7 +115,9 @@ public fun CountryListScreen(
                     contentType = { "CountryListItem" }
                 ) { country ->
                     CountryListItem(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .sizeIn(maxWidth = 600.dp)
+                            .fillMaxWidth()
                             .clickable {
 
                             },
@@ -133,7 +137,8 @@ public fun CountryListScreen(
                 if (viewModel.state.current.value.countries.isEmpty() && !viewModel.state.current.value.isLoading) {
                     item(key = "EmptyCountryListError") {
                         NoVPNServersCard(
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                                .fillMaxWidth()
                                 .padding(12.dp)
                         )
                     }
