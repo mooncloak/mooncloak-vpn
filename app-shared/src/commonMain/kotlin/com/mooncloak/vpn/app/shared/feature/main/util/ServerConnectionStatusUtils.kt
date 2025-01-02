@@ -11,7 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionStatus
+import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.cd_action_checking
+import com.mooncloak.vpn.app.shared.resource.cd_action_connect
+import com.mooncloak.vpn.app.shared.resource.cd_action_disconnect
 import com.mooncloak.vpn.app.shared.theme.ColorPalette
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun ServerConnectionStatus.floatingActionBarContent(
@@ -22,7 +27,7 @@ internal fun ServerConnectionStatus.floatingActionBarContent(
             Icon(
                 modifier = modifier,
                 imageVector = Icons.Default.ShieldMoon,
-                contentDescription = null,
+                contentDescription = stringResource(Res.string.cd_action_connect),
                 tint = LocalContentColor.current
             )
         }
@@ -45,7 +50,7 @@ internal fun ServerConnectionStatus.floatingActionBarContent(
             Icon(
                 modifier = modifier,
                 imageVector = Icons.Default.PowerOff,
-                contentDescription = null,
+                contentDescription = stringResource(Res.string.cd_action_disconnect),
                 tint = LocalContentColor.current
             )
         }
@@ -54,7 +59,7 @@ internal fun ServerConnectionStatus.floatingActionBarContent(
             Icon(
                 modifier = modifier,
                 imageVector = Icons.Default.ShieldMoon,
-                contentDescription = null,
+                contentDescription = stringResource(Res.string.cd_action_checking),
                 tint = LocalContentColor.current
             )
         }

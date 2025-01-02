@@ -57,6 +57,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.cd_action_back
 import com.mooncloak.vpn.app.shared.resource.onboarding_action_skip
 import com.mooncloak.vpn.app.shared.resource.onboarding_description_no_accounts
 import com.mooncloak.vpn.app.shared.resource.onboarding_description_no_data_creeps
@@ -220,7 +221,7 @@ internal fun OnboardingLayout(
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                    contentDescription = null
+                    contentDescription = stringResource(Res.string.cd_action_back)
                 )
             }
 

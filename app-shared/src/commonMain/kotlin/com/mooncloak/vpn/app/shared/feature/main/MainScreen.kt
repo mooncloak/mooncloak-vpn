@@ -86,7 +86,7 @@ public fun MainScreen(
                             state.destination.icon?.let { icon ->
                                 Icon(
                                     painter = icon,
-                                    contentDescription = null
+                                    contentDescription = state.destination.contentDescription
                                 )
                             }
                         },

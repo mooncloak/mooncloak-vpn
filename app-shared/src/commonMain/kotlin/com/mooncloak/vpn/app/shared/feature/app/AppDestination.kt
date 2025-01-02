@@ -4,7 +4,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Support
 import androidx.compose.material.icons.filled.SupportAgent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -12,6 +11,10 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.app_name
+import com.mooncloak.vpn.app.shared.resource.cd_destination_home
+import com.mooncloak.vpn.app.shared.resource.cd_destination_servers
+import com.mooncloak.vpn.app.shared.resource.cd_destination_settings
+import com.mooncloak.vpn.app.shared.resource.cd_destination_support
 import com.mooncloak.vpn.app.shared.resource.destination_main_countries_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_home_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
@@ -63,7 +66,7 @@ public sealed interface AppDestination {
     /**
      * Retrieves the content description for the [icon] for accessibility purposes.
      */
-    public val contentDescription: String? get() = null
+    public val contentDescription: String? @Composable get() = null
 
     public companion object
 }
@@ -176,6 +179,10 @@ public sealed interface MainDestination : AppDestination {
         override val icon: Painter
             @Composable
             get() = rememberVectorPainter(Icons.Default.Home)
+
+        override val contentDescription: String
+            @Composable
+            get() = stringResource(Res.string.cd_destination_home)
     }
 
     @Serializable
@@ -192,6 +199,10 @@ public sealed interface MainDestination : AppDestination {
         override val icon: Painter
             @Composable
             get() = rememberVectorPainter(Icons.Default.Language)
+
+        override val contentDescription: String
+            @Composable
+            get() = stringResource(Res.string.cd_destination_servers)
     }
 
     @Serializable
@@ -208,6 +219,10 @@ public sealed interface MainDestination : AppDestination {
         override val icon: Painter
             @Composable
             get() = rememberVectorPainter(Icons.Default.SupportAgent)
+
+        override val contentDescription: String
+            @Composable
+            get() = stringResource(Res.string.cd_destination_support)
     }
 
     @Serializable
@@ -224,5 +239,9 @@ public sealed interface MainDestination : AppDestination {
         override val icon: Painter
             @Composable
             get() = rememberVectorPainter(Icons.Default.Settings)
+
+        override val contentDescription: String
+            @Composable
+            get() = stringResource(Res.string.cd_destination_settings)
     }
 }

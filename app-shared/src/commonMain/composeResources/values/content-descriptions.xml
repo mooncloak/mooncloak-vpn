@@ -1,0 +1,15 @@
+<resources>
+
+    <string name="cd_action_connect">Connect to VPN</string>
+    <string name="cd_action_disconnect">Disconnect from VPN</string>
+    <string name="cd_action_checking">Checking connection</string>
+    <string name="cd_action_back">Navigate back</string>
+
+    <string name="cd_destination_home">Navigate to Home screen</string>
+    <string name="cd_destination_servers">Navigate to Server screen</string>
+    <string name="cd_destination_support">Navigate to Support screen</string>
+    <string name="cd_destination_settings">Navigate to Settings screen</string>
+
+    <string name="cd_options_more">More options</string>
+
+</resources>

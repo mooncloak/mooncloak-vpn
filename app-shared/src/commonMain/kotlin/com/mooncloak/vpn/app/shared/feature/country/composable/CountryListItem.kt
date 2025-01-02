@@ -19,6 +19,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.location.Country
 import com.mooncloak.vpn.app.shared.composable.FlagImage
+import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.cd_options_more
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun CountryListItem(
@@ -52,7 +55,7 @@ internal fun CountryListItem(
                     .clickable { onMoreSelected.invoke() }
                     .padding(8.dp),
                 imageVector = Icons.Default.MoreHoriz,
-                contentDescription = null,
+                contentDescription = stringResource(Res.string.cd_options_more),
                 tint = contentColor
             )
         }

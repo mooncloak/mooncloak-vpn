@@ -29,8 +29,11 @@ import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheet
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.country.model.CountryListBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.server.list.ServerListScreen
+import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.cd_action_back
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun CountryListBottomSheet(
@@ -131,7 +134,7 @@ private fun CountryListBottomSheetHeader(
                                 .clickable { onBack?.invoke() }
                                 .padding(8.dp),
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                            contentDescription = null,
+                            contentDescription = stringResource(Res.string.cd_action_back),
                             tint = MaterialTheme.colorScheme.onSurface
                         )
                     }

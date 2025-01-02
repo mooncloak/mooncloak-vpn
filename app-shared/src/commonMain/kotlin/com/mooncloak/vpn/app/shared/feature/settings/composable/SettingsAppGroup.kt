@@ -2,6 +2,7 @@ package com.mooncloak.vpn.app.shared.feature.settings.composable
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -48,7 +49,14 @@ internal fun ColumnScope.SettingsAppGroup(
             Text(
                 text = appVersion ?: "",
                 style = MaterialTheme.typography.bodyMedium.copy(
-                    color = MaterialTheme.colorScheme.secondary
+                    color = if (isSystemInDarkTheme()) {
+                        MaterialTheme.colorScheme.secondary
+                    } else {
+                        // There's not enough contrast with the yellow text on the white background. So, we use the
+                        // darker blue primary text here. One issue might be that it seems actionable, because we use
+                        // the primary color for actionable items.
+                        MaterialTheme.colorScheme.primary
+                    }
                 )
             )
         }).takeIf { appVersion != null }
