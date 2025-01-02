@@ -15,14 +15,21 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
+import com.mikepenz.aboutlibraries.entity.Library
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibraryDefaults
+import com.mikepenz.aboutlibraries.ui.compose.m3.util.htmlReadyLicenseContent
+import com.mooncloak.kodetools.logpile.core.LogPile
+import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.dependency.composable.LicenseDialog
 import com.mooncloak.vpn.app.shared.feature.dependency.composable.NoDependenciesFoundLayout
 import com.mooncloak.vpn.app.shared.feature.dependency.di.createDependencyLicenseListComponent
 
@@ -38,6 +45,8 @@ public fun DependencyLicenseListScreen(
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }
+    val openDialog = remember { mutableStateOf<Library?>(null) }
+    val uriHandler = LocalUriHandler.current
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -66,7 +75,22 @@ public fun DependencyLicenseListScreen(
                     colors = LibraryDefaults.libraryColors(
                         backgroundColor = MaterialTheme.colorScheme.surface,
                         contentColor = MaterialTheme.colorScheme.onSurface
-                    )
+                    ),
+                    onLibraryClick = { library ->
+                        val license = library.licenses.firstOrNull()
+
+                        if (!license?.htmlReadyLicenseContent.isNullOrBlank()) {
+                            openDialog.value = library
+                        } else if (!license?.url.isNullOrBlank()) {
+                            license?.url?.also {
+                                try {
+                                    uriHandler.openUri(it)
+                                } catch (t: Throwable) {
+                                    LogPile.error("Failed to open url: $it")
+                                }
+                            }
+                        }
+                    }
                 )
             }
 
@@ -90,6 +114,15 @@ public fun DependencyLicenseListScreen(
                 CircularProgressIndicator()
             }
         }
+    }
+
+    openDialog.value?.let { library ->
+        LicenseDialog(
+            library = library,
+            onDismiss = {
+                openDialog.value = null
+            }
+        )
     }
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {
