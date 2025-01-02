@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -25,6 +26,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
@@ -98,7 +100,8 @@ public fun SupportScreen(
                 .padding(paddingValues)
                 .padding(horizontal = 12.dp),
             state = lazyListState,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item(key = "TopSpacing") {
                 Spacer(modifier = Modifier.height(containerPaddingValues.calculateTopPadding()))
@@ -107,7 +110,8 @@ public fun SupportScreen(
             viewModel.state.current.value.supportEmailAddress?.let { supportEmailAddress ->
                 item(key = "SupportEmailCard") {
                     DefaultSupportCard(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                            .fillMaxWidth()
                             .padding(top = 12.dp),
                         title = stringResource(Res.string.support_email_title),
                         icon = Icons.Default.Email,
@@ -126,7 +130,8 @@ public fun SupportScreen(
             viewModel.state.current.value.featureRequestUri?.let { featureRequestUri ->
                 item(key = "SupportFeatureRequestCard") {
                     DefaultSupportCard(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                            .fillMaxWidth(),
                         title = stringResource(Res.string.support_feature_request_title),
                         icon = Icons.Default.Add,
                         description = stringResource(Res.string.support_feature_request_description),
@@ -141,7 +146,8 @@ public fun SupportScreen(
             viewModel.state.current.value.issueRequestUri?.let { issueRequestUri ->
                 item(key = "SupportIssueCard") {
                     DefaultSupportCard(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                            .fillMaxWidth(),
                         title = stringResource(Res.string.support_issue_title),
                         icon = Icons.Default.BugReport,
                         description = stringResource(Res.string.support_issue_description),
@@ -156,7 +162,8 @@ public fun SupportScreen(
             viewModel.state.current.value.rateAppUri?.let { rateAppUri ->
                 item(key = "RateAppCard") {
                     DefaultSupportCard(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                            .fillMaxWidth()
                             .padding(bottom = 12.dp),
                         title = stringResource(Res.string.support_rate_app_title),
                         icon = Icons.Default.Stars,
