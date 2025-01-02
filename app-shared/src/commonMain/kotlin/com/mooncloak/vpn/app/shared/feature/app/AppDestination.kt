@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SupportAgent
+import androidx.compose.material.icons.filled.VpnLock
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.painter.Painter
@@ -17,6 +18,7 @@ import com.mooncloak.vpn.app.shared.resource.cd_destination_settings
 import com.mooncloak.vpn.app.shared.resource.cd_destination_support
 import com.mooncloak.vpn.app.shared.resource.destination_main_countries_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_home_title
+import com.mooncloak.vpn.app.shared.resource.destination_main_servers_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_support_title
 import com.mooncloak.vpn.app.shared.resource.destination_onboarding_landing_title
@@ -199,6 +201,26 @@ public sealed interface MainDestination : AppDestination {
         override val icon: Painter
             @Composable
             get() = rememberVectorPainter(Icons.Default.Language)
+
+        override val contentDescription: String
+            @Composable
+            get() = stringResource(Res.string.cd_destination_servers)
+    }
+
+    @Serializable
+    @SerialName(value = "servers")
+    @Immutable
+    public data object Servers : MainDestination {
+
+        override val path: String = "/servers"
+
+        override val title: String
+            @Composable
+            get() = stringResource(Res.string.destination_main_servers_title)
+
+        override val icon: Painter
+            @Composable
+            get() = rememberVectorPainter(Icons.Default.VpnLock)
 
         override val contentDescription: String
             @Composable

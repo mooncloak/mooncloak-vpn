@@ -13,6 +13,7 @@
     <string name="destination_main_countries_title">Countries</string>
     <string name="destination_main_support_title">Support</string>
     <string name="destination_main_settings_title">Settings</string>
+    <string name="destination_main_servers_title">Servers</string>
     <string name="destination_root_onboarding_title">Onboarding</string>
     <string name="destination_root_onboarding_auth_title">Authentication Required</string>
     <string name="destination_onboarding_landing_title">Landing</string>
@@ -108,6 +109,9 @@
 
     <string name="country_list_header_label_with_count">%1$s (%2$s)</string>
     <string name="server_list_header_label">Servers</string>
+
+    <string name="server_list_title_no_servers">Unexpected error loading VPN servers</string>
+    <string name="server_list_description_no_servers">There was an unexpected error attempting to load the VPN server list. Please try again later. If the error persists, contact support.</string>
 
     <string name="settings_group_legal">Legal</string>
     <string name="settings_title_privacy_policy">Privacy Policy</string>

@@ -21,8 +21,8 @@ public fun MainDestination.Companion.states(startDestination: MainDestination): 
             selected = startDestination is MainDestination.Home
         ),
         MainDestinationStateModel(
-            destination = MainDestination.Countries,
-            selected = startDestination is MainDestination.Countries
+            destination = MainDestination.Servers,
+            selected = startDestination is MainDestination.Servers
         ),
         MainDestinationStateModel(
             destination = MainDestination.Support,

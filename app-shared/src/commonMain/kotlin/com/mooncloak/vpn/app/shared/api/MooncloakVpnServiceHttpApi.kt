@@ -38,6 +38,7 @@ import com.mooncloak.vpn.app.shared.api.token.TokenTypeHint
 import com.mooncloak.vpn.app.shared.api.token.TransactionToken
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.accept
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
 import io.ktor.client.request.post
@@ -256,6 +257,9 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
 
         val response = httpClient.post("https://mooncloak.com/api/vpn/service/server") {
             token?.value?.let { bearerAuth(it) }
+
+            contentType(ContentType.Application.Json)
+            accept(ContentType.Application.Json)
 
             setBody(pageRequest)
         }

@@ -32,6 +32,7 @@ import com.mooncloak.vpn.app.shared.feature.main.model.MainBottomSheetDestinatio
 import com.mooncloak.vpn.app.shared.feature.main.util.containerColor
 import com.mooncloak.vpn.app.shared.feature.main.util.contentColor
 import com.mooncloak.vpn.app.shared.feature.main.util.floatingActionBarContent
+import com.mooncloak.vpn.app.shared.feature.server.list.ServerListScreen
 import com.mooncloak.vpn.app.shared.feature.settings.SettingsScreen
 import com.mooncloak.vpn.app.shared.feature.support.SupportScreen
 import com.mooncloak.vpn.app.shared.navigation.LocalNavController
@@ -144,6 +145,15 @@ public fun MainScreen(
                         CountryListScreen(
                             modifier = Modifier.fillMaxSize(),
                             containerPaddingValues = paddingValues
+                        )
+                    }
+                    composable<MainDestination.Servers> {
+                        ServerListScreen(
+                            modifier = Modifier.fillMaxSize(),
+                            containerPaddingValues = paddingValues,
+                            onConnect = { server ->
+                                // TODO: Connect to server
+                            }
                         )
                     }
                     composable<MainDestination.Support> {
