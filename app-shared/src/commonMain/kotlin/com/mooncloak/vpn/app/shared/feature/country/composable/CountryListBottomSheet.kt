@@ -28,7 +28,7 @@ import com.mooncloak.vpn.app.shared.composable.FlagImage
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheet
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.country.model.CountryListBottomSheetDestination
-import com.mooncloak.vpn.app.shared.feature.server.list.ServerListScreen
+import com.mooncloak.vpn.app.shared.feature.server.region.RegionServerListScreen
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.cd_action_back
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
@@ -98,7 +98,7 @@ internal fun CountryListBottomSheet(
                     onConnect = onConnectToRegion
                 )
 
-                is CountryListBottomSheetDestination.ServerList -> ServerListScreen(
+                is CountryListBottomSheetDestination.ServerList -> RegionServerListScreen(
                     modifier = Modifier.fillMaxWidth(),
                     country = destination.country,
                     region = destination.region,

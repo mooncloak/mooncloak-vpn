@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.server.list.composable
+package com.mooncloak.vpn.app.shared.feature.server.region.composable
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.width

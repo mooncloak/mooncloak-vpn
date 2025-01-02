@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.server.list
+package com.mooncloak.vpn.app.shared.feature.server.region
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
@@ -29,21 +29,21 @@ import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.server.region.composable.ServerListItem
-import com.mooncloak.vpn.app.shared.feature.server.list.di.createServerListComponent
+import com.mooncloak.vpn.app.shared.feature.server.region.di.createRegionServerListComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.server_list_header_label
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-public fun ServerListScreen(
+public fun RegionServerListScreen(
     country: Country,
     region: Region,
     onConnect: (server: Server) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
-        FeatureDependencies.createServerListComponent(
+        FeatureDependencies.createRegionServerListComponent(
             applicationComponent = applicationComponent,
             presentationComponent = presentationComponent
         )
