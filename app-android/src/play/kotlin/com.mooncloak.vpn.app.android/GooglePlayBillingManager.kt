@@ -161,7 +161,7 @@ internal class GooglePlayBillingManager @Inject internal constructor(
                 title = product.title,
                 description = product.description
             )
-        }
+        }.sortedBy { plan -> plan.price.amount }
     }
 
     override suspend fun getPlan(id: String): ServicePlan =
