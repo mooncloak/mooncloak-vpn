@@ -106,10 +106,7 @@ public fun ApplicationRootScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Column(
-                        modifier = Modifier.sizeIn(
-                            maxWidth = 600.dp,
-                            maxHeight = 800.dp
-                        ).fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         AnimatedVisibility(
                             visible = viewModel.state.current.value.startDestination != null,
