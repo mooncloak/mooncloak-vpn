@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -145,7 +146,9 @@ internal fun LandingLayout(
                 }
 
                 Button(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                        .fillMaxWidth()
+                        .align(Alignment.CenterHorizontally)
                         .padding(top = 16.dp),
                     onClick = onStart
                 ) {
