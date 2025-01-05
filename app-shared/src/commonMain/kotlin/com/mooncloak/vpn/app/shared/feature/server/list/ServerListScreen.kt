@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.server.Server
+import com.mooncloak.vpn.app.shared.api.server.isConnectable
 import com.mooncloak.vpn.app.shared.api.server.isConnected
 import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
@@ -134,7 +135,7 @@ public fun ServerListScreen(
                         connected = connection.isConnected() && connection.server == server,
                         onConnect = {
                             coroutineScope.launch {
-                                if (viewModel.state.current.value.subscription != null || viewModel.state.current.value.connection.isConnected()) {
+                                if (server.isConnectable(hasSubscription = viewModel.state.current.value.subscription != null) || viewModel.state.current.value.connection.isConnected()) {
                                     bottomSheetState.show(ServerListBottomSheetDestination.ServerConnection)
                                 } else {
                                     bottomSheetState.show(ServerListBottomSheetDestination.Payment)

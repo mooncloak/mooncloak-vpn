@@ -1,3 +1,4 @@
+import kotlin.Boolean;
 import kotlinx.datetime.Instant;
 import kotlinx.serialization.json.JsonElement;
 
@@ -22,14 +23,15 @@ CREATE TABLE ServerConnectionRecord (
     connectionTypes TEXT AS JsonElement NOT NULL,
     protocols TEXT AS JsonElement NOT NULL,
     tags TEXT AS JsonElement NOT NULL,
-    note TEXT
+    note TEXT,
+    requiresSubscription INTEGER AS Boolean NOT NULL
 );
 
 CREATE INDEX ServerConnectionRecord_id_index ON ServerConnectionRecord(id);
 
 insert:
-INSERT OR REPLACE INTO ServerConnectionRecord(databaseId, id, created, updated, serverCreated, serverUpdated, connected, starred, name, countryCode, regionCode, country, region, uri, self, ipv4, ipv6, connectionTypes, protocols, tags, note)
-VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?);
+INSERT OR REPLACE INTO ServerConnectionRecord(databaseId, id, created, updated, serverCreated, serverUpdated, connected, starred, name, countryCode, regionCode, country, region, uri, self, ipv4, ipv6, connectionTypes, protocols, tags, note, requiresSubscription)
+VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?);
 
 updateConnectedById:
 UPDATE ServerConnectionRecord

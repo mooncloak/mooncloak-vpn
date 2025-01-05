@@ -2,9 +2,7 @@ package com.mooncloak.vpn.app.shared.api.server
 
 import androidx.compose.runtime.Immutable
 import com.mooncloak.vpn.app.shared.api.location.Country
-import com.mooncloak.vpn.app.shared.api.location.CountryCode
 import com.mooncloak.vpn.app.shared.api.location.Region
-import com.mooncloak.vpn.app.shared.api.location.RegionCode
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -37,6 +35,8 @@ import kotlinx.serialization.Serializable
  * @property [connectionTypes] The [ConnectionType]s that this server supports.
  *
  * @property [protocols] The [VPNProtocol]s that this server supports.
+ *
+ * @property [requiresSubscription] Whether connecting to this server requires a subscription or not.
  */
 @Immutable
 @Serializable
@@ -55,8 +55,19 @@ public data class Server public constructor(
     @SerialName(value = "public_key") public val publicKey: String? = null,
     @SerialName(value = "connection_types") public val connectionTypes: List<ConnectionType> = emptyList(),
     @SerialName(value = "vpn_protocols") public val protocols: List<VPNProtocol> = emptyList(),
-    @SerialName(value = "tags") public val tags: List<String> = emptyList()
+    @SerialName(value = "tags") public val tags: List<String> = emptyList(),
+    @SerialName(value = "subscription") public val requiresSubscription: Boolean = true
 )
 
 public val Server.ipAddress: String?
     inline get() = ipV4Address ?: ipV6Address
+
+/**
+ * Determines whether the current user can connection to this VPN [Server].
+ *
+ * @param [hasSubscription] Whether the user has a valid subscription or not.
+ *
+ * @return `true` if a connection to the VPN server can be made, `false` otherwise.
+ */
+public fun Server.isConnectable(hasSubscription: Boolean): Boolean =
+    (ipAddress != null && publicKey != null) && (!requiresSubscription || hasSubscription)

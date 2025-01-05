@@ -119,7 +119,8 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
                     serializer = ListSerializer(String.serializer()),
                     value = server.tags
                 ),
-                note = note
+                note = note,
+                requiresSubscription = server.requiresSubscription
             )
         }
     }
