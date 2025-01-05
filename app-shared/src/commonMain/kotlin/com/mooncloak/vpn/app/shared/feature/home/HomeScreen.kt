@@ -62,8 +62,6 @@ public fun HomeScreen(
         viewModel.load()
     }
 
-    println("HomeScreen: state: ${viewModel.state.current.value}")
-
     // TODOS:
     // * Recently used VPN service card
     // * Starred VPN service card
@@ -132,7 +130,9 @@ public fun HomeScreen(
                         bytesRemaining = item.bytesRemaining,
                         boost = item.showBoost,
                         onBoost = {
-                            // TODO: Open Boost Flow
+                            coroutineScope.launch {
+                                bottomSheetState.show(destination = HomeBottomSheetDestination.Payment)
+                            }
                         }
                     )
 
@@ -148,7 +148,6 @@ public fun HomeScreen(
                             viewModel.toggleConnection(server = item.server)
                         },
                         onDetails = {
-                            // TODO: Open Server Details Screen
                             coroutineScope.launch {
                                 bottomSheetState.show(HomeBottomSheetDestination.ServerDetails(item.server))
                             }

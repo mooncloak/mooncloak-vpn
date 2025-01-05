@@ -32,13 +32,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.server.Server
+import com.mooncloak.vpn.app.shared.api.server.isConnected
+import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.main.model.MainBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.NoServersCard
+import com.mooncloak.vpn.app.shared.feature.server.list.composable.ServerListBottomSheet
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.ServerListItem
 import com.mooncloak.vpn.app.shared.feature.server.list.di.createServerListComponent
+import com.mooncloak.vpn.app.shared.feature.server.list.model.ServerListBottomSheetDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_servers_title
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -59,6 +65,7 @@ public fun ServerListScreen(
     val lazyListState = rememberLazyListState()
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
+    val bottomSheetState = rememberModalNavigationBottomSheetState<ServerListBottomSheetDestination>()
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -114,6 +121,8 @@ public fun ServerListScreen(
                     key = { server -> server.id },
                     contentType = { "ServerListItem" }
                 ) { server ->
+                    val connection = viewModel.state.current.value.connection
+
                     ServerListItem(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth()
@@ -122,12 +131,21 @@ public fun ServerListScreen(
                                 onConnect.invoke(server)
                             },
                         server = server,
-                        connected = false,
+                        connected = connection.isConnected() && connection.server == server,
                         onConnect = {
-                            // TODO: Open connection
+                            coroutineScope.launch {
+                                if (viewModel.state.current.value.subscription != null || viewModel.state.current.value.connection.isConnected()) {
+                                    bottomSheetState.show(ServerListBottomSheetDestination.ServerConnection)
+                                } else {
+                                    bottomSheetState.show(ServerListBottomSheetDestination.Payment)
+                                }
+                            }
                         },
                         onDetails = {
-                            // TODO: Open details
+                            println("onDetails")
+                            coroutineScope.launch {
+                                bottomSheetState.show(ServerListBottomSheetDestination.ServerDetails(server = server))
+                            }
                         }
                     )
                 }
@@ -145,6 +163,11 @@ public fun ServerListScreen(
             }
         }
     }
+
+    ServerListBottomSheet(
+        modifier = Modifier.fillMaxWidth(),
+        state = bottomSheetState
+    )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {
         viewModel.state.current.value.errorMessage?.let { errorMessage ->
