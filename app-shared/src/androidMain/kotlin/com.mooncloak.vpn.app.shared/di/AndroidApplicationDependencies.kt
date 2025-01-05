@@ -25,7 +25,6 @@ public actual interface ApplicationDependencies {
     public actual val keyValueStorage: KeyValueStorage
     public actual val imageLoaderFactory: SingletonImageLoader.Factory
     public actual val databaseDriverFactory: DatabaseDriverFactory
-    public actual val serverConnectionManager: ServerConnectionManager
     public actual val localNetworkManager: LocalNetworkManager
 
     public val applicationContext: ApplicationContext

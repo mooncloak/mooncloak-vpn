@@ -45,11 +45,6 @@ internal abstract class AndroidDirectApplicationComponent internal constructor(
 
     @Provides
     @Singleton
-    internal fun provideServerConnectionManager(manager: AndroidServerConnectionManager): ServerConnectionManager =
-        manager
-
-    @Provides
-    @Singleton
     internal fun provideLocalNetworkManager(manager: AndroidLocalNetworkManager): LocalNetworkManager = manager
 }
 

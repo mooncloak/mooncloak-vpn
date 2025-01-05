@@ -4,6 +4,7 @@ import androidx.compose.ui.platform.UriHandler
 import com.mooncloak.vpn.app.shared.api.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansProvider
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansRepository
+import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 
 public expect interface PresentationDependencies {
@@ -13,6 +14,7 @@ public expect interface PresentationDependencies {
     public val systemAuthenticationProvider: SystemAuthenticationProvider
     public val plansRepository: ServicePlansRepository
     public val plansProvider: ServicePlansProvider
+    public val serverConnectionManager: ServerConnectionManager
 
     public companion object
 }
