@@ -142,7 +142,6 @@ public fun ServerListScreen(
                             }
                         },
                         onDetails = {
-                            println("onDetails")
                             coroutineScope.launch {
                                 bottomSheetState.show(ServerListBottomSheetDestination.ServerDetails(server = server))
                             }

@@ -47,7 +47,7 @@ internal fun ServerListItem(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        onClick = {}
+        onClick = onDetails
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
@@ -137,7 +137,7 @@ internal fun ServerListItem(
                         MaterialTheme.colorScheme.primary
                     }
                 ),
-                onClick = {}
+                onClick = onConnect
             ) {
                 Text(
                     text = if (connected) {

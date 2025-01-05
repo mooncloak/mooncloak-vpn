@@ -17,8 +17,8 @@ import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 
 @Composable
 internal fun ServerLocationCard(
-    countryName: String,
     serverName: String,
+    countryName: String? = null,
     regionName: String? = null,
     flagImageUri: String? = null,
     modifier: Modifier = Modifier
@@ -30,6 +30,9 @@ internal fun ServerLocationCard(
             contentColor = MaterialTheme.colorScheme.onBackground
         )
     ) {
+        val hasCountryName = !countryName.isNullOrBlank()
+        val hasRegionName = !regionName.isNullOrBlank()
+
         ListItem(
             modifier = Modifier.fillMaxWidth(),
             colors = ListItemDefaults.colors(
@@ -44,22 +47,32 @@ internal fun ServerLocationCard(
             headlineContent = {
                 Text(
                     text = buildString {
-                        append(countryName)
+                        if (hasCountryName) {
+                            append(countryName)
+                        }
 
-                        if (regionName != null) {
-                            append(" - $regionName")
+                        if (hasRegionName) {
+                            if (hasCountryName) {
+                                append(" - $regionName")
+                            } else {
+                                append(regionName)
+                            }
+                        }
+
+                        if (!hasCountryName && !hasRegionName) {
+                            append(serverName)
                         }
                     }
                 )
             },
-            supportingContent = {
+            supportingContent = (@Composable {
                 Text(
                     text = serverName,
                     color = MaterialTheme.colorScheme.onBackground.copy(
                         alpha = SecondaryAlpha
                     )
                 )
-            }
+            }).takeIf { hasCountryName || hasRegionName }
         )
     }
 }
