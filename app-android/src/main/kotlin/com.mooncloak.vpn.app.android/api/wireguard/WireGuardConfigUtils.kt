@@ -1,7 +1,9 @@
 package com.mooncloak.vpn.app.android.api.wireguard
 
 import com.mooncloak.vpn.app.shared.api.server.Server
+import com.mooncloak.vpn.app.shared.api.server.requireIpAddress
 import com.wireguard.config.Config
+import com.wireguard.config.InetEndpoint
 import com.wireguard.config.Interface
 import com.wireguard.config.Peer
 import com.wireguard.crypto.Key
@@ -21,6 +23,15 @@ internal fun Server.toWireGuardConfig(keyPair: KeyPair): Config =
                         this.publicKey
                             ?: error("No Server public key found for server with id '${this.id}'. Cannot connect to server.")
                     )
+                )
+                .setEndpoint(
+                    InetEndpoint.parse(buildString {
+                        append(requireIpAddress())
+
+                        if (port != null) {
+                            append(":$port")
+                        }
+                    })
                 )
                 .build()
         )

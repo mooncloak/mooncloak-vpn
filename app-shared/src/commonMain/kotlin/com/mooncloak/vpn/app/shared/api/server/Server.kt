@@ -50,6 +50,7 @@ public data class Server public constructor(
     @SerialName(value = "updated") public val updated: Instant? = null,
     @SerialName(value = "ipv4") public val ipV4Address: String? = null,
     @SerialName(value = "ipv6") public val ipV6Address: String? = null,
+    @SerialName(value = "port") public val port: Int? = null,
     @SerialName(value = "uri") public val uri: String? = null,
     @SerialName(value = "self") public val self: String? = null,
     @SerialName(value = "public_key") public val publicKey: String? = null,
@@ -61,6 +62,10 @@ public data class Server public constructor(
 
 public val Server.ipAddress: String?
     inline get() = ipV4Address ?: ipV6Address
+
+@Suppress("NOTHING_TO_INLINE")
+public inline fun Server.requireIpAddress(): String =
+    this.ipAddress ?: error("Required IP Address for Server '${this.id}' was missing.")
 
 /**
  * Determines whether the current user can connection to this VPN [Server].
