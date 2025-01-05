@@ -52,14 +52,7 @@
 
         <!-- Services -->
 
-        <service
-            android:name="com.mooncloak.vpn.app.android.service.MooncloakVpnService"
-            android:exported="false"
-            android:permission="android.permission.BIND_VPN_SERVICE">
-            <intent-filter>
-                <action android:name="android.net.VpnService" />
-            </intent-filter>
-        </service>
+        <!-- The WireGuard library includes the VPNService automatically when the manifests are merged -->
 
     </application>
 

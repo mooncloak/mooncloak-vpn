@@ -7,7 +7,7 @@ import com.wireguard.config.Peer
 import com.wireguard.crypto.Key
 import com.wireguard.crypto.KeyPair
 
-internal fun Server.wireguardConfig(keyPair: KeyPair): Config =
+internal fun Server.toWireGuardConfig(keyPair: KeyPair): Config =
     Config.Builder()
         .setInterface(
             Interface.Builder()
@@ -18,7 +18,8 @@ internal fun Server.wireguardConfig(keyPair: KeyPair): Config =
             Peer.Builder()
                 .setPublicKey(
                     Key.fromBase64(
-                        this.publicKey ?: error("Servers public key was `null`. Cannot connect to server.")
+                        this.publicKey
+                            ?: error("No Server public key found for server with id '${this.id}'. Cannot connect to server.")
                     )
                 )
                 .build()
