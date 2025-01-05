@@ -43,7 +43,7 @@ import kotlinx.serialization.Serializable
 public data class Server public constructor(
     @SerialName(value = "id") public val id: String,
     @SerialName(value = "name") public val name: String,
-    @SerialName(value = "country") public val country: Country,
+    @SerialName(value = "country") public val country: Country? = null,
     @SerialName(value = "region") public val region: Region? = null,
     @SerialName(value = "status") public val status: ServerStatus? = null,
     @SerialName(value = "created") public val created: Instant? = null,

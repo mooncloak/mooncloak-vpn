@@ -2,6 +2,7 @@ package com.mooncloak.vpn.app.shared.feature.server.list
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -91,7 +92,8 @@ public fun ServerListScreen(
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
                 state = lazyListState,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item(key = "TopSpacing") {
                     Spacer(modifier = Modifier.height(containerPaddingValues.calculateTopPadding()))
@@ -115,10 +117,18 @@ public fun ServerListScreen(
                     ServerListItem(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
                             .clickable(enabled = server.status?.active == true && server.status.connectable) {
                                 onConnect.invoke(server)
                             },
-                        server = server
+                        server = server,
+                        connected = false,
+                        onConnect = {
+                            // TODO: Open connection
+                        },
+                        onDetails = {
+                            // TODO: Open details
+                        }
                     )
                 }
 

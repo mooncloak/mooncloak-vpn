@@ -89,12 +89,14 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
                 connected = lastConnected,
                 starred = starred,
                 name = server.name,
-                countryCode = server.country.code.value,
+                countryCode = server.country?.code?.value,
                 regionCode = server.region?.code?.value,
-                country = json.encodeToJsonElement(
-                    serializer = Country.serializer(),
-                    value = server.country
-                ),
+                country = server.country?.let { country ->
+                    json.encodeToJsonElement(
+                        serializer = Country.serializer(),
+                        value = country
+                    )
+                },
                 region = server.region?.let { region ->
                     json.encodeToJsonElement(
                         serializer = Region.serializer(),
@@ -170,10 +172,12 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
             server = Server(
                 id = this.id,
                 name = this.name,
-                country = json.decodeFromJsonElement(
-                    deserializer = Country.serializer(),
-                    element = this.country
-                ),
+                country = this.country?.let { element ->
+                    json.decodeFromJsonElement(
+                        deserializer = Country.serializer(),
+                        element = element
+                    )
+                },
                 region = this.region?.let {
                     json.decodeFromJsonElement(
                         deserializer = Region.serializer(),
@@ -207,10 +211,12 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
             server = Server(
                 id = this.id,
                 name = this.name,
-                country = json.decodeFromJsonElement(
-                    deserializer = Country.serializer(),
-                    element = this.country
-                ),
+                country = this.country?.let { element ->
+                    json.decodeFromJsonElement(
+                        deserializer = Country.serializer(),
+                        element = element
+                    )
+                },
                 region = this.region?.let {
                     json.decodeFromJsonElement(
                         deserializer = Region.serializer(),
@@ -244,10 +250,12 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
             server = Server(
                 id = this.id,
                 name = this.name,
-                country = json.decodeFromJsonElement(
-                    deserializer = Country.serializer(),
-                    element = this.country
-                ),
+                country = this.country?.let { element ->
+                    json.decodeFromJsonElement(
+                        deserializer = Country.serializer(),
+                        element = element
+                    )
+                },
                 region = this.region?.let {
                     json.decodeFromJsonElement(
                         deserializer = Region.serializer(),
