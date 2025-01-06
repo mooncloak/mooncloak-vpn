@@ -42,7 +42,7 @@ public sealed interface ServerConnection {
     @Serializable
     @SerialName(value = "disconnecting")
     public data class Disconnecting public constructor(
-        @SerialName(value = "server") public val server: Server,
+        @SerialName(value = "server") public val server: Server? = null,
         @SerialName(value = "timestamp") public val timestamp: Instant
     ) : ServerConnection {
 
@@ -52,7 +52,9 @@ public sealed interface ServerConnection {
 
     @Serializable
     @SerialName(value = "disconnected")
-    public data object Disconnected : ServerConnection {
+    public data class Disconnected public constructor(
+        @SerialName(value = "error") public val errorMessage: String? = null
+    ) : ServerConnection {
 
         @Transient
         override val status: ServerConnectionStatus = ServerConnectionStatus.Disconnected

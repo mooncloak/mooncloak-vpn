@@ -5,7 +5,7 @@ import com.mooncloak.vpn.app.shared.api.server.ServerConnection
 
 @Immutable
 public data class ServerConnectionStateModel public constructor(
-    public val connection: ServerConnection = ServerConnection.Disconnected,
+    public val connection: ServerConnection = ServerConnection.Disconnected(),
     public val isLoading: Boolean = false,
     public val errorMessage: String? = null
 )

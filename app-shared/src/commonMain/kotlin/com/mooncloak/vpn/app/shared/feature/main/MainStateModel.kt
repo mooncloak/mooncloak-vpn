@@ -14,6 +14,6 @@ public data class MainStateModel public constructor(
     public val destinationStates: Set<MainDestinationStateModel> = MainDestination.states(
         startDestination = startDestination
     ),
-    public val serverConnection: ServerConnection = ServerConnection.Disconnected,
+    public val serverConnection: ServerConnection = ServerConnection.Disconnected(),
     public val subscription: ServiceSubscription? = null
 )

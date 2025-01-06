@@ -15,6 +15,7 @@ import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerConnectedLayout
 import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerConnectingLayout
+import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerConnectionErrorLayout
 import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerDisconnectedLayout
 import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerDisconnectingLayout
 import com.mooncloak.vpn.app.shared.feature.server.connection.di.createServerConnectionComponent
@@ -64,13 +65,20 @@ public fun ServerConnectionScreen(
                     }
                 )
 
-                is ServerConnection.Disconnected -> ServerDisconnectedLayout(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    onConnect = {
-                        viewModel.connect()
-                    }
-                )
+                is ServerConnection.Disconnected -> if (connection.errorMessage != null) {
+                    ServerConnectionErrorLayout(
+                        modifier = Modifier.fillMaxWidth(),
+                        message = connection.errorMessage
+                    )
+                } else {
+                    ServerDisconnectedLayout(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        onConnect = {
+                            viewModel.connect()
+                        }
+                    )
+                }
             }
         }
     }

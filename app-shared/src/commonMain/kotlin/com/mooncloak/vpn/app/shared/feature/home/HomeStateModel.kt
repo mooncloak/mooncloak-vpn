@@ -13,7 +13,7 @@ public data class HomeStateModel public constructor(
     public val subscription: ServiceSubscription? = null,
     public val localNetwork: LocalNetworkInfo? = null,
     public val servers: List<Server> = emptyList(),
-    public val connection: ServerConnection = ServerConnection.Disconnected,
+    public val connection: ServerConnection = ServerConnection.Disconnected(),
     public val items: List<HomeFeedItem> = emptyList(),
     public val isCheckingStatus: Boolean = true,
     public val isLoading: Boolean = false,

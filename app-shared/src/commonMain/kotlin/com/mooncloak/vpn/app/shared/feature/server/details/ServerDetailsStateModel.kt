@@ -13,7 +13,7 @@ public data class ServerDetailsStateModel public constructor(
     public val server: Server? = null,
     public val country: Country? = null,
     public val region: Region? = null,
-    public val connection: ServerConnection = ServerConnection.Disconnected,
+    public val connection: ServerConnection = ServerConnection.Disconnected(),
     public val lastConnected: Instant? = null,
     public val localNetworkInfo: LocalNetworkInfo? = null,
     public val isLoading: Boolean = false,
