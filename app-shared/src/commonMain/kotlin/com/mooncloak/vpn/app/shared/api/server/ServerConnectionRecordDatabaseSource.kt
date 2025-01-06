@@ -107,6 +107,8 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
                 self = server.self,
                 ipv4 = server.ipV4Address,
                 ipv6 = server.ipV6Address,
+                hostname = server.hostname,
+                port = server.port?.toLong(),
                 connectionTypes = json.encodeToJsonElement(
                     serializer = ListSerializer(ConnectionType.serializer()),
                     value = server.connectionTypes
@@ -192,6 +194,8 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
                 self = this.self,
                 ipV4Address = this.ipv4,
                 ipV6Address = this.ipv6,
+                hostname = this.hostname,
+                port = this.port?.toInt(),
                 connectionTypes = json.decodeFromJsonElement(
                     deserializer = ListSerializer(ConnectionType.serializer()),
                     element = this.connectionTypes
@@ -231,6 +235,8 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
                 self = this.self,
                 ipV4Address = this.ipv4,
                 ipV6Address = this.ipv6,
+                hostname = this.hostname,
+                port = this.port?.toInt(),
                 connectionTypes = json.decodeFromJsonElement(
                     deserializer = ListSerializer(ConnectionType.serializer()),
                     element = this.connectionTypes
@@ -270,6 +276,8 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
                 self = this.self,
                 ipV4Address = this.ipv4,
                 ipV6Address = this.ipv6,
+                hostname = this.hostname,
+                port = this.port?.toInt(),
                 connectionTypes = json.decodeFromJsonElement(
                     deserializer = ListSerializer(ConnectionType.serializer()),
                     element = this.connectionTypes

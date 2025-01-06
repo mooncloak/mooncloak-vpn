@@ -50,6 +50,7 @@ public data class Server public constructor(
     @SerialName(value = "updated") public val updated: Instant? = null,
     @SerialName(value = "ipv4") public val ipV4Address: String? = null,
     @SerialName(value = "ipv6") public val ipV6Address: String? = null,
+    @SerialName(value = "hostname") public val hostname: String? = null,
     @SerialName(value = "port") public val port: Int? = null,
     @SerialName(value = "uri") public val uri: String? = null,
     @SerialName(value = "self") public val self: String? = null,
@@ -66,6 +67,29 @@ public val Server.ipAddress: String?
 @Suppress("NOTHING_TO_INLINE")
 public inline fun Server.requireIpAddress(): String =
     this.ipAddress ?: error("Required IP Address for Server '${this.id}' was missing.")
+
+@Suppress("NOTHING_TO_INLINE")
+public inline fun Server.requireWireGuardEndpoint(): String {
+    if (!uri.isNullOrBlank()) {
+        if (uri.startsWith("wireguard://")) {
+            return uri.removePrefix("wireguard://")
+        } else if (uri.startsWith("wg://")) {
+            return uri.removePrefix("wg://")
+        }
+    }
+
+    val host = this.hostname
+        ?: this.ipAddress
+        ?: error("Required IP Address for Server '${this.id}' was missing.")
+
+    return buildString {
+        append(host)
+
+        if (port != null) {
+            append(":$port")
+        }
+    }
+}
 
 /**
  * Determines whether the current user can connection to this VPN [Server].
