@@ -2,10 +2,11 @@ package com.mooncloak.vpn.app.android.api.server
 
 import android.app.Activity
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.vpn.app.android.api.wireguard.AndroidWireGuardConnectionKeyManager
+import com.mooncloak.vpn.app.android.api.wireguard.AndroidWireGuardConnectionKeyPair
 import com.mooncloak.vpn.app.android.api.wireguard.WireGuardTunnel
 import com.mooncloak.vpn.app.android.api.wireguard.toWireGuardConfig
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.ServerConnection
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
@@ -20,7 +21,7 @@ internal class AndroidServerConnectionManager @Inject internal constructor(
     private val context: Activity,
     private val api: MooncloakVpnServiceHttpApi,
     private val subscriptionStorage: SubscriptionStorage,
-    private val connectionKeyManager: AndroidWireGuardConnectionKeyManager
+    private val connectionKeyPairResolver: WireGuardConnectionKeyPairResolver
 ) : ServerConnectionManager {
 
     override val connection: StateFlow<ServerConnection>
@@ -37,8 +38,8 @@ internal class AndroidServerConnectionManager @Inject internal constructor(
             context.startActivityForResult(intent, REQUEST_CODE)
         }
 
-        val keyPair = connectionKeyManager.get()
-            ?: error("No connection KeyPair found. Make sure you are registered with the mooncloak VPN service.")
+        // FIXME: Cast
+        val keyPair = connectionKeyPairResolver.resolve() as AndroidWireGuardConnectionKeyPair
 
         val wireGuardConfig = server.toWireGuardConfig(keyPair.keyPair)
         val tunnel = WireGuardTunnel(name = server.name)

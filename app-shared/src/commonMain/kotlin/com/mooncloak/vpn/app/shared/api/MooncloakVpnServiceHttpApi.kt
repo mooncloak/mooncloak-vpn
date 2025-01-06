@@ -219,6 +219,8 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         val response = httpClient.post("https://mooncloak.com/api/vpn/service/client/register") {
             token?.value?.let { bearerAuth(it) }
 
+            contentType(ContentType.Application.Json)
+
             setBody(ClientRegistrationRequestBody(publicKey = clientPublicKey))
         }
 

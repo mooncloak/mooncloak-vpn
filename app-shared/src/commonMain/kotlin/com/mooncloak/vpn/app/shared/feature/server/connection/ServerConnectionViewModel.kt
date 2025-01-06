@@ -4,6 +4,7 @@ import androidx.compose.runtime.Stable
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
+import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
 import com.mooncloak.kodetools.pagex.getOrNull
 import com.mooncloak.kodetools.statex.ViewModel
@@ -80,7 +81,7 @@ public class ServerConnectionViewModel @Inject public constructor(
                         serverConnectionManager.connect(server)
                     }
                 } catch (e: Exception) {
-                    LogPile.error(message = "Error connecting to VPN server.", cause = e)
+                    LogPile.error(message = "Error connecting to VPN server. ${e.message}", cause = e)
 
                     emit(
                         value = state.current.value.copy(
