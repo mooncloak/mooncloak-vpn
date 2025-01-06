@@ -2,7 +2,7 @@ package com.mooncloak.vpn.app.android.api.server
 
 import android.app.Activity
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.vpn.app.android.api.wireguard.WireGuardConnectionKeyManager
+import com.mooncloak.vpn.app.android.api.wireguard.AndroidWireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.android.api.wireguard.WireGuardTunnel
 import com.mooncloak.vpn.app.android.api.wireguard.toWireGuardConfig
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
@@ -20,7 +20,7 @@ internal class AndroidServerConnectionManager @Inject internal constructor(
     private val context: Activity,
     private val api: MooncloakVpnServiceHttpApi,
     private val subscriptionStorage: SubscriptionStorage,
-    private val connectionKeyManager: WireGuardConnectionKeyManager
+    private val connectionKeyManager: AndroidWireGuardConnectionKeyManager
 ) : ServerConnectionManager {
 
     override val connection: StateFlow<ServerConnection>
@@ -40,7 +40,7 @@ internal class AndroidServerConnectionManager @Inject internal constructor(
         val keyPair = connectionKeyManager.get()
             ?: error("No connection KeyPair found. Make sure you are registered with the mooncloak VPN service.")
 
-        val wireGuardConfig = server.toWireGuardConfig(keyPair)
+        val wireGuardConfig = server.toWireGuardConfig(keyPair.keyPair)
         val tunnel = WireGuardTunnel(name = server.name)
 
         backend.setState(

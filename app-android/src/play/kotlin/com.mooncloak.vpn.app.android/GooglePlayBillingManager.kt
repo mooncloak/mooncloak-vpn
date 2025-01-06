@@ -16,13 +16,13 @@ import com.android.billingclient.api.queryProductDetails
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
-import com.mooncloak.vpn.app.android.api.wireguard.WireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.billing.PaymentProvider
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.billing.ProofOfPurchase
 import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptRepository
+import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlan
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansApiSource
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetails
@@ -52,7 +52,7 @@ internal class GooglePlayBillingManager @Inject internal constructor(
     private val serviceTokensRepository: ServiceTokensRepository,
     private val subscriptionStorage: SubscriptionStorage,
     private val servicePurchaseReceiptRepository: ServicePurchaseReceiptRepository,
-    private val keyManager: WireGuardConnectionKeyManager
+    private val keyResolver: WireGuardConnectionKeyPairResolver
 ) : BillingManager,
     ServicePlansRepository {
 
@@ -248,7 +248,9 @@ internal class GooglePlayBillingManager @Inject internal constructor(
 
         val tokens = getTokens(proofOfPurchase)
         val subscription = getSubscription(tokens)
+
         registerPublicKey(tokens)
+
         val accessDetails = ServiceAccessDetails(
             tokens = tokens,
             subscription = subscription
@@ -280,10 +282,10 @@ internal class GooglePlayBillingManager @Inject internal constructor(
 
     private suspend fun registerPublicKey(tokens: ServiceTokens) {
         withContext(Dispatchers.IO) {
-            val keyPair = keyManager.generateAndStore()
+            val keyPair = keyResolver.resolve()
 
             api.registerClient(
-                clientPublicKey = keyPair.publicKey.toBase64(),
+                clientPublicKey = keyPair.publicKey,
                 token = tokens.accessToken
             )
         }

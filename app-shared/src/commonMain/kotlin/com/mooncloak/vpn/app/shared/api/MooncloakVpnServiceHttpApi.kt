@@ -19,6 +19,7 @@ import com.mooncloak.vpn.app.shared.api.billing.GetPaymentInvoiceRequestBody
 import com.mooncloak.vpn.app.shared.api.billing.GetPaymentStatusRequestBody
 import com.mooncloak.vpn.app.shared.api.billing.PlanPaymentStatus
 import com.mooncloak.vpn.app.shared.api.billing.ProofOfPurchase
+import com.mooncloak.vpn.app.shared.api.key.Base64Key
 import com.mooncloak.vpn.app.shared.api.location.Country
 import com.mooncloak.vpn.app.shared.api.location.CountryCode
 import com.mooncloak.vpn.app.shared.api.location.CountryFilters
@@ -212,11 +213,11 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun registerClient(
-        clientPublicKey: String,
-        token: Token
+        clientPublicKey: Base64Key,
+        token: Token?
     ): ClientRegistrationResponseBody {
         val response = httpClient.post("https://mooncloak.com/api/vpn/service/client/register") {
-            bearerAuth(token.value)
+            token?.value?.let { bearerAuth(it) }
 
             setBody(ClientRegistrationRequestBody(publicKey = clientPublicKey))
         }

@@ -7,10 +7,10 @@ import com.mooncloak.kodetools.storagex.keyvalue.KeyValueStorage
 import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
 import com.mooncloak.kodetools.storagex.keyvalue.Settings
 import com.mooncloak.vpn.app.android.info.AndroidAppClientInfo
-import com.mooncloak.vpn.app.android.api.server.AndroidServerConnectionManager
+import com.mooncloak.vpn.app.android.api.wireguard.AndroidWireGuardConnectionKeyManager
+import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.shared.api.network.AndroidLocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
-import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.storage.database.AndroidDatabaseDriverFactory
@@ -43,6 +43,11 @@ internal abstract class AndroidGooglePlayApplicationComponent internal construct
     @Provides
     @Singleton
     internal fun provideLocalNetworkManager(manager: AndroidLocalNetworkManager): LocalNetworkManager = manager
+
+    @Provides
+    @Singleton
+    internal fun provideWireGuardConnectionKeyManager(manager: AndroidWireGuardConnectionKeyManager): WireGuardConnectionKeyManager =
+        manager
 }
 
 internal fun ApplicationComponent.Companion.create(

@@ -2,8 +2,8 @@ package com.mooncloak.vpn.app.shared.di
 
 import coil3.SingletonImageLoader
 import com.mooncloak.kodetools.logpile.core.Logger
+import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
-import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.storage.KeyValueStorage
 import com.mooncloak.vpn.app.shared.storage.database.DatabaseDriverFactory
@@ -26,6 +26,7 @@ public actual interface ApplicationDependencies {
     public actual val imageLoaderFactory: SingletonImageLoader.Factory
     public actual val databaseDriverFactory: DatabaseDriverFactory
     public actual val localNetworkManager: LocalNetworkManager
+    public actual val wireGuardConnectionKeyManager: WireGuardConnectionKeyManager
 
     public val applicationContext: ApplicationContext
 

@@ -17,6 +17,7 @@ public actual interface PresentationDependencies {
     public actual val plansRepository: ServicePlansRepository
     public actual val plansProvider: ServicePlansProvider
     public actual val serverConnectionManager: ServerConnectionManager
+
     public val activityContext: ActivityContext
     public val activity: Activity
 

@@ -46,6 +46,11 @@ internal abstract class AndroidDirectApplicationComponent internal constructor(
     @Provides
     @Singleton
     internal fun provideLocalNetworkManager(manager: AndroidLocalNetworkManager): LocalNetworkManager = manager
+
+    @Provides
+    @Singleton
+    internal fun provideWireGuardConnectionKeyManager(manager: AndroidWireGuardConnectionKeyManager): WireGuardConnectionKeyManager =
+        manager
 }
 
 internal fun ApplicationComponent.Companion.create(
