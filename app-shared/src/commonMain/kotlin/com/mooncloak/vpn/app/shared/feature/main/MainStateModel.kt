@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.main
 
 import androidx.compose.runtime.Immutable
+import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
@@ -14,5 +15,7 @@ public data class MainStateModel public constructor(
         startDestination = startDestination
     ),
     public val connection: VPNConnection = VPNConnection.Disconnected(),
-    public val subscription: ServiceSubscription? = null
+    public val subscription: ServiceSubscription? = null,
+    public val defaultServer: Server? = null,
+    public val errorMessage: String? = null
 )

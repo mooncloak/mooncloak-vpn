@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mooncloak.vpn.app.shared.api.server.isConnectable
 import com.mooncloak.vpn.app.shared.api.vpn.isConnected
 import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
@@ -123,8 +124,15 @@ public fun MainScreen(
                 contentColor = contentColor.value,
                 onClick = {
                     coroutineScope.launch {
-                        if (viewModel.state.current.value.subscription != null || viewModel.state.current.value.connection.isConnected()) {
-                            bottomSheetState.show(MainBottomSheetDestination.ServerConnection())
+                        if (
+                            viewModel.state.current.value.defaultServer?.isConnectable(hasSubscription = viewModel.state.current.value.subscription != null) == true
+                            || viewModel.state.current.value.connection.isConnected()
+                        ) {
+                            bottomSheetState.show(
+                                MainBottomSheetDestination.ServerConnection(
+                                    server = viewModel.state.current.value.defaultServer
+                                )
+                            )
                         } else {
                             bottomSheetState.show(MainBottomSheetDestination.SelectPlan)
                         }

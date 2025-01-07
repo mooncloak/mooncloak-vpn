@@ -12,6 +12,9 @@ import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
+import com.mooncloak.vpn.app.shared.feature.server.connection.usecase.GetDefaultServerUseCase
+import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -23,13 +26,15 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import org.jetbrains.compose.resources.getString
 
 @Stable
 @FeatureScoped
 public class MainViewModel @Inject public constructor(
     private val navController: NavController,
     private val subscriptionStorage: SubscriptionStorage,
-    private val serverConnectionManager: VPNConnectionManager
+    private val serverConnectionManager: VPNConnectionManager,
+    private val getDefaultServer: GetDefaultServerUseCase
 ) : ViewModel<MainStateModel>(initialStateValue = MainStateModel()) {
 
     private val mutex = Mutex(locked = false)
@@ -39,20 +44,37 @@ public class MainViewModel @Inject public constructor(
 
     @OptIn(ExperimentalPersistentStateAPI::class)
     public fun load() {
-        subscriptionJob?.cancel()
-        subscriptionJob = subscriptionStorage.subscription.flow
-            .onEach { subscription -> emit { current -> current.copy(subscription = subscription) } }
-            .onStart { emit { current -> current.copy(subscription = subscriptionStorage.subscription.current.value) } }
-            .catch { e -> LogPile.error(message = "Error listening to subscription changes.", cause = e) }
-            .flowOn(Dispatchers.Main)
-            .launchIn(coroutineScope)
+        coroutineScope.launch {
+            try {
+                val defaultServer = getDefaultServer.invoke()
 
-        serverConnectionJob?.cancel()
-        serverConnectionJob = serverConnectionManager.connection
-            .onEach { connection -> emit { current -> current.copy(connection = connection) } }
-            .catch { e -> LogPile.error(message = "Error listening to server connection changes.", cause = e) }
-            .flowOn(Dispatchers.Main)
-            .launchIn(coroutineScope)
+                emit(
+                    value = state.current.value.copy(
+                        defaultServer = defaultServer,
+                        errorMessage = null
+                    )
+                )
+            } catch (e: Exception) {
+                LogPile.error(message = "Error retrieving default server.", cause = e)
+
+                emit(value = state.current.value.copy(errorMessage = getString(Res.string.global_unexpected_error)))
+            }
+
+            subscriptionJob?.cancel()
+            subscriptionJob = subscriptionStorage.subscription.flow
+                .onEach { subscription -> emit { current -> current.copy(subscription = subscription) } }
+                .onStart { emit { current -> current.copy(subscription = subscriptionStorage.subscription.current.value) } }
+                .catch { e -> LogPile.error(message = "Error listening to subscription changes.", cause = e) }
+                .flowOn(Dispatchers.Main)
+                .launchIn(coroutineScope)
+
+            serverConnectionJob?.cancel()
+            serverConnectionJob = serverConnectionManager.connection
+                .onEach { connection -> emit { current -> current.copy(connection = connection) } }
+                .catch { e -> LogPile.error(message = "Error listening to server connection changes.", cause = e) }
+                .flowOn(Dispatchers.Main)
+                .launchIn(coroutineScope)
+        }
     }
 
     public fun init(startDestination: MainDestination) {
