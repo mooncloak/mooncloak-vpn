@@ -8,7 +8,7 @@ import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
-import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
+import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
@@ -29,7 +29,7 @@ import org.jetbrains.compose.resources.getString
 public class ServerListViewModel @Inject public constructor(
     private val api: MooncloakVpnServiceHttpApi,
     private val subscriptionStorage: SubscriptionStorage,
-    private val serverConnectionManager: ServerConnectionManager
+    private val serverConnectionManager: VPNConnectionManager
 ) : ViewModel<ServerListStateModel>(initialStateValue = ServerListStateModel()) {
 
     private var connectionJob: Job? = null

@@ -5,10 +5,10 @@ import androidx.compose.ui.platform.UriHandler
 import com.mooncloak.kodetools.konstruct.annotations.Component
 import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.vpn.app.android.GooglePlayBillingManager
-import com.mooncloak.vpn.app.android.api.server.AndroidServerConnectionManager
+import com.mooncloak.vpn.app.android.api.server.AndroidVPNConnectionManager
 import com.mooncloak.vpn.app.shared.api.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansRepository
-import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
+import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationScoped
@@ -40,7 +40,7 @@ internal abstract class AndroidPresentationComponent internal constructor(
 
     @Provides
     @PresentationScoped
-    internal fun provideServerConnectionManager(manager: AndroidServerConnectionManager): ServerConnectionManager =
+    internal fun provideServerConnectionManager(manager: AndroidVPNConnectionManager): VPNConnectionManager =
         manager
 }
 

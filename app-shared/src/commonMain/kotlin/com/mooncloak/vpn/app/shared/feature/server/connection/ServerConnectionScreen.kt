@@ -10,7 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.api.server.ServerConnection
+import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerConnectedLayout
@@ -45,16 +45,16 @@ public fun ServerConnectionScreen(
             targetState = viewModel.state.current.value.connection
         ) { connection ->
             when (connection) {
-                is ServerConnection.Connecting -> ServerConnectingLayout(
+                is VPNConnection.Connecting -> ServerConnectingLayout(
                     modifier = Modifier.fillMaxWidth(),
                     server = connection.server
                 )
 
-                is ServerConnection.Disconnecting -> ServerDisconnectingLayout(
+                is VPNConnection.Disconnecting -> ServerDisconnectingLayout(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                is ServerConnection.Connected -> ServerConnectedLayout(
+                is VPNConnection.Connected -> ServerConnectedLayout(
                     modifier = Modifier.fillMaxWidth(),
                     server = connection.server,
                     timestamp = connection.timestamp,
@@ -65,7 +65,7 @@ public fun ServerConnectionScreen(
                     }
                 )
 
-                is ServerConnection.Disconnected -> if (connection.errorMessage != null) {
+                is VPNConnection.Disconnected -> if (connection.errorMessage != null) {
                     ServerConnectionErrorLayout(
                         modifier = Modifier.fillMaxWidth(),
                         message = connection.errorMessage

@@ -8,11 +8,11 @@ import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkInfo
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
+import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecord
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.app.shared.api.server.getOrNull
-import com.mooncloak.vpn.app.shared.api.server.isDisconnected
+import com.mooncloak.vpn.app.shared.api.vpn.isDisconnected
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
@@ -30,7 +30,7 @@ import org.jetbrains.compose.resources.getString
 @Stable
 @FeatureScoped
 public class ServerDetailsViewModel @Inject public constructor(
-    private val serverConnectionManager: ServerConnectionManager,
+    private val serverConnectionManager: VPNConnectionManager,
     private val serverConnectionRecordRepository: ServerConnectionRecordRepository,
     private val localNetworkManager: LocalNetworkManager
 ) : ViewModel<ServerDetailsStateModel>(initialStateValue = ServerDetailsStateModel()) {

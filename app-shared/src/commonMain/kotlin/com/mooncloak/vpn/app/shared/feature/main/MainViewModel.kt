@@ -9,7 +9,7 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
-import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
+import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
@@ -29,7 +29,7 @@ import kotlinx.coroutines.sync.withLock
 public class MainViewModel @Inject public constructor(
     private val navController: NavController,
     private val subscriptionStorage: SubscriptionStorage,
-    private val serverConnectionManager: ServerConnectionManager
+    private val serverConnectionManager: VPNConnectionManager
 ) : ViewModel<MainStateModel>(initialStateValue = MainStateModel()) {
 
     private val mutex = Mutex(locked = false)
@@ -49,7 +49,7 @@ public class MainViewModel @Inject public constructor(
 
         serverConnectionJob?.cancel()
         serverConnectionJob = serverConnectionManager.connection
-            .onEach { connection -> emit { current -> current.copy(serverConnection = connection) } }
+            .onEach { connection -> emit { current -> current.copy(VPNConnection = connection) } }
             .catch { e -> LogPile.error(message = "Error listening to server connection changes.", cause = e) }
             .flowOn(Dispatchers.Main)
             .launchIn(coroutineScope)

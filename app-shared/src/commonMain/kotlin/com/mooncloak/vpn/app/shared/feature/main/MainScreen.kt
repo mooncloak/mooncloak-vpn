@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.mooncloak.vpn.app.shared.api.server.isConnected
+import com.mooncloak.vpn.app.shared.api.vpn.isConnected
 import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
@@ -111,10 +111,10 @@ public fun MainScreen(
         },
         floatingActionButton = {
             val containerColor = animateColorAsState(
-                targetValue = viewModel.state.current.value.serverConnection.status.containerColor
+                targetValue = viewModel.state.current.value.VPNConnection.status.containerColor
             )
             val contentColor = animateColorAsState(
-                targetValue = viewModel.state.current.value.serverConnection.status.contentColor
+                targetValue = viewModel.state.current.value.VPNConnection.status.contentColor
             )
 
             FloatingActionButton(
@@ -123,7 +123,7 @@ public fun MainScreen(
                 contentColor = contentColor.value,
                 onClick = {
                     coroutineScope.launch {
-                        if (viewModel.state.current.value.subscription != null || viewModel.state.current.value.serverConnection.isConnected()) {
+                        if (viewModel.state.current.value.subscription != null || viewModel.state.current.value.VPNConnection.isConnected()) {
                             bottomSheetState.show(MainBottomSheetDestination.ServerConnection)
                         } else {
                             bottomSheetState.show(MainBottomSheetDestination.SelectPlan)
@@ -131,7 +131,7 @@ public fun MainScreen(
                     }
                 },
                 content = {
-                    viewModel.state.current.value.serverConnection.status.floatingActionBarContent()
+                    viewModel.state.current.value.VPNConnection.status.floatingActionBarContent()
                 }
             )
         },

@@ -18,8 +18,8 @@ import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkInfo
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.server.ServerConnection
-import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
+import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
+import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
@@ -59,7 +59,7 @@ import org.jetbrains.compose.resources.stringResource
 public class HomeViewModel @Inject public constructor(
     appClientInfo: AppClientInfo,
     private val subscriptionStorage: SubscriptionStorage,
-    private val serverConnectionManager: ServerConnectionManager,
+    private val serverConnectionManager: VPNConnectionManager,
     private val localNetworkManager: LocalNetworkManager
 ) : ViewModel<HomeStateModel>(initialStateValue = HomeStateModel()) {
 
@@ -174,7 +174,7 @@ public class HomeViewModel @Inject public constructor(
                 try {
                     val currentConnection = state.current.value.connection
 
-                    if (currentConnection is ServerConnection.Connected && currentConnection.server == server) {
+                    if (currentConnection is VPNConnection.Connected && currentConnection.server == server) {
                         serverConnectionManager.disconnect()
                     } else {
                         serverConnectionManager.connect(server)

@@ -2,7 +2,7 @@ package com.mooncloak.vpn.app.shared.api.location
 
 import androidx.compose.runtime.Immutable
 import com.mooncloak.vpn.app.shared.api.server.ConnectionType
-import com.mooncloak.vpn.app.shared.api.server.VPNProtocol
+import com.mooncloak.vpn.app.shared.api.vpn.VPNProtocol
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

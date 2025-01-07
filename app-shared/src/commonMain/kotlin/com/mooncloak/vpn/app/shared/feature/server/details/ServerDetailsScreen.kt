@@ -18,7 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.server.ServerConnection
+import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.api.server.ipAddress
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
@@ -102,7 +102,7 @@ public fun ServerDetailsScreen(
                     )
                 }
 
-                (viewModel.state.current.value.connection as? ServerConnection.Connected)?.let { connection ->
+                (viewModel.state.current.value.connection as? VPNConnection.Connected)?.let { connection ->
                     item(key = "ServerSpeedItem") {
                         SpeedCard(
                             modifier = Modifier.fillMaxWidth(),
@@ -142,7 +142,7 @@ public fun ServerDetailsScreen(
                 )
             }
 
-            if (viewModel.state.current.value.connection is ServerConnection.Connecting) {
+            if (viewModel.state.current.value.connection is VPNConnection.Connecting) {
                 item(key = "ConnectionItem") {
                     LoadingCard(
                         modifier = Modifier.fillMaxWidth()
@@ -157,7 +157,7 @@ public fun ServerDetailsScreen(
                     onClick = {
                         viewModel.toggleConnection()
                     },
-                    enabled = viewModel.state.current.value.connection !is ServerConnection.Connecting
+                    enabled = viewModel.state.current.value.connection !is VPNConnection.Connecting
                 ) {
                     Text(
                         text = if (viewModel.state.current.value.isConnectedServer) {

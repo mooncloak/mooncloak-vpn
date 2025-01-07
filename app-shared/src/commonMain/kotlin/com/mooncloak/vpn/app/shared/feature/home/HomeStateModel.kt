@@ -3,7 +3,7 @@ package com.mooncloak.vpn.app.shared.feature.home
 import androidx.compose.runtime.Immutable
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkInfo
 import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.server.ServerConnection
+import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionStatus
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
@@ -13,7 +13,7 @@ public data class HomeStateModel public constructor(
     public val subscription: ServiceSubscription? = null,
     public val localNetwork: LocalNetworkInfo? = null,
     public val servers: List<Server> = emptyList(),
-    public val connection: ServerConnection = ServerConnection.Disconnected(),
+    public val connection: VPNConnection = VPNConnection.Disconnected(),
     public val items: List<HomeFeedItem> = emptyList(),
     public val isCheckingStatus: Boolean = true,
     public val isLoading: Boolean = false,

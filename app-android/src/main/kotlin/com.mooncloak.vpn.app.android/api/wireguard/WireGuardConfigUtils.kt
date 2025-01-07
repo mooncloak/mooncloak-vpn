@@ -4,18 +4,25 @@ import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.requireWireGuardEndpoint
 import com.wireguard.config.Config
 import com.wireguard.config.InetEndpoint
+import com.wireguard.config.InetNetwork
 import com.wireguard.config.Interface
 import com.wireguard.config.Peer
 import com.wireguard.crypto.Key
 import com.wireguard.crypto.KeyPair
 
-internal fun Server.toWireGuardConfig(keyPair: KeyPair): Config =
-    Config.Builder()
-        .setInterface(
-            Interface.Builder()
-                .setKeyPair(keyPair)
-                .build()
-        )
+internal fun Server.toWireGuardConfig(
+    keyPair: KeyPair,
+    localIpAddress: String?
+): Config {
+    var interfaceBuilder = Interface.Builder()
+        .setKeyPair(keyPair)
+    if (localIpAddress != null) {
+        interfaceBuilder = interfaceBuilder.addAddress(InetNetwork.parse(localIpAddress))
+    }
+    interfaceBuilder = interfaceBuilder.addAddress(InetNetwork.parse("10.0.0.2/32"))
+
+    return Config.Builder()
+        .setInterface(interfaceBuilder.build())
         .addPeer(
             Peer.Builder()
                 .setPublicKey(
@@ -30,3 +37,4 @@ internal fun Server.toWireGuardConfig(keyPair: KeyPair): Config =
                 .build()
         )
         .build()
+}

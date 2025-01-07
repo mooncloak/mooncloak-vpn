@@ -4,14 +4,16 @@ import android.app.Activity
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
+import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.vpn.app.android.api.wireguard.AndroidWireGuardConnectionKeyPair
 import com.mooncloak.vpn.app.android.api.wireguard.WireGuardTunnel
 import com.mooncloak.vpn.app.android.api.wireguard.toWireGuardConfig
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
+import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.server.ServerConnection
-import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
+import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
+import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.Tunnel
@@ -20,24 +22,27 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.datetime.Clock
 
-internal class AndroidServerConnectionManager @Inject internal constructor(
+internal class AndroidVPNConnectionManager @Inject internal constructor(
     private val context: Activity,
     private val api: MooncloakVpnServiceHttpApi,
     private val subscriptionStorage: SubscriptionStorage,
     private val connectionKeyPairResolver: WireGuardConnectionKeyPairResolver,
-    private val clock: Clock
-) : ServerConnectionManager {
+    private val clock: Clock,
+    private val localNetworkManager: LocalNetworkManager
+) : VPNConnectionManager {
 
-    override val connection: StateFlow<ServerConnection>
+    override val connection: StateFlow<VPNConnection>
         get() = mutableConnection.asStateFlow()
 
-    private val mutableConnection = MutableStateFlow<ServerConnection>(ServerConnection.Disconnected())
+    private val mutableConnection = MutableStateFlow<VPNConnection>(VPNConnection.Disconnected())
 
     private val backend = GoBackend(context)
 
+    private val connectedTunnels = mutableMapOf<String, com.mooncloak.vpn.app.shared.api.vpn.Tunnel>()
+
     override suspend fun connect(server: Server) {
         try {
-            mutableConnection.value = ServerConnection.Connecting(
+            mutableConnection.value = VPNConnection.Connecting(
                 server = server,
                 timestamp = clock.now()
             )
@@ -48,10 +53,15 @@ internal class AndroidServerConnectionManager @Inject internal constructor(
                 context.startActivityForResult(intent, REQUEST_CODE)
             }
 
+            val localIpAddress = localNetworkManager.getInfo()?.ipAddress
+
             // FIXME: Cast
             val keyPair = connectionKeyPairResolver.resolve() as AndroidWireGuardConnectionKeyPair
 
-            val wireGuardConfig = server.toWireGuardConfig(keyPair.keyPair)
+            val wireGuardConfig = server.toWireGuardConfig(
+                keyPair = keyPair.keyPair,
+                localIpAddress = localIpAddress
+            )
             val tunnel = WireGuardTunnel(name = server.name)
 
             backend.setState(
@@ -60,7 +70,7 @@ internal class AndroidServerConnectionManager @Inject internal constructor(
                 wireGuardConfig
             )
 
-            mutableConnection.value = ServerConnection.Connected(
+            mutableConnection.value = VPNConnection.Connected(
                 sessionId = "", // TODO
                 server = server,
                 timestamp = clock.now()
@@ -68,7 +78,7 @@ internal class AndroidServerConnectionManager @Inject internal constructor(
         } catch (e: Exception) {
             LogPile.error(message = "Error connecting to VPN server '${server.name}'.", cause = e)
 
-            mutableConnection.value = ServerConnection.Disconnected(errorMessage = e.message)
+            mutableConnection.value = VPNConnection.Disconnected(errorMessage = e.message)
         }
 
         // TODO:
@@ -77,10 +87,12 @@ internal class AndroidServerConnectionManager @Inject internal constructor(
 
     override suspend fun disconnect() {
         try {
+            mutableConnection.value = VPNConnection.Disconnecting(timestamp = clock.now())
+
             backend.runningTunnelNames.map { tunnelName ->
                 WireGuardTunnel(name = tunnelName)
             }.forEach { tunnel ->
-                mutableConnection.value = ServerConnection.Disconnecting(timestamp = clock.now())
+                LogPile.info(message = "disconnect: tunnel: ${tunnel.name}")
 
                 backend.setState(
                     tunnel,
@@ -92,9 +104,18 @@ internal class AndroidServerConnectionManager @Inject internal constructor(
             LogPile.error(message = "Error disconnecting from VPN servers.", cause = e)
 
             // TODO: What if we are still connected?
-            mutableConnection.value = ServerConnection.Disconnected(
+            mutableConnection.value = VPNConnection.Disconnected(
                 errorMessage = e.message
             )
+        }
+    }
+
+    private suspend fun test() {
+        backend.runningTunnelNames.map { tunnelName ->
+            WireGuardTunnel(name = tunnelName)
+        }.forEach { tunnel ->
+            backend.getState(tunnel)
+            backend.getStatistics(tunnel)
         }
     }
 
