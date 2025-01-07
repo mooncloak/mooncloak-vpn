@@ -136,7 +136,7 @@ public fun ServerListScreen(
                         onConnect = {
                             coroutineScope.launch {
                                 if (server.isConnectable(hasSubscription = viewModel.state.current.value.subscription != null) || viewModel.state.current.value.connection.isConnected()) {
-                                    bottomSheetState.show(ServerListBottomSheetDestination.ServerConnection)
+                                    bottomSheetState.show(ServerListBottomSheetDestination.ServerConnection(server = server))
                                 } else {
                                     bottomSheetState.show(ServerListBottomSheetDestination.Payment)
                                 }

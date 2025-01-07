@@ -1,5 +1,6 @@
 package com.mooncloak.vpn.app.shared.feature.home
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -72,15 +73,19 @@ public fun HomeScreen(
             SnackbarHost(hostState = snackbarHostState)
         },
         topBar = {
-            HomeTitleBar(
-                modifier = Modifier.animateContentSize()
-                    .fillMaxWidth()
-                    .shadow(elevation = 8.dp),
-                status = viewModel.state.current.value.connectionStatus,
-                connectedName = viewModel.state.current.value.connectedName,
-                ipAddress = viewModel.state.current.value.connectedIpAddress,
-                hazeState = hazeState
-            )
+            AnimatedContent(
+                targetState = viewModel.state.current.value.connectionStatus
+            ) { connectionStatus ->
+                HomeTitleBar(
+                    modifier = Modifier.animateContentSize()
+                        .fillMaxWidth()
+                        .shadow(elevation = 8.dp),
+                    status = connectionStatus,
+                    connectedName = viewModel.state.current.value.connectedName,
+                    ipAddress = viewModel.state.current.value.connectedIpAddress,
+                    hazeState = hazeState
+                )
+            }
         }
     ) { paddingValues ->
         LazyColumn(

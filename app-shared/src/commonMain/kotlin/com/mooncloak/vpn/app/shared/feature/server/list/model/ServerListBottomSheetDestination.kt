@@ -24,5 +24,7 @@ internal sealed interface ServerListBottomSheetDestination {
     @Immutable
     @Serializable
     @SerialName(value = "connection")
-    data object ServerConnection : ServerListBottomSheetDestination
+    data class ServerConnection internal constructor(
+        val server: Server? = null
+    ) : ServerListBottomSheetDestination
 }

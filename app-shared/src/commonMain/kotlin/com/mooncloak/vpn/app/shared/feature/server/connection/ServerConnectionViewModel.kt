@@ -4,16 +4,13 @@ import androidx.compose.runtime.Stable
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
-import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
-import com.mooncloak.kodetools.pagex.getOrNull
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
-import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.app.shared.api.vpn.isConnected
 import com.mooncloak.vpn.app.shared.api.vpn.isDisconnected
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
+import com.mooncloak.vpn.app.shared.feature.server.connection.usecase.GetDefaultServerUseCase
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import kotlinx.coroutines.Dispatchers
@@ -25,59 +22,81 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.getString
 
 @Stable
 @FeatureScoped
 public class ServerConnectionViewModel @Inject public constructor(
-    private val serverConnectionRecordRepository: ServerConnectionRecordRepository,
-    private val serverConnectionManager: VPNConnectionManager,
-    private val api: MooncloakVpnServiceHttpApi
+    private val vpnConnectionManager: VPNConnectionManager,
+    private val getDefaultServer: GetDefaultServerUseCase
 ) : ViewModel<ServerConnectionStateModel>(initialStateValue = ServerConnectionStateModel()) {
 
     private var connectionJob: Job? = null
 
     private val mutex = Mutex(locked = false)
 
-    public fun load() {
-        val current = serverConnectionManager.connection.value
+    public fun load(server: Server?) {
+        coroutineScope.launch {
+            try {
+                emit(value = state.current.value.copy(isLoading = true))
 
-        connectionJob?.cancel()
-        connectionJob = serverConnectionManager.connection
-            .onEach { connection ->
+                val current = vpnConnectionManager.connection.value
+                val connectionServer = server ?: getDefaultServer.invoke()
+
+                emit(
+                    value = state.current.value.copy(
+                        isLoading = false,
+                        server = connectionServer,
+                        errorMessage = null
+                    )
+                )
+
+                connectionJob?.cancel()
+                connectionJob = vpnConnectionManager.connection
+                    .onEach { connection ->
+                        emit { current ->
+                            current.copy(connection = connection)
+                        }
+                    }
+                    .catch { e -> LogPile.error(message = "Error listening to connection changes.", cause = e) }
+                    .flowOn(Dispatchers.Main)
+                    .launchIn(coroutineScope)
+
+                if (current.isConnected()) {
+                    disconnect()
+                } else if (current.isDisconnected()) {
+                    connect()
+                }
+            } catch (e: Exception) {
+                LogPile.error(message = "Error loading server for connection screen.", cause = e)
+
                 emit { current ->
-                    current.copy(connection = connection)
+                    current.copy(
+                        errorMessage = getString(Res.string.global_unexpected_error),
+                        isLoading = false
+                    )
                 }
             }
-            .catch { e -> LogPile.error(message = "Error listening to connection changes.", cause = e) }
-            .flowOn(Dispatchers.Main)
-            .launchIn(coroutineScope)
-
-        if (current.isConnected()) {
-            disconnect()
-        } else if (current.isDisconnected()) {
-            connect()
         }
     }
 
     public fun connect() {
         coroutineScope.launch {
             mutex.withLock {
-                emit(value = state.current.value.copy(isLoading = true))
-
                 try {
-                    val server = getServer()
-
-                    emit(
-                        value = state.current.value.copy(
-                            isLoading = false,
-                            errorMessage = null
-                        )
-                    )
+                    val server = state.current.value.server
 
                     if (server != null) {
-                        serverConnectionManager.connect(server)
+                        vpnConnectionManager.connect(server)
+                    } else {
+                        LogPile.error(message = "No server to connect to.")
+
+                        emit(
+                            value = state.current.value.copy(
+                                isLoading = false,
+                                errorMessage = getString(Res.string.global_unexpected_error)
+                            )
+                        )
                     }
                 } catch (e: Exception) {
                     LogPile.error(message = "Error connecting to VPN server. ${e.message}", cause = e)
@@ -97,7 +116,7 @@ public class ServerConnectionViewModel @Inject public constructor(
         coroutineScope.launch {
             mutex.withLock {
                 try {
-                    serverConnectionManager.disconnect()
+                    vpnConnectionManager.disconnect()
                 } catch (e: Exception) {
                     LogPile.error(message = "Error disconnecting from VPN server.", cause = e)
 
@@ -108,17 +127,6 @@ public class ServerConnectionViewModel @Inject public constructor(
                     )
                 }
             }
-        }
-    }
-
-    @OptIn(ExperimentalPaginationAPI::class)
-    private suspend fun getServer(): Server? {
-        serverConnectionRecordRepository.getLastConnected()?.server?.let { return it }
-
-        serverConnectionRecordRepository.getStarredPage().firstOrNull()?.server?.let { return it }
-
-        return withContext(Dispatchers.IO) {
-            api.paginateServers().getOrNull()?.firstOrNull()
         }
     }
 }

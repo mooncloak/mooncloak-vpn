@@ -20,7 +20,8 @@ internal fun MainBottomSheet(
     ) { destination ->
         when (destination) {
             is MainBottomSheetDestination.ServerConnection -> ServerConnectionScreen(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                server = destination.server
             )
 
             is MainBottomSheetDestination.SelectPlan -> PaymentScreen(

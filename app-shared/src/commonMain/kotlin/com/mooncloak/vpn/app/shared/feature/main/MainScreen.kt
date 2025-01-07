@@ -124,7 +124,7 @@ public fun MainScreen(
                 onClick = {
                     coroutineScope.launch {
                         if (viewModel.state.current.value.subscription != null || viewModel.state.current.value.connection.isConnected()) {
-                            bottomSheetState.show(MainBottomSheetDestination.ServerConnection)
+                            bottomSheetState.show(MainBottomSheetDestination.ServerConnection())
                         } else {
                             bottomSheetState.show(MainBottomSheetDestination.SelectPlan)
                         }

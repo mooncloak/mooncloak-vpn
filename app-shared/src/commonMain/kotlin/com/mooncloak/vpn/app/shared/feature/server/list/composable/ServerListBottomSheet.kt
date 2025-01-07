@@ -29,7 +29,8 @@ internal fun ServerListBottomSheet(
             )
 
             is ServerListBottomSheetDestination.ServerConnection -> ServerConnectionScreen(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                server = destination.server
             )
         }
     }

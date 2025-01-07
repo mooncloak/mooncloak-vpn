@@ -10,6 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
@@ -22,6 +23,7 @@ import com.mooncloak.vpn.app.shared.feature.server.connection.di.createServerCon
 
 @Composable
 public fun ServerConnectionScreen(
+    server: Server?,
     modifier: Modifier = Modifier
 ) {
     val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
@@ -32,8 +34,8 @@ public fun ServerConnectionScreen(
     }
     val viewModel = remember { componentDependencies.viewModel }
 
-    LaunchedEffect(Unit) {
-        viewModel.load()
+    LaunchedEffect(server) {
+        viewModel.load(server = server)
     }
 
     Surface(
