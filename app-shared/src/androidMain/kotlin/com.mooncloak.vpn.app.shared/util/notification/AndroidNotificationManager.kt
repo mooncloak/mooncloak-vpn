@@ -33,7 +33,8 @@ public actual suspend fun com.mooncloak.vpn.app.shared.util.notification.Notific
         title = getString(Res.string.notification_title_vpn),
         priority = NotificationPriority.MAX,
         category = NotificationCategory.Service,
-        color = ColorPalette.MooncloakDarkPrimary
+        color = ColorPalette.MooncloakDarkPrimary,
+        ongoing = true
     )
 }
 
