@@ -7,6 +7,7 @@ import com.mooncloak.vpn.app.shared.api.plan.ServicePlansRepository
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import com.mooncloak.vpn.app.shared.util.coroutine.PresentationCoroutineScope
+import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
 
 public actual interface PresentationDependencies {
 
@@ -17,6 +18,7 @@ public actual interface PresentationDependencies {
     public actual val plansProvider: ServicePlansProvider
     public actual val vpnConnectionManager: VPNConnectionManager
     public actual val presentationCoroutineScope: PresentationCoroutineScope
+    public actual val notificationManager: NotificationManager
 
     public actual companion object
 }

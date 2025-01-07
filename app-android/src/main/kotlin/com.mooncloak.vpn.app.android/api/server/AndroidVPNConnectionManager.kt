@@ -15,10 +15,16 @@ import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
+import com.mooncloak.vpn.app.shared.api.vpn.isConnected
 import com.mooncloak.vpn.app.shared.api.vpn.isConnecting
 import com.mooncloak.vpn.app.shared.api.vpn.isDisconnected
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import com.mooncloak.vpn.app.shared.util.coroutine.PresentationCoroutineScope
+import com.mooncloak.vpn.app.shared.util.notification.NotificationCategory
+import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
+import com.mooncloak.vpn.app.shared.util.notification.NotificationPriority
+import com.mooncloak.vpn.app.shared.util.notification.cancelVPNNotification
+import com.mooncloak.vpn.app.shared.util.notification.showVPNNotification
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.Tunnel
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +50,8 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
     private val connectionKeyPairResolver: WireGuardConnectionKeyPairResolver,
     private val clock: Clock,
     private val localNetworkManager: LocalNetworkManager,
-    private val coroutineScope: PresentationCoroutineScope
+    private val coroutineScope: PresentationCoroutineScope,
+    private val notificationManager: NotificationManager
 ) : VPNConnectionManager {
 
     override val isActive: Boolean
@@ -114,6 +121,8 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
                             LogPile.info(tag = TAG, message = "Intent Callback.")
 
                             continuation.resume(Unit)
+
+                            intentCallback = null
                         }
                     }
                 }
@@ -234,6 +243,12 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
     private suspend fun emit(connection: VPNConnection) {
         emitMutex.withLock {
             LogPile.info(tag = TAG, message = "Emitting updated connection: $connection")
+
+            if (connection.isConnected()) {
+                notificationManager.showVPNNotification()
+            } else {
+                notificationManager.cancelVPNNotification()
+            }
 
             mutableConnection.value = connection
         }

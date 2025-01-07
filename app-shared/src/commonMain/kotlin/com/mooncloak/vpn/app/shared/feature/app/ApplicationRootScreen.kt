@@ -39,8 +39,15 @@ import com.mooncloak.vpn.app.shared.feature.app.di.createApplicationRootComponen
 import com.mooncloak.vpn.app.shared.feature.main.MainScreen
 import com.mooncloak.vpn.app.shared.feature.onboarding.OnboardingScreen
 import com.mooncloak.vpn.app.shared.navigation.LocalNavController
+import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.notification_channel_description_vpn
+import com.mooncloak.vpn.app.shared.resource.notification_channel_name_vpn
 import com.mooncloak.vpn.app.shared.theme.MooncloakTheme
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
+import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
+import com.mooncloak.vpn.app.shared.util.notification.NotificationPriority
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalPersistentStateAPI::class)
 @Composable
@@ -71,6 +78,7 @@ public fun ApplicationRootScreen(
         val preferencesStorage = rememberDependency { keyValueStorage.preferences }
         val appStorage = rememberDependency { keyValueStorage.app }
         val systemAuthenticationProvider = rememberDependency { systemAuthenticationProvider }
+        val notificationManager = rememberDependency { notificationManager }
 
         // Make sure to start the billing manager's scope. This allows it to subscribe to events and handle logic
         // correctly.
@@ -87,6 +95,15 @@ public fun ApplicationRootScreen(
         }
 
         LaunchedEffect(Unit) {
+            // It is safe to call this numerous times (at least on Android). The Android documentation recommends
+            // calling this early in the application, so we call it in the root screen.
+            notificationManager.registerNotificationChannel(
+                id = NotificationManager.ChannelId.VPN,
+                name = getString(Res.string.notification_channel_name_vpn),
+                description = getString(Res.string.notification_channel_description_vpn),
+                priority = NotificationPriority.MAX
+            )
+
             viewModel.load()
         }
 

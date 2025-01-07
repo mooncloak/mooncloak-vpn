@@ -218,4 +218,9 @@
     <string name="server_details_action_connect">Connect</string>
     <string name="server_details_action_disconnect">Disconnect</string>
 
+    <string name="notification_channel_name_vpn">VPN</string>
+    <string name="notification_channel_description_vpn">Notifications displayed when connected to a VPN server.</string>
+    <string name="notification_title_vpn">Connected to private VPN</string>
+    <string name="notification_action_vpn_disconnect">Disconnect</string>
+
 </resources>
