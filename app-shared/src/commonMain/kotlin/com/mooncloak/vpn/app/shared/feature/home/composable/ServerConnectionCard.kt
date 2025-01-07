@@ -120,9 +120,14 @@ internal fun ServerConnectionCard(
                     .padding(bottom = 16.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = if (connected) {
-                        MaterialTheme.colorScheme.surface
+                        MaterialTheme.colorScheme.errorContainer
                     } else {
                         MaterialTheme.colorScheme.primary
+                    },
+                    contentColor = if (connected) {
+                        MaterialTheme.colorScheme.onErrorContainer
+                    } else {
+                        MaterialTheme.colorScheme.onPrimary
                     }
                 ),
                 onClick = onConnect

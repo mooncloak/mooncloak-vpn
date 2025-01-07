@@ -3,6 +3,7 @@ package com.mooncloak.vpn.app.shared.feature.main.util
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PowerOff
 import androidx.compose.material.icons.filled.ShieldMoon
+import androidx.compose.material.icons.filled.VpnKeyOff
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -49,7 +50,7 @@ internal fun VPNConnectionStatus.floatingActionBarContent(
         VPNConnectionStatus.Connected -> {
             Icon(
                 modifier = modifier,
-                imageVector = Icons.Default.PowerOff,
+                imageVector = Icons.Default.VpnKeyOff,
                 contentDescription = stringResource(Res.string.cd_action_disconnect),
                 tint = LocalContentColor.current
             )
@@ -72,7 +73,7 @@ internal val VPNConnectionStatus.containerColor: Color
         VPNConnectionStatus.Disconnected -> ColorPalette.MooncloakYellow
         VPNConnectionStatus.Connecting -> MaterialTheme.colorScheme.surface
         VPNConnectionStatus.Disconnecting -> MaterialTheme.colorScheme.surface
-        VPNConnectionStatus.Connected -> ColorPalette.MooncloakDarkPrimary
+        VPNConnectionStatus.Connected -> MaterialTheme.colorScheme.errorContainer
         VPNConnectionStatus.Checking -> ColorPalette.MooncloakYellow
     }
 
@@ -82,6 +83,6 @@ internal val VPNConnectionStatus.contentColor: Color
         VPNConnectionStatus.Disconnected -> ColorPalette.MooncloakDarkPrimaryDark
         VPNConnectionStatus.Connecting -> MaterialTheme.colorScheme.onSurface
         VPNConnectionStatus.Disconnecting -> MaterialTheme.colorScheme.onSurface
-        VPNConnectionStatus.Connected -> Color.White
+        VPNConnectionStatus.Connected -> MaterialTheme.colorScheme.onErrorContainer
         VPNConnectionStatus.Checking -> ColorPalette.MooncloakDarkPrimaryDark
     }
