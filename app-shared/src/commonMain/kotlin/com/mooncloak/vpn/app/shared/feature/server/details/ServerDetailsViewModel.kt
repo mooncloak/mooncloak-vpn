@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -30,7 +31,7 @@ import org.jetbrains.compose.resources.getString
 @Stable
 @FeatureScoped
 public class ServerDetailsViewModel @Inject public constructor(
-    private val serverConnectionManager: VPNConnectionManager,
+    private val vpnConnectionManager: VPNConnectionManager,
     private val serverConnectionRecordRepository: ServerConnectionRecordRepository,
     private val localNetworkManager: LocalNetworkManager
 ) : ViewModel<ServerDetailsStateModel>(initialStateValue = ServerDetailsStateModel()) {
@@ -40,19 +41,6 @@ public class ServerDetailsViewModel @Inject public constructor(
     private var connectionJob: Job? = null
 
     public fun load(server: Server) {
-        connectionJob?.cancel()
-        connectionJob = serverConnectionManager.connection
-            .onEach { connection ->
-                emit { current ->
-                    current.copy(
-                        connection = connection
-                    )
-                }
-            }
-            .catch { e -> LogPile.error(message = "Error listening to connection changes.", cause = e) }
-            .flowOn(Dispatchers.Main)
-            .launchIn(coroutineScope)
-
         coroutineScope.launch {
             emit(
                 value = state.current.value.copy(
@@ -73,7 +61,8 @@ public class ServerDetailsViewModel @Inject public constructor(
                         isLoading = false,
                         server = server,
                         lastConnected = record?.lastConnected,
-                        localNetworkInfo = localNetworkInfo
+                        localNetworkInfo = localNetworkInfo,
+                        connection = vpnConnectionManager.connection.value
                     )
                 )
             } catch (e: Exception) {
@@ -89,6 +78,20 @@ public class ServerDetailsViewModel @Inject public constructor(
                     )
                 )
             }
+
+            connectionJob?.cancel()
+            connectionJob = vpnConnectionManager.connection
+                .onStart { vpnConnectionManager.connection.value }
+                .onEach { connection ->
+                    emit { current ->
+                        current.copy(
+                            connection = connection
+                        )
+                    }
+                }
+                .catch { e -> LogPile.error(message = "Error listening to connection changes.", cause = e) }
+                .flowOn(Dispatchers.Main)
+                .launchIn(coroutineScope)
         }
     }
 
@@ -101,9 +104,9 @@ public class ServerDetailsViewModel @Inject public constructor(
                     val server = state.current.value.server
 
                     if (state.current.value.connection.isDisconnected() && server != null) {
-                        serverConnectionManager.connect(server)
+                        vpnConnectionManager.connect(server)
                     } else {
-                        serverConnectionManager.disconnect()
+                        vpnConnectionManager.disconnect()
                     }
                 } catch (e: Exception) {
                     LogPile.error(message = "Error connecting to VPN server.", cause = e)

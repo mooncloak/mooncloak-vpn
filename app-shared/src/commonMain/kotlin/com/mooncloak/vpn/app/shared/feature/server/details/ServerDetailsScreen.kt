@@ -1,13 +1,16 @@
 package com.mooncloak.vpn.app.shared.feature.server.details
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -75,13 +78,15 @@ public fun ServerDetailsScreen(
                     CloakedLayout(
                         modifier = Modifier.fillMaxWidth()
                             .aspectRatio(1f)
+                            .animateItem()
                     )
                 }
             }
 
             item(key = "ServerLocationItem") {
                 ServerLocationCard(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
+                        .animateItem(),
                     countryName = viewModel.state.current.value.country?.name ?: "",
                     regionName = viewModel.state.current.value.region?.name,
                     serverName = server.name,
@@ -92,7 +97,8 @@ public fun ServerDetailsScreen(
             if (viewModel.state.current.value.isConnectedServer) {
                 item(key = "ServerIpAddressItem") {
                     IpAddressCard(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
+                            .animateItem(),
                         deviceIpAddress = viewModel.state.current.value.localNetworkInfo?.ipAddress ?: "",
                         serverIpAddress = server.ipAddress ?: "",
                         hideDeviceIpAddress = hideLocalIpAddress.value,
@@ -104,22 +110,24 @@ public fun ServerDetailsScreen(
 
                 (viewModel.state.current.value.connection as? VPNConnection.Connected)?.let { connection ->
                     item(key = "ServerSpeedItem") {
-                        val tunnel = connection.tunnels.first()
+                        val tunnel = connection.tunnels.firstOrNull()
 
                         SpeedCard(
-                            modifier = Modifier.fillMaxWidth(),
-                            downloadBits = tunnel.stats?.rxThroughput,
-                            uploadBits = tunnel.stats?.txThroughput
+                            modifier = Modifier.fillMaxWidth()
+                                .animateItem(),
+                            downloadBits = tunnel?.stats?.rxThroughput,
+                            uploadBits = tunnel?.stats?.txThroughput
                         )
                     }
 
                     item(key = "ServerUsageItem") {
-                        val tunnel = connection.tunnels.first()
+                        val tunnel = connection.tunnels.firstOrNull()
 
                         UsageCard(
-                            modifier = Modifier.fillMaxWidth(),
-                            downloadBytes = tunnel.stats?.totalRx,
-                            uploadBytes = tunnel.stats?.totalTx
+                            modifier = Modifier.fillMaxWidth()
+                                .animateItem(),
+                            downloadBytes = tunnel?.stats?.totalRx,
+                            uploadBytes = tunnel?.stats?.totalTx
                         )
                     }
                 }
@@ -127,7 +135,8 @@ public fun ServerDetailsScreen(
 
             item(key = "ServerInfoItem") {
                 ServerInfoCard(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
+                        .animateItem(),
                     country = viewModel.state.current.value.country?.name ?: "",
                     region = viewModel.state.current.value.region?.name,
                     serverName = server.name,
@@ -150,6 +159,7 @@ public fun ServerDetailsScreen(
                 item(key = "ConnectionItem") {
                     LoadingCard(
                         modifier = Modifier.fillMaxWidth()
+                            .animateItem()
                     )
                 }
             }
@@ -157,11 +167,24 @@ public fun ServerDetailsScreen(
             item(key = "ServerConnectActionItem") {
                 Button(
                     modifier = Modifier.sizeIn(maxWidth = 400.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .animateItem(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (viewModel.state.current.value.isConnectedServer) {
+                            MaterialTheme.colorScheme.errorContainer
+                        } else {
+                            MaterialTheme.colorScheme.primary
+                        },
+                        contentColor = if (viewModel.state.current.value.isConnectedServer) {
+                            MaterialTheme.colorScheme.onErrorContainer
+                        } else {
+                            MaterialTheme.colorScheme.onPrimary
+                        }
+                    ),
+                    enabled = viewModel.state.current.value.connection !is VPNConnection.Connecting,
                     onClick = {
                         viewModel.toggleConnection()
-                    },
-                    enabled = viewModel.state.current.value.connection !is VPNConnection.Connecting
+                    }
                 ) {
                     Text(
                         text = if (viewModel.state.current.value.isConnectedServer) {
@@ -171,6 +194,10 @@ public fun ServerDetailsScreen(
                         }
                     )
                 }
+            }
+
+            item(key = "BottomSpacing") {
+                Spacer(modifier = Modifier.height(32.dp))
             }
         }
     }

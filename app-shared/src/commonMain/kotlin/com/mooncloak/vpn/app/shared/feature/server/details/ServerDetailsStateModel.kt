@@ -22,11 +22,11 @@ public data class ServerDetailsStateModel public constructor(
 )
 
 public val ServerDetailsStateModel.isConnectedServer: Boolean
-    inline get() = connection is VPNConnection.Connected && server != null && connection.connectedTo(server)
+    inline get() = server != null && connection.connectedTo(server)
 
 public val ServerDetailsStateModel.connectionTimestamp: Instant?
     inline get() = if (this.isConnectedServer) {
-        (connection as? VPNConnection.Connected)?.timestamp ?: lastConnected
+        connection.timestamp ?: lastConnected
     } else {
         lastConnected
     }

@@ -12,11 +12,12 @@ import kotlin.contracts.contract
 public sealed interface VPNConnection {
 
     public val status: VPNConnectionStatus
+    public val timestamp: Instant?
 
     @Immutable
     public data class Connecting public constructor(
-        public val server: Server,
-        public val timestamp: Instant
+        public override val timestamp: Instant,
+        public val server: Server
     ) : VPNConnection {
 
         @Transient
@@ -25,8 +26,8 @@ public sealed interface VPNConnection {
 
     @Immutable
     public data class Connected public constructor(
-        public val tunnels: List<Tunnel> = emptyList(),
-        public val timestamp: Instant
+        public override val timestamp: Instant,
+        public val tunnels: List<Tunnel> = emptyList()
     ) : VPNConnection {
 
         @Transient
@@ -35,8 +36,8 @@ public sealed interface VPNConnection {
 
     @Immutable
     public data class Disconnecting public constructor(
-        public val server: Server? = null,
-        public val timestamp: Instant
+        public override val timestamp: Instant,
+        public val server: Server? = null
     ) : VPNConnection {
 
         @Transient
@@ -45,6 +46,7 @@ public sealed interface VPNConnection {
 
     @Immutable
     public data class Disconnected public constructor(
+        public override val timestamp: Instant? = null,
         public val errorMessage: String? = null,
         public val errorCause: Throwable? = null
     ) : VPNConnection {
