@@ -2,7 +2,6 @@ package com.mooncloak.vpn.app.android.api.wireguard
 
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelStats
-import com.mooncloak.vpn.app.shared.api.vpn.Tunnel
 import com.wireguard.android.backend.Statistics
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,11 +13,11 @@ import kotlinx.coroutines.flow.asStateFlow
  * [com.wireguard.android.backend.Tunnel]. Use the [WireGuardTunnelManager] to obtain instances of this class.
  */
 public class WireGuardTunnel internal constructor(
-    override val name: String,
-    override val sessionId: String?,
-    override val server: Server?
+    override val tunnelName: String,
+    override val sessionId: String? = null,
+    override val server: Server? = null
 ) : com.wireguard.android.backend.Tunnel,
-    Tunnel {
+    com.mooncloak.vpn.app.shared.api.vpn.Tunnel {
 
     override val stats: TunnelStats? = null
 
@@ -28,7 +27,7 @@ public class WireGuardTunnel internal constructor(
     public val statistics: StateFlow<Statistics?>
         get() = mutableStatistics.asStateFlow()
 
-    override fun getName(): String = name
+    override fun getName(): String = tunnelName
 
     private val mutableState = MutableStateFlow(com.wireguard.android.backend.Tunnel.State.DOWN)
     private val mutableStatistics = MutableStateFlow<Statistics?>(null)
@@ -45,11 +44,11 @@ public class WireGuardTunnel internal constructor(
         if (this === other) return true
         if (other !is WireGuardTunnel) return false
 
-        return name == other.name
+        return tunnelName == other.tunnelName
     }
 
-    override fun hashCode(): Int = name.hashCode()
+    override fun hashCode(): Int = tunnelName.hashCode()
 
     override fun toString(): String =
-        "WireGuardTunnel(name='$name', state=$state, statistics=$statistics)"
+        "WireGuardTunnel(name='$tunnelName', state=$state, statistics=$statistics)"
 }

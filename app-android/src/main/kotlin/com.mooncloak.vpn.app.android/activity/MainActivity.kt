@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.rememberCoroutineScope
 import com.mooncloak.vpn.app.android.di.create
 import com.mooncloak.vpn.app.shared.feature.app.ApplicationRootScreen
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
@@ -22,10 +23,12 @@ public class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+            val coroutineScope = rememberCoroutineScope()
             val platformUriHandler = platformDefaultUriHandler()
             val applicationDependencies = this.applicationComponent
             val presentationDependencies = PresentationComponent.create(
                 applicationComponent = applicationDependencies,
+                coroutineScope = coroutineScope,
                 activity = this,
                 uriHandler = platformUriHandler
             )

@@ -5,7 +5,7 @@ import com.mooncloak.vpn.app.shared.api.network.LocalNetworkInfo
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
-import com.mooncloak.vpn.app.shared.api.server.ServerConnectionStatus
+import com.mooncloak.vpn.app.shared.api.server.VPNConnectionStatus
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
 
 @Immutable
@@ -20,17 +20,17 @@ public data class HomeStateModel public constructor(
     public val errorMessage: String? = null
 )
 
-public val HomeStateModel.connectionStatus: ServerConnectionStatus
-    inline get() = if (isCheckingStatus) ServerConnectionStatus.Checking else connection.status
+public val HomeStateModel.connectionStatus: VPNConnectionStatus
+    inline get() = if (isCheckingStatus) VPNConnectionStatus.Checking else connection.status
 
 public val HomeStateModel.isConnected: Boolean
-    inline get() = connectionStatus == ServerConnectionStatus.Connected
+    inline get() = connectionStatus == VPNConnectionStatus.Connected
 
 public val HomeStateModel.isDisconnected: Boolean
-    inline get() = connectionStatus == ServerConnectionStatus.Disconnected
+    inline get() = connectionStatus == VPNConnectionStatus.Disconnected
 
 public val HomeStateModel.isConnecting: Boolean
-    inline get() = connectionStatus == ServerConnectionStatus.Connecting
+    inline get() = connectionStatus == VPNConnectionStatus.Connecting
 
 public val HomeStateModel.connectedName: String?
     inline get() = if (this.isDisconnected) {

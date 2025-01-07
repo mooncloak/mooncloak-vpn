@@ -31,7 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.api.server.ServerConnectionStatus
+import com.mooncloak.vpn.app.shared.api.server.VPNConnectionStatus
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_checking
 import com.mooncloak.vpn.app.shared.resource.home_title_bar_connecting
@@ -49,7 +49,7 @@ import org.jetbrains.compose.resources.stringResource
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
 internal fun HomeTitleBar(
-    status: ServerConnectionStatus,
+    status: VPNConnectionStatus,
     connectedName: String?,
     ipAddress: String?,
     hideIpAddress: Boolean = false,
@@ -122,51 +122,51 @@ internal fun HomeTitleBar(
     }
 }
 
-private val ServerConnectionStatus.title: String
+private val VPNConnectionStatus.title: String
     @Composable
     get() = when (this) {
-        ServerConnectionStatus.Disconnected -> stringResource(Res.string.home_title_bar_unprotected)
-        ServerConnectionStatus.Connecting -> stringResource(Res.string.home_title_bar_connecting)
-        ServerConnectionStatus.Disconnecting -> stringResource(Res.string.home_title_bar_disconnecting)
-        ServerConnectionStatus.Connected -> stringResource(Res.string.home_title_bar_protected)
-        ServerConnectionStatus.Checking -> stringResource(Res.string.home_title_bar_checking)
+        VPNConnectionStatus.Disconnected -> stringResource(Res.string.home_title_bar_unprotected)
+        VPNConnectionStatus.Connecting -> stringResource(Res.string.home_title_bar_connecting)
+        VPNConnectionStatus.Disconnecting -> stringResource(Res.string.home_title_bar_disconnecting)
+        VPNConnectionStatus.Connected -> stringResource(Res.string.home_title_bar_protected)
+        VPNConnectionStatus.Checking -> stringResource(Res.string.home_title_bar_checking)
     }
 
-private val ServerConnectionStatus.description: String?
+private val VPNConnectionStatus.description: String?
     @Composable
     get() = when (this) {
-        ServerConnectionStatus.Disconnected -> stringResource(Res.string.home_title_bar_description_unprotected)
+        VPNConnectionStatus.Disconnected -> stringResource(Res.string.home_title_bar_description_unprotected)
         else -> null
     }
 
-private val ServerConnectionStatus.containerColor: Color
+private val VPNConnectionStatus.containerColor: Color
     @Composable
     get() = when (this) {
-        ServerConnectionStatus.Disconnected -> MaterialTheme.colorScheme.errorContainer
-        ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.surface
-        ServerConnectionStatus.Disconnecting -> MaterialTheme.colorScheme.surface
-        ServerConnectionStatus.Connected -> MaterialTheme.colorScheme.tertiaryContainer
-        ServerConnectionStatus.Checking -> MaterialTheme.colorScheme.surface
+        VPNConnectionStatus.Disconnected -> MaterialTheme.colorScheme.errorContainer
+        VPNConnectionStatus.Connecting -> MaterialTheme.colorScheme.surface
+        VPNConnectionStatus.Disconnecting -> MaterialTheme.colorScheme.surface
+        VPNConnectionStatus.Connected -> MaterialTheme.colorScheme.tertiaryContainer
+        VPNConnectionStatus.Checking -> MaterialTheme.colorScheme.surface
     }
 
 @Suppress("SameReturnValue")
-private val ServerConnectionStatus.contentColor: Color
+private val VPNConnectionStatus.contentColor: Color
     @Composable
     get() = when (this) {
-        ServerConnectionStatus.Disconnected -> MaterialTheme.colorScheme.onErrorContainer
-        ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.onSurface
-        ServerConnectionStatus.Disconnecting -> MaterialTheme.colorScheme.onSurface
-        ServerConnectionStatus.Connected -> MaterialTheme.colorScheme.onTertiaryContainer
-        ServerConnectionStatus.Checking -> MaterialTheme.colorScheme.onSurface
+        VPNConnectionStatus.Disconnected -> MaterialTheme.colorScheme.onErrorContainer
+        VPNConnectionStatus.Connecting -> MaterialTheme.colorScheme.onSurface
+        VPNConnectionStatus.Disconnecting -> MaterialTheme.colorScheme.onSurface
+        VPNConnectionStatus.Connected -> MaterialTheme.colorScheme.onTertiaryContainer
+        VPNConnectionStatus.Checking -> MaterialTheme.colorScheme.onSurface
     }
 
 @Composable
 private fun TitleBarIcon(
-    status: ServerConnectionStatus,
+    status: VPNConnectionStatus,
     modifier: Modifier = Modifier
 ) {
     when (status) {
-        ServerConnectionStatus.Disconnected -> {
+        VPNConnectionStatus.Disconnected -> {
             Icon(
                 modifier = modifier,
                 imageVector = Icons.Default.LockOpen,
@@ -175,25 +175,25 @@ private fun TitleBarIcon(
             )
         }
 
-        ServerConnectionStatus.Checking -> {
+        VPNConnectionStatus.Checking -> {
             CircularProgressIndicator(
                 modifier = modifier
             )
         }
 
-        ServerConnectionStatus.Connecting -> {
+        VPNConnectionStatus.Connecting -> {
             CircularProgressIndicator(
                 modifier = modifier
             )
         }
 
-        ServerConnectionStatus.Disconnecting -> {
+        VPNConnectionStatus.Disconnecting -> {
             CircularProgressIndicator(
                 modifier = modifier
             )
         }
 
-        ServerConnectionStatus.Connected -> {
+        VPNConnectionStatus.Connected -> {
             Icon(
                 modifier = modifier,
                 imageVector = Icons.Default.VpnLock,

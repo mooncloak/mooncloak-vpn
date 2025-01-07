@@ -7,7 +7,7 @@ import com.mooncloak.vpn.app.shared.api.server.Server
 public interface Tunnel {
 
     public val sessionId: String?
-    public val name: String
+    public val tunnelName: String
     public val server: Server?
     public val stats: TunnelStats?
 

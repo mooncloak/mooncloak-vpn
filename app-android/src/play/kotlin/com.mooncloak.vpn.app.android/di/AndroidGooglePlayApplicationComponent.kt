@@ -16,13 +16,15 @@ import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.storage.database.AndroidDatabaseDriverFactory
 import com.mooncloak.vpn.app.shared.storage.database.DatabaseDriverFactory
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
+import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
 
 @Component
 @Singleton
 internal abstract class AndroidGooglePlayApplicationComponent internal constructor(
-    @get:Provides override val applicationContext: ApplicationContext
+    @get:Provides override val applicationContext: ApplicationContext,
+    @get:Provides override val applicationCoroutineScope: ApplicationCoroutineScope
 ) : ApplicationComponent() {
 
     override fun provideKeyValueStorage(format: Json): MutableKeyValueStorage<String> =
@@ -51,7 +53,9 @@ internal abstract class AndroidGooglePlayApplicationComponent internal construct
 }
 
 internal fun ApplicationComponent.Companion.create(
-    applicationContext: ApplicationContext
+    applicationContext: ApplicationContext,
+    coroutineScope: ApplicationCoroutineScope
 ): AndroidGooglePlayApplicationComponent = AndroidGooglePlayApplicationComponent::class.create(
-    applicationContext = applicationContext
+    applicationContext = applicationContext,
+    applicationCoroutineScope = coroutineScope
 )

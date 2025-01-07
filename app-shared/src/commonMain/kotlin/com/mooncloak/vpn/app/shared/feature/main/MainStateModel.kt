@@ -13,6 +13,6 @@ public data class MainStateModel public constructor(
     public val destinationStates: Set<MainDestinationStateModel> = MainDestination.states(
         startDestination = startDestination
     ),
-    public val VPNConnection: VPNConnection = VPNConnection.Disconnected(),
+    public val connection: VPNConnection = VPNConnection.Disconnected(),
     public val subscription: ServiceSubscription? = null
 )

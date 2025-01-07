@@ -21,6 +21,7 @@ import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
+import com.mooncloak.vpn.app.shared.api.vpn.connectedTo
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
@@ -174,7 +175,7 @@ public class HomeViewModel @Inject public constructor(
                 try {
                     val currentConnection = state.current.value.connection
 
-                    if (currentConnection is VPNConnection.Connected && currentConnection.server == server) {
+                    if (currentConnection is VPNConnection.Connected && currentConnection.connectedTo(server)) {
                         serverConnectionManager.disconnect()
                     } else {
                         serverConnectionManager.connect(server)

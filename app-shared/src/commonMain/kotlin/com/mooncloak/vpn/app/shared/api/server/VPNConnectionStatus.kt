@@ -6,7 +6,7 @@ import androidx.compose.runtime.Immutable
  * Represents the status of the connection between the device and the VPN server.
  */
 @Immutable
-public enum class ServerConnectionStatus {
+public enum class VPNConnectionStatus {
 
     /**
      * The device is not connected to any VPN server.

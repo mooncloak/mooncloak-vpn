@@ -20,7 +20,8 @@ import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
 @Component
 @Singleton
 internal abstract class AndroidDirectApplicationComponent internal constructor(
-    @get:Provides override val applicationContext: ApplicationContext
+    @get:Provides override val applicationContext: ApplicationContext,
+    @get:Provides override val applicationCoroutineScope: ApplicationCoroutineScope
 ) : ApplicationComponent() {
 
     override fun provideKeyValueStorage(format: Json): MutableKeyValueStorage<String> =
@@ -54,7 +55,9 @@ internal abstract class AndroidDirectApplicationComponent internal constructor(
 }
 
 internal fun ApplicationComponent.Companion.create(
-    applicationContext: ApplicationContext
+    applicationContext: ApplicationContext,
+    coroutineScope: ApplicationCoroutineScope
 ): AndroidDirectApplicationComponent = AndroidDirectApplicationComponent::class.create(
-    applicationContext = applicationContext
+    applicationContext = applicationContext,
+    applicationCoroutineScope = coroutineScope
 )

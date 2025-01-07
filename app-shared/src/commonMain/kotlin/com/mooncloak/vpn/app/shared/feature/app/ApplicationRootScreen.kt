@@ -75,11 +75,14 @@ public fun ApplicationRootScreen(
         // Make sure to start the billing manager's scope. This allows it to subscribe to events and handle logic
         // correctly.
         val billingManager = rememberDependency { billingManager }
+        val vpnConnectionManager = rememberDependency { vpnConnectionManager }
         DisposableEffect(Unit) {
             billingManager.start()
+            vpnConnectionManager.start()
 
             onDispose {
                 billingManager.cancel()
+                vpnConnectionManager.cancel()
             }
         }
 

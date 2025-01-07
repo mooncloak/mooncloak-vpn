@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.util
+package com.mooncloak.vpn.app.shared.util.coroutine
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

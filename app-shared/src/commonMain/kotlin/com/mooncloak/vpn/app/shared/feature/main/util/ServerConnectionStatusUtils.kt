@@ -10,7 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.mooncloak.vpn.app.shared.api.server.ServerConnectionStatus
+import com.mooncloak.vpn.app.shared.api.server.VPNConnectionStatus
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.cd_action_checking
 import com.mooncloak.vpn.app.shared.resource.cd_action_connect
@@ -19,11 +19,11 @@ import com.mooncloak.vpn.app.shared.theme.ColorPalette
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-internal fun ServerConnectionStatus.floatingActionBarContent(
+internal fun VPNConnectionStatus.floatingActionBarContent(
     modifier: Modifier = Modifier
 ) {
     when (this) {
-        ServerConnectionStatus.Disconnected -> {
+        VPNConnectionStatus.Disconnected -> {
             Icon(
                 modifier = modifier,
                 imageVector = Icons.Default.ShieldMoon,
@@ -32,21 +32,21 @@ internal fun ServerConnectionStatus.floatingActionBarContent(
             )
         }
 
-        ServerConnectionStatus.Connecting -> {
+        VPNConnectionStatus.Connecting -> {
             CircularProgressIndicator(
                 modifier = modifier,
                 color = LocalContentColor.current
             )
         }
 
-        ServerConnectionStatus.Disconnecting -> {
+        VPNConnectionStatus.Disconnecting -> {
             CircularProgressIndicator(
                 modifier = modifier,
                 color = LocalContentColor.current
             )
         }
 
-        ServerConnectionStatus.Connected -> {
+        VPNConnectionStatus.Connected -> {
             Icon(
                 modifier = modifier,
                 imageVector = Icons.Default.PowerOff,
@@ -55,7 +55,7 @@ internal fun ServerConnectionStatus.floatingActionBarContent(
             )
         }
 
-        ServerConnectionStatus.Checking -> {
+        VPNConnectionStatus.Checking -> {
             Icon(
                 modifier = modifier,
                 imageVector = Icons.Default.ShieldMoon,
@@ -66,22 +66,22 @@ internal fun ServerConnectionStatus.floatingActionBarContent(
     }
 }
 
-internal val ServerConnectionStatus.containerColor: Color
+internal val VPNConnectionStatus.containerColor: Color
     @Composable
     get() = when (this) {
-        ServerConnectionStatus.Disconnected -> ColorPalette.MooncloakYellow
-        ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.surface
-        ServerConnectionStatus.Disconnecting -> MaterialTheme.colorScheme.surface
-        ServerConnectionStatus.Connected -> ColorPalette.MooncloakDarkPrimary
-        ServerConnectionStatus.Checking -> ColorPalette.MooncloakYellow
+        VPNConnectionStatus.Disconnected -> ColorPalette.MooncloakYellow
+        VPNConnectionStatus.Connecting -> MaterialTheme.colorScheme.surface
+        VPNConnectionStatus.Disconnecting -> MaterialTheme.colorScheme.surface
+        VPNConnectionStatus.Connected -> ColorPalette.MooncloakDarkPrimary
+        VPNConnectionStatus.Checking -> ColorPalette.MooncloakYellow
     }
 
-internal val ServerConnectionStatus.contentColor: Color
+internal val VPNConnectionStatus.contentColor: Color
     @Composable
     get() = when (this) {
-        ServerConnectionStatus.Disconnected -> ColorPalette.MooncloakDarkPrimaryDark
-        ServerConnectionStatus.Connecting -> MaterialTheme.colorScheme.onSurface
-        ServerConnectionStatus.Disconnecting -> MaterialTheme.colorScheme.onSurface
-        ServerConnectionStatus.Connected -> Color.White
-        ServerConnectionStatus.Checking -> ColorPalette.MooncloakDarkPrimaryDark
+        VPNConnectionStatus.Disconnected -> ColorPalette.MooncloakDarkPrimaryDark
+        VPNConnectionStatus.Connecting -> MaterialTheme.colorScheme.onSurface
+        VPNConnectionStatus.Disconnecting -> MaterialTheme.colorScheme.onSurface
+        VPNConnectionStatus.Connected -> Color.White
+        VPNConnectionStatus.Checking -> ColorPalette.MooncloakDarkPrimaryDark
     }

@@ -2,7 +2,7 @@ package com.mooncloak.vpn.app.shared.api.vpn
 
 import androidx.compose.runtime.Immutable
 import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.server.ServerConnectionStatus
+import com.mooncloak.vpn.app.shared.api.server.VPNConnectionStatus
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Transient
 import kotlin.contracts.ExperimentalContracts
@@ -11,7 +11,7 @@ import kotlin.contracts.contract
 @Immutable
 public sealed interface VPNConnection {
 
-    public val status: ServerConnectionStatus
+    public val status: VPNConnectionStatus
 
     @Immutable
     public data class Connecting public constructor(
@@ -20,23 +20,17 @@ public sealed interface VPNConnection {
     ) : VPNConnection {
 
         @Transient
-        override val status: ServerConnectionStatus = ServerConnectionStatus.Connecting
+        override val status: VPNConnectionStatus = VPNConnectionStatus.Connecting
     }
 
     @Immutable
     public data class Connected public constructor(
         public val tunnels: List<Tunnel> = emptyList(),
-        public val sessionId: String,
-        public val server: Server,
-        public val timestamp: Instant,
-        public val rxThroughput: Long? = null,
-        public val txThroughput: Long? = null,
-        public val totalRx: Long? = null,
-        public val totalTx: Long? = null
+        public val timestamp: Instant
     ) : VPNConnection {
 
         @Transient
-        override val status: ServerConnectionStatus = ServerConnectionStatus.Connected
+        override val status: VPNConnectionStatus = VPNConnectionStatus.Connected
     }
 
     @Immutable
@@ -46,17 +40,17 @@ public sealed interface VPNConnection {
     ) : VPNConnection {
 
         @Transient
-        override val status: ServerConnectionStatus = ServerConnectionStatus.Disconnecting
+        override val status: VPNConnectionStatus = VPNConnectionStatus.Disconnecting
     }
 
     @Immutable
     public data class Disconnected public constructor(
         public val errorMessage: String? = null,
-        public val cause: Throwable? = null
+        public val errorCause: Throwable? = null
     ) : VPNConnection {
 
         @Transient
-        override val status: ServerConnectionStatus = ServerConnectionStatus.Disconnected
+        override val status: VPNConnectionStatus = VPNConnectionStatus.Disconnected
     }
 
     public companion object
@@ -117,3 +111,14 @@ public inline fun VPNConnection.isDisconnected(): Boolean {
 
     return this is VPNConnection.Disconnected
 }
+
+/**
+ * Determines if this [VPNConnection] is [VPNConnection.Connected] with a tunnel connected to the provided [server]
+ * instance.
+ */
+public fun VPNConnection.connectedTo(server: Server): Boolean =
+    if (this is VPNConnection.Connected) {
+        this.tunnels.any { tunnel -> tunnel.server == server }
+    } else {
+        false
+    }

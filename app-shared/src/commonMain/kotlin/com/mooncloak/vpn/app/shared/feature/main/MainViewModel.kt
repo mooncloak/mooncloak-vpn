@@ -49,7 +49,7 @@ public class MainViewModel @Inject public constructor(
 
         serverConnectionJob?.cancel()
         serverConnectionJob = serverConnectionManager.connection
-            .onEach { connection -> emit { current -> current.copy(VPNConnection = connection) } }
+            .onEach { connection -> emit { current -> current.copy(connection = connection) } }
             .catch { e -> LogPile.error(message = "Error listening to server connection changes.", cause = e) }
             .flowOn(Dispatchers.Main)
             .launchIn(coroutineScope)

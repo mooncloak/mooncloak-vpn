@@ -111,10 +111,10 @@ public fun MainScreen(
         },
         floatingActionButton = {
             val containerColor = animateColorAsState(
-                targetValue = viewModel.state.current.value.VPNConnection.status.containerColor
+                targetValue = viewModel.state.current.value.connection.status.containerColor
             )
             val contentColor = animateColorAsState(
-                targetValue = viewModel.state.current.value.VPNConnection.status.contentColor
+                targetValue = viewModel.state.current.value.connection.status.contentColor
             )
 
             FloatingActionButton(
@@ -123,7 +123,7 @@ public fun MainScreen(
                 contentColor = contentColor.value,
                 onClick = {
                     coroutineScope.launch {
-                        if (viewModel.state.current.value.subscription != null || viewModel.state.current.value.VPNConnection.isConnected()) {
+                        if (viewModel.state.current.value.subscription != null || viewModel.state.current.value.connection.isConnected()) {
                             bottomSheetState.show(MainBottomSheetDestination.ServerConnection)
                         } else {
                             bottomSheetState.show(MainBottomSheetDestination.SelectPlan)
@@ -131,7 +131,7 @@ public fun MainScreen(
                     }
                 },
                 content = {
-                    viewModel.state.current.value.VPNConnection.status.floatingActionBarContent()
+                    viewModel.state.current.value.connection.status.floatingActionBarContent()
                 }
             )
         },

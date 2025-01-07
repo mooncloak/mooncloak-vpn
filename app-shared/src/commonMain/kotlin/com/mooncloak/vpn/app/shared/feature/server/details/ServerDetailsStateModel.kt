@@ -6,6 +6,7 @@ import com.mooncloak.vpn.app.shared.api.location.Region
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkInfo
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
+import com.mooncloak.vpn.app.shared.api.vpn.connectedTo
 import kotlinx.datetime.Instant
 
 @Immutable
@@ -21,7 +22,7 @@ public data class ServerDetailsStateModel public constructor(
 )
 
 public val ServerDetailsStateModel.isConnectedServer: Boolean
-    inline get() = connection is VPNConnection.Connected && server == connection.server
+    inline get() = connection is VPNConnection.Connected && server != null && connection.connectedTo(server)
 
 public val ServerDetailsStateModel.connectionTimestamp: Instant?
     inline get() = if (this.isConnectedServer) {

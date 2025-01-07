@@ -104,18 +104,22 @@ public fun ServerDetailsScreen(
 
                 (viewModel.state.current.value.connection as? VPNConnection.Connected)?.let { connection ->
                     item(key = "ServerSpeedItem") {
+                        val tunnel = connection.tunnels.first()
+
                         SpeedCard(
                             modifier = Modifier.fillMaxWidth(),
-                            downloadBits = connection.rxThroughput,
-                            uploadBits = connection.txThroughput
+                            downloadBits = tunnel.stats?.rxThroughput,
+                            uploadBits = tunnel.stats?.txThroughput
                         )
                     }
 
                     item(key = "ServerUsageItem") {
+                        val tunnel = connection.tunnels.first()
+
                         UsageCard(
                             modifier = Modifier.fillMaxWidth(),
-                            downloadBytes = connection.totalRx,
-                            uploadBytes = connection.totalTx
+                            downloadBytes = tunnel.stats?.totalRx,
+                            uploadBytes = tunnel.stats?.totalTx
                         )
                     }
                 }
