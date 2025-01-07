@@ -7,14 +7,20 @@
 
     <!-- Permissions -->
 
-    <!-- Allows the application to access the internet which is required. -->
+    <!-- Allows the application to access the internet which is required for the VPN application to function. -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Allows the application to access information about the network state, such as using ConnectivityManager. -->
+    <!-- Required to obtain local IP address information needed to construct the VPN configuration. -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- Allows the application to access information about the WiFI state, such as using WifiManager. -->
+    <!-- Required to obtain local IP address information needed to construct the VPN configuration. -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!-- Required to show notifications. We are required by Android to show a notification when the VPN service is activated. -->
+    <!-- See documentation for more details: https://developer.android.com/develop/ui/views/notifications/build-notification#permission -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name="com.mooncloak.vpn.app.android.MooncloakVpnApplication"
