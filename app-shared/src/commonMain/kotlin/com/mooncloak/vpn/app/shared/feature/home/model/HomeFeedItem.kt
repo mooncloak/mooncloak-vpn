@@ -3,11 +3,8 @@ package com.mooncloak.vpn.app.shared.feature.home.model
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.painter.Painter
-import com.mooncloak.vpn.app.shared.api.server.ConnectionType
-import com.mooncloak.vpn.app.shared.api.location.Country
-import com.mooncloak.vpn.app.shared.api.location.Region
 import com.mooncloak.vpn.app.shared.api.server.Server
-import kotlinx.datetime.Instant
+import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import kotlin.time.Duration
 
 @Immutable
@@ -40,14 +37,13 @@ public sealed interface HomeFeedItem {
 
     @Immutable
     public data class ServerConnectionItem public constructor(
-        public val country: Country,
-        public val region: Region? = null,
+        public val connection: VPNConnection.Connected
+    ) : HomeFeedItem
+
+    @Immutable
+    public data class ServerItem public constructor(
         public val server: Server,
-        public val connectionType: ConnectionType,
-        public val connected: Boolean = false,
-        public val default: Boolean = false,
-        public val starred: Boolean = false,
-        public val lastUsed: Instant? = null
+        public val connected: Boolean
     ) : HomeFeedItem
 
     public companion object

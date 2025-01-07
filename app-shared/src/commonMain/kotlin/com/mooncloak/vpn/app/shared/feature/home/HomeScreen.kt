@@ -141,13 +141,38 @@ public fun HomeScreen(
                         }
                     )
 
-                    is HomeFeedItem.ServerConnectionItem -> ServerConnectionCard(
+                    is HomeFeedItem.ServerConnectionItem -> {
+                        val tunnel = item.connection.tunnels.firstOrNull { it.server != null }
+                        val server = tunnel?.server
+
+                        if (server != null) {
+                            ServerConnectionCard(
+                                modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                                    .fillMaxWidth(),
+                                countryName = server.country?.name,
+                                countryFlag = server.country?.flag,
+                                serverName = server.name,
+                                connectionType = server.connectionTypes.firstOrNull(),
+                                connected = true,
+                                onConnect = {
+                                    viewModel.toggleConnection(server = server)
+                                },
+                                onDetails = {
+                                    coroutineScope.launch {
+                                        bottomSheetState.show(HomeBottomSheetDestination.ServerDetails(server))
+                                    }
+                                }
+                            )
+                        }
+                    }
+
+                    is HomeFeedItem.ServerItem -> ServerConnectionCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth(),
-                        countryName = item.country.name,
-                        countryFlag = item.country.flag,
+                        countryName = item.server.country?.name,
+                        countryFlag = item.server.country?.flag,
                         serverName = item.server.name,
-                        connectionType = item.connectionType,
+                        connectionType = item.server.connectionTypes.firstOrNull(),
                         connected = item.connected,
                         onConnect = {
                             viewModel.toggleConnection(server = item.server)

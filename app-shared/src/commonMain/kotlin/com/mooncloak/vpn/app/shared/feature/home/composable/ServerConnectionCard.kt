@@ -31,7 +31,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun ServerConnectionCard(
-    countryName: String,
+    countryName: String?,
     countryFlag: String?,
     serverName: String,
     connectionType: ConnectionType?,
@@ -63,7 +63,7 @@ internal fun ServerConnectionCard(
                 }).takeIf { countryFlag != null },
                 headlineContent = {
                     Text(
-                        text = countryName,
+                        text = countryName ?: serverName,
                         style = MaterialTheme.typography.titleLarge
                     )
                 },

@@ -22,6 +22,7 @@ import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
 import com.mooncloak.vpn.app.shared.api.vpn.connectedTo
+import com.mooncloak.vpn.app.shared.api.vpn.isConnected
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
@@ -64,8 +65,7 @@ public class HomeViewModel @Inject public constructor(
     private val localNetworkManager: LocalNetworkManager
 ) : ViewModel<HomeStateModel>(initialStateValue = HomeStateModel()) {
 
-    private val noSubscriptionItems = listOf(
-        HomeFeedItem.GetVPNServiceItem,
+    private val showcaseItems = listOf(
         HomeFeedItem.ShowcaseItem(
             icon = { rememberVectorPainter(Icons.Default.CloudOff) },
             title = { stringResource(Res.string.onboarding_title_no_tracking) },
@@ -118,8 +118,14 @@ public class HomeViewModel @Inject public constructor(
             connectionJob = serverConnectionManager.connection
                 .onEach { connection ->
                     emit { current ->
+                        val updatedItems = getFeedItems(
+                            hasSubscription = current.subscription != null,
+                            connection = connection
+                        )
+
                         current.copy(
                             connection = connection,
+                            items = updatedItems,
                             isCheckingStatus = false
                         )
                     }
@@ -137,12 +143,10 @@ public class HomeViewModel @Inject public constructor(
 
                 // TODO: If the subscription model is null, but we have the tokens, load the updated subscription model from the cloud API.
 
-                val items = if (subscription == null) {
-                    noSubscriptionItems
-                } else {
-                    // TODO: The list of items for the subscribed user.
-                    emptyList<HomeFeedItem>()
-                }
+                val items = getFeedItems(
+                    hasSubscription = subscription != null,
+                    connection = state.current.value.connection
+                )
 
                 emit(
                     value = state.current.value.copy(
@@ -191,6 +195,32 @@ public class HomeViewModel @Inject public constructor(
                     )
                 }
             }
+        }
+    }
+
+    private fun getFeedItems(
+        hasSubscription: Boolean,
+        connection: VPNConnection
+    ): List<HomeFeedItem> {
+        val connectionItem = if (connection.isConnected()) {
+            HomeFeedItem.ServerConnectionItem(
+                connection = connection
+            )
+        } else {
+            null
+        }
+
+        val firstItems = if (hasSubscription) {
+            emptyList<HomeFeedItem>()
+        } else {
+            listOf(HomeFeedItem.GetVPNServiceItem)
+        }
+
+        // TODO: The list of items for the subscribed user.
+        return if (connectionItem != null) {
+            firstItems + connectionItem + showcaseItems
+        } else {
+            firstItems + showcaseItems
         }
     }
 }
