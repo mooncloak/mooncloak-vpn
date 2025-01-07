@@ -210,7 +210,7 @@ public class HomeViewModel @Inject public constructor(
             null
         }
 
-        val firstItems = if (hasSubscription) {
+        val firstItems = if (hasSubscription || connection.isConnected()) {
             emptyList<HomeFeedItem>()
         } else {
             listOf(HomeFeedItem.GetVPNServiceItem)
