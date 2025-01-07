@@ -5,13 +5,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import com.mooncloak.vpn.app.android.api.server.AndroidVPNConnectionManager
 import com.mooncloak.vpn.app.android.di.create
 import com.mooncloak.vpn.app.shared.feature.app.ApplicationRootScreen
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.util.platformDefaultUriHandler
 
 public class MainActivity : BaseActivity() {
+
+    private var vpnConnectionManager: AndroidVPNConnectionManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Prevents screen capture and displaying contents on the "recent" screen
@@ -33,12 +37,27 @@ public class MainActivity : BaseActivity() {
                 uriHandler = platformUriHandler
             )
 
+            LaunchedEffect(presentationDependencies) {
+                vpnConnectionManager = presentationDependencies.vpnConnectionManager as? AndroidVPNConnectionManager
+            }
+
             ApplicationRootScreen(
                 applicationComponent = applicationDependencies,
                 presentationComponent = presentationDependencies,
                 uriHandler = platformUriHandler
             )
         }
+    }
+
+    @Suppress("OVERRIDE_DEPRECATION")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        vpnConnectionManager?.receivedResult(
+            requestCode = requestCode,
+            resultCode = resultCode,
+            data = data
+        )
     }
 
     public companion object {

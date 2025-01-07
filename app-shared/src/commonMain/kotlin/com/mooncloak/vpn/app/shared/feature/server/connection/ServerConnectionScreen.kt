@@ -55,19 +55,21 @@ public fun ServerConnectionScreen(
                 )
 
                 is VPNConnection.Connected -> {
-                    val tunnel = connection.tunnels.first { it.server != null }
-                    val server = tunnel.server!!
+                    val tunnel = connection.tunnels.firstOrNull { it.server != null }
+                    val server = tunnel?.server
 
-                    ServerConnectedLayout(
-                        modifier = Modifier.fillMaxWidth(),
-                        server = server,
-                        timestamp = connection.timestamp,
-                        rxThroughput = tunnel.stats?.rxThroughput,
-                        txThroughput = tunnel.stats?.txThroughput,
-                        onDisconnect = {
-                            viewModel.disconnect()
-                        }
-                    )
+                    if (tunnel != null && server != null) {
+                        ServerConnectedLayout(
+                            modifier = Modifier.fillMaxWidth(),
+                            server = server,
+                            timestamp = connection.timestamp,
+                            rxThroughput = tunnel.stats?.rxThroughput,
+                            txThroughput = tunnel.stats?.txThroughput,
+                            onDisconnect = {
+                                viewModel.disconnect()
+                            }
+                        )
+                    }
                 }
 
                 is VPNConnection.Disconnected -> if (connection.errorMessage != null) {

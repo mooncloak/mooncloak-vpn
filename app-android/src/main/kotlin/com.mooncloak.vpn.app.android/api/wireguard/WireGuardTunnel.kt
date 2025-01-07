@@ -6,15 +6,18 @@ import com.wireguard.android.backend.Statistics
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Represents a WireGuard Tunnel VPN connection. This class implements the [com.wireguard.android.backend.Tunnel]
  * interface and provides some useful functionality for accessing the current state and values of this
  * [com.wireguard.android.backend.Tunnel]. Use the [WireGuardTunnelManager] to obtain instances of this class.
  */
+@OptIn(ExperimentalUuidApi::class)
 public class WireGuardTunnel internal constructor(
     override val tunnelName: String,
-    override val sessionId: String? = null,
+    override val sessionId: String? = Uuid.random().toHexString(),
     override val server: Server? = null
 ) : com.wireguard.android.backend.Tunnel,
     com.mooncloak.vpn.app.shared.api.vpn.Tunnel {
@@ -44,6 +47,8 @@ public class WireGuardTunnel internal constructor(
         if (this === other) return true
         if (other !is WireGuardTunnel) return false
 
+        // The WireGuard library only uses the name to identify tunnels. So, if the name is the same, we consider it
+        // the same tunnel instance.
         return tunnelName == other.tunnelName
     }
 

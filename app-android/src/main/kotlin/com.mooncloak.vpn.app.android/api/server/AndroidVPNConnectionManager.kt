@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.android.api.server
 
 import android.app.Activity
+import android.content.Intent
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
@@ -15,6 +16,7 @@ import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.api.vpn.isConnecting
+import com.mooncloak.vpn.app.shared.api.vpn.isDisconnected
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import com.mooncloak.vpn.app.shared.util.coroutine.PresentationCoroutineScope
 import com.wireguard.android.backend.GoBackend
@@ -27,10 +29,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
+import kotlin.coroutines.resume
 import kotlin.time.Duration.Companion.seconds
 
 internal class AndroidVPNConnectionManager @Inject internal constructor(
@@ -61,6 +65,8 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
     private var isClosed = true
     private var job: Job? = null
 
+    private var intentCallback: (() -> Unit)? = null
+
     override fun start() {
         if (isClosed && coroutineScope.isActive) {
             job?.cancel()
@@ -83,6 +89,12 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
     override suspend fun connect(server: Server) {
         toggleMutex.withLock {
             try {
+                // We only support a single tunnel connection right now. So, if we are not currently disconnected,
+                // disconnect before we connect.
+                if (!connection.value.isDisconnected()) {
+                    closeAllTunnels()
+                }
+
                 emit(
                     VPNConnection.Connecting(
                         server = server,
@@ -93,8 +105,17 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
                 // First we have to prepare the VPN Service if it wasn't already done.
                 val intent = GoBackend.VpnService.prepare(context)
                 if (intent != null) {
+                    LogPile.info(tag = TAG, message = "Preparing VPN Service.")
+
                     context.startActivityForResult(intent, REQUEST_CODE)
-                    // TODO: Suspend waiting for result.
+
+                    suspendCancellableCoroutine { continuation ->
+                        intentCallback = {
+                            LogPile.info(tag = TAG, message = "Intent Callback.")
+
+                            continuation.resume(Unit)
+                        }
+                    }
                 }
 
                 val localIpAddress = localNetworkManager.getInfo()?.ipAddress
@@ -106,7 +127,10 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
                     keyPair = keyPair.keyPair,
                     localIpAddress = localIpAddress
                 )
-                val tunnel = WireGuardTunnel(tunnelName = server.name)
+                val tunnel = WireGuardTunnel(
+                    tunnelName = server.name,
+                    server = server
+                )
 
                 withContext(Dispatchers.IO) {
                     backend.setState(
@@ -115,6 +139,8 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
                         wireGuardConfig
                     )
                 }
+
+                connectedTunnels[tunnel.name] = tunnel
 
                 updateTunnels()
             } catch (e: Exception) {
@@ -131,6 +157,13 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
     override suspend fun disconnect() {
         toggleMutex.withLock {
             closeAllTunnels()
+        }
+    }
+
+    internal fun receivedResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_CODE) {
+            // TODO: Verify success/error
+            intentCallback?.invoke()
         }
     }
 
@@ -167,6 +200,8 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
     private suspend fun updateTunnels() {
         val updatedTunnels = mutableMapOf<String, WireGuardTunnel>()
 
+        LogPile.info(tag = TAG, message = "updatedTunnels: running tunnels = ${backend.runningTunnelNames}")
+
         for (tunnelName in backend.runningTunnelNames) {
             val tunnel = connectedTunnels[tunnelName] ?: WireGuardTunnel(tunnelName = tunnelName)
 
@@ -176,7 +211,7 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
             tunnel.onStateChange(state)
             tunnel.onStatisticsChanged(stats)
 
-            updatedTunnels[tunnelName]
+            updatedTunnels[tunnelName] = tunnel
         }
 
         connectedTunnels.clear()
@@ -198,6 +233,8 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
 
     private suspend fun emit(connection: VPNConnection) {
         emitMutex.withLock {
+            LogPile.info(tag = TAG, message = "Emitting updated connection: $connection")
+
             mutableConnection.value = connection
         }
     }
@@ -214,6 +251,6 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
     internal companion object {
 
         private const val TAG: String = "VPNConnectionManager"
-        internal const val REQUEST_CODE: Int = 0
+        internal const val REQUEST_CODE: Int = 123456
     }
 }
