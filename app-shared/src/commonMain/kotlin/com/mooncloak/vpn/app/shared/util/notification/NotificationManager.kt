@@ -23,6 +23,7 @@ public interface NotificationManager {
         priority: NotificationPriority = NotificationPriority.DEFAULT,
         category: NotificationCategory? = null,
         lockScreenVisibility: NotificationLockScreenVisibility = NotificationLockScreenVisibility.Private,
+        tapAction: NotificationAction? = null,
         actions: List<NotificationAction> = emptyList(),
         onlyAlertOnce: Boolean = true,
         ongoing: Boolean = false,

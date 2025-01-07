@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
 import androidx.compose.ui.graphics.Color
@@ -92,6 +93,7 @@ public class AndroidNotificationManager @Inject public constructor(
         priority: NotificationPriority,
         category: NotificationCategory?,
         lockScreenVisibility: NotificationLockScreenVisibility,
+        tapAction: NotificationAction?,
         actions: List<NotificationAction>,
         onlyAlertOnce: Boolean,
         ongoing: Boolean,
@@ -114,6 +116,10 @@ public class AndroidNotificationManager @Inject public constructor(
 
         if (color != null) {
             builder = builder.setColor(color.toArgb())
+        }
+
+        if (tapAction != null) {
+            builder = builder.setContentIntent(tapAction.intent)
         }
 
         for (action in actions) {
