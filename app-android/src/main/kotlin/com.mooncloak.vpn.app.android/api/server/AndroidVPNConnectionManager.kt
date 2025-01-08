@@ -19,14 +19,15 @@ import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.api.vpn.isConnected
 import com.mooncloak.vpn.app.shared.api.vpn.isConnecting
 import com.mooncloak.vpn.app.shared.api.vpn.isDisconnected
-import com.mooncloak.vpn.app.shared.util.coroutine.PresentationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
 import com.mooncloak.vpn.app.shared.util.notification.cancelVPNNotification
 import com.mooncloak.vpn.app.shared.util.notification.showVPNNotification
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.Tunnel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -47,7 +48,6 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
     private val connectionKeyPairResolver: WireGuardConnectionKeyPairResolver,
     private val clock: Clock,
     private val localNetworkManager: LocalNetworkManager,
-    private val coroutineScope: PresentationCoroutineScope,
     private val notificationManager: NotificationManager
 ) : VPNConnectionManager {
 
@@ -66,6 +66,7 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
     private val toggleMutex = Mutex(locked = false)
     private val emitMutex = Mutex(locked = false)
 
+    private var coroutineScope: CoroutineScope = MainScope()
     private var isClosed = true
     private var job: Job? = null
 
