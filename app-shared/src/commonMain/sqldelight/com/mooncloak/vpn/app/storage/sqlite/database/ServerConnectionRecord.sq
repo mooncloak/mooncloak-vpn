@@ -50,6 +50,30 @@ UPDATE ServerConnectionRecord
 SET note = :note
 WHERE id = :id;
 
+updateAll:
+UPDATE ServerConnectionRecord
+SET updated = :updated,
+    serverUpdated = :serverUpdated,
+    connected = :connected,
+    starred = :starred,
+    name = :name,
+    countryCode = :countryCode,
+    regionCode = :regionCode,
+    country = :country,
+    region = :region,
+    uri = :uri,
+    self = :self,
+    ipv4 = :ipv4,
+    ipv6 = :ipv6,
+    hostname = :hostname,
+    port = :port,
+    connectionTypes = :connectionTypes,
+    protocols = :protocols,
+    tags = :tags,
+    note = :note,
+    requiresSubscription = :requiresSubscription
+WHERE id = :id;
+
 selectAll:
 SELECT *
 FROM ServerConnectionRecord

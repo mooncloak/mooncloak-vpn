@@ -120,6 +120,16 @@ public class ServerDetailsViewModel @Inject public constructor(
                         vpnConnectionManager.connect(server)
                     } else {
                         vpnConnectionManager.disconnect()
+
+                        if (server != null) {
+                            val lastConnected = serverConnectionRecordRepository.getOrNull(id = server.id)
+
+                            emit(
+                                value = state.current.value.copy(
+                                    lastConnected = lastConnected?.lastConnected
+                                )
+                            )
+                        }
                     }
                 } catch (e: Exception) {
                     LogPile.error(message = "Error connecting to VPN server.", cause = e)

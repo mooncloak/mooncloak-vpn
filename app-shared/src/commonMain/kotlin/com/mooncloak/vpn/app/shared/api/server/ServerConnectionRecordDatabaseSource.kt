@@ -159,6 +159,109 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
         }
     }
 
+    override suspend fun update(server: Server, lastConnected: Instant?, starred: Instant?, note: String?) {
+        mutex.withLock {
+            val now = clock.now()
+
+            database.serverConnectionRecordQueries.updateAll(
+                id = server.id,
+                updated = now,
+                serverUpdated = server.updated,
+                connected = lastConnected,
+                starred = starred,
+                name = server.name,
+                countryCode = server.country?.code?.value,
+                regionCode = server.region?.code?.value,
+                country = server.country?.let { country ->
+                    json.encodeToJsonElement(
+                        serializer = Country.serializer(),
+                        value = country
+                    )
+                },
+                region = server.region?.let { region ->
+                    json.encodeToJsonElement(
+                        serializer = Region.serializer(),
+                        value = region
+                    )
+                },
+                uri = server.uri,
+                self = server.self,
+                ipv4 = server.ipV4Address,
+                ipv6 = server.ipV6Address,
+                hostname = server.hostname,
+                port = server.port?.toLong(),
+                connectionTypes = json.encodeToJsonElement(
+                    serializer = ListSerializer(ConnectionType.serializer()),
+                    value = server.connectionTypes
+                ),
+                protocols = json.encodeToJsonElement(
+                    serializer = ListSerializer(VPNProtocol.serializer()),
+                    value = server.protocols
+                ),
+                tags = json.encodeToJsonElement(
+                    serializer = ListSerializer(String.serializer()),
+                    value = server.tags
+                ),
+                note = note,
+                requiresSubscription = server.requiresSubscription
+            )
+        }
+    }
+
+    override suspend fun update(server: Server, lastConnected: Instant?) {
+        mutex.withLock {
+            val now = clock.now()
+
+            database.transaction {
+                val current = database.serverConnectionRecordQueries.selectById(id = server.id)
+                    .executeAsOneOrNull()
+
+                database.serverConnectionRecordQueries.updateAll(
+                    id = server.id,
+                    updated = now,
+                    serverUpdated = server.updated,
+                    connected = lastConnected,
+                    starred = current?.starred,
+                    name = server.name,
+                    countryCode = server.country?.code?.value,
+                    regionCode = server.region?.code?.value,
+                    country = server.country?.let { country ->
+                        json.encodeToJsonElement(
+                            serializer = Country.serializer(),
+                            value = country
+                        )
+                    },
+                    region = server.region?.let { region ->
+                        json.encodeToJsonElement(
+                            serializer = Region.serializer(),
+                            value = region
+                        )
+                    },
+                    uri = server.uri,
+                    self = server.self,
+                    ipv4 = server.ipV4Address,
+                    ipv6 = server.ipV6Address,
+                    hostname = server.hostname,
+                    port = server.port?.toLong(),
+                    connectionTypes = json.encodeToJsonElement(
+                        serializer = ListSerializer(ConnectionType.serializer()),
+                        value = server.connectionTypes
+                    ),
+                    protocols = json.encodeToJsonElement(
+                        serializer = ListSerializer(VPNProtocol.serializer()),
+                        value = server.protocols
+                    ),
+                    tags = json.encodeToJsonElement(
+                        serializer = ListSerializer(String.serializer()),
+                        value = server.tags
+                    ),
+                    note = current?.note,
+                    requiresSubscription = server.requiresSubscription
+                )
+            }
+        }
+    }
+
     override suspend fun remove(id: String) {
         mutex.withLock {
             database.serverConnectionRecordQueries.deleteById(id = id)

@@ -27,7 +27,7 @@ public interface ServerConnectionRecordRepository {
     public suspend fun add(
         server: Server,
         lastConnected: Instant? = null,
-        starred: Boolean = false,
+        starred: Boolean,
         note: String? = null
     )
 
@@ -36,6 +36,18 @@ public interface ServerConnectionRecordRepository {
         lastConnected: Instant? = null,
         starred: Instant? = null,
         note: String? = null
+    )
+
+    public suspend fun update(
+        server: Server,
+        lastConnected: Instant? = null,
+        starred: Instant?,
+        note: String?
+    )
+
+    public suspend fun update(
+        server: Server,
+        lastConnected: Instant?
     )
 
     public suspend fun update(
@@ -52,6 +64,27 @@ public interface ServerConnectionRecordRepository {
         id: String,
         note: String?
     )
+
+    public suspend fun upsert(
+        server: Server,
+        lastConnected: Instant? = null
+    ) {
+        val model = getOrNull(id = server.id)
+
+        if (model == null) {
+            add(
+                server = server,
+                lastConnected = lastConnected,
+                starred = null,
+                note = null
+            )
+        } else {
+            update(
+                server = server,
+                lastConnected = lastConnected
+            )
+        }
+    }
 
     public suspend fun remove(id: String)
 

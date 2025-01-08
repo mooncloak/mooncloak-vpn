@@ -9,20 +9,17 @@ import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.vpn.app.android.api.wireguard.AndroidWireGuardConnectionKeyPair
 import com.mooncloak.vpn.app.android.api.wireguard.WireGuardTunnel
 import com.mooncloak.vpn.app.android.api.wireguard.toWireGuardConfig
-import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.server.Server
+import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.api.vpn.isConnected
 import com.mooncloak.vpn.app.shared.api.vpn.isConnecting
 import com.mooncloak.vpn.app.shared.api.vpn.isDisconnected
-import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import com.mooncloak.vpn.app.shared.util.coroutine.PresentationCoroutineScope
-import com.mooncloak.vpn.app.shared.util.notification.NotificationCategory
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
-import com.mooncloak.vpn.app.shared.util.notification.NotificationPriority
 import com.mooncloak.vpn.app.shared.util.notification.cancelVPNNotification
 import com.mooncloak.vpn.app.shared.util.notification.showVPNNotification
 import com.wireguard.android.backend.GoBackend
@@ -45,8 +42,7 @@ import kotlin.time.Duration.Companion.seconds
 
 internal class AndroidVPNConnectionManager @Inject internal constructor(
     private val context: Activity,
-    private val api: MooncloakVpnServiceHttpApi,
-    private val subscriptionStorage: SubscriptionStorage,
+    private val serverConnectionRecordRepository: ServerConnectionRecordRepository,
     private val connectionKeyPairResolver: WireGuardConnectionKeyPairResolver,
     private val clock: Clock,
     private val localNetworkManager: LocalNetworkManager,
@@ -150,6 +146,15 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
                 }
 
                 connectedTunnels[tunnel.name] = tunnel
+
+                try {
+                    serverConnectionRecordRepository.upsert(
+                        server = server,
+                        lastConnected = clock.now()
+                    )
+                } catch (e: Exception) {
+                    LogPile.error(tag = TAG, message = "Error saving VPN server connection record.", cause = e)
+                }
 
                 updateTunnels()
             } catch (e: Exception) {
