@@ -118,8 +118,8 @@ public fun ServerDetailsScreen(
                         SpeedCard(
                             modifier = Modifier.fillMaxWidth()
                                 .animateItem(),
-                            downloadBits = tunnel?.stats?.rxThroughput,
-                            uploadBits = tunnel?.stats?.txThroughput
+                            downloadBits = tunnel?.stats?.value?.rxThroughput,
+                            uploadBits = tunnel?.stats?.value?.txThroughput
                         )
                     }
 
@@ -129,8 +129,8 @@ public fun ServerDetailsScreen(
                         UsageCard(
                             modifier = Modifier.fillMaxWidth()
                                 .animateItem(),
-                            downloadBytes = tunnel?.stats?.totalRx,
-                            uploadBytes = tunnel?.stats?.totalTx
+                            downloadBytes = tunnel?.stats?.value?.totalRx,
+                            uploadBytes = tunnel?.stats?.value?.totalTx
                         )
                     }
                 }

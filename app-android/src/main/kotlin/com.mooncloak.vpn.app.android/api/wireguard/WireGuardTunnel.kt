@@ -1,9 +1,10 @@
 package com.mooncloak.vpn.app.android.api.wireguard
 
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.mooncloak.vpn.app.shared.api.server.Server
+import com.mooncloak.vpn.app.shared.api.server.VPNConnectionStatus
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelStats
 import com.wireguard.android.backend.Statistics
 import kotlin.uuid.ExperimentalUuidApi
@@ -19,21 +20,29 @@ import kotlin.uuid.Uuid
 public class WireGuardTunnel internal constructor(
     override val tunnelName: String,
     override val sessionId: String? = Uuid.random().toHexString(),
-    override val server: Server? = null
+    override val server: Server? = null,
+    initialStats: TunnelStats? = null,
+    initialStatus: VPNConnectionStatus = VPNConnectionStatus.Disconnected
 ) : com.wireguard.android.backend.Tunnel,
     com.mooncloak.vpn.app.shared.api.vpn.Tunnel {
 
-    private val mutableState = mutableStateOf(com.wireguard.android.backend.Tunnel.State.DOWN)
-    private val mutableStats = mutableStateOf<TunnelStats?>(null)
+    private val mutableStats = mutableStateOf(initialStats)
+    private val mutableStatus = mutableStateOf(initialStatus)
 
-    override val stats: TunnelStats? by mutableStats
+    override val stats: State<TunnelStats?>
+        get() = mutableStats
 
-    public val state: com.wireguard.android.backend.Tunnel.State by mutableState
+    override val status: State<VPNConnectionStatus>
+        get() = mutableStatus
 
     override fun getName(): String = tunnelName
 
     override fun onStateChange(newState: com.wireguard.android.backend.Tunnel.State) {
-        mutableState.value = newState
+        mutableStatus.value = when (newState) {
+            com.wireguard.android.backend.Tunnel.State.DOWN -> VPNConnectionStatus.Disconnected
+            com.wireguard.android.backend.Tunnel.State.TOGGLE -> VPNConnectionStatus.Connecting
+            com.wireguard.android.backend.Tunnel.State.UP -> VPNConnectionStatus.Connected
+        }
     }
 
     internal fun onStatisticsChanged(statistics: Statistics?) {
@@ -63,5 +72,5 @@ public class WireGuardTunnel internal constructor(
     override fun hashCode(): Int = tunnelName.hashCode()
 
     override fun toString(): String =
-        "WireGuardTunnel(name='$tunnelName', state=$state, stats=$stats)"
+        "WireGuardTunnel(stats=$stats, status=$status, server=$server, sessionId=$sessionId, tunnelName='$tunnelName')"
 }

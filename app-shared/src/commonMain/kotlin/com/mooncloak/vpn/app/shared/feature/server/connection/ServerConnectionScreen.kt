@@ -65,8 +65,8 @@ public fun ServerConnectionScreen(
                             modifier = Modifier.fillMaxWidth(),
                             server = server,
                             timestamp = connection.timestamp,
-                            rxThroughput = tunnel.stats?.rxThroughput,
-                            txThroughput = tunnel.stats?.txThroughput,
+                            rxThroughput = tunnel.stats.value?.rxThroughput,
+                            txThroughput = tunnel.stats.value?.txThroughput,
                             onDisconnect = {
                                 viewModel.disconnect()
                             }
