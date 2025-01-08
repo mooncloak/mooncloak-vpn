@@ -7,6 +7,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -26,7 +27,11 @@ import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.getString
 import kotlin.coroutines.resume
 
-public actual suspend fun com.mooncloak.vpn.app.shared.util.notification.NotificationManager.showVPNNotification() {
+public suspend fun com.mooncloak.vpn.app.shared.util.notification.NotificationManager.showVPNNotification(
+    context: Context,
+    openAppIntent: Intent,
+    // disconnectReceiver: BroadcastReceiver
+) {
     this.showNotification(
         channelId = com.mooncloak.vpn.app.shared.util.notification.NotificationManager.ChannelId.VPN,
         notificationId = com.mooncloak.vpn.app.shared.util.notification.NotificationManager.NotificationId.VPN,
@@ -34,7 +39,27 @@ public actual suspend fun com.mooncloak.vpn.app.shared.util.notification.Notific
         priority = NotificationPriority.MAX,
         category = NotificationCategory.Service,
         color = ColorPalette.MooncloakDarkPrimary,
-        ongoing = true
+        ongoing = true,
+        tapAction = NotificationAction(
+            title = "",
+            intent = PendingIntent.getActivity(
+                context,
+                0,
+                openAppIntent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+        ),
+        /*actions = listOf(
+            NotificationAction(
+                title = getString(Res.string.notification_action_vpn_disconnect),
+                intent = PendingIntent.getBroadcast(
+                    context,
+                    0,
+                    Intent(context, disconnectReceiver::class.java),
+                    PendingIntent.FLAG_IMMUTABLE
+                )
+            )
+        )*/
     )
 }
 

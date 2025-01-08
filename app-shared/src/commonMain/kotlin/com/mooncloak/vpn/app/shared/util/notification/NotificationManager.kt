@@ -47,8 +47,6 @@ public interface NotificationManager {
     public companion object
 }
 
-public expect suspend fun NotificationManager.showVPNNotification()
-
 public suspend fun NotificationManager.cancelVPNNotification() {
     this.cancel(notificationId = NotificationManager.NotificationId.VPN)
 }

@@ -6,6 +6,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.logpile.core.info
+import com.mooncloak.vpn.app.android.activity.MainActivity
 import com.mooncloak.vpn.app.android.api.wireguard.AndroidWireGuardConnectionKeyPair
 import com.mooncloak.vpn.app.android.api.wireguard.WireGuardTunnel
 import com.mooncloak.vpn.app.android.api.wireguard.toWireGuardConfig
@@ -41,7 +42,7 @@ import kotlin.coroutines.resume
 import kotlin.time.Duration.Companion.seconds
 
 internal class AndroidVPNConnectionManager @Inject internal constructor(
-    private val context: Activity,
+    private val activity: Activity,
     private val serverConnectionRecordRepository: ServerConnectionRecordRepository,
     private val connectionKeyPairResolver: WireGuardConnectionKeyPairResolver,
     private val clock: Clock,
@@ -58,7 +59,7 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
 
     private val mutableConnection = MutableStateFlow<VPNConnection>(VPNConnection.Disconnected())
 
-    private val backend = GoBackend(context)
+    private val backend = GoBackend(activity)
 
     private val connectedTunnels = mutableMapOf<String, WireGuardTunnel>()
 
@@ -106,11 +107,11 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
                 )
 
                 // First we have to prepare the VPN Service if it wasn't already done.
-                val intent = GoBackend.VpnService.prepare(context)
+                val intent = GoBackend.VpnService.prepare(activity)
                 if (intent != null) {
                     LogPile.info(tag = TAG, message = "Preparing VPN Service.")
 
-                    context.startActivityForResult(intent, REQUEST_CODE)
+                    activity.startActivityForResult(intent, REQUEST_CODE)
 
                     suspendCancellableCoroutine { continuation ->
                         intentCallback = {
@@ -259,7 +260,12 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
                 LogPile.info(tag = TAG, message = "Emitting updated connection: $connection")
 
                 if (connection.isConnected()) {
-                    notificationManager.showVPNNotification()
+                    notificationManager.showVPNNotification(
+                        context = activity,
+                        openAppIntent = Intent(activity, MainActivity::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        }
+                    )
                 } else {
                     notificationManager.cancelVPNNotification()
                 }
