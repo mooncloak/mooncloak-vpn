@@ -6,13 +6,14 @@ import com.mooncloak.kodetools.logpile.core.configure
 import com.mooncloak.vpn.app.android.di.create
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.log.NoOpLogger
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 
 public class MooncloakVpnApplication : Application() {
 
     public lateinit var applicationComponent: ApplicationComponent
 
-    private val coroutineScope = MainScope()
+    public val coroutineScope: CoroutineScope = MainScope()
 
     override fun onCreate() {
         super.onCreate()

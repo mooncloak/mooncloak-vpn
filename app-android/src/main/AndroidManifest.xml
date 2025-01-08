@@ -60,6 +60,16 @@
 
         <!-- The WireGuard library includes the VPNService automatically when the manifests are merged -->
 
+        <!-- BroadcastReceivers -->
+
+        <receiver
+            android:name=".receiver.DisconnectTunnelsBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.mooncloak.vpn.app.android.receiver.DISCONNECT_TUNNELS" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

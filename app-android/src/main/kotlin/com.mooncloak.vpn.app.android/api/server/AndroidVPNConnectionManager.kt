@@ -7,6 +7,7 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.vpn.app.android.activity.MainActivity
+import com.mooncloak.vpn.app.android.receiver.DisconnectTunnelsBroadcastReceiver
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
@@ -198,6 +199,9 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
                         context = activity,
                         openAppIntent = Intent(activity, MainActivity::class.java).apply {
                             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        },
+                        disconnectIntent = Intent(context, DisconnectTunnelsBroadcastReceiver::class.java).apply {
+                            action = DisconnectTunnelsBroadcastReceiver.ACTION
                         }
                     )
                 } else {
