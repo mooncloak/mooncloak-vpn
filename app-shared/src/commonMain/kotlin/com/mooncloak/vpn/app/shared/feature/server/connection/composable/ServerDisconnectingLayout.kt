@@ -27,7 +27,7 @@ internal fun ServerDisconnectingLayout(
 
         Text(
             modifier = Modifier.fillMaxWidth()
-                .padding(top = 32.dp),
+                .padding(vertical = 32.dp),
             text = stringResource(Res.string.server_connection_disconnecting_title),
             style = MaterialTheme.typography.titleLarge,
             textAlign = TextAlign.Center

@@ -1,7 +1,9 @@
 package com.mooncloak.vpn.app.shared.feature.server.connection.composable
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,11 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.server.Server
+import com.mooncloak.vpn.app.shared.composable.PulsatingDots
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.server_connection_connecting_title
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import org.jetbrains.compose.resources.stringResource
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun ServerConnectingLayout(
     server: Server,
@@ -39,7 +43,7 @@ internal fun ServerConnectingLayout(
         )
 
         Text(
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier.padding(top = 8.dp)
                 .fillMaxWidth(),
             text = server.name,
             style = MaterialTheme.typography.bodyMedium.copy(
@@ -50,21 +54,26 @@ internal fun ServerConnectingLayout(
             textAlign = TextAlign.Center
         )
 
-        Row(
+        FlowRow(
             modifier = Modifier.fillMaxWidth()
                 .padding(vertical = 32.dp),
-            verticalAlignment = Alignment.CenterVertically
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalArrangement = Arrangement.Center
         ) {
             Icon(
-                modifier = Modifier.size(36.dp),
+                modifier = Modifier.size(36.dp)
+                    .align(Alignment.CenterVertically),
                 imageVector = Icons.Default.Devices,
                 contentDescription = null
             )
 
-            // TODO: Connecting animation
+            PulsatingDots(
+                modifier = Modifier.align(Alignment.CenterVertically)
+            )
 
             Icon(
-                modifier = Modifier.size(36.dp),
+                modifier = Modifier.size(36.dp)
+                    .align(Alignment.CenterVertically),
                 imageVector = Icons.Default.VpnLock,
                 contentDescription = null
             )
