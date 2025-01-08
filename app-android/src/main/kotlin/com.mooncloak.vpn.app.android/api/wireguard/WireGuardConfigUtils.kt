@@ -34,6 +34,7 @@ internal fun Server.toWireGuardConfig(
                 .setEndpoint(
                     InetEndpoint.parse(requireWireGuardEndpoint())
                 )
+                .addAllowedIp(InetNetwork.parse("0.0.0.0/0"))
                 .build()
         )
         .build()
