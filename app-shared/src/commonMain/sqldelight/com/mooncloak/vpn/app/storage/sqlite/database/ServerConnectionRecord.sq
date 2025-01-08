@@ -22,6 +22,7 @@ CREATE TABLE ServerConnectionRecord (
     ipv6 TEXT,
     hostname TEXT,
     port INTEGER,
+    publicKey TEXT,
     connectionTypes TEXT AS JsonElement NOT NULL,
     protocols TEXT AS JsonElement NOT NULL,
     tags TEXT AS JsonElement NOT NULL,
@@ -32,8 +33,8 @@ CREATE TABLE ServerConnectionRecord (
 CREATE INDEX ServerConnectionRecord_id_index ON ServerConnectionRecord(id);
 
 insert:
-INSERT OR REPLACE INTO ServerConnectionRecord(databaseId, id, created, updated, serverCreated, serverUpdated, connected, starred, name, countryCode, regionCode, country, region, uri, self, ipv4, ipv6, hostname, port, connectionTypes, protocols, tags, note, requiresSubscription)
-VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT OR REPLACE INTO ServerConnectionRecord(databaseId, id, created, updated, serverCreated, serverUpdated, connected, starred, name, countryCode, regionCode, country, region, uri, self, ipv4, ipv6, hostname, port, publicKey, connectionTypes, protocols, tags, note, requiresSubscription)
+VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 updateConnectedById:
 UPDATE ServerConnectionRecord
@@ -67,6 +68,7 @@ SET updated = :updated,
     ipv6 = :ipv6,
     hostname = :hostname,
     port = :port,
+    publicKey = :publicKey,
     connectionTypes = :connectionTypes,
     protocols = :protocols,
     tags = :tags,

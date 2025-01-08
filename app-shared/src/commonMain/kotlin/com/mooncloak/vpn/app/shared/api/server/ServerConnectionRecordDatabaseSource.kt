@@ -123,7 +123,8 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
                     value = server.tags
                 ),
                 note = note,
-                requiresSubscription = server.requiresSubscription
+                requiresSubscription = server.requiresSubscription,
+                publicKey = server.publicKey
             )
         }
     }
@@ -203,7 +204,8 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
                     value = server.tags
                 ),
                 note = note,
-                requiresSubscription = server.requiresSubscription
+                requiresSubscription = server.requiresSubscription,
+                publicKey = server.publicKey
             )
         }
     }
@@ -256,7 +258,8 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
                         value = server.tags
                     ),
                     note = current?.note,
-                    requiresSubscription = server.requiresSubscription
+                    requiresSubscription = server.requiresSubscription,
+                    publicKey = server.publicKey
                 )
             }
         }
@@ -311,7 +314,8 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
                 tags = json.decodeFromJsonElement(
                     deserializer = ListSerializer(String.serializer()),
                     element = this.tags
-                )
+                ),
+                publicKey = this.publicKey
             )
         )
 
@@ -352,7 +356,8 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
                 tags = json.decodeFromJsonElement(
                     deserializer = ListSerializer(String.serializer()),
                     element = this.tags
-                )
+                ),
+                publicKey = this.publicKey
             )
         )
 
@@ -393,7 +398,8 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
                 tags = json.decodeFromJsonElement(
                     deserializer = ListSerializer(String.serializer()),
                     element = this.tags
-                )
+                ),
+                publicKey = this.publicKey
             )
         )
 }
