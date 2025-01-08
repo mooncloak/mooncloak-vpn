@@ -19,6 +19,7 @@ import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.api.vpn.isConnected
 import com.mooncloak.vpn.app.shared.api.vpn.isConnecting
 import com.mooncloak.vpn.app.shared.api.vpn.isDisconnected
+import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
 import com.mooncloak.vpn.app.shared.util.notification.cancelVPNNotification
 import com.mooncloak.vpn.app.shared.util.notification.showVPNNotification
@@ -44,6 +45,7 @@ import kotlin.time.Duration.Companion.seconds
 
 internal class AndroidVPNConnectionManager @Inject internal constructor(
     private val activity: Activity,
+    private val context: ApplicationContext,
     private val serverConnectionRecordRepository: ServerConnectionRecordRepository,
     private val connectionKeyPairResolver: WireGuardConnectionKeyPairResolver,
     private val clock: Clock,
@@ -59,7 +61,7 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
 
     private val mutableConnection = MutableStateFlow<VPNConnection>(VPNConnection.Disconnected())
 
-    private val backend = GoBackend(activity)
+    private val backend = GoBackend(context)
 
     private val connectedTunnels = mutableMapOf<String, WireGuardTunnel>()
 
@@ -108,7 +110,7 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
                 )
 
                 // First we have to prepare the VPN Service if it wasn't already done.
-                val intent = GoBackend.VpnService.prepare(activity)
+                val intent = GoBackend.VpnService.prepare(context)
                 if (intent != null) {
                     LogPile.info(tag = TAG, message = "Preparing VPN Service.")
 
