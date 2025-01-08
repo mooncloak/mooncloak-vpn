@@ -1,9 +1,9 @@
 package com.mooncloak.vpn.app.shared.api.vpn
 
-import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import com.mooncloak.vpn.app.shared.api.server.Server
 
-@Immutable
+@Stable
 public interface Tunnel {
 
     public val sessionId: String?

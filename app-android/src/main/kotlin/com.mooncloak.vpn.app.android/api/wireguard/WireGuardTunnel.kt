@@ -1,11 +1,11 @@
 package com.mooncloak.vpn.app.android.api.wireguard
 
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelStats
 import com.wireguard.android.backend.Statistics
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -14,6 +14,7 @@ import kotlin.uuid.Uuid
  * interface and provides some useful functionality for accessing the current state and values of this
  * [com.wireguard.android.backend.Tunnel]. Use the [WireGuardTunnelManager] to obtain instances of this class.
  */
+@Stable
 @OptIn(ExperimentalUuidApi::class)
 public class WireGuardTunnel internal constructor(
     override val tunnelName: String,
@@ -22,25 +23,32 @@ public class WireGuardTunnel internal constructor(
 ) : com.wireguard.android.backend.Tunnel,
     com.mooncloak.vpn.app.shared.api.vpn.Tunnel {
 
-    override val stats: TunnelStats? = null
+    private val mutableState = mutableStateOf(com.wireguard.android.backend.Tunnel.State.DOWN)
+    private val mutableStats = mutableStateOf<TunnelStats?>(null)
 
-    public val state: StateFlow<com.wireguard.android.backend.Tunnel.State>
-        get() = mutableState.asStateFlow()
+    override val stats: TunnelStats? by mutableStats
 
-    public val statistics: StateFlow<Statistics?>
-        get() = mutableStatistics.asStateFlow()
+    public val state: com.wireguard.android.backend.Tunnel.State by mutableState
 
     override fun getName(): String = tunnelName
-
-    private val mutableState = MutableStateFlow(com.wireguard.android.backend.Tunnel.State.DOWN)
-    private val mutableStatistics = MutableStateFlow<Statistics?>(null)
 
     override fun onStateChange(newState: com.wireguard.android.backend.Tunnel.State) {
         mutableState.value = newState
     }
 
     internal fun onStatisticsChanged(statistics: Statistics?) {
-        mutableStatistics.value = statistics
+        mutableStats.value = statistics?.let { stats ->
+            // TODO: How should I handle this? There is no documentation in the WireGuard library.
+            val peerStats = stats.peers().map { key -> stats.peer(key) }
+                .firstOrNull()
+
+            TunnelStats(
+                totalRx = stats.totalRx(),
+                totalTx = stats.totalTx(),
+                rxThroughput = peerStats?.rxBytes,
+                txThroughput = peerStats?.txBytes
+            )
+        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -55,5 +63,5 @@ public class WireGuardTunnel internal constructor(
     override fun hashCode(): Int = tunnelName.hashCode()
 
     override fun toString(): String =
-        "WireGuardTunnel(name='$tunnelName', state=$state, statistics=$statistics)"
+        "WireGuardTunnel(name='$tunnelName', state=$state, stats=$stats)"
 }
