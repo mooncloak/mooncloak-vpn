@@ -8,9 +8,12 @@ import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
 import com.mooncloak.kodetools.storagex.keyvalue.Settings
 import com.mooncloak.vpn.app.android.info.AndroidAppClientInfo
 import com.mooncloak.vpn.app.android.api.wireguard.AndroidWireGuardConnectionKeyManager
+import com.mooncloak.vpn.app.android.api.wireguard.WireGuardBackend
+import com.mooncloak.vpn.app.android.api.wireguard.WireGuardTunnelManager
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.shared.api.network.AndroidLocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
+import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.storage.database.AndroidDatabaseDriverFactory
@@ -18,6 +21,7 @@ import com.mooncloak.vpn.app.shared.storage.database.DatabaseDriverFactory
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
 import com.russhwolf.settings.Settings
+import com.wireguard.android.backend.GoBackend
 import kotlinx.serialization.json.Json
 
 @Component
@@ -50,6 +54,14 @@ internal abstract class AndroidGooglePlayApplicationComponent internal construct
     @Singleton
     internal fun provideWireGuardConnectionKeyManager(manager: AndroidWireGuardConnectionKeyManager): WireGuardConnectionKeyManager =
         manager
+
+    @Provides
+    @Singleton
+    internal fun provideWireGuardBackend(context: ApplicationContext): WireGuardBackend = GoBackend(context)
+
+    @Provides
+    @Singleton
+    internal fun provideTunnelManager(manager: WireGuardTunnelManager): TunnelManager = manager
 }
 
 internal fun ApplicationComponent.Companion.create(

@@ -52,6 +52,10 @@ internal abstract class AndroidDirectApplicationComponent internal constructor(
     @Singleton
     internal fun provideWireGuardConnectionKeyManager(manager: AndroidWireGuardConnectionKeyManager): WireGuardConnectionKeyManager =
         manager
+
+    @Provides
+    @Singleton
+    internal fun provideWireGuardBackend(context: ApplicationContext): WireGuardBackend = GoBackend(context)
 }
 
 internal fun ApplicationComponent.Companion.create(
