@@ -207,50 +207,60 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
     }
 
     private suspend fun updateTunnels() {
-        val updatedTunnels = mutableMapOf<String, WireGuardTunnel>()
+        withContext(Dispatchers.IO) {
+            val updatedTunnels = mutableMapOf<String, WireGuardTunnel>()
 
-        LogPile.info(tag = TAG, message = "updatedTunnels: running tunnels = ${backend.runningTunnelNames}")
+            LogPile.info(tag = TAG, message = "updatedTunnels: running tunnels = ${backend.runningTunnelNames}")
 
-        for (tunnelName in backend.runningTunnelNames) {
-            val tunnel = connectedTunnels[tunnelName] ?: WireGuardTunnel(tunnelName = tunnelName)
+            for (tunnelName in backend.runningTunnelNames) {
+                val tunnel = connectedTunnels[tunnelName] ?: WireGuardTunnel(tunnelName = tunnelName)
 
-            val state = backend.getState(tunnel)
-            val stats = backend.getStatistics(tunnel)
+                val state = backend.getState(tunnel)
+                val stats = backend.getStatistics(tunnel)
 
-            tunnel.onStateChange(state)
-            tunnel.onStatisticsChanged(stats)
+                tunnel.onStateChange(state)
+                tunnel.onStatisticsChanged(stats)
 
-            updatedTunnels[tunnelName] = tunnel
+                updatedTunnels[tunnelName] = tunnel
+            }
+
+            connectedTunnels.clear()
+            connectedTunnels.putAll(updatedTunnels)
+
+            val currentConnection = mutableConnection.value
+
+            val updatedConnection = when {
+                connectedTunnels.isNotEmpty() -> VPNConnection.Connected(
+                    tunnels = connectedTunnels.values.toList(),
+                    timestamp = if (currentConnection.isConnected()) {
+                        currentConnection.timestamp
+                    } else {
+                        clock.now()
+                    }
+                )
+
+                mutableConnection.value.isConnecting() -> mutableConnection.value
+
+                else -> VPNConnection.Disconnected()
+            }
+
+            emit(updatedConnection)
         }
-
-        connectedTunnels.clear()
-        connectedTunnels.putAll(updatedTunnels)
-
-        val updatedConnection = when {
-            connectedTunnels.isNotEmpty() -> VPNConnection.Connected(
-                tunnels = connectedTunnels.values.toList(),
-                timestamp = clock.now()
-            )
-
-            mutableConnection.value.isConnecting() -> mutableConnection.value
-
-            else -> VPNConnection.Disconnected()
-        }
-
-        emit(updatedConnection)
     }
 
     private suspend fun emit(connection: VPNConnection) {
         emitMutex.withLock {
-            LogPile.info(tag = TAG, message = "Emitting updated connection: $connection")
+            withContext(Dispatchers.Main) {
+                LogPile.info(tag = TAG, message = "Emitting updated connection: $connection")
 
-            if (connection.isConnected()) {
-                notificationManager.showVPNNotification()
-            } else {
-                notificationManager.cancelVPNNotification()
+                if (connection.isConnected()) {
+                    notificationManager.showVPNNotification()
+                } else {
+                    notificationManager.cancelVPNNotification()
+                }
+
+                mutableConnection.value = connection
             }
-
-            mutableConnection.value = connection
         }
     }
 

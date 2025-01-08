@@ -19,18 +19,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import com.mooncloak.vpn.app.shared.util.time.Default
 import com.mooncloak.vpn.app.shared.util.time.TimerFormatter
-import com.mooncloak.vpn.app.shared.util.time.elapsedTime
 import kotlinx.coroutines.delay
 import kotlinx.datetime.Clock
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.datetime.Instant
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
 internal fun TimerText(
+    since: Instant,
     modifier: Modifier = Modifier,
     formatter: TimerFormatter = remember { TimerFormatter.Default },
-    extra: Duration = 0.milliseconds,
+    clock: Clock = remember { Clock.System },
     enabled: Boolean = true,
     color: Color = Color.Unspecified,
     fontSize: TextUnit = TextUnit.Unspecified,
@@ -48,14 +47,13 @@ internal fun TimerText(
     onTextLayout: ((TextLayoutResult) -> Unit)? = null,
     style: TextStyle = LocalTextStyle.current
 ) {
-    val start = remember(extra) { Clock.System.elapsedTime }
-    val timer = remember { mutableStateOf(formatter.format(Clock.System.elapsedTime + extra - start)) }
+    val timer = remember { mutableStateOf(formatter.format(clock.now() - since)) }
 
-    LaunchedEffect(extra, enabled) {
+    LaunchedEffect(enabled) {
         while (enabled) {
             delay(1.seconds)
 
-            timer.value = formatter.format(Clock.System.elapsedTime + extra - start)
+            timer.value = formatter.format(clock.now() - since)
         }
     }
 

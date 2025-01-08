@@ -31,7 +31,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun ServerInfoCard(
-    country: String,
+    country: String?,
     region: String? = null,
     connectedLabel: String = stringResource(Res.string.server_details_info_field_connected),
     connected: String? = null,
@@ -57,7 +57,7 @@ internal fun ServerInfoCard(
                 modifier = Modifier.fillMaxWidth()
                     .padding(vertical = 8.dp),
                 label = stringResource(Res.string.server_details_info_field_country),
-                value = country
+                value = country ?: stringResource(Res.string.global_not_available)
             )
 
             DetailRow(

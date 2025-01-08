@@ -1,20 +1,19 @@
 package com.mooncloak.vpn.app.shared.feature.server.details
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.api.location.Country
-import com.mooncloak.vpn.app.shared.api.location.Region
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkInfo
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.api.vpn.connectedTo
 import kotlinx.datetime.Instant
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 @Immutable
 public data class ServerDetailsStateModel public constructor(
     public val server: Server? = null,
-    public val country: Country? = null,
-    public val region: Region? = null,
     public val connection: VPNConnection = VPNConnection.Disconnected(),
+    public val startConnectionDuration: Duration = 0.seconds,
     public val lastConnected: Instant? = null,
     public val localNetworkInfo: LocalNetworkInfo? = null,
     public val isLoading: Boolean = false,

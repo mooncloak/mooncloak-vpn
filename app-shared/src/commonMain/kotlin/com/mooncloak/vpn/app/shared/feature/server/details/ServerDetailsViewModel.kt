@@ -12,6 +12,8 @@ import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecord
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.app.shared.api.server.getOrNull
+import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
+import com.mooncloak.vpn.app.shared.api.vpn.connectedTo
 import com.mooncloak.vpn.app.shared.api.vpn.isDisconnected
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -26,14 +28,17 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.getString
+import kotlin.time.Duration.Companion.seconds
 
 @Stable
 @FeatureScoped
 public class ServerDetailsViewModel @Inject public constructor(
     private val vpnConnectionManager: VPNConnectionManager,
     private val serverConnectionRecordRepository: ServerConnectionRecordRepository,
-    private val localNetworkManager: LocalNetworkManager
+    private val localNetworkManager: LocalNetworkManager,
+    private val clock: Clock
 ) : ViewModel<ServerDetailsStateModel>(initialStateValue = ServerDetailsStateModel()) {
 
     private val mutex = Mutex(locked = false)
@@ -56,13 +61,21 @@ public class ServerDetailsViewModel @Inject public constructor(
                 record = serverConnectionRecordRepository.getOrNull(id = server.id)
                 localNetworkInfo = localNetworkManager.getInfo()
 
+                val startConnection = vpnConnectionManager.connection.value
+                val connected = startConnection.connectedTo(server)
+
                 emit(
                     value = state.current.value.copy(
                         isLoading = false,
                         server = server,
                         lastConnected = record?.lastConnected,
                         localNetworkInfo = localNetworkInfo,
-                        connection = vpnConnectionManager.connection.value
+                        connection = startConnection,
+                        startConnectionDuration = if (connected && startConnection is VPNConnection.Connected) {
+                            clock.now() - startConnection.timestamp
+                        } else {
+                            0.seconds
+                        }
                     )
                 )
             } catch (e: Exception) {

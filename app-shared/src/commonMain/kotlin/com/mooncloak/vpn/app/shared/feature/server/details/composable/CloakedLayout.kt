@@ -13,15 +13,14 @@ import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.server_details_title_time
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
+import kotlinx.datetime.Instant
 import org.jetbrains.compose.resources.stringResource
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
 
 @Composable
 internal fun CloakedLayout(
+    since: Instant,
     modifier: Modifier = Modifier,
-    multiplier: Float = 1f,
-    extra: Duration = 0.seconds
+    multiplier: Float = 1f
 ) {
     SolarEclipseLayout(
         modifier = modifier,
@@ -44,7 +43,7 @@ internal fun CloakedLayout(
                 modifier = Modifier.wrapContentSize()
                     .padding(top = 12.dp),
                 style = MaterialTheme.typography.titleLarge,
-                extra = extra
+                since = since
             )
         }
     }

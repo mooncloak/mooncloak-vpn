@@ -118,9 +118,23 @@ public inline fun VPNConnection.isDisconnected(): Boolean {
  * Determines if this [VPNConnection] is [VPNConnection.Connected] with a tunnel connected to the provided [server]
  * instance.
  */
-public fun VPNConnection.connectedTo(server: Server): Boolean =
-    if (this is VPNConnection.Connected) {
+@OptIn(ExperimentalContracts::class)
+public fun VPNConnection.connectedTo(server: Server): Boolean {
+    contract { returns(true) implies (this@connectedTo is VPNConnection.Connected) }
+
+    return if (this is VPNConnection.Connected) {
         this.tunnels.any { tunnel -> tunnel.server == server }
     } else {
         false
+    }
+}
+
+/**
+ * Retrieves the default [Tunnel] for this connection.
+ */
+public val VPNConnection.defaultTunnel: Tunnel?
+    inline get() = if (this is VPNConnection.Connected) {
+        this.tunnels.firstOrNull { tunnel -> tunnel.server != null } ?: this.tunnels.firstOrNull()
+    } else {
+        null
     }

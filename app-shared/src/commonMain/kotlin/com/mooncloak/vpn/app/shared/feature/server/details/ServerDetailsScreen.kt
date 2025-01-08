@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.api.server.ipAddress
+import com.mooncloak.vpn.app.shared.api.vpn.defaultTunnel
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.CloakedLayout
@@ -41,6 +42,7 @@ import com.mooncloak.vpn.app.shared.resource.server_details_info_field_last_conn
 import com.mooncloak.vpn.app.shared.util.time.DateTimeFormatter
 import com.mooncloak.vpn.app.shared.util.time.Full
 import com.mooncloak.vpn.app.shared.util.time.format
+import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -78,7 +80,8 @@ public fun ServerDetailsScreen(
                     CloakedLayout(
                         modifier = Modifier.fillMaxWidth()
                             .aspectRatio(1f)
-                            .animateItem()
+                            .animateItem(),
+                        since = viewModel.state.current.value.connection.timestamp ?: Clock.System.now()
                     )
                 }
             }
@@ -87,10 +90,10 @@ public fun ServerDetailsScreen(
                 ServerLocationCard(
                     modifier = Modifier.fillMaxWidth()
                         .animateItem(),
-                    countryName = viewModel.state.current.value.country?.name ?: "",
-                    regionName = viewModel.state.current.value.region?.name,
+                    countryName = viewModel.state.current.value.server?.country?.name ?: "",
+                    regionName = viewModel.state.current.value.server?.region?.name,
                     serverName = server.name,
-                    flagImageUri = viewModel.state.current.value.country?.flag
+                    flagImageUri = viewModel.state.current.value.server?.country?.flag
                 )
             }
 
@@ -110,7 +113,7 @@ public fun ServerDetailsScreen(
 
                 (viewModel.state.current.value.connection as? VPNConnection.Connected)?.let { connection ->
                     item(key = "ServerSpeedItem") {
-                        val tunnel = connection.tunnels.firstOrNull()
+                        val tunnel = connection.defaultTunnel
 
                         SpeedCard(
                             modifier = Modifier.fillMaxWidth()
@@ -121,7 +124,7 @@ public fun ServerDetailsScreen(
                     }
 
                     item(key = "ServerUsageItem") {
-                        val tunnel = connection.tunnels.firstOrNull()
+                        val tunnel = connection.defaultTunnel
 
                         UsageCard(
                             modifier = Modifier.fillMaxWidth()
@@ -137,8 +140,8 @@ public fun ServerDetailsScreen(
                 ServerInfoCard(
                     modifier = Modifier.fillMaxWidth()
                         .animateItem(),
-                    country = viewModel.state.current.value.country?.name ?: "",
-                    region = viewModel.state.current.value.region?.name,
+                    country = viewModel.state.current.value.server?.country?.name,
+                    region = viewModel.state.current.value.server?.region?.name,
                     serverName = server.name,
                     connectedLabel = if (viewModel.state.current.value.isConnectedServer) {
                         stringResource(Res.string.server_details_info_field_connected)
