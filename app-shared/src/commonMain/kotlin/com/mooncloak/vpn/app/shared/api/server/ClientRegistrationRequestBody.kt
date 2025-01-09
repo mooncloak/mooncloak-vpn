@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 @Immutable
 @Serializable
 public data class ClientRegistrationRequestBody public constructor(
+    @SerialName(value = "server_id") public val serverId: String,
     @SerialName(value = "public_key") public val publicKey: Base64Key,
     @SerialName(value = "key_id") public val keyId: String? = null,
     @SerialName(value = "protocol") public val protocol: VPNProtocol? = null

@@ -26,7 +26,7 @@ import com.mooncloak.vpn.app.shared.api.location.CountryFilters
 import com.mooncloak.vpn.app.shared.api.plan.AvailablePlans
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.server.ClientRegistrationRequestBody
-import com.mooncloak.vpn.app.shared.api.server.ClientRegistrationResponseBody
+import com.mooncloak.vpn.app.shared.api.server.RegisteredClient
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.ServerFilters
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
@@ -213,18 +213,24 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun registerClient(
+        serverId: String,
         clientPublicKey: Base64Key,
         token: Token?
-    ): ClientRegistrationResponseBody {
+    ): RegisteredClient {
         val response = httpClient.post("https://mooncloak.com/api/vpn/service/client/register") {
             token?.value?.let { bearerAuth(it) }
 
             contentType(ContentType.Application.Json)
 
-            setBody(ClientRegistrationRequestBody(publicKey = clientPublicKey))
+            setBody(
+                ClientRegistrationRequestBody(
+                    serverId = serverId,
+                    publicKey = clientPublicKey
+                )
+            )
         }
 
-        return response.body<HttpResponseBody<ClientRegistrationResponseBody>>().getOrThrow()
+        return response.body<HttpResponseBody<RegisteredClient>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)

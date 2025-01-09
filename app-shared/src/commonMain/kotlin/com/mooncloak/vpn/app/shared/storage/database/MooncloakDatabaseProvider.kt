@@ -1,16 +1,19 @@
 package com.mooncloak.vpn.app.shared.storage.database
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.vpn.app.shared.storage.database.adapter.DatabaseAdapter
 import com.mooncloak.vpn.app.shared.storage.database.adapter.instantAsMillisecondsLong
 import com.mooncloak.vpn.app.shared.storage.database.adapter.jsonElementAsString
 import com.mooncloak.vpn.app.shared.storage.database.adapter.jsonObjectAsString
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.app.storage.sqlite.database.PurchaseReceipt
+import com.mooncloak.vpn.app.storage.sqlite.database.RegisteredClient
 import com.mooncloak.vpn.app.storage.sqlite.database.ServerConnectionRecord
 import com.mooncloak.vpn.app.storage.sqlite.database.ServicePlan
 import com.mooncloak.vpn.app.storage.sqlite.database.ServiceTokens
 
+@Singleton
 public class MooncloakDatabaseProvider @Inject public constructor(
     private val databaseDriverFactory: DatabaseDriverFactory
 ) {
@@ -54,6 +57,13 @@ public class MooncloakDatabaseProvider @Inject public constructor(
                     serverUpdatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
                     countryAdapter = DatabaseAdapter.jsonElementAsString(),
                     regionAdapter = DatabaseAdapter.jsonElementAsString()
+                ),
+                RegisteredClientAdapter = RegisteredClient.Adapter(
+                    createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    updatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    registeredAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    expirationAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    allowed_ipsAdapter = DatabaseAdapter.jsonElementAsString()
                 )
             )
 

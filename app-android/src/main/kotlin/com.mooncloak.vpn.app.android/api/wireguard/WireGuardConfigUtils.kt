@@ -1,5 +1,6 @@
 package com.mooncloak.vpn.app.android.api.wireguard
 
+import com.mooncloak.vpn.app.shared.api.server.RegisteredClient
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.requireWireGuardEndpoint
 import com.wireguard.config.Config
@@ -12,14 +13,11 @@ import com.wireguard.crypto.KeyPair
 
 internal fun Server.toWireGuardConfig(
     keyPair: KeyPair,
-    localIpAddress: String?
+    client: RegisteredClient
 ): Config {
-    var interfaceBuilder = Interface.Builder()
+    val interfaceBuilder = Interface.Builder()
         .setKeyPair(keyPair)
-    if (localIpAddress != null) {
-        interfaceBuilder = interfaceBuilder.addAddress(InetNetwork.parse(localIpAddress))
-    }
-    interfaceBuilder = interfaceBuilder.addAddress(InetNetwork.parse("10.0.0.2/32"))
+        .addAddress(InetNetwork.parse(client.assignedAddress))
 
     return Config.Builder()
         .setInterface(interfaceBuilder.build())

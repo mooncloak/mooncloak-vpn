@@ -7,6 +7,7 @@ import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.server.Server
+import com.mooncloak.vpn.app.shared.api.server.usecase.RegisterClientUseCase
 import com.mooncloak.vpn.app.shared.api.vpn.Tunnel
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
 import kotlinx.coroutines.CoroutineScope
@@ -27,6 +28,7 @@ internal class WireGuardTunnelManager @Inject internal constructor(
     private val backend: WireGuardBackend,
     private val connectionKeyPairResolver: WireGuardConnectionKeyPairResolver,
     private val localNetworkManager: LocalNetworkManager,
+    private val registerClient: RegisterClientUseCase
 ) : TunnelManager {
 
     override val tunnels: StateFlow<List<Tunnel>>
@@ -61,15 +63,21 @@ internal class WireGuardTunnelManager @Inject internal constructor(
     override suspend fun connect(tunnel: Tunnel) {
         tunnelMutex.withLock {
             withContext(Dispatchers.IO) {
+                val server = tunnel.server ?: error("Cannot connect to Tunnel. Missing server.")
                 val localIpAddress = localNetworkManager.getInfo()?.ipAddress
 
                 // FIXME: Cast
                 val keyPair = connectionKeyPairResolver.resolve() as AndroidWireGuardConnectionKeyPair
 
+                val client = registerClient.invoke(
+                    serverId = server.id,
+                    publicKey = keyPair.publicKey
+                )
+
                 val wireGuardTunnel = tunnel.toWireGuardTunnel()
-                val wireGuardConfig = tunnel.server?.toWireGuardConfig(
+                val wireGuardConfig = server.toWireGuardConfig(
                     keyPair = keyPair.keyPair,
-                    localIpAddress = localIpAddress
+                    client = client
                 )
 
                 backend.setState(

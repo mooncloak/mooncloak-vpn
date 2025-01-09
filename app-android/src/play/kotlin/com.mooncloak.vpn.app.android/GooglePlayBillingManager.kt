@@ -22,7 +22,6 @@ import com.mooncloak.vpn.app.shared.api.billing.PaymentProvider
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.billing.ProofOfPurchase
 import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptRepository
-import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlan
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansApiSource
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetails
@@ -51,8 +50,7 @@ internal class GooglePlayBillingManager @Inject internal constructor(
     private val api: MooncloakVpnServiceHttpApi,
     private val serviceTokensRepository: ServiceTokensRepository,
     private val subscriptionStorage: SubscriptionStorage,
-    private val servicePurchaseReceiptRepository: ServicePurchaseReceiptRepository,
-    private val keyResolver: WireGuardConnectionKeyPairResolver
+    private val servicePurchaseReceiptRepository: ServicePurchaseReceiptRepository
 ) : BillingManager,
     ServicePlansRepository {
 
@@ -249,8 +247,6 @@ internal class GooglePlayBillingManager @Inject internal constructor(
         val tokens = getTokens(proofOfPurchase)
         val subscription = getSubscription(tokens)
 
-        registerPublicKey(tokens)
-
         val accessDetails = ServiceAccessDetails(
             tokens = tokens,
             subscription = subscription
@@ -278,16 +274,5 @@ internal class GooglePlayBillingManager @Inject internal constructor(
         subscriptionStorage.subscription.update(subscription)
 
         return subscription
-    }
-
-    private suspend fun registerPublicKey(tokens: ServiceTokens) {
-        withContext(Dispatchers.IO) {
-            val keyPair = keyResolver.resolve()
-
-            api.registerClient(
-                clientPublicKey = keyPair.publicKey,
-                token = tokens.accessToken
-            )
-        }
     }
 }
