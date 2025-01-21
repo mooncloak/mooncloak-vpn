@@ -152,6 +152,8 @@ internal fun ActiveSubscriptionLayout(
                 text = stringResource(Res.string.subscription_action_boost)
             )
         }*/
+
+        Spacer(modifier = Modifier.height(32.dp))
     }
 }
 
