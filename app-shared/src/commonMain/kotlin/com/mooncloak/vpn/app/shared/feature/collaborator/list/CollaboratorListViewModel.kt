@@ -2,6 +2,9 @@ package com.mooncloak.vpn.app.shared.feature.collaborator.list
 
 import androidx.compose.runtime.Stable
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.kodetools.logpile.core.LogPile
+import com.mooncloak.kodetools.logpile.core.debug
+import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.app.shared.feature.collaborator.repository.ContributorRepository
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -21,6 +24,8 @@ public class CollaboratorListViewModel @Inject public constructor(
             try {
                 val collaborators = collaboratorRepository.getAll()
 
+                LogPile.debug(tag = TAG, message = "Contributors: $collaborators")
+
                 emit(
                     value = state.current.value.copy(
                         isLoading = false,
@@ -30,6 +35,8 @@ public class CollaboratorListViewModel @Inject public constructor(
                     )
                 )
             } catch (e: Exception) {
+                LogPile.error(tag = TAG, message = "Error retrieving contributors.", cause = e)
+
                 emit(
                     value = state.current.value.copy(
                         isLoading = false,
@@ -39,5 +46,10 @@ public class CollaboratorListViewModel @Inject public constructor(
                 )
             }
         }
+    }
+
+    public companion object {
+
+        private const val TAG: String = "CollaboratorListViewModel"
     }
 }

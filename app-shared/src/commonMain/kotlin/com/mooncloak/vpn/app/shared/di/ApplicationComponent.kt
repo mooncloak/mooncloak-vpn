@@ -22,7 +22,6 @@ import com.mooncloak.vpn.app.shared.image.MooncloakImageLoaderFactory
 import com.mooncloak.vpn.app.shared.storage.database.MooncloakDatabaseProvider
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import io.ktor.client.HttpClient
-import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.compression.ContentEncoding
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
@@ -72,7 +71,12 @@ public abstract class ApplicationComponent : ApplicationDependencies {
         // same HTTP requests respond with the cached data instead of requiring to make the call
         // again, resulting in a performance boost.
         // https://ktor.io/docs/client-caching.html
-        install(HttpCache)
+        // FIXME: Re-enable HTTP Cache: install(HttpCache)
+        // The HTTP Cache is causing issues, specifically the following error on load from the cache:
+        // `java.lang.IllegalStateException: No instance for key AttributeKey: CallLogger`
+        // It incorrectly points to the `CallLogger` component, even though it is in fact the HttpCache.
+        // Re-enable when you figure out how to fix this. Note, the call that always seems to fail is the call to load
+        // all the contributors.
 
         // Installs support for content encoding. This handles compression and decompression of
         // HTTP requests and responses automatically for the supported algorithms.
