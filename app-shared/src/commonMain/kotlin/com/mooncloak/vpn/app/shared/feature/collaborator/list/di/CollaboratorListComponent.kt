@@ -7,7 +7,7 @@ import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.feature.collaborator.list.CollaboratorListViewModel
 import com.mooncloak.vpn.app.shared.feature.collaborator.repository.ContributorRepository
-import com.mooncloak.vpn.app.shared.feature.collaborator.source.ContributorApiSource
+import com.mooncloak.vpn.app.shared.feature.collaborator.source.ContributorSource
 
 @FeatureScoped
 internal abstract class CollaboratorListComponent internal constructor() : FeatureDependencies {
@@ -15,7 +15,8 @@ internal abstract class CollaboratorListComponent internal constructor() : Featu
     abstract override val viewModel: CollaboratorListViewModel
 
     @Provides
-    internal fun provideCollaboratorRepository(source: ContributorApiSource): ContributorRepository = source
+    @FeatureScoped
+    internal fun provideCollaboratorRepository(source: ContributorSource): ContributorRepository = source
 }
 
 internal expect fun FeatureDependencies.Companion.createCollaboratorListComponent(
