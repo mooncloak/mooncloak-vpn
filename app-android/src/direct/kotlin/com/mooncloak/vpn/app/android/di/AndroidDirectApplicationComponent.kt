@@ -9,13 +9,12 @@ import com.mooncloak.kodetools.storagex.keyvalue.Settings
 import com.mooncloak.vpn.app.android.AndroidAppClientInfo
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
-import com.mooncloak.vpn.app.shared.util.ActivityContext
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
 import com.mooncloak.vpn.app.shared.api.network.AndroidLocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
-import com.mooncloak.vpn.app.shared.api.server.ServerConnectionManager
+import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
 
 @Component
 @Singleton

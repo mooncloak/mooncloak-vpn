@@ -1,6 +1,8 @@
 package com.mooncloak.vpn.app.shared.api.server
 
 import androidx.compose.runtime.Immutable
+import com.mooncloak.kodetools.logpile.core.LogPile
+import com.mooncloak.kodetools.logpile.core.warning
 import com.mooncloak.vpn.app.shared.api.location.Country
 import com.mooncloak.vpn.app.shared.api.location.Region
 import com.mooncloak.vpn.app.shared.api.vpn.VPNProtocol
@@ -99,5 +101,9 @@ public inline fun Server.requireWireGuardEndpoint(): String {
  *
  * @return `true` if a connection to the VPN server can be made, `false` otherwise.
  */
-public fun Server.isConnectable(hasSubscription: Boolean): Boolean =
-    (ipAddress != null && publicKey != null) && (!requiresSubscription || hasSubscription)
+public fun Server.isConnectable(hasSubscription: Boolean): Boolean {
+    // FIXME:
+    // TODO: Re-enable requiresSubscription check.
+
+    return (ipAddress != null && publicKey != null) /*&& (!requiresSubscription || hasSubscription)*/
+}
