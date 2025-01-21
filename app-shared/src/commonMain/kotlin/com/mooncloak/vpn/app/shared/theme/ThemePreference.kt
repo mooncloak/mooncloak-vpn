@@ -6,7 +6,9 @@ import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.SettingsBrightness
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.preference_theme_dark
@@ -58,6 +60,7 @@ public val ThemePreference.icon: ImageVector
         ThemePreference.System -> Icons.Default.SettingsBrightness
     }
 
+@Suppress("NOTHING_TO_INLINE")
 @Composable
 @ReadOnlyComposable
 public inline fun ThemePreference.isInDarkTheme(): Boolean =
@@ -66,3 +69,6 @@ public inline fun ThemePreference.isInDarkTheme(): Boolean =
         ThemePreference.Light -> false
         ThemePreference.System -> androidx.compose.foundation.isSystemInDarkTheme()
     }
+
+public val LocalThemePreference: ProvidableCompositionLocal<ThemePreference> =
+    staticCompositionLocalOf { ThemePreference.System }

@@ -33,7 +33,7 @@ public interface MooncloakTheme {
 
 @Composable
 public fun MooncloakTheme(
-    themePreference: ThemePreference = ThemePreference.System,
+    themePreference: ThemePreference = LocalThemePreference.current,
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
@@ -50,7 +50,8 @@ public fun MooncloakTheme(
             LocalTextSelectionColors provides TextSelectionColors(
                 handleColor = MaterialTheme.colorScheme.primaryContainer,
                 backgroundColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.4f),
-            )
+            ),
+            LocalThemePreference provides themePreference
         ) {
             content()
         }

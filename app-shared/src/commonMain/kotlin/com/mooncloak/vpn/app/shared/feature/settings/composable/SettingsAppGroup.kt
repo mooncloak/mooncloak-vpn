@@ -21,6 +21,9 @@ import com.mooncloak.vpn.app.shared.resource.settings_title_app_version
 import com.mooncloak.vpn.app.shared.resource.settings_title_code
 import com.mooncloak.vpn.app.shared.resource.settings_title_collaborators
 import com.mooncloak.vpn.app.shared.resource.settings_title_licenses
+import com.mooncloak.vpn.app.shared.theme.LocalThemePreference
+import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
+import com.mooncloak.vpn.app.shared.theme.isInDarkTheme
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -48,16 +51,14 @@ internal fun ColumnScope.SettingsAppGroup(
         supportingContent = (@Composable {
             Text(
                 text = appVersion ?: "",
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = if (isSystemInDarkTheme()) {
-                        MaterialTheme.colorScheme.secondary
-                    } else {
-                        // There's not enough contrast with the yellow text on the white background. So, we use the
-                        // darker blue primary text here. One issue might be that it seems actionable, because we use
-                        // the primary color for actionable items.
-                        MaterialTheme.colorScheme.primary
-                    }
-                )
+                style = MaterialTheme.typography.bodyMedium,
+                color = if (LocalThemePreference.current.isInDarkTheme()) {
+                    MaterialTheme.colorScheme.secondary
+                } else {
+                    // There's not enough contrast with the yellow text on the white background. So, we use the
+                    // darker blue primary text here.
+                    MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
+                }
             )
         }).takeIf { appVersion != null }
     )
