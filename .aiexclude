@@ -76,3 +76,6 @@ bin/
 
 ### Signing Keys ###
 .keystore
+
+### Google Play Builds ###
+app-android/play
