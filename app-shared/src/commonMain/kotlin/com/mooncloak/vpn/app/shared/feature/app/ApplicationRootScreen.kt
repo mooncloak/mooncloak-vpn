@@ -42,6 +42,7 @@ import com.mooncloak.vpn.app.shared.resource.notification_channel_description_vp
 import com.mooncloak.vpn.app.shared.resource.notification_channel_name_vpn
 import com.mooncloak.vpn.app.shared.theme.MooncloakTheme
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
+import com.mooncloak.vpn.app.shared.util.notification.NotificationChannelId
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
 import com.mooncloak.vpn.app.shared.util.notification.NotificationPriority
 import org.jetbrains.compose.resources.getString
@@ -95,7 +96,7 @@ public fun ApplicationRootScreen(
             // It is safe to call this numerous times (at least on Android). The Android documentation recommends
             // calling this early in the application, so we call it in the root screen.
             notificationManager.registerNotificationChannel(
-                id = NotificationManager.NotificationChannelId.VPN,
+                id = NotificationChannelId.VPN,
                 name = getString(Res.string.notification_channel_name_vpn),
                 description = getString(Res.string.notification_channel_description_vpn),
                 priority = NotificationPriority.MAX
