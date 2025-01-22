@@ -11,13 +11,13 @@ import com.mooncloak.vpn.app.android.api.server.AndroidVPNConnectionManager
 import com.mooncloak.vpn.app.android.di.create
 import com.mooncloak.vpn.app.shared.feature.app.ApplicationRootScreen
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
-import com.mooncloak.vpn.app.shared.util.notification.AndroidNotificationManager
+import com.mooncloak.vpn.app.shared.util.notification.AndroidNotificationManagerImpl
 import com.mooncloak.vpn.app.shared.util.platformDefaultUriHandler
 
 public class MainActivity : BaseActivity() {
 
     private var vpnConnectionManager: AndroidVPNConnectionManager? = null
-    private var notificationManager: AndroidNotificationManager? = null
+    private var notificationManager: AndroidNotificationManagerImpl? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Prevents screen capture and displaying contents on the "recent" screen
@@ -44,7 +44,7 @@ public class MainActivity : BaseActivity() {
                 //  PresentationDependencies to use the Android type instead of the common type for each property here.
                 //  Will have to check if that works with expect/actual or find another approach.
                 vpnConnectionManager = presentationDependencies.vpnConnectionManager as? AndroidVPNConnectionManager
-                notificationManager = presentationDependencies.notificationManager as? AndroidNotificationManager
+                notificationManager = presentationDependencies.notificationManager as? AndroidNotificationManagerImpl
             }
 
             ApplicationRootScreen(

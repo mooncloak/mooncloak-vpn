@@ -2,9 +2,9 @@ package com.mooncloak.vpn.app.shared.util.notification
 
 import androidx.compose.ui.graphics.Color
 
-public interface NotificationManager {
+public expect interface NotificationManager {
 
-    public suspend fun hasPermission(): Boolean
+    public suspend fun areEnabled(): Boolean
 
     public suspend fun requestPermission()
 
@@ -34,19 +34,5 @@ public interface NotificationManager {
 
     public suspend fun cancelAll()
 
-    public object ChannelId {
-
-        public const val VPN: String = "com.mooncloak.vpn.app.notification.channel.vpn"
-    }
-
-    public object NotificationId {
-
-        public const val VPN: Int = 0
-    }
-
     public companion object
-}
-
-public suspend fun NotificationManager.cancelVPNNotification() {
-    this.cancel(notificationId = NotificationManager.NotificationId.VPN)
 }

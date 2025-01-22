@@ -196,7 +196,6 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
 
                 if (connection.isConnected()) {
                     notificationManager.showVPNNotification(
-                        context = activity,
                         openAppIntent = Intent(activity, MainActivity::class.java).apply {
                             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         },

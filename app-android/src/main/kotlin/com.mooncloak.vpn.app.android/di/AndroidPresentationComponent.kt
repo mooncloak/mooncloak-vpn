@@ -16,7 +16,7 @@ import com.mooncloak.vpn.app.shared.util.ActivityContext
 import com.mooncloak.vpn.app.shared.util.AndroidSystemAuthenticationProvider
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import com.mooncloak.vpn.app.shared.util.coroutine.PresentationCoroutineScope
-import com.mooncloak.vpn.app.shared.util.notification.AndroidNotificationManager
+import com.mooncloak.vpn.app.shared.util.notification.AndroidNotificationManagerImpl
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
 
 @Component
@@ -49,7 +49,7 @@ internal abstract class AndroidPresentationComponent internal constructor(
 
     @Provides
     @PresentationScoped
-    internal fun provideNotificationManager(manager: AndroidNotificationManager): NotificationManager = manager
+    internal fun provideNotificationManager(manager: AndroidNotificationManagerImpl): NotificationManager = manager
 }
 
 internal fun PresentationComponent.Companion.create(

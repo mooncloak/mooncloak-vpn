@@ -95,7 +95,7 @@ public fun ApplicationRootScreen(
             // It is safe to call this numerous times (at least on Android). The Android documentation recommends
             // calling this early in the application, so we call it in the root screen.
             notificationManager.registerNotificationChannel(
-                id = NotificationManager.ChannelId.VPN,
+                id = NotificationManager.NotificationChannelId.VPN,
                 name = getString(Res.string.notification_channel_name_vpn),
                 description = getString(Res.string.notification_channel_description_vpn),
                 priority = NotificationPriority.MAX
