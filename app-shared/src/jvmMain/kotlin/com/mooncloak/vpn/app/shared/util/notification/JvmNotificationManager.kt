@@ -6,8 +6,6 @@ public actual interface NotificationManager {
 
     public actual suspend fun areEnabled(): Boolean
 
-    public actual suspend fun requestPermission()
-
     public actual suspend fun registerNotificationChannel(
         id: String,
         name: String,

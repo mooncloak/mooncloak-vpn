@@ -21,7 +21,7 @@ import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
 internal abstract class AndroidDirectApplicationComponent internal constructor(
     @get:Provides override val applicationContext: ApplicationContext,
     @get:Provides override val applicationCoroutineScope: ApplicationCoroutineScope
-) : ApplicationComponent() {
+) : AndroidApplicationComponent() {
 
     override fun provideKeyValueStorage(format: Json): MutableKeyValueStorage<String> =
         KeyValueStorage.Settings(

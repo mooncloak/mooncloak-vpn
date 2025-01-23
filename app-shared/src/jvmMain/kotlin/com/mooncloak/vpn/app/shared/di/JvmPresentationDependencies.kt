@@ -18,7 +18,6 @@ public actual interface PresentationDependencies {
     public actual val plansProvider: ServicePlansProvider
     public actual val vpnConnectionManager: VPNConnectionManager
     public actual val presentationCoroutineScope: PresentationCoroutineScope
-    public actual val notificationManager: NotificationManager
 
     public actual companion object
 }

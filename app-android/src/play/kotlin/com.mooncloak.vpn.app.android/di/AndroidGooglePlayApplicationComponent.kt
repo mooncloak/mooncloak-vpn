@@ -10,6 +10,7 @@ import com.mooncloak.vpn.app.android.info.AndroidAppClientInfo
 import com.mooncloak.vpn.app.android.api.wireguard.AndroidWireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.android.api.wireguard.WireGuardBackend
 import com.mooncloak.vpn.app.android.api.wireguard.WireGuardTunnelManager
+import com.mooncloak.vpn.app.android.util.WireGuardVpnContextWrapper
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.shared.api.network.AndroidLocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
@@ -29,7 +30,7 @@ import kotlinx.serialization.json.Json
 internal abstract class AndroidGooglePlayApplicationComponent internal constructor(
     @get:Provides override val applicationContext: ApplicationContext,
     @get:Provides override val applicationCoroutineScope: ApplicationCoroutineScope
-) : ApplicationComponent() {
+) : AndroidApplicationComponent() {
 
     override fun provideKeyValueStorage(format: Json): MutableKeyValueStorage<String> =
         KeyValueStorage.Settings(
@@ -57,7 +58,8 @@ internal abstract class AndroidGooglePlayApplicationComponent internal construct
 
     @Provides
     @Singleton
-    internal fun provideWireGuardBackend(context: ApplicationContext): WireGuardBackend = GoBackend(context)
+    internal fun provideWireGuardBackend(context: ApplicationContext): WireGuardBackend =
+        GoBackend(WireGuardVpnContextWrapper(context))
 
     @Provides
     @Singleton

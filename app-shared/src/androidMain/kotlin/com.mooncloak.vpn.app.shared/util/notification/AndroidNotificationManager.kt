@@ -1,5 +1,6 @@
 package com.mooncloak.vpn.app.shared.util.notification
 
+import android.app.Notification
 import android.content.Context
 import androidx.compose.ui.graphics.Color
 
@@ -8,8 +9,6 @@ public actual interface NotificationManager {
     public val context: Context
 
     public actual suspend fun areEnabled(): Boolean
-
-    public actual suspend fun requestPermission()
 
     public actual suspend fun registerNotificationChannel(
         id: String,
@@ -32,6 +31,20 @@ public actual interface NotificationManager {
         ongoing: Boolean,
         color: Color?
     ): Boolean
+
+    public suspend fun getNotification(
+        channelId: String,
+        title: String,
+        body: String? = null,
+        priority: NotificationPriority = NotificationPriority.DEFAULT,
+        category: NotificationCategory? = null,
+        lockScreenVisibility: NotificationLockScreenVisibility = NotificationLockScreenVisibility.Private,
+        tapAction: NotificationAction? = null,
+        actions: List<NotificationAction> = emptyList(),
+        onlyAlertOnce: Boolean = true,
+        ongoing: Boolean = false,
+        color: Color? = null
+    ): Notification
 
     public actual suspend fun cancel(notificationId: Int)
 

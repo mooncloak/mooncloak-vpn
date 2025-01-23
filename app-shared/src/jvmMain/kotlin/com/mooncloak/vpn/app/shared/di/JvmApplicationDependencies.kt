@@ -9,6 +9,7 @@ import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.storage.KeyValueStorage
 import com.mooncloak.vpn.app.shared.storage.database.DatabaseDriverFactory
 import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
+import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
 import io.ktor.client.HttpClient
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
@@ -30,6 +31,7 @@ public actual interface ApplicationDependencies {
     public actual val wireGuardConnectionKeyManager: WireGuardConnectionKeyManager
     public actual val tunnelManager: TunnelManager
     public actual val applicationCoroutineScope: ApplicationCoroutineScope
+    public actual val notificationManager: NotificationManager
 
     public actual companion object
 }

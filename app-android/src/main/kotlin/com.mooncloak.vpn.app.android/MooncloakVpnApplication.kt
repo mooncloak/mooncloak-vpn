@@ -3,6 +3,7 @@ package com.mooncloak.vpn.app.android
 import android.app.Application
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.configure
+import com.mooncloak.vpn.app.android.di.AndroidApplicationComponent
 import com.mooncloak.vpn.app.android.di.create
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.log.NoOpLogger
@@ -11,7 +12,7 @@ import kotlinx.coroutines.MainScope
 
 public class MooncloakVpnApplication : Application() {
 
-    public lateinit var applicationComponent: ApplicationComponent
+    public lateinit var applicationComponent: AndroidApplicationComponent
 
     public val coroutineScope: CoroutineScope = MainScope()
 

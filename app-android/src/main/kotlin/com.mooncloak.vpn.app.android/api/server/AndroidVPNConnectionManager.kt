@@ -6,8 +6,6 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.logpile.core.info
-import com.mooncloak.vpn.app.android.activity.MainActivity
-import com.mooncloak.vpn.app.android.receiver.DisconnectTunnelsBroadcastReceiver
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
@@ -18,9 +16,6 @@ import com.mooncloak.vpn.app.shared.api.vpn.isConnected
 import com.mooncloak.vpn.app.shared.api.vpn.isConnecting
 import com.mooncloak.vpn.app.shared.api.vpn.isDisconnected
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
-import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
-import com.mooncloak.vpn.app.shared.util.notification.cancelVPNNotification
-import com.mooncloak.vpn.app.shared.util.notification.showVPNNotification
 import com.wireguard.android.backend.GoBackend
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -46,7 +41,6 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
     private val context: ApplicationContext,
     private val serverConnectionRecordRepository: ServerConnectionRecordRepository,
     private val clock: Clock,
-    private val notificationManager: NotificationManager,
     private val tunnelManager: TunnelManager
 ) : VPNConnectionManager {
 
@@ -139,6 +133,7 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
                     activity.startActivityForResult(intent, REQUEST_CODE)
 
                     // FIXME: The callback isn't working.
+                    /*
                     suspendCancellableCoroutine { continuation ->
                         intentCallback = {
                             LogPile.info(tag = TAG, message = "Intent Callback.")
@@ -147,7 +142,7 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
 
                             intentCallback = null
                         }
-                    }
+                    }*/
                 }
 
                 tunnelManager.connect(server = server)
@@ -193,19 +188,6 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
         emitMutex.withLock {
             withContext(Dispatchers.Main) {
                 LogPile.info(tag = TAG, message = "Emitting updated connection: $connection")
-
-                if (connection.isConnected()) {
-                    notificationManager.showVPNNotification(
-                        openAppIntent = Intent(activity, MainActivity::class.java).apply {
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        },
-                        disconnectIntent = Intent(context, DisconnectTunnelsBroadcastReceiver::class.java).apply {
-                            action = DisconnectTunnelsBroadcastReceiver.ACTION
-                        }
-                    )
-                } else {
-                    notificationManager.cancelVPNNotification()
-                }
 
                 mutableConnection.value = connection
             }

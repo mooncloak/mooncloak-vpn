@@ -1,44 +1,25 @@
 package com.mooncloak.vpn.app.shared.util.notification
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.kodetools.logpile.core.LogPile
-import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.vpn.app.shared.R
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.resume
+import com.mooncloak.vpn.app.shared.util.ApplicationContext
 
 public class AndroidNotificationManagerImpl @Inject public constructor(
-    override val context: Activity
+    override val context: ApplicationContext
 ) : com.mooncloak.vpn.app.shared.util.notification.NotificationManager {
-
-    private var intentCallback: (() -> Unit)? = null
 
     override suspend fun areEnabled(): Boolean =
         NotificationManagerCompat.from(context).areNotificationsEnabled()
-
-    override suspend fun requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ActivityCompat.requestPermissions(
-                context,
-                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                0
-            )
-        }
-    }
 
     override suspend fun registerNotificationChannel(
         id: String,
@@ -83,6 +64,46 @@ public class AndroidNotificationManagerImpl @Inject public constructor(
         ongoing: Boolean,
         color: Color?
     ): Boolean {
+        val notification = getNotification(
+            channelId = channelId,
+            title = title,
+            body = body,
+            priority = priority,
+            category = category,
+            lockScreenVisibility = lockScreenVisibility,
+            tapAction = tapAction,
+            actions = actions,
+            onlyAlertOnce = onlyAlertOnce,
+            ongoing = ongoing,
+            color = color
+        )
+
+        val manager = NotificationManagerCompat.from(this.context)
+
+        if (areEnabled()) {
+            manager.notify(notificationId, notification)
+
+            return true
+        } else {
+
+            return false
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    override suspend fun getNotification(
+        channelId: String,
+        title: String,
+        body: String?,
+        priority: NotificationPriority,
+        category: NotificationCategory?,
+        lockScreenVisibility: NotificationLockScreenVisibility,
+        tapAction: NotificationAction?,
+        actions: List<NotificationAction>,
+        onlyAlertOnce: Boolean,
+        ongoing: Boolean,
+        color: Color?
+    ): Notification {
         var builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
@@ -114,37 +135,7 @@ public class AndroidNotificationManagerImpl @Inject public constructor(
             )
         }
 
-        val notification = builder.build()
-
-        val manager = NotificationManagerCompat.from(this.context)
-
-        if (areEnabled()) {
-            manager.notify(notificationId, notification)
-
-            return true
-        } else {
-            requestPermission()
-
-            withContext(Dispatchers.IO) {
-                suspendCancellableCoroutine { continuation ->
-                    intentCallback = {
-                        LogPile.info(tag = TAG, message = "Intent Callback.")
-
-                        continuation.resume(Unit)
-
-                        intentCallback = null
-                    }
-                }
-            }
-
-            if (areEnabled()) {
-                manager.notify(notificationId, notification)
-
-                return true
-            }
-
-            return false
-        }
+        return builder.build()
     }
 
     override suspend fun cancel(notificationId: Int) {
@@ -159,19 +150,8 @@ public class AndroidNotificationManagerImpl @Inject public constructor(
         manager.cancelAll()
     }
 
-    public fun receivedResult(
-        requestCode: Int,
-        resultCode: Int
-    ) {
-        if (requestCode == REQUEST_CODE) {
-            // TODO: Verify success/error
-            intentCallback?.invoke()
-        }
-    }
-
     internal companion object {
 
         private const val TAG: String = "AndroidNotificationManager"
-        private const val REQUEST_CODE: Int = 5678
     }
 }

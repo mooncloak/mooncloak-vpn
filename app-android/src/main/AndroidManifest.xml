@@ -62,7 +62,27 @@
 
         <!-- Services -->
 
-        <!-- The WireGuard library includes the VPNService automatically when the manifests are merged -->
+        <!-- The WireGuard GoBackend VpnService. This is in the AndroidManifest of the Android WireGuard library we use. -->
+        <service
+            android:name="com.wireguard.android.backend.GoBackend$VpnService"
+            android:exported="false"
+            android:foregroundServiceType="systemExempted"
+            tools:ignore="ForegroundServicePermission"
+            tools:node="merge" />
+
+        <!-- The Android Mooncloak VPN Service. This service will run in the foreground when a VPN is enabled. -->
+        <service
+            android:name=".service.MooncloakVpnService"
+            android:exported="false"
+            android:foregroundServiceType="systemExempted"
+            android:permission="android.permission.BIND_VPN_SERVICE"
+            tools:ignore="ForegroundServicePermission">
+            <intent-filter tools:ignore="ForegroundServicePermission">
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+        </service>
+
+        <!-- The WireGuard library includes the VPNService automatically when the manifests are merged. -->
 
         <!-- BroadcastReceivers -->
 

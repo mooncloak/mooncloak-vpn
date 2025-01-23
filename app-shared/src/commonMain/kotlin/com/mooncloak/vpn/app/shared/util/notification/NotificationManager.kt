@@ -6,8 +6,6 @@ public expect interface NotificationManager {
 
     public suspend fun areEnabled(): Boolean
 
-    public suspend fun requestPermission()
-
     public suspend fun registerNotificationChannel(
         id: String,
         name: String,

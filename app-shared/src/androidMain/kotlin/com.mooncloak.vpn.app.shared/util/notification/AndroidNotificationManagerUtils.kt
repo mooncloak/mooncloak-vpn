@@ -1,5 +1,6 @@
 package com.mooncloak.vpn.app.shared.util.notification
 
+import android.app.Notification
 import android.app.PendingIntent
 import android.content.Intent
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -8,13 +9,11 @@ import com.mooncloak.vpn.app.shared.resource.notification_title_vpn
 import com.mooncloak.vpn.app.shared.theme.ColorPalette
 import org.jetbrains.compose.resources.getString
 
-public suspend fun NotificationManager.showVPNNotification(
+public suspend fun NotificationManager.getVPNNotification(
     openAppIntent: Intent,
     disconnectIntent: Intent
-) {
-    this.showNotification(
+): Notification = this.getNotification(
         channelId = NotificationChannelId.VPN,
-        notificationId = NotificationId.VPN,
         title = getString(Res.string.notification_title_vpn),
         priority = NotificationPriority.MAX,
         category = NotificationCategory.Service,
@@ -41,4 +40,3 @@ public suspend fun NotificationManager.showVPNNotification(
             )
         )
     )
-}

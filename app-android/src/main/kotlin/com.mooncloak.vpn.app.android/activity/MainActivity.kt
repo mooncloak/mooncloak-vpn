@@ -44,7 +44,7 @@ public class MainActivity : BaseActivity() {
                 //  PresentationDependencies to use the Android type instead of the common type for each property here.
                 //  Will have to check if that works with expect/actual or find another approach.
                 vpnConnectionManager = presentationDependencies.vpnConnectionManager as? AndroidVPNConnectionManager
-                notificationManager = presentationDependencies.notificationManager as? AndroidNotificationManagerImpl
+                notificationManager = applicationDependencies.notificationManager as? AndroidNotificationManagerImpl
             }
 
             ApplicationRootScreen(
@@ -63,10 +63,6 @@ public class MainActivity : BaseActivity() {
             requestCode = requestCode,
             resultCode = resultCode,
             data = data
-        )
-        notificationManager?.receivedResult(
-            requestCode = requestCode,
-            resultCode = resultCode
         )
     }
 
