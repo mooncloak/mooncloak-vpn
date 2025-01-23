@@ -26,6 +26,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -51,6 +52,7 @@ import com.mooncloak.vpn.app.shared.resource.support_rate_app_action
 import com.mooncloak.vpn.app.shared.resource.support_rate_app_description
 import com.mooncloak.vpn.app.shared.resource.support_rate_app_title
 import com.mooncloak.vpn.app.shared.util.openEmail
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -71,6 +73,7 @@ public fun SupportScreen(
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
     val uriHandler = LocalUriHandler.current
     val emailSubject = stringResource(Res.string.support_email_default_subject)
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -118,10 +121,12 @@ public fun SupportScreen(
                         description = stringResource(Res.string.support_email_description),
                         action = stringResource(Res.string.support_email_action),
                         onAction = {
-                            uriHandler.openEmail(
-                                to = listOf(supportEmailAddress),
-                                subject = emailSubject
-                            )
+                            coroutineScope.launch {
+                                uriHandler.openEmail(
+                                    to = listOf(supportEmailAddress),
+                                    subject = emailSubject
+                                )
+                            }
                         }
                     )
                 }

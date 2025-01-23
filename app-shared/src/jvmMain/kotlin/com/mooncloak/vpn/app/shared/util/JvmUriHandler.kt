@@ -6,7 +6,7 @@ import androidx.compose.ui.platform.UriHandler
 @Composable
 public actual fun platformDefaultUriHandler(): UriHandler = TODO()
 
-public actual fun UriHandler.openEmail(
+public actual suspend fun UriHandler.openEmail(
     to: List<String>,
     subject: String?,
 ) {

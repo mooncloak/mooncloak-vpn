@@ -6,7 +6,7 @@ import androidx.compose.ui.platform.UriHandler
 @Composable
 public expect fun platformDefaultUriHandler(): UriHandler
 
-public expect fun UriHandler.openEmail(
+public expect suspend fun UriHandler.openEmail(
     to: List<String>,
     subject: String?
 )

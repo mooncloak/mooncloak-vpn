@@ -1,6 +1,5 @@
 package com.mooncloak.vpn.app.shared.util
 
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -10,6 +9,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
+import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.support_email_action
+import org.jetbrains.compose.resources.getString
 
 @Composable
 public actual fun platformDefaultUriHandler(): UriHandler {
@@ -24,7 +26,7 @@ public actual fun platformDefaultUriHandler(): UriHandler {
     }
 }
 
-public actual fun UriHandler.openEmail(
+public actual suspend fun UriHandler.openEmail(
     to: List<String>,
     subject: String?,
 ) {
@@ -44,7 +46,7 @@ public actual fun UriHandler.openEmail(
         this.openUri(uri)
     } else {
         val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
-            setData(Uri.parse("mailto:"))
+            data = Uri.parse("mailto:")
 
             if (to.isNotEmpty()) {
                 putExtra(Intent.EXTRA_EMAIL, to.toTypedArray())
@@ -55,17 +57,10 @@ public actual fun UriHandler.openEmail(
             }
         }
 
-        val activityStarted = try {
-            emailIntent.resolveActivity(context.packageManager)
-
-            true
-        } catch (_: ActivityNotFoundException) {
-            false
-        }
-
-        if (!activityStarted) {
-            context.startActivity(Intent.createChooser(emailIntent, "Email"))
-        }
+        // For some unknown reason, the Email intent for the default Email app stopped working. It wouldn't do anything
+        // but would claim that the activity "started" (when wrapped in a try/catch for ActivityNotFound). To solve
+        // this, just always show the Intent chooser.
+        context.startActivity(Intent.createChooser(emailIntent, getString(Res.string.support_email_action)))
     }
 }
 
