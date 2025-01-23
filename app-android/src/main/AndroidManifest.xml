@@ -22,6 +22,10 @@
     <!-- See documentation for more details: https://developer.android.com/develop/ui/views/notifications/build-notification#permission -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- Required to allow the VPN service to be launched as a Foreground Service. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SYSTEM_EXEMPTED" />
+
     <application
         android:name="com.mooncloak.vpn.app.android.MooncloakVpnApplication"
         android:icon="@mipmap/ic_launcher"
