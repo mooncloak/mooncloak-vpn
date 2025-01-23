@@ -12,4 +12,7 @@
 
     <string name="cd_options_more">More options</string>
 
+    <string name="cd_avatar">User avatar photo</string>
+    <string name="cd_image_flag">Country flag</string>
+
 </resources>

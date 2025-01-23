@@ -23,6 +23,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.cd_avatar
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun AvatarImage(
@@ -52,7 +55,7 @@ internal fun AvatarImage(
             AsyncImage(
                 modifier = Modifier.matchParentSize(),
                 model = imageUri,
-                contentDescription = null,
+                contentDescription = stringResource(Res.string.cd_avatar),
                 onError = {
                     showName.value = true
                 }

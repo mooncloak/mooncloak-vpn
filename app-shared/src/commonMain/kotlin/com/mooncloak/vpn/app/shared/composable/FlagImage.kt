@@ -18,7 +18,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.cd_image_flag
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun FlagImage(
@@ -39,7 +42,7 @@ internal fun FlagImage(
             AsyncImage(
                 modifier = Modifier.matchParentSize(),
                 model = imageUri,
-                contentDescription = null,
+                contentDescription = stringResource(Res.string.cd_image_flag),
                 onError = {
                     showIcon.value = true
                 }
@@ -49,7 +52,7 @@ internal fun FlagImage(
                 modifier = Modifier.size(24.dp)
                     .align(Alignment.Center),
                 imageVector = Icons.Default.Flag,
-                contentDescription = null,
+                contentDescription = stringResource(Res.string.cd_image_flag),
                 tint = contentColor.copy(alpha = SecondaryAlpha)
             )
         }
