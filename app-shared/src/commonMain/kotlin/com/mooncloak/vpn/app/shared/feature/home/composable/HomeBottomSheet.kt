@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.home.composable
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheet
@@ -22,7 +23,7 @@ internal fun HomeBottomSheet(
             is HomeBottomSheetDestination.Payment -> PaymentScreen(modifier = Modifier.fillMaxSize())
 
             is HomeBottomSheetDestination.ServerDetails -> ServerDetailsScreen(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxWidth(),
                 server = destination.server
             )
         }

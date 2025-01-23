@@ -24,7 +24,7 @@ internal fun ServerListBottomSheet(
             is ServerListBottomSheetDestination.Payment -> PaymentScreen(modifier = Modifier.fillMaxSize())
 
             is ServerListBottomSheetDestination.ServerDetails -> ServerDetailsScreen(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxWidth(),
                 server = destination.server
             )
 

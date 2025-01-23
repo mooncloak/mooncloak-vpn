@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.server.Server
@@ -42,8 +43,11 @@ import com.mooncloak.vpn.app.shared.resource.server_details_info_field_last_conn
 import com.mooncloak.vpn.app.shared.util.time.DateTimeFormatter
 import com.mooncloak.vpn.app.shared.util.time.Full
 import com.mooncloak.vpn.app.shared.util.time.format
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 public fun ServerDetailsScreen(
@@ -59,6 +63,7 @@ public fun ServerDetailsScreen(
     val viewModel = remember { componentDependencies.viewModel }
     val lazyListState = rememberLazyListState()
     val hideLocalIpAddress = remember { mutableStateOf(true) }
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         viewModel.load(server)
@@ -187,6 +192,17 @@ public fun ServerDetailsScreen(
                     enabled = viewModel.state.current.value.connection !is VPNConnection.Connecting,
                     onClick = {
                         viewModel.toggleConnection()
+
+                        coroutineScope.launch {
+                            // FIXME: Hacky scroll to top solution
+                            // For some reason, when the state changes to connected, the top item in the lazy list is
+                            // not displayed. Instead, it always shows the second item. You have to scroll to the first
+                            // item. This causes issues with the scrolling of the bottom sheet layout. So we attempt to
+                            // force the scroll to the top so it shows the first item correctly. The underlying issue
+                            // should be resolved and this hacky solution should be removed in the future.
+                            delay(300.milliseconds)
+                            lazyListState.animateScrollToItem(0)
+                        }
                     }
                 ) {
                     Text(
