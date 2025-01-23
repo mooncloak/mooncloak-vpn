@@ -28,7 +28,7 @@ public interface TunnelManager {
 
     public fun subscribeToChanges(
         coroutineScope: CoroutineScope,
-        poll: Duration = 15.seconds
+        poll: Duration = 5.seconds
     ): Job
 
     public companion object
