@@ -117,6 +117,7 @@ public fun ServerDetailsScreen(
                 }
 
                 (viewModel.state.current.value.connection as? VPNConnection.Connected)?.let { connection ->
+                    /* TODO: Re-enable speed card when we fix the retrieval of the correct speed values.
                     item(key = "ServerSpeedItem") {
                         val tunnel = connection.defaultTunnel
 
@@ -126,7 +127,7 @@ public fun ServerDetailsScreen(
                             downloadBits = tunnel?.stats?.value?.rxThroughput,
                             uploadBits = tunnel?.stats?.value?.txThroughput
                         )
-                    }
+                    }*/
 
                     item(key = "ServerUsageItem") {
                         val tunnel = connection.defaultTunnel
