@@ -279,6 +279,9 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
 
     private fun com.mooncloak.vpn.app.storage.sqlite.database.ServerConnectionRecord.toServerConnectionRecord(): ServerConnectionRecord =
         ServerConnectionRecord(
+            lastConnected = this.connected,
+            starred = this.starred,
+            note = this.note,
             server = Server(
                 id = this.id,
                 name = this.name,
@@ -321,6 +324,9 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
 
     private fun SelectAllStarred.toServerConnectionRecord(): ServerConnectionRecord =
         ServerConnectionRecord(
+            lastConnected = this.connected,
+            starred = this.starred,
+            note = this.note,
             server = Server(
                 id = this.id,
                 name = this.name,
@@ -363,6 +369,9 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
 
     private fun SelectStarredPage.toServerConnectionRecord(): ServerConnectionRecord =
         ServerConnectionRecord(
+            lastConnected = this.connected,
+            starred = this.starred,
+            note = this.note,
             server = Server(
                 id = this.id,
                 name = this.name,
