@@ -5,6 +5,8 @@ import kotlinx.datetime.Instant
 
 public interface AppClientInfo {
 
+    public val id: String
+
     public val group: String
         get() = SharedBuildConfig.group
 
@@ -33,6 +35,8 @@ public interface AppClientInfo {
     public val isDebug: Boolean
 
     public val isGooglePlayBuild: Boolean
+
+    public val isPreRelease: Boolean
 
     public val supportEmail: String get() = "support@mooncloak.com"
 
