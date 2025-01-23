@@ -6,6 +6,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.logpile.core.info
+import com.mooncloak.kodetools.logpile.core.warning
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
@@ -29,12 +30,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
-import kotlin.coroutines.resume
+import kotlinx.datetime.Instant
+import kotlin.time.Duration.Companion.seconds
 
 internal class AndroidVPNConnectionManager @Inject internal constructor(
     private val activity: Activity,
@@ -61,6 +62,10 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
     private var tunnelsJob: Job? = null
 
     private var intentCallback: (() -> Unit)? = null
+
+    // Arbitrarily chosen time period.
+    private val maxConnectionPeriod = 15.seconds
+    private var lastConnectionTime: Instant? = null
 
     override fun start() {
         if (isClosed && coroutineScope.isActive) {
@@ -89,7 +94,31 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
                         else -> VPNConnection.Disconnected()
                     }
                 }
-                .onEach { connection -> emit(connection) }
+                .onEach { connection ->
+                    emit(connection)
+
+                    // Attempt to check if we have been connecting for too long. If we have been attempting to connect,
+                    // unsuccessfully for an extended period of time, cancel the connection. This is an attempt to
+                    // prevent the user getting stuck in an invalid state.
+                    // TODO: Should this be the responsibility of the ViewModel layer? The reason I didn't put it there
+                    // initially is that this component is used by numerous ViewModels and I didn't want to duplicate
+                    // the logic.
+                    if (
+                        connection.isConnecting() &&
+                        ((lastConnectionTime?.let { clock.now() - it } ?: 0.seconds) > maxConnectionPeriod)
+                    ) {
+                        LogPile.warning(
+                            tag = TAG,
+                            message = "Failed to connect for $maxConnectionPeriod. Forcing a disconnect."
+                        )
+
+                        disconnect()
+                    } else if (connection.isConnected() || connection.isDisconnected()) {
+                        // If we are connected or disconnected, reset the last connection time. The last connection
+                        // time value is only set on an explicit connect action.
+                        lastConnectionTime = null
+                    }
+                }
                 .catch { e ->
                     LogPile.error(
                         tag = TAG,
@@ -118,10 +147,14 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
                     closeAllTunnels()
                 }
 
+                val now = clock.now()
+
+                lastConnectionTime = now
+
                 emit(
                     VPNConnection.Connecting(
                         server = server,
-                        timestamp = clock.now()
+                        timestamp = now
                     )
                 )
 
@@ -165,6 +198,8 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
 
     override suspend fun disconnect() {
         toggleMutex.withLock {
+            lastConnectionTime = null
+
             closeAllTunnels()
         }
     }
