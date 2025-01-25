@@ -15,10 +15,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import com.mikepenz.hypnoticcanvas.shaderBackground
 import com.mikepenz.hypnoticcanvas.shaders.MeshGradient
 import com.mooncloak.vpn.web.download.info.WebBuildConfig
@@ -140,6 +143,23 @@ public fun DownloadScreen(
                             contentScale = ContentScale.FillWidth
                         )
                     }
+                }
+
+                if (WebBuildConfig.playStoreUrl != null) {
+                    AsyncImage(
+                        modifier = Modifier.width(200.dp)
+                            .fillMaxWidth()
+                            .align(Alignment.CenterHorizontally)
+                            .padding(top = 24.dp)
+                            .padding(horizontal = 16.dp)
+                            .clickable {
+                                uriHandler.openUri(WebBuildConfig.playStoreUrl)
+                            }
+                            .pointerHoverIcon(PointerIcon.Hand),
+                        contentScale = ContentScale.FillWidth,
+                        model = "https://cdn.mooncloak.com/app/latest/assets/image/google-play/GetItOnGooglePlay_Badge_Web_color_English.png",
+                        contentDescription = "Get on Google Play"
+                    )
                 }
 
                 if (WebBuildConfig.playStoreUrl == null && WebBuildConfig.directDownloadUrl == null) {

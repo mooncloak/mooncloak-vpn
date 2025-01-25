@@ -78,8 +78,7 @@ class BuildVariables internal constructor(
     val publishAsLatest: Boolean
         get() = runCatching { kenv.getBooleanOrNull("publishAsLatest") }.getOrNull() ?: true
 
-    val playStoreUrl: String?
-        get() = runCatching { kenv.getStringOrNull("playStoreUrl") }.getOrNull()
+    val playStoreUrl: String = "https://play.google.com/store/apps/details?id=com.mooncloak.vpn.app.android.play"
 
     val playStorePreRegisterUrl: String?
         get() = runCatching { kenv.getStringOrNull("playStorePreRegisterUrl") }.getOrNull()
