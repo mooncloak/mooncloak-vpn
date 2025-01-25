@@ -4,8 +4,10 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalPersistentStateAPI::class)
 public class ServiceTokensSource @Inject public constructor(
@@ -15,44 +17,50 @@ public class ServiceTokensSource @Inject public constructor(
 
     private val mutex = Mutex(locked = false)
 
-    override suspend fun getLatest(): ServiceTokens? {
-        subscriptionStorage.tokens.current.value?.let { return it }
+    override suspend fun getLatest(): ServiceTokens? =
+        withContext(Dispatchers.IO) {
+            subscriptionStorage.tokens.current.value?.let { return@withContext it }
 
-        val latest = databaseSource.getLatest()
-
-        subscriptionStorage.tokens.update(latest)
-
-        return latest
-    }
-
-    override suspend fun get(id: String): ServiceTokens {
-        val latest = subscriptionStorage.tokens.current.value
-
-        if (latest != null && latest.id == id) {
-            return latest
-        }
-
-        return databaseSource.get(id = id)
-    }
-
-    override suspend fun add(tokens: ServiceTokens) {
-        mutex.withLock {
-            databaseSource.add(tokens)
-
-            val latest = databaseSource.getLatest() ?: tokens
+            val latest = databaseSource.getLatest()
 
             subscriptionStorage.tokens.update(latest)
+
+            return@withContext latest
+        }
+
+    override suspend fun get(id: String): ServiceTokens =
+        withContext(Dispatchers.IO) {
+            val latest = subscriptionStorage.tokens.current.value
+
+            if (latest != null && latest.id == id) {
+                return@withContext latest
+            }
+
+            return@withContext databaseSource.get(id = id)
+        }
+
+    override suspend fun add(tokens: ServiceTokens) {
+        withContext(Dispatchers.IO) {
+            mutex.withLock {
+                databaseSource.add(tokens)
+
+                val latest = databaseSource.getLatest() ?: tokens
+
+                subscriptionStorage.tokens.update(latest)
+            }
         }
     }
 
     override suspend fun remove(id: String) {
-        mutex.withLock {
-            databaseSource.remove(id)
+        withContext(Dispatchers.IO) {
+            mutex.withLock {
+                databaseSource.remove(id)
 
-            if (id == subscriptionStorage.tokens.current.value?.id) {
-                val latest = databaseSource.getLatest()
+                if (id == subscriptionStorage.tokens.current.value?.id) {
+                    val latest = databaseSource.getLatest()
 
-                subscriptionStorage.tokens.update(latest)
+                    subscriptionStorage.tokens.update(latest)
+                }
             }
         }
     }

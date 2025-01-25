@@ -4,8 +4,9 @@ import android.app.Activity
 import androidx.compose.ui.platform.UriHandler
 import com.mooncloak.kodetools.konstruct.annotations.Component
 import com.mooncloak.kodetools.konstruct.annotations.Provides
-import com.mooncloak.vpn.app.android.GooglePlayBillingManager
+import com.mooncloak.vpn.app.android.play.GooglePlayBillingManager
 import com.mooncloak.vpn.app.android.api.server.AndroidVPNConnectionManager
+import com.mooncloak.vpn.app.android.play.ServicePlansGooglePlaySource
 import com.mooncloak.vpn.app.shared.api.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansRepository
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
@@ -33,7 +34,7 @@ internal abstract class AndroidPresentationComponent internal constructor(
 
     @Provides
     @PresentationScoped
-    internal fun providePlansRepository(source: GooglePlayBillingManager): ServicePlansRepository = source
+    internal fun providePlansRepository(source: ServicePlansGooglePlaySource): ServicePlansRepository = source
 
     @Provides
     @PresentationScoped

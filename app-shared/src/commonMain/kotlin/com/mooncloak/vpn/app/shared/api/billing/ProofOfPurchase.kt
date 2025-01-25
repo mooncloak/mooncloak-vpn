@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class ProofOfPurchase public constructor(
     @SerialName(value = "provider") public val paymentProvider: PaymentProvider,
+    @SerialName(value = "token") public val token: TransactionToken,
     @SerialName(value = "id") public val id: String? = null,
     @SerialName(value = "client_secret") public val clientSecret: String? = null,
-    @SerialName(value = "token") public val token: TransactionToken
 )

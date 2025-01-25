@@ -4,8 +4,10 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.app.shared.api.token.Token
 import com.mooncloak.vpn.app.shared.api.token.TokenType
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 
 public class ServiceTokensDatabaseSource @Inject public constructor(
@@ -16,39 +18,47 @@ public class ServiceTokensDatabaseSource @Inject public constructor(
     private val mutex = Mutex(locked = false)
 
     override suspend fun getLatest(): ServiceTokens? =
-        database.serviceTokensQueries.selectLatest()
-            .executeAsOneOrNull()
-            ?.toServiceTokens()
+        withContext(Dispatchers.IO) {
+            database.serviceTokensQueries.selectLatest()
+                .executeAsOneOrNull()
+                ?.toServiceTokens()
+        }
 
     override suspend fun get(id: String): ServiceTokens =
-        database.serviceTokensQueries.selectById(id = id)
-            .executeAsOneOrNull()
-            ?.toServiceTokens()
-            ?: throw NoSuchElementException("No ServiceTokens found with id '$id'.")
+        withContext(Dispatchers.IO) {
+            database.serviceTokensQueries.selectById(id = id)
+                .executeAsOneOrNull()
+                ?.toServiceTokens()
+                ?: throw NoSuchElementException("No ServiceTokens found with id '$id'.")
+        }
 
     override suspend fun add(tokens: ServiceTokens) {
-        mutex.withLock {
-            val now = clock.now()
+        withContext(Dispatchers.IO) {
+            mutex.withLock {
+                val now = clock.now()
 
-            database.serviceTokensQueries.insert(
-                databaseId = null,
-                id = tokens.id,
-                created = now,
-                updated = now,
-                issued = tokens.issued,
-                expiration = tokens.expiration,
-                accessToken = tokens.accessToken.value,
-                type = tokens.tokenType.value,
-                refreshToken = tokens.refreshToken?.value,
-                scope = tokens.scopeString,
-                userId = tokens.userId
-            )
+                database.serviceTokensQueries.insert(
+                    databaseId = null,
+                    id = tokens.id,
+                    created = now,
+                    updated = now,
+                    issued = tokens.issued,
+                    expiration = tokens.expiration,
+                    accessToken = tokens.accessToken.value,
+                    type = tokens.tokenType.value,
+                    refreshToken = tokens.refreshToken?.value,
+                    scope = tokens.scopeString,
+                    userId = tokens.userId
+                )
+            }
         }
     }
 
     override suspend fun remove(id: String) {
-        mutex.withLock {
-            database.serviceTokensQueries.deleteById(id = id)
+        withContext(Dispatchers.IO) {
+            mutex.withLock {
+                database.serviceTokensQueries.deleteById(id = id)
+            }
         }
     }
 
