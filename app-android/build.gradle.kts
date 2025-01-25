@@ -83,7 +83,7 @@ android {
         }
 
         getByName("debug") {
-            applicationIdSuffix = ".debug"
+            // FIXME: Re-enable .debug suffix: applicationIdSuffix = ".debug"
             isDebuggable = true
             isMinifyEnabled = false
         }

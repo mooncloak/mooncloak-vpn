@@ -8,7 +8,6 @@ import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.navigation.NavController
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
@@ -42,7 +41,6 @@ import org.jetbrains.compose.resources.getString
 @FeatureScoped
 public class PaymentViewModel @Inject public constructor(
     private val appClientInfo: AppClientInfo,
-    private val navController: NavController,
     private val plansProvider: ServicePlansProvider,
     private val billingManager: BillingManager
 ) : ViewModel<PaymentStateModel>(initialStateValue = PaymentStateModel()) {
@@ -59,7 +57,7 @@ public class PaymentViewModel @Inject public constructor(
                 subscribeToPlans()
 
                 var termsAndConditionsText: (@Composable () -> AnnotatedString) = { AnnotatedString("") }
-                var noticeText = if (appClientInfo.isPreRelease) {
+                val noticeText = if (appClientInfo.isPreRelease) {
                     getString(Res.string.payment_notice_beta)
                 } else {
                     getString(Res.string.payment_notice)
@@ -68,7 +66,6 @@ public class PaymentViewModel @Inject public constructor(
                 try {
                     termsAndConditionsText = getTermsAndConditionsText()
 
-                    // TODO: Load real plans
                     // TODO: Obtain current plan invoice
                     // TODO: Use presence of plan invoice to determine whether to show plans or invoice screen
 
