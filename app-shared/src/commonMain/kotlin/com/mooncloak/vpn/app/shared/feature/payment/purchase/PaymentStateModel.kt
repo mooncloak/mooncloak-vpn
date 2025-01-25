@@ -16,6 +16,7 @@ public data class PaymentStateModel public constructor(
     public val plans: List<Plan> = emptyList(),
     public val acceptedTerms: Boolean = false,
     public val termsAndConditionsText: @Composable () -> AnnotatedString = { AnnotatedString("") },
+    public val noticeText: String? = null,
     public val invoice: BitcoinPlanInvoice? = null,
     public val paymentStatus: PlanPaymentStatus? = null,
     public val isLoading: Boolean = false,

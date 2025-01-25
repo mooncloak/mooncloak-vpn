@@ -162,6 +162,8 @@
     <string name="dependency_list_action_close">Close</string>
 
     <string name="payment_plans_title">Select a plan</string>
+    <string name="payment_notice">Prices are subject to change. Please note that all purchases are final.</string>
+    <string name="payment_notice_beta">Prices are subject to change. Please note that all purchases are final. As this app is in beta, some features and pricing may be adjusted.</string>
     <string name="payment_title">Payment</string>
     <string name="payment_action_select">Select</string>
     <string name="payment_accept_terms_and_conditions">I have read and accepted the terms and privacy policy.</string>

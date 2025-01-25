@@ -24,6 +24,8 @@ import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.resource.payment_accept_terms_and_conditions
 import com.mooncloak.vpn.app.shared.resource.payment_link_text_privacy_policy
 import com.mooncloak.vpn.app.shared.resource.payment_link_text_terms
+import com.mooncloak.vpn.app.shared.resource.payment_notice
+import com.mooncloak.vpn.app.shared.resource.payment_notice_beta
 import com.mooncloak.vpn.app.shared.resource.payment_plans_title
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -57,6 +59,11 @@ public class PaymentViewModel @Inject public constructor(
                 subscribeToPlans()
 
                 var termsAndConditionsText: (@Composable () -> AnnotatedString) = { AnnotatedString("") }
+                var noticeText = if (appClientInfo.isPreRelease) {
+                    getString(Res.string.payment_notice_beta)
+                } else {
+                    getString(Res.string.payment_notice)
+                }
 
                 try {
                     termsAndConditionsText = getTermsAndConditionsText()
@@ -70,6 +77,7 @@ public class PaymentViewModel @Inject public constructor(
                             isLoading = false,
                             errorMessage = null,
                             termsAndConditionsText = termsAndConditionsText,
+                            noticeText = noticeText,
                             startDestination = PaymentDestination.Plans, // TODO:
                             screenTitle = getString(Res.string.payment_plans_title)
                         )
@@ -82,6 +90,7 @@ public class PaymentViewModel @Inject public constructor(
                             isLoading = false,
                             errorMessage = e.message ?: getString(Res.string.global_unexpected_error),
                             termsAndConditionsText = termsAndConditionsText,
+                            noticeText = noticeText,
                             startDestination = PaymentDestination.Plans
                         )
                     )

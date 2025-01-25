@@ -90,6 +90,7 @@ public fun PaymentScreen(
                             plans = viewModel.state.current.value.plans,
                             acceptedTerms = viewModel.state.current.value.acceptedTerms,
                             loading = viewModel.state.current.value.isLoading,
+                            noticeText = viewModel.state.current.value.noticeText,
                             termsAndConditionsText = viewModel.state.current.value.termsAndConditionsText.invoke(),
                             onPlanSelected = { plan ->
                                 viewModel.selectPlan(plan)

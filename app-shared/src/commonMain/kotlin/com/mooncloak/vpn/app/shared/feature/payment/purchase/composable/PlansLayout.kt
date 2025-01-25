@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.payment.purchase.composable
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.payment_action_select
+import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -27,6 +29,7 @@ internal fun PlansLayout(
     plans: List<Plan>,
     acceptedTerms: Boolean,
     loading: Boolean,
+    noticeText: String?,
     termsAndConditionsText: AnnotatedString,
     onPlanSelected: (plan: Plan) -> Unit,
     onAcceptedTermsToggled: (accepted: Boolean) -> Unit,
@@ -59,26 +62,42 @@ internal fun PlansLayout(
             }
 
             item(key = "TermsAndConditions") {
-                Row(
+                Column(
                     modifier = Modifier.fillMaxWidth()
                         .padding(top = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    RadioButton(
-                        selected = acceptedTerms,
-                        onClick = {
-                            onAcceptedTermsToggled.invoke(!acceptedTerms)
-                        },
-                        colors = RadioButtonDefaults.colors(
-                            selectedColor = MaterialTheme.colorScheme.primary,
-                            unselectedColor = MaterialTheme.colorScheme.onSurface
+                    if (noticeText != null) {
+                        Text(
+                            text = noticeText,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSurface.copy(
+                                alpha = SecondaryAlpha
+                            )
                         )
-                    )
+                    }
 
-                    Text(
-                        modifier = Modifier.padding(start = 16.dp),
-                        text = termsAndConditionsText
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(top = if (noticeText != null) 16.dp else 0.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = acceptedTerms,
+                            onClick = {
+                                onAcceptedTermsToggled.invoke(!acceptedTerms)
+                            },
+                            colors = RadioButtonDefaults.colors(
+                                selectedColor = MaterialTheme.colorScheme.primary,
+                                unselectedColor = MaterialTheme.colorScheme.onSurface
+                            )
+                        )
+
+                        Text(
+                            modifier = Modifier.padding(start = 16.dp),
+                            text = termsAndConditionsText
+                        )
+                    }
                 }
             }
 
