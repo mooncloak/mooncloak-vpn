@@ -1,28 +1,17 @@
 package com.mooncloak.vpn.app.android.api.wireguard
 
-import android.content.SharedPreferences
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.vpn.app.android.storage.EncryptedSharedPreferenceProvider
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPair
-import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.wireguard.crypto.Key
 import com.wireguard.crypto.KeyPair
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 internal class AndroidWireGuardConnectionKeyManager @Inject internal constructor(
-    context: ApplicationContext
+    private val encryptedSharedPreferenceProvider: EncryptedSharedPreferenceProvider
 ) : WireGuardConnectionKeyManager {
-
-    private val sharedPreferences: SharedPreferences = EncryptedSharedPreferences.create(
-        FILE_NAME,
-        MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-        context,
-        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-    )
 
     private val mutex = Mutex(locked = false)
 
@@ -30,6 +19,7 @@ internal class AndroidWireGuardConnectionKeyManager @Inject internal constructor
         KeyPair().toWireGuardConnectionKeyPair()
 
     override suspend fun get(): AndroidWireGuardConnectionKeyPair? {
+        val sharedPreferences = encryptedSharedPreferenceProvider.get(FILE_NAME)
         val privateKey = sharedPreferences.getString(KEY_PRIVATE_KEY, null) ?: return null
 
         return KeyPair(Key.fromBase64(privateKey)).toWireGuardConnectionKeyPair()
@@ -37,6 +27,8 @@ internal class AndroidWireGuardConnectionKeyManager @Inject internal constructor
 
     override suspend fun store(material: WireGuardConnectionKeyPair) {
         mutex.withLock {
+            val sharedPreferences = encryptedSharedPreferenceProvider.get(FILE_NAME)
+
             sharedPreferences.edit()
                 .putString(KEY_PRIVATE_KEY, material.privateKey.value)
                 .apply()
