@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -70,7 +71,7 @@ internal fun PlansLayout(
                     if (noticeText != null) {
                         Text(
                             text = noticeText,
-                            style = MaterialTheme.typography.titleMedium,
+                            style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface.copy(
                                 alpha = SecondaryAlpha
                             )
@@ -79,7 +80,7 @@ internal fun PlansLayout(
 
                     Row(
                         modifier = Modifier.fillMaxWidth()
-                            .padding(top = if (noticeText != null) 16.dp else 0.dp),
+                            .padding(top = if (noticeText != null) 32.dp else 0.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         RadioButton(
