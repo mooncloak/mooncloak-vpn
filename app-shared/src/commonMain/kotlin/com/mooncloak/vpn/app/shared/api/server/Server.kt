@@ -101,9 +101,5 @@ public inline fun Server.requireWireGuardEndpoint(): String {
  *
  * @return `true` if a connection to the VPN server can be made, `false` otherwise.
  */
-public fun Server.isConnectable(hasSubscription: Boolean): Boolean {
-    // FIXME:
-    // TODO: Re-enable requiresSubscription check.
-
-    return (ipAddress != null && publicKey != null) /*&& (!requiresSubscription || hasSubscription)*/
-}
+public fun Server.isConnectable(hasSubscription: Boolean): Boolean =
+    (ipAddress != null && publicKey != null) && (!requiresSubscription || hasSubscription)
