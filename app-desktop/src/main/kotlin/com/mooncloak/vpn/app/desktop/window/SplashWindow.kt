@@ -16,9 +16,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberWindowState
+import com.mikepenz.hypnoticcanvas.shaderBackground
+import com.mikepenz.hypnoticcanvas.shaders.MeshGradient
 import org.jetbrains.compose.resources.painterResource
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.ic_logo_mooncloak
+import com.mooncloak.vpn.app.shared.theme.ColorPalette
 
 @Composable
 internal fun SplashWindow(
@@ -43,6 +46,20 @@ internal fun SplashWindow(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
+            Box(
+                modifier = Modifier.fillMaxSize()
+                    .shaderBackground(
+                        MeshGradient(
+                            colors = arrayOf(
+                                ColorPalette.MooncloakDarkPrimary,
+                                ColorPalette.Purple_600,
+                                ColorPalette.MooncloakYellow
+                            ),
+                            scale = 1.5f
+                        )
+                    )
+            )
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

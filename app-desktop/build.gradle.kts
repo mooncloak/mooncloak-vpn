@@ -25,6 +25,11 @@ dependencies {
     // https://github.com/ktorio/ktor
     api("io.ktor:ktor-client-okhttp:_")
 
+    // UI Shaders - HypnoticCanvas
+    // https://github.com/mikepenz/HypnoticCanvas
+    // Apache 2.0: https://github.com/mikepenz/HypnoticCanvas/blob/dev/LICENSE
+    implementation("com.mikepenz.hypnoticcanvas:hypnoticcanvas:_")
+
     // Annotation Processors:
 
     // konstruct - Dependency Injection
