@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.server.details
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.api.server.Server
@@ -32,7 +34,6 @@ import com.mooncloak.vpn.app.shared.feature.server.details.composable.LoadingCar
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.IpAddressCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.ServerInfoCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.ServerLocationCard
-import com.mooncloak.vpn.app.shared.feature.server.details.composable.SpeedCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.UsageCard
 import com.mooncloak.vpn.app.shared.feature.server.details.di.createServerDetailsComponent
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -174,45 +175,50 @@ public fun ServerDetailsScreen(
             }
 
             item(key = "ServerConnectActionItem") {
-                Button(
-                    modifier = Modifier.sizeIn(maxWidth = 400.dp)
-                        .fillMaxWidth()
-                        .animateItem(),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (viewModel.state.current.value.isConnectedServer) {
-                            MaterialTheme.colorScheme.errorContainer
-                        } else {
-                            MaterialTheme.colorScheme.primary
-                        },
-                        contentColor = if (viewModel.state.current.value.isConnectedServer) {
-                            MaterialTheme.colorScheme.onErrorContainer
-                        } else {
-                            MaterialTheme.colorScheme.onPrimary
-                        }
-                    ),
-                    enabled = viewModel.state.current.value.connection !is VPNConnection.Connecting,
-                    onClick = {
-                        viewModel.toggleConnection()
-
-                        coroutineScope.launch {
-                            // FIXME: Hacky scroll to top solution
-                            // For some reason, when the state changes to connected, the top item in the lazy list is
-                            // not displayed. Instead, it always shows the second item. You have to scroll to the first
-                            // item. This causes issues with the scrolling of the bottom sheet layout. So we attempt to
-                            // force the scroll to the top so it shows the first item correctly. The underlying issue
-                            // should be resolved and this hacky solution should be removed in the future.
-                            delay(300.milliseconds)
-                            lazyListState.animateScrollToItem(0)
-                        }
-                    }
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = if (viewModel.state.current.value.isConnectedServer) {
-                            stringResource(Res.string.server_details_action_disconnect)
-                        } else {
-                            stringResource(Res.string.server_details_action_connect)
+                    Button(
+                        modifier = Modifier.sizeIn(maxWidth = 400.dp)
+                            .fillMaxWidth()
+                            .animateItem(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = if (viewModel.state.current.value.isConnectedServer) {
+                                MaterialTheme.colorScheme.errorContainer
+                            } else {
+                                MaterialTheme.colorScheme.primary
+                            },
+                            contentColor = if (viewModel.state.current.value.isConnectedServer) {
+                                MaterialTheme.colorScheme.onErrorContainer
+                            } else {
+                                MaterialTheme.colorScheme.onPrimary
+                            }
+                        ),
+                        enabled = viewModel.state.current.value.connection !is VPNConnection.Connecting,
+                        onClick = {
+                            viewModel.toggleConnection()
+
+                            coroutineScope.launch {
+                                // FIXME: Hacky scroll to top solution
+                                // For some reason, when the state changes to connected, the top item in the lazy list is
+                                // not displayed. Instead, it always shows the second item. You have to scroll to the first
+                                // item. This causes issues with the scrolling of the bottom sheet layout. So we attempt to
+                                // force the scroll to the top so it shows the first item correctly. The underlying issue
+                                // should be resolved and this hacky solution should be removed in the future.
+                                delay(300.milliseconds)
+                                lazyListState.animateScrollToItem(0)
+                            }
                         }
-                    )
+                    ) {
+                        Text(
+                            text = if (viewModel.state.current.value.isConnectedServer) {
+                                stringResource(Res.string.server_details_action_disconnect)
+                            } else {
+                                stringResource(Res.string.server_details_action_connect)
+                            }
+                        )
+                    }
                 }
             }
 
