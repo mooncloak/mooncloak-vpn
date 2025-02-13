@@ -3,6 +3,8 @@ package com.mooncloak.vpn.app.desktop
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.mooncloak.kodetools.logpile.core.LogPile
@@ -38,7 +40,9 @@ public fun main(): Unit = application {
         LogPile.configure(NoOpLogger)
     }
 
-    val windowState = rememberWindowState()
+    val windowState = rememberWindowState(
+        size = DpSize(width = 800.dp, height = 800.dp)
+    )
     val displaySplashScreen = remember { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
@@ -48,6 +52,7 @@ public fun main(): Unit = application {
     }
 
     SplashWindow(
+        name = applicationDependencies.appClientInfo.name,
         visible = displaySplashScreen.value,
         onCloseRequest = {
             displaySplashScreen.value = false

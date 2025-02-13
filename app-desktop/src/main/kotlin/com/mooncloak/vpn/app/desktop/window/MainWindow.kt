@@ -2,6 +2,7 @@ package com.mooncloak.vpn.app.desktop.window
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.WindowState
+import androidx.compose.ui.window.rememberWindowState
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
@@ -13,7 +14,7 @@ import com.mooncloak.vpn.app.shared.theme.ThemePreference
 internal fun MainWindow(
     applicationDependencies: ApplicationComponent,
     presentationDependencies: PresentationComponent,
-    state: WindowState,
+    state: WindowState = rememberWindowState(),
     onClose: () -> Unit,
     visible: Boolean = true
 ) {

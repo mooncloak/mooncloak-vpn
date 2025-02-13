@@ -1,12 +1,15 @@
-package com.mooncloak.vpn.app.shared.feature.collaborator.list.composable
+package com.mooncloak.vpn.app.shared.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,6 +24,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -35,15 +39,19 @@ internal fun AvatarImage(
     shape: Shape = CircleShape,
     containerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     contentColor: Color = MaterialTheme.colorScheme.onSecondaryContainer,
+    borderWidth: Dp = 5.dp,
     textStyle: TextStyle = MaterialTheme.typography.headlineSmall,
-    initials: (name: String) -> String = { it.firstOrNull { char -> !char.isWhitespace() }?.lowercase() ?: "" }
+    calculateInitials: (name: String) -> String = {
+        it.firstOrNull { char -> !char.isWhitespace() }?.lowercase() ?: ""
+    },
+    badge: (@Composable () -> Unit)? = null
 ) {
     val showName = remember { mutableStateOf(imageUri == null) }
 
     BoxWithConstraints(
         modifier = modifier
             .border(
-                width = 2.dp,
+                width = borderWidth,
                 color = contentColor,
                 shape = shape
             )
@@ -61,9 +69,11 @@ internal fun AvatarImage(
                 }
             )
         } else {
-            if (name != null) {
+            val initials = remember(name, calculateInitials) { calculateInitials.invoke(name ?: "") }
+
+            if (initials.isNotBlank()) {
                 Text(
-                    text = initials.invoke(name),
+                    text = initials,
                     style = textStyle.copy(color = contentColor),
                     textAlign = TextAlign.Center,
                     overflow = TextOverflow.Clip,

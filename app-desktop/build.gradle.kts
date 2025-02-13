@@ -19,6 +19,7 @@ dependencies {
     implementation(compose.runtime)
     implementation(compose.material3)
     implementation(compose.desktop.currentOs)
+    implementation(compose.components.resources)
 
     // Http Client - Ktor
     // https://github.com/ktorio/ktor

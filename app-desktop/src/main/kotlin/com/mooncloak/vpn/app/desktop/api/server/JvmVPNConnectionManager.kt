@@ -4,17 +4,23 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
+import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.isActive
 
 internal class JvmVPNConnectionManager @Inject internal constructor(
-
+    private val coroutineScope: ApplicationCoroutineScope
 ) : VPNConnectionManager {
 
     override val isActive: Boolean
-        get() = TODO("Not yet implemented")
+        get() = coroutineScope.isActive
 
     override val connection: StateFlow<VPNConnection>
-        get() = TODO("Not yet implemented")
+        get() = mutableConnection.asStateFlow()
+
+    private val mutableConnection = MutableStateFlow<VPNConnection>(VPNConnection.Disconnected())
 
     override fun start() {
     }
