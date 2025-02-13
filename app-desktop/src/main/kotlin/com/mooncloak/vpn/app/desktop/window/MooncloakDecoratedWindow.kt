@@ -190,14 +190,15 @@ private fun WindowScope.AppWindowTitleBar(
             modifier = Modifier.fillMaxWidth()
                 .wrapContentHeight()
                 .background(backgroundColor)
-                .combinedClickable(
-                    onClick = {}, // fixme: interfering with dragging of the window.
-                    onDoubleClick = {
-                        onMaximize.invoke()
-                    },
-                    interactionSource = interactionSource,
-                    indication = null
-                ),
+            /* fixme: interfering with dragging of the window.
+            .combinedClickable(
+                onClick = {},
+                onDoubleClick = {
+                    onMaximize.invoke()
+                },
+                interactionSource = interactionSource,
+                indication = null
+            )*/,
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (platform.position == WindowControlPosition.Start) {
