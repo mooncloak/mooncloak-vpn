@@ -1,12 +1,7 @@
 package com.mooncloak.vpn.app.desktop.window
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.IndicationNodeFactory
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.window.WindowDraggableArea
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Fullscreen
@@ -59,6 +53,7 @@ import com.mooncloak.vpn.app.shared.info.current
 import com.mooncloak.vpn.app.shared.theme.MooncloakTheme
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
 import com.mooncloak.vpn.app.shared.window.LocalWindowTitleBarState
+import com.mooncloak.vpn.app.shared.window.WindowDraggableArea
 import com.mooncloak.vpn.app.shared.window.WindowTitleBarStateHolder
 import com.mooncloak.vpn.app.shared.window.rememberWindowTitleBarState
 
@@ -74,11 +69,10 @@ public fun MooncloakDecorationWindow(
         state.isMinimized = true
     },
     onMaximize: () -> Unit = {
-        println("maximize: placement: ${state.placement}") // FIXME
-        if (state.placement == WindowPlacement.Maximized) {
+        state.placement = if (state.placement == WindowPlacement.Maximized) {
             WindowPlacement.Floating
         } else {
-            WindowPlacement.Maximized // TODO: Fullscreen?
+            WindowPlacement.Maximized
         }
     },
     themePreference: ThemePreference = ThemePreference.System,
@@ -155,7 +149,6 @@ public fun MooncloakDecorationWindow(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun WindowScope.AppWindowTitleBar(
     platform: WindowPlatform,
@@ -175,30 +168,16 @@ private fun WindowScope.AppWindowTitleBar(
         )
     }
 
-    WindowDraggableArea(modifier = modifier) {
-        val localIndication = LocalIndication.current
-        val interactionSource = if (localIndication is IndicationNodeFactory) {
-            // We can fast path here as it will be created inside clickable lazily
-            null
-        } else {
-            // We need an interaction source to pass between the indication modifier and clickable, so
-            // by creating here we avoid another composed down the line
-            remember { MutableInteractionSource() }
+    WindowDraggableArea(
+        modifier = modifier,
+        onDoubleTap = {
+            onMaximize.invoke()
         }
-
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth()
                 .wrapContentHeight()
-                .background(backgroundColor)
-            /* fixme: interfering with dragging of the window.
-            .combinedClickable(
-                onClick = {},
-                onDoubleClick = {
-                    onMaximize.invoke()
-                },
-                interactionSource = interactionSource,
-                indication = null
-            )*/,
+                .background(backgroundColor),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (platform.position == WindowControlPosition.Start) {
