@@ -19,7 +19,7 @@ import com.mooncloak.vpn.app.shared.feature.app.OnboardingDestination
 import com.mooncloak.vpn.app.shared.feature.onboarding.composable.LandingLayout
 import com.mooncloak.vpn.app.shared.feature.onboarding.composable.OnboardingLayout
 import com.mooncloak.vpn.app.shared.feature.onboarding.di.createOnboardingComponent
-import com.mooncloak.vpn.app.shared.navigation.LocalNavController
+import com.mooncloak.vpn.app.shared.util.navigation.LocalNavController
 
 @Composable
 public fun OnboardingScreen(

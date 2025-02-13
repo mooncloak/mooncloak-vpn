@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.navigation
+package com.mooncloak.vpn.app.shared.util.navigation
 
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.staticCompositionLocalOf

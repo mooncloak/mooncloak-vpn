@@ -38,7 +38,7 @@ import com.mooncloak.vpn.app.shared.feature.main.util.floatingActionBarContent
 import com.mooncloak.vpn.app.shared.feature.server.list.ServerListScreen
 import com.mooncloak.vpn.app.shared.feature.settings.SettingsScreen
 import com.mooncloak.vpn.app.shared.feature.support.SupportScreen
-import com.mooncloak.vpn.app.shared.navigation.LocalNavController
+import com.mooncloak.vpn.app.shared.util.navigation.LocalNavController
 import kotlinx.coroutines.launch
 
 @Composable

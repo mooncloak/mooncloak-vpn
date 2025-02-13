@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.image
+package com.mooncloak.vpn.app.shared.util.image
 
 import coil3.ImageLoader
 import coil3.PlatformContext

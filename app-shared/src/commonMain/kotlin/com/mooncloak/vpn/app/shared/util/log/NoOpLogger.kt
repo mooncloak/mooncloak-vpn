@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.log
+package com.mooncloak.vpn.app.shared.util.log
 
 import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.kodetools.logpile.core.Severity

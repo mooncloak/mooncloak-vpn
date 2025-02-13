@@ -6,7 +6,7 @@ import com.mooncloak.kodetools.logpile.core.configure
 import com.mooncloak.vpn.app.android.di.AndroidApplicationComponent
 import com.mooncloak.vpn.app.android.di.create
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
-import com.mooncloak.vpn.app.shared.log.NoOpLogger
+import com.mooncloak.vpn.app.shared.util.log.NoOpLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 

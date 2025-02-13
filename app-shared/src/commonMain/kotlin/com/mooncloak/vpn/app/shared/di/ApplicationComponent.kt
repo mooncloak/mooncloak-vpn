@@ -18,7 +18,7 @@ import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordDatabaseSou
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensSource
-import com.mooncloak.vpn.app.shared.image.MooncloakImageLoaderFactory
+import com.mooncloak.vpn.app.shared.util.image.MooncloakImageLoaderFactory
 import com.mooncloak.vpn.app.shared.storage.database.MooncloakDatabaseProvider
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import io.ktor.client.HttpClient

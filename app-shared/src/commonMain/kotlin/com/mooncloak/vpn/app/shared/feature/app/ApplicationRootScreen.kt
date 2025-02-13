@@ -36,7 +36,7 @@ import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.app.di.createApplicationRootComponent
 import com.mooncloak.vpn.app.shared.feature.main.MainScreen
 import com.mooncloak.vpn.app.shared.feature.onboarding.OnboardingScreen
-import com.mooncloak.vpn.app.shared.navigation.LocalNavController
+import com.mooncloak.vpn.app.shared.util.navigation.LocalNavController
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.notification_channel_description_vpn
 import com.mooncloak.vpn.app.shared.resource.notification_channel_name_vpn

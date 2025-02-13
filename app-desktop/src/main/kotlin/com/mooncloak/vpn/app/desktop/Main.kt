@@ -7,7 +7,7 @@ import com.mooncloak.vpn.app.desktop.di.create
 import com.mooncloak.vpn.app.shared.feature.app.ApplicationRootScreen
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
-import com.mooncloak.vpn.app.shared.log.NoOpLogger
+import com.mooncloak.vpn.app.shared.util.log.NoOpLogger
 import com.mooncloak.vpn.app.shared.util.platformDefaultUriHandler
 
 public fun main(): Unit = application {
