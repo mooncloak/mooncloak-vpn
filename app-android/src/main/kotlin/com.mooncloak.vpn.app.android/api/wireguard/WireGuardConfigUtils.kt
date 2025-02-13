@@ -1,7 +1,6 @@
 package com.mooncloak.vpn.app.android.api.wireguard
 
-import com.mooncloak.kodetools.logpile.core.LogPile
-import com.mooncloak.kodetools.logpile.core.info
+import com.mooncloak.vpn.app.shared.api.preference.WireGuardPreferences
 import com.mooncloak.vpn.app.shared.api.server.RegisteredClient
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.requireWireGuardEndpoint
@@ -16,15 +15,16 @@ import com.wireguard.crypto.KeyPair
 
 internal fun Server.toWireGuardConfig(
     keyPair: KeyPair,
-    client: RegisteredClient
+    client: RegisteredClient,
+    preferences: WireGuardPreferences
 ): Config {
     val interfaceBuilder = Interface.Builder()
         .setKeyPair(keyPair)
         .addAddress(InetNetwork.parse(client.assignedAddress))
-        .addDnsServer(InetAddresses.parse("1.1.1.1"))
-        .addDnsServer(InetAddresses.parse("8.8.8.8"))
 
-    LogPile.info(message = "wireguard: interface: $interfaceBuilder: address: ${InetNetwork.parse(client.assignedAddress)}")
+    preferences.dnsAddresses.forEach { dnsAddress ->
+        interfaceBuilder.addDnsServer(InetAddresses.parse(dnsAddress))
+    }
 
     return Config.Builder()
         .setInterface(interfaceBuilder.build())
@@ -39,11 +39,8 @@ internal fun Server.toWireGuardConfig(
                 .setEndpoint(
                     InetEndpoint.parse(requireWireGuardEndpoint())
                 )
-                .addAllowedIp(InetNetwork.parse("0.0.0.0/0"))
+                .addAllowedIp(InetNetwork.parse(preferences.allowedIp))
                 .build()
         )
         .build()
-        .apply {
-            LogPile.info(message = "wireguard: config: $this")
-        }
 }

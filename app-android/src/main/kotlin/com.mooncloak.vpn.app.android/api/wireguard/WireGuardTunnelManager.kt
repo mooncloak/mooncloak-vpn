@@ -4,12 +4,13 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.logpile.core.info
+import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
-import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.usecase.RegisterClientUseCase
 import com.mooncloak.vpn.app.shared.api.vpn.Tunnel
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
+import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -27,8 +28,8 @@ import kotlin.time.Duration
 internal class WireGuardTunnelManager @Inject internal constructor(
     private val backend: WireGuardBackend,
     private val connectionKeyPairResolver: WireGuardConnectionKeyPairResolver,
-    private val localNetworkManager: LocalNetworkManager,
-    private val registerClient: RegisterClientUseCase
+    private val registerClient: RegisterClientUseCase,
+    private val preferencesStorage: PreferencesStorage
 ) : TunnelManager {
 
     override val tunnels: StateFlow<List<Tunnel>>
@@ -60,24 +61,26 @@ internal class WireGuardTunnelManager @Inject internal constructor(
         }
     }
 
+    @OptIn(ExperimentalPersistentStateAPI::class)
     override suspend fun connect(tunnel: Tunnel) {
         tunnelMutex.withLock {
             withContext(Dispatchers.IO) {
                 val server = tunnel.server ?: error("Cannot connect to Tunnel. Missing server.")
-                val localIpAddress = localNetworkManager.getInfo()?.ipAddress
 
                 // FIXME: Cast
                 val keyPair = connectionKeyPairResolver.resolve() as AndroidWireGuardConnectionKeyPair
 
-                val client = registerClient.invoke(
+                val client = registerClient(
                     serverId = server.id,
                     publicKey = keyPair.publicKey
                 )
+                val preferences = preferencesStorage.wireGuard.current.value
 
                 val wireGuardTunnel = tunnel.toWireGuardTunnel()
                 val wireGuardConfig = server.toWireGuardConfig(
                     keyPair = keyPair.keyPair,
-                    client = client
+                    client = client,
+                    preferences = preferences
                 )
 
                 backend.setState(
