@@ -1,21 +1,35 @@
 package com.mooncloak.vpn.app.desktop
 
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.configure
 import com.mooncloak.vpn.app.desktop.di.create
-import com.mooncloak.vpn.app.shared.feature.app.ApplicationRootScreen
+import com.mooncloak.vpn.app.desktop.window.MainWindow
+import com.mooncloak.vpn.app.desktop.window.SplashWindow
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.util.log.NoOpLogger
 import com.mooncloak.vpn.app.shared.util.platformDefaultUriHandler
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.seconds
 
 public fun main(): Unit = application {
-    val platformUriHandler = platformDefaultUriHandler()
+    Thread.currentThread().contextClassLoader = this.javaClass.classLoader
 
-    val applicationDependencies = ApplicationComponent.create()
+    val platformUriHandler = platformDefaultUriHandler()
+    val coroutineScope = MainScope()
+
+    val applicationDependencies = ApplicationComponent.create(
+        applicationCoroutineScope = coroutineScope
+    )
     val presentationDependencies = PresentationComponent.create(
         applicationComponent = applicationDependencies,
+        presentationCoroutineScope = coroutineScope,
         uriHandler = platformUriHandler
     )
 
@@ -24,9 +38,29 @@ public fun main(): Unit = application {
         LogPile.configure(NoOpLogger)
     }
 
-    ApplicationRootScreen(
-        applicationComponent = applicationDependencies,
-        presentationComponent = presentationDependencies,
-        uriHandler = platformUriHandler
+    val windowState = rememberWindowState()
+    val displaySplashScreen = remember { mutableStateOf(true) }
+
+    LaunchedEffect(Unit) {
+        delay(2.seconds)
+
+        displaySplashScreen.value = false
+    }
+
+    SplashWindow(
+        visible = displaySplashScreen.value,
+        onCloseRequest = {
+            displaySplashScreen.value = false
+        }
+    )
+
+    MainWindow(
+        applicationDependencies = applicationDependencies,
+        presentationDependencies = presentationDependencies,
+        state = windowState,
+        visible = !displaySplashScreen.value,
+        onClose = {
+            this.exitApplication()
+        }
     )
 }

@@ -10,11 +10,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.app.shared.R
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 
-public class AndroidNotificationManagerImpl @Inject public constructor(
+public operator fun com.mooncloak.vpn.app.shared.util.notification.NotificationManager.Companion.invoke(context: ApplicationContext): com.mooncloak.vpn.app.shared.util.notification.NotificationManager =
+    AndroidNotificationManagerImpl(context = context)
+
+internal class AndroidNotificationManagerImpl internal constructor(
     override val context: ApplicationContext
 ) : com.mooncloak.vpn.app.shared.util.notification.NotificationManager {
 

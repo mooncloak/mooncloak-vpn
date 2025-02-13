@@ -1,5 +1,6 @@
 package com.mooncloak.vpn.app.shared.storage.database
 
+import app.cash.sqldelight.db.SqlDriver
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.vpn.app.shared.storage.database.adapter.DatabaseAdapter
@@ -16,16 +17,21 @@ import com.mooncloak.vpn.app.storage.sqlite.database.ServiceTokens
 @Singleton
 public class MooncloakDatabaseProvider @Inject public constructor(
     private val databaseDriverFactory: DatabaseDriverFactory
-) {
+) : DatabaseManager<MooncloakDatabase> {
 
-    private var cached: MooncloakDatabase? = null
+    private var cachedDriver: SqlDriver? = null
+    private var cachedDatabase: MooncloakDatabase? = null
 
-    public fun get(): MooncloakDatabase {
-        var database = cached
+    public override fun get(): MooncloakDatabase {
+        var database = cachedDatabase
 
         if (database == null) {
+            cachedDriver?.close()
+            val driver = databaseDriverFactory.create()
+            cachedDriver = driver
+
             database = MooncloakDatabase(
-                driver = databaseDriverFactory.create(),
+                driver = driver,
                 PurchaseReceiptAdapter = PurchaseReceipt.Adapter(
                     createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
                     updatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
@@ -67,9 +73,15 @@ public class MooncloakDatabaseProvider @Inject public constructor(
                 )
             )
 
-            cached = database
+            cachedDatabase = database
         }
 
         return database
+    }
+
+    public override fun close() {
+        cachedDatabase = null
+        cachedDriver?.close()
+        cachedDriver = null
     }
 }

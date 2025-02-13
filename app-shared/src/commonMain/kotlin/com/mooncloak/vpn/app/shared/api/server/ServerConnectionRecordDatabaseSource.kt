@@ -4,6 +4,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.app.shared.api.location.Country
 import com.mooncloak.vpn.app.shared.api.location.Region
 import com.mooncloak.vpn.app.shared.api.vpn.VPNProtocol
+import com.mooncloak.vpn.app.shared.storage.database.MooncloakDatabaseProvider
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.app.storage.sqlite.database.SelectAllStarred
 import com.mooncloak.vpn.app.storage.sqlite.database.SelectStarredPage
@@ -16,47 +17,65 @@ import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 
 public class ServerConnectionRecordDatabaseSource @Inject public constructor(
-    private val database: MooncloakDatabase,
+    private val databaseProvider: MooncloakDatabaseProvider,
     private val json: Json,
     private val clock: Clock
 ) : ServerConnectionRecordRepository {
 
     private val mutex = Mutex(locked = false)
 
-    override suspend fun get(id: String): ServerConnectionRecord =
-        database.serverConnectionRecordQueries.selectById(id = id)
+    override suspend fun get(id: String): ServerConnectionRecord {
+        val database = databaseProvider.get()
+
+        return database.serverConnectionRecordQueries.selectById(id = id)
             .executeAsOneOrNull()
             ?.toServerConnectionRecord()
             ?: throw NoSuchElementException("No ServerConnectionRecord found with id '$id'.")
+    }
 
-    override suspend fun getLastConnected(): ServerConnectionRecord? =
-        database.serverConnectionRecordQueries.selectLastConnected()
+    override suspend fun getLastConnected(): ServerConnectionRecord? {
+        val database = databaseProvider.get()
+
+        return database.serverConnectionRecordQueries.selectLastConnected()
             .executeAsOneOrNull()
             ?.toServerConnectionRecord()
+    }
 
-    override suspend fun getAll(): List<ServerConnectionRecord> =
-        database.serverConnectionRecordQueries.selectAll()
+    override suspend fun getAll(): List<ServerConnectionRecord> {
+        val database = databaseProvider.get()
+
+        return database.serverConnectionRecordQueries.selectAll()
             .executeAsList()
             .map { record -> record.toServerConnectionRecord() }
+    }
 
-    override suspend fun getPage(count: Int, offset: Int): List<ServerConnectionRecord> =
-        database.serverConnectionRecordQueries.selectPage(
+    override suspend fun getPage(count: Int, offset: Int): List<ServerConnectionRecord> {
+        val database = databaseProvider.get()
+
+        return database.serverConnectionRecordQueries.selectPage(
             count = count.toLong(),
             offset = offset.toLong()
         ).executeAsList()
             .map { record -> record.toServerConnectionRecord() }
+    }
 
-    override suspend fun getAllStarred(): List<ServerConnectionRecord> =
-        database.serverConnectionRecordQueries.selectAllStarred()
+    override suspend fun getAllStarred(): List<ServerConnectionRecord> {
+        val database = databaseProvider.get()
+
+        return database.serverConnectionRecordQueries.selectAllStarred()
             .executeAsList()
             .map { record -> record.toServerConnectionRecord() }
+    }
 
-    override suspend fun getStarredPage(count: Int, offset: Int): List<ServerConnectionRecord> =
-        database.serverConnectionRecordQueries.selectStarredPage(
+    override suspend fun getStarredPage(count: Int, offset: Int): List<ServerConnectionRecord> {
+        val database = databaseProvider.get()
+
+        return database.serverConnectionRecordQueries.selectStarredPage(
             count = count.toLong(),
             offset = offset.toLong()
         ).executeAsList()
             .map { record -> record.toServerConnectionRecord() }
+    }
 
     override suspend fun add(
         server: Server,
@@ -78,6 +97,7 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
 
     override suspend fun add(server: Server, lastConnected: Instant?, starred: Instant?, note: String?) {
         mutex.withLock {
+            val database = databaseProvider.get()
             val now = clock.now()
 
             database.serverConnectionRecordQueries.insert(
@@ -131,6 +151,8 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
 
     override suspend fun update(id: String, connected: Instant) {
         mutex.withLock {
+            val database = databaseProvider.get()
+
             database.serverConnectionRecordQueries.updateConnectedById(
                 id = id,
                 connected = connected
@@ -140,6 +162,8 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
 
     override suspend fun update(id: String, starred: Boolean) {
         mutex.withLock {
+            val database = databaseProvider.get()
+
             database.serverConnectionRecordQueries.updatedStarredById(
                 id = id,
                 starred = if (starred) {
@@ -153,6 +177,8 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
 
     override suspend fun update(id: String, note: String?) {
         mutex.withLock {
+            val database = databaseProvider.get()
+
             database.serverConnectionRecordQueries.updateNoteById(
                 id = id,
                 note = note
@@ -162,6 +188,7 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
 
     override suspend fun update(server: Server, lastConnected: Instant?, starred: Instant?, note: String?) {
         mutex.withLock {
+            val database = databaseProvider.get()
             val now = clock.now()
 
             database.serverConnectionRecordQueries.updateAll(
@@ -212,6 +239,7 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
 
     override suspend fun update(server: Server, lastConnected: Instant?) {
         mutex.withLock {
+            val database = databaseProvider.get()
             val now = clock.now()
 
             database.transaction {
@@ -267,12 +295,16 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
 
     override suspend fun remove(id: String) {
         mutex.withLock {
+            val database = databaseProvider.get()
+
             database.serverConnectionRecordQueries.deleteById(id = id)
         }
     }
 
     override suspend fun clear() {
         mutex.withLock {
+            val database = databaseProvider.get()
+
             database.serverConnectionRecordQueries.deleteAll()
         }
     }

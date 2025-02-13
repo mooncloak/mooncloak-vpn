@@ -2,6 +2,7 @@ package com.mooncloak.vpn.app.shared.api.billing
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.app.shared.api.token.TransactionToken
+import com.mooncloak.vpn.app.shared.storage.database.MooncloakDatabaseProvider
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.app.storage.sqlite.database.PurchaseReceipt
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +15,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
-    private val database: MooncloakDatabase,
+    private val databaseProvider: MooncloakDatabaseProvider,
     private val clock: Clock
 ) : ServicePurchaseReceiptRepository {
 
@@ -22,7 +23,9 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
 
     override suspend fun get(id: String): ServicePurchaseReceipt =
         withContext(Dispatchers.IO) {
-            database.purchaseReceiptQueries.selectById(id = id)
+            val database = databaseProvider.get()
+
+            return@withContext database.purchaseReceiptQueries.selectById(id = id)
                 .executeAsOneOrNull()
                 ?.toServicePurchaseReceipt()
                 ?: throw NoSuchElementException("No ServicePurchaseReceipt found with id '$id'.")
@@ -30,7 +33,12 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
 
     override suspend fun getPage(count: Int, offset: Int): List<ServicePurchaseReceipt> =
         withContext(Dispatchers.IO) {
-            database.purchaseReceiptQueries.selectPage(count = count.toLong(), offset = offset.toLong())
+            val database = databaseProvider.get()
+
+            return@withContext database.purchaseReceiptQueries.selectPage(
+                count = count.toLong(),
+                offset = offset.toLong()
+            )
                 .executeAsList()
                 .map { receipt -> receipt.toServicePurchaseReceipt() }
         }
@@ -51,6 +59,8 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
     ): ServicePurchaseReceipt =
         withContext(Dispatchers.IO) {
             mutex.withLock {
+                val database = databaseProvider.get()
+
                 val now = clock.now()
                 val id = Uuid.random().toHexString()
 
@@ -71,7 +81,7 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
                         quantity = quantity?.toLong()
                     )
 
-                    database.purchaseReceiptQueries.selectById(id = id)
+                    return@transactionWithResult database.purchaseReceiptQueries.selectById(id = id)
                         .executeAsOne()
                         .toServicePurchaseReceipt()
                 }
@@ -81,7 +91,9 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
     override suspend fun remove(id: String) {
         withContext(Dispatchers.IO) {
             mutex.withLock {
-                database.purchaseReceiptQueries.deleteById(id = id)
+                val database = databaseProvider.get()
+
+                return@withContext database.purchaseReceiptQueries.deleteById(id = id)
             }
         }
     }

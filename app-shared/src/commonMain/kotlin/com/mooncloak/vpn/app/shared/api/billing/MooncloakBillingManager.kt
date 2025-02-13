@@ -16,7 +16,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 
 @OptIn(ExperimentalPersistentStateAPI::class)
-internal class MooncloakBillingManager @Inject internal constructor(
+public class MooncloakBillingManager @Inject public constructor(
     private val api: MooncloakVpnServiceHttpApi,
     private val subscriptionStorage: SubscriptionStorage,
     private val serviceTokensRepository: ServiceTokensRepository,

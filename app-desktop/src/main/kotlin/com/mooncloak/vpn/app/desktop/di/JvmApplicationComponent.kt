@@ -6,15 +6,28 @@ import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.kodetools.storagex.keyvalue.KeyValueStorage
 import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
 import com.mooncloak.kodetools.storagex.keyvalue.Settings
-import com.mooncloak.vpn.app.desktop.DesktopAppClientInfo
+import com.mooncloak.vpn.app.desktop.api.wireguard.JvmWireGuardConnectionKeyManager
+import com.mooncloak.vpn.app.desktop.api.wireguard.JvmWireGuardTunnelManager
+import com.mooncloak.vpn.app.desktop.info.JvmAppClientInfo
+import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyManager
+import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
+import com.mooncloak.vpn.app.shared.api.network.invoke
+import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
+import com.mooncloak.vpn.app.shared.storage.database.DatabaseDriverFactory
+import com.mooncloak.vpn.app.shared.storage.database.JvmDatabaseDriverFactory
+import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
+import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
+import com.mooncloak.vpn.app.shared.util.notification.invoke
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
 
 @Component
 @Singleton
-internal abstract class JvmApplicationComponent internal constructor() : ApplicationComponent() {
+internal abstract class JvmApplicationComponent internal constructor(
+    @get:Provides override val applicationCoroutineScope: ApplicationCoroutineScope
+) : ApplicationComponent() {
 
     override fun provideKeyValueStorage(format: Json): MutableKeyValueStorage<String> =
         KeyValueStorage.Settings(
@@ -24,8 +37,34 @@ internal abstract class JvmApplicationComponent internal constructor() : Applica
 
     @Provides
     @Singleton
-    internal fun provideAppClientInfo(appClientInfo: DesktopAppClientInfo): AppClientInfo =
+    internal fun provideNotificationManager(): NotificationManager =
+        NotificationManager()
+
+    @Provides
+    @Singleton
+    internal fun provideAppClientInfo(appClientInfo: JvmAppClientInfo): AppClientInfo =
         appClientInfo
+
+    @Provides
+    @Singleton
+    internal fun provideDatabaseDriverFactory(factory: JvmDatabaseDriverFactory): DatabaseDriverFactory = factory
+
+    @Provides
+    @Singleton
+    internal fun provideLocalNetworkManager(): LocalNetworkManager = LocalNetworkManager()
+
+    @Provides
+    @Singleton
+    internal fun provideWireGuardConnectionKeyManager(manager: JvmWireGuardConnectionKeyManager): WireGuardConnectionKeyManager =
+        manager
+
+    @Provides
+    @Singleton
+    internal fun provideTunnelManager(manager: JvmWireGuardTunnelManager): TunnelManager = manager
 }
 
-internal fun ApplicationComponent.Companion.create(): JvmApplicationComponent = JvmApplicationComponent::class.create()
+internal fun ApplicationComponent.Companion.create(
+    applicationCoroutineScope: ApplicationCoroutineScope
+): JvmApplicationComponent = JvmApplicationComponent::class.create(
+    applicationCoroutineScope = applicationCoroutineScope
+)
