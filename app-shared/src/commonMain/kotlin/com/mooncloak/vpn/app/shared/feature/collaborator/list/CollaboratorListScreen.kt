@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.collaborator.list
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -65,7 +66,8 @@ public fun CollaboratorListScreen(
             LazyVerticalGrid(
                 modifier = Modifier.fillMaxWidth(),
                 state = lazyListState,
-                columns = GridCells.Adaptive(minSize = 150.dp)
+                columns = GridCells.Adaptive(minSize = 150.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 if (viewModel.state.current.value.collaborators.isNotEmpty()) {
                     item(
@@ -85,8 +87,7 @@ public fun CollaboratorListScreen(
                     key = { collaborator -> collaborator.id }
                 ) { collaborator ->
                     CollaboratorListItem(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(16.dp),
+                        modifier = Modifier.fillMaxWidth(),
                         collaborator = collaborator
                     )
                 }
