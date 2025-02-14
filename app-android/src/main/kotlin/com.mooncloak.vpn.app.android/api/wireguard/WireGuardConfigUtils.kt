@@ -32,7 +32,7 @@ internal fun Server.toWireGuardConfig(
             Peer.Builder()
                 .setPublicKey(
                     Key.fromBase64(
-                        this.publicKey
+                        this.publicKey?.trim()
                             ?: error("No Server public key found for server with id '${this.id}'. Cannot connect to server.")
                     )
                 )
