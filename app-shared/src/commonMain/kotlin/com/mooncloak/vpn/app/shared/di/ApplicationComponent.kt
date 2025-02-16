@@ -20,6 +20,9 @@ import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensSource
 import com.mooncloak.vpn.app.shared.util.image.MooncloakImageLoaderFactory
 import com.mooncloak.vpn.app.shared.storage.database.MooncloakDatabaseProvider
+import com.mooncloak.vpn.app.shared.util.http.DefaultUnauthorizedInterceptor
+import com.mooncloak.vpn.app.shared.util.http.UnauthorizedInterceptor
+import com.mooncloak.vpn.app.shared.util.http.interceptUnauthorized
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.compression.ContentEncoding
@@ -56,9 +59,14 @@ public abstract class ApplicationComponent : ApplicationDependencies {
     public fun provideSerializersModule(): SerializersModule = EmptySerializersModule()
 
     @Provides
+    public fun unauthorizedInterceptor(interceptor: DefaultUnauthorizedInterceptor): UnauthorizedInterceptor =
+        interceptor
+
+    @Provides
     @Singleton
     public fun provideHttpClient(
         json: Json,
+        interceptor: UnauthorizedInterceptor
     ): HttpClient = HttpClient {
         // Installs support for content negotiation with the server. This allows us to submit and
         // receive the HTTP requests and responses in a particular format (ex: JSON).
@@ -107,6 +115,8 @@ public abstract class ApplicationComponent : ApplicationDependencies {
                 header == HttpHeaders.Authorization
             }
         }
+    }.apply {
+        interceptUnauthorized(authorize = interceptor)
     }
 
     @Provides
