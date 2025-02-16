@@ -2,8 +2,6 @@ package com.mooncloak.vpn.app.shared.util.http
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
-import com.mooncloak.vpn.app.shared.storage.AppStorage
-import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import io.ktor.client.HttpClient
 import io.ktor.client.call.HttpClientCall

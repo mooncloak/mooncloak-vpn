@@ -108,7 +108,7 @@ public fun ServerDetailsScreen(
                     IpAddressCard(
                         modifier = Modifier.fillMaxWidth()
                             .animateItem(),
-                        deviceIpAddress = viewModel.state.current.value.localNetworkInfo?.ipAddress ?: "",
+                        deviceIpAddress = viewModel.state.current.value.deviceIpAddress ?: "",
                         serverIpAddress = server.ipAddress ?: "",
                         hideDeviceIpAddress = hideLocalIpAddress.value,
                         onHideDeviceIpAddressChanged = {

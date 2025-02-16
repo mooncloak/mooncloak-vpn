@@ -15,7 +15,7 @@ public data class ServerDetailsStateModel public constructor(
     public val connection: VPNConnection = VPNConnection.Disconnected(),
     public val startConnectionDuration: Duration = 0.seconds,
     public val lastConnected: Instant? = null,
-    public val localNetworkInfo: LocalNetworkInfo? = null,
+    public val deviceIpAddress: String? = null,
     public val isLoading: Boolean = false,
     public val errorMessage: String? = null
 )

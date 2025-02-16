@@ -25,6 +25,7 @@ import com.mooncloak.vpn.app.shared.api.location.CountryCode
 import com.mooncloak.vpn.app.shared.api.location.CountryFilters
 import com.mooncloak.vpn.app.shared.api.plan.AvailablePlans
 import com.mooncloak.vpn.app.shared.api.plan.Plan
+import com.mooncloak.vpn.app.shared.api.reflection.HttpReflection
 import com.mooncloak.vpn.app.shared.api.server.ClientRegistrationRequestBody
 import com.mooncloak.vpn.app.shared.api.server.RegisteredClient
 import com.mooncloak.vpn.app.shared.api.server.Server
@@ -52,6 +53,13 @@ import kotlinx.coroutines.CancellationException
 public class MooncloakVpnServiceHttpApi @Inject public constructor(
     private val httpClient: HttpClient
 ) {
+
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun getReflection(): HttpReflection {
+        val response = httpClient.get("https://mooncloak.com/api/mirror")
+
+        return response.body<HttpResponseBody<HttpReflection>>().getOrThrow()
+    }
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getAvailablePlans(): AvailablePlans {

@@ -15,6 +15,7 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
+import com.mooncloak.vpn.app.shared.api.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkInfo
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.server.Server
@@ -62,7 +63,8 @@ public class HomeViewModel @Inject public constructor(
     appClientInfo: AppClientInfo,
     private val subscriptionStorage: SubscriptionStorage,
     private val serverConnectionManager: VPNConnectionManager,
-    private val localNetworkManager: LocalNetworkManager
+    private val localNetworkManager: LocalNetworkManager,
+    private val deviceIPAddressProvider: DeviceIPAddressProvider
 ) : ViewModel<HomeStateModel>(initialStateValue = HomeStateModel()) {
 
     private val showcaseItems = listOf(
@@ -136,10 +138,12 @@ public class HomeViewModel @Inject public constructor(
 
             var subscription: ServiceSubscription? = null
             var localNetworkInfo: LocalNetworkInfo? = null
+            var deviceIpAddress: String? = null
 
             try {
                 subscription = subscriptionStorage.subscription.current.value
                 localNetworkInfo = localNetworkManager.getInfo()
+                deviceIpAddress = deviceIPAddressProvider.get()
 
                 // TODO: If the subscription model is null, but we have the tokens, load the updated subscription model from the cloud API.
 
@@ -152,6 +156,7 @@ public class HomeViewModel @Inject public constructor(
                     value = state.current.value.copy(
                         subscription = subscription,
                         localNetwork = localNetworkInfo,
+                        deviceIpAddress = deviceIpAddress,
                         items = items,
                         isLoading = false,
                         isCheckingStatus = false
@@ -164,6 +169,7 @@ public class HomeViewModel @Inject public constructor(
                     value = state.current.value.copy(
                         subscription = subscription,
                         localNetwork = localNetworkInfo,
+                        deviceIpAddress = deviceIpAddress,
                         isLoading = false,
                         isCheckingStatus = false,
                         errorMessage = getString(Res.string.global_unexpected_error)

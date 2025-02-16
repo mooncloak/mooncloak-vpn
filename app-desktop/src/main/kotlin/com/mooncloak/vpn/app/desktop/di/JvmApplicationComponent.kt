@@ -9,7 +9,9 @@ import com.mooncloak.kodetools.storagex.keyvalue.Settings
 import com.mooncloak.vpn.app.desktop.api.wireguard.JvmWireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.desktop.api.wireguard.JvmWireGuardTunnelManager
 import com.mooncloak.vpn.app.desktop.info.JvmAppClientInfo
+import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyManager
+import com.mooncloak.vpn.app.shared.api.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.network.invoke
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
@@ -21,6 +23,7 @@ import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
 import com.mooncloak.vpn.app.shared.util.notification.invoke
 import com.russhwolf.settings.Settings
+import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
 
 @Component
@@ -61,6 +64,16 @@ internal abstract class JvmApplicationComponent internal constructor(
     @Provides
     @Singleton
     internal fun provideTunnelManager(manager: JvmWireGuardTunnelManager): TunnelManager = manager
+
+    @Provides
+    @Singleton
+    internal fun provideDeviceIpAddressProvider(
+        mooncloakApi: MooncloakVpnServiceHttpApi,
+        clock: Clock
+    ): DeviceIPAddressProvider = DeviceIPAddressProvider.invoke(
+        mooncloakApi = mooncloakApi,
+        clock = clock
+    )
 }
 
 internal fun ApplicationComponent.Companion.create(

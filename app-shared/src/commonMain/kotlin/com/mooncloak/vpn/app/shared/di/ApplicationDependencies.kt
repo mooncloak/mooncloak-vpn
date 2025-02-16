@@ -3,6 +3,7 @@ package com.mooncloak.vpn.app.shared.di
 import coil3.SingletonImageLoader
 import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyManager
+import com.mooncloak.vpn.app.shared.api.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
@@ -28,6 +29,7 @@ public expect interface ApplicationDependencies {
     public val imageLoaderFactory: SingletonImageLoader.Factory
     public val databaseDriverFactory: DatabaseDriverFactory
     public val localNetworkManager: LocalNetworkManager
+    public val deviceIPAddressProvider: DeviceIPAddressProvider
     public val wireGuardConnectionKeyManager: WireGuardConnectionKeyManager
     public val tunnelManager: TunnelManager
     public val applicationCoroutineScope: ApplicationCoroutineScope

@@ -5,8 +5,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.app.shared.api.network.LocalNetworkInfo
-import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
+import com.mooncloak.vpn.app.shared.api.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecord
@@ -37,7 +36,7 @@ import kotlin.time.Duration.Companion.seconds
 public class ServerDetailsViewModel @Inject public constructor(
     private val vpnConnectionManager: VPNConnectionManager,
     private val serverConnectionRecordRepository: ServerConnectionRecordRepository,
-    private val localNetworkManager: LocalNetworkManager,
+    private val deviceIPAddressProvider: DeviceIPAddressProvider,
     private val clock: Clock
 ) : ViewModel<ServerDetailsStateModel>(initialStateValue = ServerDetailsStateModel()) {
 
@@ -55,11 +54,11 @@ public class ServerDetailsViewModel @Inject public constructor(
             )
 
             var record: ServerConnectionRecord? = null
-            var localNetworkInfo: LocalNetworkInfo? = null
+            var deviceIpAddress: String? = null
 
             try {
                 record = serverConnectionRecordRepository.getOrNull(id = server.id)
-                localNetworkInfo = localNetworkManager.getInfo()
+                deviceIpAddress = deviceIPAddressProvider.get()
 
                 val startConnection = vpnConnectionManager.connection.value
                 val connected = startConnection.connectedTo(server)
@@ -69,7 +68,7 @@ public class ServerDetailsViewModel @Inject public constructor(
                         isLoading = false,
                         server = server,
                         lastConnected = record?.lastConnected,
-                        localNetworkInfo = localNetworkInfo,
+                        deviceIpAddress = deviceIpAddress,
                         connection = startConnection,
                         startConnectionDuration = if (connected && startConnection is VPNConnection.Connected) {
                             clock.now() - startConnection.timestamp
@@ -87,7 +86,7 @@ public class ServerDetailsViewModel @Inject public constructor(
                         errorMessage = getString(Res.string.global_unexpected_error),
                         server = server,
                         lastConnected = record?.lastConnected,
-                        localNetworkInfo = localNetworkInfo
+                        deviceIpAddress = deviceIpAddress
                     )
                 )
             }

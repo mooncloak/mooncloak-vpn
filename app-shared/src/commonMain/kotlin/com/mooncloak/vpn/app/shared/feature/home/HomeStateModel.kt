@@ -12,6 +12,7 @@ import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
 public data class HomeStateModel public constructor(
     public val subscription: ServiceSubscription? = null,
     public val localNetwork: LocalNetworkInfo? = null,
+    public val deviceIpAddress: String? = null,
     public val servers: List<Server> = emptyList(),
     public val connection: VPNConnection = VPNConnection.Disconnected(),
     public val items: List<HomeFeedItem> = emptyList(),
@@ -41,7 +42,7 @@ public val HomeStateModel.connectedName: String?
 
 public val HomeStateModel.connectedIpAddress: String?
     inline get() = if (this.isDisconnected) {
-        localNetwork?.ipAddress
+        deviceIpAddress ?: localNetwork?.ipAddress
     } else {
         servers.firstOrNull()?.let { it.ipV4Address ?: it.ipV6Address }
     }
