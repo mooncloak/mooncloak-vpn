@@ -1,5 +1,10 @@
 <resources>
 
+    <string name="global_not_available">N/A</string>
+    <string name="global_unexpected_error">Unexpected error</string>
+    <string name="global_yes">Yes</string>
+    <string name="global_no">No</string>
+
     <string name="app_name">mooncloak VPN</string>
     <string name="app_description">Go dark, stay bright</string>
 
@@ -100,9 +105,6 @@
     <string name="data_format_abbr_gbps">Gbps</string>
     <string name="data_format_abbr_tbps">Tbps</string>
 
-    <string name="global_not_available">N/A</string>
-    <string name="global_unexpected_error">Unexpected error</string>
-
     <string name="country_list_error_title_no_vpn_servers">Unexpected error loading VPN servers</string>
     <string name="country_list_error_description_no_vpn_servers">There was an unexpected error attempting to load the countries that have VPN servers. Please try again later. If the error persists, contact support.</string>
     <string name="country_list_default_region_type">Regions</string>
@@ -136,6 +138,14 @@
     <string name="settings_option_screen_lock_timeout_5_minutes">5 minutes</string>
     <string name="settings_option_screen_lock_timeout_30_minutes">30 minutes</string>
     <string name="settings_option_screen_lock_timeout_custom_time">Custom time</string>
+
+    <string name="settings_app_details_header">App Details</string>
+    <string name="settings_app_details_title_id">ID</string>
+    <string name="settings_app_details_title_name">Name</string>
+    <string name="settings_app_details_title_version">Version</string>
+    <string name="settings_app_details_title_debug">Debug</string>
+    <string name="settings_app_details_title_pre_release">Pre-release</string>
+    <string name="settings_app_details_title_build_time">Build Time</string>
 
     <string name="subscription_no_active_plan">No active plan</string>
     <string name="subscription_title_no_active_plan">No Active Plan</string>

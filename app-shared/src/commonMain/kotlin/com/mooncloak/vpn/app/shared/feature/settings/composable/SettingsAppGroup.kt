@@ -30,6 +30,8 @@ import org.jetbrains.compose.resources.stringResource
 internal fun ColumnScope.SettingsAppGroup(
     appVersion: String?,
     sourceCodeUri: String?,
+    appDetailsEnabled: Boolean = false,
+    onOpenAppDetails: () -> Unit,
     onOpenDependencyList: () -> Unit,
     onOpenCollaboratorList: () -> Unit,
     uriHandler: UriHandler = LocalUriHandler.current
@@ -41,7 +43,10 @@ internal fun ColumnScope.SettingsAppGroup(
     )
 
     ListItem(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .clickable(enabled = appDetailsEnabled) {
+                onOpenAppDetails.invoke()
+            },
         colors = ListItemDefaults.colors(
             containerColor = MaterialTheme.colorScheme.background
         ),

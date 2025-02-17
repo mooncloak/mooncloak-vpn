@@ -4,10 +4,12 @@ import androidx.compose.runtime.Stable
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
+import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
+import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsAppDetails
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.app_copyright
@@ -36,10 +38,11 @@ public class SettingsViewModel @Inject public constructor(
 
     @OptIn(ExperimentalPersistentStateAPI::class)
     public fun load() {
+        LogPile.info("SettingsViewModel: load")
         coroutineScope.launch {
             emit(value = state.current.value.copy(isLoading = true))
 
-            var appVersion: String? = state.current.value.appVersion
+            var appDetails: SettingsAppDetails? = state.current.value.appDetails
             var privacyPolicyUri: String? = state.current.value.privacyPolicyUri
             var termsUri: String? = state.current.value.termsUri
             var sourceCodeUri: String? = state.current.value.sourceCodeUri
@@ -51,7 +54,14 @@ public class SettingsViewModel @Inject public constructor(
             var systemAuthTimeout = state.current.value.systemAuthTimeout
 
             try {
-                appVersion = appClientInfo.versionName
+                appDetails = SettingsAppDetails(
+                    id = appClientInfo.id,
+                    name = appClientInfo.name,
+                    version = appClientInfo.versionName,
+                    isDebug = appClientInfo.isDebug,
+                    isPreRelease = appClientInfo.isPreRelease,
+                    buildTime = appClientInfo.buildTime
+                )
                 privacyPolicyUri = appClientInfo.privacyPolicyUri
                 termsUri = appClientInfo.termsAndConditionsUri
                 sourceCodeUri = appClientInfo.sourceCodeUri
@@ -75,7 +85,7 @@ public class SettingsViewModel @Inject public constructor(
                 emit(
                     value = state.current.value.copy(
                         isLoading = false,
-                        appVersion = appVersion,
+                        appDetails = appDetails,
                         currentPlan = currentPlan,
                         privacyPolicyUri = privacyPolicyUri,
                         termsUri = termsUri,
@@ -92,7 +102,7 @@ public class SettingsViewModel @Inject public constructor(
                     value = state.current.value.copy(
                         isLoading = false,
                         errorMessage = e.message ?: getString(Res.string.global_unexpected_error),
-                        appVersion = appVersion,
+                        appDetails = appDetails,
                         currentPlan = currentPlan,
                         privacyPolicyUri = privacyPolicyUri,
                         termsUri = termsUri,

@@ -28,7 +28,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
@@ -71,7 +70,6 @@ public fun SettingsScreen(
     val bottomSheetState = rememberModalNavigationBottomSheetState<SettingsBottomSheetDestination>()
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
-    val uriHandler = LocalUriHandler.current
     val preferencesStorage = rememberDependency { keyValueStorage.preferences }
 
     LaunchedEffect(Unit) {
@@ -135,9 +133,19 @@ public fun SettingsScreen(
                     color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
                 )
 
+                println("appDetails: ${viewModel.state.current.value.appDetails}")
+
                 SettingsAppGroup(
-                    appVersion = viewModel.state.current.value.appVersion,
+                    appVersion = viewModel.state.current.value.appDetails?.version,
                     sourceCodeUri = viewModel.state.current.value.sourceCodeUri,
+                    appDetailsEnabled = viewModel.state.current.value.appDetails != null,
+                    onOpenAppDetails = {
+                        viewModel.state.current.value.appDetails?.let { details ->
+                            coroutineScope.launch {
+                                bottomSheetState.show(SettingsBottomSheetDestination.AppInfo(details))
+                            }
+                        }
+                    },
                     onOpenDependencyList = {
                         coroutineScope.launch {
                             bottomSheetState.show(SettingsBottomSheetDestination.DependencyLicenseList)

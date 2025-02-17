@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.settings.model
 
 import androidx.compose.runtime.Immutable
+import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -22,6 +23,13 @@ internal sealed interface SettingsBottomSheetDestination {
     @Serializable
     @SerialName(value = "plan")
     data object SelectPlan : SettingsBottomSheetDestination
+
+    @Immutable
+    @Serializable
+    @SerialName(value = "app_info")
+    data class AppInfo internal constructor(
+        val details: SettingsAppDetails
+    ) : SettingsBottomSheetDestination
 
     @Immutable
     @Serializable

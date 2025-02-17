@@ -38,6 +38,11 @@ internal fun SettingsBottomSheet(
             is SettingsBottomSheetDestination.Collaborators -> CollaboratorContainerScreen(
                 modifier = Modifier.fillMaxWidth()
             )
+
+            is SettingsBottomSheetDestination.AppInfo -> AppDetailsBottomSheetLayout(
+                modifier = Modifier.fillMaxWidth(),
+                details = destination.details
+            )
         }
     }
 }

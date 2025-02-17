@@ -25,8 +25,8 @@ public interface AppClientInfo {
     public val versionName: String
         get() = "$version-$versionCode"
 
-    public val buildTime: Instant
-        get() = Instant.parse(SharedBuildConfig.appBuildTime)
+    public val buildTime: Instant?
+        get() = runCatching { Instant.parse(SharedBuildConfig.appBuildTime) }.getOrNull()
 
     public val flavor: String?
 
