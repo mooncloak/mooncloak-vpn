@@ -30,7 +30,7 @@ internal fun FlagImage(
     containerColor: Color = MaterialTheme.colorScheme.background,
     contentColor: Color = MaterialTheme.colorScheme.onBackground
 ) {
-    val showIcon = remember { mutableStateOf(imageUri == null) }
+    val showIcon = remember(imageUri) { mutableStateOf(imageUri == null) }
 
     Box(
         modifier = modifier
