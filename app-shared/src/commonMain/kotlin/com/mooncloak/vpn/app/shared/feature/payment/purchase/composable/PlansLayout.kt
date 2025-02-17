@@ -22,6 +22,7 @@ import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.payment_action_select
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
+import com.mooncloak.vpn.app.shared.util.format
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -52,7 +53,7 @@ internal fun PlansLayout(
                     modifier = Modifier.fillMaxWidth(),
                     title = plan.title,
                     description = plan.description?.value,
-                    price = plan.price.formatted ?: "", // TODO: Format price
+                    price = plan.price.format() ?: "",
                     highlight = plan.highlight,
                     selected = selectedPlan == plan,
                     enabled = plan.active,

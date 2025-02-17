@@ -62,8 +62,10 @@ internal fun PlanCard(
                     )
 
                     Text(
+                        modifier = Modifier.padding(top = 8.dp),
                         text = price,
-                        style = MaterialTheme.typography.headlineLarge
+                        style = MaterialTheme.typography.headlineLarge,
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
 
@@ -89,7 +91,7 @@ internal fun PlanCard(
 
             if (description != null) {
                 Text(
-                    modifier = Modifier.padding(top = 16.dp),
+                    modifier = Modifier.padding(top = 8.dp),
                     text = description,
                     style = MaterialTheme.typography.bodyMedium.copy(color = LocalContentColor.current.copy(alpha = 0.68f))
                 )
