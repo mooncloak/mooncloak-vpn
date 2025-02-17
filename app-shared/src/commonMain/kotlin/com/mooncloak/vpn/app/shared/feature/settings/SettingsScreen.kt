@@ -43,6 +43,7 @@ import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsLegalGro
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsPreferenceGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsSubscriptionGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsThemeGroup
+import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsWireGuardGroup
 import com.mooncloak.vpn.app.shared.feature.settings.di.createSettingsComponent
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -174,6 +175,26 @@ public fun SettingsScreen(
                             viewModel.state.current.value.deviceDetails?.let { details ->
                                 coroutineScope.launch {
                                     bottomSheetState.show(SettingsBottomSheetDestination.DeviceInfo(details))
+                                }
+                            }
+                        }
+                    )
+
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
+                    )
+                }
+
+                if (viewModel.state.current.value.wireGuardPreferences != null) {
+                    SettingsWireGuardGroup(
+                        dnsServersEnabled = viewModel.state.current.value.wireGuardPreferences != null,
+                        onOpenDnsServers = {
+                            viewModel.state.current.value.wireGuardPreferences?.let {
+                                coroutineScope.launch {
+                                    bottomSheetState.show(
+                                        SettingsBottomSheetDestination.DnsServerConfig
+                                    )
                                 }
                             }
                         }

@@ -11,6 +11,7 @@ import com.mooncloak.vpn.app.shared.feature.payment.history.PaymentHistoryScreen
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.subscription.SubscriptionScreen
+import com.mooncloak.vpn.app.shared.feature.wireguard.dns.DnsServerConfigScreen
 
 @Composable
 internal fun SettingsBottomSheet(
@@ -55,6 +56,10 @@ internal fun SettingsBottomSheet(
             is SettingsBottomSheetDestination.DeviceInfo -> DeviceDetailsBottomSheetLayout(
                 modifier = Modifier.fillMaxWidth(),
                 details = destination.details
+            )
+
+            is SettingsBottomSheetDestination.DnsServerConfig -> DnsServerConfigScreen(
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }

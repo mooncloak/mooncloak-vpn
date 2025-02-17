@@ -4,6 +4,7 @@
     <string name="cd_action_disconnect">Disconnect from VPN</string>
     <string name="cd_action_checking">Checking connection</string>
     <string name="cd_action_back">Navigate back</string>
+    <string name="cd_action_reset">Reset</string>
 
     <string name="cd_action_hide_ip_address">Hide IP Address</string>
     <string name="cd_action_show_ip_address">Show IP Address</string>
@@ -27,5 +28,6 @@
     <string name="cd_open_current_plan">View current plan details</string>
     <string name="cd_open_payment_history">View payment history</string>
     <string name="cd_open_device_details">View device details</string>
+    <string name="cd_open_dns_servers">Open DNS server configuration</string>
 
 </resources>

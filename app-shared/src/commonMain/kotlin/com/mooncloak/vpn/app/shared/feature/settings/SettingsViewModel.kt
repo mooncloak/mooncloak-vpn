@@ -10,6 +10,7 @@ import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.api.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
+import com.mooncloak.vpn.app.shared.api.preference.WireGuardPreferences
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsAppDetails
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsDeviceDetails
@@ -38,7 +39,7 @@ public class SettingsViewModel @Inject public constructor(
     private val systemAuthenticationProvider: SystemAuthenticationProvider,
     private val clock: Clock,
     private val localNetworkManager: LocalNetworkManager,
-    private val deviceIPAddressProvider: DeviceIPAddressProvider
+    private val deviceIPAddressProvider: DeviceIPAddressProvider,
 ) : ViewModel<SettingsStateModel>(initialStateValue = SettingsStateModel()) {
 
     @OptIn(ExperimentalPersistentStateAPI::class)
@@ -49,6 +50,7 @@ public class SettingsViewModel @Inject public constructor(
 
             var appDetails: SettingsAppDetails? = state.current.value.appDetails
             var deviceDetails: SettingsDeviceDetails? = state.current.value.deviceDetails
+            var wireGuardPreferences: WireGuardPreferences? = state.current.value.wireGuardPreferences
             var privacyPolicyUri: String? = state.current.value.privacyPolicyUri
             var termsUri: String? = state.current.value.termsUri
             var sourceCodeUri: String? = state.current.value.sourceCodeUri
@@ -69,6 +71,7 @@ public class SettingsViewModel @Inject public constructor(
                     buildTime = appClientInfo.buildTime
                 )
                 deviceDetails = getDeviceDetails()
+                wireGuardPreferences = preferencesStorage.wireGuard.current.value
                 privacyPolicyUri = appClientInfo.privacyPolicyUri
                 termsUri = appClientInfo.termsAndConditionsUri
                 sourceCodeUri = appClientInfo.sourceCodeUri
@@ -94,6 +97,7 @@ public class SettingsViewModel @Inject public constructor(
                         isLoading = false,
                         appDetails = appDetails,
                         deviceDetails = deviceDetails,
+                        wireGuardPreferences = wireGuardPreferences,
                         currentPlan = currentPlan,
                         privacyPolicyUri = privacyPolicyUri,
                         termsUri = termsUri,
@@ -112,6 +116,7 @@ public class SettingsViewModel @Inject public constructor(
                         errorMessage = e.message ?: getString(Res.string.global_unexpected_error),
                         appDetails = appDetails,
                         deviceDetails = deviceDetails,
+                        wireGuardPreferences = wireGuardPreferences,
                         currentPlan = currentPlan,
                         privacyPolicyUri = privacyPolicyUri,
                         termsUri = termsUri,
