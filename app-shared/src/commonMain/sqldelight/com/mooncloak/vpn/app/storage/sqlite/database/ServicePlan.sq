@@ -14,7 +14,8 @@ CREATE TABLE ServicePlan (
     live INTEGER AS Boolean NOT NULL,
     nickname TEXT,
     title TEXT NOT NULL,
-    description TEXT,
+    description TEXT AS JsonElement,
+    details TEXT AS JsonElement,
     highlight TEXT,
     url TEXT,
     self TEXT,
@@ -27,10 +28,6 @@ CREATE TABLE ServicePlan (
     currencyNumericCode INTEGER,
     currencySymbol TEXT,
     duration TEXT NOT NULL,
-    totalThroughput INTEGER,
-    rxThroughput INTEGER,
-    txThroughput INTEGER,
-    breakdown TEXT AS JsonElement,
     metadata TEXT AS JsonObject,
     subscription TEXT AS JsonElement,
     trial TEXT AS JsonElement
@@ -39,8 +36,8 @@ CREATE TABLE ServicePlan (
 CREATE INDEX ServicePlan_id_index ON ServicePlan(id);
 
 insert:
-INSERT OR REPLACE INTO ServicePlan(databaseId, id, created, updated, provider, active, usageType, live, nickname, title, description, highlight, url, self, taxCode, amount, amountFormatted, currencyType, currencyCode, currencyDefaultFractionDigits, currencyNumericCode, currencySymbol, duration, totalThroughput, rxThroughput, txThroughput, breakdown, metadata, subscription, trial)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT OR REPLACE INTO ServicePlan(databaseId, id, created, updated, provider, active, usageType, live, nickname, title, description, details, highlight, url, self, taxCode, amount, amountFormatted, currencyType, currencyCode, currencyDefaultFractionDigits, currencyNumericCode, currencySymbol, duration, metadata, subscription, trial)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 selectAll:
 SELECT *

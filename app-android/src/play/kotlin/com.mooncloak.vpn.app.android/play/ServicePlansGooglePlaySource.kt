@@ -2,8 +2,9 @@ package com.mooncloak.vpn.app.android.play
 
 import com.android.billingclient.api.ProductDetails
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.vpn.app.shared.api.billing.PaymentProvider
-import com.mooncloak.vpn.app.shared.api.plan.ServicePlan
+import com.mooncloak.kodetools.textx.PlainText
+import com.mooncloak.vpn.app.shared.api.plan.BillingProvider
+import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansApiSource
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansRepository
 import kotlinx.coroutines.async
@@ -14,11 +15,11 @@ internal class ServicePlansGooglePlaySource @Inject internal constructor(
     private val getGooglePlayProductsFromPlanIds: GetGooglePlayProductsFromPlanIdsUseCase
 ) : ServicePlansRepository {
 
-    override suspend fun getPlans(): List<ServicePlan> {
+    override suspend fun getPlans(): List<Plan> {
         val plans = plansApiSource.getPlans()
         val plansById = plans.associateBy { it.id }
         val googlePlayPlanIds = plans.filter { plan ->
-            plan.provider == PaymentProvider.GooglePlay
+            plan.provider == BillingProvider.GooglePlay
         }.map { plan -> plan.id }
 
         return getGooglePlayProductsFromPlanIds(planIds = googlePlayPlanIds).mapNotNull { product ->
@@ -27,7 +28,7 @@ internal class ServicePlansGooglePlaySource @Inject internal constructor(
         }.sortedBy { plan -> plan.price.amount }
     }
 
-    override suspend fun getPlan(id: String): ServicePlan =
+    override suspend fun getPlan(id: String): Plan =
         coroutineScope {
             val deferredPlan = async { plansApiSource.getPlan(id = id) }
             val product = runCatching { getGooglePlayProductsFromPlanIds(planIds = listOf(id)).first() }.getOrNull()
@@ -39,10 +40,10 @@ internal class ServicePlansGooglePlaySource @Inject internal constructor(
             return@coroutineScope deferredPlan.await().copy(product)
         }
 
-    private fun ServicePlan.copy(product: ProductDetails): ServicePlan =
+    private fun Plan.copy(product: ProductDetails): Plan =
         this.copy(
             nickname = product.name,
             title = product.title,
-            description = product.description
+            description = PlainText(value = product.description)
         )
 }

@@ -83,7 +83,7 @@ android {
         }
 
         getByName("debug") {
-            applicationIdSuffix = ".debug"
+            // TODO: Re-enable debug app suffix: applicationIdSuffix = ".debug"
             isDebuggable = true
             isMinifyEnabled = false
         }

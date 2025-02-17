@@ -1,7 +1,7 @@
 package com.mooncloak.vpn.app.shared.api.billing
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.api.money.Price
+import com.mooncloak.vpn.app.shared.api.plan.Price
 import com.mooncloak.vpn.app.shared.api.token.TransactionToken
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName

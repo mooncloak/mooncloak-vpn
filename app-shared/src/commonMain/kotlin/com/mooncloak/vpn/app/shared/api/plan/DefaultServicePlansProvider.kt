@@ -9,7 +9,7 @@ public class DefaultServicePlansProvider @Inject public constructor(
     private val cacheSource: ServicePlansDatabaseSource
 ) : ServicePlansProvider {
 
-    override fun getPlansFlow(): Flow<List<ServicePlan>> =
+    override fun getPlansFlow(): Flow<List<Plan>> =
         flow {
             emit(cacheSource.getPlans())
 

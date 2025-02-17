@@ -1,6 +1,5 @@
-package com.mooncloak.vpn.app.shared.api.money
+package com.mooncloak.vpn.app.shared.api.plan
 
-import androidx.compose.runtime.Immutable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -16,7 +15,6 @@ import kotlinx.serialization.Serializable
  *
  * @property [formatted] A formatted [String] representation of this [Price] (ex: "$10").
  */
-@Immutable
 @Serializable
 public data class Price public constructor(
     @SerialName(value = "currency") public val currency: Currency,

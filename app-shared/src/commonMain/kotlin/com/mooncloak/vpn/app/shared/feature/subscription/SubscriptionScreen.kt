@@ -19,7 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.api.plan.ServicePlan
+import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
@@ -90,11 +90,10 @@ public fun SubscriptionScreen(
                             .verticalScroll(rememberScrollState())
                             .padding(horizontal = 16.dp),
                         planTitle = plan?.title ?: stringResource(Res.string.global_not_available),
-                        planDescription = plan?.description,
+                        planDescription = plan?.description?.value,
                         subscriptionPurchased = dateTimeFormatter.format(subscription.created),
                         subscriptionExpiration = dateTimeFormatter.format(subscription.expiration),
-                        subscriptionTotalData = (subscription.totalThroughput
-                            ?: (plan as? ServicePlan)?.details?.totalThroughput)?.let { bytes ->
+                        subscriptionTotalData = (subscription.totalThroughput)?.let { bytes ->
                             dataFormatter.format(
                                 value = bytes,
                                 inputType = DataFormatter.Type.Bytes,

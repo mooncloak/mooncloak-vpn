@@ -63,14 +63,14 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getAvailablePlans(): AvailablePlans {
-        val response = httpClient.get("https://mooncloak.com/api/vpn/marketing/plans")
+        val response = httpClient.get("https://mooncloak.com/api/billing/plans")
 
         return response.body<HttpResponseBody<AvailablePlans>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getPlan(id: String): Plan {
-        val response = httpClient.get("https://mooncloak.com/api/vpn/marketing/plan/$id")
+        val response = httpClient.get("https://mooncloak.com/api/billing/plan/$id")
 
         return response.body<HttpResponseBody<Plan>>().getOrThrow()
     }

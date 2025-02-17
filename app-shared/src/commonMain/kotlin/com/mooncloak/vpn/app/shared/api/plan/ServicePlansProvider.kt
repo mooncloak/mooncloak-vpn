@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 public interface ServicePlansProvider {
 
-    public fun getPlansFlow(): Flow<List<ServicePlan>>
+    public fun getPlansFlow(): Flow<List<Plan>>
 
     public companion object
 }

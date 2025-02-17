@@ -51,7 +51,7 @@ internal fun PlansLayout(
                 PlanCard(
                     modifier = Modifier.fillMaxWidth(),
                     title = plan.title,
-                    description = plan.description,
+                    description = plan.description?.value,
                     price = plan.price.formatted ?: "", // TODO: Format price
                     highlight = plan.highlight,
                     selected = selectedPlan == plan,

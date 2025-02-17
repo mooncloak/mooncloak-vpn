@@ -104,6 +104,11 @@ kotlin {
                 api("io.coil-kt.coil3:coil-network-ktor3:_")
                 implementation("io.coil-kt.coil3:coil-compose:_")
 
+                // Rich Text Utils
+                // https://github.com/mooncloak/textx
+                // Apache 2.0: https://github.com/mooncloak/textx/blob/main/LICENSE
+                api("com.mooncloak.kodetools.textx:textx-core:_")
+
                 // konstruct - Dependency Injection
                 // https://github.com/mooncloak/konstruct
                 api("com.mooncloak.kodetools.konstruct:konstruct-runtime:_")

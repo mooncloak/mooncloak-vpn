@@ -7,7 +7,7 @@ import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
-import com.mooncloak.vpn.app.shared.api.plan.ServicePlan
+import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansRepository
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionUsage
@@ -36,7 +36,7 @@ public class SubscriptionViewModel @Inject public constructor(
 
             var subscription: ServiceSubscription? = null
             var usage: ServiceSubscriptionUsage? = null
-            var plan: ServicePlan? = null
+            var plan: Plan? = null
 
             try {
                 val token = subscriptionStorage.tokens.current.value?.accessToken

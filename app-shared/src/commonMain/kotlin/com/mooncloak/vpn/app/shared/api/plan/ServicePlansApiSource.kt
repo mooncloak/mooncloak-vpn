@@ -9,13 +9,13 @@ public class ServicePlansApiSource @Inject public constructor(
     private val api: MooncloakVpnServiceHttpApi
 ) : ServicePlansRepository {
 
-    override suspend fun getPlans(): List<ServicePlan> =
+    override suspend fun getPlans(): List<Plan> =
         withContext(Dispatchers.IO) {
-            api.getAvailablePlans().plans.filterIsInstance<ServicePlan>()
+            api.getAvailablePlans().plans
         }
 
-    override suspend fun getPlan(id: String): ServicePlan =
+    override suspend fun getPlan(id: String): Plan =
         withContext(Dispatchers.IO) {
-            (api.getPlan(id = id) as? ServicePlan) ?: error("Plan was NOT a VPNServicePlan instance.")
+            (api.getPlan(id = id) as? Plan) ?: error("Plan was NOT a VPNServicePlan instance.")
         }
 }

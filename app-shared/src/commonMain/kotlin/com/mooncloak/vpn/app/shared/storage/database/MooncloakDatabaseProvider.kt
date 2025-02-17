@@ -40,10 +40,11 @@ public class MooncloakDatabaseProvider @Inject public constructor(
                 ServicePlanAdapter = ServicePlan.Adapter(
                     createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
                     updatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
-                    breakdownAdapter = DatabaseAdapter.jsonElementAsString(),
                     metadataAdapter = DatabaseAdapter.jsonObjectAsString(),
                     subscriptionAdapter = DatabaseAdapter.jsonElementAsString(),
-                    trialAdapter = DatabaseAdapter.jsonElementAsString()
+                    trialAdapter = DatabaseAdapter.jsonElementAsString(),
+                    descriptionAdapter = DatabaseAdapter.jsonElementAsString(),
+                    detailsAdapter = DatabaseAdapter.jsonElementAsString()
                 ),
                 ServiceTokensAdapter = ServiceTokens.Adapter(
                     createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
