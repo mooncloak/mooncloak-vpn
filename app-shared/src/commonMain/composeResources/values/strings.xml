@@ -163,6 +163,7 @@
     <string name="settings_dns_servers_label_primary">Primary</string>
     <string name="settings_dns_servers_label_secondary">Secondary</string>
     <string name="settings_dns_servers_action_save">Save</string>
+    <string name="settings_dns_servers_error_invalid_ip">Invalid DNS Address</string>
 
     <string name="subscription_no_active_plan">No active plan</string>
     <string name="subscription_title_no_active_plan">No Active Plan</string>

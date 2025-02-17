@@ -11,7 +11,9 @@ import com.mooncloak.vpn.app.shared.api.preference.WireGuardPreferences
 import com.mooncloak.vpn.app.shared.model.TextFieldStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
+import com.mooncloak.vpn.app.shared.resource.settings_dns_servers_error_invalid_ip
 import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
+import com.mooncloak.vpn.app.shared.util.IPv4AddressValidator
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.catch
@@ -26,7 +28,8 @@ import org.jetbrains.compose.resources.getString
 import kotlin.time.Duration.Companion.milliseconds
 
 public class DnsServerConfigViewModel @Inject public constructor(
-    private val preferencesStorage: PreferencesStorage
+    private val preferencesStorage: PreferencesStorage,
+    private val ipAddressValidator: IPv4AddressValidator
 ) : ViewModel<DnsServerConfigStateModel>(initialStateValue = DnsServerConfigStateModel()) {
 
     private val mutex = Mutex(locked = false)
@@ -97,9 +100,15 @@ public class DnsServerConfigViewModel @Inject public constructor(
                     }
                 }.debounce(300.milliseconds)
                     .map { value ->
+                        val result = ipAddressValidator.validate(value.text)
+
                         TextFieldStateModel(
                             value = value,
-                            error = null // TODO: Validate the IP Address
+                            error = if (result.isSuccess) {
+                                null
+                            } else {
+                                getString(Res.string.settings_dns_servers_error_invalid_ip)
+                            }
                         )
                     }
                     .onEach { model ->
@@ -122,10 +131,16 @@ public class DnsServerConfigViewModel @Inject public constructor(
                     }
                 }.debounce(300.milliseconds)
                     .map { value ->
+                        val result = ipAddressValidator.validate(value.text)
+
                         // Then debounce the validation
                         TextFieldStateModel(
                             value = value,
-                            error = null // TODO: Validate the IP Address
+                            error = if (result.isSuccess) {
+                                null
+                            } else {
+                                getString(Res.string.settings_dns_servers_error_invalid_ip)
+                            }
                         )
                     }
                     .onEach { model ->
@@ -197,24 +212,35 @@ public class DnsServerConfigViewModel @Inject public constructor(
                 val primary = state.current.value.primary
                 val secondary = state.current.value.secondary
 
-                if (primary.error == null && secondary.error == null) {
+                val primaryResult = ipAddressValidator.validate(primary.value.text)
+                val secondaryResult = ipAddressValidator.validate(secondary.value.text)
+
+                if (
+                    primary.error == null
+                    && secondary.error == null
+                    && primaryResult.isSuccess
+                    && secondaryResult.isSuccess
+                ) {
                     emit { current ->
                         current.copy(isSaving = true)
                     }
 
+                    val primaryAddress = primaryResult.getOrNull() ?: primary.value.text
+                    val secondaryAddress = secondaryResult.getOrNull() ?: secondary.value.text
+
                     preferencesStorage.wireGuard.update { current ->
                         current.copy(
                             dnsAddresses = setOf(
-                                primary.value.text,
-                                secondary.value.text
+                                primaryAddress,
+                                secondaryAddress
                             )
                         )
                     }
 
                     emit { current ->
                         current.copy(
-                            initialPrimary = primary.value.text,
-                            initialSecondary = secondary.value.text,
+                            initialPrimary = primaryAddress,
+                            initialSecondary = secondaryAddress,
                             isSaving = false
                         )
                     }
