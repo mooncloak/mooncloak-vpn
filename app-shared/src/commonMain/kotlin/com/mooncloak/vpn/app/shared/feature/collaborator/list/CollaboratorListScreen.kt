@@ -3,9 +3,12 @@ package com.mooncloak.vpn.app.shared.feature.collaborator.list
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -17,6 +20,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -54,14 +58,13 @@ public fun CollaboratorListScreen(
         viewModel.load()
     }
 
-    Scaffold(
+    Surface(
         modifier = modifier,
-        containerColor = MaterialTheme.colorScheme.surface,
+        color = MaterialTheme.colorScheme.surface,
         contentColor = MaterialTheme.colorScheme.onSurface
-    ) { paddingValues ->
+    ) {
         Box(
-            modifier = Modifier.fillMaxSize()
-                .padding(paddingValues)
+            modifier = Modifier.fillMaxWidth()
         ) {
             LazyVerticalGrid(
                 modifier = Modifier.fillMaxWidth(),
@@ -77,19 +80,39 @@ public fun CollaboratorListScreen(
                         CollaboratorHeader(
                             modifier = Modifier.fillMaxWidth()
                                 .padding(horizontal = 16.dp)
-                                .padding(bottom = 16.dp)
+                                .padding(bottom = 32.dp)
                         )
                     }
                 }
 
-                items(
-                    items = viewModel.state.current.value.collaborators,
-                    key = { collaborator -> collaborator.id }
-                ) { collaborator ->
-                    CollaboratorListItem(
-                        modifier = Modifier.fillMaxWidth(),
-                        collaborator = collaborator
-                    )
+                if (viewModel.state.current.value.collaborators.size == 1) {
+                    item(
+                        key = "SingleCollaboratorItem",
+                        span = { GridItemSpan(currentLineSpan = maxLineSpan) }
+                    ) {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            viewModel.state.current.value.collaborators.firstOrNull()?.let { collaborator ->
+                                CollaboratorListItem(
+                                    modifier = Modifier.wrapContentSize(),
+                                    collaborator = collaborator
+                                )
+                            }
+                        }
+                    }
+                } else if (viewModel.state.current.value.collaborators.isNotEmpty()) {
+                    items(
+                        items = viewModel.state.current.value.collaborators,
+                        key = { collaborator -> collaborator.id },
+                        contentType = { "CollaboratorItem" }
+                    ) { collaborator ->
+                        CollaboratorListItem(
+                            modifier = Modifier.fillMaxWidth(),
+                            collaborator = collaborator
+                        )
+                    }
                 }
 
                 if (viewModel.state.current.value.collaborators.isEmpty()) {
@@ -118,6 +141,13 @@ public fun CollaboratorListScreen(
                             )
                         }
                     }
+                }
+
+                item(
+                    key = "BottomSpacing",
+                    span = { GridItemSpan(currentLineSpan = maxLineSpan) }
+                ) {
+                    Spacer(modifier = Modifier.height(32.dp))
                 }
             }
 

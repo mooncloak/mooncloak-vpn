@@ -202,7 +202,7 @@
     <string name="payment_history_no_receipts_action_get_service">Get Protected</string>
 
     <string name="collaborator_list_header">Top Contributors</string>
-    <string name="collaborator_list_header_subtitle">Contributors are derived from git repository data.</string>
+    <string name="collaborator_list_header_subtitle">Contributor data is derived from git repository data and other factors.</string>
     <string name="collaborator_list_title_error">Error loading contributors</string>
     <string name="collaborator_list_title_empty">No contributors found</string>
     <string name="collaborator_list_description_error">There was an unexpected issue loading the contributors of the project. Please try again later.</string>
