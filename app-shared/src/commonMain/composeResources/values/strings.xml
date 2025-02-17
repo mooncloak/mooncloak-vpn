@@ -197,7 +197,7 @@
 
     <string name="payment_history_title">Transaction History</string>
     <string name="payment_history_receipt_label_transaction_token">Transaction Token</string>
-    <string name="payment_history_no_receipts_title">No Receipts</string>
+    <string name="payment_history_no_receipts_title">No History</string>
     <string name="payment_history_no_receipts_description">Sign up to the privacy focused mooncloak VPN service to protect your data from creeps.</string>
     <string name="payment_history_no_receipts_action_get_service">Get Protected</string>
 

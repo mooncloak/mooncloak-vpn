@@ -90,14 +90,15 @@ internal fun DeviceDetailsBottomSheetLayout(
                             text = if (hidePublicIpAddress.value) {
                                 stringResource(Res.string.server_details_hidden_ip_address)
                             } else {
-                                details.publicIpAddress ?: stringResource(Res.string.global_not_available)
+                                details.publicIpAddress?.takeIf { it.isNotBlank() }
+                                    ?: stringResource(Res.string.global_not_available)
                             },
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
                         )
                     }
                 },
-                trailingContent = {
+                trailingContent = (@Composable {
                     Icon(
                         modifier = Modifier.size(40.dp)
                             .clip(CircleShape)
@@ -117,7 +118,7 @@ internal fun DeviceDetailsBottomSheetLayout(
                         },
                         tint = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
                     )
-                }
+                }).takeIf { !details.publicIpAddress.isNullOrBlank() }
             )
 
             ListItem(
@@ -134,14 +135,15 @@ internal fun DeviceDetailsBottomSheetLayout(
                             text = if (hideLocalIpAddress.value) {
                                 stringResource(Res.string.server_details_hidden_ip_address)
                             } else {
-                                details.localIpAddress ?: stringResource(Res.string.global_not_available)
+                                details.localIpAddress?.takeIf { it.isNotBlank() }
+                                    ?: stringResource(Res.string.global_not_available)
                             },
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
                         )
                     }
                 },
-                trailingContent = {
+                trailingContent = (@Composable {
                     Icon(
                         modifier = Modifier.size(40.dp)
                             .clip(CircleShape)
@@ -161,7 +163,7 @@ internal fun DeviceDetailsBottomSheetLayout(
                         },
                         tint = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
                     )
-                }
+                }).takeIf { !details.localIpAddress.isNullOrBlank() }
             )
 
             Spacer(modifier = Modifier.height(32.dp))
