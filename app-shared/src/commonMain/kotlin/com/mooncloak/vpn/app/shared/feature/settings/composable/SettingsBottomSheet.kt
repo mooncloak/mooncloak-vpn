@@ -2,6 +2,7 @@ package com.mooncloak.vpn.app.shared.feature.settings.composable
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheet
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheetState
@@ -12,6 +13,7 @@ import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.subscription.SubscriptionScreen
 import com.mooncloak.vpn.app.shared.feature.wireguard.dns.DnsServerConfigScreen
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun SettingsBottomSheet(
@@ -20,6 +22,8 @@ internal fun SettingsBottomSheet(
     onOpenTransactionHistory: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     ModalNavigationBottomSheet(
         state = state,
         modifier = modifier
@@ -59,7 +63,12 @@ internal fun SettingsBottomSheet(
             )
 
             is SettingsBottomSheetDestination.DnsServerConfig -> DnsServerConfigScreen(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                onSave = {
+                    coroutineScope.launch {
+                        state.hide()
+                    }
+                }
             )
         }
     }

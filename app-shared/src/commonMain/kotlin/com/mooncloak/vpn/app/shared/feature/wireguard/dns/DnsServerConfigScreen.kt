@@ -46,12 +46,14 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun DnsServerConfigScreen(
+    onSave: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
         FeatureDependencies.createDnsServerConfigComponent(
             applicationComponent = applicationComponent,
-            presentationComponent = presentationComponent
+            presentationComponent = presentationComponent,
+            listener = { onSave.invoke() }
         )
     }
     val viewModel = remember { componentDependencies.viewModel }

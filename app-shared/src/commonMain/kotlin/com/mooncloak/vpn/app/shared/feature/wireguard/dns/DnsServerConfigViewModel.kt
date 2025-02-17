@@ -29,7 +29,8 @@ import kotlin.time.Duration.Companion.milliseconds
 
 public class DnsServerConfigViewModel @Inject public constructor(
     private val preferencesStorage: PreferencesStorage,
-    private val ipAddressValidator: IPv4AddressValidator
+    private val ipAddressValidator: IPv4AddressValidator,
+    private val onSaveCompleteListener: DnsServerOnSaveCompleteListener
 ) : ViewModel<DnsServerConfigStateModel>(initialStateValue = DnsServerConfigStateModel()) {
 
     private val mutex = Mutex(locked = false)
@@ -244,6 +245,8 @@ public class DnsServerConfigViewModel @Inject public constructor(
                             isSaving = false
                         )
                     }
+
+                    onSaveCompleteListener.onSaved()
                 } else {
                     emit { current ->
                         current.copy(
