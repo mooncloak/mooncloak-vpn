@@ -15,4 +15,8 @@
     <string name="cd_avatar">User avatar photo</string>
     <string name="cd_image_flag">Country flag</string>
 
+    <string name="cd_link_source_code">View source code</string>
+    <string name="cd_link_privacy_policy">View privacy policy</string>
+    <string name="cd_link_terms">View terms and conditions</string>
+
 </resources>
