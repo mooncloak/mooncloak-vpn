@@ -23,6 +23,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.cd_action_hide_ip_address
+import com.mooncloak.vpn.app.shared.resource.cd_action_show_ip_address
 import com.mooncloak.vpn.app.shared.resource.server_details_hidden_ip_address
 import com.mooncloak.vpn.app.shared.resource.server_details_label_device_ip_address
 import com.mooncloak.vpn.app.shared.resource.server_details_label_server_ip_address
@@ -79,7 +81,11 @@ internal fun IpAddressCard(
                         } else {
                             Icons.Default.VisibilityOff
                         },
-                        contentDescription = null,
+                        contentDescription = if (hideDeviceIpAddress) {
+                            stringResource(Res.string.cd_action_show_ip_address)
+                        } else {
+                            stringResource(Res.string.cd_action_hide_ip_address)
+                        },
                         tint = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
                     )
                 }
@@ -101,7 +107,11 @@ internal fun IpAddressCard(
                 modifier = Modifier.padding(horizontal = 8.dp)
                     .size(18.dp),
                 imageVector = Icons.AutoMirrored.Default.ArrowForward,
-                contentDescription = null,
+                contentDescription = if (hideDeviceIpAddress) {
+                    stringResource(Res.string.cd_action_show_ip_address)
+                } else {
+                    stringResource(Res.string.cd_action_hide_ip_address)
+                },
                 tint = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
             )
 

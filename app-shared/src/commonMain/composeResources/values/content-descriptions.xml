@@ -5,6 +5,9 @@
     <string name="cd_action_checking">Checking connection</string>
     <string name="cd_action_back">Navigate back</string>
 
+    <string name="cd_action_hide_ip_address">Hide IP Address</string>
+    <string name="cd_action_show_ip_address">Show IP Address</string>
+
     <string name="cd_destination_home">Navigate to Home screen</string>
     <string name="cd_destination_servers">Navigate to Server screen</string>
     <string name="cd_destination_support">Navigate to Support screen</string>
