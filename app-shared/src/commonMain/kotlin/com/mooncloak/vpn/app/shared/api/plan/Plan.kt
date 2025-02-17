@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.api.plan
 
 import com.mooncloak.kodetools.textx.TextContent
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -64,7 +65,7 @@ public data class Plan public constructor(
     @SerialName(value = "provider") public val provider: BillingProvider,
     @SerialName(value = "price") public val price: Price,
     @SerialName(value = "conversion") public val conversion: Price? = null,
-    @SerialName(value = "active") public val active: Boolean = false,
+    @SerialName(value = "active") public val active: Boolean = true, // FIXME: Replace with false for default. Enabled for testing purposes.
     @SerialName(value = "live") public val live: Boolean = false,
     @SerialName(value = "auto_renews") public val autoRenews: Boolean = false,
     @SerialName(value = "created") public val created: Instant? = null,
@@ -83,3 +84,14 @@ public data class Plan public constructor(
     @SerialName(value = "tax_code") public val taxCode: TaxCode? = null,
     @SerialName(value = "metadata") public val metadata: JsonObject? = null
 ) : Product
+
+/**
+ * Determines whether this [Plan] is available for purchase at the provided [Instant].
+ *
+ * @param [at] The [Instant] to check if this [Plan] is available for purchase at. Defaults to [Clock.now] from the
+ * [Clock.System].
+ *
+ * @return `true` if this [Plan] is available for purchase at the provided [at] [Instant], `false` otherwise.
+ */
+public fun Plan.isAvailable(at: Instant = Clock.System.now()): Boolean =
+    this.active && (this.starts == null || at > this.starts) && (this.ends == null || at < this.ends)

@@ -84,6 +84,9 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         val response = httpClient.post("https://mooncloak.com/api/vpn/payment/invoice") {
             token?.value?.let { bearerAuth(it) }
 
+            contentType(ContentType.Application.Json)
+            accept(ContentType.Application.Json)
+
             setBody(
                 GetPaymentInvoiceRequestBody(
                     planId = planId,
@@ -103,6 +106,9 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
     ): PlanPaymentStatus {
         val response = httpClient.post("https://mooncloak.com/api/vpn/payment/status") {
             bearerAuth(token.value)
+
+            contentType(ContentType.Application.Json)
+            accept(ContentType.Application.Json)
 
             setBody(
                 GetPaymentStatusRequestBody(
@@ -126,6 +132,9 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         receipt: ProofOfPurchase
     ): ServiceTokens {
         val response = httpClient.post("https://mooncloak.com/api/vpn/token/exchange") {
+            contentType(ContentType.Application.Json)
+            accept(ContentType.Application.Json)
+
             setBody(receipt)
         }
 
@@ -149,6 +158,9 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
     ): Boolean {
         val response = httpClient.post("https://mooncloak.com/api/vpn/token/revoke") {
             bearerAuth(refreshToken.value)
+
+            contentType(ContentType.Application.Json)
+            accept(ContentType.Application.Json)
 
             setBody(
                 RevokeTokenRequestBody(
