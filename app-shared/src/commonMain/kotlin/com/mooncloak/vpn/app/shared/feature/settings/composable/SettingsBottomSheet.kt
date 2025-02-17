@@ -7,6 +7,7 @@ import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheet
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.collaborator.container.CollaboratorContainerScreen
 import com.mooncloak.vpn.app.shared.feature.dependency.DependencyLicenseListScreen
+import com.mooncloak.vpn.app.shared.feature.payment.history.PaymentHistoryScreen
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.subscription.SubscriptionScreen
@@ -15,6 +16,7 @@ import com.mooncloak.vpn.app.shared.feature.subscription.SubscriptionScreen
 internal fun SettingsBottomSheet(
     state: ModalNavigationBottomSheetState<SettingsBottomSheetDestination>,
     onOpenPlans: () -> Unit,
+    onOpenTransactionHistory: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     ModalNavigationBottomSheet(
@@ -28,7 +30,12 @@ internal fun SettingsBottomSheet(
 
             is SettingsBottomSheetDestination.Subscription -> SubscriptionScreen(
                 modifier = Modifier.fillMaxWidth(),
-                onOpenPlans = onOpenPlans
+                onOpenPlans = onOpenPlans,
+                onOpenPaymentHistory = onOpenTransactionHistory
+            )
+
+            is SettingsBottomSheetDestination.TransactionHistory -> PaymentHistoryScreen(
+                modifier = Modifier.fillMaxWidth()
             )
 
             is SettingsBottomSheetDestination.SelectPlan -> PaymentScreen(

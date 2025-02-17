@@ -17,9 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.cd_open_current_plan
-import com.mooncloak.vpn.app.shared.resource.cd_open_licenses
+import com.mooncloak.vpn.app.shared.resource.cd_open_payment_history
 import com.mooncloak.vpn.app.shared.resource.settings_group_subscription
 import com.mooncloak.vpn.app.shared.resource.settings_title_current_plan
+import com.mooncloak.vpn.app.shared.resource.settings_title_payment_history
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import org.jetbrains.compose.resources.stringResource
 
@@ -27,7 +28,8 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 internal fun ColumnScope.SettingsSubscriptionGroup(
     currentPlan: String?,
-    onOpenSubscription: () -> Unit
+    onOpenSubscription: () -> Unit,
+    onOpenTransactionHistory: () -> Unit
 ) {
     SettingsGroupLabel(
         modifier = Modifier.padding(horizontal = 16.dp)
@@ -59,6 +61,29 @@ internal fun ColumnScope.SettingsSubscriptionGroup(
                 modifier = Modifier.size(20.dp),
                 imageVector = Icons.AutoMirrored.Default.ArrowForward,
                 contentDescription = stringResource(Res.string.cd_open_current_plan),
+                tint = MaterialTheme.colorScheme.onBackground.copy(
+                    alpha = SecondaryAlpha
+                )
+            )
+        }
+    )
+
+    ListItem(
+        modifier = Modifier.fillMaxWidth()
+            .clickable {
+                onOpenTransactionHistory.invoke()
+            },
+        colors = ListItemDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.background
+        ),
+        headlineContent = {
+            Text(text = stringResource(Res.string.settings_title_payment_history))
+        },
+        trailingContent = {
+            Icon(
+                modifier = Modifier.size(20.dp),
+                imageVector = Icons.AutoMirrored.Default.ArrowForward,
+                contentDescription = stringResource(Res.string.cd_open_payment_history),
                 tint = MaterialTheme.colorScheme.onBackground.copy(
                     alpha = SecondaryAlpha
                 )

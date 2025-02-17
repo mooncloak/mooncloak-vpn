@@ -21,6 +21,11 @@ internal sealed interface SettingsBottomSheetDestination {
 
     @Immutable
     @Serializable
+    @SerialName(value = "transaction_history")
+    data object TransactionHistory : SettingsBottomSheetDestination
+
+    @Immutable
+    @Serializable
     @SerialName(value = "plan")
     data object SelectPlan : SettingsBottomSheetDestination
 

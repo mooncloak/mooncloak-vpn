@@ -112,6 +112,11 @@ public fun SettingsScreen(
                         coroutineScope.launch {
                             bottomSheetState.show(SettingsBottomSheetDestination.Subscription)
                         }
+                    },
+                    onOpenTransactionHistory = {
+                        coroutineScope.launch {
+                            bottomSheetState.show(SettingsBottomSheetDestination.TransactionHistory)
+                        }
                     }
                 )
 
@@ -230,6 +235,11 @@ public fun SettingsScreen(
         onOpenPlans = {
             coroutineScope.launch {
                 bottomSheetState.show(SettingsBottomSheetDestination.SelectPlan)
+            }
+        },
+        onOpenTransactionHistory = {
+            coroutineScope.launch {
+                bottomSheetState.show(SettingsBottomSheetDestination.TransactionHistory)
             }
         }
     )

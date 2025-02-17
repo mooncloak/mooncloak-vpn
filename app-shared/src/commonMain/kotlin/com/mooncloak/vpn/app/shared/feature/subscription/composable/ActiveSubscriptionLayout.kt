@@ -119,7 +119,6 @@ internal fun ActiveSubscriptionLayout(
             bytesRemaining = subscriptionRemainingData ?: stringResource(Res.string.global_not_available)
         )
 
-        /* TODO: Re-enable payment history
         if (lastPaymentTitle != null) {
             Text(
                 modifier = Modifier.wrapContentSize()
@@ -140,9 +139,8 @@ internal fun ActiveSubscriptionLayout(
                 description = lastPaymentDescription,
                 onViewAll = onViewPaymentHistory
             )
-        }*/
+        }
 
-        /* TODO: Re-enable boost
         Button(
             modifier = Modifier.fillMaxWidth()
                 .padding(top = 32.dp, bottom = 16.dp),
@@ -151,7 +149,7 @@ internal fun ActiveSubscriptionLayout(
             Text(
                 text = stringResource(Res.string.subscription_action_boost)
             )
-        }*/
+        }
 
         Spacer(modifier = Modifier.height(32.dp))
     }

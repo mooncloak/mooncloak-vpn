@@ -126,6 +126,7 @@
     <string name="settings_title_code">View Source Code</string>
     <string name="settings_group_subscription">Subscription</string>
     <string name="settings_title_current_plan">Current Plan</string>
+    <string name="settings_title_payment_history">Transaction History</string>
     <string name="settings_group_preferences">Preferences</string>
     <string name="settings_group_general">General</string>
     <string name="settings_group_privacy">Privacy</string>

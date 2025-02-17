@@ -9,7 +9,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
@@ -19,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
@@ -40,6 +38,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 public fun SubscriptionScreen(
     onOpenPlans: () -> Unit,
+    onOpenPaymentHistory: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
@@ -77,11 +76,6 @@ public fun SubscriptionScreen(
                     null -> NoActiveSubscriptionLayout(
                         modifier = Modifier.fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        lastPaymentTitle = null,
-                        lastPaymentDescription = null,
-                        onViewPaymentHistory = {
-                            // TODO: Open payment history
-                        },
                         onProtect = onOpenPlans
                     )
 
@@ -112,9 +106,7 @@ public fun SubscriptionScreen(
                         },
                         lastPaymentTitle = null,
                         lastPaymentDescription = null,
-                        onViewPaymentHistory = {
-                            // TODO: Open payment history
-                        },
+                        onViewPaymentHistory = onOpenPaymentHistory,
                         onBoost = onOpenPlans
                     )
                 }
