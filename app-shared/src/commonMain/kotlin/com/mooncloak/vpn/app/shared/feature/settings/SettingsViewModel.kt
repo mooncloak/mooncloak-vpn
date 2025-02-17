@@ -8,8 +8,11 @@ import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
+import com.mooncloak.vpn.app.shared.api.network.DeviceIPAddressProvider
+import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsAppDetails
+import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsDeviceDetails
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.app_copyright
@@ -33,7 +36,9 @@ public class SettingsViewModel @Inject public constructor(
     private val subscriptionStorage: SubscriptionStorage,
     private val preferencesStorage: PreferencesStorage,
     private val systemAuthenticationProvider: SystemAuthenticationProvider,
-    private val clock: Clock
+    private val clock: Clock,
+    private val localNetworkManager: LocalNetworkManager,
+    private val deviceIPAddressProvider: DeviceIPAddressProvider
 ) : ViewModel<SettingsStateModel>(initialStateValue = SettingsStateModel()) {
 
     @OptIn(ExperimentalPersistentStateAPI::class)
@@ -43,6 +48,7 @@ public class SettingsViewModel @Inject public constructor(
             emit(value = state.current.value.copy(isLoading = true))
 
             var appDetails: SettingsAppDetails? = state.current.value.appDetails
+            var deviceDetails: SettingsDeviceDetails? = state.current.value.deviceDetails
             var privacyPolicyUri: String? = state.current.value.privacyPolicyUri
             var termsUri: String? = state.current.value.termsUri
             var sourceCodeUri: String? = state.current.value.sourceCodeUri
@@ -62,6 +68,7 @@ public class SettingsViewModel @Inject public constructor(
                     isPreRelease = appClientInfo.isPreRelease,
                     buildTime = appClientInfo.buildTime
                 )
+                deviceDetails = getDeviceDetails()
                 privacyPolicyUri = appClientInfo.privacyPolicyUri
                 termsUri = appClientInfo.termsAndConditionsUri
                 sourceCodeUri = appClientInfo.sourceCodeUri
@@ -86,6 +93,7 @@ public class SettingsViewModel @Inject public constructor(
                     value = state.current.value.copy(
                         isLoading = false,
                         appDetails = appDetails,
+                        deviceDetails = deviceDetails,
                         currentPlan = currentPlan,
                         privacyPolicyUri = privacyPolicyUri,
                         termsUri = termsUri,
@@ -103,6 +111,7 @@ public class SettingsViewModel @Inject public constructor(
                         isLoading = false,
                         errorMessage = e.message ?: getString(Res.string.global_unexpected_error),
                         appDetails = appDetails,
+                        deviceDetails = deviceDetails,
                         currentPlan = currentPlan,
                         privacyPolicyUri = privacyPolicyUri,
                         termsUri = termsUri,
@@ -188,4 +197,24 @@ public class SettingsViewModel @Inject public constructor(
             }
         }
     }
+
+    private suspend fun getDeviceDetails(): SettingsDeviceDetails =
+        try {
+            val publicIp = deviceIPAddressProvider.get()
+            val localIp = localNetworkManager.getInfo()?.ipAddress
+
+            SettingsDeviceDetails(
+                publicIpAddress = publicIp,
+                localIpAddress = localIp
+            )
+        } catch (e: Exception) {
+            // Don't fail on loading the device information because it is just a nice to have and shouldn't crash the
+            // app if we fail to load it.
+            LogPile.error(
+                message = "Failed to load device details on the Settings Screen.",
+                cause = e
+            )
+
+            SettingsDeviceDetails()
+        }
 }

@@ -37,6 +37,7 @@ import com.mooncloak.vpn.app.shared.di.rememberDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsAppGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsBottomSheet
+import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsDeviceGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsFooterItem
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsLegalGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsPreferenceGroup
@@ -133,8 +134,6 @@ public fun SettingsScreen(
                     color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
                 )
 
-                println("appDetails: ${viewModel.state.current.value.appDetails}")
-
                 SettingsAppGroup(
                     appVersion = viewModel.state.current.value.appDetails?.version,
                     sourceCodeUri = viewModel.state.current.value.sourceCodeUri,
@@ -162,6 +161,24 @@ public fun SettingsScreen(
                     modifier = Modifier.padding(vertical = 8.dp),
                     color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
                 )
+
+                if (viewModel.state.current.value.deviceDetails != null) {
+                    SettingsDeviceGroup(
+                        deviceDetailsEnabled = viewModel.state.current.value.deviceDetails != null,
+                        onOpenDeviceDetails = {
+                            viewModel.state.current.value.deviceDetails?.let { details ->
+                                coroutineScope.launch {
+                                    bottomSheetState.show(SettingsBottomSheetDestination.DeviceInfo(details))
+                                }
+                            }
+                        }
+                    )
+
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
+                    )
+                }
 
                 SettingsPreferenceGroup(
                     startOnLandingScreen = viewModel.state.current.value.startOnLandingScreen,

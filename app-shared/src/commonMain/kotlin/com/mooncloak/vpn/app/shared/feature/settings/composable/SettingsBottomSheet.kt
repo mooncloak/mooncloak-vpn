@@ -43,6 +43,11 @@ internal fun SettingsBottomSheet(
                 modifier = Modifier.fillMaxWidth(),
                 details = destination.details
             )
+
+            is SettingsBottomSheetDestination.DeviceInfo -> DeviceDetailsBottomSheetLayout(
+                modifier = Modifier.fillMaxWidth(),
+                details = destination.details
+            )
         }
     }
 }

@@ -2,12 +2,14 @@ package com.mooncloak.vpn.app.shared.feature.settings
 
 import androidx.compose.runtime.Immutable
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsAppDetails
+import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsDeviceDetails
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
 @Immutable
 public data class SettingsStateModel public constructor(
     public val appDetails: SettingsAppDetails? = null,
+    public val deviceDetails: SettingsDeviceDetails? = null,
     public val currentPlan: String? = null,
     public val privacyPolicyUri: String? = null,
     public val termsUri: String? = null,

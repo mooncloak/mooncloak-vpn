@@ -140,12 +140,20 @@
     <string name="settings_option_screen_lock_timeout_custom_time">Custom time</string>
 
     <string name="settings_app_details_header">App Details</string>
+    <string name="settings_app_details_description">Information about this application.</string>
     <string name="settings_app_details_title_id">ID</string>
     <string name="settings_app_details_title_name">Name</string>
     <string name="settings_app_details_title_version">Version</string>
     <string name="settings_app_details_title_debug">Debug</string>
     <string name="settings_app_details_title_pre_release">Pre-release</string>
     <string name="settings_app_details_title_build_time">Build Time</string>
+
+    <string name="settings_group_device">Device</string>
+    <string name="settings_title_device_details">Device Details</string>
+    <string name="settings_device_details_header">Device Details</string>
+    <string name="settings_device_details_description">Information about your device running this application.</string>
+    <string name="settings_device_details_public_ip">Public IP Address</string>
+    <string name="settings_device_details_local_ip">Local IP Address</string>
 
     <string name="subscription_no_active_plan">No active plan</string>
     <string name="subscription_title_no_active_plan">No Active Plan</string>

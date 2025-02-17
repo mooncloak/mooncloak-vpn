@@ -1,7 +1,9 @@
 package com.mooncloak.vpn.app.shared.feature.settings.composable
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -19,6 +21,7 @@ import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsAppDetails
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_not_available
 import com.mooncloak.vpn.app.shared.resource.global_yes
+import com.mooncloak.vpn.app.shared.resource.settings_app_details_description
 import com.mooncloak.vpn.app.shared.resource.settings_app_details_header
 import com.mooncloak.vpn.app.shared.resource.settings_app_details_title_build_time
 import com.mooncloak.vpn.app.shared.resource.settings_app_details_title_debug
@@ -55,8 +58,19 @@ internal fun AppDetailsBottomSheetLayout(
                 style = MaterialTheme.typography.titleLarge
             )
 
+            Text(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top = 8.dp)
+                    .padding(horizontal = 16.dp),
+                text = stringResource(Res.string.settings_app_details_description),
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
+                )
+            )
+
             ListItem(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top = 16.dp),
                 colors = ListItemDefaults.colors(
                     containerColor = MaterialTheme.colorScheme.surface
                 ),
@@ -161,6 +175,8 @@ internal fun AppDetailsBottomSheetLayout(
                     )
                 }
             )
+
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
