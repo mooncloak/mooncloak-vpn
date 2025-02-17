@@ -14,6 +14,8 @@ import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
 import com.mooncloak.vpn.app.shared.api.network.AndroidLocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
+import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
+import com.mooncloak.vpn.app.android.api.wireguard.WireGuardTunnelManager
 import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
 
 @Component
@@ -28,11 +30,6 @@ internal abstract class AndroidDirectApplicationComponent internal constructor(
             format = format,
             settings = Settings()
         )
-
-    @Provides
-    @Singleton
-    internal fun provideApplicationContext(): ApplicationContext =
-        activityContext.applicationContext
 
     @Provides
     @Singleton
@@ -55,6 +52,10 @@ internal abstract class AndroidDirectApplicationComponent internal constructor(
     @Provides
     @Singleton
     internal fun provideWireGuardBackend(context: ApplicationContext): WireGuardBackend = GoBackend(context)
+
+    @Provides
+    @Singleton
+    internal fun provideTunnelManager(manager: WireGuardTunnelManager): TunnelManager = manager
 }
 
 internal fun ApplicationComponent.Companion.create(
