@@ -35,7 +35,8 @@ internal fun SettingsBottomSheet(
             )
 
             is SettingsBottomSheetDestination.TransactionHistory -> PaymentHistoryScreen(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                onGetService = onOpenPlans
             )
 
             is SettingsBottomSheetDestination.SelectPlan -> PaymentScreen(

@@ -1,5 +1,7 @@
 package com.mooncloak.vpn.app.shared.api.billing
 
+import com.mooncloak.vpn.app.shared.api.plan.BillingProvider
+import com.mooncloak.vpn.app.shared.api.plan.Price
 import com.mooncloak.vpn.app.shared.api.token.TransactionToken
 import kotlinx.coroutines.CancellationException
 import kotlinx.datetime.Instant
@@ -15,17 +17,19 @@ public interface ServicePurchaseReceiptRepository {
     ): List<ServicePurchaseReceipt>
 
     public suspend fun add(
-        planId: String,
+        orderId: String? = null,
+        planIds: List<String>,
         invoiceId: String? = null,
         purchased: Instant,
-        provider: PaymentProvider,
+        provider: BillingProvider,
         created: Instant? = null,
         updated: Instant? = null,
         subscription: Boolean = false,
         clientSecret: String? = null,
         token: TransactionToken,
         signature: String? = null,
-        quantity: Int? = null
+        quantity: Int? = null,
+        price: Price? = null
     ): ServicePurchaseReceipt
 
     public suspend fun remove(id: String)

@@ -35,7 +35,9 @@ public class MooncloakDatabaseProvider @Inject public constructor(
                 PurchaseReceiptAdapter = PurchaseReceipt.Adapter(
                     createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
                     updatedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
-                    purchasedAdapter = DatabaseAdapter.instantAsMillisecondsLong()
+                    purchasedAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    priceAdapter = DatabaseAdapter.jsonElementAsString(),
+                    plan_idsAdapter = DatabaseAdapter.jsonElementAsString()
                 ),
                 ServicePlanAdapter = ServicePlan.Adapter(
                     createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),

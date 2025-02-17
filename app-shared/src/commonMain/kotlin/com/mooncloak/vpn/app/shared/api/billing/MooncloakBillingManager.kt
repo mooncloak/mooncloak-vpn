@@ -4,6 +4,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.app.shared.api.plan.BillingProvider
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetails
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
@@ -60,7 +61,7 @@ public class MooncloakBillingManager @Inject public constructor(
         token: TransactionToken
     ): ServiceAccessDetails {
         val receipt = ProofOfPurchase(
-            paymentProvider = PaymentProvider.Mooncloak,
+            paymentProvider = BillingProvider.Mooncloak,
             id = invoiceId,
             clientSecret = null,
             token = token
@@ -68,10 +69,10 @@ public class MooncloakBillingManager @Inject public constructor(
 
         // Store the purchase receipt locally on device so that we can always look it up later if needed.
         servicePurchaseReceiptRepository.add(
-            planId = planId,
+            planIds = listOf(planId),
             invoiceId = invoiceId,
             purchased = clock.now(),
-            provider = PaymentProvider.GooglePlay,
+            provider = BillingProvider.GooglePlay,
             subscription = false,
             clientSecret = null,
             token = token,
