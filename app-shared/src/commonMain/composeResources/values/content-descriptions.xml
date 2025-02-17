@@ -18,5 +18,11 @@
     <string name="cd_link_source_code">View source code</string>
     <string name="cd_link_privacy_policy">View privacy policy</string>
     <string name="cd_link_terms">View terms and conditions</string>
+    <string name="cd_open_contributors">View Contributors</string>
+    <string name="cd_open_app_details">View app details</string>
+    <string name="cd_open_licenses">View open source licenses</string>
+    <string name="cd_open_current_plan">View current plan details</string>
+    <string name="cd_open_payment_history">View payment history</string>
+    <string name="cd_open_device_details">View device details</string>
 
 </resources>

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -22,6 +23,9 @@ import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.cd_link_privacy_policy
 import com.mooncloak.vpn.app.shared.resource.cd_link_source_code
+import com.mooncloak.vpn.app.shared.resource.cd_open_app_details
+import com.mooncloak.vpn.app.shared.resource.cd_open_contributors
+import com.mooncloak.vpn.app.shared.resource.cd_open_licenses
 import com.mooncloak.vpn.app.shared.resource.settings_group_app
 import com.mooncloak.vpn.app.shared.resource.settings_title_app_version
 import com.mooncloak.vpn.app.shared.resource.settings_title_code
@@ -71,7 +75,17 @@ internal fun ColumnScope.SettingsAppGroup(
                     MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
                 }
             )
-        }).takeIf { appVersion != null }
+        }).takeIf { appVersion != null },
+        trailingContent = (@Composable {
+            Icon(
+                modifier = Modifier.size(20.dp),
+                imageVector = Icons.AutoMirrored.Default.ArrowForward,
+                contentDescription = stringResource(Res.string.cd_open_app_details),
+                tint = MaterialTheme.colorScheme.onBackground.copy(
+                    alpha = SecondaryAlpha
+                )
+            )
+        }).takeIf { appDetailsEnabled }
     )
 
     ListItem(
@@ -84,6 +98,16 @@ internal fun ColumnScope.SettingsAppGroup(
         ),
         headlineContent = {
             Text(text = stringResource(Res.string.settings_title_licenses))
+        },
+        trailingContent = {
+            Icon(
+                modifier = Modifier.size(20.dp),
+                imageVector = Icons.AutoMirrored.Default.ArrowForward,
+                contentDescription = stringResource(Res.string.cd_open_licenses),
+                tint = MaterialTheme.colorScheme.onBackground.copy(
+                    alpha = SecondaryAlpha
+                )
+            )
         }
     )
 
@@ -124,6 +148,16 @@ internal fun ColumnScope.SettingsAppGroup(
         ),
         headlineContent = {
             Text(text = stringResource(Res.string.settings_title_collaborators))
+        },
+        trailingContent = {
+            Icon(
+                modifier = Modifier.size(20.dp),
+                imageVector = Icons.AutoMirrored.Default.ArrowForward,
+                contentDescription = stringResource(Res.string.cd_open_contributors),
+                tint = MaterialTheme.colorScheme.onBackground.copy(
+                    alpha = SecondaryAlpha
+                )
+            )
         }
     )
 }

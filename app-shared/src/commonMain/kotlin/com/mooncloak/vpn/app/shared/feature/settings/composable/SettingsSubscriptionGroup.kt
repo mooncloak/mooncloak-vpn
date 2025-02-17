@@ -4,6 +4,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
@@ -12,6 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.cd_open_current_plan
+import com.mooncloak.vpn.app.shared.resource.cd_open_licenses
 import com.mooncloak.vpn.app.shared.resource.settings_group_subscription
 import com.mooncloak.vpn.app.shared.resource.settings_title_current_plan
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
@@ -47,6 +53,16 @@ internal fun ColumnScope.SettingsSubscriptionGroup(
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
                 )
             )
-        }).takeIf { currentPlan != null }
+        }).takeIf { currentPlan != null },
+        trailingContent = {
+            Icon(
+                modifier = Modifier.size(20.dp),
+                imageVector = Icons.AutoMirrored.Default.ArrowForward,
+                contentDescription = stringResource(Res.string.cd_open_current_plan),
+                tint = MaterialTheme.colorScheme.onBackground.copy(
+                    alpha = SecondaryAlpha
+                )
+            )
+        }
     )
 }
