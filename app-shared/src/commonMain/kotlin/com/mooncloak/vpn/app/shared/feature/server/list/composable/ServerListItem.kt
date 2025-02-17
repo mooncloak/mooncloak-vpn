@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.AssistChip
@@ -26,6 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.mooncloak.vpn.app.shared.api.server.Server
+import com.mooncloak.vpn.app.shared.composable.FlagImage
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.action_connect
 import com.mooncloak.vpn.app.shared.resource.action_disconnect
@@ -54,13 +56,12 @@ internal fun ServerListItem(
         ) {
             ListItem(
                 modifier = Modifier.fillMaxWidth(),
-                leadingContent = (@Composable {
-                    AsyncImage(
-                        modifier = Modifier.size(24.dp),
-                        model = server.country?.flag,
-                        contentDescription = null
+                leadingContent = {
+                    FlagImage(
+                        modifier = Modifier.width(24.dp),
+                        imageUri = server.country?.flag
                     )
-                }).takeIf { server.country?.flag != null },
+                },
                 headlineContent = {
                     Text(
                         text = buildString {
