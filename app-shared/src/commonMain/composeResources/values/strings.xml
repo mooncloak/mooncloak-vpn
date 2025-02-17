@@ -156,7 +156,7 @@
     <string name="settings_device_details_public_ip">Public IP Address</string>
     <string name="settings_device_details_local_ip">Local IP Address</string>
 
-    <string name="settings_group_wire_guard">WireGuard</string>
+    <string name="settings_group_wire_guard">VPN</string>
     <string name="settings_title_wire_guard_dns_servers">DNS Servers</string>
     <string name="settings_dns_servers_header">DNS Servers</string>
     <string name="settings_dns_servers_description">Choose the DNS servers your device uses when connected to mooncloak VPN service. DNS service translates domain names to IP addresses.</string>
