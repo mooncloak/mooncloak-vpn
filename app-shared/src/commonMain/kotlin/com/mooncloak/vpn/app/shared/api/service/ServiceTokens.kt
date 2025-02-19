@@ -8,6 +8,8 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 import kotlin.time.Duration
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Represents a successful response model that can be returned from the OAuth 2.0 endpoint. These represent token
@@ -58,10 +60,11 @@ import kotlin.time.Duration
  *
  * @see [OAuth Specification](https://www.rfc-editor.org/rfc/rfc6749.html#section-5)
  */
+@OptIn(ExperimentalUuidApi::class)
 @Immutable
 @Serializable
 public data class ServiceTokens public constructor(
-    @SerialName(value = "id") public val id: String,
+    @SerialName(value = "id") public val id: String = Uuid.random().toHexString(),
     @SerialName(value = "access_token") public val accessToken: Token,
     @SerialName(value = "token_type") public val tokenType: TokenType = TokenType.Bearer,
     @SerialName(value = "expires_in") @Serializable(with = DurationAsSecondsSerializer::class) public val expiresIn: Duration,
