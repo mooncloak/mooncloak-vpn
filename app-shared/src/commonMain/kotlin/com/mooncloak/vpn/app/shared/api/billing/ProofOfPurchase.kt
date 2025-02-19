@@ -11,7 +11,8 @@ import kotlinx.serialization.Serializable
 public data class ProofOfPurchase public constructor(
     @SerialName(value = "provider") public val paymentProvider: BillingProvider,
     @SerialName(value = "token") public val token: TransactionToken,
-    @SerialName(value = "id") public val id: String? = null, // Order id is different from product ids in Google Play billing
-    @SerialName(value = "products") public val productIds: List<String>? = null,
-    @SerialName(value = "client_secret") public val clientSecret: String? = null
+    @SerialName(value = "order_id") public val orderId: String? = null,
+    @SerialName(value = "product_ids") public val productIds: List<String>? = null,
+    @SerialName(value = "client_secret") public val clientSecret: String? = null,
+    @SerialName(value = "subscription") public val subscription: Boolean = false
 )

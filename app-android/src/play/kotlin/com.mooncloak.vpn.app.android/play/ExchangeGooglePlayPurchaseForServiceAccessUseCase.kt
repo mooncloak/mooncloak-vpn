@@ -24,7 +24,7 @@ internal class ExchangeGooglePlayPurchaseForServiceAccessUseCase @Inject interna
     ): ServiceAccessDetails {
         val proofOfPurchase = ProofOfPurchase(
             paymentProvider = BillingProvider.GooglePlay,
-            id = purchase.orderId,
+            orderId = purchase.orderId,
             productIds = purchase.products,
             clientSecret = null,
             token = TransactionToken(value = purchase.purchaseToken)
