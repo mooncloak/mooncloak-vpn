@@ -5,19 +5,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.composable.BottomSheetHeader
+import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
 import com.mooncloak.vpn.app.shared.composable.DetailRow
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsAppDetails
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -32,7 +27,6 @@ import com.mooncloak.vpn.app.shared.resource.settings_app_details_title_id
 import com.mooncloak.vpn.app.shared.resource.settings_app_details_title_name
 import com.mooncloak.vpn.app.shared.resource.settings_app_details_title_pre_release
 import com.mooncloak.vpn.app.shared.resource.settings_app_details_title_version
-import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import com.mooncloak.vpn.app.shared.util.time.DateTimeFormatter
 import com.mooncloak.vpn.app.shared.util.time.Full
 import com.mooncloak.vpn.app.shared.util.time.format
@@ -44,44 +38,31 @@ internal fun AppDetailsBottomSheetLayout(
     modifier: Modifier = Modifier,
     dateTimeFormatter: DateTimeFormatter = remember { DateTimeFormatter.Full }
 ) {
-    Surface(
+    BottomSheetLayout(
         modifier = modifier,
-        color = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onSurface
+        title = stringResource(Res.string.settings_app_details_header),
+        description = stringResource(Res.string.settings_app_details_description)
     ) {
-        Column(
+        AppInfoCard(
             modifier = Modifier.fillMaxWidth()
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            BottomSheetHeader(
-                modifier = Modifier.fillMaxWidth(),
-                title = stringResource(Res.string.settings_app_details_header),
-                description =  stringResource(Res.string.settings_app_details_description)
-            )
+                .padding(horizontal = 16.dp),
+            id = details.id,
+            name = details.name,
+            version = details.version,
+            debug = if (details.isDebug) {
+                stringResource(Res.string.global_yes)
+            } else {
+                stringResource(Res.string.global_no)
+            },
+            preRelease = if (details.isPreRelease) {
+                stringResource(Res.string.global_yes)
+            } else {
+                stringResource(Res.string.global_no)
+            },
+            buildTime = details.buildTime?.let { dateTimeFormatter.format(it) }
+        )
 
-            AppInfoCard(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(top = 32.dp)
-                    .padding(horizontal = 16.dp),
-                id = details.id,
-                name = details.name,
-                version = details.version,
-                debug = if (details.isDebug) {
-                    stringResource(Res.string.global_yes)
-                } else {
-                    stringResource(Res.string.global_no)
-                },
-                preRelease = if (details.isPreRelease) {
-                    stringResource(Res.string.global_yes)
-                } else {
-                    stringResource(Res.string.global_no)
-                },
-                buildTime = details.buildTime?.let { dateTimeFormatter.format(it) }
-            )
-
-            Spacer(modifier = Modifier.height(32.dp))
-        }
+        Spacer(modifier = Modifier.height(32.dp))
     }
 }
 
