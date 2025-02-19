@@ -24,10 +24,10 @@ import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import com.mooncloak.vpn.app.shared.util.DataFormatter
 import com.mooncloak.vpn.app.shared.util.Default
 import com.mooncloak.vpn.app.shared.util.time.DateTimeFormatter
-import com.mooncloak.vpn.app.shared.util.time.Default
 import com.mooncloak.vpn.app.shared.util.time.DurationFormatter
 import com.mooncloak.vpn.app.shared.util.time.Full
 import com.mooncloak.vpn.app.shared.util.time.format
+import com.mooncloak.vpn.app.shared.util.time.remaining
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -42,7 +42,7 @@ public class SubscriptionViewModel @Inject public constructor(
     private val plansRepository: ServicePlansRepository,
     private val purchaseReceiptRepository: ServicePurchaseReceiptRepository,
     private val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.Full,
-    private val durationFormatter: DurationFormatter = DurationFormatter.Default,
+    private val durationFormatter: DurationFormatter = DurationFormatter.remaining(),
     private val dataFormatter: DataFormatter = DataFormatter.Default,
     private val clock: Clock
 ) : ViewModel<SubscriptionStateModel>(initialStateValue = SubscriptionStateModel()) {
@@ -89,7 +89,7 @@ public class SubscriptionViewModel @Inject public constructor(
         }
     }
 
-    private fun loadDetails(
+    private suspend fun loadDetails(
         subscription: ServiceSubscription?,
         usage: ServiceSubscriptionUsage? = null
     ) {

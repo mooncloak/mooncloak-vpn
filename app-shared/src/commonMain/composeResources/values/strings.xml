@@ -264,4 +264,24 @@
     <string name="notification_title_vpn">Connected to private VPN</string>
     <string name="notification_action_vpn_disconnect">Disconnect</string>
 
+    <string name="duration_remaining_less_than_one_minute">&lt; 1 minute</string>
+    <plurals name="duration_remaining_minutes">
+        <item quantity="one">%1$d minute</item>
+        <item quantity="other">%1$d minutes</item>
+    </plurals>
+    <plurals name="duration_remaining_hours">
+        <item quantity="one">%1$d hours</item>
+        <item quantity="other">%1$d hours</item>
+    </plurals>
+    <plurals name="duration_remaining_days">
+        <item quantity="one">%1$d days</item>
+        <item quantity="other">%1$d days</item>
+    </plurals>
+    <plurals name="duration_remaining_months">
+        <item quantity="one">%1$d month</item>
+        <item quantity="other">%1$d months</item>
+    </plurals>
+    <string name="duration_remaining_greater_than_one_year">&gt; 1 year</string>
+    <string name="duration_remaining_expired">Expired</string>
+
 </resources>
