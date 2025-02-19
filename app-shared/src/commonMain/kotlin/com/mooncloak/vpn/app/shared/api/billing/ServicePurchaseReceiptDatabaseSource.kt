@@ -22,7 +22,8 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
     private val databaseProvider: MooncloakDatabaseProvider,
     private val clock: Clock,
     private val json: Json
-) : ServicePurchaseReceiptRepository {
+) : ServicePurchaseReceiptRepository,
+    MutableServicePurchaseReceiptRepository {
 
     private val mutex = Mutex(locked = false)
 
@@ -34,6 +35,25 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
                 .executeAsOneOrNull()
                 ?.toServicePurchaseReceipt()
                 ?: throw NoSuchElementException("No ServicePurchaseReceipt found with id '$id'.")
+        }
+
+    override suspend fun getByOrderId(orderId: String): ServicePurchaseReceipt =
+        withContext(Dispatchers.IO) {
+            val database = databaseProvider.get()
+
+            return@withContext database.purchaseReceiptQueries.selectByOrderId(orderId = orderId)
+                .executeAsOneOrNull()
+                ?.toServicePurchaseReceipt()
+                ?: throw NoSuchElementException("No ServicePurchaseReceipt found with order id '$orderId'.")
+        }
+
+    override suspend fun getLatest(): ServicePurchaseReceipt? =
+        withContext(Dispatchers.IO) {
+            val database = databaseProvider.get()
+
+            return@withContext database.purchaseReceiptQueries.selectLatest()
+                .executeAsOneOrNull()
+                ?.toServicePurchaseReceipt()
         }
 
     override suspend fun getPage(count: Int, offset: Int): List<ServicePurchaseReceipt> =
@@ -111,7 +131,17 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
             mutex.withLock {
                 val database = databaseProvider.get()
 
-                return@withContext database.purchaseReceiptQueries.deleteById(id = id)
+                database.purchaseReceiptQueries.deleteById(id = id)
+            }
+        }
+    }
+
+    override suspend fun clear() {
+        withContext(Dispatchers.IO) {
+            mutex.withLock {
+                val database = databaseProvider.get()
+
+                database.purchaseReceiptQueries.deleteAll()
             }
         }
     }

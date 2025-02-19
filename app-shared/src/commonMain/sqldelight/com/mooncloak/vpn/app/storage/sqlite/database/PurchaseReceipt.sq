@@ -23,6 +23,7 @@ CREATE TABLE PurchaseReceipt (
 
 CREATE INDEX PurchaseReceipt_id_index ON PurchaseReceipt(id);
 CREATE INDEX PurchaseReceipt_plan_id_index ON PurchaseReceipt(plan_id);
+CREATE INDEX PurchaseReceipt_order_id_index ON PurchaseReceipt(order_id);
 
 insert:
 INSERT OR REPLACE INTO PurchaseReceipt(database_id, id, order_id, plan_id, plan_ids, invoice_id, created, updated, purchased, provider, subscription, client_secret, token, signature, quantity, price)
@@ -50,6 +51,11 @@ selectById:
 SELECT *
 FROM PurchaseReceipt
 WHERE id = :id;
+
+selectByOrderId:
+SELECT *
+FROM PurchaseReceipt
+WHERE order_id = :orderId;
 
 deleteById:
 DELETE FROM PurchaseReceipt

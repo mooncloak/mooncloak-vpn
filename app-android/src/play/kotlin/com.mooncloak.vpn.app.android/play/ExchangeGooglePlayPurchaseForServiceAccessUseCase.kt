@@ -2,8 +2,8 @@ package com.mooncloak.vpn.app.android.play
 
 import com.android.billingclient.api.Purchase
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.vpn.app.shared.api.billing.MutableServicePurchaseReceiptRepository
 import com.mooncloak.vpn.app.shared.api.billing.ProofOfPurchase
-import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptRepository
 import com.mooncloak.vpn.app.shared.api.billing.usecase.ExchangeProofOfPurchaseForServiceTokensUseCase
 import com.mooncloak.vpn.app.shared.api.billing.usecase.GetCurrentSubscriptionUseCase
 import com.mooncloak.vpn.app.shared.api.plan.BillingProvider
@@ -13,7 +13,7 @@ import com.mooncloak.vpn.app.shared.api.token.TransactionToken
 import kotlinx.datetime.Instant
 
 internal class ExchangeGooglePlayPurchaseForServiceAccessUseCase @Inject internal constructor(
-    private val servicePurchaseReceiptRepository: ServicePurchaseReceiptRepository,
+    private val servicePurchaseReceiptRepository: MutableServicePurchaseReceiptRepository,
     private val exchangeProofOfPurchaseForServiceTokens: ExchangeProofOfPurchaseForServiceTokensUseCase,
     private val getCurrentSubscription: GetCurrentSubscriptionUseCase
 ) {

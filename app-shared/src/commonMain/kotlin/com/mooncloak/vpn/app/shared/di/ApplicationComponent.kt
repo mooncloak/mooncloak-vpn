@@ -10,6 +10,7 @@ import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
+import com.mooncloak.vpn.app.shared.api.billing.MutableServicePurchaseReceiptRepository
 import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptDatabaseSource
 import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptRepository
 import com.mooncloak.vpn.app.shared.api.server.RegisteredClientDatabaseSource
@@ -137,6 +138,11 @@ public abstract class ApplicationComponent : ApplicationDependencies {
     @Provides
     @Singleton
     public fun provideServicePurchaseReceiptRepository(source: ServicePurchaseReceiptDatabaseSource): ServicePurchaseReceiptRepository =
+        source
+
+    @Provides
+    @Singleton
+    public fun provideMutableServicePurchaseReceiptRepository(source: ServicePurchaseReceiptDatabaseSource): MutableServicePurchaseReceiptRepository =
         source
 
     @Provides

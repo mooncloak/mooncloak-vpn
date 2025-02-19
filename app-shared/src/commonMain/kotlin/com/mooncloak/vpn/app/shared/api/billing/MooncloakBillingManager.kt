@@ -21,7 +21,7 @@ public class MooncloakBillingManager @Inject public constructor(
     private val api: MooncloakVpnServiceHttpApi,
     private val subscriptionStorage: SubscriptionStorage,
     private val serviceTokensRepository: ServiceTokensRepository,
-    private val servicePurchaseReceiptRepository: ServicePurchaseReceiptRepository,
+    private val servicePurchaseReceiptRepository: MutableServicePurchaseReceiptRepository,
     private val clock: Clock
 ) : BillingManager {
 

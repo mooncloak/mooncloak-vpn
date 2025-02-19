@@ -181,6 +181,10 @@
     <string name="subscription_label_payment_history">Payment History</string>
     <string name="subscription_action_payment_view_all">View All</string>
     <string name="subscription_plan_title_default">Plan</string>
+    <string name="subscription_error_load_details">Unexpected error loading subscription details.</string>
+    <string name="subscription_error_load_plan">Unexpected error loading plan details.</string>
+    <string name="subscription_error_load_usage">Unexpected error loading subscription usage.</string>
+    <string name="subscription_error_load_last_payment">Unexpected error loading last payment.</string>
 
     <string name="dependency_list_title_none_found">No dependencies found</string>
     <string name="dependency_list_description_none_found">There was an unexpected issue loading the dependency license list.</string>
