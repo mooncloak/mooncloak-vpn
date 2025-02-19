@@ -212,6 +212,7 @@
     <string name="payment_error_no_plans_description">There was an error loading plans. Please try again later.</string>
 
     <string name="payment_history_title">Transaction History</string>
+    <string name="payment_history_description">Information about your previous purchases.</string>
     <string name="payment_history_receipt_label_transaction_token">Transaction Token</string>
     <string name="payment_history_no_receipts_title">No History</string>
     <string name="payment_history_no_receipts_description">Sign up to the privacy focused mooncloak VPN service to protect your data from creeps.</string>
