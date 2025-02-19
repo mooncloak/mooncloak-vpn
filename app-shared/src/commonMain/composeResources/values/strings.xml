@@ -187,6 +187,8 @@
     <string name="subscription_error_load_usage">Unexpected error loading subscription usage.</string>
     <string name="subscription_error_load_last_payment">Unexpected error loading last payment.</string>
 
+    <string name="dependency_list_header">Open Source Licenses</string>
+    <string name="dependency_list_description">Open source licenses of dependencies used in the development of this app.</string>
     <string name="dependency_list_title_none_found">No dependencies found</string>
     <string name="dependency_list_description_none_found">There was an unexpected issue loading the dependency license list.</string>
     <string name="dependency_list_label_developers">Developers</string>
