@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.mooncloak.vpn.app.shared.composable.DetailRow
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_not_available
 import com.mooncloak.vpn.app.shared.resource.plan_usage_label_remaining
@@ -194,40 +195,6 @@ private fun DetailsContainer(
                 value = totalBytes
             )
         }
-    }
-}
-
-@Composable
-private fun DetailRow(
-    label: String,
-    value: String,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            modifier = Modifier.wrapContentSize(),
-            text = label,
-            style = MaterialTheme.typography.titleMedium.copy(
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
-            ),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            textAlign = TextAlign.Start
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Text(
-            modifier = Modifier.wrapContentSize(),
-            text = value,
-            style = MaterialTheme.typography.titleMedium,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            textAlign = TextAlign.Start
-        )
     }
 }
 
