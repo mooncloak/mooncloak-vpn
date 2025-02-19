@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mooncloak.vpn.app.shared.composable.BottomSheetHeader
 import com.mooncloak.vpn.app.shared.composable.DetailRow
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsAppDetails
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -53,21 +54,10 @@ internal fun AppDetailsBottomSheetLayout(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                text = stringResource(Res.string.settings_app_details_header),
-                style = MaterialTheme.typography.titleLarge
-            )
-
-            Text(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(top = 8.dp)
-                    .padding(horizontal = 16.dp),
-                text = stringResource(Res.string.settings_app_details_description),
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
-                )
+            BottomSheetHeader(
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(Res.string.settings_app_details_header),
+                description =  stringResource(Res.string.settings_app_details_description)
             )
 
             AppInfoCard(
