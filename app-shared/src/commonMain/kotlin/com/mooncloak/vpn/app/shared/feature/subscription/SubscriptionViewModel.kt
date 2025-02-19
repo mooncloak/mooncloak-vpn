@@ -32,7 +32,7 @@ public class SubscriptionViewModel @Inject public constructor(
     public fun load() {
         // TODO:
         coroutineScope.launch {
-            emit(value = state.current.value.copy(isLoading = true))
+            emit { current -> current.copy(isLoading = true) }
 
             var subscription: ServiceSubscription? = null
             var usage: ServiceSubscriptionUsage? = null
@@ -41,6 +41,9 @@ public class SubscriptionViewModel @Inject public constructor(
             try {
                 val token = subscriptionStorage.tokens.current.value?.accessToken
                 subscription = subscriptionStorage.subscription.current.value
+
+                // Let's emit the subscription first so that the screen UI loads faster.
+                emit { current -> current.copy(subscription = subscription) }
 
                 if (token != null) {
                     usage = withContext(Dispatchers.IO) {

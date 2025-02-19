@@ -12,6 +12,6 @@ public data class SubscriptionStateModel public constructor(
     public val plan: Plan? = null,
     public val usage: ServiceSubscriptionUsage? = null,
     public val lastPayment: String? = null, // TODO:
-    public val isLoading: Boolean = false,
+    public val isLoading: Boolean = true,
     public val errorMessage: String? = null
 )

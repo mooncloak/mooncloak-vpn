@@ -169,6 +169,7 @@
     <string name="subscription_title_no_active_plan">No Active Plan</string>
     <string name="subscription_title_active_plan">Active Plan</string>
     <string name="subscription_description_protect">Start protecting your data with a privacy focused and anonymous VPN service by mooncloak.</string>
+    <string name="subscription_description_active">Information about your current subscription.</string>
     <string name="subscription_action_protect">Get Protected</string>
     <string name="subscription_action_boost">Boost</string>
     <string name="subscription_label_plan_details">Plan Details</string>
@@ -179,6 +180,7 @@
     <string name="subscription_label_remaining">Remaining</string>
     <string name="subscription_label_payment_history">Payment History</string>
     <string name="subscription_action_payment_view_all">View All</string>
+    <string name="subscription_plan_title_default">Plan</string>
 
     <string name="dependency_list_title_none_found">No dependencies found</string>
     <string name="dependency_list_description_none_found">There was an unexpected issue loading the dependency license list.</string>

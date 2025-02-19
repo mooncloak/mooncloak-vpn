@@ -31,7 +31,6 @@ import com.mooncloak.vpn.app.shared.resource.subscription_field_total_bytes
 import com.mooncloak.vpn.app.shared.resource.subscription_label_payment_history
 import com.mooncloak.vpn.app.shared.resource.subscription_label_plan_details
 import com.mooncloak.vpn.app.shared.resource.subscription_label_usage
-import com.mooncloak.vpn.app.shared.resource.subscription_title_active_plan
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import org.jetbrains.compose.resources.stringResource
 
@@ -53,15 +52,8 @@ internal fun ActiveSubscriptionLayout(
     Column(
         modifier = modifier
     ) {
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = stringResource(Res.string.subscription_title_active_plan),
-            style = MaterialTheme.typography.titleLarge
-        )
-
         Column(
             modifier = Modifier.fillMaxWidth()
-                .padding(top = 32.dp)
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
