@@ -79,7 +79,7 @@ public class PaymentHistoryViewModel @Inject public constructor(
                     emit(
                         value = state.current.value.copy(
                             isLoading = false,
-                            errorMessage = getString(Res.string.global_unexpected_error)
+                            errorMessage = e.message
                         )
                     )
                 }

@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -107,8 +106,8 @@ public fun PaymentHistoryScreen(
                         ErrorCard(
                             modifier = Modifier.fillMaxWidth()
                                 .animateItem(),
-                            message = viewModel.state.current.value.errorMessage
-                                ?: stringResource(Res.string.global_unexpected_error)
+                            title = stringResource(Res.string.global_unexpected_error),
+                            description = viewModel.state.current.value.errorMessage
                         )
                     }
                 }
