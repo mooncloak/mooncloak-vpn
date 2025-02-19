@@ -30,6 +30,7 @@ internal fun BottomSheetLayout(
     description: String? = null,
     modifier: Modifier = Modifier,
     loadingState: State<Boolean> = mutableStateOf(false),
+    snackbarAlignment: Alignment = Alignment.TopCenter, // Defaults to top because bottom sheet might not be displaying the bottom of its content when the error shows.
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     snackbarHost: @Composable () -> Unit = { SnackbarHost(hostState = snackbarHostState) },
     loading: @Composable BoxScope.() -> Unit = {
@@ -43,7 +44,7 @@ internal fun BottomSheetLayout(
     content: @Composable ColumnScope.() -> Unit
 ) {
     Surface(
-        modifier = Modifier.sizeIn(minHeight = 250.dp)
+        modifier = Modifier.sizeIn(minHeight = 200.dp)
             .then(modifier),
         color = MaterialTheme.colorScheme.surface,
         contentColor = MaterialTheme.colorScheme.onSurface
@@ -70,7 +71,7 @@ internal fun BottomSheetLayout(
             loading.invoke(this)
 
             Box(
-                modifier = Modifier.align(Alignment.BottomCenter)
+                modifier = Modifier.align(snackbarAlignment)
             ) {
                 snackbarHost.invoke()
             }

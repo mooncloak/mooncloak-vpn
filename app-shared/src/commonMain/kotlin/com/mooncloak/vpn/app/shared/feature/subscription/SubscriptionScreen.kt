@@ -75,14 +75,13 @@ public fun SubscriptionScreen(
         loadingState = derivedStateOf { viewModel.state.current.value.isLoading }
     ) {
         AnimatedVisibility(
-            visible = viewModel.state.current.value.plan != null || viewModel.state.current.value.subscription != null
+            visible = viewModel.state.current.value.details != null
         ) {
             SubscriptionDetailsLayout(
                 modifier = Modifier.fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 planTitle = viewModel.state.current.value.plan?.title
                     ?: stringResource(Res.string.subscription_plan_title_default),
-                planDescription = viewModel.state.current.value.plan?.description?.value,
                 subscriptionPurchased = viewModel.state.current.value.details?.purchased,
                 subscriptionExpiration = viewModel.state.current.value.details?.expiration,
                 subscriptionTotalData = viewModel.state.current.value.details?.totalData,
@@ -98,7 +97,7 @@ public fun SubscriptionScreen(
                 SubscriptionSection(
                     modifier = Modifier.wrapContentSize()
                         .align(Alignment.Start)
-                        .padding(top = 32.dp)
+                        .padding(top = if (viewModel.state.current.value.details != null) 32.dp else 0.dp)
                         .padding(horizontal = 16.dp),
                     label = stringResource(Res.string.subscription_label_payment_history)
                 ) {
@@ -113,7 +112,16 @@ public fun SubscriptionScreen(
 
         Button(
             modifier = Modifier.fillMaxWidth()
-                .padding(top = 32.dp)
+                .padding(
+                    top = if (
+                        viewModel.state.current.value.details != null ||
+                        viewModel.state.current.value.lastReceipt != null
+                    ) {
+                        32.dp
+                    } else {
+                        0.dp
+                    }
+                )
                 .padding(horizontal = 16.dp),
             enabled = !viewModel.state.current.value.isLoading,
             onClick = onOpenPlans

@@ -12,12 +12,14 @@ import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.DetailRow
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.subscription_field_expiration
+import com.mooncloak.vpn.app.shared.resource.subscription_field_name
 import com.mooncloak.vpn.app.shared.resource.subscription_field_purchased
 import com.mooncloak.vpn.app.shared.resource.subscription_field_total_bytes
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun DetailsContainer(
+    name: String,
     purchased: String,
     expiration: String,
     totalBytes: String,
@@ -34,6 +36,13 @@ internal fun DetailsContainer(
             modifier = Modifier.fillMaxWidth()
                 .padding(16.dp)
         ) {
+            DetailRow(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                label = stringResource(Res.string.subscription_field_name),
+                value = name
+            )
+
             DetailRow(
                 modifier = Modifier.fillMaxWidth()
                     .padding(vertical = 8.dp),

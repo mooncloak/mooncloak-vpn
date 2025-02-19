@@ -16,8 +16,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun SubscriptionDetailsLayout(
-    planTitle: String,
-    planDescription: String?,
+    planTitle: String?,
     subscriptionPurchased: String?,
     subscriptionExpiration: String?,
     subscriptionTotalData: String?,
@@ -28,23 +27,20 @@ internal fun SubscriptionDetailsLayout(
     Column(
         modifier = modifier
     ) {
-        PlanHeader(
-            modifier = Modifier.fillMaxWidth(),
-            title = planTitle,
-            description = planDescription
-        )
-
         SubscriptionSection(
             modifier = Modifier.wrapContentSize()
-                .align(Alignment.Start)
-                .padding(top = 32.dp),
+                .align(Alignment.Start),
             label = stringResource(Res.string.subscription_label_plan_details)
         ) {
             DetailsContainer(
                 modifier = Modifier.fillMaxWidth(),
-                purchased = subscriptionPurchased ?: stringResource(Res.string.global_not_available),
-                expiration = subscriptionExpiration ?: stringResource(Res.string.global_not_available),
-                totalBytes = subscriptionTotalData ?: stringResource(Res.string.global_not_available)
+                name = planTitle?.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available),
+                purchased = subscriptionPurchased?.takeIf { it.isNotBlank() }
+                    ?: stringResource(Res.string.global_not_available),
+                expiration = subscriptionExpiration?.takeIf { it.isNotBlank() }
+                    ?: stringResource(Res.string.global_not_available),
+                totalBytes = subscriptionTotalData?.takeIf { it.isNotBlank() }
+                    ?: stringResource(Res.string.global_not_available)
             )
         }
 
