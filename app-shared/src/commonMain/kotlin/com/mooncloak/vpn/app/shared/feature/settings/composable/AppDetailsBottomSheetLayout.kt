@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -17,8 +17,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mooncloak.vpn.app.shared.composable.DetailRow
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsAppDetails
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.global_no
 import com.mooncloak.vpn.app.shared.resource.global_not_available
 import com.mooncloak.vpn.app.shared.resource.global_yes
 import com.mooncloak.vpn.app.shared.resource.settings_app_details_description
@@ -68,115 +70,93 @@ internal fun AppDetailsBottomSheetLayout(
                 )
             )
 
-            ListItem(
+            AppInfoCard(
                 modifier = Modifier.fillMaxWidth()
-                    .padding(top = 16.dp),
-                colors = ListItemDefaults.colors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                headlineContent = {
-                    Text(text = stringResource(Res.string.settings_app_details_title_id))
+                    .padding(top = 32.dp)
+                    .padding(horizontal = 16.dp),
+                id = details.id,
+                name = details.name,
+                version = details.version,
+                debug = if (details.isDebug) {
+                    stringResource(Res.string.global_yes)
+                } else {
+                    stringResource(Res.string.global_no)
                 },
-                supportingContent = {
-                    Text(
-                        text = details.id,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
-                    )
-                }
-            )
-
-            ListItem(
-                modifier = Modifier.fillMaxWidth(),
-                colors = ListItemDefaults.colors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                headlineContent = {
-                    Text(text = stringResource(Res.string.settings_app_details_title_name))
+                preRelease = if (details.isPreRelease) {
+                    stringResource(Res.string.global_yes)
+                } else {
+                    stringResource(Res.string.global_no)
                 },
-                supportingContent = {
-                    Text(
-                        text = details.name,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
-                    )
-                }
-            )
-
-            ListItem(
-                modifier = Modifier.fillMaxWidth(),
-                colors = ListItemDefaults.colors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                headlineContent = {
-                    Text(text = stringResource(Res.string.settings_app_details_title_version))
-                },
-                supportingContent = {
-                    Text(
-                        text = details.version,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
-                    )
-                }
-            )
-
-            if (details.isDebug) {
-                ListItem(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.surface
-                    ),
-                    headlineContent = {
-                        Text(text = stringResource(Res.string.settings_app_details_title_debug))
-                    },
-                    supportingContent = {
-                        Text(
-                            text = stringResource(Res.string.global_yes),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
-                        )
-                    }
-                )
-            }
-
-            if (details.isPreRelease) {
-                ListItem(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ListItemDefaults.colors(
-                        containerColor = MaterialTheme.colorScheme.surface
-                    ),
-                    headlineContent = {
-                        Text(text = stringResource(Res.string.settings_app_details_title_pre_release))
-                    },
-                    supportingContent = {
-                        Text(
-                            text = stringResource(Res.string.global_yes),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
-                        )
-                    }
-                )
-            }
-
-            ListItem(
-                modifier = Modifier.fillMaxWidth(),
-                colors = ListItemDefaults.colors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                headlineContent = {
-                    Text(text = stringResource(Res.string.settings_app_details_title_build_time))
-                },
-                supportingContent = {
-                    Text(
-                        text = details.buildTime?.let { dateTimeFormatter.format(it) }
-                            ?: stringResource(Res.string.global_not_available),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
-                    )
-                }
+                buildTime = details.buildTime?.let { dateTimeFormatter.format(it) }
             )
 
             Spacer(modifier = Modifier.height(32.dp))
+        }
+    }
+}
+
+@Composable
+internal fun AppInfoCard(
+    id: String,
+    name: String,
+    version: String,
+    debug: String,
+    preRelease: String,
+    buildTime: String?,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.background,
+            contentColor = MaterialTheme.colorScheme.onBackground
+        )
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            DetailRow(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                label = stringResource(Res.string.settings_app_details_title_id),
+                value = id.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available)
+            )
+
+            DetailRow(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                label = stringResource(Res.string.settings_app_details_title_name),
+                value = name.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available)
+            )
+
+            DetailRow(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                label = stringResource(Res.string.settings_app_details_title_version),
+                value = version.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available)
+            )
+
+            DetailRow(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                label = stringResource(Res.string.settings_app_details_title_debug),
+                value = debug.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available)
+            )
+
+            DetailRow(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                label = stringResource(Res.string.settings_app_details_title_pre_release),
+                value = preRelease.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available)
+            )
+
+            DetailRow(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                label = stringResource(Res.string.settings_app_details_title_build_time),
+                value = buildTime.takeIf { !it.isNullOrBlank() } ?: stringResource(Res.string.global_not_available)
+            )
         }
     }
 }
