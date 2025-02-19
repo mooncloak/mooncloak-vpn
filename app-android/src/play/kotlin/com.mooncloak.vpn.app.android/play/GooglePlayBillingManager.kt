@@ -20,7 +20,8 @@ internal class GooglePlayBillingManager @Inject internal constructor(
     private val coroutineScope: PresentationCoroutineScope,
     private val activity: Activity,
     private val exchangeGooglePlayPurchaseForServiceAccess: ExchangeGooglePlayPurchaseForServiceAccessUseCase,
-    private val launchGooglePlayBillingPurchasePlan: LaunchGooglePlayBillingPurchasePlanUseCase
+    private val launchGooglePlayBillingPurchasePlan: LaunchGooglePlayBillingPurchasePlanUseCase,
+    private val consumePurchase: ConsumePurchaseUseCase
 ) : BillingManager {
 
     public override var isActive: Boolean = false
@@ -49,6 +50,11 @@ internal class GooglePlayBillingManager @Inject internal constructor(
                             coroutineScope.launch {
                                 purchases.forEach { purchase ->
                                     exchangeGooglePlayPurchaseForServiceAccess(purchase)
+
+                                    consumePurchase(
+                                        client = billingClient,
+                                        token = purchase.purchaseToken
+                                    )
                                 }
                             }
                         }
