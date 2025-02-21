@@ -23,8 +23,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.api.location.Country
-import com.mooncloak.vpn.app.shared.api.location.Region
+import com.mooncloak.kodetools.locale.Country
+import com.mooncloak.kodetools.locale.Region
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies

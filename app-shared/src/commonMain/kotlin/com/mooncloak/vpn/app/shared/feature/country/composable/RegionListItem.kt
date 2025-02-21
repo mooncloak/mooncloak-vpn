@@ -1,6 +1,5 @@
 package com.mooncloak.vpn.app.shared.feature.country.composable
 
-import com.mooncloak.vpn.app.shared.api.location.Region
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.mooncloak.kodetools.locale.Region
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.cd_options_more
 import org.jetbrains.compose.resources.stringResource
@@ -39,7 +39,7 @@ internal fun RegionListItem(
             )
         },
         headlineContent = {
-            Text(text = region.name)
+            Text(text = region.name ?: "")
         },
         trailingContent = {
             Icon(

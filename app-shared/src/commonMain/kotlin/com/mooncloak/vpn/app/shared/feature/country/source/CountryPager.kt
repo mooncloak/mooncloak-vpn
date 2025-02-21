@@ -1,11 +1,11 @@
 package com.mooncloak.vpn.app.shared.feature.country.source
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.kodetools.locale.Country
 import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
 import com.mooncloak.kodetools.pagex.PageRequest
 import com.mooncloak.kodetools.pagex.Pager
 import com.mooncloak.kodetools.pagex.create
-import com.mooncloak.vpn.app.shared.api.location.Country
 import com.mooncloak.vpn.app.shared.api.location.CountryFilters
 import kotlinx.coroutines.CoroutineScope
 

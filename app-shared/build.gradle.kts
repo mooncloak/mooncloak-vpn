@@ -163,6 +163,10 @@ kotlin {
                 // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
                 implementation("app.cash.sqldelight:coroutines-extensions:_")
                 implementation("app.cash.sqldelight:primitive-adapters:_")
+
+                // Locale Utils
+                // https://github.com/mooncloak/locale
+                api("com.mooncloak.kodetools.locale:locale-core:_")
             }
         }
 

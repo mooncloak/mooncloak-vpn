@@ -1,10 +1,10 @@
 package com.mooncloak.vpn.app.shared.api.server
 
 import androidx.compose.runtime.Immutable
+import com.mooncloak.kodetools.locale.Country
+import com.mooncloak.kodetools.locale.Region
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.warning
-import com.mooncloak.vpn.app.shared.api.location.Country
-import com.mooncloak.vpn.app.shared.api.location.Region
 import com.mooncloak.vpn.app.shared.api.vpn.VPNProtocol
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName

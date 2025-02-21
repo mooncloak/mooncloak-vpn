@@ -13,8 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.api.location.Country
-import com.mooncloak.vpn.app.shared.api.location.Region
+import com.mooncloak.kodetools.locale.Country
+import com.mooncloak.kodetools.locale.Region
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.country_list_default_region_type
 import com.mooncloak.vpn.app.shared.resource.country_list_header_label_with_count
@@ -40,7 +40,7 @@ internal fun RegionListLayout(
                 text = stringResource(
                     Res.string.country_list_header_label_with_count,
                     country.regionType ?: stringResource(Res.string.country_list_default_region_type),
-                    country.regions.size
+                    0 // FIXME: country.regions.size
                 ),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -49,7 +49,7 @@ internal fun RegionListLayout(
         }
 
         items(
-            items = country.regions,
+            items = listOf<Region>(), // FIXME:  country.regions,
             key = { region -> region.code.value },
             contentType = { "RegionListItem" }
         ) { region ->

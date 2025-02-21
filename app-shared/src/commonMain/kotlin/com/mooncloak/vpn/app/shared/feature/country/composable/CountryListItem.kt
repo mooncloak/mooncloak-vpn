@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.api.location.Country
+import com.mooncloak.kodetools.locale.Country
 import com.mooncloak.vpn.app.shared.composable.FlagImage
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.cd_options_more
@@ -45,7 +45,7 @@ internal fun CountryListItem(
         },
         headlineContent = {
             Text(
-                text = country.name
+                text = country.name ?: ""
             )
         },
         trailingContent = {

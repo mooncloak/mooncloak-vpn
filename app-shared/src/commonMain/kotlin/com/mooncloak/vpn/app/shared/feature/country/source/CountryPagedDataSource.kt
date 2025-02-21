@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.country.source
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.kodetools.locale.Country
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
@@ -8,7 +9,6 @@ import com.mooncloak.kodetools.pagex.PageLoadResult
 import com.mooncloak.kodetools.pagex.PageRequest
 import com.mooncloak.kodetools.pagex.PagedDataSource
 import com.mooncloak.kodetools.pagex.emptyPage
-import com.mooncloak.vpn.app.shared.api.location.Country
 import com.mooncloak.vpn.app.shared.api.location.CountryFilters
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import kotlin.uuid.ExperimentalUuidApi

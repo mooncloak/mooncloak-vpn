@@ -1,8 +1,8 @@
 package com.mooncloak.vpn.app.shared.api.server
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.vpn.app.shared.api.location.Country
-import com.mooncloak.vpn.app.shared.api.location.Region
+import com.mooncloak.kodetools.locale.Country
+import com.mooncloak.kodetools.locale.Region
 import com.mooncloak.vpn.app.shared.api.vpn.VPNProtocol
 import com.mooncloak.vpn.app.shared.storage.database.MooncloakDatabaseProvider
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase

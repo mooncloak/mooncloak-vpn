@@ -21,7 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.api.location.Region
+import com.mooncloak.kodetools.locale.Region
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.composable.FlagImage
 import com.mooncloak.vpn.app.shared.composable.ModalNavigationBottomSheet
@@ -51,8 +51,8 @@ internal fun CountryListBottomSheet(
             CountryListBottomSheetHeader(
                 modifier = Modifier.fillMaxWidth(),
                 title = when (destination) {
-                    is CountryListBottomSheetDestination.RegionList -> destination.country.name
-                    is CountryListBottomSheetDestination.ServerList -> destination.country.name
+                    is CountryListBottomSheetDestination.RegionList -> destination.country.name ?: ""
+                    is CountryListBottomSheetDestination.ServerList -> destination.country.name ?: ""
                 },
                 supporting = when (destination) {
                     is CountryListBottomSheetDestination.RegionList -> null

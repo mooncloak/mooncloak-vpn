@@ -5,6 +5,8 @@ import com.mooncloak.kodetools.apix.core.ExperimentalApixApi
 import com.mooncloak.kodetools.apix.core.HttpResponseBody
 import com.mooncloak.kodetools.apix.core.getOrThrow
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.kodetools.locale.Country
+import com.mooncloak.kodetools.locale.CountryCode
 import com.mooncloak.kodetools.pagex.Cursor
 import com.mooncloak.kodetools.pagex.Direction
 import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
@@ -20,8 +22,6 @@ import com.mooncloak.vpn.app.shared.api.billing.GetPaymentStatusRequestBody
 import com.mooncloak.vpn.app.shared.api.billing.PlanPaymentStatus
 import com.mooncloak.vpn.app.shared.api.billing.ProofOfPurchase
 import com.mooncloak.vpn.app.shared.api.key.Base64Key
-import com.mooncloak.vpn.app.shared.api.location.Country
-import com.mooncloak.vpn.app.shared.api.location.CountryCode
 import com.mooncloak.vpn.app.shared.api.location.CountryFilters
 import com.mooncloak.vpn.app.shared.api.plan.AvailablePlans
 import com.mooncloak.vpn.app.shared.api.plan.Plan
