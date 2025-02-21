@@ -9,6 +9,8 @@ import com.mooncloak.vpn.app.shared.api.vpn.VPNProtocol
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Represents a mooncloak VPN server.
@@ -41,10 +43,11 @@ import kotlinx.serialization.Serializable
  *
  * @property [requiresSubscription] Whether connecting to this server requires a subscription or not.
  */
+@OptIn(ExperimentalUuidApi::class)
 @Immutable
 @Serializable
 public data class Server public constructor(
-    @SerialName(value = "id") public val id: String,
+    @SerialName(value = "id") public val id: String = Uuid.random().toHexString(),
     @SerialName(value = "name") public val name: String,
     @SerialName(value = "country") public val country: Country? = null,
     @SerialName(value = "region") public val region: Region? = null,
@@ -95,6 +98,30 @@ public inline fun Server.requireWireGuardEndpoint(): String {
 }
 
 /**
+ * Determines whether the [Server.status] [ServerStatus] value represents a connectable server state. The following
+ * conditions are handled:
+ *
+ * - The [Server.status] value is `null`, meaning the [Server] is in an "undefined" state, so we default to returning
+ * `true` to allow connection attempts.
+ * - The [ServerStatus.active] value is `false`, so `false` is returned. If the [Server] is no longer active, it cannot
+ * be connected to.
+ * - The [ServerStatus.connectable] value is `false`, so `false` is returned. If the [Server] is active, but in a not
+ * connectable state, then it cannot be connected to.
+ * - Otherwise `true` is returned.
+ *
+ * > [!Note]
+ * > This does not alone determine whether a [Server] can be connected to. Other conditions have to be considered. This
+ * > just checks if the [Server] is in a "connectable state", but doesn't take into other conditions, such as whether a
+ * > subscription is required and the current subscription of the user.
+ *
+ * @return `true` if this [Server] is in a "connectable state", `false` otherwise.
+ *
+ * @see [Server.isConnectable] For whether a [Server] can be connected to.
+ */
+public fun Server.isStatusConnectable(): Boolean =
+    (this.status == null || (this.status.active && this.status.connectable))
+
+/**
  * Determines whether the current user can connection to this VPN [Server].
  *
  * @param [hasSubscription] Whether the user has a valid subscription or not.
@@ -102,4 +129,6 @@ public inline fun Server.requireWireGuardEndpoint(): String {
  * @return `true` if a connection to the VPN server can be made, `false` otherwise.
  */
 public fun Server.isConnectable(hasSubscription: Boolean): Boolean =
-    (ipAddress != null && publicKey != null) && (!requiresSubscription || hasSubscription)
+    this.isStatusConnectable() &&
+            (ipAddress != null && publicKey != null) &&
+            (!requiresSubscription || hasSubscription)

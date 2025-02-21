@@ -16,10 +16,12 @@ import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.getString
@@ -54,9 +56,9 @@ public class ServerListViewModel @Inject public constructor(
                 .launchIn(coroutineScope)
 
             subscriptionJob?.cancel()
-            subscriptionJob = subscriptionStorage.subscription.flow
+            subscriptionJob = flowOf(subscriptionStorage.subscription.flow.value)
+                .onCompletion { emitAll(subscriptionStorage.subscription.flow) }
                 .onEach { subscription -> emit { current -> current.copy(subscription = subscription) } }
-                .onStart { emit { current -> current.copy(subscription = subscriptionStorage.subscription.current.value) } }
                 .catch { e -> LogPile.error(message = "Error listening to subscription changes.", cause = e) }
                 .flowOn(Dispatchers.Main)
                 .launchIn(coroutineScope)

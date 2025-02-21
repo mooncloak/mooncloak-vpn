@@ -13,3 +13,7 @@ public data class ServerListStateModel public constructor(
     public val isLoading: Boolean = false,
     public val errorMessage: String? = null
 )
+
+@Suppress("NOTHING_TO_INLINE")
+public inline fun ServerListStateModel.hasSubscription(): Boolean =
+    this.subscription != null

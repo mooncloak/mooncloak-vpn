@@ -124,18 +124,20 @@ public fun ServerListScreen(
                 ) { server ->
                     val connection = viewModel.state.current.value.connection
 
+                    println("state: subscription: ${viewModel.state.current.value.subscription}")
+
                     ServerListItem(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
-                            .clickable(enabled = server.status?.active == true && server.status.connectable) {
+                            .clickable(enabled = server.isConnectable(hasSubscription = viewModel.state.current.value.hasSubscription())) {
                                 onConnect.invoke(server)
                             },
                         server = server,
-                        connected = connection.isConnected() && connection.connectedTo(server),
+                        connected = connection.connectedTo(server),
                         onConnect = {
                             coroutineScope.launch {
-                                if (server.isConnectable(hasSubscription = viewModel.state.current.value.subscription != null) || viewModel.state.current.value.connection.isConnected()) {
+                                if (server.isConnectable(hasSubscription = viewModel.state.current.value.hasSubscription()) || viewModel.state.current.value.connection.isConnected()) {
                                     bottomSheetState.show(ServerListBottomSheetDestination.ServerConnection(server = server))
                                 } else {
                                     bottomSheetState.show(ServerListBottomSheetDestination.Payment)
