@@ -39,6 +39,7 @@ import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomShee
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.NoServersCard
+import com.mooncloak.vpn.app.shared.feature.server.list.composable.PreReleaseNoticeCard
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.ServerListBottomSheet
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.ServerListItem
 import com.mooncloak.vpn.app.shared.feature.server.list.di.createServerListComponent
@@ -148,6 +149,15 @@ public fun ServerListScreen(
                             }
                         }
                     )
+                }
+
+                if (viewModel.state.current.value.isPreRelease) {
+                    item(key = "PreReleaseNoticeCard") {
+                        PreReleaseNoticeCard(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                        )
+                    }
                 }
 
                 item(key = "BottomSpacing") {

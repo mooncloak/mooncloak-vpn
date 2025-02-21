@@ -10,6 +10,7 @@ import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
+import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
@@ -31,7 +32,8 @@ import org.jetbrains.compose.resources.getString
 public class ServerListViewModel @Inject public constructor(
     private val api: MooncloakVpnServiceHttpApi,
     private val subscriptionStorage: SubscriptionStorage,
-    private val serverConnectionManager: VPNConnectionManager
+    private val serverConnectionManager: VPNConnectionManager,
+    private val appClientInfo: AppClientInfo
 ) : ViewModel<ServerListStateModel>(initialStateValue = ServerListStateModel()) {
 
     private var connectionJob: Job? = null
@@ -73,21 +75,22 @@ public class ServerListViewModel @Inject public constructor(
                     )
                 }
 
-                emit(
-                    value = state.current.value.copy(
+                emit { current ->
+                    current.copy(
                         isLoading = false,
-                        servers = servers.items
+                        servers = servers.items,
+                        isPreRelease = appClientInfo.isPreRelease
                     )
-                )
+                }
             } catch (e: Exception) {
                 LogPile.error(message = "Error loading servers.", cause = e)
 
-                emit(
-                    value = state.current.value.copy(
+                emit { current ->
+                    current.copy(
                         isLoading = false,
                         errorMessage = getString(Res.string.global_unexpected_error)
                     )
-                )
+                }
             }
         }
     }

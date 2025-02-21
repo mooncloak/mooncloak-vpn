@@ -115,6 +115,9 @@
     <string name="server_list_title_no_servers">Unexpected error loading VPN servers</string>
     <string name="server_list_description_no_servers">There was an unexpected error attempting to load the VPN server list. Please try again later. If the error persists, contact support.</string>
 
+    <string name="server_list_pre_release_title">More servers coming soon!</string>
+    <string name="server_list_pre_release_description">You're currently enjoying a pre-release version of our app! Once we’ve smoothed out the kinks and launch the first official version, we’ll be rolling out even more VPN servers for you!</string>
+
     <string name="settings_group_legal">Legal</string>
     <string name="settings_title_privacy_policy">Privacy Policy</string>
     <string name="settings_title_terms">Terms and Conditions</string>
