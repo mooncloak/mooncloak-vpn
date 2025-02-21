@@ -213,6 +213,11 @@
     <string name="payment_error_no_plans_title">No Plan Data</string>
     <string name="payment_error_no_plans_description">There was an error loading plans. Please try again later.</string>
 
+    <string name="payment_error_title">Error with payment</string>
+
+    <string name="payment_success_title">Payment Successful</string>
+    <string name="payment_success_description">Payment received - Thank you! You're all set to start protecting your data!</string>
+
     <string name="payment_history_title">Transaction History</string>
     <string name="payment_history_description">Information about your previous purchases.</string>
     <string name="payment_history_receipt_label_transaction_token">Transaction Token</string>

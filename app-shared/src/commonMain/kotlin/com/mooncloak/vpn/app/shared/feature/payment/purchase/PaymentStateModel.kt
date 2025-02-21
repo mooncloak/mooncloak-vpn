@@ -19,6 +19,6 @@ public data class PaymentStateModel public constructor(
     public val noticeText: String? = null,
     public val invoice: BitcoinPlanInvoice? = null,
     public val paymentStatus: PlanPaymentStatus? = null,
-    public val isLoading: Boolean = false,
+    public val isLoading: Boolean = true,
     public val errorMessage: String? = null
 )

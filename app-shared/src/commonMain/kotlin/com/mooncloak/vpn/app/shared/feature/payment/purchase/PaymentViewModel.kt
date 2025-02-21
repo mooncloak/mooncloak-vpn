@@ -120,7 +120,7 @@ public class PaymentViewModel @Inject public constructor(
         }
     }
 
-    public fun createInvoice() {
+    public fun purchase() {
         coroutineScope.launch {
             mutex.withLock {
                 try {

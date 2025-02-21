@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun BottomSheetLayout(
-    title: String,
+    title: String? = null,
     description: String? = null,
     modifier: Modifier = Modifier,
     loadingState: State<Boolean> = mutableStateOf(false),

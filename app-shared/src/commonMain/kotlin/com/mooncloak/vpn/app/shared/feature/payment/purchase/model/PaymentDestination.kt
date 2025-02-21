@@ -17,4 +17,16 @@ public sealed interface PaymentDestination {
     @Serializable
     @SerialName(value = "tutorial")
     public data object Invoice : PaymentDestination
+
+    @Immutable
+    @Serializable
+    @SerialName(value = "payment_success")
+    public data object PaymentSuccess : PaymentDestination
+
+    @Immutable
+    @Serializable
+    @SerialName(value = "payment_error")
+    public data class PaymentError public constructor(
+        public val message: String? = null
+    ) : PaymentDestination
 }

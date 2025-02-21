@@ -13,7 +13,7 @@ import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 
 @Composable
 internal fun BottomSheetHeader(
-    title: String,
+    title: String? = null,
     description: String? = null,
     modifier: Modifier = Modifier,
     includeHorizontalPadding: Boolean = true
@@ -22,12 +22,14 @@ internal fun BottomSheetHeader(
         modifier = modifier,
         horizontalAlignment = Alignment.Start
     ) {
-        Text(
-            modifier = Modifier.fillMaxWidth()
-                .padding(horizontal = if (includeHorizontalPadding) 16.dp else 0.dp),
-            text = title,
-            style = MaterialTheme.typography.titleLarge
-        )
+        if (!title.isNullOrBlank()) {
+            Text(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = if (includeHorizontalPadding) 16.dp else 0.dp),
+                text = title,
+                style = MaterialTheme.typography.titleLarge
+            )
+        }
 
         if (!description.isNullOrBlank()) {
             Text(
