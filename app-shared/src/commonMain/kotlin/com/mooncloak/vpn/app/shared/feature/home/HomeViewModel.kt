@@ -47,8 +47,11 @@ import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -111,6 +114,7 @@ public class HomeViewModel @Inject public constructor(
     private val mutex = Mutex(locked = false)
 
     private var connectionJob: Job? = null
+    private var subscriptionJob: Job? = null
 
     public fun load() {
         coroutineScope.launch {
@@ -136,6 +140,26 @@ public class HomeViewModel @Inject public constructor(
                 .flowOn(Dispatchers.Main)
                 .launchIn(coroutineScope)
 
+            subscriptionJob?.cancel()
+            subscriptionJob = flowOf(subscriptionStorage.subscription.flow.value)
+                .onCompletion { emitAll(subscriptionStorage.subscription.flow) }
+                .onEach { subscription ->
+                    emit { current ->
+                        val updatedItems = getFeedItems(
+                            hasSubscription = subscription != null,
+                            connection = current.connection
+                        )
+
+                        current.copy(
+                            subscription = subscription,
+                            items = updatedItems
+                        )
+                    }
+                }
+                .catch { e -> LogPile.error(message = "Error listening to subscription changes.", cause = e) }
+                .flowOn(Dispatchers.Main)
+                .launchIn(coroutineScope)
+
             var subscription: ServiceSubscription? = null
             var localNetworkInfo: LocalNetworkInfo? = null
             var deviceIpAddress: String? = null
@@ -152,8 +176,8 @@ public class HomeViewModel @Inject public constructor(
                     connection = state.current.value.connection
                 )
 
-                emit(
-                    value = state.current.value.copy(
+                emit { current ->
+                    current.copy(
                         subscription = subscription,
                         localNetwork = localNetworkInfo,
                         deviceIpAddress = deviceIpAddress,
@@ -161,12 +185,12 @@ public class HomeViewModel @Inject public constructor(
                         isLoading = false,
                         isCheckingStatus = false
                     )
-                )
+                }
             } catch (e: Exception) {
                 LogPile.error(message = "Error loading home state.", cause = e)
 
-                emit(
-                    value = state.current.value.copy(
+                emit { current ->
+                    current.copy(
                         subscription = subscription,
                         localNetwork = localNetworkInfo,
                         deviceIpAddress = deviceIpAddress,
@@ -174,7 +198,7 @@ public class HomeViewModel @Inject public constructor(
                         isCheckingStatus = false,
                         errorMessage = getString(Res.string.global_unexpected_error)
                     )
-                )
+                }
             }
         }
     }
@@ -193,12 +217,12 @@ public class HomeViewModel @Inject public constructor(
                 } catch (e: Exception) {
                     LogPile.error(message = "Error connecting to VPN server.", cause = e)
 
-                    emit(
-                        value = state.current.value.copy(
+                    emit { current ->
+                        current.copy(
                             isLoading = false,
                             errorMessage = getString(Res.string.global_unexpected_error)
                         )
-                    )
+                    }
                 }
             }
         }
