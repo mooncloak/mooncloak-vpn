@@ -69,8 +69,8 @@ public class PaymentViewModel @Inject public constructor(
                     // TODO: Obtain current plan invoice
                     // TODO: Use presence of plan invoice to determine whether to show plans or invoice screen
 
-                    emit(
-                        value = state.current.value.copy(
+                    emit { current ->
+                        current.copy(
                             isLoading = false,
                             errorMessage = null,
                             termsAndConditionsText = termsAndConditionsText,
@@ -78,19 +78,19 @@ public class PaymentViewModel @Inject public constructor(
                             startDestination = PaymentDestination.Plans, // TODO:
                             screenTitle = getString(Res.string.payment_plans_title)
                         )
-                    )
+                    }
                 } catch (e: Exception) {
                     LogPile.error(message = "Error loading data.", cause = e)
 
-                    emit(
-                        value = state.current.value.copy(
+                    emit { current ->
+                        current.copy(
                             isLoading = false,
                             errorMessage = e.message ?: getString(Res.string.global_unexpected_error),
                             termsAndConditionsText = termsAndConditionsText,
                             noticeText = noticeText,
                             startDestination = PaymentDestination.Plans
                         )
-                    )
+                    }
                 }
             }
         }
@@ -99,11 +99,11 @@ public class PaymentViewModel @Inject public constructor(
     public fun selectPlan(plan: Plan) {
         coroutineScope.launch {
             mutex.withLock {
-                emit(
-                    value = state.current.value.copy(
+                emit { current ->
+                    current.copy(
                         selectedPlan = if (plan == state.current.value.selectedPlan) null else plan
                     )
-                )
+                }
             }
         }
     }
@@ -111,11 +111,11 @@ public class PaymentViewModel @Inject public constructor(
     public fun toggleAcceptTerms(accepted: Boolean) {
         coroutineScope.launch {
             mutex.withLock {
-                emit(
-                    value = state.current.value.copy(
+                emit { current ->
+                    current.copy(
                         acceptedTerms = accepted
                     )
-                )
+                }
             }
         }
     }
@@ -130,12 +130,12 @@ public class PaymentViewModel @Inject public constructor(
                 } catch (e: Exception) {
                     LogPile.error(message = "Error creating invoice.", cause = e)
 
-                    emit(
-                        value = state.current.value.copy(
+                    emit { current ->
+                        current.copy(
                             isLoading = false,
                             errorMessage = e.message ?: getString(Res.string.global_unexpected_error)
                         )
-                    )
+                    }
                 }
             }
         }
