@@ -1,20 +1,26 @@
 package com.mooncloak.vpn.app.shared.api.network
 
+import com.mooncloak.kodetools.logpile.core.LogPile
+import com.mooncloak.kodetools.logpile.core.warning
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import kotlinx.datetime.Clock
-import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 public operator fun DeviceIPAddressProvider.Companion.invoke(
     mooncloakApi: MooncloakVpnServiceHttpApi,
-    clock: Clock = Clock.System
+    clock: Clock = Clock.System,
+    cachePeriod: Duration = 30.seconds
 ): DeviceIPAddressProvider = JvmDeviceIpAddressProvider(
     mooncloakApi = mooncloakApi,
-    clock = clock
+    clock = clock,
+    cachePeriod = cachePeriod
 )
 
 internal class JvmDeviceIpAddressProvider internal constructor(
     private val mooncloakApi: MooncloakVpnServiceHttpApi,
-    private val clock: Clock
+    private val clock: Clock,
+    private val cachePeriod: Duration
 ) : DeviceIPAddressProvider {
 
     private var cachedAt = clock.now()
@@ -23,7 +29,7 @@ internal class JvmDeviceIpAddressProvider internal constructor(
     override suspend fun get(): String? {
         val ipAddress = cachedIpAddress
 
-        val expiration = cachedAt + 5.minutes
+        val expiration = cachedAt + cachePeriod
 
         if (ipAddress != null && expiration < clock.now()) {
             return ipAddress
@@ -33,7 +39,15 @@ internal class JvmDeviceIpAddressProvider internal constructor(
     }
 
     private suspend fun getFresh(): String? {
-        val ipAddress = mooncloakApi.getReflection().ipAddress
+        val result = runCatching { mooncloakApi.getReflection().ipAddress }
+        val ipAddress = result.getOrNull()
+
+        if (result.isFailure) {
+            LogPile.warning(
+                message = "Error retrieving public IP address.",
+                cause = result.exceptionOrNull()
+            )
+        }
 
         cachedAt = clock.now()
         cachedIpAddress = ipAddress

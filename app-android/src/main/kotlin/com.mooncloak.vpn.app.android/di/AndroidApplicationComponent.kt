@@ -10,6 +10,7 @@ import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
 import com.mooncloak.vpn.app.shared.util.notification.invoke
+import kotlinx.datetime.Clock
 
 public abstract class AndroidApplicationComponent public constructor() : ApplicationComponent() {
 
@@ -24,10 +25,12 @@ public abstract class AndroidApplicationComponent public constructor() : Applica
     @Singleton
     internal fun provideDeviceIpAddressProvider(
         context: ApplicationContext,
-        mooncloakApi: MooncloakVpnServiceHttpApi
+        mooncloakApi: MooncloakVpnServiceHttpApi,
+        clock: Clock
     ): DeviceIPAddressProvider =
         DeviceIPAddressProvider(
             context = context,
-            mooncloakApi = mooncloakApi
+            mooncloakApi = mooncloakApi,
+            clock = clock
         )
 }

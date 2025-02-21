@@ -124,8 +124,6 @@ public fun ServerListScreen(
                 ) { server ->
                     val connection = viewModel.state.current.value.connection
 
-                    println("state: subscription: ${viewModel.state.current.value.subscription}")
-
                     ServerListItem(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth()
