@@ -35,7 +35,8 @@ internal fun PaymentSuccessLayout(
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 32.dp)
         ) {
             GenericHeaderGraphic(
                 modifier = Modifier.size(64.dp)
@@ -46,14 +47,16 @@ internal fun PaymentSuccessLayout(
             )
 
             Text(
-                modifier = Modifier.padding(top = 16.dp),
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top = 32.dp),
                 text = stringResource(Res.string.payment_success_title),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center
             )
 
             Text(
-                modifier = Modifier.padding(top = 8.dp),
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top = 8.dp),
                 text = stringResource(Res.string.payment_success_description),
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = MaterialTheme.colorScheme.onSurface.copy(

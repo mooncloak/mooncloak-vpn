@@ -36,7 +36,8 @@ internal fun PaymentErrorLayout(
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 32.dp)
         ) {
             GenericHeaderGraphic(
                 modifier = Modifier.size(64.dp)
@@ -45,14 +46,16 @@ internal fun PaymentErrorLayout(
             )
 
             Text(
-                modifier = Modifier.padding(top = 16.dp),
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top = 32.dp),
                 text = stringResource(Res.string.payment_error_title),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center
             )
 
             Text(
-                modifier = Modifier.padding(top = 8.dp),
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top = 8.dp),
                 text = message?.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_unexpected_error),
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = MaterialTheme.colorScheme.onSurface.copy(

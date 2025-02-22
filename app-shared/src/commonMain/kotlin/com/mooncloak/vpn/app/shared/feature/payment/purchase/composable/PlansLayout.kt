@@ -31,6 +31,7 @@ internal fun PlansLayout(
     plans: List<Plan>,
     acceptedTerms: Boolean,
     loading: Boolean,
+    purchasing: Boolean,
     noticeText: String?,
     termsAndConditionsText: AnnotatedString,
     onPlanSelected: (plan: Plan) -> Unit,
@@ -107,7 +108,7 @@ internal fun PlansLayout(
                 Button(
                     modifier = Modifier.fillMaxWidth()
                         .padding(vertical = 32.dp),
-                    enabled = selectedPlan != null && acceptedTerms,
+                    enabled = selectedPlan != null && acceptedTerms && !purchasing,
                     onClick = onSelect
                 ) {
                     Text(text = stringResource(Res.string.payment_action_select))

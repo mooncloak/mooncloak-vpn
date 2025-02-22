@@ -18,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import com.mooncloak.vpn.app.shared.api.billing.PlanPaymentStatus
 import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
@@ -53,14 +52,14 @@ public fun PaymentScreen(
     BottomSheetLayout(
         modifier = modifier.animateContentSize(),
         title = viewModel.state.current.value.screenTitle,
-        loadingState = derivedStateOf { viewModel.state.current.value.isLoading }
+        loadingState = derivedStateOf { viewModel.state.current.value.isLoading || viewModel.state.current.value.isPurchasing }
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AnimatedContent(
-                targetState = viewModel.state.current.value.startDestination,
+                targetState = viewModel.state.current.value.destination,
                 transitionSpec = {
                     (fadeIn(animationSpec = tween(220, delayMillis = 90)))
                         .togetherWith(fadeOut(animationSpec = tween(90)))
@@ -75,6 +74,7 @@ public fun PaymentScreen(
                             plans = viewModel.state.current.value.plans,
                             acceptedTerms = viewModel.state.current.value.acceptedTerms,
                             loading = viewModel.state.current.value.isLoading,
+                            purchasing = viewModel.state.current.value.isPurchasing,
                             noticeText = viewModel.state.current.value.noticeText,
                             termsAndConditionsText = viewModel.state.current.value.termsAndConditionsText.invoke(),
                             onPlanSelected = { plan ->

@@ -13,6 +13,8 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.app.shared.api.billing.BillingManager
+import com.mooncloak.vpn.app.shared.api.billing.isFailure
+import com.mooncloak.vpn.app.shared.api.billing.isSuccess
 import com.mooncloak.vpn.app.shared.api.plan.Plan
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansProvider
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
@@ -75,7 +77,7 @@ public class PaymentViewModel @Inject public constructor(
                             errorMessage = null,
                             termsAndConditionsText = termsAndConditionsText,
                             noticeText = noticeText,
-                            startDestination = PaymentDestination.Plans, // TODO:
+                            destination = PaymentDestination.Plans, // TODO:
                             screenTitle = getString(Res.string.payment_plans_title)
                         )
                     }
@@ -88,7 +90,7 @@ public class PaymentViewModel @Inject public constructor(
                             errorMessage = e.message ?: getString(Res.string.global_unexpected_error),
                             termsAndConditionsText = termsAndConditionsText,
                             noticeText = noticeText,
-                            startDestination = PaymentDestination.Plans
+                            destination = PaymentDestination.Plans
                         )
                     }
                 }
@@ -125,16 +127,39 @@ public class PaymentViewModel @Inject public constructor(
             mutex.withLock {
                 try {
                     state.current.value.selectedPlan?.let { plan ->
+                        emit { current ->
+                            current.copy(
+                                isPurchasing = true
+                            )
+                        }
+
                         val result = billingManager.purchase(plan)
 
-                        // TODO: Handle purchase result.
+                        emit { current ->
+                            val destination = when {
+                                result.isSuccess() -> PaymentDestination.PaymentSuccess
+                                result.isFailure() -> PaymentDestination.PaymentError(
+                                    message = result.message
+                                )
+
+                                else -> current.destination
+                            }
+
+                            current.copy(
+                                isLoading = false,
+                                isPurchasing = false,
+                                screenTitle = null,
+                                destination = destination
+                            )
+                        }
                     }
                 } catch (e: Exception) {
-                    LogPile.error(message = "Error creating invoice.", cause = e)
+                    LogPile.error(message = "Error purchasing plan.", cause = e)
 
                     emit { current ->
                         current.copy(
                             isLoading = false,
+                            isPurchasing = false,
                             errorMessage = e.message ?: getString(Res.string.global_unexpected_error)
                         )
                     }

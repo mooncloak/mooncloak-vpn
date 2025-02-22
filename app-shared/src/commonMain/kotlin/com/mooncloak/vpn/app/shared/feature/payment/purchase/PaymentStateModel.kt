@@ -11,7 +11,7 @@ import com.mooncloak.vpn.app.shared.feature.payment.purchase.model.PaymentDestin
 @Immutable
 public data class PaymentStateModel public constructor(
     public val screenTitle: String? = null,
-    public val startDestination: PaymentDestination? = null,
+    public val destination: PaymentDestination? = null,
     public val selectedPlan: Plan? = null,
     public val plans: List<Plan> = emptyList(),
     public val acceptedTerms: Boolean = false,
@@ -20,5 +20,6 @@ public data class PaymentStateModel public constructor(
     public val invoice: BitcoinPlanInvoice? = null,
     public val paymentStatus: PlanPaymentStatus? = null,
     public val isLoading: Boolean = true,
+    public val isPurchasing: Boolean = false,
     public val errorMessage: String? = null
 )
