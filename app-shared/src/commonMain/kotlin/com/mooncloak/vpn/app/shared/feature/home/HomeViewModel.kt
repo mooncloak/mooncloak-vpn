@@ -15,6 +15,7 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
+import com.mooncloak.vpn.app.shared.api.billing.usecase.GetServiceSubscriptionFlowUseCase
 import com.mooncloak.vpn.app.shared.api.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkInfo
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
@@ -67,7 +68,8 @@ public class HomeViewModel @Inject public constructor(
     private val subscriptionStorage: SubscriptionStorage,
     private val serverConnectionManager: VPNConnectionManager,
     private val localNetworkManager: LocalNetworkManager,
-    private val deviceIPAddressProvider: DeviceIPAddressProvider
+    private val deviceIPAddressProvider: DeviceIPAddressProvider,
+    private val getServiceSubscriptionFlow: GetServiceSubscriptionFlowUseCase
 ) : ViewModel<HomeStateModel>(initialStateValue = HomeStateModel()) {
 
     private val showcaseItems = listOf(
@@ -141,8 +143,7 @@ public class HomeViewModel @Inject public constructor(
                 .launchIn(coroutineScope)
 
             subscriptionJob?.cancel()
-            subscriptionJob = flowOf(subscriptionStorage.subscription.flow.value)
-                .onCompletion { emitAll(subscriptionStorage.subscription.flow) }
+            subscriptionJob = getServiceSubscriptionFlow()
                 .onEach { subscription ->
                     emit { current ->
                         val updatedItems = getFeedItems(
@@ -168,8 +169,6 @@ public class HomeViewModel @Inject public constructor(
                 subscription = subscriptionStorage.subscription.current.value
                 localNetworkInfo = localNetworkManager.getInfo()
                 deviceIpAddress = deviceIPAddressProvider.get()
-
-                // TODO: If the subscription model is null, but we have the tokens, load the updated subscription model from the cloud API.
 
                 val items = getFeedItems(
                     hasSubscription = subscription != null,

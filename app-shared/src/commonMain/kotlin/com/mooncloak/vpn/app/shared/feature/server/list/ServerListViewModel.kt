@@ -8,6 +8,7 @@ import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.app.shared.api.billing.usecase.GetServiceSubscriptionFlowUseCase
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
@@ -17,11 +18,8 @@ import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,7 +31,8 @@ public class ServerListViewModel @Inject public constructor(
     private val api: MooncloakVpnServiceHttpApi,
     private val subscriptionStorage: SubscriptionStorage,
     private val serverConnectionManager: VPNConnectionManager,
-    private val appClientInfo: AppClientInfo
+    private val appClientInfo: AppClientInfo,
+    private val getServiceSubscriptionFlow: GetServiceSubscriptionFlowUseCase
 ) : ViewModel<ServerListStateModel>(initialStateValue = ServerListStateModel()) {
 
     private var connectionJob: Job? = null
@@ -58,8 +57,7 @@ public class ServerListViewModel @Inject public constructor(
                 .launchIn(coroutineScope)
 
             subscriptionJob?.cancel()
-            subscriptionJob = flowOf(subscriptionStorage.subscription.flow.value)
-                .onCompletion { emitAll(subscriptionStorage.subscription.flow) }
+            subscriptionJob = getServiceSubscriptionFlow()
                 .onEach { subscription -> emit { current -> current.copy(subscription = subscription) } }
                 .catch { e -> LogPile.error(message = "Error listening to subscription changes.", cause = e) }
                 .flowOn(Dispatchers.Main)

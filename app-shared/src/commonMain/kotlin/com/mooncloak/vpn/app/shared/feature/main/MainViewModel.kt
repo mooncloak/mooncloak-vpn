@@ -8,21 +8,19 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
+import com.mooncloak.vpn.app.shared.api.billing.usecase.GetServiceSubscriptionFlowUseCase
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.server.connection.usecase.GetDefaultServerUseCase
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
-import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -32,9 +30,9 @@ import org.jetbrains.compose.resources.getString
 @FeatureScoped
 public class MainViewModel @Inject public constructor(
     private val navController: NavController,
-    private val subscriptionStorage: SubscriptionStorage,
     private val serverConnectionManager: VPNConnectionManager,
-    private val getDefaultServer: GetDefaultServerUseCase
+    private val getDefaultServer: GetDefaultServerUseCase,
+    private val getServiceSubscriptionFlow: GetServiceSubscriptionFlowUseCase
 ) : ViewModel<MainStateModel>(initialStateValue = MainStateModel()) {
 
     private val mutex = Mutex(locked = false)
@@ -42,7 +40,6 @@ public class MainViewModel @Inject public constructor(
     private var subscriptionJob: Job? = null
     private var serverConnectionJob: Job? = null
 
-    @OptIn(ExperimentalPersistentStateAPI::class)
     public fun load() {
         coroutineScope.launch {
             try {
@@ -61,9 +58,8 @@ public class MainViewModel @Inject public constructor(
             }
 
             subscriptionJob?.cancel()
-            subscriptionJob = subscriptionStorage.subscription.flow
+            subscriptionJob = getServiceSubscriptionFlow()
                 .onEach { subscription -> emit { current -> current.copy(subscription = subscription) } }
-                .onStart { emit { current -> current.copy(subscription = subscriptionStorage.subscription.current.value) } }
                 .catch { e -> LogPile.error(message = "Error listening to subscription changes.", cause = e) }
                 .flowOn(Dispatchers.Main)
                 .launchIn(coroutineScope)
