@@ -145,9 +145,7 @@ public class SubscriptionViewModel @Inject public constructor(
     private suspend fun loadUsage(token: Token?) {
         try {
             if (token != null) {
-                val usage = withContext(Dispatchers.IO) {
-                    api.getCurrentSubscriptionUsage(token = token)
-                }
+                val usage = api.getCurrentSubscriptionUsage(token = token)
 
                 emit { current ->
                     current.copy(usage = usage)

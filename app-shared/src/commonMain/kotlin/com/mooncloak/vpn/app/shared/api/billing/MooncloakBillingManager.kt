@@ -91,9 +91,7 @@ public class MooncloakBillingManager @Inject public constructor(
     }
 
     private suspend fun getTokens(receipt: ProofOfPurchase): ServiceTokens {
-        val tokens = withContext(Dispatchers.IO) {
-            api.exchangeToken(receipt = receipt)
-        }
+        val tokens = api.exchangeToken(receipt = receipt)
 
         serviceTokensRepository.add(tokens)
 
@@ -102,9 +100,7 @@ public class MooncloakBillingManager @Inject public constructor(
 
     @OptIn(ExperimentalPersistentStateAPI::class)
     private suspend fun getSubscription(tokens: ServiceTokens): ServiceSubscription {
-        val subscription = withContext(Dispatchers.IO) {
-            api.getCurrentSubscription(token = tokens.accessToken)
-        }
+        val subscription = api.getCurrentSubscription(token = tokens.accessToken)
 
         subscriptionStorage.subscription.update(subscription)
 

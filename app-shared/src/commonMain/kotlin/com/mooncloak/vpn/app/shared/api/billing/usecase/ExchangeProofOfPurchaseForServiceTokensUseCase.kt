@@ -5,8 +5,6 @@ import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.billing.ProofOfPurchase
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokens
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 public class ExchangeProofOfPurchaseForServiceTokensUseCase @Inject public constructor(
     private val api: MooncloakVpnServiceHttpApi,
@@ -14,9 +12,7 @@ public class ExchangeProofOfPurchaseForServiceTokensUseCase @Inject public const
 ) {
 
     public suspend operator fun invoke(proof: ProofOfPurchase): ServiceTokens {
-        val tokens = withContext(Dispatchers.IO) {
-            api.exchangeToken(receipt = proof)
-        }
+        val tokens = api.exchangeToken(receipt = proof)
 
         serviceTokensRepository.add(tokens)
 

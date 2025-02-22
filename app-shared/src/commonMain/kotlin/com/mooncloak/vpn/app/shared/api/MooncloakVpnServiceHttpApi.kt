@@ -48,6 +48,8 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalApixApi::class)
 public class MooncloakVpnServiceHttpApi @Inject public constructor(
@@ -55,24 +57,24 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
 ) {
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getReflection(): HttpReflection {
+    public suspend fun getReflection(): HttpReflection = withContext(Dispatchers.IO) {
         val response = httpClient.get("https://mooncloak.com/api/mirror")
 
-        return response.body<HttpResponseBody<HttpReflection>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<HttpReflection>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getAvailablePlans(): AvailablePlans {
+    public suspend fun getAvailablePlans(): AvailablePlans = withContext(Dispatchers.IO) {
         val response = httpClient.get("https://mooncloak.com/api/billing/plans")
 
-        return response.body<HttpResponseBody<AvailablePlans>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<AvailablePlans>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getPlan(id: String): Plan {
+    public suspend fun getPlan(id: String): Plan = withContext(Dispatchers.IO) {
         val response = httpClient.get("https://mooncloak.com/api/billing/plan/$id")
 
-        return response.body<HttpResponseBody<Plan>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<Plan>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
@@ -80,7 +82,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         planId: String,
         secret: String? = null,
         token: Token? = null
-    ): BitcoinPlanInvoice {
+    ): BitcoinPlanInvoice = withContext(Dispatchers.IO) {
         val response = httpClient.post("https://mooncloak.com/api/vpn/payment/invoice") {
             token?.value?.let { bearerAuth(it) }
 
@@ -95,7 +97,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
             )
         }
 
-        return response.body<HttpResponseBody<BitcoinPlanInvoice>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<BitcoinPlanInvoice>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
@@ -103,7 +105,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         paymentId: String,
         token: TransactionToken,
         secret: String? = null
-    ): PlanPaymentStatus {
+    ): PlanPaymentStatus = withContext(Dispatchers.IO) {
         val response = httpClient.post("https://mooncloak.com/api/vpn/payment/status") {
             bearerAuth(token.value)
 
@@ -118,7 +120,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
             )
         }
 
-        return response.body<HttpResponseBody<PlanPaymentStatus>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<PlanPaymentStatus>>().getOrThrow()
     }
 
     /**
@@ -130,7 +132,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun exchangeToken(
         receipt: ProofOfPurchase
-    ): ServiceTokens {
+    ): ServiceTokens = withContext(Dispatchers.IO) {
         val response = httpClient.post("https://mooncloak.com/api/vpn/token/exchange") {
             contentType(ContentType.Application.Json)
             accept(ContentType.Application.Json)
@@ -138,24 +140,24 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
             setBody(receipt)
         }
 
-        return response.body<HttpResponseBody<ServiceTokens>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<ServiceTokens>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun refreshToken(
         refreshToken: Token
-    ): ServiceTokens {
+    ): ServiceTokens = withContext(Dispatchers.IO) {
         val response = httpClient.post("https://mooncloak.com/api/vpn/token/refresh") {
             bearerAuth(refreshToken.value)
         }
 
-        return response.body<HttpResponseBody<ServiceTokens>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<ServiceTokens>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun revokeToken(
         refreshToken: Token
-    ): Boolean {
+    ): Boolean = withContext(Dispatchers.IO) {
         val response = httpClient.post("https://mooncloak.com/api/vpn/token/revoke") {
             bearerAuth(refreshToken.value)
 
@@ -170,38 +172,38 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
             )
         }
 
-        return response.body<HttpResponseBody<RevokedTokenResponseBody>>().getOrThrow().success
+        return@withContext response.body<HttpResponseBody<RevokedTokenResponseBody>>().getOrThrow().success
     }
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getCurrentSubscription(
         token: Token
-    ): ServiceSubscription {
+    ): ServiceSubscription = withContext(Dispatchers.IO) {
         val response = httpClient.post("https://mooncloak.com/api/vpn/subscription") {
             bearerAuth(token.value)
         }
 
-        return response.body<HttpResponseBody<ServiceSubscription>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<ServiceSubscription>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getCurrentSubscriptionUsage(
         token: Token
-    ): ServiceSubscriptionUsage {
+    ): ServiceSubscriptionUsage = withContext(Dispatchers.IO) {
         val response = httpClient.post("https://mooncloak.com/api/vpn/subscription/usage") {
             bearerAuth(token.value)
         }
 
-        return response.body<HttpResponseBody<ServiceSubscriptionUsage>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<ServiceSubscriptionUsage>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getCountry(
         code: CountryCode
-    ): Country {
+    ): Country = withContext(Dispatchers.IO) {
         val response = httpClient.get("https://mooncloak.com/api/vpn/service/country/${code.value}")
 
-        return response.body<HttpResponseBody<Country>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<Country>>().getOrThrow()
     }
 
     @OptIn(ExperimentalPaginationAPI::class)
@@ -212,7 +214,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         count: UInt = DEFAULT_COUNT,
         sort: SortOptions? = null,
         filters: CountryFilters? = null
-    ): ResolvedPage<Country> {
+    ): ResolvedPage<Country> = withContext(Dispatchers.IO) {
         val pageRequest = PageRequest<String, CountryFilters>(
             data = null,
             direction = direction,
@@ -228,7 +230,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
             setBody(pageRequest)
         }
 
-        return response.body<HttpResponseBody<ResolvedPage<Country>>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<ResolvedPage<Country>>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
@@ -236,7 +238,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         serverId: String,
         clientPublicKey: Base64Key,
         token: Token?
-    ): RegisteredClient {
+    ): RegisteredClient = withContext(Dispatchers.IO) {
         val response = httpClient.post("https://mooncloak.com/api/vpn/service/client/register") {
             token?.value?.let { bearerAuth(it) }
 
@@ -250,19 +252,19 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
             )
         }
 
-        return response.body<HttpResponseBody<RegisteredClient>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<RegisteredClient>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getServer(
         id: String,
         token: Token? = null
-    ): Server {
+    ): Server = withContext(Dispatchers.IO) {
         val response = httpClient.get("https://mooncloak.com/api/vpn/service/server/$id") {
             token?.value?.let { bearerAuth(it) }
         }
 
-        return response.body<HttpResponseBody<Server>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<Server>>().getOrThrow()
     }
 
     @OptIn(ExperimentalPaginationAPI::class)
@@ -274,7 +276,7 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
         count: UInt = DEFAULT_COUNT,
         sort: SortOptions? = null,
         filters: ServerFilters? = null
-    ): ResolvedPage<Server> {
+    ): ResolvedPage<Server> = withContext(Dispatchers.IO) {
         val pageRequest = PageRequest<String, ServerFilters>(
             data = null,
             direction = direction,
@@ -293,20 +295,20 @@ public class MooncloakVpnServiceHttpApi @Inject public constructor(
             setBody(pageRequest)
         }
 
-        return response.body<HttpResponseBody<ResolvedPage<Server>>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<ResolvedPage<Server>>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getContributors(): CurrentContributors {
+    public suspend fun getContributors(): CurrentContributors = withContext(Dispatchers.IO) {
         val response = httpClient.get("https://mooncloak.com/api/vpn/app/contributor")
 
-        return response.body<HttpResponseBody<CurrentContributors>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<CurrentContributors>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getContributor(id: String): Contributor {
+    public suspend fun getContributor(id: String): Contributor = withContext(Dispatchers.IO) {
         val response = httpClient.get("https://mooncloak.com/api/vpn/app/contributor/$id")
 
-        return response.body<HttpResponseBody<Contributor>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<Contributor>>().getOrThrow()
     }
 }
