@@ -38,7 +38,7 @@ public class MooncloakBillingManager @Inject public constructor(
         isActive = false
     }
 
-    override suspend fun purchasePlan(plan: Plan) {
+    override suspend fun purchase(plan: Plan): BillingResult {
         val invoice = withContext(Dispatchers.IO) {
             api.getPaymentInvoice(
                 planId = plan.id,

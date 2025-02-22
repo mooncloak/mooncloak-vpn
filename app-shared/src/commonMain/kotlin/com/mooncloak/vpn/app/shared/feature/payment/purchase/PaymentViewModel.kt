@@ -125,7 +125,9 @@ public class PaymentViewModel @Inject public constructor(
             mutex.withLock {
                 try {
                     state.current.value.selectedPlan?.let { plan ->
-                        billingManager.purchasePlan(plan)
+                        val result = billingManager.purchase(plan)
+
+                        // TODO: Handle purchase result.
                     }
                 } catch (e: Exception) {
                     LogPile.error(message = "Error creating invoice.", cause = e)

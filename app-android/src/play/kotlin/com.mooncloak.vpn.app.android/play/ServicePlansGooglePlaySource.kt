@@ -12,7 +12,7 @@ import kotlinx.coroutines.coroutineScope
 
 internal class ServicePlansGooglePlaySource @Inject internal constructor(
     private val plansApiSource: ServicePlansApiSource,
-    private val getGooglePlayProductsFromPlanIds: GetGooglePlayProductsFromPlanIdsUseCase
+    private val googlePlayBillingManager: GooglePlayBillingManager
 ) : ServicePlansRepository {
 
     override suspend fun getPlans(): List<Plan> {
@@ -22,7 +22,7 @@ internal class ServicePlansGooglePlaySource @Inject internal constructor(
             plan.provider == BillingProvider.GooglePlay
         }.map { plan -> plan.id }
 
-        return getGooglePlayProductsFromPlanIds(planIds = googlePlayPlanIds).mapNotNull { product ->
+        return googlePlayBillingManager.getProductDetails(planIds = googlePlayPlanIds).mapNotNull { product ->
             // Override the billing details with the Google Play Information, just in case they become out of sync.
             plansById[product.productId]?.copy(product)
         }.sortedBy { plan -> plan.price.amount }
@@ -31,7 +31,8 @@ internal class ServicePlansGooglePlaySource @Inject internal constructor(
     override suspend fun getPlan(id: String): Plan =
         coroutineScope {
             val deferredPlan = async { plansApiSource.getPlan(id = id) }
-            val product = runCatching { getGooglePlayProductsFromPlanIds(planIds = listOf(id)).first() }.getOrNull()
+            val product =
+                runCatching { googlePlayBillingManager.getProductDetails(planIds = listOf(id)).first() }.getOrNull()
 
             if (product == null) {
                 throw NoSuchElementException("No Google Play Product with id '$id'.")
