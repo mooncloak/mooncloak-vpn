@@ -12,12 +12,13 @@ import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.url
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.encodedPath
 import io.ktor.http.isSuccess
 
 /**
  * A component that is invoked to authorize a previously unauthorized HTTP call.
  */
-public fun interface UnauthorizedInterceptor {
+public fun interface InterceptorAuthorizer {
 
     /**
      * A function that performs the authorization request. The function takes two parameters: the original
@@ -25,7 +26,28 @@ public fun interface UnauthorizedInterceptor {
      * [HttpClientCall] containing the response information from the authorization request. If an authorization request
      * should not be performed, this function can return the original [HttpClientCall] value.
      */
-    public suspend fun Sender.invoke(request: HttpRequestBuilder, original: HttpClientCall): HttpClientCall
+    public suspend fun Sender.authorize(request: HttpRequestBuilder, original: HttpClientCall): HttpClientCall
+
+    public companion object
+}
+
+public fun interface InterceptorRetry {
+
+    public suspend fun retry(authorized: HttpClientCall, original: HttpClientCall): Boolean
+
+    public companion object
+}
+
+public fun interface InterceptorApplier {
+
+    public suspend fun apply(request: HttpRequestBuilder): Boolean
+
+    public companion object
+}
+
+public interface UnauthorizedInterceptor : InterceptorAuthorizer,
+    InterceptorRetry,
+    InterceptorApplier {
 
     public companion object
 }
@@ -46,22 +68,22 @@ public fun interface UnauthorizedInterceptor {
  * pipeline. This allows conditionally applying retry logic. Defaults to retrying the original request if the
  * authorized request is considered successful according to the [HttpStatusCode.isSuccess] function.
  *
- * @param [authorize] An [UnauthorizedInterceptor] that performs the authorization request.
+ * @param [authorize] An [InterceptorAuthorizer] that performs the authorization request.
  *
  * @see [HttpSend] for more information about intercepting HTTP requests.
  */
 public fun HttpClient.interceptUnauthorized(
-    applies: (request: HttpRequestBuilder) -> Boolean = { true },
-    retry: (authorized: HttpClientCall, original: HttpClientCall) -> Boolean = { authorized, _ -> authorized.response.status.isSuccess() },
-    authorize: UnauthorizedInterceptor
+    applies: InterceptorApplier = InterceptorApplier { true },
+    retry: InterceptorRetry = InterceptorRetry { authorized, _ -> authorized.response.status.isSuccess() },
+    authorize: InterceptorAuthorizer
 ) {
     this.plugin(HttpSend).intercept { request ->
         val originalCall = execute(request)
 
-        if (applies.invoke(request) && originalCall.response.status == HttpStatusCode.Unauthorized) {
-            val authorizeCall = authorize.run { invoke(request, originalCall) }
+        if (applies.apply(request) && originalCall.response.status == HttpStatusCode.Unauthorized) {
+            val authorizeCall = authorize.run { authorize(request, originalCall) }
 
-            if (retry.invoke(authorizeCall, originalCall)) {
+            if (retry.retry(authorizeCall, originalCall)) {
                 execute(request)
             } else {
                 originalCall
@@ -72,12 +94,31 @@ public fun HttpClient.interceptUnauthorized(
     }
 }
 
+/**
+ * Applies an interceptor to this [HttpClient] instance that will intercept any [HttpStatusCode.Unauthorized] responses
+ * and perform the [UnauthorizedInterceptor.authorize] task before optionally retrying the original request.
+ *
+ * @param [interceptor] The [UnauthorizedInterceptor] to use to intercept the HTTP requests.
+ *
+ * @see [HttpSend] for more information about intercepting HTTP requests.
+ */
+@Suppress("NOTHING_TO_INLINE")
+public inline fun HttpClient.interceptUnauthorized(
+    interceptor: UnauthorizedInterceptor
+) {
+    this.interceptUnauthorized(
+        applies = interceptor,
+        retry = interceptor,
+        authorize = interceptor
+    )
+}
+
 public class DefaultUnauthorizedInterceptor @Inject public constructor(
     private val subscriptionStorage: SubscriptionStorage
 ) : UnauthorizedInterceptor {
 
     @OptIn(ExperimentalPersistentStateAPI::class)
-    override suspend fun Sender.invoke(request: HttpRequestBuilder, original: HttpClientCall): HttpClientCall {
+    override suspend fun Sender.authorize(request: HttpRequestBuilder, original: HttpClientCall): HttpClientCall {
         val refreshToken = subscriptionStorage.tokens.current.value?.refreshToken
 
         return if (refreshToken != null && request.url.buildString().startsWith("https://mooncloak.com/api")) {
@@ -88,5 +129,13 @@ public class DefaultUnauthorizedInterceptor @Inject public constructor(
         } else {
             original
         }
+    }
+
+    override suspend fun retry(authorized: HttpClientCall, original: HttpClientCall): Boolean = true
+
+    override suspend fun apply(request: HttpRequestBuilder): Boolean {
+        val path = request.url.encodedPath
+
+        return path.startsWith("/api") && !path.endsWith("/token/refresh")
     }
 }

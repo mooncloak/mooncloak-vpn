@@ -117,7 +117,9 @@ public abstract class ApplicationComponent : ApplicationDependencies {
             }
         }
     }.apply {
-        interceptUnauthorized(authorize = interceptor)
+        interceptUnauthorized(
+            interceptor = interceptor
+        )
     }
 
     @Provides
