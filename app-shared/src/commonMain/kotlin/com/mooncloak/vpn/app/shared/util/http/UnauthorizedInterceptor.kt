@@ -14,6 +14,8 @@ import io.ktor.client.request.url
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.encodedPath
 import io.ktor.http.isSuccess
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 /**
  * A component that is invoked to authorize a previously unauthorized HTTP call.
@@ -117,27 +119,39 @@ public class DefaultUnauthorizedInterceptor @Inject public constructor(
     private val subscriptionStorage: SubscriptionStorage
 ) : UnauthorizedInterceptor {
 
+    private var refreshMutex = Mutex(locked = false)
+
     @OptIn(ExperimentalPersistentStateAPI::class)
     override suspend fun Sender.authorize(request: HttpRequestBuilder, original: HttpClientCall): HttpClientCall {
         val refreshToken = subscriptionStorage.tokens.current.value?.refreshToken
 
         return if (refreshToken != null && request.url.buildString().startsWith("https://mooncloak.com/api")) {
-            request.url("https://mooncloak.com/api/vpn/token/refresh")
+            refreshMutex.withLock {
+                // If the tokens are the same, they weren't refreshed while we were waiting on the lock, so attempt to
+                // refresh them.
+                if (refreshToken == subscriptionStorage.tokens.current.value?.refreshToken) {
+                    request.url("https://mooncloak.com/api/vpn/token/refresh")
 
-            // First remove the existing Authorization header which would be set to the access token. We need to
-            // instead provide the refresh token. If we just call the bearerAuth function, it appends the tokens
-            // together.
-            request.headers.remove("Authorization")
-            request.bearerAuth(token = refreshToken.value)
+                    // First remove the existing Authorization header which would be set to the access token. We need to
+                    // instead provide the refresh token. If we just call the bearerAuth function, it appends the tokens
+                    // together.
+                    request.headers.remove("Authorization")
+                    request.bearerAuth(token = refreshToken.value)
 
-            execute(request)
+                    execute(request)
+                } else {
+                    // The tokens did not match since the original request failed. That means another request refreshed
+                    // the token values while we were waiting on the mutex to unlock. So just return the original
+                    // request, and make sure it is retried.
+                    original
+                }
+            }
         } else {
             original
         }
     }
 
-    override suspend fun retry(authorized: HttpClientCall, original: HttpClientCall): Boolean =
-        authorized.response.status.isSuccess()
+    override suspend fun retry(authorized: HttpClientCall, original: HttpClientCall): Boolean = true
 
     override suspend fun apply(request: HttpRequestBuilder): Boolean {
         val path = request.url.encodedPath
