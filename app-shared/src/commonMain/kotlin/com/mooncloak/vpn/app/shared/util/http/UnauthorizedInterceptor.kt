@@ -123,6 +123,11 @@ public class DefaultUnauthorizedInterceptor @Inject public constructor(
 
         return if (refreshToken != null && request.url.buildString().startsWith("https://mooncloak.com/api")) {
             request.url("https://mooncloak.com/api/vpn/token/refresh")
+
+            // First remove the existing Authorization header which would be set to the access token. We need to
+            // instead provide the refresh token. If we just call the bearerAuth function, it appends the tokens
+            // together.
+            request.headers.remove("Authorization")
             request.bearerAuth(token = refreshToken.value)
 
             execute(request)
@@ -131,7 +136,8 @@ public class DefaultUnauthorizedInterceptor @Inject public constructor(
         }
     }
 
-    override suspend fun retry(authorized: HttpClientCall, original: HttpClientCall): Boolean = true
+    override suspend fun retry(authorized: HttpClientCall, original: HttpClientCall): Boolean =
+        authorized.response.status.isSuccess()
 
     override suspend fun apply(request: HttpRequestBuilder): Boolean {
         val path = request.url.encodedPath
