@@ -1,10 +1,18 @@
 package com.mooncloak.vpn.app.shared.util.http
 
+import com.mooncloak.kodetools.apix.core.ExperimentalApixApi
+import com.mooncloak.kodetools.apix.core.HttpResponseBody
+import com.mooncloak.kodetools.apix.core.toResult
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.kodetools.logpile.core.LogPile
+import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
+import com.mooncloak.kodetools.statex.update
+import com.mooncloak.vpn.app.shared.api.service.ServiceTokens
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import io.ktor.client.HttpClient
 import io.ktor.client.call.HttpClientCall
+import io.ktor.client.call.body
 import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.Sender
 import io.ktor.client.plugins.plugin
@@ -115,6 +123,7 @@ public inline fun HttpClient.interceptUnauthorized(
     )
 }
 
+@OptIn(ExperimentalApixApi::class)
 public class DefaultUnauthorizedInterceptor @Inject public constructor(
     private val subscriptionStorage: SubscriptionStorage
 ) : UnauthorizedInterceptor {
@@ -138,7 +147,20 @@ public class DefaultUnauthorizedInterceptor @Inject public constructor(
                     request.headers.remove("Authorization")
                     request.bearerAuth(token = refreshToken.value)
 
-                    execute(request)
+                    val updated = execute(request)
+                    val responseBody = updated.response.body<HttpResponseBody<ServiceTokens>>()
+                    val result = responseBody.toResult()
+
+                    if (result.isSuccess) {
+                        subscriptionStorage.tokens.update(value = result.getOrThrow())
+                    } else {
+                        LogPile.error(
+                            message = "Error refreshing tokens.",
+                            cause = result.exceptionOrNull()
+                        )
+                    }
+
+                    updated
                 } else {
                     // The tokens did not match since the original request failed. That means another request refreshed
                     // the token values while we were waiting on the mutex to unlock. So just return the original
