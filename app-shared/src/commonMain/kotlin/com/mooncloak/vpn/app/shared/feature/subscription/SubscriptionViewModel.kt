@@ -11,6 +11,7 @@ import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptRepository
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansRepository
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionUsage
+import com.mooncloak.vpn.app.shared.api.service.isActive
 import com.mooncloak.vpn.app.shared.api.token.Token
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.subscription.model.SubscriptionDetails
@@ -94,7 +95,7 @@ public class SubscriptionViewModel @Inject public constructor(
         usage: ServiceSubscriptionUsage? = null
     ) {
         try {
-            if (subscription != null) {
+            if (subscription != null && subscription.isActive(clock.now())) {
                 val purchased = dateTimeFormatter.format(subscription.created)
                 val expiration = dateTimeFormatter.format(subscription.expiration)
                 val totalData = (subscription.totalThroughput)?.let { bytes ->
@@ -125,6 +126,10 @@ public class SubscriptionViewModel @Inject public constructor(
                             remainingData = remainingData
                         )
                     )
+                }
+            } else {
+                emit { current ->
+                    current.copy(details = null)
                 }
             }
         } catch (e: Exception) {
