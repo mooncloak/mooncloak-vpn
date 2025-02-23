@@ -7,6 +7,7 @@ import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
+import com.mooncloak.vpn.app.shared.api.service.isActive
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
@@ -32,7 +33,7 @@ public class GetServiceSubscriptionFlowUseCase @Inject public constructor(
 
         val tokens = subscriptionStorage.tokens.current.value
 
-        if ((subscription == null || subscription.expiration < clock.now()) && tokens != null) {
+        if ((subscription == null || !subscription.isActive(clock.now())) && tokens != null) {
             try {
                 subscription = api.getCurrentSubscription(token = tokens.accessToken)
 

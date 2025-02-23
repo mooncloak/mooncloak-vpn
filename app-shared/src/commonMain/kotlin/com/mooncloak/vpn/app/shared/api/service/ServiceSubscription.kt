@@ -2,6 +2,7 @@ package com.mooncloak.vpn.app.shared.api.service
 
 import androidx.compose.runtime.Immutable
 import com.mooncloak.vpn.app.shared.api.plan.Plan
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -43,3 +44,14 @@ public data class ServiceSubscription public constructor(
     @SerialName(value = "rx_throughput") public val rxThroughput: Long? = null,
     @SerialName(value = "tx_throughput") public val txThroughput: Long? = null
 )
+
+/**
+ * Determines whether this [ServiceSubscription] is still active at the provided [instant].
+ *
+ * @param [instant] The [Instant] to check whether this [ServiceSubscription] is active at.
+ *
+ * @return `true` if the provided [instant] is less than this [ServiceSubscription.expiration] value, `false`
+ * otherwise.
+ */
+public fun ServiceSubscription.isActive(instant: Instant = Clock.System.now()): Boolean =
+    instant < expiration

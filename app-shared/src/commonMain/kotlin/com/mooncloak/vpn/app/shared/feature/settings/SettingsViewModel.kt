@@ -12,6 +12,7 @@ import com.mooncloak.vpn.app.shared.api.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.preference.WireGuardPreferences
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
+import com.mooncloak.vpn.app.shared.api.service.isActive
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsAppDetails
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsDeviceDetails
@@ -56,9 +57,11 @@ public class SettingsViewModel @Inject public constructor(
         subscriptionJob?.cancel()
         subscriptionJob = getServiceSubscriptionFlow()
             .onEach { subscription ->
+                val planText = getPlanText(subscription)
+
                 emit { current ->
                     current.copy(
-                        currentPlan = getPlanText(subscription)
+                        currentPlan = planText
                     )
                 }
             }
@@ -75,7 +78,6 @@ public class SettingsViewModel @Inject public constructor(
             var privacyPolicyUri: String? = state.current.value.privacyPolicyUri
             var termsUri: String? = state.current.value.termsUri
             var sourceCodeUri: String? = state.current.value.sourceCodeUri
-            var currentPlan: String? = state.current.value.currentPlan
             var startOnLandingScreen = state.current.value.startOnLandingScreen
             var copyright: String? = state.current.value.copyright
             var isSystemAuthSupported = state.current.value.isSystemAuthSupported
@@ -101,7 +103,6 @@ public class SettingsViewModel @Inject public constructor(
                     Res.string.app_copyright,
                     clock.now().toLocalDateTime(TimeZone.currentSystemDefault()).year.toString()
                 )
-                currentPlan = getPlanText(null)
                 isSystemAuthSupported = systemAuthenticationProvider.isSupported
                 requireSystemAuth = preferencesStorage.requireSystemAuth.current.value
                 systemAuthTimeout = preferencesStorage.systemAuthTimeout.current.value
@@ -112,7 +113,6 @@ public class SettingsViewModel @Inject public constructor(
                         appDetails = appDetails,
                         deviceDetails = deviceDetails,
                         wireGuardPreferences = wireGuardPreferences,
-                        currentPlan = currentPlan,
                         privacyPolicyUri = privacyPolicyUri,
                         termsUri = termsUri,
                         sourceCodeUri = sourceCodeUri,
@@ -131,7 +131,6 @@ public class SettingsViewModel @Inject public constructor(
                         appDetails = appDetails,
                         deviceDetails = deviceDetails,
                         wireGuardPreferences = wireGuardPreferences,
-                        currentPlan = currentPlan,
                         privacyPolicyUri = privacyPolicyUri,
                         termsUri = termsUri,
                         sourceCodeUri = sourceCodeUri,
@@ -238,8 +237,9 @@ public class SettingsViewModel @Inject public constructor(
         }
 
     private suspend fun getPlanText(subscription: ServiceSubscription?): String =
-        when (subscription) {
-            null -> getString(Res.string.subscription_no_active_plan)
+        when {
+            subscription == null -> getString(Res.string.subscription_no_active_plan)
+            !subscription.isActive() -> getString(Res.string.subscription_no_active_plan)
             else -> getString(Res.string.subscription_title_active_plan)
         }
 }
