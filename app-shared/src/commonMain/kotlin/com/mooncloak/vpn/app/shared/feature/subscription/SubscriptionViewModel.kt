@@ -12,6 +12,7 @@ import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 import com.mooncloak.vpn.api.shared.service.ServiceSubscriptionUsage
 import com.mooncloak.vpn.api.shared.service.isActive
 import com.mooncloak.vpn.api.shared.token.Token
+import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.subscription.model.SubscriptionDetails
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -38,6 +39,7 @@ import org.jetbrains.compose.resources.getString
 @FeatureScoped
 public class SubscriptionViewModel @Inject public constructor(
     private val subscriptionStorage: SubscriptionSettings,
+    private val serviceTokensRepository: ServiceTokensRepository,
     private val api: MooncloakVpnServiceHttpApi,
     private val plansRepository: ServicePlansRepository,
     private val purchaseReceiptRepository: ServicePurchaseReceiptRepository,
@@ -52,7 +54,7 @@ public class SubscriptionViewModel @Inject public constructor(
             emit { current -> current.copy(isLoading = true) }
 
             try {
-                val token = subscriptionStorage.tokens.get()?.accessToken
+                val token = serviceTokensRepository.getLatest()?.accessToken
                 val subscription = subscriptionStorage.subscription.get()
 
                 // Let's emit the subscription first so that the screen UI loads faster.

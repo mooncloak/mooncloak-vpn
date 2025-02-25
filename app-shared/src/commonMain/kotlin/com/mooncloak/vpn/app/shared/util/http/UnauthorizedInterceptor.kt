@@ -7,7 +7,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.vpn.api.shared.service.ServiceTokens
-import com.mooncloak.vpn.app.shared.storage.SubscriptionSettings
+import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.HttpClientCall
 import io.ktor.client.call.body
@@ -123,19 +123,19 @@ public inline fun HttpClient.interceptUnauthorized(
 
 @OptIn(ExperimentalApixApi::class)
 public class DefaultUnauthorizedInterceptor @Inject public constructor(
-    private val subscriptionStorage: SubscriptionSettings
+    private val serviceTokensRepository: ServiceTokensRepository
 ) : UnauthorizedInterceptor {
 
     private var refreshMutex = Mutex(locked = false)
 
     override suspend fun Sender.authorize(request: HttpRequestBuilder, original: HttpClientCall): HttpClientCall {
-        val refreshToken = subscriptionStorage.tokens.get()?.refreshToken
+        val refreshToken = serviceTokensRepository.getLatest()?.refreshToken
 
         return if (refreshToken != null && request.url.buildString().startsWith("https://mooncloak.com/api")) {
             refreshMutex.withLock {
                 // If the tokens are the same, they weren't refreshed while we were waiting on the lock, so attempt to
                 // refresh them.
-                if (refreshToken == subscriptionStorage.tokens.get()?.refreshToken) {
+                if (refreshToken == serviceTokensRepository.getLatest()?.refreshToken) {
                     request.url("https://mooncloak.com/api/vpn/token/refresh")
 
                     // First remove the existing Authorization header which would be set to the access token. We need to
@@ -149,7 +149,7 @@ public class DefaultUnauthorizedInterceptor @Inject public constructor(
                     val result = responseBody.toResult()
 
                     if (result.isSuccess) {
-                        subscriptionStorage.tokens.set(value = result.getOrThrow())
+                        serviceTokensRepository.add(result.getOrThrow())
                     } else {
                         LogPile.error(
                             message = "Error refreshing tokens.",

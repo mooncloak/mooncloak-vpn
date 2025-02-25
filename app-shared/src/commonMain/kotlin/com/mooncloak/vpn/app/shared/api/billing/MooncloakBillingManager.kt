@@ -39,7 +39,7 @@ public class MooncloakBillingManager @Inject public constructor(
         val invoice = withContext(Dispatchers.IO) {
             api.getPaymentInvoice(
                 planId = plan.id,
-                token = subscriptionStorage.tokens.get()?.accessToken
+                token = serviceTokensRepository.getLatest()?.accessToken
             )
         }
 

@@ -5,21 +5,21 @@ import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.key.Base64Key
 import com.mooncloak.vpn.app.shared.api.server.RegisteredClient
 import com.mooncloak.vpn.app.shared.api.server.RegisteredClientRepository
-import com.mooncloak.vpn.app.shared.storage.SubscriptionSettings
+import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 public class RegisterClientUseCase @Inject public constructor(
     private val registeredClientRepository: RegisteredClientRepository,
     private val mooncloakApi: MooncloakVpnServiceHttpApi,
-    private val subscriptionStorage: SubscriptionSettings
+    private val serviceTokensRepository: ServiceTokensRepository
 ) {
 
     public suspend operator fun invoke(
         serverId: String,
         publicKey: Base64Key
     ): RegisteredClient = withContext(Dispatchers.IO) {
-        val token = subscriptionStorage.tokens.get()?.accessToken
+        val token = serviceTokensRepository.getLatest()?.accessToken
 
         val client = mooncloakApi.registerClient(
             serverId = serverId,

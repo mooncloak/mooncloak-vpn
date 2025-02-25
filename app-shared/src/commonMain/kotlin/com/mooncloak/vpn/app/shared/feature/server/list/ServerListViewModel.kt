@@ -6,15 +6,14 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.billing.usecase.GetServiceSubscriptionFlowUseCase
+import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
-import com.mooncloak.vpn.app.shared.storage.SubscriptionSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
@@ -28,7 +27,7 @@ import org.jetbrains.compose.resources.getString
 @FeatureScoped
 public class ServerListViewModel @Inject public constructor(
     private val api: MooncloakVpnServiceHttpApi,
-    private val subscriptionStorage: SubscriptionSettings,
+    private val serviceTokensRepository: ServiceTokensRepository,
     private val serverConnectionManager: VPNConnectionManager,
     private val appClientInfo: AppClientInfo,
     private val getServiceSubscriptionFlow: GetServiceSubscriptionFlowUseCase
@@ -37,7 +36,7 @@ public class ServerListViewModel @Inject public constructor(
     private var connectionJob: Job? = null
     private var subscriptionJob: Job? = null
 
-    @OptIn(ExperimentalPersistentStateAPI::class, ExperimentalPaginationAPI::class)
+    @OptIn(ExperimentalPaginationAPI::class)
     public fun load() {
         coroutineScope.launch {
             emit(value = state.current.value.copy(isLoading = true))
@@ -63,7 +62,7 @@ public class ServerListViewModel @Inject public constructor(
                 .launchIn(coroutineScope)
 
             try {
-                val token = subscriptionStorage.tokens.get()?.accessToken
+                val token = serviceTokensRepository.getLatest()?.accessToken
 
                 // TODO: Properly support paginating servers
                 val servers = api.paginateServers(
