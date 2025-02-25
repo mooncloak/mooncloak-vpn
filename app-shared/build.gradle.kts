@@ -45,6 +45,8 @@ kotlin {
             kotlin.srcDir("build/generated/ksp/commonMain/kotlin")
 
             dependencies {
+                api(project(":api-vpn"))
+
                 // Coroutines
                 // https://github.com/Kotlin/kotlinx.coroutines
                 implementation(KotlinX.coroutines.core)

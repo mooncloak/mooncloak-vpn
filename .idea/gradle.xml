@@ -22,6 +22,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/api-vpn" />
             <option value="$PROJECT_DIR$/app-android" />
             <option value="$PROJECT_DIR$/app-desktop" />
             <option value="$PROJECT_DIR$/app-shared" />
