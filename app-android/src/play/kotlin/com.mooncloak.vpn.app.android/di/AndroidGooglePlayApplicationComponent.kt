@@ -14,10 +14,11 @@ import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
-import com.mooncloak.vpn.app.shared.storage.database.AndroidDatabaseDriverFactory
-import com.mooncloak.vpn.app.shared.storage.database.DatabaseDriverFactory
+import com.mooncloak.vpn.data.shared.database.invoke
+import com.mooncloak.vpn.data.shared.database.SqlDriverFactory
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
+import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import com.wireguard.android.backend.GoBackend
 
 @Component
@@ -34,7 +35,8 @@ internal abstract class AndroidGooglePlayApplicationComponent internal construct
 
     @Provides
     @Singleton
-    internal fun provideDatabaseDriverFactory(factory: AndroidDatabaseDriverFactory): DatabaseDriverFactory = factory
+    internal fun provideDatabaseDriverFactory(context: ApplicationContext): SqlDriverFactory =
+        SqlDriverFactory(context = context, schema = MooncloakDatabase.Schema)
 
     @Provides
     @Singleton

@@ -50,6 +50,10 @@ kotlin {
                 // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
                 api("app.cash.sqldelight:coroutines-extensions:_")
                 api("app.cash.sqldelight:primitive-adapters:_")
+
+                // Logging
+                // https://github.com/mooncloak/logpile
+                implementation("com.mooncloak.kodetools.logpile:logpile-core:_")
             }
         }
 
@@ -60,13 +64,19 @@ kotlin {
             }
         }
 
-        val jsMain by getting {
+        val androidMain by getting {
             dependencies {
+                // Database - Sqlite - SqlDelight
+                // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
+                api("app.cash.sqldelight:android-driver:_")
             }
         }
 
-        val wasmJsMain by getting {
+        val jvmMain by getting {
             dependencies {
+                // Database - Sqlite - SqlDelight
+                // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
+                api("app.cash.sqldelight:sqlite-driver:_")
             }
         }
     }

@@ -4,7 +4,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.app.shared.api.plan.BillingProvider
 import com.mooncloak.vpn.app.shared.api.plan.Price
 import com.mooncloak.vpn.api.shared.token.TransactionToken
-import com.mooncloak.vpn.app.shared.storage.database.MooncloakDatabaseProvider
+import com.mooncloak.vpn.app.shared.database.MooncloakDatabaseProvider
 import com.mooncloak.vpn.app.storage.sqlite.database.PurchaseReceipt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex

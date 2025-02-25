@@ -19,7 +19,7 @@ import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensSource
 import com.mooncloak.vpn.app.shared.util.image.MooncloakImageLoaderFactory
-import com.mooncloak.vpn.app.shared.storage.database.MooncloakDatabaseProvider
+import com.mooncloak.vpn.app.shared.database.MooncloakDatabaseProvider
 import com.mooncloak.vpn.app.shared.util.http.DefaultUnauthorizedInterceptor
 import com.mooncloak.vpn.app.shared.util.http.UnauthorizedInterceptor
 import com.mooncloak.vpn.app.shared.util.http.interceptUnauthorized

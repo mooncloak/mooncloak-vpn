@@ -14,11 +14,13 @@ import com.mooncloak.vpn.app.shared.api.network.invoke
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
-import com.mooncloak.vpn.app.shared.storage.database.DatabaseDriverFactory
-import com.mooncloak.vpn.app.shared.storage.database.JvmDatabaseDriverFactory
+import com.mooncloak.vpn.data.shared.database.SqlDriverFactory
+import com.mooncloak.vpn.data.shared.database.invoke
 import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
 import com.mooncloak.vpn.app.shared.util.notification.invoke
+import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
+import com.mooncloak.vpn.data.shared.util.getDatabaseFileLocation
 import kotlinx.datetime.Clock
 
 @Component
@@ -39,7 +41,11 @@ internal abstract class JvmApplicationComponent internal constructor(
 
     @Provides
     @Singleton
-    internal fun provideDatabaseDriverFactory(factory: JvmDatabaseDriverFactory): DatabaseDriverFactory = factory
+    internal fun provideDatabaseDriverFactory(appClientInfo: AppClientInfo): SqlDriverFactory =
+        SqlDriverFactory(
+            filePath = getDatabaseFileLocation(appName = appClientInfo.id),
+            schema = MooncloakDatabase.Schema
+        )
 
     @Provides
     @Singleton

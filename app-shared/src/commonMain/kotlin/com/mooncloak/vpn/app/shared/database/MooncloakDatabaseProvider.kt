@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.storage.database
+package com.mooncloak.vpn.app.shared.database
 
 import app.cash.sqldelight.db.SqlDriver
 import com.mooncloak.kodetools.konstruct.annotations.Inject
@@ -13,10 +13,12 @@ import com.mooncloak.vpn.app.storage.sqlite.database.RegisteredClient
 import com.mooncloak.vpn.app.storage.sqlite.database.ServerConnectionRecord
 import com.mooncloak.vpn.app.storage.sqlite.database.ServicePlan
 import com.mooncloak.vpn.app.storage.sqlite.database.ServiceTokens
+import com.mooncloak.vpn.data.shared.database.SqlDriverFactory
+import com.mooncloak.vpn.data.shared.database.DatabaseManager
 
 @Singleton
 public class MooncloakDatabaseProvider @Inject public constructor(
-    private val databaseDriverFactory: DatabaseDriverFactory
+    private val databaseDriverFactory: SqlDriverFactory
 ) : DatabaseManager<MooncloakDatabase> {
 
     private var cachedDriver: SqlDriver? = null
