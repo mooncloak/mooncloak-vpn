@@ -44,7 +44,7 @@ import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_subscriptions
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_tracking
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_payment_crypto
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_payment_google_play
-import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
+import com.mooncloak.vpn.app.shared.storage.SubscriptionSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
@@ -62,7 +62,7 @@ import org.jetbrains.compose.resources.stringResource
 @FeatureScoped
 public class HomeViewModel @Inject public constructor(
     appClientInfo: AppClientInfo,
-    private val subscriptionStorage: SubscriptionStorage,
+    private val subscriptionStorage: SubscriptionSettings,
     private val serverConnectionManager: VPNConnectionManager,
     private val localNetworkManager: LocalNetworkManager,
     private val deviceIPAddressProvider: DeviceIPAddressProvider,

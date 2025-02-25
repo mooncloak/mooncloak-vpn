@@ -9,8 +9,8 @@ import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
-import com.mooncloak.vpn.app.shared.storage.AppStorage
-import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
+import com.mooncloak.vpn.app.shared.storage.AppSettings
+import com.mooncloak.vpn.app.shared.storage.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -23,8 +23,8 @@ import kotlin.coroutines.resume
 @Stable
 @FeatureScoped
 public class ApplicationRootViewModel @Inject public constructor(
-    private val appStorage: AppStorage,
-    private val preferencesStorage: PreferencesStorage,
+    private val appStorage: AppSettings,
+    private val preferencesStorage: UserPreferenceSettings,
     private val navController: NavController,
     private val systemAuthenticationProvider: SystemAuthenticationProvider,
     private val clock: Clock

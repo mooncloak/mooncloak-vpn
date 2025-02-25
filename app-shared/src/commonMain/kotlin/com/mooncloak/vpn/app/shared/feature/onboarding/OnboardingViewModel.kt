@@ -6,14 +6,14 @@ import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
-import com.mooncloak.vpn.app.shared.storage.AppStorage
+import com.mooncloak.vpn.app.shared.storage.AppSettings
 
 @OptIn(ExperimentalPersistentStateAPI::class)
 @Stable
 @FeatureScoped
 public class OnboardingViewModel @Inject public constructor(
     private val appClientInfo: AppClientInfo,
-    private val appStorage: AppStorage
+    private val appStorage: AppSettings
 ) : ViewModel<OnboardingStateModel>(initialStateValue = OnboardingStateModel()) {
 
     public fun load() {

@@ -13,7 +13,7 @@ import kotlin.time.Duration.Companion.minutes
 
 @Singleton
 @OptIn(ExperimentalPersistentStateAPI::class)
-public class PreferencesStorage @Inject public constructor(
+public class UserPreferenceSettings @Inject public constructor(
     serializersModule: SerializersModule
 ) {
 

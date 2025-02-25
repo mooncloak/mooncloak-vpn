@@ -12,7 +12,7 @@ import com.mooncloak.vpn.app.shared.model.TextFieldStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.resource.settings_dns_servers_error_invalid_ip
-import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
+import com.mooncloak.vpn.app.shared.storage.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.util.IPv4AddressValidator
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -28,7 +28,7 @@ import org.jetbrains.compose.resources.getString
 import kotlin.time.Duration.Companion.milliseconds
 
 public class DnsServerConfigViewModel @Inject public constructor(
-    private val preferencesStorage: PreferencesStorage,
+    private val preferencesStorage: UserPreferenceSettings,
     private val ipAddressValidator: IPv4AddressValidator,
     private val onSaveCompleteListener: DnsServerOnSaveCompleteListener
 ) : ViewModel<DnsServerConfigStateModel>(initialStateValue = DnsServerConfigStateModel()) {

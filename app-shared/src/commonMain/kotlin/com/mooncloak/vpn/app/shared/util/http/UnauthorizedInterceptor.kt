@@ -7,7 +7,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.vpn.api.shared.service.ServiceTokens
-import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
+import com.mooncloak.vpn.app.shared.storage.SubscriptionSettings
 import io.ktor.client.HttpClient
 import io.ktor.client.call.HttpClientCall
 import io.ktor.client.call.body
@@ -123,7 +123,7 @@ public inline fun HttpClient.interceptUnauthorized(
 
 @OptIn(ExperimentalApixApi::class)
 public class DefaultUnauthorizedInterceptor @Inject public constructor(
-    private val subscriptionStorage: SubscriptionStorage
+    private val subscriptionStorage: SubscriptionSettings
 ) : UnauthorizedInterceptor {
 
     private var refreshMutex = Mutex(locked = false)

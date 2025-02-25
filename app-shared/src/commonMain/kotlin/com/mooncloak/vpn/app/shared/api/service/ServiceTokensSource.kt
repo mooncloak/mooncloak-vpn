@@ -2,7 +2,7 @@ package com.mooncloak.vpn.app.shared.api.service
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.api.shared.service.ServiceTokens
-import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
+import com.mooncloak.vpn.app.shared.storage.SubscriptionSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 
 public class ServiceTokensSource @Inject public constructor(
     private val databaseSource: ServiceTokensDatabaseSource,
-    private val subscriptionStorage: SubscriptionStorage
+    private val subscriptionStorage: SubscriptionSettings
 ) : ServiceTokensRepository {
 
     private val mutex = Mutex(locked = false)

@@ -22,7 +22,7 @@ import com.mooncloak.vpn.app.shared.resource.app_copyright
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.resource.subscription_no_active_plan
 import com.mooncloak.vpn.app.shared.resource.subscription_title_active_plan
-import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
+import com.mooncloak.vpn.app.shared.storage.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -42,7 +42,7 @@ import kotlin.time.Duration
 @FeatureScoped
 public class SettingsViewModel @Inject public constructor(
     private val appClientInfo: AppClientInfo,
-    private val preferencesStorage: PreferencesStorage,
+    private val preferencesStorage: UserPreferenceSettings,
     private val systemAuthenticationProvider: SystemAuthenticationProvider,
     private val clock: Clock,
     private val localNetworkManager: LocalNetworkManager,

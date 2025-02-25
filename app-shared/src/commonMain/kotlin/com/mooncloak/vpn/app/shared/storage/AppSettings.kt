@@ -10,7 +10,7 @@ import kotlinx.serialization.modules.SerializersModule
 
 @Singleton
 @OptIn(ExperimentalPersistentStateAPI::class)
-public class AppStorage @Inject public constructor(
+public class AppSettings @Inject public constructor(
     serializersModule: SerializersModule
 ) {
 

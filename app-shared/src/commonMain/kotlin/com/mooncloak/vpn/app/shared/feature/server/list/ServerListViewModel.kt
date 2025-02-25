@@ -14,7 +14,7 @@ import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
-import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
+import com.mooncloak.vpn.app.shared.storage.SubscriptionSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
@@ -28,7 +28,7 @@ import org.jetbrains.compose.resources.getString
 @FeatureScoped
 public class ServerListViewModel @Inject public constructor(
     private val api: MooncloakVpnServiceHttpApi,
-    private val subscriptionStorage: SubscriptionStorage,
+    private val subscriptionStorage: SubscriptionSettings,
     private val serverConnectionManager: VPNConnectionManager,
     private val appClientInfo: AppClientInfo,
     private val getServiceSubscriptionFlow: GetServiceSubscriptionFlowUseCase

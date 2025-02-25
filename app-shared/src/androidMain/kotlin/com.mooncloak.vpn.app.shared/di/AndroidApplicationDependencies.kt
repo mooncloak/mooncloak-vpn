@@ -7,7 +7,7 @@ import com.mooncloak.vpn.app.shared.api.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
-import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
+import com.mooncloak.vpn.app.shared.storage.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.storage.database.DatabaseDriverFactory
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
@@ -28,7 +28,7 @@ public actual interface ApplicationDependencies {
     public actual val logger: Logger
     public actual val appClientInfo: AppClientInfo
     public actual val keyValueStorage: MutableKeyValueStorage
-    public actual val preferenceStorage: PreferencesStorage
+    public actual val preferenceStorage: UserPreferenceSettings
     public actual val imageLoaderFactory: SingletonImageLoader.Factory
     public actual val databaseDriverFactory: DatabaseDriverFactory
     public actual val localNetworkManager: LocalNetworkManager

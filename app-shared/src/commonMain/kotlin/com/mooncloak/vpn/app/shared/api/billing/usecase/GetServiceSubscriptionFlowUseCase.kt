@@ -6,13 +6,13 @@ import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 import com.mooncloak.vpn.api.shared.service.isActive
-import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
+import com.mooncloak.vpn.app.shared.storage.SubscriptionSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.Clock
 
 public class GetServiceSubscriptionFlowUseCase @Inject public constructor(
-    private val subscriptionStorage: SubscriptionStorage,
+    private val subscriptionStorage: SubscriptionSettings,
     private val clock: Clock,
     private val api: MooncloakVpnServiceHttpApi
 ) {

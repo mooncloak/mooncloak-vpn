@@ -9,7 +9,7 @@ import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueStorage
 import com.mooncloak.vpn.data.shared.keyvalue.property
 
 @Singleton
-public class SubscriptionStorage @Inject public constructor(
+public class SubscriptionSettings @Inject public constructor(
     storage: MutableKeyValueStorage
 ) {
 

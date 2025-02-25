@@ -10,7 +10,7 @@ import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.usecase.RegisterClientUseCase
 import com.mooncloak.vpn.app.shared.api.vpn.Tunnel
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
-import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
+import com.mooncloak.vpn.app.shared.storage.UserPreferenceSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -29,7 +29,7 @@ internal class WireGuardTunnelManager @Inject internal constructor(
     private val backend: WireGuardBackend,
     private val connectionKeyPairResolver: WireGuardConnectionKeyPairResolver,
     private val registerClient: RegisterClientUseCase,
-    private val preferencesStorage: PreferencesStorage
+    private val preferencesStorage: UserPreferenceSettings
 ) : TunnelManager {
 
     override val tunnels: StateFlow<List<Tunnel>>

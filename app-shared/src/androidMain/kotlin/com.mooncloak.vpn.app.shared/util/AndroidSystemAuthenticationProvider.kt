@@ -8,14 +8,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
-import com.mooncloak.vpn.app.shared.storage.AppStorage
-import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
+import com.mooncloak.vpn.app.shared.storage.AppSettings
+import com.mooncloak.vpn.app.shared.storage.UserPreferenceSettings
 import kotlinx.datetime.Clock
 
 public class AndroidSystemAuthenticationProvider @Inject public constructor(
     private val activity: Activity,
-    private val preferencesStorage: PreferencesStorage,
-    private val appStorage: AppStorage,
+    private val preferencesStorage: UserPreferenceSettings,
+    private val appStorage: AppSettings,
     private val clock: Clock
 ) : SystemAuthenticationProvider {
 
