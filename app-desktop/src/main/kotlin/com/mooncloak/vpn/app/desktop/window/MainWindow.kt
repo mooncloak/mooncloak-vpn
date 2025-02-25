@@ -25,7 +25,7 @@ internal fun MainWindow(
 
     MooncloakDecorationWindow(
         onClose = onClose,
-        themePreference = applicationDependencies.keyValueStorages.preferences.theme.current.value
+        themePreference = applicationDependencies.preferenceStorage.theme.current.value
             ?: ThemePreference.System,
         state = state,
         visible = visible,
