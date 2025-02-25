@@ -1,11 +1,19 @@
 package com.mooncloak.vpn.app.shared.api.service
 
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.api.shared.service.ServiceTokens
 import com.mooncloak.vpn.api.shared.token.Token
 import com.mooncloak.vpn.api.shared.token.TokenType
 import com.mooncloak.vpn.app.shared.storage.database.MooncloakDatabaseProvider
+import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -13,10 +21,13 @@ import kotlinx.datetime.Clock
 
 public class ServiceTokensDatabaseSource @Inject public constructor(
     private val databaseProvider: MooncloakDatabaseProvider,
-    private val clock: Clock
+    private val clock: Clock,
+    private val applicationCoroutineScope: ApplicationCoroutineScope
 ) : ServiceTokensRepository {
 
     private val mutex = Mutex(locked = false)
+
+    private val latestFlow = getLatestSharedFlow()
 
     override suspend fun getLatest(): ServiceTokens? =
         withContext(Dispatchers.IO) {
@@ -26,6 +37,8 @@ public class ServiceTokensDatabaseSource @Inject public constructor(
                 .executeAsOneOrNull()
                 ?.toServiceTokens()
         }
+
+    override fun latestFlow(): Flow<ServiceTokens?> = latestFlow
 
     override suspend fun get(id: String): ServiceTokens =
         withContext(Dispatchers.IO) {
@@ -151,4 +164,18 @@ public class ServiceTokensDatabaseSource @Inject public constructor(
             issued = this.issued,
             userId = this.userId
         )
+
+    private fun getLatestSharedFlow(): SharedFlow<ServiceTokens?> {
+        val database = databaseProvider.get()
+
+        return database.serviceTokensQueries.selectLatest()
+            .asFlow()
+            .mapToOneOrNull(applicationCoroutineScope.coroutineContext)
+            .map { it?.toServiceTokens() }
+            .shareIn(
+                applicationCoroutineScope,
+                started = SharingStarted.Lazily,
+                replay = 1
+            )
+    }
 }

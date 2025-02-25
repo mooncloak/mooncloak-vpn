@@ -4,6 +4,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.api.shared.service.ServiceTokens
 import com.mooncloak.vpn.app.shared.storage.SubscriptionSettings
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -25,6 +26,8 @@ public class ServiceTokensSource @Inject public constructor(
 
             return@withContext latest
         }
+
+    override fun latestFlow(): Flow<ServiceTokens?> = databaseSource.latestFlow()
 
     override suspend fun get(id: String): ServiceTokens =
         withContext(Dispatchers.IO) {
