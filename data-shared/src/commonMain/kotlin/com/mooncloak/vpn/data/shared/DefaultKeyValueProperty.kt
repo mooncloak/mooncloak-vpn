@@ -59,7 +59,7 @@ internal class DefaultFlowableKeyValueProperty<Value : Any> internal constructor
     storage = storage
 ), KeyValueProperty<Value>,
     MutableKeyValueProperty<Value>,
-    FlowableKeyValueProperty<Value> {
+    FlowableMutableKeyValueProperty<Value> {
 
     override fun flow(): Flow<Value?> =
         flowableStorage.flow(

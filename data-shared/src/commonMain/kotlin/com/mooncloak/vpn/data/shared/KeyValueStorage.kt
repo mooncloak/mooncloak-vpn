@@ -161,6 +161,17 @@ public interface FlowableKeyValueStorage : KeyValueStorage {
 }
 
 /**
+ * A key-value storage that implements the [KeyValueStorage], [MutableKeyValueStorage], and [FlowableKeyValueStorage]
+ * interfaces.
+ */
+public interface FlowableMutableKeyValueStorage : KeyValueStorage,
+    MutableKeyValueStorage,
+    FlowableKeyValueStorage {
+
+    public companion object
+}
+
+/**
  * Retrieves a value associated with the given key from the storage.
  *
  * This function attempts to retrieve a stored value, deserialize it, and return the resulting object. If no value is

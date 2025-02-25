@@ -68,3 +68,14 @@ public interface FlowableKeyValueProperty<Value : Any> : KeyValueProperty<Value>
 
     public companion object
 }
+
+/**
+ * A key-value property that implements the [KeyValueProperty], [MutableKeyValueProperty], and
+ * [FlowableKeyValueProperty] interfaces.
+ */
+public interface FlowableMutableKeyValueProperty<Value : Any> : KeyValueProperty<Value>,
+    MutableKeyValueProperty<Value>,
+    FlowableKeyValueProperty<Value> {
+
+    public companion object
+}
