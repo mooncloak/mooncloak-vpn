@@ -1,0 +1,65 @@
+import kotlin.Boolean;
+import kotlinx.datetime.Instant;
+import kotlinx.serialization.json.JsonElement;
+
+CREATE TABLE PurchaseReceipt (
+    database_id INTEGER PRIMARY KEY NOT NULL,
+    id TEXT NOT NULL UNIQUE,
+    order_id TEXT,
+    plan_id TEXT,
+    plan_ids TEXT AS JsonElement NOT NULL,
+    invoice_id TEXT,
+    created INTEGER AS Instant NOT NULL,
+    updated INTEGER AS Instant NOT NULL,
+    purchased INTEGER AS Instant NOT NULL,
+    provider TEXT NOT NULL,
+    subscription INTEGER AS Boolean NOT NULL,
+    client_secret TEXT,
+    token TEXT NOT NULL,
+    signature TEXT,
+    quantity INTEGER,
+    price TEXT AS JsonElement
+);
+
+CREATE INDEX PurchaseReceipt_id_index ON PurchaseReceipt(id);
+CREATE INDEX PurchaseReceipt_plan_id_index ON PurchaseReceipt(plan_id);
+CREATE INDEX PurchaseReceipt_order_id_index ON PurchaseReceipt(order_id);
+
+insert:
+INSERT OR REPLACE INTO PurchaseReceipt(database_id, id, order_id, plan_id, plan_ids, invoice_id, created, updated, purchased, provider, subscription, client_secret, token, signature, quantity, price)
+VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+selectAll:
+SELECT *
+FROM PurchaseReceipt
+ORDER BY purchased DESC;
+
+selectPage:
+SELECT *
+FROM PurchaseReceipt
+ORDER BY purchased DESC
+LIMIT :count
+OFFSET :offset;
+
+selectLatest:
+SELECT *
+FROM PurchaseReceipt
+ORDER BY purchased DESC
+LIMIT 1;
+
+selectById:
+SELECT *
+FROM PurchaseReceipt
+WHERE id = :id;
+
+selectByOrderId:
+SELECT *
+FROM PurchaseReceipt
+WHERE order_id = :orderId;
+
+deleteById:
+DELETE FROM PurchaseReceipt
+WHERE id = :id;
+
+deleteAll:
+DELETE FROM PurchaseReceipt;

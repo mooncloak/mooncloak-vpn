@@ -1,0 +1,69 @@
+import kotlinx.datetime.Instant;
+import kotlinx.serialization.json.JsonElement;
+
+CREATE TABLE IF NOT EXISTS RegisteredClient (
+    database_id INTEGER PRIMARY KEY NOT NULL,
+    id TEXT NOT NULL,
+    created INTEGER AS Instant NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated INTEGER AS Instant NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    registered INTEGER AS Instant NOT NULL,
+    expiration INTEGER AS Instant,
+    token_id TEXT,
+    client_id TEXT,
+    public_key TEXT NOT NULL,
+    public_key_id TEXT,
+    allowed_ips TEXT AS JsonElement,
+    persistent_keep_alive INTEGER,
+    endpoint TEXT,
+    server_id TEXT NOT NULL UNIQUE,
+    protocol TEXT NOT NULL,
+    assigned_address TEXT NOT NULL
+);
+
+CREATE INDEX RegisteredClient_id_index ON RegisteredClient(id);
+CREATE INDEX RegisteredClient_token_id_index ON RegisteredClient(token_id);
+CREATE INDEX RegisteredClient_server_id_index ON RegisteredClient(server_id);
+CREATE INDEX RegisteredClient_assigned_address_index ON RegisteredClient(assigned_address);
+
+insert:
+INSERT OR REPLACE INTO RegisteredClient(id, created, updated, registered, expiration, token_id, client_id, public_key, public_key_id, allowed_ips, persistent_keep_alive, endpoint, server_id, protocol, assigned_address)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+update:
+UPDATE RegisteredClient
+SET public_key = :publicKey,
+    public_key_id = :publicKeyId,
+    allowed_ips = :allowedIps,
+    persistent_keep_alive = :persistentKeepAlive,
+    endpoint = :endpoint,
+    expiration = :expiration,
+    token_id = :tokenId,
+    assigned_address = :assignedAddress,
+    server_id = :serverId
+WHERE id = :id;
+
+selectById:
+SELECT *
+FROM RegisteredClient
+WHERE id = :id;
+
+selectByServerId:
+SELECT *
+FROM RegisteredClient
+WHERE server_id = :serverId;
+
+selectAll:
+SELECT *
+FROM RegisteredClient;
+
+countAll:
+SELECT COUNT(*)
+FROM RegisteredClient;
+
+deleteById:
+DELETE
+FROM RegisteredClient
+WHERE id = :id;
+
+deleteAll:
+DELETE FROM RegisteredClient;

@@ -14,11 +14,11 @@ import com.mooncloak.vpn.api.shared.network.invoke
 import com.mooncloak.vpn.api.shared.vpn.TunnelManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
-import com.mooncloak.vpn.data.shared.database.invoke
-import com.mooncloak.vpn.data.shared.database.SqlDriverFactory
+import com.mooncloak.vpn.data.sqlite.invoke
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
+import com.mooncloak.vpn.data.sqlite.SqlDriverFactory
 import com.wireguard.android.backend.GoBackend
 
 @Component

@@ -1,0 +1,56 @@
+import kotlin.Boolean;
+import kotlinx.datetime.Instant;
+import kotlinx.serialization.json.JsonElement;
+import kotlinx.serialization.json.JsonObject;
+
+CREATE TABLE ServicePlan (
+    databaseId INTEGER PRIMARY KEY NOT NULL,
+    id TEXT NOT NULL UNIQUE,
+    created INTEGER AS Instant NOT NULL,
+    updated INTEGER AS Instant NOT NULL,
+    provider TEXT NOT NULL,
+    active INTEGER AS Boolean NOT NULL,
+    usageType TEXT NOT NULL,
+    live INTEGER AS Boolean NOT NULL,
+    nickname TEXT,
+    title TEXT NOT NULL,
+    description TEXT AS JsonElement,
+    details TEXT AS JsonElement,
+    highlight TEXT,
+    url TEXT,
+    self TEXT,
+    taxCode TEXT,
+    amount INTEGER NOT NULL,
+    amountFormatted TEXT,
+    currencyType TEXT NOT NULL,
+    currencyCode TEXT NOT NULL,
+    currencyDefaultFractionDigits INTEGER,
+    currencyNumericCode INTEGER,
+    currencySymbol TEXT,
+    duration TEXT NOT NULL,
+    metadata TEXT AS JsonObject,
+    subscription TEXT AS JsonElement,
+    trial TEXT AS JsonElement
+);
+
+CREATE INDEX ServicePlan_id_index ON ServicePlan(id);
+
+insert:
+INSERT OR REPLACE INTO ServicePlan(databaseId, id, created, updated, provider, active, usageType, live, nickname, title, description, details, highlight, url, self, taxCode, amount, amountFormatted, currencyType, currencyCode, currencyDefaultFractionDigits, currencyNumericCode, currencySymbol, duration, metadata, subscription, trial)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+selectAll:
+SELECT *
+FROM ServicePlan;
+
+selectById:
+SELECT *
+FROM ServicePlan
+WHERE id = :id;
+
+deleteById:
+DELETE FROM ServicePlan
+WHERE id = :id;
+
+deleteAll:
+DELETE FROM ServicePlan;

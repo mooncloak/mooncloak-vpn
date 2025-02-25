@@ -47,6 +47,7 @@ kotlin {
             dependencies {
                 api(project(":util-shared"))
                 api(project(":data-shared"))
+                api(project(":data-sqlite"))
                 api(project(":api-vpn"))
 
                 // Coroutines

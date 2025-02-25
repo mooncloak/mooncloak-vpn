@@ -8,11 +8,11 @@ import com.mooncloak.vpn.api.shared.network.LocalNetworkManager
 import com.mooncloak.vpn.api.shared.vpn.TunnelManager
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
-import com.mooncloak.vpn.data.shared.database.SqlDriverFactory
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
 import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueStorage
+import com.mooncloak.vpn.data.sqlite.SqlDriverFactory
 import io.ktor.client.HttpClient
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
