@@ -8,7 +8,7 @@ import com.mooncloak.vpn.api.shared.plan.BillingProvider
 import com.mooncloak.vpn.api.shared.plan.Price
 import com.mooncloak.vpn.api.shared.token.TransactionToken
 import com.mooncloak.vpn.app.shared.database.MooncloakDatabaseProvider
-import com.mooncloak.vpn.app.storage.sqlite.database.PurchaseReceipt
+import com.mooncloak.vpn.data.sqlite.database.PurchaseReceipt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock

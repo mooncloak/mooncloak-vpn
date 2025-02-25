@@ -5,7 +5,7 @@ import com.mooncloak.vpn.api.shared.key.Base64Key
 import com.mooncloak.vpn.api.shared.server.RegisteredClient
 import com.mooncloak.vpn.api.shared.server.RegisteredClientRepository
 import com.mooncloak.vpn.api.shared.vpn.VPNProtocol
-import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
+import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
@@ -118,7 +118,7 @@ public class RegisteredClientDatabaseSource @Inject public constructor(
         }
     }
 
-    private fun com.mooncloak.vpn.app.storage.sqlite.database.RegisteredClient.toRegisteredPeer(): RegisteredClient =
+    private fun com.mooncloak.vpn.data.sqlite.database.RegisteredClient.toRegisteredPeer(): RegisteredClient =
         RegisteredClient(
             id = this.id,
             clientId = this.client_id,

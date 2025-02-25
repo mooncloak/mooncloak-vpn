@@ -9,8 +9,8 @@ import com.mooncloak.vpn.api.shared.server.ServerConnectionRecord
 import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.api.shared.vpn.VPNProtocol
 import com.mooncloak.vpn.app.shared.database.MooncloakDatabaseProvider
-import com.mooncloak.vpn.app.storage.sqlite.database.SelectAllStarred
-import com.mooncloak.vpn.app.storage.sqlite.database.SelectStarredPage
+import com.mooncloak.vpn.data.sqlite.database.SelectAllStarred
+import com.mooncloak.vpn.data.sqlite.database.SelectStarredPage
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
@@ -312,7 +312,7 @@ public class ServerConnectionRecordDatabaseSource @Inject public constructor(
         }
     }
 
-    private fun com.mooncloak.vpn.app.storage.sqlite.database.ServerConnectionRecord.toServerConnectionRecord(): ServerConnectionRecord =
+    private fun com.mooncloak.vpn.data.sqlite.database.ServerConnectionRecord.toServerConnectionRecord(): ServerConnectionRecord =
         ServerConnectionRecord(
             lastConnected = this.connected,
             starred = this.starred,

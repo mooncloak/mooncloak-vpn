@@ -7,14 +7,14 @@ import com.mooncloak.vpn.data.sqlite.adapter.DatabaseAdapter
 import com.mooncloak.vpn.data.sqlite.adapter.instantAsMillisecondsLong
 import com.mooncloak.vpn.data.sqlite.adapter.jsonElementAsString
 import com.mooncloak.vpn.data.sqlite.adapter.jsonObjectAsString
-import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
-import com.mooncloak.vpn.app.storage.sqlite.database.PurchaseReceipt
-import com.mooncloak.vpn.app.storage.sqlite.database.RegisteredClient
-import com.mooncloak.vpn.app.storage.sqlite.database.ServerConnectionRecord
-import com.mooncloak.vpn.app.storage.sqlite.database.ServicePlan
-import com.mooncloak.vpn.app.storage.sqlite.database.ServiceTokens
 import com.mooncloak.vpn.data.sqlite.DatabaseManager
 import com.mooncloak.vpn.data.sqlite.SqlDriverFactory
+import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
+import com.mooncloak.vpn.data.sqlite.database.PurchaseReceipt
+import com.mooncloak.vpn.data.sqlite.database.RegisteredClient
+import com.mooncloak.vpn.data.sqlite.database.ServerConnectionRecord
+import com.mooncloak.vpn.data.sqlite.database.ServicePlan
+import com.mooncloak.vpn.data.sqlite.database.ServiceTokens
 
 @Singleton
 public class MooncloakDatabaseProvider @Inject public constructor(

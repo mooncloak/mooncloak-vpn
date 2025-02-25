@@ -13,7 +13,6 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
     id("com.mikepenz.aboutlibraries.plugin")
-    id("app.cash.sqldelight")
     id("com.codingfeline.buildkonfig")
 }
 
@@ -383,21 +382,5 @@ buildkonfig {
             name = "appBuildTime",
             value = nowTimestamp()
         )
-    }
-}
-
-/**
- * Creates and defines the core app database. This uses the SqlDelight library and Sqlite.
- *
- * @see [SqlDelight Documentation](https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/)
- */
-sqldelight {
-    databases {
-        create("MooncloakDatabase") {
-            packageName.set("com.mooncloak.vpn.app.storage.sqlite.database")
-            srcDirs("src/commonMain/sqldelight")
-            schemaOutputDirectory.set(file("src/commonMain/sqldelight/databases"))
-            verifyMigrations.set(false)
-        }
     }
 }

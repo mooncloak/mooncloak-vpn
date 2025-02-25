@@ -153,7 +153,7 @@ public class ServiceTokensDatabaseSource @Inject public constructor(
         }
     }
 
-    private fun com.mooncloak.vpn.app.storage.sqlite.database.ServiceTokens.toServiceTokens(): ServiceTokens =
+    private fun com.mooncloak.vpn.data.sqlite.database.ServiceTokens.toServiceTokens(): ServiceTokens =
         ServiceTokens(
             id = this.id,
             accessToken = Token(value = this.accessToken),

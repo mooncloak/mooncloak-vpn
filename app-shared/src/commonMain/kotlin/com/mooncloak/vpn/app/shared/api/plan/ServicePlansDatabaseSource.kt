@@ -11,7 +11,7 @@ import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
 import com.mooncloak.vpn.api.shared.plan.TaxCode
 import com.mooncloak.vpn.api.shared.plan.UsageType
 import com.mooncloak.vpn.api.shared.plan.duration
-import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
+import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
@@ -118,7 +118,7 @@ public class ServicePlansDatabaseSource @Inject public constructor(
         )
     }
 
-    private fun com.mooncloak.vpn.app.storage.sqlite.database.ServicePlan.toVPNServicePlan(): Plan =
+    private fun com.mooncloak.vpn.data.sqlite.database.ServicePlan.toVPNServicePlan(): Plan =
         Plan(
             id = id,
             provider = BillingProvider(value = this.provider),
