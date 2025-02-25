@@ -6,7 +6,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.vpn.app.desktop.api.server.JvmVPNConnectionManager
 import com.mooncloak.vpn.api.shared.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.billing.MooncloakBillingManager
-import com.mooncloak.vpn.api.shared.plan.ServicePlansApiSource
+import com.mooncloak.vpn.app.shared.api.plan.ServicePlansApiSource
 import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent

@@ -1,5 +1,6 @@
 package com.mooncloak.vpn.api.shared.vpn
 
+import com.mooncloak.vpn.api.shared.server.Server
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 

@@ -4,14 +4,13 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.wifi.WifiManager
-import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import java.net.InetAddress
 
 public operator fun LocalNetworkManager.Companion.invoke(context: Context): LocalNetworkManager =
     AndroidLocalNetworkManager(context = context)
 
 internal class AndroidLocalNetworkManager internal constructor(
-    private val context: ApplicationContext
+    private val context: Context
 ) : LocalNetworkManager {
 
     // TODO: Implement AndroidLocalNetworkManager

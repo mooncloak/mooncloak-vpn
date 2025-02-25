@@ -95,7 +95,7 @@ public fun RegionServerListScreen(
                 ) { server ->
                     ServerListItem(
                         modifier = Modifier.fillMaxWidth()
-                            .clickable(enabled = server.status?.active == true && server.status.connectable) {
+                            .clickable(enabled = server.status?.active == true && server.status?.connectable == true) {
                                 onConnect.invoke(server)
                             },
                         server = server

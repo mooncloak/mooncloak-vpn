@@ -1,7 +1,9 @@
-package com.mooncloak.vpn.api.shared.plan
+package com.mooncloak.vpn.app.shared.api.plan
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.plan.Plan
+import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
 
 public class ServicePlansApiSource @Inject public constructor(
     private val api: MooncloakVpnServiceHttpApi

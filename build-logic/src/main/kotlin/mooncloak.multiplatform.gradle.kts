@@ -12,27 +12,6 @@ plugins {
 kotlin {
     applyDefaultHierarchyTemplate()
 
-    js {
-        browser {
-            testTask {
-                enabled = false
-            }
-        }
-
-        binaries.executable()
-    }
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser {
-            testTask {
-                enabled = false
-            }
-        }
-
-        binaries.executable()
-    }
-
     // TODO: Re-enable: linuxArm64()
     // TODO: Re-enable: linuxX64()
 
@@ -41,9 +20,9 @@ kotlin {
     // TODO: Re-enable: macosX64()
     // TODO: Re-enable: macosArm64()
 
-    // TODO: Re-enable: iosArm64()
-    // TODO: Re-enable: iosX64()
-    // TODO: Re-enable: iosSimulatorArm64()
+    iosArm64()
+    iosX64()
+    iosSimulatorArm64()
 
     // TODO: Re-enable: tvosArm64()
     // TODO: Re-enable: tvosX64()

@@ -1,8 +1,8 @@
 package com.mooncloak.vpn.api.shared.vpn
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.server.VPNConnectionStatus
+import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.server.VPNConnectionStatus
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Transient
 import kotlin.contracts.ExperimentalContracts

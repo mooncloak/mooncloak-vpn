@@ -5,7 +5,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.textx.PlainText
 import com.mooncloak.vpn.api.shared.plan.BillingProvider
 import com.mooncloak.vpn.api.shared.plan.Plan
-import com.mooncloak.vpn.api.shared.plan.ServicePlansApiSource
+import com.mooncloak.vpn.app.shared.api.plan.ServicePlansApiSource
 import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope

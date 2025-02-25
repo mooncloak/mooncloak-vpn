@@ -77,7 +77,7 @@ public fun ServerConnectionScreen(
                 is VPNConnection.Disconnected -> if (connection.errorMessage != null) {
                     ServerConnectionErrorLayout(
                         modifier = Modifier.fillMaxWidth(),
-                        message = connection.errorMessage
+                        message = connection.errorMessage ?: ""
                     )
                 } else {
                     ServerDisconnectedLayout(

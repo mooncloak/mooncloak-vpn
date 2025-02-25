@@ -24,11 +24,11 @@ import com.mooncloak.vpn.app.shared.resource.subscription_error_load_usage
 import com.mooncloak.vpn.app.shared.settings.SubscriptionSettings
 import com.mooncloak.vpn.app.shared.util.DataFormatter
 import com.mooncloak.vpn.app.shared.util.Default
+import com.mooncloak.vpn.app.shared.util.time.remaining
 import com.mooncloak.vpn.util.shared.time.DateTimeFormatter
 import com.mooncloak.vpn.util.shared.time.DurationFormatter
 import com.mooncloak.vpn.util.shared.time.Full
 import com.mooncloak.vpn.util.shared.time.format
-import com.mooncloak.vpn.util.shared.time.remaining
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

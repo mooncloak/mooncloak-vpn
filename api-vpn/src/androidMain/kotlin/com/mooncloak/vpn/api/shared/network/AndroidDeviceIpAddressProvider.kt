@@ -8,14 +8,13 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.warning
-import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
-import com.mooncloak.vpn.app.shared.util.ApplicationContext
+import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
 import kotlinx.datetime.Clock
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 public operator fun DeviceIPAddressProvider.Companion.invoke(
-    context: ApplicationContext,
+    context: Context,
     mooncloakApi: MooncloakVpnServiceHttpApi,
     clock: Clock = Clock.System,
     cachePeriod: Duration = 30.seconds
@@ -28,7 +27,7 @@ public operator fun DeviceIPAddressProvider.Companion.invoke(
 
 @SuppressLint("MissingPermission")
 internal class AndroidDeviceIpAddressProvider internal constructor(
-    context: ApplicationContext,
+    context: Context,
     private val mooncloakApi: MooncloakVpnServiceHttpApi,
     private val clock: Clock,
     private val cachePeriod: Duration

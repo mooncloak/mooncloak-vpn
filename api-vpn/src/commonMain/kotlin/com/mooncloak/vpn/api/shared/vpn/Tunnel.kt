@@ -2,8 +2,8 @@ package com.mooncloak.vpn.api.shared.vpn
 
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
-import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.server.VPNConnectionStatus
+import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.server.VPNConnectionStatus
 
 @Stable
 public interface Tunnel {
