@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.info
+package com.mooncloak.vpn.util.shared.platform
 
 public enum class RuntimePlatform {
 

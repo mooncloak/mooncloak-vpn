@@ -48,8 +48,8 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowScope
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.rememberWindowState
-import com.mooncloak.vpn.app.shared.info.RuntimePlatform
-import com.mooncloak.vpn.app.shared.info.current
+import com.mooncloak.vpn.util.shared.platform.RuntimePlatform
+import com.mooncloak.vpn.util.shared.platform.current
 import com.mooncloak.vpn.app.shared.theme.MooncloakTheme
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
 import com.mooncloak.vpn.app.shared.window.LocalWindowTitleBarState
