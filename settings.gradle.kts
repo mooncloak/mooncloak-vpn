@@ -32,6 +32,8 @@ plugins {
 
 rootProject.name = "mooncloak-vpn"
 
+include(":data-shared")
+
 include(":api-vpn")
 
 include(":app-shared")
