@@ -24,8 +24,8 @@ import com.mooncloak.vpn.app.shared.util.http.DefaultUnauthorizedInterceptor
 import com.mooncloak.vpn.app.shared.util.http.UnauthorizedInterceptor
 import com.mooncloak.vpn.app.shared.util.http.interceptUnauthorized
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
-import com.mooncloak.vpn.data.shared.MutableKeyValueStorage
-import com.mooncloak.vpn.data.shared.SettingsKeyValueStorage
+import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueStorage
+import com.mooncloak.vpn.data.shared.keyvalue.SettingsKeyValueStorage
 import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.compression.ContentEncoding

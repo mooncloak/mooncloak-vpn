@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.data.shared
+package com.mooncloak.vpn.data.shared.keyvalue
 
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.Settings

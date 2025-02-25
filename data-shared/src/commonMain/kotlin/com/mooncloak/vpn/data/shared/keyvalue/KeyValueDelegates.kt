@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.data.shared
+package com.mooncloak.vpn.data.shared.keyvalue
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.serializer

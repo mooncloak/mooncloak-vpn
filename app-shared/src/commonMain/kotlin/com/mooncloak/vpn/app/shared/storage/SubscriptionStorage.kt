@@ -4,10 +4,9 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 import com.mooncloak.vpn.api.shared.service.ServiceTokens
-import com.mooncloak.vpn.data.shared.KeyValueProperty
-import com.mooncloak.vpn.data.shared.MutableKeyValueProperty
-import com.mooncloak.vpn.data.shared.MutableKeyValueStorage
-import com.mooncloak.vpn.data.shared.property
+import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueProperty
+import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueStorage
+import com.mooncloak.vpn.data.shared.keyvalue.property
 
 @Singleton
 public class SubscriptionStorage @Inject public constructor(

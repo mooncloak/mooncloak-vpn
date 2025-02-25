@@ -12,7 +12,7 @@ import com.mooncloak.vpn.app.shared.storage.database.DatabaseDriverFactory
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
-import com.mooncloak.vpn.data.shared.MutableKeyValueStorage
+import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueStorage
 import io.ktor.client.HttpClient
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
