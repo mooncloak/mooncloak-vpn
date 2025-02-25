@@ -33,7 +33,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
-import com.mooncloak.vpn.app.shared.feature.wireguard.dns.di.createDnsServerConfigComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.cd_action_reset
 import com.mooncloak.vpn.app.shared.resource.settings_dns_servers_action_save

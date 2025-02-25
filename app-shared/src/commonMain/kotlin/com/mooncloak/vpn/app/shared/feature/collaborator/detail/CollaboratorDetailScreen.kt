@@ -13,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
-import com.mooncloak.vpn.app.shared.feature.collaborator.detail.di.createCollaboratorDetailComponent
 
 @Composable
 public fun CollaboratorDetailScreen(

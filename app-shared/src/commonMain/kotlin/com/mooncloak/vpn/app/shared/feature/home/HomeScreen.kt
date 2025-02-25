@@ -34,7 +34,6 @@ import com.mooncloak.vpn.app.shared.feature.home.composable.AdShieldCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.GetVPNServiceCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.HomeBottomSheet
 import com.mooncloak.vpn.app.shared.feature.home.composable.ShowcaseCard
-import com.mooncloak.vpn.app.shared.feature.home.di.createHomeComponent
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import dev.chrisbanes.haze.HazeState

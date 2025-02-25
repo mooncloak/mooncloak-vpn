@@ -29,7 +29,6 @@ import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.server.region.composable.ServerListItem
-import com.mooncloak.vpn.app.shared.feature.server.region.di.createRegionServerListComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.server_list_header_label
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha

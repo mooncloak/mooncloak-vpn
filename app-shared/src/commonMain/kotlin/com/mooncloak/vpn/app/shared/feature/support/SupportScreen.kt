@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.support.composable.DefaultSupportCard
-import com.mooncloak.vpn.app.shared.feature.support.di.createSupportComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_support_title
 import com.mooncloak.vpn.app.shared.resource.support_email_action

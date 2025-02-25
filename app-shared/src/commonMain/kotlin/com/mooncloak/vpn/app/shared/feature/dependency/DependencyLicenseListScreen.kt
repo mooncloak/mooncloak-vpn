@@ -28,7 +28,6 @@ import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.dependency.composable.LicenseDialog
 import com.mooncloak.vpn.app.shared.feature.dependency.composable.NoDependenciesFoundLayout
-import com.mooncloak.vpn.app.shared.feature.dependency.di.createDependencyLicenseListComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.dependency_list_description
 import com.mooncloak.vpn.app.shared.resource.dependency_list_header

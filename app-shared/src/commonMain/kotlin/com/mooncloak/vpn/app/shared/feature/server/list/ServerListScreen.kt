@@ -42,7 +42,6 @@ import com.mooncloak.vpn.app.shared.feature.server.list.composable.NoServersCard
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.PreReleaseNoticeCard
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.ServerListBottomSheet
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.ServerListItem
-import com.mooncloak.vpn.app.shared.feature.server.list.di.createServerListComponent
 import com.mooncloak.vpn.app.shared.feature.server.list.model.ServerListBottomSheetDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_servers_title

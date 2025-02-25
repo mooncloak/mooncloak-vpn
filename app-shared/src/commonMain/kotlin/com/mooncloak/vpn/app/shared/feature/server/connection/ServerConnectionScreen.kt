@@ -19,7 +19,6 @@ import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerC
 import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerConnectionErrorLayout
 import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerDisconnectedLayout
 import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerDisconnectingLayout
-import com.mooncloak.vpn.app.shared.feature.server.connection.di.createServerConnectionComponent
 
 @Composable
 public fun ServerConnectionScreen(

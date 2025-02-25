@@ -12,6 +12,8 @@ import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationScoped
+import com.mooncloak.vpn.app.shared.util.JvmLibsLoader
+import com.mooncloak.vpn.app.shared.feature.dependency.util.LibsLoader
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import com.mooncloak.vpn.util.shared.coroutine.PresentationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.invoke
@@ -41,6 +43,10 @@ internal abstract class JvmPresentationComponent internal constructor(
     @PresentationScoped
     internal fun provideServerConnectionManager(manager: JvmVPNConnectionManager): VPNConnectionManager =
         manager
+
+    @Provides
+    @PresentationScoped
+    internal fun provideLibsLoader(loader: JvmLibsLoader): LibsLoader = loader
 }
 
 internal fun PresentationComponent.Companion.create(

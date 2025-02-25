@@ -26,7 +26,6 @@ import com.mooncloak.vpn.app.shared.feature.payment.purchase.composable.BitcoinI
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.composable.PaymentErrorLayout
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.composable.PaymentSuccessLayout
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.composable.PlansLayout
-import com.mooncloak.vpn.app.shared.feature.payment.purchase.di.createPaymentComponent
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.model.PaymentDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.payment_status_pending

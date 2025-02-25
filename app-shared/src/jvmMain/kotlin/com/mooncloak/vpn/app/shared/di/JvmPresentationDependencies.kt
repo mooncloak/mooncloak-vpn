@@ -5,6 +5,7 @@ import com.mooncloak.vpn.api.shared.billing.BillingManager
 import com.mooncloak.vpn.api.shared.plan.ServicePlansProvider
 import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
+import com.mooncloak.vpn.app.shared.feature.dependency.util.LibsLoader
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import com.mooncloak.vpn.util.shared.coroutine.PresentationCoroutineScope
 
@@ -17,6 +18,7 @@ public actual interface PresentationDependencies {
     public actual val plansProvider: ServicePlansProvider
     public actual val vpnConnectionManager: VPNConnectionManager
     public actual val presentationCoroutineScope: PresentationCoroutineScope
+    public actual val libsLoader: LibsLoader
 
     public actual companion object
 }

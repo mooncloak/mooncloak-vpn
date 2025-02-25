@@ -13,6 +13,8 @@ import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationScoped
+import com.mooncloak.vpn.app.shared.util.AndroidLibsLoader
+import com.mooncloak.vpn.app.shared.feature.dependency.util.LibsLoader
 import com.mooncloak.vpn.app.shared.util.ActivityContext
 import com.mooncloak.vpn.app.shared.util.AndroidSystemAuthenticationProvider
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
@@ -45,6 +47,10 @@ internal abstract class AndroidPresentationComponent internal constructor(
     @PresentationScoped
     internal fun provideServerConnectionManager(manager: AndroidVPNConnectionManager): VPNConnectionManager =
         manager
+
+    @Provides
+    @PresentationScoped
+    internal fun provideLibsLoader(loader: AndroidLibsLoader): LibsLoader = loader
 }
 
 internal fun PresentationComponent.Companion.create(

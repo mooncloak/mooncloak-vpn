@@ -44,7 +44,6 @@ import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsPreferen
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsSubscriptionGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsThemeGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsWireGuardGroup
-import com.mooncloak.vpn.app.shared.feature.settings.di.createSettingsComponent
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.app_built_description

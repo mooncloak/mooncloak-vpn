@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,7 +18,6 @@ import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,7 +31,6 @@ import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.collaborator.list.composable.CollaboratorHeader
 import com.mooncloak.vpn.app.shared.feature.collaborator.list.composable.CollaboratorListItem
 import com.mooncloak.vpn.app.shared.feature.collaborator.list.composable.NoCollaboratorsCard
-import com.mooncloak.vpn.app.shared.feature.collaborator.list.di.createCollaboratorListComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.collaborator_list_description_empty
 import com.mooncloak.vpn.app.shared.resource.collaborator_list_description_error

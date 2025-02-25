@@ -2,6 +2,7 @@ package com.mooncloak.vpn.api.shared.plan
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.jvm.JvmInline
 
 @Serializable
 public data class Currency public constructor(

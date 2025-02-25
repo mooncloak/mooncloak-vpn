@@ -37,7 +37,6 @@ import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.country.composable.CountryListBottomSheet
 import com.mooncloak.vpn.app.shared.feature.country.composable.CountryListItem
 import com.mooncloak.vpn.app.shared.feature.country.composable.NoVPNServersCard
-import com.mooncloak.vpn.app.shared.feature.country.di.createCountryListComponent
 import com.mooncloak.vpn.app.shared.feature.country.model.CountryListBottomSheetDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_countries_title

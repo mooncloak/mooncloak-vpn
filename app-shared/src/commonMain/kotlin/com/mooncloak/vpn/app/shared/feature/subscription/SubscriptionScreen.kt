@@ -25,7 +25,6 @@ import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.subscription.composable.SubscriptionDetailsLayout
 import com.mooncloak.vpn.app.shared.feature.subscription.composable.PaymentHistoryCard
 import com.mooncloak.vpn.app.shared.feature.subscription.composable.SubscriptionSection
-import com.mooncloak.vpn.app.shared.feature.subscription.di.createSubscriptionComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.subscription_action_boost
 import com.mooncloak.vpn.app.shared.resource.subscription_action_protect

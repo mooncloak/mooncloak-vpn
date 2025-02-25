@@ -35,7 +35,6 @@ import com.mooncloak.vpn.app.shared.feature.server.details.composable.IpAddressC
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.ServerInfoCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.ServerLocationCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.UsageCard
-import com.mooncloak.vpn.app.shared.feature.server.details.di.createServerDetailsComponent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.server_details_action_connect
 import com.mooncloak.vpn.app.shared.resource.server_details_action_disconnect

@@ -30,7 +30,6 @@ import com.mooncloak.vpn.app.shared.feature.country.CountryListScreen
 import com.mooncloak.vpn.app.shared.feature.home.HomeScreen
 import com.mooncloak.vpn.app.shared.feature.main.composable.MainBottomSheet
 import com.mooncloak.vpn.app.shared.feature.main.composable.MooncloakNavigationScaffold
-import com.mooncloak.vpn.app.shared.feature.main.di.createMainComponent
 import com.mooncloak.vpn.app.shared.feature.main.model.MainBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.main.util.containerColor
 import com.mooncloak.vpn.app.shared.feature.main.util.contentColor
