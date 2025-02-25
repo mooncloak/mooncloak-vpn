@@ -3,10 +3,10 @@ package com.mooncloak.vpn.app.shared.storage.database
 import app.cash.sqldelight.db.SqlDriver
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.konstruct.annotations.Singleton
-import com.mooncloak.vpn.app.shared.storage.database.adapter.DatabaseAdapter
-import com.mooncloak.vpn.app.shared.storage.database.adapter.instantAsMillisecondsLong
-import com.mooncloak.vpn.app.shared.storage.database.adapter.jsonElementAsString
-import com.mooncloak.vpn.app.shared.storage.database.adapter.jsonObjectAsString
+import com.mooncloak.vpn.data.shared.database.adapter.DatabaseAdapter
+import com.mooncloak.vpn.data.shared.database.adapter.instantAsMillisecondsLong
+import com.mooncloak.vpn.data.shared.database.adapter.jsonElementAsString
+import com.mooncloak.vpn.data.shared.database.adapter.jsonObjectAsString
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.app.storage.sqlite.database.PurchaseReceipt
 import com.mooncloak.vpn.app.storage.sqlite.database.RegisteredClient

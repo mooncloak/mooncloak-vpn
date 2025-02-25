@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.storage.database.adapter
+package com.mooncloak.vpn.data.shared.database.adapter
 
 import app.cash.sqldelight.ColumnAdapter
 import kotlinx.serialization.BinaryFormat

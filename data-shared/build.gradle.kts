@@ -45,6 +45,11 @@ kotlin {
                 api(RussHWolf.multiplatformSettings.noArg)
                 implementation(RussHWolf.multiplatformSettings.coroutines)
                 implementation(RussHWolf.multiplatformSettings.serialization)
+
+                // Database - Sqlite - SqlDelight
+                // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
+                api("app.cash.sqldelight:coroutines-extensions:_")
+                api("app.cash.sqldelight:primitive-adapters:_")
             }
         }
 
