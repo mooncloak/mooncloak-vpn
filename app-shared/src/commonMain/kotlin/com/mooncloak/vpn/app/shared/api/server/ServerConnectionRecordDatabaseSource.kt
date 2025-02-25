@@ -3,9 +3,9 @@ package com.mooncloak.vpn.app.shared.api.server
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.locale.Country
 import com.mooncloak.kodetools.locale.Region
-import com.mooncloak.vpn.app.shared.api.vpn.VPNProtocol
+import com.mooncloak.vpn.api.shared.server.ConnectionType
+import com.mooncloak.vpn.api.shared.vpn.VPNProtocol
 import com.mooncloak.vpn.app.shared.storage.database.MooncloakDatabaseProvider
-import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.app.storage.sqlite.database.SelectAllStarred
 import com.mooncloak.vpn.app.storage.sqlite.database.SelectStarredPage
 import kotlinx.coroutines.sync.Mutex

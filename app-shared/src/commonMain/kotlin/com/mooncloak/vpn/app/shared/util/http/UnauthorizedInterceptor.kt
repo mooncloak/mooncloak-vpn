@@ -8,7 +8,7 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
-import com.mooncloak.vpn.app.shared.api.service.ServiceTokens
+import com.mooncloak.vpn.api.shared.service.ServiceTokens
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import io.ktor.client.HttpClient
 import io.ktor.client.call.HttpClientCall

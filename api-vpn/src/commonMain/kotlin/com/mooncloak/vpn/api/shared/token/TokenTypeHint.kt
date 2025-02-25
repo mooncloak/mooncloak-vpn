@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.api.token
+package com.mooncloak.vpn.api.shared.token
 
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline

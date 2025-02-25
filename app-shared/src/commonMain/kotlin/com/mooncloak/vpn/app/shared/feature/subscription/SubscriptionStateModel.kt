@@ -3,8 +3,8 @@ package com.mooncloak.vpn.app.shared.feature.subscription
 import androidx.compose.runtime.Immutable
 import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceipt
 import com.mooncloak.vpn.app.shared.api.plan.Plan
-import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
-import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionUsage
+import com.mooncloak.vpn.api.shared.service.ServiceSubscription
+import com.mooncloak.vpn.api.shared.service.ServiceSubscriptionUsage
 import com.mooncloak.vpn.app.shared.feature.subscription.model.SubscriptionDetails
 
 @Immutable

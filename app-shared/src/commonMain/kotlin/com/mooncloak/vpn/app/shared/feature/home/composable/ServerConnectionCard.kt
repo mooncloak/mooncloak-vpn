@@ -20,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.mooncloak.vpn.app.shared.api.server.ConnectionType
+import com.mooncloak.vpn.api.shared.server.ConnectionType
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.action_connect
 import com.mooncloak.vpn.app.shared.resource.action_disconnect

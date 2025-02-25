@@ -3,7 +3,7 @@ package com.mooncloak.vpn.app.shared.feature.server.list
 import androidx.compose.runtime.Immutable
 import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
-import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
+import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 
 @Immutable
 public data class ServerListStateModel public constructor(

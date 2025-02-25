@@ -1,7 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.collaborator.list
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.api.app.Contributor
+import com.mooncloak.vpn.api.shared.app.Contributor
 
 @Immutable
 public data class CollaboratorListStateModel public constructor(

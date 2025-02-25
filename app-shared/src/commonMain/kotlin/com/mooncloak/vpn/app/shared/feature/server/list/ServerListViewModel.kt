@@ -67,11 +67,9 @@ public class ServerListViewModel @Inject public constructor(
                 val token = subscriptionStorage.tokens.current.value?.accessToken
 
                 // TODO: Properly support paginating servers
-                val servers = withContext(Dispatchers.IO) {
-                    api.paginateServers(
-                        token = token
-                    )
-                }
+                val servers = api.paginateServers(
+                    token = token
+                )
 
                 emit { current ->
                     current.copy(

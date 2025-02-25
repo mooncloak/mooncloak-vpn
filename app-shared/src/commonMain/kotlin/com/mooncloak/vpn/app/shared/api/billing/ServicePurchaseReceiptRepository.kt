@@ -2,7 +2,7 @@ package com.mooncloak.vpn.app.shared.api.billing
 
 import com.mooncloak.vpn.app.shared.api.plan.BillingProvider
 import com.mooncloak.vpn.app.shared.api.plan.Price
-import com.mooncloak.vpn.app.shared.api.token.TransactionToken
+import com.mooncloak.vpn.api.shared.token.TransactionToken
 import kotlinx.coroutines.CancellationException
 import kotlinx.datetime.Instant
 

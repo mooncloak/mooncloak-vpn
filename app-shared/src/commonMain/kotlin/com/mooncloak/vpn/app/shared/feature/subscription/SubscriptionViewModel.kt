@@ -9,10 +9,10 @@ import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptRepository
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansRepository
-import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
-import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionUsage
-import com.mooncloak.vpn.app.shared.api.service.isActive
-import com.mooncloak.vpn.app.shared.api.token.Token
+import com.mooncloak.vpn.api.shared.service.ServiceSubscription
+import com.mooncloak.vpn.api.shared.service.ServiceSubscriptionUsage
+import com.mooncloak.vpn.api.shared.service.isActive
+import com.mooncloak.vpn.api.shared.token.Token
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.subscription.model.SubscriptionDetails
 import com.mooncloak.vpn.app.shared.resource.Res

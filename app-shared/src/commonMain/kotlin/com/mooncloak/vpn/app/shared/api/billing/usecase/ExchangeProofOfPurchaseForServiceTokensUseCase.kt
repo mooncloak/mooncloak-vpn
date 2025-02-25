@@ -3,7 +3,7 @@ package com.mooncloak.vpn.app.shared.api.billing.usecase
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.billing.ProofOfPurchase
-import com.mooncloak.vpn.app.shared.api.service.ServiceTokens
+import com.mooncloak.vpn.api.shared.service.ServiceTokens
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
 
 public class ExchangeProofOfPurchaseForServiceTokensUseCase @Inject public constructor(

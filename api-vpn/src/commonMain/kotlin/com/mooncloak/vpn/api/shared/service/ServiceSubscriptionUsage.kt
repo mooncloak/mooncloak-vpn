@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.api.service
+package com.mooncloak.vpn.api.shared.service
 
 import androidx.compose.runtime.Immutable
 import kotlinx.datetime.Instant

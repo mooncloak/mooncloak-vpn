@@ -11,8 +11,8 @@ import com.mooncloak.vpn.app.shared.api.billing.usecase.GetServiceSubscriptionFl
 import com.mooncloak.vpn.app.shared.api.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.preference.WireGuardPreferences
-import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
-import com.mooncloak.vpn.app.shared.api.service.isActive
+import com.mooncloak.vpn.api.shared.service.ServiceSubscription
+import com.mooncloak.vpn.api.shared.service.isActive
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsAppDetails
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsDeviceDetails

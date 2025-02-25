@@ -6,7 +6,7 @@ import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.api.server.VPNConnectionStatus
-import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
+import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 
 @Immutable
 public data class HomeStateModel public constructor(

@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.api.app.Contributor
+import com.mooncloak.vpn.api.shared.app.Contributor
 import com.mooncloak.vpn.app.shared.composable.AvatarImage
 
 @Composable

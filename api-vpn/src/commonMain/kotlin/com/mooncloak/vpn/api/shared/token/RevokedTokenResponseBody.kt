@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.api.token
+package com.mooncloak.vpn.api.shared.token
 
 import androidx.compose.runtime.Immutable
 import kotlinx.serialization.SerialName
@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 
 @Immutable
 @Serializable
-internal data class RevokedTokenResponseBody internal constructor(
+public data class RevokedTokenResponseBody public constructor(
     @SerialName(value = "success") val success: Boolean = true
 )

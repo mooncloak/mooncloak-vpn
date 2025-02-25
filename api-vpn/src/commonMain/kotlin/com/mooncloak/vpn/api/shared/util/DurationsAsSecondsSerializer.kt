@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.util
+package com.mooncloak.vpn.api.shared.util
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.serializer

@@ -2,7 +2,7 @@ package com.mooncloak.vpn.app.shared.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
-import com.mooncloak.vpn.app.shared.api.server.ConnectionType
+import com.mooncloak.vpn.api.shared.server.ConnectionType
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.connection_type_multiple
 import com.mooncloak.vpn.app.shared.resource.connection_type_p2p

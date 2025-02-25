@@ -1,7 +1,8 @@
-package com.mooncloak.vpn.app.shared.api.server
+package com.mooncloak.vpn.api.shared.server
 
 import androidx.compose.runtime.Immutable
 import kotlinx.serialization.Serializable
+import kotlin.jvm.JvmInline
 
 @Immutable
 @Serializable

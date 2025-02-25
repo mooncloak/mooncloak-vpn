@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.api.reflection
+package com.mooncloak.vpn.api.shared.reflection
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -5,8 +5,8 @@ import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.persistence.PersistableStateContainer
 import com.mooncloak.kodetools.statex.persistence.persistableStateContainerOf
-import com.mooncloak.vpn.app.shared.api.service.ServiceSubscription
-import com.mooncloak.vpn.app.shared.api.service.ServiceTokens
+import com.mooncloak.vpn.api.shared.service.ServiceSubscription
+import com.mooncloak.vpn.api.shared.service.ServiceTokens
 import kotlinx.serialization.modules.SerializersModule
 
 @Singleton

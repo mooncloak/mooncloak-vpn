@@ -8,8 +8,8 @@ import com.mooncloak.vpn.app.shared.api.billing.usecase.ExchangeProofOfPurchaseF
 import com.mooncloak.vpn.app.shared.api.billing.usecase.GetServiceSubscriptionForTokensUseCase
 import com.mooncloak.vpn.app.shared.api.plan.BillingProvider
 import com.mooncloak.vpn.app.shared.api.plan.Plan
-import com.mooncloak.vpn.app.shared.api.service.ServiceAccessDetails
-import com.mooncloak.vpn.app.shared.api.token.TransactionToken
+import com.mooncloak.vpn.api.shared.service.ServiceAccessDetails
+import com.mooncloak.vpn.api.shared.token.TransactionToken
 import kotlinx.datetime.Instant
 
 internal class ExchangeGooglePlayPurchaseForServiceAccessUseCase @Inject internal constructor(

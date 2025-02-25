@@ -1,9 +1,9 @@
-package com.mooncloak.vpn.app.shared.api.service
+package com.mooncloak.vpn.api.shared.service
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.util.DurationAsSecondsSerializer
-import com.mooncloak.vpn.app.shared.api.token.Token
-import com.mooncloak.vpn.app.shared.api.token.TokenType
+import com.mooncloak.vpn.api.shared.token.Token
+import com.mooncloak.vpn.api.shared.token.TokenType
+import com.mooncloak.vpn.api.shared.util.DurationAsSecondsSerializer
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
