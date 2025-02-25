@@ -3,10 +3,10 @@ package com.mooncloak.vpn.app.android.play
 import com.android.billingclient.api.ProductDetails
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.textx.PlainText
-import com.mooncloak.vpn.app.shared.api.plan.BillingProvider
-import com.mooncloak.vpn.app.shared.api.plan.Plan
-import com.mooncloak.vpn.app.shared.api.plan.ServicePlansApiSource
-import com.mooncloak.vpn.app.shared.api.plan.ServicePlansRepository
+import com.mooncloak.vpn.api.shared.plan.BillingProvider
+import com.mooncloak.vpn.api.shared.plan.Plan
+import com.mooncloak.vpn.api.shared.plan.ServicePlansApiSource
+import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 

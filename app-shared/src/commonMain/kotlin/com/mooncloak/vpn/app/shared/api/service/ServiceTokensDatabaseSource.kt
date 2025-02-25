@@ -4,10 +4,11 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.api.shared.service.ServiceTokens
+import com.mooncloak.vpn.api.shared.service.ServiceTokensRepository
 import com.mooncloak.vpn.api.shared.token.Token
 import com.mooncloak.vpn.api.shared.token.TokenType
 import com.mooncloak.vpn.app.shared.database.MooncloakDatabaseProvider
-import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
+import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow

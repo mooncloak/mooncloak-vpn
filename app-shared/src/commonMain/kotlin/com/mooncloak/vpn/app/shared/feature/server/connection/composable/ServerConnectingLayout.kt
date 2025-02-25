@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.api.server.Server
+import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.app.shared.composable.PulsatingDots
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.server_connection_connecting_title

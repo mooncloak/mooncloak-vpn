@@ -5,7 +5,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.persistence.PersistableStateContainer
 import com.mooncloak.kodetools.statex.persistence.persistableStateContainerOf
-import com.mooncloak.vpn.app.shared.api.preference.WireGuardPreferences
+import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
 import kotlinx.serialization.modules.SerializersModule
 import kotlin.time.Duration

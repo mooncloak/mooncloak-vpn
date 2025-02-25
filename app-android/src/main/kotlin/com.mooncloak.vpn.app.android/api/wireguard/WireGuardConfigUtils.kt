@@ -1,9 +1,9 @@
 package com.mooncloak.vpn.app.android.api.wireguard
 
-import com.mooncloak.vpn.app.shared.api.preference.WireGuardPreferences
-import com.mooncloak.vpn.app.shared.api.server.RegisteredClient
-import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.server.requireWireGuardEndpoint
+import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
+import com.mooncloak.vpn.api.shared.server.RegisteredClient
+import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.server.requireWireGuardEndpoint
 import com.wireguard.config.Config
 import com.wireguard.config.InetAddresses
 import com.wireguard.config.InetEndpoint

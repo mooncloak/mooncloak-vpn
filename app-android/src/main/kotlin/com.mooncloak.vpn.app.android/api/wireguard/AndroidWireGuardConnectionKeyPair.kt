@@ -1,7 +1,7 @@
 package com.mooncloak.vpn.app.android.api.wireguard
 
-import com.mooncloak.vpn.app.shared.api.key.Base64Key
-import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPair
+import com.mooncloak.vpn.api.shared.key.Base64Key
+import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyPair
 import com.wireguard.crypto.KeyPair
 
 internal class AndroidWireGuardConnectionKeyPair internal constructor(

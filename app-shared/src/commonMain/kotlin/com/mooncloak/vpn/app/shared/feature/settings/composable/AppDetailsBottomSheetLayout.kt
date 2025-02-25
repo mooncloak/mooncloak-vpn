@@ -27,9 +27,9 @@ import com.mooncloak.vpn.app.shared.resource.settings_app_details_title_id
 import com.mooncloak.vpn.app.shared.resource.settings_app_details_title_name
 import com.mooncloak.vpn.app.shared.resource.settings_app_details_title_pre_release
 import com.mooncloak.vpn.app.shared.resource.settings_app_details_title_version
-import com.mooncloak.vpn.app.shared.util.time.DateTimeFormatter
-import com.mooncloak.vpn.app.shared.util.time.Full
-import com.mooncloak.vpn.app.shared.util.time.format
+import com.mooncloak.vpn.util.shared.time.DateTimeFormatter
+import com.mooncloak.vpn.util.shared.time.Full
+import com.mooncloak.vpn.util.shared.time.format
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

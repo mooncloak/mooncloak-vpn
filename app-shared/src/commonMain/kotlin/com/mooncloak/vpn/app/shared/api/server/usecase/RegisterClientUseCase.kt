@@ -1,11 +1,11 @@
 package com.mooncloak.vpn.app.shared.api.server.usecase
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
-import com.mooncloak.vpn.app.shared.api.key.Base64Key
-import com.mooncloak.vpn.app.shared.api.server.RegisteredClient
-import com.mooncloak.vpn.app.shared.api.server.RegisteredClientRepository
-import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
+import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.key.Base64Key
+import com.mooncloak.vpn.api.shared.server.RegisteredClient
+import com.mooncloak.vpn.api.shared.server.RegisteredClientRepository
+import com.mooncloak.vpn.api.shared.service.ServiceTokensRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

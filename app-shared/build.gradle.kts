@@ -45,6 +45,7 @@ kotlin {
             kotlin.srcDir("build/generated/ksp/commonMain/kotlin")
 
             dependencies {
+                api(project(":util-shared"))
                 api(project(":data-shared"))
                 api(project(":api-vpn"))
 

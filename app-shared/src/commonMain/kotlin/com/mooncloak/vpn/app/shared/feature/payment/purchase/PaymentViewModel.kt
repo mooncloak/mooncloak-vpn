@@ -12,11 +12,11 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.app.shared.api.billing.BillingManager
-import com.mooncloak.vpn.app.shared.api.billing.isFailure
-import com.mooncloak.vpn.app.shared.api.billing.isSuccess
-import com.mooncloak.vpn.app.shared.api.plan.Plan
-import com.mooncloak.vpn.app.shared.api.plan.ServicePlansProvider
+import com.mooncloak.vpn.api.shared.billing.BillingManager
+import com.mooncloak.vpn.api.shared.billing.isFailure
+import com.mooncloak.vpn.api.shared.billing.isSuccess
+import com.mooncloak.vpn.api.shared.plan.Plan
+import com.mooncloak.vpn.api.shared.plan.ServicePlansProvider
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.model.PaymentDestination

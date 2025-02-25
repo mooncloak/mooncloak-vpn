@@ -8,16 +8,16 @@ import com.mooncloak.vpn.app.android.api.wireguard.AndroidWireGuardConnectionKey
 import com.mooncloak.vpn.app.android.api.wireguard.WireGuardBackend
 import com.mooncloak.vpn.app.android.api.wireguard.WireGuardTunnelManager
 import com.mooncloak.vpn.app.android.util.WireGuardVpnContextWrapper
-import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyManager
-import com.mooncloak.vpn.app.shared.api.network.AndroidLocalNetworkManager
-import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
-import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
+import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
+import com.mooncloak.vpn.api.shared.network.LocalNetworkManager
+import com.mooncloak.vpn.api.shared.network.invoke
+import com.mooncloak.vpn.api.shared.vpn.TunnelManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.data.shared.database.invoke
 import com.mooncloak.vpn.data.shared.database.SqlDriverFactory
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
-import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
+import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import com.wireguard.android.backend.GoBackend
 
@@ -40,7 +40,8 @@ internal abstract class AndroidGooglePlayApplicationComponent internal construct
 
     @Provides
     @Singleton
-    internal fun provideLocalNetworkManager(manager: AndroidLocalNetworkManager): LocalNetworkManager = manager
+    internal fun provideLocalNetworkManager(context: ApplicationContext): LocalNetworkManager =
+        LocalNetworkManager(context = context)
 
     @Provides
     @Singleton

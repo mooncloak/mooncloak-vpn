@@ -1,5 +1,9 @@
 package com.mooncloak.vpn.app.shared.api.server
 
+import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.server.ServerStatus
+import com.mooncloak.vpn.api.shared.server.isConnectable
+import com.mooncloak.vpn.api.shared.server.isStatusConnectable
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue

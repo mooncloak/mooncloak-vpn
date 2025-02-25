@@ -1,10 +1,9 @@
 package com.mooncloak.vpn.app.shared.feature.server.details
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.api.network.LocalNetworkInfo
-import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
-import com.mooncloak.vpn.app.shared.api.vpn.connectedTo
+import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.vpn.VPNConnection
+import com.mooncloak.vpn.api.shared.vpn.connectedTo
 import kotlinx.datetime.Instant
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds

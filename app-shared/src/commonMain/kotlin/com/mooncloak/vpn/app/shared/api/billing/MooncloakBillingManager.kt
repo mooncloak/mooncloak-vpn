@@ -1,13 +1,17 @@
 package com.mooncloak.vpn.app.shared.api.billing
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
-import com.mooncloak.vpn.app.shared.api.plan.BillingProvider
-import com.mooncloak.vpn.app.shared.api.plan.Plan
+import com.mooncloak.vpn.api.shared.billing.BillingManager
+import com.mooncloak.vpn.api.shared.billing.BillingResult
+import com.mooncloak.vpn.api.shared.billing.MutableServicePurchaseReceiptRepository
+import com.mooncloak.vpn.api.shared.billing.ProofOfPurchase
+import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.plan.BillingProvider
+import com.mooncloak.vpn.api.shared.plan.Plan
 import com.mooncloak.vpn.api.shared.service.ServiceAccessDetails
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 import com.mooncloak.vpn.api.shared.service.ServiceTokens
-import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
+import com.mooncloak.vpn.api.shared.service.ServiceTokensRepository
 import com.mooncloak.vpn.api.shared.token.TransactionToken
 import com.mooncloak.vpn.app.shared.settings.SubscriptionSettings
 import kotlinx.coroutines.Dispatchers

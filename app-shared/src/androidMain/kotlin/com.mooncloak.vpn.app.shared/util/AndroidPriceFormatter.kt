@@ -3,12 +3,12 @@ package com.mooncloak.vpn.app.shared.util
 import android.icu.text.NumberFormat
 import android.icu.util.Currency
 import android.os.Build
-import com.mooncloak.vpn.app.shared.api.plan.Price
+import com.mooncloak.vpn.api.shared.plan.Price
 
 public actual fun Price.format(): String? {
     this.formatted?.let { return it }
 
-    val isUsd = currency.code == com.mooncloak.vpn.app.shared.api.plan.Currency.Code.USD
+    val isUsd = currency.code == com.mooncloak.vpn.api.shared.plan.Currency.Code.USD
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         val formatter = NumberFormat.getCurrencyInstance().apply {

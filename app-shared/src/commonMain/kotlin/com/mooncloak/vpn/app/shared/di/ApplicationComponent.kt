@@ -9,14 +9,15 @@ import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.info
-import com.mooncloak.vpn.app.shared.api.billing.MutableServicePurchaseReceiptRepository
+import com.mooncloak.vpn.api.shared.billing.MutableServicePurchaseReceiptRepository
 import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptDatabaseSource
-import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptRepository
+import com.mooncloak.vpn.api.shared.billing.ServicePurchaseReceiptRepository
 import com.mooncloak.vpn.app.shared.api.server.RegisteredClientDatabaseSource
-import com.mooncloak.vpn.app.shared.api.server.RegisteredClientRepository
+import com.mooncloak.vpn.api.shared.server.RegisteredClientRepository
 import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordDatabaseSource
-import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordRepository
-import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
+import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
+import com.mooncloak.vpn.api.shared.service.ServiceTokensRepository
+import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensSource
 import com.mooncloak.vpn.app.shared.util.image.MooncloakImageLoaderFactory
 import com.mooncloak.vpn.app.shared.database.MooncloakDatabaseProvider
@@ -41,6 +42,10 @@ import kotlinx.serialization.modules.SerializersModule
 
 @Singleton
 public abstract class ApplicationComponent : ApplicationDependencies {
+
+    @Provides
+    public fun provideMooncloakVpnServiceHttpApi(httpClient: HttpClient): MooncloakVpnServiceHttpApi =
+        MooncloakVpnServiceHttpApi(httpClient = httpClient)
 
     @Singleton
     @Provides

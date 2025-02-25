@@ -1,8 +1,11 @@
 package com.mooncloak.vpn.app.shared.api.billing
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.vpn.app.shared.api.plan.BillingProvider
-import com.mooncloak.vpn.app.shared.api.plan.Price
+import com.mooncloak.vpn.api.shared.billing.MutableServicePurchaseReceiptRepository
+import com.mooncloak.vpn.api.shared.billing.ServicePurchaseReceipt
+import com.mooncloak.vpn.api.shared.billing.ServicePurchaseReceiptRepository
+import com.mooncloak.vpn.api.shared.plan.BillingProvider
+import com.mooncloak.vpn.api.shared.plan.Price
 import com.mooncloak.vpn.api.shared.token.TransactionToken
 import com.mooncloak.vpn.app.shared.database.MooncloakDatabaseProvider
 import com.mooncloak.vpn.app.storage.sqlite.database.PurchaseReceipt

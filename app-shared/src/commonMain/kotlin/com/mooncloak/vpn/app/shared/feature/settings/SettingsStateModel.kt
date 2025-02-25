@@ -1,7 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.settings
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.api.preference.WireGuardPreferences
+import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsAppDetails
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsDeviceDetails
 import kotlin.time.Duration

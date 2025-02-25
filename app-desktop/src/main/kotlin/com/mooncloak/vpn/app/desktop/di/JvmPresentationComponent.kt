@@ -4,16 +4,16 @@ import androidx.compose.ui.platform.UriHandler
 import com.mooncloak.kodetools.konstruct.annotations.Component
 import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.vpn.app.desktop.api.server.JvmVPNConnectionManager
-import com.mooncloak.vpn.app.shared.api.billing.BillingManager
+import com.mooncloak.vpn.api.shared.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.billing.MooncloakBillingManager
-import com.mooncloak.vpn.app.shared.api.plan.ServicePlansApiSource
-import com.mooncloak.vpn.app.shared.api.plan.ServicePlansRepository
-import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
+import com.mooncloak.vpn.api.shared.plan.ServicePlansApiSource
+import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
+import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationScoped
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
-import com.mooncloak.vpn.app.shared.util.coroutine.PresentationCoroutineScope
+import com.mooncloak.vpn.util.shared.coroutine.PresentationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.invoke
 
 @Component

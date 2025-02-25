@@ -3,8 +3,8 @@ package com.mooncloak.vpn.app.shared.feature.home.model
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.painter.Painter
-import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
+import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.vpn.VPNConnection
 import kotlin.time.Duration
 
 @Immutable

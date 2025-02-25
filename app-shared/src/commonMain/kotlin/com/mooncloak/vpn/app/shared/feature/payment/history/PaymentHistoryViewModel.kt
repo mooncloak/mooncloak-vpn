@@ -5,15 +5,12 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptRepository
-import com.mooncloak.vpn.app.shared.api.plan.ServicePlansRepository
+import com.mooncloak.vpn.api.shared.billing.ServicePurchaseReceiptRepository
+import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
-import com.mooncloak.vpn.app.shared.resource.Res
-import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.jetbrains.compose.resources.getString
 
 @Stable
 @FeatureScoped

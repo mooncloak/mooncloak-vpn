@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceipt
+import com.mooncloak.vpn.api.shared.billing.ServicePurchaseReceipt
 import com.mooncloak.vpn.app.shared.feature.payment.history.composable.ReceiptCard
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.subscription_action_payment_view_all

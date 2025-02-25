@@ -1,7 +1,9 @@
 package com.mooncloak.vpn.app.shared.api.server
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.vpn.app.shared.api.key.Base64Key
+import com.mooncloak.vpn.api.shared.key.Base64Key
+import com.mooncloak.vpn.api.shared.server.RegisteredClient
+import com.mooncloak.vpn.api.shared.server.RegisteredClientRepository
 import com.mooncloak.vpn.api.shared.vpn.VPNProtocol
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import kotlinx.coroutines.sync.Mutex

@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.api.plan.Plan
+import com.mooncloak.vpn.api.shared.plan.Plan
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.payment_action_select
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha

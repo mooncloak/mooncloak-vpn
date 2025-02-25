@@ -2,15 +2,15 @@ package com.mooncloak.vpn.app.shared.di
 
 import coil3.SingletonImageLoader
 import com.mooncloak.kodetools.logpile.core.Logger
-import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyManager
-import com.mooncloak.vpn.app.shared.api.network.DeviceIPAddressProvider
-import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
-import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
+import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
+import com.mooncloak.vpn.api.shared.network.DeviceIPAddressProvider
+import com.mooncloak.vpn.api.shared.network.LocalNetworkManager
+import com.mooncloak.vpn.api.shared.vpn.TunnelManager
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.data.shared.database.SqlDriverFactory
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
-import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
+import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
 import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueStorage
 import io.ktor.client.HttpClient

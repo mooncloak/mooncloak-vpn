@@ -3,9 +3,10 @@ package com.mooncloak.vpn.app.android.api.wireguard
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.server.VPNConnectionStatus
-import com.mooncloak.vpn.app.shared.api.vpn.TunnelStats
+import com.mooncloak.vpn.api.shared.vpn.Tunnel
+import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.server.VPNConnectionStatus
+import com.mooncloak.vpn.api.shared.vpn.TunnelStats
 import com.wireguard.android.backend.Statistics
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -24,7 +25,7 @@ public class WireGuardTunnel internal constructor(
     initialStats: TunnelStats? = null,
     initialStatus: VPNConnectionStatus = VPNConnectionStatus.Disconnected
 ) : com.wireguard.android.backend.Tunnel,
-    com.mooncloak.vpn.app.shared.api.vpn.Tunnel {
+    Tunnel {
 
     private val mutableStats = mutableStateOf(initialStats)
     private val mutableStatus = mutableStateOf(initialStatus)

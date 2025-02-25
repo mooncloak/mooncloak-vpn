@@ -3,9 +3,9 @@ package com.mooncloak.vpn.app.android.di
 import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.vpn.app.android.api.wireguard.WireGuardBackend
-import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
-import com.mooncloak.vpn.app.shared.api.network.DeviceIPAddressProvider
-import com.mooncloak.vpn.app.shared.api.network.invoke
+import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.network.DeviceIPAddressProvider
+import com.mooncloak.vpn.api.shared.network.invoke
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager

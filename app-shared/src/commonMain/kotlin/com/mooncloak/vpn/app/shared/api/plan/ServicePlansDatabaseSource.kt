@@ -2,6 +2,15 @@ package com.mooncloak.vpn.app.shared.api.plan
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.textx.TextContent
+import com.mooncloak.vpn.api.shared.plan.BillingProvider
+import com.mooncloak.vpn.api.shared.plan.Currency
+import com.mooncloak.vpn.api.shared.plan.Plan
+import com.mooncloak.vpn.api.shared.plan.PlanPeriod
+import com.mooncloak.vpn.api.shared.plan.Price
+import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
+import com.mooncloak.vpn.api.shared.plan.TaxCode
+import com.mooncloak.vpn.api.shared.plan.UsageType
+import com.mooncloak.vpn.api.shared.plan.duration
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -131,13 +140,13 @@ public class ServicePlansDatabaseSource @Inject public constructor(
             usageType = UsageType(value = usageType),
             trial = trial?.let {
                 json.decodeFromJsonElement(
-                    deserializer = PlanPeriod.serializer(),
+                    deserializer = com.mooncloak.vpn.api.shared.plan.PlanPeriod.serializer(),
                     element = it
                 )
             },
             subscription = subscription?.let {
                 json.decodeFromJsonElement(
-                    deserializer = PlanPeriod.serializer(),
+                    deserializer = com.mooncloak.vpn.api.shared.plan.PlanPeriod.serializer(),
                     element = it
                 )
             },

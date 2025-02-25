@@ -18,10 +18,10 @@ import com.android.billingclient.api.queryProductDetails
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
-import com.mooncloak.vpn.app.shared.api.billing.BillingManager
-import com.mooncloak.vpn.app.shared.api.plan.Plan
+import com.mooncloak.vpn.api.shared.billing.BillingManager
+import com.mooncloak.vpn.api.shared.plan.Plan
 import com.mooncloak.vpn.app.shared.di.PresentationScoped
-import com.mooncloak.vpn.app.shared.util.coroutine.PresentationCoroutineScope
+import com.mooncloak.vpn.util.shared.coroutine.PresentationCoroutineScope
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -79,14 +79,14 @@ internal class GooglePlayBillingManager @Inject internal constructor(
                         handlePurchase(purchase)
                     }
 
-                    com.mooncloak.vpn.app.shared.api.billing.BillingResult.Success(
+                    com.mooncloak.vpn.api.shared.billing.BillingResult.Success(
                         plans = emptyList() // TODO: Get plan info?
                     )
                 }
 
-                billingResult.responseCode == BillingResponseCode.USER_CANCELED -> com.mooncloak.vpn.app.shared.api.billing.BillingResult.Cancelled()
+                billingResult.responseCode == BillingResponseCode.USER_CANCELED -> com.mooncloak.vpn.api.shared.billing.BillingResult.Cancelled()
 
-                else -> com.mooncloak.vpn.app.shared.api.billing.BillingResult.Failure(
+                else -> com.mooncloak.vpn.api.shared.billing.BillingResult.Failure(
                     code = billingResult.responseCode,
                     message = billingResult.debugMessage
                 )
@@ -106,7 +106,7 @@ internal class GooglePlayBillingManager @Inject internal constructor(
         )
         .build()
 
-    private var continuation: Continuation<com.mooncloak.vpn.app.shared.api.billing.BillingResult>? = null
+    private var continuation: Continuation<com.mooncloak.vpn.api.shared.billing.BillingResult>? = null
 
     override fun start() {
         if (!isActive) {
@@ -125,7 +125,7 @@ internal class GooglePlayBillingManager @Inject internal constructor(
     }
 
     @Throws(IllegalStateException::class, CancellationException::class)
-    override suspend fun purchase(plan: Plan): com.mooncloak.vpn.app.shared.api.billing.BillingResult {
+    override suspend fun purchase(plan: Plan): com.mooncloak.vpn.api.shared.billing.BillingResult {
         val product = getProductDetails(planIds = listOf(plan.id)).first()
 
         val productDetailsParamsList = listOf(
@@ -142,7 +142,7 @@ internal class GooglePlayBillingManager @Inject internal constructor(
         val billingResult = billingClient.launchBillingFlow(activity, billingFlowParams)
 
         return if (billingResult.responseCode != BillingResponseCode.OK) {
-            com.mooncloak.vpn.app.shared.api.billing.BillingResult.Failure(
+            com.mooncloak.vpn.api.shared.billing.BillingResult.Failure(
                 code = billingResult.responseCode,
                 message = billingResult.debugMessage,
                 plans = listOf(plan)

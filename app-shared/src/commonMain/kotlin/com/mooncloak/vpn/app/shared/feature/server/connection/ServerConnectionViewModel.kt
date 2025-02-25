@@ -5,10 +5,10 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
-import com.mooncloak.vpn.app.shared.api.vpn.isConnected
-import com.mooncloak.vpn.app.shared.api.vpn.isDisconnected
+import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
+import com.mooncloak.vpn.api.shared.vpn.isConnected
+import com.mooncloak.vpn.api.shared.vpn.isDisconnected
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.server.connection.usecase.GetDefaultServerUseCase
 import com.mooncloak.vpn.app.shared.resource.Res

@@ -1,15 +1,44 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    kotlin("multiplatform")
     kotlin("plugin.serialization")
     id("com.android.library")
     id("org.jetbrains.compose")
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.dokka")
-    id("mooncloak.multiplatform")
 }
 
 kotlin {
+    applyDefaultHierarchyTemplate()
+
+    // TODO: Re-enable: linuxArm64()
+    // TODO: Re-enable: linuxX64()
+
+    // TODO: Re-enable: mingwX64()
+
+    // TODO: Re-enable: macosX64()
+    // TODO: Re-enable: macosArm64()
+
+    iosArm64()
+    iosX64()
+    iosSimulatorArm64()
+
+    // TODO: Re-enable: tvosArm64()
+    // TODO: Re-enable: tvosX64()
+    // TODO: Re-enable: tvosSimulatorArm64()
+
+    // TODO: Re-enable: watchosArm32()
+    // TODO: Re-enable: watchosArm64()
+    // TODO: Re-enable: watchosX64()
+    // TODO: Re-enable: watchosSimulatorArm64()
+
+    androidTarget {
+        publishAllLibraryVariants()
+    }
+
+    jvm()
+
     sourceSets {
         all {
             // Disable warnings and errors related to these expected @OptIn annotations.
@@ -24,6 +53,7 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
+                api(project(":util-shared"))
                 api(project(":data-shared"))
 
                 // Coroutines
@@ -73,6 +103,11 @@ kotlin {
                 implementation(RussHWolf.multiplatformSettings.coroutines)
                 implementation(RussHWolf.multiplatformSettings.serialization)
                 implementation(RussHWolf.multiplatformSettings.noArg)
+
+                // Rich Text Utils
+                // https://github.com/mooncloak/textx
+                // Apache 2.0: https://github.com/mooncloak/textx/blob/main/LICENSE
+                api("com.mooncloak.kodetools.textx:textx-core:_")
             }
         }
 
@@ -80,16 +115,6 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(KotlinX.coroutines.test)
-            }
-        }
-
-        val jsMain by getting {
-            dependencies {
-            }
-        }
-
-        val wasmJsMain by getting {
-            dependencies {
             }
         }
     }

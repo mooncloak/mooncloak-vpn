@@ -1,13 +1,13 @@
 package com.mooncloak.vpn.app.shared.util
 
-import com.mooncloak.vpn.app.shared.api.plan.Price
+import com.mooncloak.vpn.api.shared.plan.Price
 import java.text.NumberFormat
 import java.util.Currency
 
 public actual fun Price.format(): String? {
     this.formatted?.let { return it }
 
-    val isUsd = currency.code == com.mooncloak.vpn.app.shared.api.plan.Currency.Code.USD
+    val isUsd = currency.code == com.mooncloak.vpn.api.shared.plan.Currency.Code.USD
 
     val formatter = NumberFormat.getCurrencyInstance().apply {
         currency = Currency.getInstance(this@format.currency.code.value)

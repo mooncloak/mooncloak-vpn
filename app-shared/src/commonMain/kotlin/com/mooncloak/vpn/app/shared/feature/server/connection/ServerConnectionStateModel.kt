@@ -1,8 +1,8 @@
 package com.mooncloak.vpn.app.shared.feature.server.connection
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
+import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.vpn.VPNConnection
 
 @Immutable
 public data class ServerConnectionStateModel public constructor(

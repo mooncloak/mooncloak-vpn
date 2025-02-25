@@ -6,10 +6,10 @@ import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
-import com.mooncloak.vpn.app.shared.api.server.Server
+import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.app.shared.api.server.usecase.RegisterClientUseCase
-import com.mooncloak.vpn.app.shared.api.vpn.Tunnel
-import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
+import com.mooncloak.vpn.api.shared.vpn.Tunnel
+import com.mooncloak.vpn.api.shared.vpn.TunnelManager
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

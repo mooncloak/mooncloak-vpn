@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.mooncloak.kodetools.konstruct.annotations.Provides
-import com.mooncloak.vpn.app.shared.api.plan.DefaultServicePlansProvider
-import com.mooncloak.vpn.app.shared.api.plan.ServicePlansProvider
+import com.mooncloak.vpn.api.shared.plan.DefaultServicePlansProvider
+import com.mooncloak.vpn.api.shared.plan.ServicePlansProvider
 
 @PresentationScoped
 public abstract class PresentationComponent : PresentationDependencies {

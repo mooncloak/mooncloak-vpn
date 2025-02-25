@@ -2,8 +2,8 @@ package com.mooncloak.vpn.app.android.api.wireguard
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.app.android.storage.EncryptedSharedPreferenceProvider
-import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyManager
-import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPair
+import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
+import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyPair
 import com.wireguard.crypto.Key
 import com.wireguard.crypto.KeyPair
 import kotlinx.coroutines.sync.Mutex

@@ -12,12 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceipt
+import com.mooncloak.vpn.api.shared.billing.ServicePurchaseReceipt
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import com.mooncloak.vpn.app.shared.util.format
-import com.mooncloak.vpn.app.shared.util.time.DateTimeFormatter
-import com.mooncloak.vpn.app.shared.util.time.Full
-import com.mooncloak.vpn.app.shared.util.time.format
+import com.mooncloak.vpn.util.shared.time.DateTimeFormatter
+import com.mooncloak.vpn.util.shared.time.Full
+import com.mooncloak.vpn.util.shared.time.format
 
 @Composable
 internal fun ReceiptCard(

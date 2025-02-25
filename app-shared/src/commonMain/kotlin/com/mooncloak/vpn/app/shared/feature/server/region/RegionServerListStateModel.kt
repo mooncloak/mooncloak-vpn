@@ -1,7 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.server.region
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.api.server.Server
+import com.mooncloak.vpn.api.shared.server.Server
 
 @Immutable
 public data class RegionServerListStateModel public constructor(

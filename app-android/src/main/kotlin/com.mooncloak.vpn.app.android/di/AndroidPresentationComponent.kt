@@ -7,16 +7,16 @@ import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.vpn.app.android.play.GooglePlayBillingManager
 import com.mooncloak.vpn.app.android.api.server.AndroidVPNConnectionManager
 import com.mooncloak.vpn.app.android.play.ServicePlansGooglePlaySource
-import com.mooncloak.vpn.app.shared.api.billing.BillingManager
-import com.mooncloak.vpn.app.shared.api.plan.ServicePlansRepository
-import com.mooncloak.vpn.app.shared.api.vpn.VPNConnectionManager
+import com.mooncloak.vpn.api.shared.billing.BillingManager
+import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
+import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationScoped
 import com.mooncloak.vpn.app.shared.util.ActivityContext
 import com.mooncloak.vpn.app.shared.util.AndroidSystemAuthenticationProvider
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
-import com.mooncloak.vpn.app.shared.util.coroutine.PresentationCoroutineScope
+import com.mooncloak.vpn.util.shared.coroutine.PresentationCoroutineScope
 
 @Component
 @PresentationScoped

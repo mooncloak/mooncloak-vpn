@@ -23,10 +23,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
-import com.mooncloak.vpn.app.shared.api.server.ipAddress
-import com.mooncloak.vpn.app.shared.api.vpn.defaultTunnel
+import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.vpn.VPNConnection
+import com.mooncloak.vpn.api.shared.server.ipAddress
+import com.mooncloak.vpn.api.shared.vpn.defaultTunnel
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.CloakedLayout
@@ -41,9 +41,9 @@ import com.mooncloak.vpn.app.shared.resource.server_details_action_connect
 import com.mooncloak.vpn.app.shared.resource.server_details_action_disconnect
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_connected
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_last_connected
-import com.mooncloak.vpn.app.shared.util.time.DateTimeFormatter
-import com.mooncloak.vpn.app.shared.util.time.Full
-import com.mooncloak.vpn.app.shared.util.time.format
+import com.mooncloak.vpn.util.shared.time.DateTimeFormatter
+import com.mooncloak.vpn.util.shared.time.Full
+import com.mooncloak.vpn.util.shared.time.format
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock

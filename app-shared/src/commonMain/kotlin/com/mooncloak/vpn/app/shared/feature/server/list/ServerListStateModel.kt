@@ -1,8 +1,8 @@
 package com.mooncloak.vpn.app.shared.feature.server.list
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.api.server.Server
-import com.mooncloak.vpn.app.shared.api.vpn.VPNConnection
+import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.vpn.VPNConnection
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 
 @Immutable

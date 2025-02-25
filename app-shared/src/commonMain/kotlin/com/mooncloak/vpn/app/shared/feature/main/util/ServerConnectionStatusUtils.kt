@@ -1,7 +1,6 @@
 package com.mooncloak.vpn.app.shared.feature.main.util
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PowerOff
 import androidx.compose.material.icons.filled.ShieldMoon
 import androidx.compose.material.icons.filled.VpnKeyOff
 import androidx.compose.material3.CircularProgressIndicator
@@ -11,7 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.mooncloak.vpn.app.shared.api.server.VPNConnectionStatus
+import com.mooncloak.vpn.api.shared.server.VPNConnectionStatus
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.cd_action_checking
 import com.mooncloak.vpn.app.shared.resource.cd_action_connect
