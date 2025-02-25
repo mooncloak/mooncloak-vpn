@@ -153,7 +153,8 @@ public fun ServerListScreen(
                 if (viewModel.state.current.value.isPreRelease) {
                     item(key = "PreReleaseNoticeCard") {
                         PreReleaseNoticeCard(
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                                .fillMaxWidth()
                                 .padding(horizontal = 16.dp)
                         )
                     }
