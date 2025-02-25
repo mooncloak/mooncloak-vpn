@@ -6,7 +6,7 @@ import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
-import com.mooncloak.vpn.app.shared.storage.AppSettings
+import com.mooncloak.vpn.app.shared.settings.AppSettings
 
 @OptIn(ExperimentalPersistentStateAPI::class)
 @Stable

@@ -7,7 +7,7 @@ import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 import com.mooncloak.vpn.api.shared.service.isActive
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensRepository
-import com.mooncloak.vpn.app.shared.storage.SubscriptionSettings
+import com.mooncloak.vpn.app.shared.settings.SubscriptionSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.Clock

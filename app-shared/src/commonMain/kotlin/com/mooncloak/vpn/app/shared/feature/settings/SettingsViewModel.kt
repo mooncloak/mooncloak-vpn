@@ -22,7 +22,7 @@ import com.mooncloak.vpn.app.shared.resource.app_copyright
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.resource.subscription_no_active_plan
 import com.mooncloak.vpn.app.shared.resource.subscription_title_active_plan
-import com.mooncloak.vpn.app.shared.storage.UserPreferenceSettings
+import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

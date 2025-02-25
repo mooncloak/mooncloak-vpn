@@ -44,7 +44,7 @@ import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_subscriptions
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_tracking
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_payment_crypto
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_payment_google_play
-import com.mooncloak.vpn.app.shared.storage.SubscriptionSettings
+import com.mooncloak.vpn.app.shared.settings.SubscriptionSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch

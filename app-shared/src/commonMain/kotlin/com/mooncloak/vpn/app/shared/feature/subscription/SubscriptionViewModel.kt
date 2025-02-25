@@ -21,7 +21,7 @@ import com.mooncloak.vpn.app.shared.resource.subscription_error_load_details
 import com.mooncloak.vpn.app.shared.resource.subscription_error_load_last_payment
 import com.mooncloak.vpn.app.shared.resource.subscription_error_load_plan
 import com.mooncloak.vpn.app.shared.resource.subscription_error_load_usage
-import com.mooncloak.vpn.app.shared.storage.SubscriptionSettings
+import com.mooncloak.vpn.app.shared.settings.SubscriptionSettings
 import com.mooncloak.vpn.app.shared.util.DataFormatter
 import com.mooncloak.vpn.app.shared.util.Default
 import com.mooncloak.vpn.app.shared.util.time.DateTimeFormatter

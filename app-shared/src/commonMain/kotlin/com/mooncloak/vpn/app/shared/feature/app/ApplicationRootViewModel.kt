@@ -9,8 +9,8 @@ import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
-import com.mooncloak.vpn.app.shared.storage.AppSettings
-import com.mooncloak.vpn.app.shared.storage.UserPreferenceSettings
+import com.mooncloak.vpn.app.shared.settings.AppSettings
+import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine

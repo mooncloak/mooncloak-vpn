@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.storage
+package com.mooncloak.vpn.app.shared.settings
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.konstruct.annotations.Singleton

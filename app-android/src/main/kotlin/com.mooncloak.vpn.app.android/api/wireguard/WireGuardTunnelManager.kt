@@ -10,7 +10,7 @@ import com.mooncloak.vpn.app.shared.api.server.Server
 import com.mooncloak.vpn.app.shared.api.server.usecase.RegisterClientUseCase
 import com.mooncloak.vpn.app.shared.api.vpn.Tunnel
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
-import com.mooncloak.vpn.app.shared.storage.UserPreferenceSettings
+import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
