@@ -37,6 +37,16 @@ public class ServiceTokensSource @Inject public constructor(
             return@withContext databaseSource.get(id = id)
         }
 
+    override suspend fun get(count: Int, offset: Int): List<ServiceTokens> =
+        withContext(Dispatchers.IO) {
+            databaseSource.get(count = count, offset = offset)
+        }
+
+    override suspend fun getAll(): List<ServiceTokens> =
+        withContext(Dispatchers.IO) {
+            databaseSource.getAll()
+        }
+
     override suspend fun add(tokens: ServiceTokens) {
         withContext(Dispatchers.IO) {
             mutex.withLock {
@@ -48,6 +58,32 @@ public class ServiceTokensSource @Inject public constructor(
             }
         }
     }
+
+    override suspend fun insert(id: String, value: () -> ServiceTokens): ServiceTokens =
+        withContext(Dispatchers.IO) {
+            mutex.withLock {
+                val inserted = databaseSource.insert(id = id, value = value)
+
+                val latest = databaseSource.getLatest() ?: inserted
+
+                subscriptionStorage.tokens.set(latest)
+
+                return@withContext inserted
+            }
+        }
+
+    override suspend fun update(id: String, update: ServiceTokens.() -> ServiceTokens): ServiceTokens =
+        withContext(Dispatchers.IO) {
+            mutex.withLock {
+                val updated = databaseSource.update(id = id, update = update)
+
+                val latest = databaseSource.getLatest() ?: updated
+
+                subscriptionStorage.tokens.set(latest)
+
+                return@withContext updated
+            }
+        }
 
     override suspend fun remove(id: String) {
         withContext(Dispatchers.IO) {
@@ -64,6 +100,12 @@ public class ServiceTokensSource @Inject public constructor(
     }
 
     override suspend fun clear() {
-        // TODO
+        withContext(Dispatchers.IO) {
+            mutex.withLock {
+                databaseSource.clear()
+
+                subscriptionStorage.tokens.remove()
+            }
+        }
     }
 }
