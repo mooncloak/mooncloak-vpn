@@ -9,7 +9,6 @@ import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.info
-import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
 import com.mooncloak.vpn.app.shared.api.billing.MutableServicePurchaseReceiptRepository
 import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptDatabaseSource
 import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptRepository
@@ -25,6 +24,9 @@ import com.mooncloak.vpn.app.shared.util.http.DefaultUnauthorizedInterceptor
 import com.mooncloak.vpn.app.shared.util.http.UnauthorizedInterceptor
 import com.mooncloak.vpn.app.shared.util.http.interceptUnauthorized
 import com.mooncloak.vpn.app.storage.sqlite.database.MooncloakDatabase
+import com.mooncloak.vpn.data.shared.MutableKeyValueStorage
+import com.mooncloak.vpn.data.shared.SettingsKeyValueStorage
+import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.compression.ContentEncoding
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -42,7 +44,18 @@ public abstract class ApplicationComponent : ApplicationDependencies {
 
     @Singleton
     @Provides
-    public abstract fun provideKeyValueStorage(format: Json): MutableKeyValueStorage<String>
+    public fun provideSettings(): Settings =
+        Settings()
+
+    @Singleton
+    @Provides
+    public fun provideKeyValueStorage(
+        settings: Settings,
+        serializersModule: SerializersModule
+    ): MutableKeyValueStorage = SettingsKeyValueStorage(
+        settings = settings,
+        serializersModule = serializersModule
+    )
 
     @Provides
     @Singleton

@@ -72,7 +72,7 @@ public fun SettingsScreen(
     val bottomSheetState = rememberModalNavigationBottomSheetState<SettingsBottomSheetDestination>()
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
-    val preferencesStorage = rememberDependency { keyValueStorage.preferences }
+    val preferencesStorage = rememberDependency { preferenceStorage }
 
     LaunchedEffect(Unit) {
         viewModel.load()

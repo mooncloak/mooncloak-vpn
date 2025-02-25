@@ -1,8 +1,6 @@
 package com.mooncloak.vpn.app.shared.api.billing
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
-import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.plan.BillingProvider
 import com.mooncloak.vpn.app.shared.api.plan.Plan
@@ -16,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 
-@OptIn(ExperimentalPersistentStateAPI::class)
 public class MooncloakBillingManager @Inject public constructor(
     private val api: MooncloakVpnServiceHttpApi,
     private val subscriptionStorage: SubscriptionStorage,
@@ -42,7 +39,7 @@ public class MooncloakBillingManager @Inject public constructor(
         val invoice = withContext(Dispatchers.IO) {
             api.getPaymentInvoice(
                 planId = plan.id,
-                token = subscriptionStorage.tokens.current.value?.accessToken
+                token = subscriptionStorage.tokens.get()?.accessToken
             )
         }
 
@@ -98,11 +95,10 @@ public class MooncloakBillingManager @Inject public constructor(
         return tokens
     }
 
-    @OptIn(ExperimentalPersistentStateAPI::class)
     private suspend fun getSubscription(tokens: ServiceTokens): ServiceSubscription {
         val subscription = api.getCurrentSubscription(token = tokens.accessToken)
 
-        subscriptionStorage.subscription.update(subscription)
+        subscriptionStorage.subscription.set(subscription)
 
         return subscription
     }

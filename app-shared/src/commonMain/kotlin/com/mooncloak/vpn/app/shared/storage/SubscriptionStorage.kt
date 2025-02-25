@@ -2,30 +2,20 @@ package com.mooncloak.vpn.app.shared.storage
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.konstruct.annotations.Singleton
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
-import com.mooncloak.kodetools.statex.persistence.PersistableStateContainer
-import com.mooncloak.kodetools.statex.persistence.persistableStateContainerOf
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 import com.mooncloak.vpn.api.shared.service.ServiceTokens
-import kotlinx.serialization.modules.SerializersModule
+import com.mooncloak.vpn.data.shared.KeyValueProperty
+import com.mooncloak.vpn.data.shared.MutableKeyValueProperty
+import com.mooncloak.vpn.data.shared.MutableKeyValueStorage
+import com.mooncloak.vpn.data.shared.property
 
 @Singleton
-@OptIn(ExperimentalPersistentStateAPI::class)
 public class SubscriptionStorage @Inject public constructor(
-    serializersModule: SerializersModule
+    storage: MutableKeyValueStorage
 ) {
 
-    public val tokens: PersistableStateContainer<ServiceTokens?> = persistableStateContainerOf(
-        key = TOKENS,
-        defaultValue = null,
-        serializersModule = serializersModule
-    )
-
-    public val subscription: PersistableStateContainer<ServiceSubscription?> = persistableStateContainerOf(
-        key = SUBSCRIPTION,
-        defaultValue = null,
-        serializersModule = serializersModule
-    )
+    public val tokens: MutableKeyValueProperty<ServiceTokens> by storage.property(key = TOKENS)
+    public val subscription: MutableKeyValueProperty<ServiceSubscription> by storage.property(key = SUBSCRIPTION)
 
     internal companion object Key {
 

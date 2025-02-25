@@ -163,7 +163,7 @@ public class HomeViewModel @Inject public constructor(
             var deviceIpAddress: String? = null
 
             try {
-                subscription = subscriptionStorage.subscription.current.value
+                subscription = subscriptionStorage.subscription.get()
                 localNetworkInfo = localNetworkManager.getInfo()
                 deviceIpAddress = deviceIPAddressProvider.get()
 

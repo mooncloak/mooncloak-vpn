@@ -1,7 +1,6 @@
 package com.mooncloak.vpn.app.shared.api.server.usecase
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.key.Base64Key
 import com.mooncloak.vpn.app.shared.api.server.RegisteredClient
@@ -16,12 +15,11 @@ public class RegisterClientUseCase @Inject public constructor(
     private val subscriptionStorage: SubscriptionStorage
 ) {
 
-    @OptIn(ExperimentalPersistentStateAPI::class)
     public suspend operator fun invoke(
         serverId: String,
         publicKey: Base64Key
     ): RegisteredClient = withContext(Dispatchers.IO) {
-        val token = subscriptionStorage.tokens.current.value?.accessToken
+        val token = subscriptionStorage.tokens.get()?.accessToken
 
         val client = mooncloakApi.registerClient(
             serverId = serverId,

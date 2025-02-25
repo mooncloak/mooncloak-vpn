@@ -43,11 +43,9 @@ import com.mooncloak.vpn.app.shared.resource.notification_channel_name_vpn
 import com.mooncloak.vpn.app.shared.theme.MooncloakTheme
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
 import com.mooncloak.vpn.app.shared.util.notification.NotificationChannelId
-import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
 import com.mooncloak.vpn.app.shared.util.notification.NotificationPriority
 import org.jetbrains.compose.resources.getString
 
-@OptIn(ExperimentalPersistentStateAPI::class)
 @Composable
 public fun ApplicationRootScreen(
     applicationComponent: ApplicationComponent,
@@ -73,8 +71,7 @@ public fun ApplicationRootScreen(
         val viewModel = remember { componentDependencies.viewModel }
         val snackbarHostState = remember { SnackbarHostState() }
         val imageLoaderFactory = remember(applicationComponent) { applicationComponent.imageLoaderFactory }
-        val preferencesStorage = rememberDependency { keyValueStorage.preferences }
-        val appStorage = rememberDependency { keyValueStorage.app }
+        val preferencesStorage = rememberDependency { preferenceStorage }
         val systemAuthenticationProvider = rememberDependency { systemAuthenticationProvider }
         val notificationManager = rememberDependency { notificationManager }
 

@@ -3,9 +3,6 @@ package com.mooncloak.vpn.app.desktop.di
 import com.mooncloak.kodetools.konstruct.annotations.Component
 import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.kodetools.konstruct.annotations.Singleton
-import com.mooncloak.kodetools.storagex.keyvalue.KeyValueStorage
-import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
-import com.mooncloak.kodetools.storagex.keyvalue.Settings
 import com.mooncloak.vpn.app.desktop.api.wireguard.JvmWireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.desktop.api.wireguard.JvmWireGuardTunnelManager
 import com.mooncloak.vpn.app.desktop.info.JvmAppClientInfo
@@ -22,21 +19,13 @@ import com.mooncloak.vpn.app.shared.storage.database.JvmDatabaseDriverFactory
 import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
 import com.mooncloak.vpn.app.shared.util.notification.invoke
-import com.russhwolf.settings.Settings
 import kotlinx.datetime.Clock
-import kotlinx.serialization.json.Json
 
 @Component
 @Singleton
 internal abstract class JvmApplicationComponent internal constructor(
     @get:Provides override val applicationCoroutineScope: ApplicationCoroutineScope
 ) : ApplicationComponent() {
-
-    override fun provideKeyValueStorage(format: Json): MutableKeyValueStorage<String> =
-        KeyValueStorage.Settings(
-            format = format,
-            settings = Settings()
-        )
 
     @Provides
     @Singleton

@@ -7,10 +7,11 @@ import com.mooncloak.vpn.app.shared.api.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.app.shared.api.network.LocalNetworkManager
 import com.mooncloak.vpn.app.shared.api.vpn.TunnelManager
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
-import com.mooncloak.vpn.app.shared.storage.KeyValueStorage
+import com.mooncloak.vpn.app.shared.storage.PreferencesStorage
 import com.mooncloak.vpn.app.shared.storage.database.DatabaseDriverFactory
 import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
+import com.mooncloak.vpn.data.shared.MutableKeyValueStorage
 import io.ktor.client.HttpClient
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
@@ -25,7 +26,8 @@ public actual interface ApplicationDependencies {
     public actual val clock: Clock
     public actual val logger: Logger
     public actual val appClientInfo: AppClientInfo
-    public actual val keyValueStorage: KeyValueStorage
+    public actual val keyValueStorage: MutableKeyValueStorage
+    public actual val preferenceStorage: PreferencesStorage
     public actual val imageLoaderFactory: SingletonImageLoader.Factory
     public actual val databaseDriverFactory: DatabaseDriverFactory
     public actual val localNetworkManager: LocalNetworkManager

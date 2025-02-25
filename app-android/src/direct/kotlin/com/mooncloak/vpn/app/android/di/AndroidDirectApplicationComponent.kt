@@ -25,12 +25,6 @@ internal abstract class AndroidDirectApplicationComponent internal constructor(
     @get:Provides override val applicationCoroutineScope: ApplicationCoroutineScope
 ) : AndroidApplicationComponent() {
 
-    override fun provideKeyValueStorage(format: Json): MutableKeyValueStorage<String> =
-        KeyValueStorage.Settings(
-            format = format,
-            settings = Settings()
-        )
-
     @Provides
     @Singleton
     internal fun provideAppClientInfo(appClientInfo: AndroidAppClientInfo): AppClientInfo =

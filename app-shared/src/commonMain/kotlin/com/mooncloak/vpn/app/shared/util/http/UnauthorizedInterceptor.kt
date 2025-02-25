@@ -6,8 +6,6 @@ import com.mooncloak.kodetools.apix.core.toResult
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
-import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.api.shared.service.ServiceTokens
 import com.mooncloak.vpn.app.shared.storage.SubscriptionStorage
 import io.ktor.client.HttpClient
@@ -130,15 +128,14 @@ public class DefaultUnauthorizedInterceptor @Inject public constructor(
 
     private var refreshMutex = Mutex(locked = false)
 
-    @OptIn(ExperimentalPersistentStateAPI::class)
     override suspend fun Sender.authorize(request: HttpRequestBuilder, original: HttpClientCall): HttpClientCall {
-        val refreshToken = subscriptionStorage.tokens.current.value?.refreshToken
+        val refreshToken = subscriptionStorage.tokens.get()?.refreshToken
 
         return if (refreshToken != null && request.url.buildString().startsWith("https://mooncloak.com/api")) {
             refreshMutex.withLock {
                 // If the tokens are the same, they weren't refreshed while we were waiting on the lock, so attempt to
                 // refresh them.
-                if (refreshToken == subscriptionStorage.tokens.current.value?.refreshToken) {
+                if (refreshToken == subscriptionStorage.tokens.get()?.refreshToken) {
                     request.url("https://mooncloak.com/api/vpn/token/refresh")
 
                     // First remove the existing Authorization header which would be set to the access token. We need to
@@ -152,7 +149,7 @@ public class DefaultUnauthorizedInterceptor @Inject public constructor(
                     val result = responseBody.toResult()
 
                     if (result.isSuccess) {
-                        subscriptionStorage.tokens.update(value = result.getOrThrow())
+                        subscriptionStorage.tokens.set(value = result.getOrThrow())
                     } else {
                         LogPile.error(
                             message = "Error refreshing tokens.",

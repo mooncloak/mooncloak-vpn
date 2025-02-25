@@ -63,6 +63,10 @@ public class ServiceTokensDatabaseSource @Inject public constructor(
         }
     }
 
+    override suspend fun clear() {
+        TODO("Not yet implemented")
+    }
+
     private fun com.mooncloak.vpn.app.storage.sqlite.database.ServiceTokens.toServiceTokens(): ServiceTokens =
         ServiceTokens(
             id = this.id,

@@ -5,7 +5,6 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.app.shared.api.billing.ServicePurchaseReceiptRepository
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansRepository
@@ -48,14 +47,13 @@ public class SubscriptionViewModel @Inject public constructor(
     private val clock: Clock
 ) : ViewModel<SubscriptionStateModel>(initialStateValue = SubscriptionStateModel()) {
 
-    @OptIn(ExperimentalPersistentStateAPI::class)
     public fun load() {
         coroutineScope.launch {
             emit { current -> current.copy(isLoading = true) }
 
             try {
-                val token = subscriptionStorage.tokens.current.value?.accessToken
-                val subscription = subscriptionStorage.subscription.current.value
+                val token = subscriptionStorage.tokens.get()?.accessToken
+                val subscription = subscriptionStorage.subscription.get()
 
                 // Let's emit the subscription first so that the screen UI loads faster.
                 emit { current -> current.copy(subscription = subscription) }

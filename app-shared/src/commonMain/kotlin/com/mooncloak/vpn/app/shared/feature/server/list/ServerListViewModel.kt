@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.getString
 
 @Stable
@@ -64,7 +63,7 @@ public class ServerListViewModel @Inject public constructor(
                 .launchIn(coroutineScope)
 
             try {
-                val token = subscriptionStorage.tokens.current.value?.accessToken
+                val token = subscriptionStorage.tokens.get()?.accessToken
 
                 // TODO: Properly support paginating servers
                 val servers = api.paginateServers(

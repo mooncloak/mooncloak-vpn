@@ -3,9 +3,6 @@ package com.mooncloak.vpn.app.android.di
 import com.mooncloak.kodetools.konstruct.annotations.Component
 import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.kodetools.konstruct.annotations.Singleton
-import com.mooncloak.kodetools.storagex.keyvalue.KeyValueStorage
-import com.mooncloak.kodetools.storagex.keyvalue.MutableKeyValueStorage
-import com.mooncloak.kodetools.storagex.keyvalue.Settings
 import com.mooncloak.vpn.app.android.info.AndroidAppClientInfo
 import com.mooncloak.vpn.app.android.api.wireguard.AndroidWireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.android.api.wireguard.WireGuardBackend
@@ -21,9 +18,7 @@ import com.mooncloak.vpn.app.shared.storage.database.AndroidDatabaseDriverFactor
 import com.mooncloak.vpn.app.shared.storage.database.DatabaseDriverFactory
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.mooncloak.vpn.app.shared.util.coroutine.ApplicationCoroutineScope
-import com.russhwolf.settings.Settings
 import com.wireguard.android.backend.GoBackend
-import kotlinx.serialization.json.Json
 
 @Component
 @Singleton
@@ -31,12 +26,6 @@ internal abstract class AndroidGooglePlayApplicationComponent internal construct
     @get:Provides override val applicationContext: ApplicationContext,
     @get:Provides override val applicationCoroutineScope: ApplicationCoroutineScope
 ) : AndroidApplicationComponent() {
-
-    override fun provideKeyValueStorage(format: Json): MutableKeyValueStorage<String> =
-        KeyValueStorage.Settings(
-            format = format,
-            settings = Settings()
-        )
 
     @Provides
     @Singleton
