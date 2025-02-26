@@ -27,7 +27,7 @@ import com.mooncloak.vpn.app.shared.util.formatWithUnit
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-internal fun AdShieldCard(
+internal fun MoonShieldCard(
     adsBlocked: Int,
     trackersBlocked: Int,
     bytesSaved: Long?,

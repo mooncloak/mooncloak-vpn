@@ -1,6 +1,5 @@
 package com.mooncloak.vpn.app.shared.feature.home
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -32,7 +30,7 @@ import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBar
 import com.mooncloak.vpn.app.shared.feature.home.composable.PlanUsageCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
-import com.mooncloak.vpn.app.shared.feature.home.composable.AdShieldCard
+import com.mooncloak.vpn.app.shared.feature.home.composable.MoonShieldCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.GetVPNServiceCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.HomeBottomSheet
 import com.mooncloak.vpn.app.shared.feature.home.composable.ShowcaseCard
@@ -103,7 +101,7 @@ public fun HomeScreen(
                 contentType = { item -> item.contentType }
             ) { item ->
                 when (item) {
-                    is HomeFeedItem.MoonShieldItem -> AdShieldCard(
+                    is HomeFeedItem.MoonShieldItem -> MoonShieldCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth()
                             .animateItem(),
