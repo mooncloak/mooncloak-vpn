@@ -78,38 +78,45 @@ public class HomeViewModel @Inject public constructor(
 
     private val showcaseItems = listOf(
         HomeFeedItem.ShowcaseItem(
+            id = "ShowcaseItemNoTracking",
             icon = { rememberVectorPainter(Icons.Default.CloudOff) },
             title = { stringResource(Res.string.onboarding_title_no_tracking) },
             description = { stringResource(Res.string.onboarding_description_no_tracking) }
         ),
         HomeFeedItem.ShowcaseItem(
+            id = "ShowcaseItemNoAccounts",
             icon = { rememberVectorPainter(Icons.Default.PersonOff) },
             title = { stringResource(Res.string.onboarding_title_no_accounts) },
             description = { stringResource(Res.string.onboarding_description_no_accounts) }
         ),
         HomeFeedItem.ShowcaseItem(
+            id = "ShowcaseItemNoDataCreeps",
             icon = { rememberVectorPainter(Icons.Default.VisibilityOff) },
             title = { stringResource(Res.string.onboarding_title_no_data_creeps) },
             description = { stringResource(Res.string.onboarding_description_no_data_creeps) }
         ),
         HomeFeedItem.ShowcaseItem(
+            id = "ShowcaseItemNoDataSelling",
             icon = { rememberVectorPainter(Icons.Default.MoneyOff) },
             title = { stringResource(Res.string.onboarding_title_no_data_selling) },
             description = { stringResource(Res.string.onboarding_description_no_data_selling) }
         ),
         HomeFeedItem.ShowcaseItem(
+            id = "ShowcaseItemNoSubscriptions",
             icon = { rememberVectorPainter(Icons.Default.Subscriptions) },
             title = { stringResource(Res.string.onboarding_title_no_subscriptions) },
             description = { stringResource(Res.string.onboarding_description_no_subscriptions) }
         ),
         if (appClientInfo.isGooglePlayBuild) {
             HomeFeedItem.ShowcaseItem(
+                id = "ShowcaseItemGooglePlayBilling",
                 icon = { rememberVectorPainter(Icons.Default.PlayArrow) },
                 title = { stringResource(Res.string.onboarding_title_payment_google_play) },
                 description = { stringResource(Res.string.onboarding_description_payment_google_play) }
             )
         } else {
             HomeFeedItem.ShowcaseItem(
+                id = "ShowcaseItemCrypto",
                 icon = { rememberVectorPainter(Icons.Default.CurrencyBitcoin) },
                 title = { stringResource(Res.string.onboarding_title_payment_crypto) },
                 description = { stringResource(Res.string.onboarding_description_payment_crypto) }

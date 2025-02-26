@@ -63,7 +63,6 @@ public fun HomeScreen(
     }
 
     // TODOS:
-    // * Recently used VPN service card
     // * Starred VPN service card
 
     Scaffold(
@@ -101,11 +100,11 @@ public fun HomeScreen(
 
             items(
                 items = viewModel.state.current.value.items,
-                key = { item -> item.toString() },
-                contentType = { "HomeFeedItem" }
+                key = { item -> item.id },
+                contentType = { item -> item.contentType }
             ) { item ->
                 when (item) {
-                    is HomeFeedItem.AdShieldItem -> AdShieldCard(
+                    is HomeFeedItem.MoonShieldItem -> AdShieldCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth(),
                         adsBlocked = item.adsBlocked ?: 0,
@@ -113,7 +112,7 @@ public fun HomeScreen(
                         bytesSaved = item.estimatedBytesSaved,
                         active = item.active,
                         onClick = {
-                            // TODO: Open AdShield Details
+                            // TODO: Open MoonShield Details
                         }
                     )
 
