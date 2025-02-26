@@ -18,10 +18,13 @@ import com.mooncloak.vpn.data.sqlite.invoke
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
 import com.mooncloak.vpn.app.shared.util.notification.invoke
+import com.mooncloak.vpn.data.shared.cache.Cache
+import com.mooncloak.vpn.data.shared.cache.create
 import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.data.sqlite.SqlDriverFactory
 import com.mooncloak.vpn.data.sqlite.util.getDatabaseFileLocation
-import kotlinx.datetime.Clock
+import kotlinx.serialization.json.Json
+import kotlin.time.Duration.Companion.seconds
 
 @Component
 @Singleton
@@ -64,10 +67,14 @@ internal abstract class JvmApplicationComponent internal constructor(
     @Singleton
     internal fun provideDeviceIpAddressProvider(
         mooncloakApi: MooncloakVpnServiceHttpApi,
-        clock: Clock
+        json: Json
     ): DeviceIPAddressProvider = DeviceIPAddressProvider.invoke(
         mooncloakApi = mooncloakApi,
-        clock = clock
+        cache = Cache.create(
+            format = json,
+            maxSize = 1,
+            expirationAfterWrite = 5.seconds
+        )
     )
 }
 

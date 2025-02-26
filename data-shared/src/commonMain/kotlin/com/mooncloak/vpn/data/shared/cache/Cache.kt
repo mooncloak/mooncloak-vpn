@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.data.shared.cache
 
 import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueStorage
+import kotlinx.datetime.Clock
 import kotlinx.serialization.StringFormat
 import kotlinx.serialization.json.Json
 import kotlin.time.Duration
@@ -24,9 +25,12 @@ public interface Cache : MutableKeyValueStorage {
  *
  * @param [expirationAfterWrite] The [Duration] representing the time period to expire an item after it has been
  * written to the cache. If `null` is provided, no expiration period will be set.
+ *
+ * @param [clock] The [Clock] value that may be used by the implementation for expiration time comparisons.
  */
 public expect fun Cache.Companion.create(
     format: StringFormat = Json.Default,
     maxSize: Int? = null,
-    expirationAfterWrite: Duration? = null
+    expirationAfterWrite: Duration? = null,
+    clock: Clock = Clock.System
 ): Cache

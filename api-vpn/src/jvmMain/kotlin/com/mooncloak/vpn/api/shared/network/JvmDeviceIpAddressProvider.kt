@@ -3,43 +3,31 @@ package com.mooncloak.vpn.api.shared.network
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.warning
 import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
-import kotlinx.datetime.Clock
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
+import com.mooncloak.vpn.data.shared.cache.Cache
+import com.mooncloak.vpn.data.shared.keyvalue.get
+import com.mooncloak.vpn.data.shared.keyvalue.set
 
 public operator fun DeviceIPAddressProvider.Companion.invoke(
     mooncloakApi: MooncloakVpnServiceHttpApi,
-    clock: Clock = Clock.System,
-    cachePeriod: Duration = 30.seconds
+    cache: Cache
 ): DeviceIPAddressProvider = JvmDeviceIpAddressProvider(
     mooncloakApi = mooncloakApi,
-    clock = clock,
-    cachePeriod = cachePeriod
+    cache = cache
 )
 
 internal class JvmDeviceIpAddressProvider internal constructor(
     private val mooncloakApi: MooncloakVpnServiceHttpApi,
-    private val clock: Clock,
-    private val cachePeriod: Duration
+    private val cache: Cache
 ) : DeviceIPAddressProvider {
 
-    private var cachedAt = clock.now()
-    private var cachedIpAddress: String? = null
-
     override suspend fun get(): String? {
-        val ipAddress = cachedIpAddress
-
-        val expiration = cachedAt + cachePeriod
-
-        if (ipAddress != null && expiration > clock.now()) {
-            return ipAddress
-        }
+        cache.get<String>(key = CACHE_KEY)?.let { return it }
 
         return getFresh()
     }
 
-    override fun invalidate() {
-        TODO("Not yet implemented")
+    override suspend fun invalidate() {
+        cache.remove(key = CACHE_KEY)
     }
 
     private suspend fun getFresh(): String? {
@@ -53,9 +41,13 @@ internal class JvmDeviceIpAddressProvider internal constructor(
             )
         }
 
-        cachedAt = clock.now()
-        cachedIpAddress = ipAddress
+        cache.set<String>(key = CACHE_KEY, value = ipAddress)
 
         return ipAddress
+    }
+
+    internal companion object {
+
+        private const val CACHE_KEY: String = "JvmDeviceIpAddressProviderKey"
     }
 }

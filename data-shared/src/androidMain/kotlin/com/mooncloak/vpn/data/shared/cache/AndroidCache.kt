@@ -1,48 +1,57 @@
 package com.mooncloak.vpn.data.shared.cache
 
-import com.github.benmanes.caffeine.cache.Cache
-import com.github.benmanes.caffeine.cache.Caffeine
+import androidx.collection.LruCache
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.StringFormat
-import java.util.concurrent.TimeUnit
 import kotlin.time.Duration
 
-public actual fun com.mooncloak.vpn.data.shared.cache.Cache.Companion.create(
+public actual fun Cache.Companion.create(
     format: StringFormat,
     maxSize: Int?,
-    expirationAfterWrite: Duration?
-): com.mooncloak.vpn.data.shared.cache.Cache {
-    var cacheBuilder = Caffeine.newBuilder()
+    expirationAfterWrite: Duration?,
+    clock: Clock
+): Cache = AndroidCache(
+    format = format,
+    cache = LruCache(maxSize ?: Int.MAX_VALUE),
+    expirationAfterWrite = expirationAfterWrite,
+    clock = clock
+)
 
-    if (maxSize != null) {
-        cacheBuilder = cacheBuilder.maximumSize(maxSize.toLong())
-    }
+internal data class Entry internal constructor(
+    val key: String,
+    val value: String?,
+    val expires: Instant?
+)
 
-    if (expirationAfterWrite != null) {
-        cacheBuilder = cacheBuilder.expireAfterWrite(expirationAfterWrite.inWholeMilliseconds, TimeUnit.MILLISECONDS)
-    }
-
-    return AndroidCache(
-        format = format,
-        cache = cacheBuilder.build()
-    )
-}
+internal fun Entry.isValid(instant: Instant): Boolean =
+    expires == null || instant < expires
 
 internal class AndroidCache internal constructor(
     private val format: StringFormat,
-    private val cache: Cache<String, String>
-) : com.mooncloak.vpn.data.shared.cache.Cache {
+    private val cache: LruCache<String, Entry>,
+    private val clock: Clock,
+    private val expirationAfterWrite: Duration?
+) : Cache {
 
     private val mutex = Mutex(locked = false)
 
     override suspend fun contains(key: String): Boolean =
-        cache.getIfPresent(key) != null
+        cache[key] != null
 
     override suspend fun <Value : Any> get(key: String, deserializer: KSerializer<Value>): Value? {
-        val stored = cache.getIfPresent(key) ?: return null
+        val entry = cache[key] ?: return null
+        val stored = entry.value ?: return null
+
+        if (!entry.isValid(clock.now())) {
+            cache.remove(key)
+
+            return null
+        }
 
         return format.decodeFromString(
             deserializer = deserializer,
@@ -57,27 +66,33 @@ internal class AndroidCache internal constructor(
     override suspend fun <Value : Any> set(key: String, value: Value?, serializer: KSerializer<Value>) {
         mutex.withLock {
             if (value == null) {
-                cache.invalidate(key)
+                cache.remove(key)
             } else {
                 val stored = format.encodeToString(
                     serializer = serializer,
                     value = value
                 )
 
-                cache.put(key, stored)
+                val entry = Entry(
+                    key = key,
+                    value = stored,
+                    expires = expirationAfterWrite?.let { clock.now() + it }
+                )
+
+                cache.put(key, entry)
             }
         }
     }
 
     override suspend fun remove(key: String) {
         mutex.withLock {
-            cache.invalidate(key)
+            cache.remove(key)
         }
     }
 
     override suspend fun clear() {
         mutex.withLock {
-            cache.invalidateAll()
+            cache.evictAll()
         }
     }
 }

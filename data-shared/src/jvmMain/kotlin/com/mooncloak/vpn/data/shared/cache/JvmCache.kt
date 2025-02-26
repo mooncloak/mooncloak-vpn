@@ -5,6 +5,7 @@ import com.github.benmanes.caffeine.cache.Caffeine
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.datetime.Clock
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.StringFormat
 import java.util.concurrent.TimeUnit
@@ -13,7 +14,8 @@ import kotlin.time.Duration
 public actual fun com.mooncloak.vpn.data.shared.cache.Cache.Companion.create(
     format: StringFormat,
     maxSize: Int?,
-    expirationAfterWrite: Duration?
+    expirationAfterWrite: Duration?,
+    clock: Clock
 ): com.mooncloak.vpn.data.shared.cache.Cache {
     var cacheBuilder = Caffeine.newBuilder()
 

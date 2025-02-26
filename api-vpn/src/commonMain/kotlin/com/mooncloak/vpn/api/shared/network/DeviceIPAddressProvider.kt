@@ -13,7 +13,7 @@ public interface DeviceIPAddressProvider {
     /**
      * Invalidates any underlying cache for this [DeviceIPAddressProvider].
      */
-    public fun invalidate()
+    public suspend fun invalidate()
 
     public companion object
 }
