@@ -30,6 +30,7 @@ import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
+import com.mooncloak.vpn.app.shared.resource.home_feed_item_server_last_connected
 import com.mooncloak.vpn.app.shared.resource.onboarding_description_no_accounts
 import com.mooncloak.vpn.app.shared.resource.onboarding_description_no_data_creeps
 import com.mooncloak.vpn.app.shared.resource.onboarding_description_no_data_selling
@@ -224,7 +225,7 @@ public class HomeViewModel @Inject public constructor(
         }
     }
 
-    private fun getFeedItems(
+    private suspend fun getFeedItems(
         hasSubscription: Boolean,
         connection: VPNConnection
     ): List<HomeFeedItem> {
@@ -235,6 +236,19 @@ public class HomeViewModel @Inject public constructor(
         } else {
             null
         }
+        val lastConnectedItems = serviceConnectionRecordRepository.getLastConnected()?.let { record ->
+            if (connection.connectedTo(record.server)) {
+                emptyList()
+            } else {
+                listOf(
+                    HomeFeedItem.ServerItem(
+                        server = record.server,
+                        connected = false,
+                        label = getString(Res.string.home_feed_item_server_last_connected)
+                    )
+                )
+            }
+        } ?: emptyList()
 
         val firstItems = if (hasSubscription || connection.isConnected()) {
             emptyList<HomeFeedItem>()
@@ -244,9 +258,9 @@ public class HomeViewModel @Inject public constructor(
 
         // TODO: The list of items for the subscribed user.
         return if (connectionItem != null) {
-            firstItems + connectionItem + showcaseItems
+            firstItems + connectionItem + lastConnectedItems + showcaseItems
         } else {
-            firstItems + showcaseItems
+            firstItems + lastConnectedItems + showcaseItems
         }
     }
 }

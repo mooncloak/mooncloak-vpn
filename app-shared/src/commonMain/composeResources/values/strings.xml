@@ -71,6 +71,8 @@
     <string name="home_title_bar_checking">Checking connection</string>
     <string name="home_title_bar_description_unprotected">Connect to a secure VPN server to protect your data</string>
 
+    <string name="home_feed_item_server_last_connected">Last Connected</string>
+
     <string name="get_vpn_service_title">You are unprotected</string>
     <string name="get_vpn_service_description">Start protecting your data with a privacy focused and anonymous VPN service by mooncloak.</string>
     <string name="get_vpn_service_action_protect">Get Protected</string>

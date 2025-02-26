@@ -43,7 +43,8 @@ public sealed interface HomeFeedItem {
     @Immutable
     public data class ServerItem public constructor(
         public val server: Server,
-        public val connected: Boolean
+        public val connected: Boolean,
+        public val label: String? = null
     ) : HomeFeedItem
 
     public companion object

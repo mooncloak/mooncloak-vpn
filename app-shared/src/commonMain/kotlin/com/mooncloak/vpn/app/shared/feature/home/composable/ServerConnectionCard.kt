@@ -18,6 +18,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.mooncloak.vpn.api.shared.server.ConnectionType
@@ -31,6 +33,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun ServerConnectionCard(
+    label: String? = null,
     countryName: String?,
     countryFlag: String?,
     serverName: String,
@@ -50,6 +53,20 @@ internal fun ServerConnectionCard(
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
+            if (!label.isNullOrBlank()) {
+                Text(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(top = 16.dp)
+                        .padding(horizontal = 16.dp),
+                    text = label,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha),
+                    textAlign = TextAlign.Start,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
             ListItem(
                 modifier = Modifier.fillMaxWidth(),
                 leadingContent = (@Composable {

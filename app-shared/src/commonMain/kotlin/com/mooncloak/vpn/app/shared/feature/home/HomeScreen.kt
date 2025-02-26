@@ -168,6 +168,7 @@ public fun HomeScreen(
                     is HomeFeedItem.ServerItem -> ServerConnectionCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth(),
+                        label = item.label,
                         countryName = item.server.country?.name,
                         countryFlag = item.server.country?.flag,
                         serverName = item.server.name,

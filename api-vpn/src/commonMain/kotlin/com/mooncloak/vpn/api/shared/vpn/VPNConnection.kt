@@ -123,7 +123,7 @@ public fun VPNConnection.connectedTo(server: Server): Boolean {
     contract { returns(true) implies (this@connectedTo is VPNConnection.Connected) }
 
     return if (this is VPNConnection.Connected) {
-        this.tunnels.any { tunnel -> tunnel.server == server }
+        this.tunnels.any { tunnel -> tunnel.server?.id == server.id }
     } else {
         false
     }
