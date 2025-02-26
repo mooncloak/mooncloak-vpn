@@ -9,7 +9,9 @@ import com.mooncloak.vpn.api.shared.service.isActive
 import com.mooncloak.vpn.api.shared.service.ServiceTokensRepository
 import com.mooncloak.vpn.app.shared.settings.SubscriptionSettings
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.datetime.Clock
 
 public class GetServiceSubscriptionFlowUseCase @Inject public constructor(
@@ -21,7 +23,7 @@ public class GetServiceSubscriptionFlowUseCase @Inject public constructor(
 
     public operator fun invoke(): Flow<ServiceSubscription?> =
         getCurrentFlow()
-    // FIXME: .onCompletion { emitAll(subscriptionStorage.subscription.flow) }
+            .onCompletion { emitAll(subscriptionStorage.subscription.flow()) }
 
     private fun getCurrentFlow(): Flow<ServiceSubscription?> = flow {
         var subscription = subscriptionStorage.subscription.get()
