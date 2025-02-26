@@ -54,13 +54,15 @@ internal fun BottomSheetLayout(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                BottomSheetHeader(
-                    modifier = Modifier.fillMaxWidth(),
-                    title = title,
-                    description = description
-                )
+                if (!title.isNullOrBlank() || !description.isNullOrBlank()) {
+                    BottomSheetHeader(
+                        modifier = Modifier.fillMaxWidth(),
+                        title = title,
+                        description = description
+                    )
 
-                Spacer(modifier = Modifier.height(32.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
+                }
 
                 content.invoke(this)
             }

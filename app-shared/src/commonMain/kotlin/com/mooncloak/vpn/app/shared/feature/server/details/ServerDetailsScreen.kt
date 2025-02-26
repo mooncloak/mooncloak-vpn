@@ -17,6 +17,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -27,6 +28,7 @@ import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.vpn.VPNConnection
 import com.mooncloak.vpn.api.shared.server.ipAddress
 import com.mooncloak.vpn.api.shared.vpn.defaultTunnel
+import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.CloakedLayout
@@ -69,10 +71,9 @@ public fun ServerDetailsScreen(
         viewModel.load(server)
     }
 
-    Surface(
+    BottomSheetLayout(
         modifier = modifier,
-        color = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onSurface
+        loadingState = derivedStateOf { viewModel.state.current.value.isLoading }
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxWidth()

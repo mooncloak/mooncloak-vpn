@@ -10,7 +10,6 @@ import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.api.shared.server.ServerConnectionRecord
 import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
-import com.mooncloak.vpn.api.shared.server.getOrNull
 import com.mooncloak.vpn.api.shared.vpn.VPNConnection
 import com.mooncloak.vpn.api.shared.vpn.connectedTo
 import com.mooncloak.vpn.api.shared.vpn.isDisconnected
