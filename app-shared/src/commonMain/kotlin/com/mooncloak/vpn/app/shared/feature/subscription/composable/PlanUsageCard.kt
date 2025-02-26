@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_not_available
-import com.mooncloak.vpn.app.shared.resource.plan_usage_label_remaining
+import com.mooncloak.vpn.app.shared.resource.global_remaining
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -37,7 +37,7 @@ internal fun PlanUsageCard(
         ) {
             InfoStatSection(
                 modifier = Modifier.weight(1f),
-                label = stringResource(Res.string.plan_usage_label_remaining),
+                label = stringResource(Res.string.global_remaining),
                 value = durationRemaining ?: stringResource(Res.string.global_not_available)
             )
 
@@ -45,7 +45,7 @@ internal fun PlanUsageCard(
 
             InfoStatSection(
                 modifier = Modifier.weight(1f),
-                label = stringResource(Res.string.plan_usage_label_remaining),
+                label = stringResource(Res.string.global_remaining),
                 value = bytesRemaining ?: stringResource(Res.string.global_not_available)
             )
         }

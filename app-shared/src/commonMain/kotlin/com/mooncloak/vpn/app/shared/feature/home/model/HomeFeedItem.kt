@@ -22,7 +22,7 @@ public sealed interface HomeFeedItem {
 
     @Immutable
     public data class PlanUsageItem public constructor(
-        public val durationRemaining: Duration,
+        public val durationRemaining: String,
         public val bytesRemaining: Long? = null,
         public val showBoost: Boolean = false
     ) : HomeFeedItem

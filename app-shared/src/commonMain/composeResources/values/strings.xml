@@ -4,6 +4,7 @@
     <string name="global_unexpected_error">Unexpected error</string>
     <string name="global_yes">Yes</string>
     <string name="global_no">No</string>
+    <string name="global_remaining">Remaining</string>
 
     <string name="app_name">mooncloak VPN</string>
     <string name="app_description">Go dark, stay bright</string>
@@ -61,7 +62,8 @@
     <string name="ad_shield_inactive">Off</string>
 
     <string name="plan_usage_title">Plan Usage</string>
-    <string name="plan_usage_label_remaining">Remaining</string>
+    <string name="plan_usage_label_time_remaining">Time Remaining</string>
+    <string name="plan_usage_label_data_remaining">Data Remaining</string>
     <string name="plan_usage_action_boost">Boost</string>
 
     <string name="home_title_bar_unprotected">You are uncloaked</string>

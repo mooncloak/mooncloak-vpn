@@ -46,6 +46,8 @@ import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_tracking
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_payment_crypto
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_payment_google_play
 import com.mooncloak.vpn.app.shared.settings.SubscriptionSettings
+import com.mooncloak.vpn.app.shared.util.time.remaining
+import com.mooncloak.vpn.util.shared.time.DurationFormatter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
@@ -55,8 +57,10 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Duration.Companion.days
 
 @Stable
 @FeatureScoped
@@ -67,7 +71,9 @@ public class HomeViewModel @Inject public constructor(
     private val serverConnectionManager: VPNConnectionManager,
     private val localNetworkManager: LocalNetworkManager,
     private val deviceIPAddressProvider: DeviceIPAddressProvider,
-    private val getServiceSubscriptionFlow: GetServiceSubscriptionFlowUseCase
+    private val getServiceSubscriptionFlow: GetServiceSubscriptionFlowUseCase,
+    private val clock: Clock,
+    private val durationFormatter: DurationFormatter = DurationFormatter.remaining()
 ) : ViewModel<HomeStateModel>(initialStateValue = HomeStateModel()) {
 
     private val showcaseItems = listOf(
@@ -125,7 +131,7 @@ public class HomeViewModel @Inject public constructor(
                 .onEach { connection ->
                     emit { current ->
                         val updatedItems = getFeedItems(
-                            hasSubscription = current.subscription != null,
+                            subscription = current.subscription,
                             connection = connection
                         )
 
@@ -145,7 +151,7 @@ public class HomeViewModel @Inject public constructor(
                 .onEach { subscription ->
                     emit { current ->
                         val updatedItems = getFeedItems(
-                            hasSubscription = subscription != null,
+                            subscription = subscription,
                             connection = current.connection
                         )
 
@@ -169,7 +175,7 @@ public class HomeViewModel @Inject public constructor(
                 deviceIpAddress = deviceIPAddressProvider.get()
 
                 val items = getFeedItems(
-                    hasSubscription = subscription != null,
+                    subscription = subscription,
                     connection = state.current.value.connection
                 )
 
@@ -226,21 +232,24 @@ public class HomeViewModel @Inject public constructor(
     }
 
     private suspend fun getFeedItems(
-        hasSubscription: Boolean,
+        subscription: ServiceSubscription?,
         connection: VPNConnection
     ): List<HomeFeedItem> {
-        val connectionItem = if (connection.isConnected()) {
-            HomeFeedItem.ServerConnectionItem(
-                connection = connection
-            )
-        } else {
-            null
+        val items = mutableListOf<HomeFeedItem>()
+
+        val now = clock.now()
+
+        if (subscription == null && !connection.isConnected()) {
+            items.add(HomeFeedItem.GetVPNServiceItem)
         }
-        val lastConnectedItems = serviceConnectionRecordRepository.getLastConnected()?.let { record ->
-            if (connection.connectedTo(record.server)) {
-                emptyList()
-            } else {
-                listOf(
+
+        if (connection.isConnected()) {
+            items.add(HomeFeedItem.ServerConnectionItem(connection = connection))
+        }
+
+        if (!connection.isConnected()) {
+            serviceConnectionRecordRepository.getLastConnected()?.let { record ->
+                items.add(
                     HomeFeedItem.ServerItem(
                         server = record.server,
                         connected = false,
@@ -248,19 +257,23 @@ public class HomeViewModel @Inject public constructor(
                     )
                 )
             }
-        } ?: emptyList()
-
-        val firstItems = if (hasSubscription || connection.isConnected()) {
-            emptyList<HomeFeedItem>()
-        } else {
-            listOf(HomeFeedItem.GetVPNServiceItem)
         }
+
+        if (subscription != null && subscription.expiration > now) {
+            val remaining = subscription.expiration - now
+
+            items.add(
+                HomeFeedItem.PlanUsageItem(
+                    durationRemaining = durationFormatter.format(remaining),
+                    bytesRemaining = null,
+                    showBoost = remaining < 5.days
+                )
+            )
+        }
+
+        items.addAll(showcaseItems)
 
         // TODO: The list of items for the subscribed user.
-        return if (connectionItem != null) {
-            firstItems + connectionItem + lastConnectedItems + showcaseItems
-        } else {
-            firstItems + lastConnectedItems + showcaseItems
-        }
+        return items
     }
 }
