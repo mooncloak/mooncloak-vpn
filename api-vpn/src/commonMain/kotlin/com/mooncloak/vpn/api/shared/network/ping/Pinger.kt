@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.api.shared.network.ping
 
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Interface for performing a ping operation to a specified host.
@@ -25,9 +26,18 @@ public interface Pinger {
      *
      * @param [host] The hostname or IP address to ping.
      *
+     * @param [port] The port to use or `null` to use the default. This value will be ignored if it doesn't apply for
+     * the [PingProtocol]. Defaults to `null`.
+     *
+     * @param [timeout] The timeout [Duration]. Defaults to 5 seconds.
+     *
      * @return The round-trip time (RTT) as a [Duration], or `null` if the ping fails.
      */
-    public suspend fun ping(host: String): Duration?
+    public suspend fun ping(
+        host: String,
+        port: Int? = null,
+        timeout: Duration = 5.seconds
+    ): Duration?
 
     public companion object
 }
