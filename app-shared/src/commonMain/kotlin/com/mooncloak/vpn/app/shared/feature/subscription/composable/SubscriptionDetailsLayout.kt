@@ -52,8 +52,8 @@ internal fun SubscriptionDetailsLayout(
         ) {
             PlanUsageCard(
                 modifier = Modifier.fillMaxWidth(),
-                durationRemaining = subscriptionRemainingDuration ?: stringResource(Res.string.global_not_available),
-                bytesRemaining = subscriptionRemainingData ?: stringResource(Res.string.global_not_available)
+                durationRemaining = subscriptionRemainingDuration,
+                bytesRemaining = subscriptionRemainingData
             )
         }
     }

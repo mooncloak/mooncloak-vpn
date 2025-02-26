@@ -64,6 +64,7 @@
     <string name="plan_usage_title">Plan Usage</string>
     <string name="plan_usage_label_time_remaining">Time Remaining</string>
     <string name="plan_usage_label_data_remaining">Data Remaining</string>
+    <string name="plan_usage_unlimited">Unlimited</string>
     <string name="plan_usage_action_boost">Boost</string>
 
     <string name="home_title_bar_unprotected">You are uncloaked</string>

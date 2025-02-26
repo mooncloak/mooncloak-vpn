@@ -23,6 +23,7 @@ import com.mooncloak.vpn.app.shared.resource.plan_usage_action_boost
 import com.mooncloak.vpn.app.shared.resource.plan_usage_label_data_remaining
 import com.mooncloak.vpn.app.shared.resource.plan_usage_label_time_remaining
 import com.mooncloak.vpn.app.shared.resource.plan_usage_title
+import com.mooncloak.vpn.app.shared.resource.plan_usage_unlimited
 import com.mooncloak.vpn.app.shared.util.DataFormatter
 import com.mooncloak.vpn.app.shared.util.Default
 import com.mooncloak.vpn.app.shared.util.formatWithUnit
@@ -74,7 +75,7 @@ internal fun PlanUsageCard(
                             inputType = DataFormatter.Type.Bytes,
                             outputType = DataFormatter.Type.Megabytes
                         )
-                    } ?: stringResource(Res.string.global_not_available)
+                    } ?: stringResource(Res.string.plan_usage_unlimited)
                 )
             }
 
