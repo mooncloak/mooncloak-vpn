@@ -106,7 +106,8 @@ public fun HomeScreen(
                 when (item) {
                     is HomeFeedItem.MoonShieldItem -> AdShieldCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .animateItem(),
                         adsBlocked = item.adsBlocked ?: 0,
                         trackersBlocked = item.trackersBlocked ?: 0,
                         bytesSaved = item.estimatedBytesSaved,
@@ -118,7 +119,8 @@ public fun HomeScreen(
 
                     HomeFeedItem.GetVPNServiceItem -> GetVPNServiceCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .animateItem(),
                         onClick = {
                             coroutineScope.launch {
                                 bottomSheetState.show(destination = HomeBottomSheetDestination.Payment)
@@ -128,7 +130,8 @@ public fun HomeScreen(
 
                     is HomeFeedItem.PlanUsageItem -> PlanUsageCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .animateItem(),
                         durationRemaining = item.durationRemaining,
                         bytesRemaining = item.bytesRemaining,
                         boost = item.showBoost,
@@ -146,7 +149,8 @@ public fun HomeScreen(
                         if (server != null) {
                             ServerConnectionCard(
                                 modifier = Modifier.sizeIn(maxWidth = 600.dp)
-                                    .fillMaxWidth(),
+                                    .fillMaxWidth()
+                                    .animateItem(),
                                 countryName = server.country?.name,
                                 countryFlag = server.country?.flag,
                                 serverName = server.name,
@@ -166,7 +170,8 @@ public fun HomeScreen(
 
                     is HomeFeedItem.ServerItem -> ServerConnectionCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .animateItem(),
                         label = item.label,
                         countryName = item.server.country?.name,
                         countryFlag = item.server.country?.flag,
@@ -185,7 +190,8 @@ public fun HomeScreen(
 
                     is HomeFeedItem.ShowcaseItem -> ShowcaseCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .animateItem(),
                         icon = item.icon.invoke(),
                         title = item.title.invoke(),
                         description = item.description.invoke()
