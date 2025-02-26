@@ -44,6 +44,7 @@ import io.ktor.client.plugins.timeout
 import io.ktor.client.request.accept
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
+import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
@@ -65,6 +66,14 @@ public class MooncloakVpnServiceHttpApi public constructor(
         requestTimeout: Duration? = null
     ): HttpReflection = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.get("https://mooncloak.com/api/mirror") {
+            headers {
+                // Try to force the reflection request to not cache. We should always get back the fresh value from
+                // this API endpoint. Really it is up to the server if it includes cache headers, but the client can
+                // indicate that we don't want cached values.
+                append("Cache-Control", "no-cache")
+                append("Pragma", "no-cache")
+            }
+
             timeout {
                 connectTimeoutMillis = connectionTimeout?.inWholeMilliseconds
                 socketTimeoutMillis = socketTimeout?.inWholeMilliseconds
