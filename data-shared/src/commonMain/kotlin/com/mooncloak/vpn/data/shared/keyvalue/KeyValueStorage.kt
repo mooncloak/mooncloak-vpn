@@ -57,6 +57,37 @@ public interface KeyValueStorage {
         deserializer: KSerializer<Value>
     ): Value?
 
+    /**
+     * Retrieves a hot [Flow] of [Value]s for the provided [key] that emits whenever a change occurs to the underlying
+     * value for that [key]. The resulting [Flow] starts with the current [Value] that is stored for the provided
+     * [key].
+     *
+     * @param [key] The key to associate with the value. Must be a non-empty string.
+     *
+     * @param [deserializer] The [KSerializer] responsible for deserializing the stored value into the expected type
+     * [Value].
+     *
+     * @throws [UnsupportedOperationException] if the implementation doesn't support this operation.
+     *
+     * @throws [IllegalArgumentException] if the [key] is blank.
+     *
+     * @throws [SerializationException] If a serialization-related issue occurs during deserialization.
+     *
+     * @throws [CancellationException] If the suspending function was cancelled.
+     *
+     * @return A [Flow] of [Value]s that are emitted when changes occur.
+     */
+    @Throws(
+        UnsupportedOperationException::class,
+        IllegalArgumentException::class,
+        SerializationException::class,
+        CancellationException::class
+    )
+    public fun <Value : Any> flow(
+        key: String,
+        deserializer: KSerializer<Value>
+    ): Flow<Value?>
+
     public companion object
 }
 
@@ -115,58 +146,6 @@ public interface MutableKeyValueStorage : KeyValueStorage {
      * calling [clear], the context should be in a state equivalent to when it was first initialized.
      */
     public suspend fun clear()
-
-    public companion object
-}
-
-/**
- * [FlowableKeyValueStorage] extends the [KeyValueStorage] interface, providing the capability to observe changes to
- * values associated with specific keys as a Kotlin [Flow].
- *
- * This interface is designed for scenarios where you need to reactively update your application's state based on
- * modifications to stored key-value pairs. It builds upon the basic get/set/remove operations of [KeyValueStorage] by
- * adding a [flow] method that allows for asynchronous, stream-based observation of value changes.
- *
- * Implementations of this interface are expected to emit new values to the flow whenever a change occurs to the value
- * associated with the observed key. This change could be a new value being set, an existing value being updated, or a
- * value being removed.
- */
-public interface FlowableKeyValueStorage : KeyValueStorage {
-
-    /**
-     * Retrieves a hot [Flow] of [Value]s for the provided [key] that emits whenever a change occurs to the underlying
-     * value for that [key]. The resulting [Flow] starts with the current [Value] that is stored for the provided
-     * [key].
-     *
-     * @param [key] The key to associate with the value. Must be a non-empty string.
-     *
-     * @param [deserializer] The [KSerializer] responsible for deserializing the stored value into the expected type
-     * [Value].
-     *
-     * @throws [IllegalArgumentException] if the [key] is blank.
-     *
-     * @throws [SerializationException] If a serialization-related issue occurs during deserialization.
-     *
-     * @throws [CancellationException] If the suspending function was cancelled.
-     *
-     * @return A [Flow] of [Value]s that are emitted when changes occur.
-     */
-    @Throws(IllegalArgumentException::class, SerializationException::class, CancellationException::class)
-    public fun <Value : Any> flow(
-        key: String,
-        deserializer: KSerializer<Value>
-    ): Flow<Value?>
-
-    public companion object
-}
-
-/**
- * A key-value storage that implements the [KeyValueStorage], [MutableKeyValueStorage], and [FlowableKeyValueStorage]
- * interfaces.
- */
-public interface FlowableMutableKeyValueStorage : KeyValueStorage,
-    MutableKeyValueStorage,
-    FlowableKeyValueStorage {
 
     public companion object
 }
@@ -238,7 +217,7 @@ public suspend inline fun <reified Value : Any> MutableKeyValueStorage.set(
  * value for that [key]. The resulting [Flow] starts with the current [Value] that is stored for the provided
  * [key].
  *
- * This is a convenience function for invoking the [FlowableKeyValueStorage.flow] function with a serializer value
+ * This is a convenience function for invoking the [KeyValueStorage.flow] function with a serializer value
  * obtained via the [serializer] inline function.
  *
  * @param [key] The key to associate with the value. Must be a non-empty string.
@@ -251,10 +230,10 @@ public suspend inline fun <reified Value : Any> MutableKeyValueStorage.set(
  *
  * @return A [Flow] of [Value]s that are emitted when changes occur.
  *
- * @see [FlowableKeyValueStorage.flow]
+ * @see [KeyValueStorage.flow]
  */
 @Throws(IllegalArgumentException::class, SerializationException::class, CancellationException::class)
-public inline fun <reified Value : Any> FlowableKeyValueStorage.flow(
+public inline fun <reified Value : Any> KeyValueStorage.flow(
     key: String
 ): Flow<Value?> = this.flow(
     key = key,

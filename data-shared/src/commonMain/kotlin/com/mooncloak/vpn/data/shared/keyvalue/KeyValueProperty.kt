@@ -20,6 +20,11 @@ public interface KeyValueProperty<Value : Any> {
      */
     public suspend fun get(): Value?
 
+    /**
+     * Retrieves a [Flow] of the underlying value changes.
+     */
+    public fun flow(): Flow<Value?>
+
     public companion object
 }
 
@@ -45,37 +50,6 @@ public interface MutableKeyValueProperty<Value : Any> : KeyValueProperty<Value> 
      * Removes the current resource or object associated with this instance.
      */
     public suspend fun remove()
-
-    public companion object
-}
-
-/**
- * Represents a key-value property that provides a reactive stream of its value changes.
- *
- * This interface extends [KeyValueProperty] and adds the capability to observe changes to the property's value through
- * a [Flow]. This allows for reactive programming patterns to be used when interacting with the property.
- *
- * @param Value The type of the value stored in the property.
- *
- * @see KeyValueProperty
- */
-public interface FlowableKeyValueProperty<Value : Any> : KeyValueProperty<Value> {
-
-    /**
-     * Retrieves a [Flow] of the underlying value changes.
-     */
-    public fun flow(): Flow<Value?>
-
-    public companion object
-}
-
-/**
- * A key-value property that implements the [KeyValueProperty], [MutableKeyValueProperty], and
- * [FlowableKeyValueProperty] interfaces.
- */
-public interface FlowableMutableKeyValueProperty<Value : Any> : KeyValueProperty<Value>,
-    MutableKeyValueProperty<Value>,
-    FlowableKeyValueProperty<Value> {
 
     public companion object
 }

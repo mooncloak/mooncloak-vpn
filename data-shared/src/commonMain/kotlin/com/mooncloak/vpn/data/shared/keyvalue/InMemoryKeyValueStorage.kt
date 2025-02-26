@@ -9,7 +9,7 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.StringFormat
 
 /**
- * An in-memory implementation of [KeyValueStorage], [MutableKeyValueStorage], and [FlowableKeyValueStorage].
+ * An in-memory implementation of [KeyValueStorage] and [MutableKeyValueStorage].
  *
  * This class provides a simple, in-memory key-value storage solution suitable for testing or applications where data
  * persistence across sessions is not required. It stores data as strings internally and uses a provided [StringFormat]
@@ -24,8 +24,7 @@ import kotlinx.serialization.StringFormat
 public class InMemoryKeyValueStorage public constructor(
     private val format: StringFormat
 ) : KeyValueStorage,
-    MutableKeyValueStorage,
-    FlowableKeyValueStorage {
+    MutableKeyValueStorage {
 
     private val storage = mutableMapOf<String, String>()
 
