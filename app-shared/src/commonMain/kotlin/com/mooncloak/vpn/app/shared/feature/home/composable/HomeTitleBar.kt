@@ -45,6 +45,7 @@ import com.mooncloak.vpn.app.shared.resource.home_title_bar_unprotected
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeChild
+import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
 import org.jetbrains.compose.resources.stringResource
@@ -65,7 +66,7 @@ internal fun HomeTitleBar(
     )
 
     Surface(
-        modifier = modifier.hazeChild(
+        modifier = modifier.hazeEffect(
             state = hazeState,
             style = HazeMaterials.regular(
                 containerColor = backgroundColor.value

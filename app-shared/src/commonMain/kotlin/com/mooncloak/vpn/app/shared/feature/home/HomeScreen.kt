@@ -73,20 +73,16 @@ public fun HomeScreen(
             SnackbarHost(hostState = snackbarHostState)
         },
         topBar = {
-            AnimatedContent(
-                targetState = viewModel.state.current.value.connectionStatus
-            ) { connectionStatus ->
-                HomeTitleBar(
-                    modifier = Modifier.animateContentSize()
-                        .fillMaxWidth()
-                        .shadow(elevation = 8.dp),
-                    status = connectionStatus,
-                    connectedName = viewModel.state.current.value.connectedName,
-                    ipAddress = viewModel.state.current.value.connectedIpAddress,
-                    publicIpAddress = connectionStatus != VPNConnectionStatus.Connected,
-                    hazeState = hazeState
-                )
-            }
+            HomeTitleBar(
+                modifier = Modifier.animateContentSize()
+                    .fillMaxWidth()
+                    .shadow(elevation = 8.dp),
+                status = viewModel.state.current.value.connectionStatus,
+                connectedName = viewModel.state.current.value.connectedName,
+                ipAddress = viewModel.state.current.value.connectedIpAddress,
+                publicIpAddress = viewModel.state.current.value.connectionStatus != VPNConnectionStatus.Connected,
+                hazeState = hazeState
+            )
         }
     ) { paddingValues ->
         LazyColumn(
