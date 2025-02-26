@@ -5,6 +5,7 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
+import com.mooncloak.vpn.api.shared.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.app.shared.api.server.usecase.RegisterClientUseCase
@@ -29,7 +30,8 @@ internal class WireGuardTunnelManager @Inject internal constructor(
     private val backend: WireGuardBackend,
     private val connectionKeyPairResolver: WireGuardConnectionKeyPairResolver,
     private val registerClient: RegisterClientUseCase,
-    private val preferencesStorage: UserPreferenceSettings
+    private val preferencesStorage: UserPreferenceSettings,
+    private val deviceIPAddressProvider: DeviceIPAddressProvider
 ) : TunnelManager {
 
     override val tunnels: StateFlow<List<Tunnel>>
@@ -90,6 +92,8 @@ internal class WireGuardTunnelManager @Inject internal constructor(
                 )
 
                 tunnelMap[wireGuardTunnel.tunnelName] = wireGuardTunnel
+
+                deviceIPAddressProvider.invalidate()
             }
 
             emitLatest()
@@ -115,6 +119,8 @@ internal class WireGuardTunnelManager @Inject internal constructor(
                     com.wireguard.android.backend.Tunnel.State.DOWN,
                     null
                 )
+
+                deviceIPAddressProvider.invalidate()
             }
 
             emitLatest()
@@ -148,6 +154,8 @@ internal class WireGuardTunnelManager @Inject internal constructor(
                             cause = e
                         )
                     }
+
+                    deviceIPAddressProvider.invalidate()
                 }
             }
 
