@@ -7,7 +7,7 @@ import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
-import com.mooncloak.vpn.app.shared.api.billing.usecase.GetServiceSubscriptionFlowUseCase
+import com.mooncloak.vpn.app.shared.api.billing.ServiceSubscriptionFlowProvider
 import com.mooncloak.vpn.api.shared.service.ServiceTokensRepository
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
@@ -30,7 +30,7 @@ public class ServerListViewModel @Inject public constructor(
     private val serviceTokensRepository: ServiceTokensRepository,
     private val serverConnectionManager: VPNConnectionManager,
     private val appClientInfo: AppClientInfo,
-    private val getServiceSubscriptionFlow: GetServiceSubscriptionFlowUseCase
+    private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider
 ) : ViewModel<ServerListStateModel>(initialStateValue = ServerListStateModel()) {
 
     private var connectionJob: Job? = null

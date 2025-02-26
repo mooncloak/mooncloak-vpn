@@ -8,7 +8,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.app.shared.api.billing.usecase.GetServiceSubscriptionFlowUseCase
+import com.mooncloak.vpn.app.shared.api.billing.ServiceSubscriptionFlowProvider
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
@@ -32,7 +32,7 @@ public class MainViewModel @Inject public constructor(
     private val navController: NavController,
     private val serverConnectionManager: VPNConnectionManager,
     private val getDefaultServer: GetDefaultServerUseCase,
-    private val getServiceSubscriptionFlow: GetServiceSubscriptionFlowUseCase
+    private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider
 ) : ViewModel<MainStateModel>(initialStateValue = MainStateModel()) {
 
     private val mutex = Mutex(locked = false)

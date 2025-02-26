@@ -4,10 +4,11 @@ import androidx.compose.runtime.Stable
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
+import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
-import com.mooncloak.vpn.app.shared.api.billing.usecase.GetServiceSubscriptionFlowUseCase
+import com.mooncloak.vpn.app.shared.api.billing.ServiceSubscriptionFlowProvider
 import com.mooncloak.vpn.api.shared.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.network.LocalNetworkManager
 import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
@@ -47,28 +48,13 @@ public class SettingsViewModel @Inject public constructor(
     private val clock: Clock,
     private val localNetworkManager: LocalNetworkManager,
     private val deviceIPAddressProvider: DeviceIPAddressProvider,
-    private val getServiceSubscriptionFlow: GetServiceSubscriptionFlowUseCase
+    private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider
 ) : ViewModel<SettingsStateModel>(initialStateValue = SettingsStateModel()) {
 
     private var subscriptionJob: Job? = null
 
     @OptIn(ExperimentalPersistentStateAPI::class)
     public fun load() {
-        subscriptionJob?.cancel()
-        subscriptionJob = getServiceSubscriptionFlow()
-            .onEach { subscription ->
-                val planText = getPlanText(subscription)
-
-                emit { current ->
-                    current.copy(
-                        currentPlan = planText
-                    )
-                }
-            }
-            .catch { e -> LogPile.error(message = "Error listening to subscription changes.", cause = e) }
-            .flowOn(Dispatchers.Main)
-            .launchIn(coroutineScope)
-
         coroutineScope.launch {
             emit(value = state.current.value.copy(isLoading = true))
 
@@ -143,6 +129,21 @@ public class SettingsViewModel @Inject public constructor(
                 }
             }
         }
+
+        subscriptionJob?.cancel()
+        subscriptionJob = getServiceSubscriptionFlow()
+            .onEach { subscription ->
+                val planText = getPlanText(subscription)
+
+                emit { current ->
+                    current.copy(
+                        currentPlan = planText
+                    )
+                }
+            }
+            .catch { e -> LogPile.error(message = "Error listening to subscription changes.", cause = e) }
+            .flowOn(Dispatchers.Main)
+            .launchIn(coroutineScope)
     }
 
     public fun toggleStartOnLandingScreen(checked: Boolean) {
