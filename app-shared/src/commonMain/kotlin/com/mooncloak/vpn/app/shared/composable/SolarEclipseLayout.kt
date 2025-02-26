@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.server.details.composable
+package com.mooncloak.vpn.app.shared.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

@@ -2,6 +2,7 @@ package com.mooncloak.vpn.app.shared.feature.home.composable
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,12 +24,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.mooncloak.vpn.api.shared.server.ConnectionType
+import com.mooncloak.vpn.app.shared.composable.CloakedLayout
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.action_connect
 import com.mooncloak.vpn.app.shared.resource.action_disconnect
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import com.mooncloak.vpn.app.shared.util.icon
 import com.mooncloak.vpn.app.shared.util.title
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -39,6 +43,7 @@ internal fun ServerConnectionCard(
     serverName: String,
     connectionType: ConnectionType?,
     connected: Boolean,
+    connectionTime: Instant?,
     onConnect: () -> Unit,
     onDetails: () -> Unit,
     modifier: Modifier = Modifier
@@ -51,9 +56,18 @@ internal fun ServerConnectionCard(
         onClick = onDetails
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (!label.isNullOrBlank()) {
+            if (connected) {
+                CloakedLayout(
+                    modifier = Modifier.fillMaxWidth()
+                        .aspectRatio(1f),
+                    since = connectionTime ?: Clock.System.now()
+                )
+            }
+
+            if (!connected && !label.isNullOrBlank()) {
                 Text(
                     modifier = Modifier.fillMaxWidth()
                         .padding(top = 16.dp)

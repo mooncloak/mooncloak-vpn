@@ -155,6 +155,7 @@ public fun HomeScreen(
                                 serverName = server.name,
                                 connectionType = server.connectionTypes.firstOrNull(),
                                 connected = true,
+                                connectionTime = item.connection.timestamp,
                                 onConnect = {
                                     viewModel.toggleConnection(server = server)
                                 },
@@ -177,6 +178,7 @@ public fun HomeScreen(
                         serverName = item.server.name,
                         connectionType = item.server.connectionTypes.firstOrNull(),
                         connected = item.connected,
+                        connectionTime = null,
                         onConnect = {
                             viewModel.toggleConnection(server = item.server)
                         },

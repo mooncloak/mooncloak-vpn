@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,7 +30,7 @@ import com.mooncloak.vpn.api.shared.vpn.defaultTunnel
 import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
-import com.mooncloak.vpn.app.shared.feature.server.details.composable.CloakedLayout
+import com.mooncloak.vpn.app.shared.composable.CloakedLayout
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.LoadingCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.IpAddressCard
 import com.mooncloak.vpn.app.shared.feature.server.details.composable.ServerInfoCard

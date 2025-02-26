@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.server.details.composable
+package com.mooncloak.vpn.app.shared.composable
 
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text

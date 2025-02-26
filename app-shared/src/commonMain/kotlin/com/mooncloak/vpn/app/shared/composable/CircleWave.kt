@@ -4,7 +4,7 @@
  * https://github.com/alexjlockwood/bees-and-bombs-compose?tab=MIT-1-ov-file#readme
  */
 
-package com.mooncloak.vpn.app.shared.feature.server.details.composable
+package com.mooncloak.vpn.app.shared.composable
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
@@ -24,9 +24,9 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawStyle
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.translate
-import com.mooncloak.vpn.app.shared.feature.server.details.composable.CircleWaveDefaults.FREQUENCY
-import com.mooncloak.vpn.app.shared.feature.server.details.composable.CircleWaveDefaults.SHIFT
-import com.mooncloak.vpn.app.shared.feature.server.details.composable.CircleWaveDefaults.SPEED
+import com.mooncloak.vpn.app.shared.composable.CircleWaveDefaults.FREQUENCY
+import com.mooncloak.vpn.app.shared.composable.CircleWaveDefaults.SHIFT
+import com.mooncloak.vpn.app.shared.composable.CircleWaveDefaults.SPEED
 import com.mooncloak.vpn.app.shared.theme.ColorPalette
 import kotlinx.coroutines.delay
 import kotlin.math.cos
