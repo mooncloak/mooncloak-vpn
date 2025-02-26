@@ -90,7 +90,7 @@ class BuildVariables internal constructor(
         get() = runCatching { kenv.getStringOrNull("googlePlaySigningKeyStorePassword") }.getOrNull()
 
     val googlePlaySigningKeyAlias: String?
-        get() = runCatching { kenv.getStringOrNull("googlePlaySigningKeyStoreAlias") }.getOrNull()
+        get() = runCatching { kenv.getStringOrNull("googlePlaySigningKeyAlias") }.getOrNull()
 
     val googlePlaySigningKeyPassword: String?
         get() = runCatching { kenv.getStringOrNull("googlePlaySigningKeyPassword") }.getOrNull()

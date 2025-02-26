@@ -26,7 +26,7 @@ public class MooncloakVpnApplication : Application() {
 
         // Disable logging if we are not in debug mode.
         if (!applicationComponent.appClientInfo.isDebug) {
-            LogPile.configure(NoOpLogger)
+            // FIXME: Disable logging in production: LogPile.configure(NoOpLogger)
         }
     }
 }
