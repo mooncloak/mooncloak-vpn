@@ -68,6 +68,11 @@ kotlin {
                 // Database - Sqlite - SqlDelight
                 // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
                 api("app.cash.sqldelight:android-driver:_")
+
+                // Caching - Caffeine
+                // https://github.com/ben-manes/caffeine
+                // Apache 2.0: https://github.com/ben-manes/caffeine/blob/master/LICENSE
+                implementation("com.github.ben-manes.caffeine:caffeine:_")
             }
         }
 
@@ -76,6 +81,11 @@ kotlin {
                 // Database - Sqlite - SqlDelight
                 // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
                 api("app.cash.sqldelight:sqlite-driver:_")
+
+                // Caching - Caffeine
+                // https://github.com/ben-manes/caffeine
+                // Apache 2.0: https://github.com/ben-manes/caffeine/blob/master/LICENSE
+                implementation("com.github.ben-manes.caffeine:caffeine:_")
             }
         }
     }

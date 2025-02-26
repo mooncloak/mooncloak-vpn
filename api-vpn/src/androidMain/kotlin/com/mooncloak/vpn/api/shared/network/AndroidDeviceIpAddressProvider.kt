@@ -73,6 +73,10 @@ internal class AndroidDeviceIpAddressProvider internal constructor(
         return getFresh()
     }
 
+    override fun invalidate() {
+        TODO("Not yet implemented")
+    }
+
     private suspend fun getFresh(): String? {
         val result = runCatching { mooncloakApi.getReflection().ipAddress }
         val ipAddress = result.getOrNull()
