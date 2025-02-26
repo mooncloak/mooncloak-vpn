@@ -66,7 +66,7 @@ internal class AndroidDeviceIpAddressProvider internal constructor(
 
         val expiration = cachedAt + cachePeriod
 
-        if (ipAddress != null && expiration < clock.now()) {
+        if (ipAddress != null && expiration > clock.now()) {
             return ipAddress
         }
 
