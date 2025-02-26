@@ -7,14 +7,17 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LockOpen
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.VpnLock
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -53,6 +56,7 @@ internal fun HomeTitleBar(
     connectedName: String?,
     ipAddress: String?,
     hideIpAddress: Boolean = false,
+    publicIpAddress: Boolean = false,
     hazeState: HazeState,
     modifier: Modifier = Modifier
 ) {
@@ -114,6 +118,7 @@ internal fun HomeTitleBar(
                     countryName = connectedName,
                     ipAddress = ipAddress,
                     hideIpAddress = hideIpAddress,
+                    publicIpAddress = publicIpAddress,
                     containerColor = Color.Transparent,
                     contentColor = status.contentColor.copy(alpha = SecondaryAlpha)
                 )
@@ -210,6 +215,7 @@ private fun HomeTitleChip(
     countryName: String?,
     ipAddress: String?,
     hideIpAddress: Boolean,
+    publicIpAddress: Boolean,
     containerColor: Color,
     contentColor: Color,
     modifier: Modifier = Modifier
@@ -227,6 +233,19 @@ private fun HomeTitleChip(
             ) {
                 val hasCountryName = !countryName.isNullOrBlank()
                 val hasIpAddress = !ipAddress.isNullOrBlank()
+
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    imageVector = if (publicIpAddress) {
+                        Icons.Default.Public
+                    } else {
+                        Icons.Default.VpnLock
+                    },
+                    contentDescription = null,
+                    tint = contentColor
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
 
                 if (hasCountryName) {
                     Text(
