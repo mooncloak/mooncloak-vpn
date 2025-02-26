@@ -50,3 +50,8 @@ public enum class PingProtocol(
             entries.firstOrNull { protocol -> protocol.serialName.equals(serialName, ignoreCase = true) }
     }
 }
+
+/**
+ * Retrieves the platform-specific default [PingProtocol].
+ */
+public expect val PingProtocol.Companion.PlatformDefault: PingProtocol

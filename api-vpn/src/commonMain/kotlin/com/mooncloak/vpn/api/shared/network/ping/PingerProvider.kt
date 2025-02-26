@@ -22,3 +22,8 @@ public fun interface PingerProvider {
 }
 
 public expect operator fun PingerProvider.Companion.invoke(): PingerProvider
+
+/**
+ * Retrieves the platform-specific default [Pinger] or `null` if there is no default for the current platform.
+ */
+public inline fun PingerProvider.default(): Pinger? = get(protocol = PingProtocol.PlatformDefault)
