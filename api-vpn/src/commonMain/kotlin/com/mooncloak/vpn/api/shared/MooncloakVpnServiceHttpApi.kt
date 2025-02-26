@@ -40,6 +40,7 @@ import com.mooncloak.vpn.api.shared.token.TransactionToken
 import com.mooncloak.vpn.util.shared.coroutine.PlatformIO
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.plugins.timeout
 import io.ktor.client.request.accept
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
@@ -47,9 +48,10 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.cancellation.CancellationException
+import kotlin.time.Duration
 
 @OptIn(ExperimentalApixApi::class)
 public class MooncloakVpnServiceHttpApi public constructor(
@@ -57,8 +59,18 @@ public class MooncloakVpnServiceHttpApi public constructor(
 ) {
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getReflection(): HttpReflection = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.get("https://mooncloak.com/api/mirror")
+    public suspend fun getReflection(
+        connectionTimeout: Duration? = null,
+        socketTimeout: Duration? = null,
+        requestTimeout: Duration? = null
+    ): HttpReflection = withContext(Dispatchers.PlatformIO) {
+        val response = httpClient.get("https://mooncloak.com/api/mirror") {
+            timeout {
+                connectTimeoutMillis = connectionTimeout?.inWholeMilliseconds
+                socketTimeoutMillis = socketTimeout?.inWholeMilliseconds
+                requestTimeoutMillis = requestTimeout?.inWholeMilliseconds
+            }
+        }
 
         return@withContext response.body<HttpResponseBody<HttpReflection>>().getOrThrow()
     }

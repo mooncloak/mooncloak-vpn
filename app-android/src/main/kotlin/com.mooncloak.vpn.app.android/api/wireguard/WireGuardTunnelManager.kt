@@ -5,6 +5,7 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
+import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.api.shared.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
 import com.mooncloak.vpn.api.shared.server.Server
@@ -12,6 +13,7 @@ import com.mooncloak.vpn.app.shared.api.server.usecase.RegisterClientUseCase
 import com.mooncloak.vpn.api.shared.vpn.Tunnel
 import com.mooncloak.vpn.api.shared.vpn.TunnelManager
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
+import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -25,13 +27,15 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 internal class WireGuardTunnelManager @Inject internal constructor(
     private val backend: WireGuardBackend,
     private val connectionKeyPairResolver: WireGuardConnectionKeyPairResolver,
     private val registerClient: RegisterClientUseCase,
     private val preferencesStorage: UserPreferenceSettings,
-    private val deviceIPAddressProvider: DeviceIPAddressProvider
+    private val deviceIPAddressProvider: DeviceIPAddressProvider,
+    private val api: MooncloakVpnServiceHttpApi
 ) : TunnelManager {
 
     override val tunnels: StateFlow<List<Tunnel>>
@@ -92,6 +96,8 @@ internal class WireGuardTunnelManager @Inject internal constructor(
                 )
 
                 tunnelMap[wireGuardTunnel.tunnelName] = wireGuardTunnel
+
+                refreshDNS()
 
                 deviceIPAddressProvider.invalidate()
             }
@@ -171,6 +177,23 @@ internal class WireGuardTunnelManager @Inject internal constructor(
                 delay(poll)
             }
         }
+
+    private suspend fun refreshDNS() {
+        // FIXME: Force refresh of DNS after connecting to VPN.
+        // Super hacky solution. But the first request always fails due to a timeout. This failure forces the HTTP
+        // client to clear its caches and subsequent requests will succeed. But the first request seemingly always has
+        // to fail first before the subsequent requests can pass. So, we make a sure lived request so that it can fail,
+        // triggering the refresh so other requests can run correctly. Also, we delay for an arbitrary amount of time
+        // to hopefully allow the VPN to be connected if it isn't already.
+        delay(1.seconds)
+        runCatching {
+            api.getReflection(
+                connectionTimeout = 1.seconds,
+                socketTimeout = 1.seconds,
+                requestTimeout = 1.seconds
+            )
+        }
+    }
 
     private suspend fun emitLatest() {
         emitMutex.withLock {
