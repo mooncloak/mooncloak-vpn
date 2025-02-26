@@ -38,3 +38,9 @@ public val TunnelManager.connectedTunnels: Flow<List<Tunnel>>
     inline get() = tunnels.map { tunnels ->
         tunnels.filter { tunnel -> tunnel.status.value == VPNConnectionStatus.Connected }
     }
+
+/**
+ * Determines if there currently is an active tunnel connection running.
+ */
+public val TunnelManager.isActive: Boolean
+    get() = tunnels.value.any { tunnel -> tunnel.status.value == VPNConnectionStatus.Connected }

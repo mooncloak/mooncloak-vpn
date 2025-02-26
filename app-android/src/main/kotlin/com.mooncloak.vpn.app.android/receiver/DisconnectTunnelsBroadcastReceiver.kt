@@ -11,17 +11,11 @@ import kotlinx.coroutines.launch
 internal class DisconnectTunnelsBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        LogPile.info(tag = TAG, message = "onReceive: action: ${intent.action}")
-
         if (intent.action == ACTION) {
-            LogPile.info(tag = TAG, message = "Received broadcast to disconnect tunnels.")
-
             val application = (context.applicationContext as? MooncloakVpnApplication)
             val tunnelManager = application?.applicationComponent?.tunnelManager
 
             if (tunnelManager != null) {
-                LogPile.info(tag = TAG, message = "Attempting to disconnect from all tunnels.")
-
                 application.coroutineScope.launch {
                     tunnelManager.disconnectAll()
                 }

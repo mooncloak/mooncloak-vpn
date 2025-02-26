@@ -6,6 +6,7 @@ import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
 import com.mooncloak.vpn.api.shared.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.network.LocalNetworkManager
 import com.mooncloak.vpn.api.shared.vpn.TunnelManager
+import com.mooncloak.vpn.app.shared.feature.server.connection.usecase.GetDefaultServerUseCase
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
@@ -36,6 +37,7 @@ public expect interface ApplicationDependencies {
     public val tunnelManager: TunnelManager
     public val applicationCoroutineScope: ApplicationCoroutineScope
     public val notificationManager: NotificationManager
+    public val getDefaultServer: GetDefaultServerUseCase
 
     public companion object
 }

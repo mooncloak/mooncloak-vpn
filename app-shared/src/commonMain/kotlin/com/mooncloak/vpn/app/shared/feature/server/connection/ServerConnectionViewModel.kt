@@ -41,7 +41,7 @@ public class ServerConnectionViewModel @Inject public constructor(
                 emit(value = state.current.value.copy(isLoading = true))
 
                 val current = vpnConnectionManager.connection.value
-                val connectionServer = server ?: getDefaultServer.invoke()
+                val connectionServer = server ?: getDefaultServer()
 
                 emit(
                     value = state.current.value.copy(

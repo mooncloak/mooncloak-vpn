@@ -84,6 +84,18 @@
 
         <!-- The WireGuard library includes the VPNService automatically when the manifests are merged. -->
 
+        <!-- Quick Settings Tile Service. This allows the VPN to be toggled from the Android Settings Dropdown on the device. -->
+        <service
+            android:name=".service.MooncloakTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_notification"
+            android:label="@string/mooncloak_app_name"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <!-- BroadcastReceivers -->
 
         <receiver

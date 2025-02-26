@@ -43,7 +43,7 @@ public class MainViewModel @Inject public constructor(
     public fun load() {
         coroutineScope.launch {
             try {
-                val defaultServer = getDefaultServer.invoke()
+                val defaultServer = getDefaultServer()
 
                 emit(
                     value = state.current.value.copy(

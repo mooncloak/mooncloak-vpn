@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="settings_tile_service_subtitle">Toggle your VPN connection.</string>
+    <string name="settings_tile_service_state_description_active">Private VPN is enabled.</string>
+    <string name="settings_tile_service_state_description_inactive">Private VPN is disabled.</string>
+
+    <string name="cd_settings_tile_service_action_enable">Enable private VPN</string>
+    <string name="cd_settings_tile_service_action_disable">Disable private VPN</string>
+
+</resources>
