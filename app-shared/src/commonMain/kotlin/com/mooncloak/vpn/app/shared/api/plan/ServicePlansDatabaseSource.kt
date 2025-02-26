@@ -1,6 +1,10 @@
 package com.mooncloak.vpn.app.shared.api.plan
 
+import androidx.compose.ui.text.AnnotatedString
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.kodetools.logpile.core.LogPile
+import com.mooncloak.kodetools.logpile.core.error
+import com.mooncloak.kodetools.textx.PlainText
 import com.mooncloak.kodetools.textx.TextContent
 import com.mooncloak.vpn.api.shared.plan.BillingProvider
 import com.mooncloak.vpn.api.shared.plan.Currency
@@ -16,6 +20,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.contentOrNull
 
 public class ServicePlansDatabaseSource @Inject public constructor(
     private val database: MooncloakDatabase,
@@ -140,34 +149,43 @@ public class ServicePlansDatabaseSource @Inject public constructor(
             usageType = UsageType(value = usageType),
             trial = trial?.let {
                 json.decodeFromJsonElement(
-                    deserializer = com.mooncloak.vpn.api.shared.plan.PlanPeriod.serializer(),
+                    deserializer = PlanPeriod.serializer(),
                     element = it
                 )
             },
             subscription = subscription?.let {
                 json.decodeFromJsonElement(
-                    deserializer = com.mooncloak.vpn.api.shared.plan.PlanPeriod.serializer(),
+                    deserializer = PlanPeriod.serializer(),
                     element = it
                 )
             },
             live = live,
             nickname = nickname,
             title = title,
-            description = description?.let {
-                json.decodeFromJsonElement(
-                    deserializer = TextContent.serializer(),
-                    element = it
-                )
-            },
-            details = details?.let {
-                json.decodeFromJsonElement(
-                    deserializer = TextContent.serializer(),
-                    element = it
-                )
-            },
+            description = description?.toTextContentOrNull(),
+            details = details?.toTextContentOrNull(),
             highlight = highlight,
             self = self,
             metadata = metadata,
             taxCode = taxCode?.let { TaxCode(value = it) }
         )
+
+    private fun JsonElement.toTextContentOrNull(): TextContent? =
+        try {
+            when (this) {
+                JsonNull -> null
+                is JsonPrimitive -> this.contentOrNull?.let { PlainText(value = it) }
+                else -> json.decodeFromJsonElement(
+                    deserializer = TextContent.serializer(),
+                    element = this
+                )
+            }
+        } catch (e: Exception) {
+            LogPile.error(
+                message = "Error converting 'JsonElement' to 'AnnotatedString'.",
+                cause = e
+            )
+
+            null
+        }
 }
