@@ -17,6 +17,7 @@ import com.mooncloak.vpn.api.shared.vpn.isDisconnected
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
+import com.mooncloak.vpn.data.shared.repository.getOrNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch

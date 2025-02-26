@@ -8,6 +8,7 @@ import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.logpile.core.warning
 import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.server.ServerConnectionRecord
 import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.api.shared.vpn.TunnelManager
 import com.mooncloak.vpn.api.shared.vpn.VPNConnection
@@ -183,8 +184,19 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
 
                 try {
                     serverConnectionRecordRepository.upsert(
-                        server = server,
-                        lastConnected = clock.now()
+                        id = server.id,
+                        insert = {
+                            ServerConnectionRecord(
+                                server = server,
+                                lastConnected = clock.now()
+                            )
+                        },
+                        update = {
+                            this.copy(
+                                server = server,
+                                lastConnected = clock.now()
+                            )
+                        }
                     )
                 } catch (e: Exception) {
                     LogPile.error(tag = TAG, message = "Error saving VPN server connection record.", cause = e)

@@ -19,7 +19,7 @@ public class GetDefaultServerUseCase @Inject public constructor(
         withContext(Dispatchers.IO) {
             serverConnectionRecordRepository.getLastConnected()?.server?.let { return@withContext it }
 
-            serverConnectionRecordRepository.getStarredPage().firstOrNull()?.server?.let { return@withContext it }
+            serverConnectionRecordRepository.getStarred().firstOrNull()?.server?.let { return@withContext it }
 
             return@withContext api.paginateServers().getOrNull()?.firstOrNull()
         }

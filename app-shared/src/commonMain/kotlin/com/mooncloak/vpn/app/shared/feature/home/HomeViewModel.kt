@@ -14,12 +14,12 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.api.billing.usecase.GetServiceSubscriptionFlowUseCase
 import com.mooncloak.vpn.api.shared.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.network.LocalNetworkInfo
 import com.mooncloak.vpn.api.shared.network.LocalNetworkManager
 import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.api.shared.vpn.VPNConnection
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
@@ -57,11 +57,11 @@ import kotlinx.coroutines.sync.withLock
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalPersistentStateAPI::class)
 @Stable
 @FeatureScoped
 public class HomeViewModel @Inject public constructor(
     appClientInfo: AppClientInfo,
+    private val serviceConnectionRecordRepository: ServerConnectionRecordRepository,
     private val subscriptionStorage: SubscriptionSettings,
     private val serverConnectionManager: VPNConnectionManager,
     private val localNetworkManager: LocalNetworkManager,
