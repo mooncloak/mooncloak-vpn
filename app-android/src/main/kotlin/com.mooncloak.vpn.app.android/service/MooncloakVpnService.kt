@@ -52,4 +52,9 @@ public class MooncloakVpnService : VpnService() {
 
         super.onDestroy()
     }
+
+    public object RequestCode {
+
+        public const val PREPARE: Int = 500
+    }
 }

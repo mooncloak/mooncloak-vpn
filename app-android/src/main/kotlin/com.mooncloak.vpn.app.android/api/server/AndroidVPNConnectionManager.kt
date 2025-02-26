@@ -16,6 +16,7 @@ import com.mooncloak.vpn.api.shared.vpn.connectedTunnels
 import com.mooncloak.vpn.api.shared.vpn.isConnected
 import com.mooncloak.vpn.api.shared.vpn.isConnecting
 import com.mooncloak.vpn.api.shared.vpn.isDisconnected
+import com.mooncloak.vpn.app.android.service.MooncloakVpnService
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.wireguard.android.backend.GoBackend
 import kotlinx.coroutines.CoroutineScope
@@ -163,7 +164,7 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
                 if (intent != null) {
                     LogPile.info(tag = TAG, message = "Preparing VPN Service.")
 
-                    activity.startActivityForResult(intent, REQUEST_CODE)
+                    activity.startActivityForResult(intent, MooncloakVpnService.RequestCode.PREPARE)
 
                     // FIXME: The callback isn't working.
                     /*
@@ -205,7 +206,7 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
     }
 
     internal fun receivedResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_CODE) {
+        if (requestCode == MooncloakVpnService.RequestCode.PREPARE) {
             // TODO: Verify success/error
             intentCallback?.invoke()
         }
@@ -232,6 +233,5 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
     internal companion object {
 
         private const val TAG: String = "VPNConnectionManager"
-        internal const val REQUEST_CODE: Int = 123456
     }
 }
