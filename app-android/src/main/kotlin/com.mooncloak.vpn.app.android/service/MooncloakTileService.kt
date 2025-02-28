@@ -64,8 +64,16 @@ public class MooncloakTileService : TileService() {
         mutex.withLock {
             try {
                 if (qsTile.state == Tile.STATE_ACTIVE) {
+                    // Update the state first, as there is no loading animation in the quick settings tile UI, so we
+                    // don't want the user to get the impression that it didn't work.
+                    updateTileState(active = false)
+
                     stopVPN()
                 } else {
+                    // Update the state first, as there is no loading animation in the quick settings tile UI, so we
+                    // don't want the user to get the impression that it didn't work.
+                    updateTileState(active = true)
+
                     startVPN()
                 }
             } catch (e: Exception) {
