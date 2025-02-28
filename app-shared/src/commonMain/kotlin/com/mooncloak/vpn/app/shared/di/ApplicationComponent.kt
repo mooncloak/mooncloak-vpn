@@ -18,6 +18,8 @@ import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordDatabaseSou
 import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.api.shared.service.ServiceTokensRepository
 import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.provider.HostUrlProvider
+import com.mooncloak.vpn.api.shared.provider.Mooncloak
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensSource
 import com.mooncloak.vpn.app.shared.util.image.MooncloakImageLoaderFactory
 import com.mooncloak.vpn.app.shared.database.MooncloakDatabaseProvider
@@ -42,10 +44,6 @@ import kotlinx.serialization.modules.SerializersModule
 
 @Singleton
 public abstract class ApplicationComponent : ApplicationDependencies {
-
-    @Provides
-    public fun provideMooncloakVpnServiceHttpApi(httpClient: HttpClient): MooncloakVpnServiceHttpApi =
-        MooncloakVpnServiceHttpApi(httpClient = httpClient)
 
     @Singleton
     @Provides
@@ -80,6 +78,9 @@ public abstract class ApplicationComponent : ApplicationDependencies {
     @Provides
     public fun unauthorizedInterceptor(interceptor: DefaultUnauthorizedInterceptor): UnauthorizedInterceptor =
         interceptor
+
+    @Provides
+    public fun provideHostUrlProvider(): HostUrlProvider = HostUrlProvider.Mooncloak
 
     @Provides
     @Singleton
@@ -139,6 +140,16 @@ public abstract class ApplicationComponent : ApplicationDependencies {
             interceptor = interceptor
         )
     }
+
+    @Provides
+    public fun provideMooncloakVpnServiceHttpApi(
+        httpClient: HttpClient,
+        hostUrlProvider: HostUrlProvider
+    ): MooncloakVpnServiceHttpApi =
+        MooncloakVpnServiceHttpApi(
+            httpClient = httpClient,
+            hostUrlProvider = hostUrlProvider
+        )
 
     @Provides
     @Singleton

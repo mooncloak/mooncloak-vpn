@@ -24,6 +24,7 @@ import com.mooncloak.vpn.api.shared.key.Base64Key
 import com.mooncloak.vpn.api.shared.location.CountryFilters
 import com.mooncloak.vpn.api.shared.plan.AvailablePlans
 import com.mooncloak.vpn.api.shared.plan.Plan
+import com.mooncloak.vpn.api.shared.provider.HostUrlProvider
 import com.mooncloak.vpn.api.shared.reflection.HttpReflection
 import com.mooncloak.vpn.api.shared.server.ClientRegistrationRequestBody
 import com.mooncloak.vpn.api.shared.server.RegisteredClient
@@ -48,6 +49,9 @@ import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
+import io.ktor.http.URLBuilder
+import io.ktor.http.Url
+import io.ktor.http.appendPathSegments
 import io.ktor.http.contentType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -56,7 +60,8 @@ import kotlin.time.Duration
 
 @OptIn(ExperimentalApixApi::class)
 public class MooncloakVpnServiceHttpApi public constructor(
-    private val httpClient: HttpClient
+    private val httpClient: HttpClient,
+    private val hostUrlProvider: HostUrlProvider
 ) {
 
     @Throws(ApiException::class, CancellationException::class)
@@ -65,7 +70,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
         socketTimeout: Duration? = null,
         requestTimeout: Duration? = null
     ): HttpReflection = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.get("https://mooncloak.com/api/mirror") {
+        val response = httpClient.get(url("/mirror")) {
             headers {
                 // Try to force the reflection request to not cache. We should always get back the fresh value from
                 // this API endpoint. Really it is up to the server if it includes cache headers, but the client can
@@ -86,14 +91,14 @@ public class MooncloakVpnServiceHttpApi public constructor(
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getAvailablePlans(): AvailablePlans = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.get("https://mooncloak.com/api/billing/plans")
+        val response = httpClient.get(url("/billing/plans"))
 
         return@withContext response.body<HttpResponseBody<AvailablePlans>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getPlan(id: String): Plan = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.get("https://mooncloak.com/api/billing/plan/$id")
+        val response = httpClient.get(url("/billing/plan/$id"))
 
         return@withContext response.body<HttpResponseBody<Plan>>().getOrThrow()
     }
@@ -104,7 +109,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
         secret: String? = null,
         token: Token? = null
     ): BitcoinPlanInvoice = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.post("https://mooncloak.com/api/vpn/payment/invoice") {
+        val response = httpClient.post(url("/vpn/payment/invoice")) {
             token?.value?.let { bearerAuth(it) }
 
             contentType(ContentType.Application.Json)
@@ -127,7 +132,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
         token: TransactionToken,
         secret: String? = null
     ): PlanPaymentStatus = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.post("https://mooncloak.com/api/vpn/payment/status") {
+        val response = httpClient.post(url("/vpn/payment/status")) {
             bearerAuth(token.value)
 
             contentType(ContentType.Application.Json)
@@ -154,7 +159,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
     public suspend fun exchangeToken(
         receipt: ProofOfPurchase
     ): ServiceTokens = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.post("https://mooncloak.com/api/vpn/token/exchange") {
+        val response = httpClient.post(url("/vpn/token/exchange")) {
             contentType(ContentType.Application.Json)
             accept(ContentType.Application.Json)
 
@@ -168,7 +173,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
     public suspend fun refreshToken(
         refreshToken: Token
     ): ServiceTokens = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.post("https://mooncloak.com/api/vpn/token/refresh") {
+        val response = httpClient.post(url("/vpn/token/refresh")) {
             bearerAuth(refreshToken.value)
         }
 
@@ -179,7 +184,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
     public suspend fun revokeToken(
         refreshToken: Token
     ): Boolean = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.post("https://mooncloak.com/api/vpn/token/revoke") {
+        val response = httpClient.post(url("/vpn/token/revoke")) {
             bearerAuth(refreshToken.value)
 
             contentType(ContentType.Application.Json)
@@ -200,7 +205,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
     public suspend fun getCurrentSubscription(
         token: Token
     ): ServiceSubscription = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.post("https://mooncloak.com/api/vpn/subscription") {
+        val response = httpClient.post(url("/vpn/subscription")) {
             bearerAuth(token.value)
         }
 
@@ -211,7 +216,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
     public suspend fun getCurrentSubscriptionUsage(
         token: Token
     ): ServiceSubscriptionUsage = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.post("https://mooncloak.com/api/vpn/subscription/usage") {
+        val response = httpClient.post(url("/vpn/subscription/usage")) {
             bearerAuth(token.value)
         }
 
@@ -222,7 +227,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
     public suspend fun getCountry(
         code: CountryCode
     ): Country = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.get("https://mooncloak.com/api/vpn/service/country/${code.value}")
+        val response = httpClient.get(url("/vpn/service/country/${code.value}"))
 
         return@withContext response.body<HttpResponseBody<Country>>().getOrThrow()
     }
@@ -245,7 +250,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
             filters = filters
         )
 
-        val response = httpClient.post("https://mooncloak.com/api/vpn/service/country") {
+        val response = httpClient.post(url("/vpn/service/country")) {
             contentType(ContentType.Application.Json)
 
             setBody(pageRequest)
@@ -260,7 +265,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
         clientPublicKey: Base64Key,
         token: Token?
     ): RegisteredClient = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.post("https://mooncloak.com/api/vpn/service/client/register") {
+        val response = httpClient.post(url("/vpn/service/client/register")) {
             token?.value?.let { bearerAuth(it) }
 
             contentType(ContentType.Application.Json)
@@ -281,7 +286,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
         id: String,
         token: Token? = null
     ): Server = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.get("https://mooncloak.com/api/vpn/service/server/$id") {
+        val response = httpClient.get(url("/vpn/service/server/$id")) {
             token?.value?.let { bearerAuth(it) }
         }
 
@@ -307,7 +312,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
             filters = filters
         )
 
-        val response = httpClient.post("https://mooncloak.com/api/vpn/service/server") {
+        val response = httpClient.post(url("/vpn/service/server")) {
             token?.value?.let { bearerAuth(it) }
 
             contentType(ContentType.Application.Json)
@@ -321,15 +326,23 @@ public class MooncloakVpnServiceHttpApi public constructor(
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getContributors(): CurrentContributors = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.get("https://mooncloak.com/api/vpn/app/contributor")
+        val response = httpClient.get(url("/vpn/app/contributor"))
 
         return@withContext response.body<HttpResponseBody<CurrentContributors>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getContributor(id: String): Contributor = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.get("https://mooncloak.com/api/vpn/app/contributor/$id")
+        val response = httpClient.get(url("/vpn/app/contributor/$id"))
 
         return@withContext response.body<HttpResponseBody<Contributor>>().getOrThrow()
+    }
+
+    private suspend fun url(vararg path: String, encodeSlash: Boolean = false): Url {
+        val base = hostUrlProvider.get()
+
+        return URLBuilder(base).apply {
+            this.appendPathSegments(components = path, encodeSlash = encodeSlash)
+        }.build()
     }
 }
