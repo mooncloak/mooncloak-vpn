@@ -18,6 +18,8 @@ import com.mooncloak.vpn.app.shared.feature.server.connection.usecase.GetDefault
 import com.wireguard.android.backend.GoBackend
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 @RequiresApi(Build.VERSION_CODES.N)
 public class MooncloakTileService : TileService() {
@@ -25,6 +27,8 @@ public class MooncloakTileService : TileService() {
     private lateinit var tunnelManager: TunnelManager
     private lateinit var coroutineScope: CoroutineScope
     private lateinit var getDefaultServer: GetDefaultServerUseCase
+
+    private val mutex = Mutex(locked = false)
 
     override fun onCreate() {
         super.onCreate()
@@ -57,22 +61,24 @@ public class MooncloakTileService : TileService() {
     }
 
     private suspend fun toggleVPN() {
-        try {
-            if (qsTile.state == Tile.STATE_ACTIVE) {
-                stopVPN()
-            } else {
-                startVPN()
+        mutex.withLock {
+            try {
+                if (qsTile.state == Tile.STATE_ACTIVE) {
+                    stopVPN()
+                } else {
+                    startVPN()
+                }
+            } catch (e: Exception) {
+                LogPile.error(
+                    message = "Error toggling VPN connection via Quick Tile.",
+                    cause = e
+                )
+
+                launchMainActivity()
             }
-        } catch (e: Exception) {
-            LogPile.error(
-                message = "Error toggling VPN connection via Quick Tile.",
-                cause = e
-            )
 
-            launchMainActivity()
+            updateTileState(active = tunnelManager.isActive)
         }
-
-        updateTileState(active = tunnelManager.isActive)
     }
 
     private suspend fun startVPN() {
