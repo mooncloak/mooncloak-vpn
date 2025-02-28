@@ -41,26 +41,6 @@ public class ServerListViewModel @Inject public constructor(
         coroutineScope.launch {
             emit(value = state.current.value.copy(isLoading = true))
 
-            connectionJob?.cancel()
-            connectionJob = serverConnectionManager.connection
-                .onEach { connection ->
-                    emit { current ->
-                        current.copy(
-                            connection = connection
-                        )
-                    }
-                }
-                .catch { e -> LogPile.error(message = "Error listening to connection changes.", cause = e) }
-                .flowOn(Dispatchers.Main)
-                .launchIn(coroutineScope)
-
-            subscriptionJob?.cancel()
-            subscriptionJob = getServiceSubscriptionFlow()
-                .onEach { subscription -> emit { current -> current.copy(subscription = subscription) } }
-                .catch { e -> LogPile.error(message = "Error listening to subscription changes.", cause = e) }
-                .flowOn(Dispatchers.Main)
-                .launchIn(coroutineScope)
-
             try {
                 val token = serviceTokensRepository.getLatest()?.accessToken
 
@@ -87,5 +67,25 @@ public class ServerListViewModel @Inject public constructor(
                 }
             }
         }
+
+        connectionJob?.cancel()
+        connectionJob = serverConnectionManager.connection
+            .onEach { connection ->
+                emit { current ->
+                    current.copy(
+                        connection = connection
+                    )
+                }
+            }
+            .catch { e -> LogPile.error(message = "Error listening to connection changes.", cause = e) }
+            .flowOn(Dispatchers.Main)
+            .launchIn(coroutineScope)
+
+        subscriptionJob?.cancel()
+        subscriptionJob = getServiceSubscriptionFlow()
+            .onEach { subscription -> emit { current -> current.copy(subscription = subscription) } }
+            .catch { e -> LogPile.error(message = "Error listening to subscription changes.", cause = e) }
+            .flowOn(Dispatchers.Main)
+            .launchIn(coroutineScope)
     }
 }
