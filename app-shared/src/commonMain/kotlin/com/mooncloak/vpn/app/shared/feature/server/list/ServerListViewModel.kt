@@ -6,7 +6,7 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.VpnServiceApi
 import com.mooncloak.vpn.app.shared.api.billing.ServiceSubscriptionFlowProvider
 import com.mooncloak.vpn.api.shared.service.ServiceTokensRepository
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
@@ -26,7 +26,7 @@ import org.jetbrains.compose.resources.getString
 @Stable
 @FeatureScoped
 public class ServerListViewModel @Inject public constructor(
-    private val api: MooncloakVpnServiceHttpApi,
+    private val api: VpnServiceApi,
     private val serviceTokensRepository: ServiceTokensRepository,
     private val serverConnectionManager: VPNConnectionManager,
     private val appClientInfo: AppClientInfo,

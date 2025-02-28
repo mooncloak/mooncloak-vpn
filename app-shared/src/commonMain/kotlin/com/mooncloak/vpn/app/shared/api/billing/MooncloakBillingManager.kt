@@ -5,7 +5,7 @@ import com.mooncloak.vpn.api.shared.billing.BillingManager
 import com.mooncloak.vpn.api.shared.billing.BillingResult
 import com.mooncloak.vpn.api.shared.billing.MutableServicePurchaseReceiptRepository
 import com.mooncloak.vpn.api.shared.billing.ProofOfPurchase
-import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.VpnServiceApi
 import com.mooncloak.vpn.api.shared.plan.BillingProvider
 import com.mooncloak.vpn.api.shared.plan.Plan
 import com.mooncloak.vpn.api.shared.service.ServiceAccessDetails
@@ -19,7 +19,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 
 public class MooncloakBillingManager @Inject public constructor(
-    private val api: MooncloakVpnServiceHttpApi,
+    private val api: VpnServiceApi,
     private val subscriptionStorage: SubscriptionSettings,
     private val serviceTokensRepository: ServiceTokensRepository,
     private val servicePurchaseReceiptRepository: MutableServicePurchaseReceiptRepository,

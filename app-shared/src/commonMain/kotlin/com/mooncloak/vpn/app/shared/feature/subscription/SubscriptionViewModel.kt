@@ -5,7 +5,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.VpnServiceApi
 import com.mooncloak.vpn.api.shared.billing.ServicePurchaseReceiptRepository
 import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
@@ -40,7 +40,7 @@ import org.jetbrains.compose.resources.getString
 public class SubscriptionViewModel @Inject public constructor(
     private val subscriptionStorage: SubscriptionSettings,
     private val serviceTokensRepository: ServiceTokensRepository,
-    private val api: MooncloakVpnServiceHttpApi,
+    private val api: VpnServiceApi,
     private val plansRepository: ServicePlansRepository,
     private val purchaseReceiptRepository: ServicePurchaseReceiptRepository,
     private val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.Full,

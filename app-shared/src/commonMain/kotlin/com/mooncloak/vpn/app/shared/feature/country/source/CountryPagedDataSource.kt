@@ -10,13 +10,13 @@ import com.mooncloak.kodetools.pagex.PageRequest
 import com.mooncloak.kodetools.pagex.PagedDataSource
 import com.mooncloak.kodetools.pagex.emptyPage
 import com.mooncloak.vpn.api.shared.location.CountryFilters
-import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.VpnServiceApi
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalPaginationAPI::class)
 public class CountryPagedDataSource @Inject public constructor(
-    private val mooncloakVpnServiceHttpApi: MooncloakVpnServiceHttpApi
+    private val mooncloakVpnServiceHttpApi: VpnServiceApi
 ) : PagedDataSource<String, CountryFilters, Country> {
 
     @OptIn(ExperimentalUuidApi::class)

@@ -1,7 +1,7 @@
 package com.mooncloak.vpn.app.shared.api.server.usecase
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.VpnServiceApi
 import com.mooncloak.vpn.api.shared.key.Base64Key
 import com.mooncloak.vpn.api.shared.server.RegisteredClient
 import com.mooncloak.vpn.api.shared.server.RegisteredClientRepository
@@ -11,7 +11,7 @@ import kotlinx.coroutines.withContext
 
 public class RegisterClientUseCase @Inject public constructor(
     private val registeredClientRepository: RegisteredClientRepository,
-    private val mooncloakApi: MooncloakVpnServiceHttpApi,
+    private val mooncloakApi: VpnServiceApi,
     private val serviceTokensRepository: ServiceTokensRepository
 ) {
 

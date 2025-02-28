@@ -4,7 +4,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
-import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.VpnServiceApi
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 import com.mooncloak.vpn.api.shared.service.isActive
 import com.mooncloak.vpn.api.shared.service.ServiceTokensRepository
@@ -23,7 +23,7 @@ public class ServiceSubscriptionFlowProvider @Inject public constructor(
     private val serviceTokensRepository: ServiceTokensRepository,
     private val subscriptionStorage: SubscriptionSettings,
     private val clock: Clock,
-    private val api: MooncloakVpnServiceHttpApi,
+    private val api: VpnServiceApi,
     applicationCoroutineScope: ApplicationCoroutineScope
 ) {
 

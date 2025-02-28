@@ -8,7 +8,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.warning
-import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.VpnServiceApi
 import com.mooncloak.vpn.data.shared.cache.Cache
 import com.mooncloak.vpn.data.shared.keyvalue.get
 import com.mooncloak.vpn.data.shared.keyvalue.set
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 public operator fun DeviceIPAddressProvider.Companion.invoke(
     context: Context,
-    mooncloakApi: MooncloakVpnServiceHttpApi,
+    mooncloakApi: VpnServiceApi,
     cache: Cache,
     coroutineScope: CoroutineScope
 ): DeviceIPAddressProvider = AndroidDeviceIpAddressProvider(
@@ -30,7 +30,7 @@ public operator fun DeviceIPAddressProvider.Companion.invoke(
 @SuppressLint("MissingPermission")
 internal class AndroidDeviceIpAddressProvider internal constructor(
     context: Context,
-    private val mooncloakApi: MooncloakVpnServiceHttpApi,
+    private val mooncloakApi: VpnServiceApi,
     private val cache: Cache,
     private val coroutineScope: CoroutineScope
 ) : DeviceIPAddressProvider {

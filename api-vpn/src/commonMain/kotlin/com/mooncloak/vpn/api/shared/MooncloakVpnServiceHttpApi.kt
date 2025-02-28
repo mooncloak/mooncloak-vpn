@@ -62,13 +62,13 @@ import kotlin.time.Duration
 public class MooncloakVpnServiceHttpApi public constructor(
     private val httpClient: HttpClient,
     private val hostUrlProvider: HostUrlProvider
-) {
+) : VpnServiceApi {
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getReflection(
-        connectionTimeout: Duration? = null,
-        socketTimeout: Duration? = null,
-        requestTimeout: Duration? = null
+    override suspend fun getReflection(
+        connectionTimeout: Duration?,
+        socketTimeout: Duration?,
+        requestTimeout: Duration?
     ): HttpReflection = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.get(url("/mirror")) {
             headers {
@@ -90,24 +90,24 @@ public class MooncloakVpnServiceHttpApi public constructor(
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getAvailablePlans(): AvailablePlans = withContext(Dispatchers.PlatformIO) {
+    override suspend fun getAvailablePlans(): AvailablePlans = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.get(url("/billing/plans"))
 
         return@withContext response.body<HttpResponseBody<AvailablePlans>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getPlan(id: String): Plan = withContext(Dispatchers.PlatformIO) {
+    override suspend fun getPlan(id: String): Plan = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.get(url("/billing/plan/$id"))
 
         return@withContext response.body<HttpResponseBody<Plan>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getPaymentInvoice(
+    override suspend fun getPaymentInvoice(
         planId: String,
-        secret: String? = null,
-        token: Token? = null
+        secret: String?,
+        token: Token?
     ): BitcoinPlanInvoice = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.post(url("/vpn/payment/invoice")) {
             token?.value?.let { bearerAuth(it) }
@@ -127,10 +127,10 @@ public class MooncloakVpnServiceHttpApi public constructor(
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getPaymentStatus(
+    override suspend fun getPaymentStatus(
         paymentId: String,
         token: TransactionToken,
-        secret: String? = null
+        secret: String?
     ): PlanPaymentStatus = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.post(url("/vpn/payment/status")) {
             bearerAuth(token.value)
@@ -156,7 +156,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
      * conditions.
      */
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun exchangeToken(
+    override suspend fun exchangeToken(
         receipt: ProofOfPurchase
     ): ServiceTokens = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.post(url("/vpn/token/exchange")) {
@@ -170,7 +170,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun refreshToken(
+    override suspend fun refreshToken(
         refreshToken: Token
     ): ServiceTokens = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.post(url("/vpn/token/refresh")) {
@@ -181,7 +181,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun revokeToken(
+    override suspend fun revokeToken(
         refreshToken: Token
     ): Boolean = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.post(url("/vpn/token/revoke")) {
@@ -202,7 +202,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getCurrentSubscription(
+    override suspend fun getCurrentSubscription(
         token: Token
     ): ServiceSubscription = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.post(url("/vpn/subscription")) {
@@ -213,7 +213,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getCurrentSubscriptionUsage(
+    override suspend fun getCurrentSubscriptionUsage(
         token: Token
     ): ServiceSubscriptionUsage = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.post(url("/vpn/subscription/usage")) {
@@ -224,7 +224,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getCountry(
+    override suspend fun getCountry(
         code: CountryCode
     ): Country = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.get(url("/vpn/service/country/${code.value}"))
@@ -234,12 +234,12 @@ public class MooncloakVpnServiceHttpApi public constructor(
 
     @OptIn(ExperimentalPaginationAPI::class)
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun paginateCountries(
-        direction: Direction = Direction.After,
-        cursor: Cursor? = null,
-        count: UInt = DEFAULT_COUNT,
-        sort: SortOptions? = null,
-        filters: CountryFilters? = null
+    override suspend fun paginateCountries(
+        direction: Direction,
+        cursor: Cursor?,
+        count: UInt,
+        sort: SortOptions?,
+        filters: CountryFilters?
     ): ResolvedPage<Country> = withContext(Dispatchers.PlatformIO) {
         val pageRequest = PageRequest<String, CountryFilters>(
             data = null,
@@ -260,7 +260,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun registerClient(
+    override suspend fun registerClient(
         serverId: String,
         clientPublicKey: Base64Key,
         token: Token?
@@ -282,9 +282,9 @@ public class MooncloakVpnServiceHttpApi public constructor(
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getServer(
+    override suspend fun getServer(
         id: String,
-        token: Token? = null
+        token: Token?
     ): Server = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.get(url("/vpn/service/server/$id")) {
             token?.value?.let { bearerAuth(it) }
@@ -295,13 +295,13 @@ public class MooncloakVpnServiceHttpApi public constructor(
 
     @OptIn(ExperimentalPaginationAPI::class)
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun paginateServers(
-        token: Token? = null,
-        direction: Direction = Direction.After,
-        cursor: Cursor? = null,
-        count: UInt = DEFAULT_COUNT,
-        sort: SortOptions? = null,
-        filters: ServerFilters? = null
+    override suspend fun paginateServers(
+        token: Token?,
+        direction: Direction,
+        cursor: Cursor?,
+        count: UInt,
+        sort: SortOptions?,
+        filters: ServerFilters?
     ): ResolvedPage<Server> = withContext(Dispatchers.PlatformIO) {
         val pageRequest = PageRequest<String, ServerFilters>(
             data = null,
@@ -325,14 +325,14 @@ public class MooncloakVpnServiceHttpApi public constructor(
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getContributors(): CurrentContributors = withContext(Dispatchers.PlatformIO) {
+    override suspend fun getContributors(): CurrentContributors = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.get(url("/vpn/app/contributor"))
 
         return@withContext response.body<HttpResponseBody<CurrentContributors>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
-    public suspend fun getContributor(id: String): Contributor = withContext(Dispatchers.PlatformIO) {
+    override suspend fun getContributor(id: String): Contributor = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.get(url("/vpn/app/contributor/$id"))
 
         return@withContext response.body<HttpResponseBody<Contributor>>().getOrThrow()

@@ -18,6 +18,7 @@ import com.mooncloak.vpn.app.shared.api.server.ServerConnectionRecordDatabaseSou
 import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.api.shared.service.ServiceTokensRepository
 import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.VpnServiceApi
 import com.mooncloak.vpn.api.shared.provider.HostUrlProvider
 import com.mooncloak.vpn.api.shared.provider.Mooncloak
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensSource
@@ -150,6 +151,9 @@ public abstract class ApplicationComponent : ApplicationDependencies {
             httpClient = httpClient,
             hostUrlProvider = hostUrlProvider
         )
+
+    @Provides
+    public fun provideVpnServerApi(api: MooncloakVpnServiceHttpApi): VpnServiceApi = api
 
     @Provides
     @Singleton
