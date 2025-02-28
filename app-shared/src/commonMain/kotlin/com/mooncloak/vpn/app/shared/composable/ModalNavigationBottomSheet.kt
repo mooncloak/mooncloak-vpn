@@ -26,6 +26,8 @@ import androidx.navigation.compose.NavHost
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 /**
  * Represents the state for a [ModalNavigationBottomSheet] composable. This essentially wraps a [SheetState] and
@@ -43,12 +45,16 @@ internal class ModalNavigationBottomSheetState<Destination> internal constructor
 
     private val mutableDestination = mutableStateOf<Destination?>(null)
 
+    private val mutex = Mutex(locked = false)
+
     suspend fun <T : Destination> show(
         destination: T? = null
     ) {
-        mutableDestination.value = destination
+        mutex.withLock {
+            mutableDestination.value = destination
 
-        sheetState.show()
+            sheetState.show()
+        }
     }
 
     /**
@@ -58,7 +64,11 @@ internal class ModalNavigationBottomSheetState<Destination> internal constructor
      * @throws [CancellationException] if the animation is interrupted
      */
     suspend fun hide() {
-        sheetState.hide()
+        mutex.withLock {
+            sheetState.hide()
+
+            mutableDestination.value = null
+        }
     }
 }
 

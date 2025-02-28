@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 /**
  * An extension on the material3 [ModalBottomSheet] that automatically removes the composable from the UI when it is no
@@ -155,6 +157,8 @@ internal class MooncloakModalBottomSheetState internal constructor(
 
     private val mutableIsAttached = mutableStateOf(sheetState.isVisible)
 
+    private val mutex = Mutex(locked = false)
+
     val isAttached: Boolean by mutableIsAttached
 
     internal fun updateAttached(isAttached: Boolean) {
@@ -221,9 +225,11 @@ internal class MooncloakModalBottomSheetState internal constructor(
      * @throws [CancellationException] if the animation is interrupted
      */
     suspend fun expand() {
-        mutableIsAttached.value = true
+        mutex.withLock {
+            mutableIsAttached.value = true
 
-        sheetState.expand()
+            sheetState.expand()
+        }
     }
 
     /**
@@ -234,9 +240,11 @@ internal class MooncloakModalBottomSheetState internal constructor(
      * @throws [IllegalStateException] if [skipPartiallyExpanded] is set to true
      */
     suspend fun partialExpand() {
-        mutableIsAttached.value = true
+        mutex.withLock {
+            mutableIsAttached.value = true
 
-        sheetState.partialExpand()
+            sheetState.partialExpand()
+        }
     }
 
     /**
@@ -246,9 +254,11 @@ internal class MooncloakModalBottomSheetState internal constructor(
      * @throws [CancellationException] if the animation is interrupted
      */
     suspend fun show() {
-        mutableIsAttached.value = true
+        mutex.withLock {
+            mutableIsAttached.value = true
 
-        sheetState.show()
+            sheetState.show()
+        }
     }
 
     /**
@@ -258,8 +268,10 @@ internal class MooncloakModalBottomSheetState internal constructor(
      * @throws [CancellationException] if the animation is interrupted
      */
     suspend fun hide() {
-        sheetState.hide()
+        mutex.withLock {
+            sheetState.hide()
 
-        mutableIsAttached.value = false
+            mutableIsAttached.value = false
+        }
     }
 }
