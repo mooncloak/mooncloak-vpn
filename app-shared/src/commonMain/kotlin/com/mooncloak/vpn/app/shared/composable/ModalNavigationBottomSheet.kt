@@ -159,7 +159,7 @@ internal fun <Destination> ModalNavigationBottomSheet(
     )
 
     BackHandler(
-        enabled = state.sheetState.isVisible
+        enabled = state.sheetState.isVisible && properties.shouldDismissOnBackPress
     ) {
         coroutineScope.launch {
             state.hide()
