@@ -23,14 +23,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.mooncloak.vpn.app.shared.theme.ColorPalette
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
 internal fun SolarEclipseLayout(
     modifier: Modifier = Modifier,
-    containerColor: Color = MaterialTheme.colorScheme.surface,
-    contentColor: Color = MaterialTheme.colorScheme.onSurface,
+    containerColor: Color = ColorPalette.MooncloakDarkPrimary,
+    contentColor: Color = Color.White,
     shape: Shape = CircleShape,
     calculateMoonSize: BoxWithConstraintsScope.() -> DpSize = {
         val min = minOf(maxWidth, maxHeight)

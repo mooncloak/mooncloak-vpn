@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.server_details_title_time
@@ -33,7 +34,7 @@ internal fun CloakedLayout(
             Text(
                 text = stringResource(Res.string.server_details_title_time),
                 style = MaterialTheme.typography.labelLarge.copy(
-                    color = MaterialTheme.colorScheme.onBackground.copy(
+                    color = Color.White.copy(
                         alpha = SecondaryAlpha
                     )
                 )
