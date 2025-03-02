@@ -38,6 +38,7 @@ import com.mooncloak.vpn.app.shared.di.rememberDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.dependency.DependencyLicenseListScreen
 import com.mooncloak.vpn.app.shared.feature.payment.history.PaymentHistoryScreen
+import com.mooncloak.vpn.app.shared.feature.settings.composable.AppDetailsBottomSheetLayout
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsAppGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsBottomSheet
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsDeviceGroup
@@ -77,6 +78,7 @@ public fun SettingsScreen(
     val subscriptionBottomSheetState = rememberManagedModalBottomSheetState()
     val paymentHistoryBottomSheetState = rememberManagedModalBottomSheetState()
     val dependencyListBottomSheetState = rememberManagedModalBottomSheetState()
+    val appDetailsBottomSheetState = rememberManagedModalBottomSheetState()
 
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
@@ -155,7 +157,7 @@ public fun SettingsScreen(
                     onOpenAppDetails = {
                         viewModel.state.current.value.appDetails?.let { details ->
                             coroutineScope.launch {
-                                bottomSheetState.show(SettingsBottomSheetDestination.AppInfo(details))
+                                appDetailsBottomSheetState.show()
                             }
                         }
                     },
@@ -286,6 +288,12 @@ public fun SettingsScreen(
     DependencyLicenseListScreen(
         sheetState = dependencyListBottomSheetState,
         modifier = Modifier.fillMaxWidth()
+    )
+
+    AppDetailsBottomSheetLayout(
+        sheetState = appDetailsBottomSheetState,
+        modifier = Modifier.fillMaxWidth(),
+        details = viewModel.state.current.value.appDetails
     )
 
     SettingsBottomSheet(

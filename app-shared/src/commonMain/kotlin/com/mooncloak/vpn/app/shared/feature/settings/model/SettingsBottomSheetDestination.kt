@@ -16,13 +16,6 @@ internal sealed interface SettingsBottomSheetDestination {
 
     @Immutable
     @Serializable
-    @SerialName(value = "app_info")
-    data class AppInfo internal constructor(
-        val details: SettingsAppDetails
-    ) : SettingsBottomSheetDestination
-
-    @Immutable
-    @Serializable
     @SerialName(value = "device_info")
     data class DeviceInfo internal constructor(
         val details: SettingsDeviceDetails

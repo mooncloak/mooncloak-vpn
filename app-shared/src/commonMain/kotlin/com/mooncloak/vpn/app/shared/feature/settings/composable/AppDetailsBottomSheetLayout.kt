@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
 import com.mooncloak.vpn.app.shared.composable.DetailRow
+import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheet
+import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsAppDetails
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_no
@@ -34,45 +36,51 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun AppDetailsBottomSheetLayout(
-    details: SettingsAppDetails,
+    sheetState: ManagedModalBottomSheetState,
+    details: SettingsAppDetails?,
     modifier: Modifier = Modifier,
     dateTimeFormatter: DateTimeFormatter = remember { DateTimeFormatter.Full }
 ) {
-    BottomSheetLayout(
+    ManagedModalBottomSheet(
         modifier = modifier,
-        title = stringResource(Res.string.settings_app_details_header),
-        description = stringResource(Res.string.settings_app_details_description)
+        sheetState = sheetState
     ) {
-        AppInfoCard(
-            modifier = Modifier.fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            id = details.id,
-            name = details.name,
-            version = details.version,
-            debug = if (details.isDebug) {
-                stringResource(Res.string.global_yes)
-            } else {
-                stringResource(Res.string.global_no)
-            },
-            preRelease = if (details.isPreRelease) {
-                stringResource(Res.string.global_yes)
-            } else {
-                stringResource(Res.string.global_no)
-            },
-            buildTime = details.buildTime?.let { dateTimeFormatter.format(it) }
-        )
+        BottomSheetLayout(
+            modifier = Modifier.fillMaxWidth(),
+            title = stringResource(Res.string.settings_app_details_header),
+            description = stringResource(Res.string.settings_app_details_description)
+        ) {
+            AppInfoCard(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                id = details?.id,
+                name = details?.name,
+                version = details?.version,
+                debug = if (details?.isDebug == true) {
+                    stringResource(Res.string.global_yes)
+                } else {
+                    stringResource(Res.string.global_no)
+                },
+                preRelease = if (details?.isPreRelease == true) {
+                    stringResource(Res.string.global_yes)
+                } else {
+                    stringResource(Res.string.global_no)
+                },
+                buildTime = details?.buildTime?.let { dateTimeFormatter.format(it) }
+            )
 
-        Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(32.dp))
+        }
     }
 }
 
 @Composable
 internal fun AppInfoCard(
-    id: String,
-    name: String,
-    version: String,
-    debug: String,
-    preRelease: String,
+    id: String?,
+    name: String?,
+    version: String?,
+    debug: String?,
+    preRelease: String?,
     buildTime: String?,
     modifier: Modifier = Modifier
 ) {
@@ -91,35 +99,35 @@ internal fun AppInfoCard(
                 modifier = Modifier.fillMaxWidth()
                     .padding(vertical = 8.dp),
                 label = stringResource(Res.string.settings_app_details_title_id),
-                value = id.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available)
+                value = id?.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available)
             )
 
             DetailRow(
                 modifier = Modifier.fillMaxWidth()
                     .padding(vertical = 8.dp),
                 label = stringResource(Res.string.settings_app_details_title_name),
-                value = name.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available)
+                value = name?.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available)
             )
 
             DetailRow(
                 modifier = Modifier.fillMaxWidth()
                     .padding(vertical = 8.dp),
                 label = stringResource(Res.string.settings_app_details_title_version),
-                value = version.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available)
+                value = version?.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available)
             )
 
             DetailRow(
                 modifier = Modifier.fillMaxWidth()
                     .padding(vertical = 8.dp),
                 label = stringResource(Res.string.settings_app_details_title_debug),
-                value = debug.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available)
+                value = debug?.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available)
             )
 
             DetailRow(
                 modifier = Modifier.fillMaxWidth()
                     .padding(vertical = 8.dp),
                 label = stringResource(Res.string.settings_app_details_title_pre_release),
-                value = preRelease.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available)
+                value = preRelease?.takeIf { it.isNotBlank() } ?: stringResource(Res.string.global_not_available)
             )
 
             DetailRow(
