@@ -36,6 +36,7 @@ import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetSt
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.payment.history.PaymentHistoryScreen
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsAppGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsBottomSheet
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsDeviceGroup
@@ -70,8 +71,11 @@ public fun SettingsScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
+
     val bottomSheetState = rememberModalNavigationBottomSheetState<SettingsBottomSheetDestination>()
     val subscriptionBottomSheetState = rememberManagedModalBottomSheetState()
+    val paymentHistoryBottomSheetState = rememberManagedModalBottomSheetState()
+
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
     val preferencesStorage = rememberDependency { preferenceStorage }
@@ -118,7 +122,7 @@ public fun SettingsScreen(
                     },
                     onOpenTransactionHistory = {
                         coroutineScope.launch {
-                            bottomSheetState.show(SettingsBottomSheetDestination.TransactionHistory)
+                            paymentHistoryBottomSheetState.show()
                         }
                     }
                 )
@@ -262,19 +266,24 @@ public fun SettingsScreen(
         },
         onOpenPaymentHistory = {
             coroutineScope.launch {
-                bottomSheetState.show(SettingsBottomSheetDestination.TransactionHistory)
+                paymentHistoryBottomSheetState.show()
+            }
+        }
+    )
+
+    PaymentHistoryScreen(
+        sheetState = paymentHistoryBottomSheetState,
+        modifier = Modifier.fillMaxWidth(),
+        onGetService = {
+            coroutineScope.launch {
+                bottomSheetState.show(SettingsBottomSheetDestination.SelectPlan)
             }
         }
     )
 
     SettingsBottomSheet(
         modifier = Modifier.fillMaxWidth(),
-        state = bottomSheetState,
-        onOpenPlans = {
-            coroutineScope.launch {
-                bottomSheetState.show(SettingsBottomSheetDestination.SelectPlan)
-            }
-        }
+        state = bottomSheetState
     )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {

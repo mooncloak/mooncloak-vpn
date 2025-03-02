@@ -16,6 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
+import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheet
+import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.payment.history.composable.ErrorCard
@@ -29,6 +31,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 public fun PaymentHistoryScreen(
+    sheetState: ManagedModalBottomSheetState,
     onGetService: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -45,60 +48,65 @@ public fun PaymentHistoryScreen(
         viewModel.load()
     }
 
-    BottomSheetLayout(
+    ManagedModalBottomSheet(
         modifier = modifier,
-        title = stringResource(Res.string.payment_history_title),
-        description = stringResource(Res.string.payment_history_description),
-        loadingState = derivedStateOf { viewModel.state.current.value.isLoading }
+        sheetState = sheetState
     ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            state = lazyListState,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+        BottomSheetLayout(
+            modifier = Modifier.fillMaxWidth(),
+            title = stringResource(Res.string.payment_history_title),
+            description = stringResource(Res.string.payment_history_description),
+            loadingState = derivedStateOf { viewModel.state.current.value.isLoading }
         ) {
-            items(
-                items = viewModel.state.current.value.receipts,
-                key = { receipt -> receipt.id },
-                contentType = { "ReceiptCard" }
-            ) { receipt ->
-                ReceiptCard(
-                    modifier = Modifier.fillMaxWidth()
-                        .animateItem(),
-                    receipt = receipt
-                )
-            }
-
-            if (viewModel.state.current.value.receipts.isEmpty() && !viewModel.state.current.value.isLoading) {
-                item(
-                    key = "NoReceiptsCard"
-                ) {
-                    NoReceiptsCard(
-                        modifier = Modifier.fillMaxWidth()
-                            .animateItem(),
-                        onProtect = onGetService
-                    )
-                }
-            }
-
-            if (!viewModel.state.current.value.errorMessage.isNullOrBlank()) {
-                item(
-                    key = "ErrorCard"
-                ) {
-                    ErrorCard(
-                        modifier = Modifier.fillMaxWidth()
-                            .animateItem(),
-                        title = stringResource(Res.string.global_unexpected_error),
-                        description = viewModel.state.current.value.errorMessage
-                    )
-                }
-            }
-
-            item(
-                key = "BottomSpacing"
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                state = lazyListState,
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(32.dp))
+                items(
+                    items = viewModel.state.current.value.receipts,
+                    key = { receipt -> receipt.id },
+                    contentType = { "ReceiptCard" }
+                ) { receipt ->
+                    ReceiptCard(
+                        modifier = Modifier.fillMaxWidth()
+                            .animateItem(),
+                        receipt = receipt
+                    )
+                }
+
+                if (viewModel.state.current.value.receipts.isEmpty() && !viewModel.state.current.value.isLoading) {
+                    item(
+                        key = "NoReceiptsCard"
+                    ) {
+                        NoReceiptsCard(
+                            modifier = Modifier.fillMaxWidth()
+                                .animateItem(),
+                            onProtect = onGetService
+                        )
+                    }
+                }
+
+                if (!viewModel.state.current.value.errorMessage.isNullOrBlank()) {
+                    item(
+                        key = "ErrorCard"
+                    ) {
+                        ErrorCard(
+                            modifier = Modifier.fillMaxWidth()
+                                .animateItem(),
+                            title = stringResource(Res.string.global_unexpected_error),
+                            description = viewModel.state.current.value.errorMessage
+                        )
+                    }
+                }
+
+                item(
+                    key = "BottomSpacing"
+                ) {
+                    Spacer(modifier = Modifier.height(32.dp))
+                }
             }
         }
     }
