@@ -13,9 +13,4 @@ internal sealed interface SettingsBottomSheetDestination {
     @Serializable
     @SerialName(value = "collaborators")
     data object Collaborators : SettingsBottomSheetDestination
-
-    @Immutable
-    @Serializable
-    @SerialName(value = "dns_servers")
-    data object DnsServerConfig : SettingsBottomSheetDestination
 }

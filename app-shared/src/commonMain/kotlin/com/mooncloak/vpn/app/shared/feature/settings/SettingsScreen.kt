@@ -52,6 +52,7 @@ import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsThemeGro
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsWireGuardGroup
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.subscription.SubscriptionScreen
+import com.mooncloak.vpn.app.shared.feature.wireguard.dns.DnsServerConfigScreen
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.app_built_description
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
@@ -83,6 +84,7 @@ public fun SettingsScreen(
     val dependencyListBottomSheetState = rememberManagedModalBottomSheetState()
     val appDetailsBottomSheetState = rememberManagedModalBottomSheetState()
     val deviceDetailsBottomSheetState = rememberManagedModalBottomSheetState()
+    val dnsServerConfigBottomSheetState = rememberManagedModalBottomSheetState()
 
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
@@ -206,9 +208,7 @@ public fun SettingsScreen(
                         onOpenDnsServers = {
                             viewModel.state.current.value.wireGuardPreferences?.let {
                                 coroutineScope.launch {
-                                    bottomSheetState.show(
-                                        SettingsBottomSheetDestination.DnsServerConfig
-                                    )
+                                    dnsServerConfigBottomSheetState.show()
                                 }
                             }
                         }
@@ -309,6 +309,16 @@ public fun SettingsScreen(
         modifier = Modifier.fillMaxWidth(),
         sheetState = deviceDetailsBottomSheetState,
         details = viewModel.state.current.value.deviceDetails
+    )
+
+    DnsServerConfigScreen(
+        modifier = Modifier.fillMaxWidth(),
+        sheetState = dnsServerConfigBottomSheetState,
+        onSave = {
+            coroutineScope.launch {
+                dnsServerConfigBottomSheetState.hide()
+            }
+        }
     )
 
     SettingsBottomSheet(
