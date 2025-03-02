@@ -27,11 +27,6 @@ internal fun SettingsBottomSheet(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            is SettingsBottomSheetDestination.DeviceInfo -> DeviceDetailsBottomSheetLayout(
-                modifier = Modifier.fillMaxWidth(),
-                details = destination.details
-            )
-
             is SettingsBottomSheetDestination.DnsServerConfig -> DnsServerConfigScreen(
                 modifier = Modifier.fillMaxWidth(),
                 onSave = {

@@ -40,6 +40,7 @@ import com.mooncloak.vpn.app.shared.feature.dependency.DependencyLicenseListScre
 import com.mooncloak.vpn.app.shared.feature.payment.history.PaymentHistoryScreen
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.settings.composable.AppDetailsBottomSheetLayout
+import com.mooncloak.vpn.app.shared.feature.settings.composable.DeviceDetailsBottomSheetLayout
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsAppGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsBottomSheet
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsDeviceGroup
@@ -81,6 +82,7 @@ public fun SettingsScreen(
     val paymentHistoryBottomSheetState = rememberManagedModalBottomSheetState()
     val dependencyListBottomSheetState = rememberManagedModalBottomSheetState()
     val appDetailsBottomSheetState = rememberManagedModalBottomSheetState()
+    val deviceDetailsBottomSheetState = rememberManagedModalBottomSheetState()
 
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
@@ -186,7 +188,7 @@ public fun SettingsScreen(
                         onOpenDeviceDetails = {
                             viewModel.state.current.value.deviceDetails?.let { details ->
                                 coroutineScope.launch {
-                                    bottomSheetState.show(SettingsBottomSheetDestination.DeviceInfo(details))
+                                    deviceDetailsBottomSheetState.show()
                                 }
                             }
                         }
@@ -301,6 +303,12 @@ public fun SettingsScreen(
     PaymentScreen(
         modifier = Modifier.fillMaxWidth(),
         sheetState = paymentBottomSheetState
+    )
+
+    DeviceDetailsBottomSheetLayout(
+        modifier = Modifier.fillMaxWidth(),
+        sheetState = deviceDetailsBottomSheetState,
+        details = viewModel.state.current.value.deviceDetails
     )
 
     SettingsBottomSheet(
