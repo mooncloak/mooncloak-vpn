@@ -25,7 +25,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.api.shared.server.VPNConnectionStatus
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
-import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBar
@@ -33,11 +32,11 @@ import com.mooncloak.vpn.app.shared.feature.home.composable.PlanUsageCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.MoonShieldCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.GetVPNServiceCard
-import com.mooncloak.vpn.app.shared.feature.home.composable.HomeBottomSheet
 import com.mooncloak.vpn.app.shared.feature.home.composable.ShowcaseCard
-import com.mooncloak.vpn.app.shared.feature.home.model.HomeBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
+import com.mooncloak.vpn.app.shared.feature.server.details.ServerDetailsScreen
+import com.mooncloak.vpn.app.shared.feature.server.details.rememberServerDetailsBottomSheetState
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.haze
 import kotlinx.coroutines.launch
@@ -58,8 +57,8 @@ public fun HomeScreen(
     val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
-    val bottomSheetState = rememberModalNavigationBottomSheetState<HomeBottomSheetDestination>()
     val paymentBottomSheetState = rememberManagedModalBottomSheetState()
+    val serverDetailsBottomSheetState = rememberServerDetailsBottomSheetState()
 
     val hazeState = remember { HazeState() }
 
@@ -164,7 +163,7 @@ public fun HomeScreen(
                                 },
                                 onDetails = {
                                     coroutineScope.launch {
-                                        bottomSheetState.show(HomeBottomSheetDestination.ServerDetails(server))
+                                        serverDetailsBottomSheetState.show(server)
                                     }
                                 }
                             )
@@ -187,7 +186,7 @@ public fun HomeScreen(
                         },
                         onDetails = {
                             coroutineScope.launch {
-                                bottomSheetState.show(HomeBottomSheetDestination.ServerDetails(item.server))
+                                serverDetailsBottomSheetState.show(item.server)
                             }
                         }
                     )
@@ -210,13 +209,13 @@ public fun HomeScreen(
     }
 
     PaymentScreen(
-        sheetState = paymentBottomSheetState,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        sheetState = paymentBottomSheetState
     )
 
-    HomeBottomSheet(
+    ServerDetailsScreen(
         modifier = Modifier.fillMaxWidth(),
-        state = bottomSheetState
+        state = serverDetailsBottomSheetState
     )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {

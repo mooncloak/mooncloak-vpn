@@ -44,66 +44,68 @@ public class ServerDetailsViewModel @Inject public constructor(
 
     private var connectionJob: Job? = null
 
-    public fun load(server: Server) {
+    public fun load(server: Server?) {
         coroutineScope.launch {
-            emit(
-                value = state.current.value.copy(
-                    isLoading = true,
-                    server = server
-                )
-            )
-
-            var record: ServerConnectionRecord? = null
-            var deviceIpAddress: String? = null
-
-            try {
-                record = serverConnectionRecordRepository.getOrNull(id = server.id)
-                deviceIpAddress = deviceIPAddressProvider.get()
-
-                val startConnection = vpnConnectionManager.connection.value
-                val connected = startConnection.connectedTo(server)
-
+            if (server != null) {
                 emit(
                     value = state.current.value.copy(
-                        isLoading = false,
-                        server = server,
-                        lastConnected = record?.lastConnected,
-                        deviceIpAddress = deviceIpAddress,
-                        connection = startConnection,
-                        startConnectionDuration = if (connected && startConnection is VPNConnection.Connected) {
-                            clock.now() - startConnection.timestamp
-                        } else {
-                            0.seconds
-                        }
+                        isLoading = true,
+                        server = server
                     )
                 )
-            } catch (e: Exception) {
-                LogPile.error(message = "Error loading server details for server '${server.name}'.", cause = e)
 
-                emit(
-                    value = state.current.value.copy(
-                        isLoading = false,
-                        errorMessage = getString(Res.string.global_unexpected_error),
-                        server = server,
-                        lastConnected = record?.lastConnected,
-                        deviceIpAddress = deviceIpAddress
-                    )
-                )
-            }
+                var record: ServerConnectionRecord? = null
+                var deviceIpAddress: String? = null
 
-            connectionJob?.cancel()
-            connectionJob = vpnConnectionManager.connection
-                .onStart { vpnConnectionManager.connection.value }
-                .onEach { connection ->
-                    emit { current ->
-                        current.copy(
-                            connection = connection
+                try {
+                    record = serverConnectionRecordRepository.getOrNull(id = server.id)
+                    deviceIpAddress = deviceIPAddressProvider.get()
+
+                    val startConnection = vpnConnectionManager.connection.value
+                    val connected = startConnection.connectedTo(server)
+
+                    emit(
+                        value = state.current.value.copy(
+                            isLoading = false,
+                            server = server,
+                            lastConnected = record?.lastConnected,
+                            deviceIpAddress = deviceIpAddress,
+                            connection = startConnection,
+                            startConnectionDuration = if (connected && startConnection is VPNConnection.Connected) {
+                                clock.now() - startConnection.timestamp
+                            } else {
+                                0.seconds
+                            }
                         )
-                    }
+                    )
+                } catch (e: Exception) {
+                    LogPile.error(message = "Error loading server details for server '${server.name}'.", cause = e)
+
+                    emit(
+                        value = state.current.value.copy(
+                            isLoading = false,
+                            errorMessage = getString(Res.string.global_unexpected_error),
+                            server = server,
+                            lastConnected = record?.lastConnected,
+                            deviceIpAddress = deviceIpAddress
+                        )
+                    )
                 }
-                .catch { e -> LogPile.error(message = "Error listening to connection changes.", cause = e) }
-                .flowOn(Dispatchers.Main)
-                .launchIn(coroutineScope)
+
+                connectionJob?.cancel()
+                connectionJob = vpnConnectionManager.connection
+                    .onStart { vpnConnectionManager.connection.value }
+                    .onEach { connection ->
+                        emit { current ->
+                            current.copy(
+                                connection = connection
+                            )
+                        }
+                    }
+                    .catch { e -> LogPile.error(message = "Error listening to connection changes.", cause = e) }
+                    .flowOn(Dispatchers.Main)
+                    .launchIn(coroutineScope)
+            }
         }
     }
 

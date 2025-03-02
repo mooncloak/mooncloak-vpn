@@ -40,6 +40,8 @@ import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomShee
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
+import com.mooncloak.vpn.app.shared.feature.server.details.ServerDetailsScreen
+import com.mooncloak.vpn.app.shared.feature.server.details.rememberServerDetailsBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.NoServersCard
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.PreReleaseNoticeCard
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.ServerListBottomSheet
@@ -71,6 +73,7 @@ public fun ServerListScreen(
 
     val bottomSheetState = rememberModalNavigationBottomSheetState<ServerListBottomSheetDestination>()
     val paymentBottomSheetState = rememberManagedModalBottomSheetState()
+    val serverDetailsBottomSheetState = rememberServerDetailsBottomSheetState()
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -148,7 +151,7 @@ public fun ServerListScreen(
                         },
                         onDetails = {
                             coroutineScope.launch {
-                                bottomSheetState.show(ServerListBottomSheetDestination.ServerDetails(server = server))
+                                serverDetailsBottomSheetState.show(server)
                             }
                         }
                     )
@@ -186,6 +189,11 @@ public fun ServerListScreen(
     ServerListBottomSheet(
         modifier = Modifier.fillMaxWidth(),
         state = bottomSheetState
+    )
+
+    ServerDetailsScreen(
+        modifier = Modifier.fillMaxWidth(),
+        state = serverDetailsBottomSheetState
     )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {

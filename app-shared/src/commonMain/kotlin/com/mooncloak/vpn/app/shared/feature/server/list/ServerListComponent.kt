@@ -10,7 +10,7 @@ import com.mooncloak.vpn.app.shared.di.PresentationComponent
 @FeatureScoped
 internal abstract class ServerListComponent internal constructor(
     @Component internal val applicationComponent: ApplicationComponent,
-    @Component internal val presentationComponent: PresentationComponent,
+    @Component internal val presentationComponent: PresentationComponent
 ) : FeatureDependencies {
 
     abstract override val viewModel: ServerListViewModel
@@ -18,5 +18,5 @@ internal abstract class ServerListComponent internal constructor(
 
 internal expect fun FeatureDependencies.Companion.createServerListComponent(
     applicationComponent: ApplicationComponent,
-    presentationComponent: PresentationComponent,
+    presentationComponent: PresentationComponent
 ): ServerListComponent
