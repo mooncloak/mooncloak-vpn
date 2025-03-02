@@ -33,9 +33,9 @@ public class ApplicationRootViewModel @Inject public constructor(
     private val mutex = Mutex(locked = false)
 
     public fun load() {
-        emit(value = state.current.value.copy(isLoading = true))
-
         coroutineScope.launch {
+            emit(value = state.current.value.copy(isLoading = true))
+
             mutex.withLock {
                 val viewedOnboarding = appStorage.viewedOnboarding.current.value
                 val alwaysDisplayLanding = preferencesStorage.alwaysDisplayLanding.current.value
