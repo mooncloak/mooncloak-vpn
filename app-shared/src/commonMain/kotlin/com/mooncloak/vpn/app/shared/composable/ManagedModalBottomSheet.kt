@@ -44,7 +44,7 @@ import kotlinx.coroutines.sync.withLock
  * ## Example Usage
  *
  * ```kotlin
- * val bottomSheetState = rememberModalBottomSheet()
+ * val bottomSheetState = rememberManagedModalBottomSheet()
  *
  * LaunchedEffect(Unit) {
  *     // Display the bottom sheet after 2 seconds
@@ -53,7 +53,7 @@ import kotlinx.coroutines.sync.withLock
  *     bottomSheetState.show()
  * }
  *
- * ModalBottomSheet(
+ * ManagedModalBottomSheet(
  *     state = bottomSheetState,
  *     content = {
  *         ...
@@ -64,10 +64,10 @@ import kotlinx.coroutines.sync.withLock
  * @see [ModalBottomSheet] for more information on how to use this component.
  */
 @Composable
-internal fun MooncloakModalBottomSheet(
+public fun ManagedModalBottomSheet(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit = {},
-    sheetState: MooncloakModalBottomSheetState,
+    sheetState: ManagedModalBottomSheetState,
     sheetMaxWidth: Dp = BottomSheetDefaults.SheetMaxWidth,
     shape: Shape = BottomSheetDefaults.ExpandedShape,
     containerColor: Color = BottomSheetDefaults.ContainerColor,
@@ -127,17 +127,17 @@ internal fun MooncloakModalBottomSheet(
 }
 
 @Composable
-internal fun rememberMooncloakModalBottomSheetState(
+public fun rememberManagedModalBottomSheetState(
     skipPartiallyExpanded: Boolean = false,
     confirmValueChange: (SheetValue) -> Boolean = { true },
-): MooncloakModalBottomSheetState {
+): ManagedModalBottomSheetState {
     val bottomSheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = skipPartiallyExpanded,
         confirmValueChange = confirmValueChange
     )
 
     return remember(bottomSheetState) {
-        MooncloakModalBottomSheetState(
+        ManagedModalBottomSheetState(
             sheetState = bottomSheetState
         )
     }
@@ -145,21 +145,21 @@ internal fun rememberMooncloakModalBottomSheetState(
 
 @Suppress("unused")
 @Composable
-internal fun rememberMooncloakModalBottomSheetState(
+public fun rememberManagedModalBottomSheetState(
     sheetState: SheetState
-): MooncloakModalBottomSheetState = remember(sheetState) {
-    MooncloakModalBottomSheetState(sheetState = sheetState)
+): ManagedModalBottomSheetState = remember(sheetState) {
+    ManagedModalBottomSheetState(sheetState = sheetState)
 }
 
 /**
- * A state handler for the [MooncloakModalBottomSheetState]. This component wraps the functionality of the [SheetState]
+ * A state handler for the [ManagedModalBottomSheetState]. This component wraps the functionality of the [SheetState]
  * component, but provides extra state for adding and removing a [ModalNavigationBottomSheet] from the UI tree and
  * appropriately coordinates that logic with the show and hide functionality.
  */
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 @Stable
 @ExperimentalMaterial3Api
-internal class MooncloakModalBottomSheetState internal constructor(
+public class ManagedModalBottomSheetState internal constructor(
     internal val sheetState: SheetState
 ) {
 
@@ -167,7 +167,7 @@ internal class MooncloakModalBottomSheetState internal constructor(
 
     private val mutex = Mutex(locked = false)
 
-    val isAttached: Boolean by mutableIsAttached
+    public val isAttached: Boolean by mutableIsAttached
 
     internal fun updateAttached(isAttached: Boolean) {
         if (isAttached != mutableIsAttached.value) {
@@ -182,7 +182,7 @@ internal class MooncloakModalBottomSheetState internal constructor(
      * currently in. If a swipe or an animation is in progress, this corresponds the state the sheet
      * was in before the swipe or animation started.
      */
-    val currentValue: SheetValue
+    public val currentValue: SheetValue
         get() = sheetState.currentValue
 
     /**
@@ -192,11 +192,11 @@ internal class MooncloakModalBottomSheetState internal constructor(
      * finishes. If an animation is running, this is the target value of that animation. Finally, if
      * no swipe or animation is in progress, this is the same as the [currentValue].
      */
-    val targetValue: SheetValue
+    public val targetValue: SheetValue
         get() = sheetState.targetValue
 
     /** Whether the modal bottom sheet is visible. */
-    val isVisible: Boolean
+    public val isVisible: Boolean
         get() = sheetState.isVisible
 
     /**
@@ -215,14 +215,14 @@ internal class MooncloakModalBottomSheetState internal constructor(
      *
      * @throws IllegalStateException If the offset has not been initialized yet
      */
-    fun requireOffset(): Float = sheetState.requireOffset()
+    public fun requireOffset(): Float = sheetState.requireOffset()
 
     /** Whether the sheet has an expanded state defined. */
-    val hasExpandedState: Boolean
+    public val hasExpandedState: Boolean
         get() = sheetState.hasExpandedState
 
     /** Whether the modal bottom sheet has a partially expanded state defined. */
-    val hasPartiallyExpandedState: Boolean
+    public val hasPartiallyExpandedState: Boolean
         get() = sheetState.hasPartiallyExpandedState
 
     /**
@@ -232,7 +232,7 @@ internal class MooncloakModalBottomSheetState internal constructor(
      *
      * @throws [CancellationException] if the animation is interrupted
      */
-    suspend fun expand() {
+    public suspend fun expand() {
         mutex.withLock {
             mutableIsAttached.value = true
 
@@ -247,7 +247,7 @@ internal class MooncloakModalBottomSheetState internal constructor(
      * @throws [CancellationException] if the animation is interrupted
      * @throws [IllegalStateException] if [skipPartiallyExpanded] is set to true
      */
-    suspend fun partialExpand() {
+    public suspend fun partialExpand() {
         mutex.withLock {
             mutableIsAttached.value = true
 
@@ -261,7 +261,7 @@ internal class MooncloakModalBottomSheetState internal constructor(
      *
      * @throws [CancellationException] if the animation is interrupted
      */
-    suspend fun show() {
+    public suspend fun show() {
         mutex.withLock {
             mutableIsAttached.value = true
 
@@ -275,7 +275,7 @@ internal class MooncloakModalBottomSheetState internal constructor(
      *
      * @throws [CancellationException] if the animation is interrupted
      */
-    suspend fun hide() {
+    public suspend fun hide() {
         mutex.withLock {
             sheetState.hide()
 

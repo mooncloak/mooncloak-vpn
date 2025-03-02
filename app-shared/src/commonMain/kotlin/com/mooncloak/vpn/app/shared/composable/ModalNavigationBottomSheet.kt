@@ -36,7 +36,7 @@ import kotlinx.coroutines.sync.withLock
  */
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 internal class ModalNavigationBottomSheetState<Destination> internal constructor(
-    internal val sheetState: MooncloakModalBottomSheetState,
+    internal val sheetState: ManagedModalBottomSheetState,
 ) {
 
     internal val destination: State<Destination?>
@@ -73,7 +73,7 @@ internal class ModalNavigationBottomSheetState<Destination> internal constructor
 
 @Composable
 internal fun <Destination> rememberModalNavigationBottomSheetState(
-    sheetState: MooncloakModalBottomSheetState = rememberMooncloakModalBottomSheetState()
+    sheetState: ManagedModalBottomSheetState = rememberManagedModalBottomSheetState()
 ): ModalNavigationBottomSheetState<Destination> = remember {
     ModalNavigationBottomSheetState(
         sheetState = sheetState
@@ -81,7 +81,7 @@ internal fun <Destination> rememberModalNavigationBottomSheetState(
 }
 
 /**
- * A [MooncloakModalBottomSheet] that uses a [NavHost] for its content. The required [ModalNavigationBottomSheetState]
+ * A [ManagedModalBottomSheet] that uses a [NavHost] for its content. The required [ModalNavigationBottomSheetState]
  * has a [NavHostController] that handles the loading of new routes. This component is provided as a convenience to
  * wrap verbose common functionality.
  *
@@ -102,7 +102,7 @@ internal fun <Destination> rememberModalNavigationBottomSheetState(
  * }
  * ```
  *
- * @see [MooncloakModalBottomSheet]
+ * @see [ManagedModalBottomSheet]
  * @see [ModalBottomSheet]
  * @see [ModalNavigationBottomSheetState]
  * @see [SheetState]
@@ -129,9 +129,7 @@ internal fun <Destination> ModalNavigationBottomSheet(
     properties: ModalBottomSheetProperties = ModalBottomSheetDefaults.properties,
     builder: @Composable (destination: Destination) -> Unit
 ) {
-    val coroutineScope = rememberCoroutineScope()
-
-    MooncloakModalBottomSheet(
+    ManagedModalBottomSheet(
         onDismissRequest = onDismissRequest,
         modifier = modifier,
         sheetState = state.sheetState,

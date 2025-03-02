@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
+import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
@@ -45,6 +46,7 @@ import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsSubscrip
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsThemeGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsWireGuardGroup
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
+import com.mooncloak.vpn.app.shared.feature.subscription.SubscriptionScreen
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.app_built_description
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
@@ -69,6 +71,7 @@ public fun SettingsScreen(
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
     val bottomSheetState = rememberModalNavigationBottomSheetState<SettingsBottomSheetDestination>()
+    val subscriptionBottomSheetState = rememberManagedModalBottomSheetState()
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
     val preferencesStorage = rememberDependency { preferenceStorage }
@@ -110,7 +113,7 @@ public fun SettingsScreen(
                     currentPlan = viewModel.state.current.value.currentPlan,
                     onOpenSubscription = {
                         coroutineScope.launch {
-                            bottomSheetState.show(SettingsBottomSheetDestination.Subscription)
+                            subscriptionBottomSheetState.show()
                         }
                     },
                     onOpenTransactionHistory = {
@@ -249,17 +252,27 @@ public fun SettingsScreen(
         }
     }
 
+    SubscriptionScreen(
+        sheetState = subscriptionBottomSheetState,
+        modifier = Modifier.fillMaxWidth(),
+        onOpenPlans = {
+            coroutineScope.launch {
+                bottomSheetState.show(SettingsBottomSheetDestination.SelectPlan)
+            }
+        },
+        onOpenPaymentHistory = {
+            coroutineScope.launch {
+                bottomSheetState.show(SettingsBottomSheetDestination.TransactionHistory)
+            }
+        }
+    )
+
     SettingsBottomSheet(
         modifier = Modifier.fillMaxWidth(),
         state = bottomSheetState,
         onOpenPlans = {
             coroutineScope.launch {
                 bottomSheetState.show(SettingsBottomSheetDestination.SelectPlan)
-            }
-        },
-        onOpenTransactionHistory = {
-            coroutineScope.launch {
-                bottomSheetState.show(SettingsBottomSheetDestination.TransactionHistory)
             }
         }
     )

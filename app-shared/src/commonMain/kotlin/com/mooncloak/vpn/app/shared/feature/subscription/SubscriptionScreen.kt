@@ -20,6 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
+import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheet
+import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.subscription.composable.SubscriptionDetailsLayout
@@ -38,6 +40,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 public fun SubscriptionScreen(
+    sheetState: ManagedModalBottomSheetState,
     onOpenPlans: () -> Unit,
     onOpenPaymentHistory: () -> Unit,
     modifier: Modifier = Modifier
@@ -61,81 +64,87 @@ public fun SubscriptionScreen(
         }
     }
 
-    BottomSheetLayout(
-        modifier = modifier.verticalScroll(rememberScrollState()),
-        title = if (viewModel.state.current.value.subscription == null) {
-            stringResource(Res.string.subscription_title_no_active_plan)
-        } else {
-            stringResource(Res.string.subscription_title_active_plan)
-        },
-        description = if (viewModel.state.current.value.subscription == null) {
-            stringResource(Res.string.subscription_description_protect)
-        } else {
-            stringResource(Res.string.subscription_description_active)
-        },
-        loadingState = derivedStateOf { viewModel.state.current.value.isLoading }
+    ManagedModalBottomSheet(
+        modifier = modifier,
+        sheetState = sheetState
     ) {
-        AnimatedVisibility(
-            visible = viewModel.state.current.value.details != null
+        BottomSheetLayout(
+            modifier = Modifier.fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
+            title = if (viewModel.state.current.value.subscription == null) {
+                stringResource(Res.string.subscription_title_no_active_plan)
+            } else {
+                stringResource(Res.string.subscription_title_active_plan)
+            },
+            description = if (viewModel.state.current.value.subscription == null) {
+                stringResource(Res.string.subscription_description_protect)
+            } else {
+                stringResource(Res.string.subscription_description_active)
+            },
+            loadingState = derivedStateOf { viewModel.state.current.value.isLoading }
         ) {
-            SubscriptionDetailsLayout(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                planTitle = viewModel.state.current.value.plan?.title
-                    ?: stringResource(Res.string.subscription_plan_title_default),
-                subscriptionPurchased = viewModel.state.current.value.details?.purchased,
-                subscriptionExpiration = viewModel.state.current.value.details?.expiration,
-                subscriptionTotalData = viewModel.state.current.value.details?.totalData,
-                subscriptionRemainingDuration = viewModel.state.current.value.details?.remainingDuration,
-                subscriptionRemainingData = viewModel.state.current.value.details?.remainingData
-            )
-        }
-
-        AnimatedContent(
-            targetState = viewModel.state.current.value.lastReceipt
-        ) { receipt ->
-            if (receipt != null) {
-                SubscriptionSection(
-                    modifier = Modifier.wrapContentSize()
-                        .align(Alignment.Start)
-                        .padding(top = if (viewModel.state.current.value.details != null) 32.dp else 0.dp)
+            AnimatedVisibility(
+                visible = viewModel.state.current.value.details != null
+            ) {
+                SubscriptionDetailsLayout(
+                    modifier = Modifier.fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    label = stringResource(Res.string.subscription_label_payment_history)
-                ) {
-                    PaymentHistoryCard(
-                        modifier = Modifier.fillMaxWidth(),
-                        receipt = receipt,
-                        onViewAll = onOpenPaymentHistory
-                    )
+                    planTitle = viewModel.state.current.value.plan?.title
+                        ?: stringResource(Res.string.subscription_plan_title_default),
+                    subscriptionPurchased = viewModel.state.current.value.details?.purchased,
+                    subscriptionExpiration = viewModel.state.current.value.details?.expiration,
+                    subscriptionTotalData = viewModel.state.current.value.details?.totalData,
+                    subscriptionRemainingDuration = viewModel.state.current.value.details?.remainingDuration,
+                    subscriptionRemainingData = viewModel.state.current.value.details?.remainingData
+                )
+            }
+
+            AnimatedContent(
+                targetState = viewModel.state.current.value.lastReceipt
+            ) { receipt ->
+                if (receipt != null) {
+                    SubscriptionSection(
+                        modifier = Modifier.wrapContentSize()
+                            .align(Alignment.Start)
+                            .padding(top = if (viewModel.state.current.value.details != null) 32.dp else 0.dp)
+                            .padding(horizontal = 16.dp),
+                        label = stringResource(Res.string.subscription_label_payment_history)
+                    ) {
+                        PaymentHistoryCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            receipt = receipt,
+                            onViewAll = onOpenPaymentHistory
+                        )
+                    }
                 }
             }
-        }
 
-        Button(
-            modifier = Modifier.fillMaxWidth()
-                .padding(
-                    top = if (
-                        viewModel.state.current.value.details != null ||
-                        viewModel.state.current.value.lastReceipt != null
-                    ) {
-                        32.dp
+            Button(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(
+                        top = if (
+                            viewModel.state.current.value.details != null ||
+                            viewModel.state.current.value.lastReceipt != null
+                        ) {
+                            32.dp
+                        } else {
+                            0.dp
+                        }
+                    )
+                    .padding(horizontal = 16.dp),
+                enabled = !viewModel.state.current.value.isLoading,
+                onClick = onOpenPlans
+            ) {
+                Text(
+                    text = if (viewModel.state.current.value.subscription == null) {
+                        stringResource(Res.string.subscription_action_protect)
                     } else {
-                        0.dp
+                        stringResource(Res.string.subscription_action_boost)
                     }
                 )
-                .padding(horizontal = 16.dp),
-            enabled = !viewModel.state.current.value.isLoading,
-            onClick = onOpenPlans
-        ) {
-            Text(
-                text = if (viewModel.state.current.value.subscription == null) {
-                    stringResource(Res.string.subscription_action_protect)
-                } else {
-                    stringResource(Res.string.subscription_action_boost)
-                }
-            )
-        }
+            }
 
-        Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(32.dp))
+        }
     }
 }

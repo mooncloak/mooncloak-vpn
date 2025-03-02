@@ -11,7 +11,6 @@ import com.mooncloak.vpn.app.shared.feature.dependency.DependencyLicenseListScre
 import com.mooncloak.vpn.app.shared.feature.payment.history.PaymentHistoryScreen
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
-import com.mooncloak.vpn.app.shared.feature.subscription.SubscriptionScreen
 import com.mooncloak.vpn.app.shared.feature.wireguard.dns.DnsServerConfigScreen
 import kotlinx.coroutines.launch
 
@@ -19,7 +18,6 @@ import kotlinx.coroutines.launch
 internal fun SettingsBottomSheet(
     state: ModalNavigationBottomSheetState<SettingsBottomSheetDestination>,
     onOpenPlans: () -> Unit,
-    onOpenTransactionHistory: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -31,12 +29,6 @@ internal fun SettingsBottomSheet(
         when (destination) {
             is SettingsBottomSheetDestination.DependencyLicenseList -> DependencyLicenseListScreen(
                 modifier = Modifier.fillMaxWidth()
-            )
-
-            is SettingsBottomSheetDestination.Subscription -> SubscriptionScreen(
-                modifier = Modifier.fillMaxWidth(),
-                onOpenPlans = onOpenPlans,
-                onOpenPaymentHistory = onOpenTransactionHistory
             )
 
             is SettingsBottomSheetDestination.TransactionHistory -> PaymentHistoryScreen(
