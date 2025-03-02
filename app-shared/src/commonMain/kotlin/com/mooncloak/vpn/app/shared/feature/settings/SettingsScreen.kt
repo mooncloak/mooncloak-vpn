@@ -31,18 +31,17 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
-import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.collaborator.list.CollaboratorListScreen
 import com.mooncloak.vpn.app.shared.feature.dependency.DependencyLicenseListScreen
 import com.mooncloak.vpn.app.shared.feature.payment.history.PaymentHistoryScreen
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.settings.composable.AppDetailsBottomSheetLayout
 import com.mooncloak.vpn.app.shared.feature.settings.composable.DeviceDetailsBottomSheetLayout
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsAppGroup
-import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsBottomSheet
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsDeviceGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsFooterItem
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsLegalGroup
@@ -50,7 +49,6 @@ import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsPreferen
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsSubscriptionGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsThemeGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsWireGuardGroup
-import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.subscription.SubscriptionScreen
 import com.mooncloak.vpn.app.shared.feature.wireguard.dns.DnsServerConfigScreen
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -77,7 +75,6 @@ public fun SettingsScreen(
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
 
-    val bottomSheetState = rememberModalNavigationBottomSheetState<SettingsBottomSheetDestination>()
     val subscriptionBottomSheetState = rememberManagedModalBottomSheetState()
     val paymentBottomSheetState = rememberManagedModalBottomSheetState()
     val paymentHistoryBottomSheetState = rememberManagedModalBottomSheetState()
@@ -85,6 +82,7 @@ public fun SettingsScreen(
     val appDetailsBottomSheetState = rememberManagedModalBottomSheetState()
     val deviceDetailsBottomSheetState = rememberManagedModalBottomSheetState()
     val dnsServerConfigBottomSheetState = rememberManagedModalBottomSheetState()
+    val collaboratorListBottomSheetState = rememberManagedModalBottomSheetState()
 
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
@@ -174,7 +172,7 @@ public fun SettingsScreen(
                     },
                     onOpenCollaboratorList = {
                         coroutineScope.launch {
-                            bottomSheetState.show(SettingsBottomSheetDestination.Collaborators)
+                            collaboratorListBottomSheetState.show()
                         }
                     }
                 )
@@ -321,9 +319,9 @@ public fun SettingsScreen(
         }
     )
 
-    SettingsBottomSheet(
+    CollaboratorListScreen(
         modifier = Modifier.fillMaxWidth(),
-        state = bottomSheetState
+        sheetState = collaboratorListBottomSheetState
     )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {

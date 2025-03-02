@@ -7,7 +7,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
-import com.mooncloak.vpn.app.shared.feature.collaborator.list.CollaboratorListScreen
 
 @Composable
 public fun CollaboratorContainerScreen(
@@ -25,8 +24,6 @@ public fun CollaboratorContainerScreen(
     LaunchedEffect(Unit) {
         viewModel.load()
     }
-
-    CollaboratorListScreen(modifier = modifier)
 
     // TODO: Handle change to detail screen
 
