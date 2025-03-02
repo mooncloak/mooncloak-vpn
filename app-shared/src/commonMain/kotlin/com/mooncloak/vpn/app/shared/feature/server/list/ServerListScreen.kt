@@ -35,9 +35,11 @@ import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.server.isConnectable
 import com.mooncloak.vpn.api.shared.vpn.connectedTo
 import com.mooncloak.vpn.api.shared.vpn.isConnected
+import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.NoServersCard
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.PreReleaseNoticeCard
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.ServerListBottomSheet
@@ -66,7 +68,9 @@ public fun ServerListScreen(
     val lazyListState = rememberLazyListState()
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
+
     val bottomSheetState = rememberModalNavigationBottomSheetState<ServerListBottomSheetDestination>()
+    val paymentBottomSheetState = rememberManagedModalBottomSheetState()
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -138,7 +142,7 @@ public fun ServerListScreen(
                                 if (server.isConnectable(hasSubscription = viewModel.state.current.value.hasSubscription()) || viewModel.state.current.value.connection.isConnected()) {
                                     bottomSheetState.show(ServerListBottomSheetDestination.ServerConnection(server = server))
                                 } else {
-                                    bottomSheetState.show(ServerListBottomSheetDestination.Payment)
+                                    paymentBottomSheetState.show()
                                 }
                             }
                         },
@@ -173,6 +177,11 @@ public fun ServerListScreen(
             }
         }
     }
+
+    PaymentScreen(
+        sheetState = paymentBottomSheetState,
+        modifier = Modifier.fillMaxWidth()
+    )
 
     ServerListBottomSheet(
         modifier = Modifier.fillMaxWidth(),

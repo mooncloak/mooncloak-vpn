@@ -20,8 +20,6 @@ internal fun HomeBottomSheet(
         modifier = modifier
     ) { destination ->
         when (destination) {
-            is HomeBottomSheetDestination.Payment -> PaymentScreen(modifier = Modifier.fillMaxSize())
-
             is HomeBottomSheetDestination.ServerDetails -> ServerDetailsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 server = destination.server

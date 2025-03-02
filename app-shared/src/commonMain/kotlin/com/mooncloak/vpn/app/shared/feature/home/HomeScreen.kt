@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.api.shared.server.VPNConnectionStatus
+import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
@@ -36,6 +37,7 @@ import com.mooncloak.vpn.app.shared.feature.home.composable.HomeBottomSheet
 import com.mooncloak.vpn.app.shared.feature.home.composable.ShowcaseCard
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.haze
 import kotlinx.coroutines.launch
@@ -55,7 +57,10 @@ public fun HomeScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
+
     val bottomSheetState = rememberModalNavigationBottomSheetState<HomeBottomSheetDestination>()
+    val paymentBottomSheetState = rememberManagedModalBottomSheetState()
+
     val hazeState = remember { HazeState() }
 
     LaunchedEffect(Unit) {
@@ -120,7 +125,7 @@ public fun HomeScreen(
                             .animateItem(),
                         onClick = {
                             coroutineScope.launch {
-                                bottomSheetState.show(destination = HomeBottomSheetDestination.Payment)
+                                paymentBottomSheetState.show()
                             }
                         }
                     )
@@ -134,7 +139,7 @@ public fun HomeScreen(
                         boost = item.showBoost,
                         onBoost = {
                             coroutineScope.launch {
-                                bottomSheetState.show(destination = HomeBottomSheetDestination.Payment)
+                                paymentBottomSheetState.show()
                             }
                         }
                     )
@@ -203,6 +208,11 @@ public fun HomeScreen(
             }
         }
     }
+
+    PaymentScreen(
+        sheetState = paymentBottomSheetState,
+        modifier = Modifier.fillMaxWidth()
+    )
 
     HomeBottomSheet(
         modifier = Modifier.fillMaxWidth(),

@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.api.shared.billing.PlanPaymentStatus
 import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
+import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheet
+import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.composable.BitcoinInvoiceLayout
@@ -33,6 +35,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 public fun PaymentScreen(
+    sheetState: ManagedModalBottomSheetState,
     modifier: Modifier = Modifier
 ) {
     val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
@@ -48,70 +51,76 @@ public fun PaymentScreen(
         viewModel.load()
     }
 
-    BottomSheetLayout(
-        modifier = modifier.animateContentSize(),
-        title = viewModel.state.current.value.screenTitle,
-        loadingState = derivedStateOf { viewModel.state.current.value.isLoading || viewModel.state.current.value.isPurchasing }
+    ManagedModalBottomSheet(
+        modifier = modifier,
+        sheetState = sheetState
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+        BottomSheetLayout(
+            modifier = Modifier.fillMaxWidth()
+                .animateContentSize(),
+            title = viewModel.state.current.value.screenTitle,
+            loadingState = derivedStateOf { viewModel.state.current.value.isLoading || viewModel.state.current.value.isPurchasing }
         ) {
-            AnimatedContent(
-                targetState = viewModel.state.current.value.destination,
-                transitionSpec = {
-                    (fadeIn(animationSpec = tween(220, delayMillis = 90)))
-                        .togetherWith(fadeOut(animationSpec = tween(90)))
-                }
-            ) { destination ->
-                when (destination) {
-                    PaymentDestination.Plans -> {
-                        PlansLayout(
-                            modifier = Modifier.fillMaxWidth()
-                                .padding(horizontal = 12.dp),
-                            selectedPlan = viewModel.state.current.value.selectedPlan,
-                            plans = viewModel.state.current.value.plans,
-                            acceptedTerms = viewModel.state.current.value.acceptedTerms,
-                            loading = viewModel.state.current.value.isLoading,
-                            purchasing = viewModel.state.current.value.isPurchasing,
-                            noticeText = viewModel.state.current.value.noticeText,
-                            termsAndConditionsText = viewModel.state.current.value.termsAndConditionsText.invoke(),
-                            onPlanSelected = { plan ->
-                                viewModel.selectPlan(plan)
-                            },
-                            onAcceptedTermsToggled = { termsAccepted ->
-                                viewModel.toggleAcceptTerms(termsAccepted)
-                            },
-                            onSelect = {
-                                viewModel.purchase()
-                            }
-                        )
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                AnimatedContent(
+                    targetState = viewModel.state.current.value.destination,
+                    transitionSpec = {
+                        (fadeIn(animationSpec = tween(220, delayMillis = 90)))
+                            .togetherWith(fadeOut(animationSpec = tween(90)))
                     }
+                ) { destination ->
+                    when (destination) {
+                        PaymentDestination.Plans -> {
+                            PlansLayout(
+                                modifier = Modifier.fillMaxWidth()
+                                    .padding(horizontal = 12.dp),
+                                selectedPlan = viewModel.state.current.value.selectedPlan,
+                                plans = viewModel.state.current.value.plans,
+                                acceptedTerms = viewModel.state.current.value.acceptedTerms,
+                                loading = viewModel.state.current.value.isLoading,
+                                purchasing = viewModel.state.current.value.isPurchasing,
+                                noticeText = viewModel.state.current.value.noticeText,
+                                termsAndConditionsText = viewModel.state.current.value.termsAndConditionsText.invoke(),
+                                onPlanSelected = { plan ->
+                                    viewModel.selectPlan(plan)
+                                },
+                                onAcceptedTermsToggled = { termsAccepted ->
+                                    viewModel.toggleAcceptTerms(termsAccepted)
+                                },
+                                onSelect = {
+                                    viewModel.purchase()
+                                }
+                            )
+                        }
 
-                    PaymentDestination.Invoice -> {
-                        BitcoinInvoiceLayout(
+                        PaymentDestination.Invoice -> {
+                            BitcoinInvoiceLayout(
+                                modifier = Modifier.fillMaxWidth()
+                                    .padding(horizontal = 16.dp)
+                                    .verticalScroll(scrollState),
+                                uri = viewModel.state.current.value.invoice?.uri ?: "",
+                                paymentStatusTitle = viewModel.state.current.value.paymentStatus?.title
+                                    ?: stringResource(Res.string.payment_status_pending),
+                                paymentStatusDescription = viewModel.state.current.value.paymentStatus?.description,
+                                paymentStatusPending = viewModel.state.current.value.paymentStatus is PlanPaymentStatus.Pending,
+                                address = viewModel.state.current.value.invoice?.address
+                            )
+                        }
+
+                        is PaymentDestination.PaymentError -> PaymentErrorLayout(
+                            message = destination.message,
                             modifier = Modifier.fillMaxWidth()
-                                .padding(horizontal = 16.dp)
-                                .verticalScroll(scrollState),
-                            uri = viewModel.state.current.value.invoice?.uri ?: "",
-                            paymentStatusTitle = viewModel.state.current.value.paymentStatus?.title
-                                ?: stringResource(Res.string.payment_status_pending),
-                            paymentStatusDescription = viewModel.state.current.value.paymentStatus?.description,
-                            paymentStatusPending = viewModel.state.current.value.paymentStatus is PlanPaymentStatus.Pending,
-                            address = viewModel.state.current.value.invoice?.address
                         )
+
+                        PaymentDestination.PaymentSuccess -> PaymentSuccessLayout(
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        null -> {}
                     }
-
-                    is PaymentDestination.PaymentError -> PaymentErrorLayout(
-                        message = destination.message,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-                    PaymentDestination.PaymentSuccess -> PaymentSuccessLayout(
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-                    null -> {}
                 }
             }
         }

@@ -15,9 +15,4 @@ internal sealed interface MainBottomSheetDestination {
     data class ServerConnection internal constructor(
         val server: Server? = null
     ) : MainBottomSheetDestination
-
-    @Immutable
-    @Serializable
-    @SerialName(value = "plan")
-    data object SelectPlan : MainBottomSheetDestination
 }

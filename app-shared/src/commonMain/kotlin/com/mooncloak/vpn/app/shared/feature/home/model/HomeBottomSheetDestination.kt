@@ -11,11 +11,6 @@ internal sealed interface HomeBottomSheetDestination {
 
     @Immutable
     @Serializable
-    @SerialName(value = "payment")
-    data object Payment : HomeBottomSheetDestination
-
-    @Immutable
-    @Serializable
     @SerialName(value = "server_details")
     data class ServerDetails internal constructor(
         val server: Server

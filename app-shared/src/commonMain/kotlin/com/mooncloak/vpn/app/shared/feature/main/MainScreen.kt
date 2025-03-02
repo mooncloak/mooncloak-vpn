@@ -22,6 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mooncloak.vpn.api.shared.server.isConnectable
 import com.mooncloak.vpn.api.shared.vpn.isConnected
+import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
@@ -34,6 +35,7 @@ import com.mooncloak.vpn.app.shared.feature.main.model.MainBottomSheetDestinatio
 import com.mooncloak.vpn.app.shared.feature.main.util.containerColor
 import com.mooncloak.vpn.app.shared.feature.main.util.contentColor
 import com.mooncloak.vpn.app.shared.feature.main.util.floatingActionBarContent
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.server.list.ServerListScreen
 import com.mooncloak.vpn.app.shared.feature.settings.SettingsScreen
 import com.mooncloak.vpn.app.shared.feature.support.SupportScreen
@@ -53,7 +55,10 @@ public fun MainScreen(
         )
     }
     val viewModel = remember { componentDependencies.viewModel }
+
     val bottomSheetState = rememberModalNavigationBottomSheetState<MainBottomSheetDestination>()
+    val paymentBottomSheetState = rememberManagedModalBottomSheetState()
+
     val coroutineScope = rememberCoroutineScope()
 
     val itemColors = NavigationSuiteDefaults.itemColors(
@@ -133,7 +138,7 @@ public fun MainScreen(
                                 )
                             )
                         } else {
-                            bottomSheetState.show(MainBottomSheetDestination.SelectPlan)
+                            paymentBottomSheetState.show()
                         }
                     }
                 },
@@ -188,6 +193,11 @@ public fun MainScreen(
                 }
             }
         }
+    )
+
+    PaymentScreen(
+        sheetState = paymentBottomSheetState,
+        modifier = Modifier.fillMaxWidth()
     )
 
     MainBottomSheet(

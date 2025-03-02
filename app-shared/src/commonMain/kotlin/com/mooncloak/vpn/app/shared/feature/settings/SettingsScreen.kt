@@ -38,6 +38,7 @@ import com.mooncloak.vpn.app.shared.di.rememberDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.dependency.DependencyLicenseListScreen
 import com.mooncloak.vpn.app.shared.feature.payment.history.PaymentHistoryScreen
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.settings.composable.AppDetailsBottomSheetLayout
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsAppGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsBottomSheet
@@ -76,6 +77,7 @@ public fun SettingsScreen(
 
     val bottomSheetState = rememberModalNavigationBottomSheetState<SettingsBottomSheetDestination>()
     val subscriptionBottomSheetState = rememberManagedModalBottomSheetState()
+    val paymentBottomSheetState = rememberManagedModalBottomSheetState()
     val paymentHistoryBottomSheetState = rememberManagedModalBottomSheetState()
     val dependencyListBottomSheetState = rememberManagedModalBottomSheetState()
     val appDetailsBottomSheetState = rememberManagedModalBottomSheetState()
@@ -265,7 +267,7 @@ public fun SettingsScreen(
         modifier = Modifier.fillMaxWidth(),
         onOpenPlans = {
             coroutineScope.launch {
-                bottomSheetState.show(SettingsBottomSheetDestination.SelectPlan)
+                paymentBottomSheetState.show()
             }
         },
         onOpenPaymentHistory = {
@@ -280,7 +282,7 @@ public fun SettingsScreen(
         modifier = Modifier.fillMaxWidth(),
         onGetService = {
             coroutineScope.launch {
-                bottomSheetState.show(SettingsBottomSheetDestination.SelectPlan)
+                paymentBottomSheetState.show()
             }
         }
     )
@@ -294,6 +296,11 @@ public fun SettingsScreen(
         sheetState = appDetailsBottomSheetState,
         modifier = Modifier.fillMaxWidth(),
         details = viewModel.state.current.value.appDetails
+    )
+
+    PaymentScreen(
+        modifier = Modifier.fillMaxWidth(),
+        sheetState = paymentBottomSheetState
     )
 
     SettingsBottomSheet(
