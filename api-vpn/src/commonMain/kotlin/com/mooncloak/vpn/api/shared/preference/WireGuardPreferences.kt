@@ -8,18 +8,19 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class WireGuardPreferences public constructor(
     @SerialName(value = "dns_address") public val dnsAddresses: Set<String> = Defaults.DnsServers,
-    @SerialName(value = "allowed_ip") public val allowedIp: String = Defaults.AllowedIp
+    @SerialName(value = "allowed_ips") public val allowedIps: Set<String> = Defaults.AllowedIps
 ) {
 
     @Suppress("ConstPropertyName")
     public object Defaults {
 
-        public const val AllowedIp: String = "0.0.0.0/0"
         public const val PrimaryDnsServer: String = "1.1.1.1"
         public const val SecondaryDnsServer: String = "8.8.8.8"
         public val DnsServers: Set<String> = setOf(
             PrimaryDnsServer,
             SecondaryDnsServer
         )
+
+        public val AllowedIps: Set<String> = setOf("0.0.0.0/0", "::/0")
     }
 }

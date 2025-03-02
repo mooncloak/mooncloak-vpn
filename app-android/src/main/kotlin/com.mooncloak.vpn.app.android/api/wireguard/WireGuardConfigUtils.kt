@@ -26,21 +26,23 @@ internal fun Server.toWireGuardConfig(
         interfaceBuilder.addDnsServer(InetAddresses.parse(dnsAddress))
     }
 
+    var peerBuilder = Peer.Builder()
+        .setPublicKey(
+            Key.fromBase64(
+                this.publicKey?.trim()
+                    ?: error("No Server public key found for server with id '${this.id}'. Cannot connect to server.")
+            )
+        )
+        .setEndpoint(
+            InetEndpoint.parse(requireWireGuardEndpoint())
+        )
+
+    preferences.allowedIps.forEach { ip ->
+        peerBuilder = peerBuilder.addAllowedIp(InetNetwork.parse(ip))
+    }
+
     return Config.Builder()
         .setInterface(interfaceBuilder.build())
-        .addPeer(
-            Peer.Builder()
-                .setPublicKey(
-                    Key.fromBase64(
-                        this.publicKey?.trim()
-                            ?: error("No Server public key found for server with id '${this.id}'. Cannot connect to server.")
-                    )
-                )
-                .setEndpoint(
-                    InetEndpoint.parse(requireWireGuardEndpoint())
-                )
-                .addAllowedIp(InetNetwork.parse(preferences.allowedIp))
-                .build()
-        )
+        .addPeer(peerBuilder.build())
         .build()
 }
