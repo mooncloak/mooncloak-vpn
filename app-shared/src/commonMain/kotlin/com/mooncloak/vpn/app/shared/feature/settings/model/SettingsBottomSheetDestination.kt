@@ -11,11 +11,6 @@ internal sealed interface SettingsBottomSheetDestination {
 
     @Immutable
     @Serializable
-    @SerialName(value = "dependencies")
-    data object DependencyLicenseList : SettingsBottomSheetDestination
-
-    @Immutable
-    @Serializable
     @SerialName(value = "plan")
     data object SelectPlan : SettingsBottomSheetDestination
 

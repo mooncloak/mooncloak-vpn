@@ -25,10 +25,6 @@ internal fun SettingsBottomSheet(
         modifier = modifier
     ) { destination ->
         when (destination) {
-            is SettingsBottomSheetDestination.DependencyLicenseList -> DependencyLicenseListScreen(
-                modifier = Modifier.fillMaxWidth()
-            )
-
             is SettingsBottomSheetDestination.SelectPlan -> PaymentScreen(
                 modifier = Modifier.fillMaxWidth()
             )

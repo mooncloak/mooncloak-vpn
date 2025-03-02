@@ -24,6 +24,8 @@ import com.mikepenz.aboutlibraries.ui.compose.m3.util.htmlReadyLicenseContent
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
+import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheet
+import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.dependency.composable.LicenseDialog
@@ -35,6 +37,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 public fun DependencyLicenseListScreen(
+    sheetState: ManagedModalBottomSheetState,
     modifier: Modifier = Modifier
 ) {
     val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
@@ -52,53 +55,58 @@ public fun DependencyLicenseListScreen(
         viewModel.load()
     }
 
-    BottomSheetLayout(
+    ManagedModalBottomSheet(
         modifier = modifier,
-        title = stringResource(Res.string.dependency_list_header),
-        description = stringResource(Res.string.dependency_list_description),
-        loadingState = derivedStateOf { viewModel.state.current.value.isLoading },
-        snackbarHostState = snackbarHostState
+        sheetState = sheetState
     ) {
-        AnimatedVisibility(
-            visible = viewModel.state.current.value.libs != null,
-            enter = fadeIn(),
-            exit = fadeOut()
+        BottomSheetLayout(
+            modifier = Modifier.fillMaxWidth(),
+            title = stringResource(Res.string.dependency_list_header),
+            description = stringResource(Res.string.dependency_list_description),
+            loadingState = derivedStateOf { viewModel.state.current.value.isLoading },
+            snackbarHostState = snackbarHostState
         ) {
-            LibrariesContainer(
-                libraries = viewModel.state.current.value.libs,
-                modifier = Modifier.fillMaxSize(),
-                colors = LibraryDefaults.libraryColors(
-                    backgroundColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface
-                ),
-                onLibraryClick = { library ->
-                    val license = library.licenses.firstOrNull()
+            AnimatedVisibility(
+                visible = viewModel.state.current.value.libs != null,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                LibrariesContainer(
+                    libraries = viewModel.state.current.value.libs,
+                    modifier = Modifier.fillMaxSize(),
+                    colors = LibraryDefaults.libraryColors(
+                        backgroundColor = MaterialTheme.colorScheme.surface,
+                        contentColor = MaterialTheme.colorScheme.onSurface
+                    ),
+                    onLibraryClick = { library ->
+                        val license = library.licenses.firstOrNull()
 
-                    if (!license?.htmlReadyLicenseContent.isNullOrBlank()) {
-                        openDialog.value = library
-                    } else if (!license?.url.isNullOrBlank()) {
-                        license?.url?.also {
-                            try {
-                                uriHandler.openUri(it)
-                            } catch (t: Throwable) {
-                                LogPile.error("Failed to open url: $it")
+                        if (!license?.htmlReadyLicenseContent.isNullOrBlank()) {
+                            openDialog.value = library
+                        } else if (!license?.url.isNullOrBlank()) {
+                            license?.url?.also {
+                                try {
+                                    uriHandler.openUri(it)
+                                } catch (t: Throwable) {
+                                    LogPile.error("Failed to open url: $it")
+                                }
                             }
                         }
                     }
-                }
-            )
-        }
+                )
+            }
 
-        AnimatedVisibility(
-            visible = !viewModel.state.current.value.isLoading && viewModel.state.current.value.libs == null,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            NoDependenciesFoundLayout(
-                modifier = Modifier.fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(top = 32.dp)
-            )
+            AnimatedVisibility(
+                visible = !viewModel.state.current.value.isLoading && viewModel.state.current.value.libs == null,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                NoDependenciesFoundLayout(
+                    modifier = Modifier.fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(top = 32.dp)
+                )
+            }
         }
     }
 
