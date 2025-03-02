@@ -4,8 +4,8 @@ import com.android.billingclient.api.Purchase
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.api.shared.billing.MutableServicePurchaseReceiptRepository
 import com.mooncloak.vpn.api.shared.billing.ProofOfPurchase
-import com.mooncloak.vpn.app.shared.api.billing.usecase.ExchangeProofOfPurchaseForServiceTokensUseCase
-import com.mooncloak.vpn.app.shared.api.billing.usecase.GetServiceSubscriptionForTokensUseCase
+import com.mooncloak.vpn.app.shared.api.billing.ExchangeProofOfPurchaseForServiceTokensUseCase
+import com.mooncloak.vpn.app.shared.api.service.GetServiceSubscriptionForTokensUseCase
 import com.mooncloak.vpn.api.shared.plan.BillingProvider
 import com.mooncloak.vpn.api.shared.plan.Plan
 import com.mooncloak.vpn.api.shared.service.ServiceAccessDetails

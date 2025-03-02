@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.api.billing.usecase
+package com.mooncloak.vpn.app.shared.api.billing
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.api.shared.VpnServiceApi

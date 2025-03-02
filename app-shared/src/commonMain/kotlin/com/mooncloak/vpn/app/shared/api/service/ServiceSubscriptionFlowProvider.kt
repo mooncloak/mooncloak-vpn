@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.api.billing
+package com.mooncloak.vpn.app.shared.api.service
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.konstruct.annotations.Singleton

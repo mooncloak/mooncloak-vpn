@@ -8,7 +8,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.app.shared.api.billing.ServiceSubscriptionFlowProvider
+import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionFlowProvider
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
