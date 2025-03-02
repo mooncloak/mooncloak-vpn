@@ -36,17 +36,16 @@ import com.mooncloak.vpn.api.shared.server.isConnectable
 import com.mooncloak.vpn.api.shared.vpn.connectedTo
 import com.mooncloak.vpn.api.shared.vpn.isConnected
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
-import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
+import com.mooncloak.vpn.app.shared.feature.server.connection.ServerConnectionScreen
+import com.mooncloak.vpn.app.shared.feature.server.connection.rememberServerConnectionBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.server.details.ServerDetailsScreen
 import com.mooncloak.vpn.app.shared.feature.server.details.rememberServerDetailsBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.NoServersCard
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.PreReleaseNoticeCard
-import com.mooncloak.vpn.app.shared.feature.server.list.composable.ServerListBottomSheet
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.ServerListItem
-import com.mooncloak.vpn.app.shared.feature.server.list.model.ServerListBottomSheetDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_servers_title
 import kotlinx.coroutines.launch
@@ -71,9 +70,9 @@ public fun ServerListScreen(
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
 
-    val bottomSheetState = rememberModalNavigationBottomSheetState<ServerListBottomSheetDestination>()
     val paymentBottomSheetState = rememberManagedModalBottomSheetState()
     val serverDetailsBottomSheetState = rememberServerDetailsBottomSheetState()
+    val serverConnectionBottomSheetState = rememberServerConnectionBottomSheetState()
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -143,7 +142,7 @@ public fun ServerListScreen(
                         onConnect = {
                             coroutineScope.launch {
                                 if (server.isConnectable(hasSubscription = viewModel.state.current.value.hasSubscription()) || viewModel.state.current.value.connection.isConnected()) {
-                                    bottomSheetState.show(ServerListBottomSheetDestination.ServerConnection(server = server))
+                                    serverConnectionBottomSheetState.show(server)
                                 } else {
                                     paymentBottomSheetState.show()
                                 }
@@ -186,9 +185,9 @@ public fun ServerListScreen(
         modifier = Modifier.fillMaxWidth()
     )
 
-    ServerListBottomSheet(
+    ServerConnectionScreen(
         modifier = Modifier.fillMaxWidth(),
-        state = bottomSheetState
+        state = serverConnectionBottomSheetState
     )
 
     ServerDetailsScreen(

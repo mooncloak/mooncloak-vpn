@@ -23,19 +23,18 @@ import androidx.navigation.compose.rememberNavController
 import com.mooncloak.vpn.api.shared.server.isConnectable
 import com.mooncloak.vpn.api.shared.vpn.isConnected
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
-import com.mooncloak.vpn.app.shared.composable.rememberModalNavigationBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.country.CountryListScreen
 import com.mooncloak.vpn.app.shared.feature.home.HomeScreen
-import com.mooncloak.vpn.app.shared.feature.main.composable.MainBottomSheet
 import com.mooncloak.vpn.app.shared.feature.main.composable.MooncloakNavigationScaffold
-import com.mooncloak.vpn.app.shared.feature.main.model.MainBottomSheetDestination
 import com.mooncloak.vpn.app.shared.feature.main.util.containerColor
 import com.mooncloak.vpn.app.shared.feature.main.util.contentColor
 import com.mooncloak.vpn.app.shared.feature.main.util.floatingActionBarContent
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
+import com.mooncloak.vpn.app.shared.feature.server.connection.ServerConnectionScreen
+import com.mooncloak.vpn.app.shared.feature.server.connection.rememberServerConnectionBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.server.list.ServerListScreen
 import com.mooncloak.vpn.app.shared.feature.settings.SettingsScreen
 import com.mooncloak.vpn.app.shared.feature.support.SupportScreen
@@ -56,8 +55,8 @@ public fun MainScreen(
     }
     val viewModel = remember { componentDependencies.viewModel }
 
-    val bottomSheetState = rememberModalNavigationBottomSheetState<MainBottomSheetDestination>()
     val paymentBottomSheetState = rememberManagedModalBottomSheetState()
+    val serverConnectionBottomSheetState = rememberServerConnectionBottomSheetState()
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -132,11 +131,7 @@ public fun MainScreen(
                             viewModel.state.current.value.defaultServer?.isConnectable(hasSubscription = viewModel.state.current.value.subscription != null) == true
                             || viewModel.state.current.value.connection.isConnected()
                         ) {
-                            bottomSheetState.show(
-                                MainBottomSheetDestination.ServerConnection(
-                                    server = viewModel.state.current.value.defaultServer
-                                )
-                            )
+                            serverConnectionBottomSheetState.show(viewModel.state.current.value.defaultServer)
                         } else {
                             paymentBottomSheetState.show()
                         }
@@ -196,12 +191,12 @@ public fun MainScreen(
     )
 
     PaymentScreen(
-        sheetState = paymentBottomSheetState,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        sheetState = paymentBottomSheetState
     )
 
-    MainBottomSheet(
+    ServerConnectionScreen(
         modifier = Modifier.fillMaxWidth(),
-        state = bottomSheetState
+        state = serverConnectionBottomSheetState
     )
 }
