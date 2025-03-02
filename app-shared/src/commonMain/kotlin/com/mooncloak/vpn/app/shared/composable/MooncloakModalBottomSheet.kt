@@ -91,6 +91,14 @@ internal fun MooncloakModalBottomSheet(
         sheetState.updateAttached(sheetState.isVisible)
     }
 
+    BackHandler(
+        enabled = sheetState.isVisible && properties.shouldDismissOnBackPress
+    ) {
+        coroutineScope.launch {
+            sheetState.hide()
+        }
+    }
+
     if (sheetState.isAttached) {
         ModalBottomSheet(
             onDismissRequest = {

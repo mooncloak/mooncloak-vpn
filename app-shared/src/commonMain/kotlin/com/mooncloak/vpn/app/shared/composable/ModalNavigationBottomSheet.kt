@@ -25,7 +25,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -157,12 +156,4 @@ internal fun <Destination> ModalNavigationBottomSheet(
             }
         }
     )
-
-    BackHandler(
-        enabled = state.sheetState.isVisible && properties.shouldDismissOnBackPress
-    ) {
-        coroutineScope.launch {
-            state.hide()
-        }
-    }
 }
