@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -35,6 +36,7 @@ import com.mooncloak.vpn.app.shared.feature.home.composable.GetVPNServiceCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ShowcaseCard
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.rememberPurchasingState
 import com.mooncloak.vpn.app.shared.feature.server.details.ServerDetailsScreen
 import com.mooncloak.vpn.app.shared.feature.server.details.rememberServerDetailsBottomSheetState
 import dev.chrisbanes.haze.HazeState
@@ -57,7 +59,18 @@ public fun HomeScreen(
     val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
-    val paymentBottomSheetState = rememberManagedModalBottomSheetState()
+    val paymentPurchasingState = rememberPurchasingState()
+    val paymentBottomSheetState = rememberManagedModalBottomSheetState(
+        confirmValueChange = { value ->
+            when (value) {
+                // Disable closing the bottom sheet when we are purchasing to prevent getting in an invalid state.
+                SheetValue.Hidden -> !paymentPurchasingState.purchasing.value
+                SheetValue.Expanded -> true
+                SheetValue.PartiallyExpanded -> true
+            }
+        }
+    )
+
     val serverDetailsBottomSheetState = rememberServerDetailsBottomSheetState()
 
     val hazeState = remember { HazeState() }
@@ -210,7 +223,8 @@ public fun HomeScreen(
 
     PaymentScreen(
         modifier = Modifier.fillMaxWidth(),
-        sheetState = paymentBottomSheetState
+        sheetState = paymentBottomSheetState,
+        purchasingState = paymentPurchasingState
     )
 
     ServerDetailsScreen(

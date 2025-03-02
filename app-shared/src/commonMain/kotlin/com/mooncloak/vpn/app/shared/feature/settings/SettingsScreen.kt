@@ -16,6 +16,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -39,6 +40,7 @@ import com.mooncloak.vpn.app.shared.feature.collaborator.list.CollaboratorListSc
 import com.mooncloak.vpn.app.shared.feature.dependency.DependencyLicenseListScreen
 import com.mooncloak.vpn.app.shared.feature.payment.history.PaymentHistoryScreen
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.rememberPurchasingState
 import com.mooncloak.vpn.app.shared.feature.settings.composable.AppDetailsBottomSheetLayout
 import com.mooncloak.vpn.app.shared.feature.settings.composable.DeviceDetailsBottomSheetLayout
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsAppGroup
@@ -75,8 +77,19 @@ public fun SettingsScreen(
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
 
+    val paymentPurchasingState = rememberPurchasingState()
+    val paymentBottomSheetState = rememberManagedModalBottomSheetState(
+        confirmValueChange = { value ->
+            when (value) {
+                // Disable closing the bottom sheet when we are purchasing to prevent getting in an invalid state.
+                SheetValue.Hidden -> !paymentPurchasingState.purchasing.value
+                SheetValue.Expanded -> true
+                SheetValue.PartiallyExpanded -> true
+            }
+        }
+    )
+
     val subscriptionBottomSheetState = rememberManagedModalBottomSheetState()
-    val paymentBottomSheetState = rememberManagedModalBottomSheetState()
     val paymentHistoryBottomSheetState = rememberManagedModalBottomSheetState()
     val dependencyListBottomSheetState = rememberManagedModalBottomSheetState()
     val appDetailsBottomSheetState = rememberManagedModalBottomSheetState()
@@ -300,7 +313,8 @@ public fun SettingsScreen(
 
     PaymentScreen(
         modifier = Modifier.fillMaxWidth(),
-        sheetState = paymentBottomSheetState
+        sheetState = paymentBottomSheetState,
+        purchasingState = paymentPurchasingState
     )
 
     DeviceDetailsBottomSheetLayout(

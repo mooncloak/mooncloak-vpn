@@ -36,6 +36,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 public fun PaymentScreen(
     sheetState: ManagedModalBottomSheetState,
+    purchasingState: PurchasingState = rememberPurchasingState(),
     modifier: Modifier = Modifier
 ) {
     val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
@@ -49,6 +50,10 @@ public fun PaymentScreen(
 
     LaunchedEffect(Unit) {
         viewModel.load()
+    }
+
+    LaunchedEffect(viewModel.state.current.value.isPurchasing) {
+        purchasingState.togglePurchasing(purchasing = viewModel.state.current.value.isPurchasing)
     }
 
     ManagedModalBottomSheet(

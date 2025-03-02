@@ -18,6 +18,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -39,6 +40,7 @@ import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetSt
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.rememberPurchasingState
 import com.mooncloak.vpn.app.shared.feature.server.connection.ServerConnectionScreen
 import com.mooncloak.vpn.app.shared.feature.server.connection.rememberServerConnectionBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.server.details.ServerDetailsScreen
@@ -70,7 +72,18 @@ public fun ServerListScreen(
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
 
-    val paymentBottomSheetState = rememberManagedModalBottomSheetState()
+    val paymentPurchasingState = rememberPurchasingState()
+    val paymentBottomSheetState = rememberManagedModalBottomSheetState(
+        confirmValueChange = { value ->
+            when (value) {
+                // Disable closing the bottom sheet when we are purchasing to prevent getting in an invalid state.
+                SheetValue.Hidden -> !paymentPurchasingState.purchasing.value
+                SheetValue.Expanded -> true
+                SheetValue.PartiallyExpanded -> true
+            }
+        }
+    )
+
     val serverDetailsBottomSheetState = rememberServerDetailsBottomSheetState()
     val serverConnectionBottomSheetState = rememberServerConnectionBottomSheetState()
 
@@ -181,8 +194,9 @@ public fun ServerListScreen(
     }
 
     PaymentScreen(
+        modifier = Modifier.fillMaxWidth(),
         sheetState = paymentBottomSheetState,
-        modifier = Modifier.fillMaxWidth()
+        purchasingState = paymentPurchasingState,
     )
 
     ServerConnectionScreen(

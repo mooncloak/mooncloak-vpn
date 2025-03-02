@@ -10,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationRailItemDefaults
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -33,6 +34,7 @@ import com.mooncloak.vpn.app.shared.feature.main.util.containerColor
 import com.mooncloak.vpn.app.shared.feature.main.util.contentColor
 import com.mooncloak.vpn.app.shared.feature.main.util.floatingActionBarContent
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.rememberPurchasingState
 import com.mooncloak.vpn.app.shared.feature.server.connection.ServerConnectionScreen
 import com.mooncloak.vpn.app.shared.feature.server.connection.rememberServerConnectionBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.server.list.ServerListScreen
@@ -55,7 +57,18 @@ public fun MainScreen(
     }
     val viewModel = remember { componentDependencies.viewModel }
 
-    val paymentBottomSheetState = rememberManagedModalBottomSheetState()
+    val paymentPurchasingState = rememberPurchasingState()
+    val paymentBottomSheetState = rememberManagedModalBottomSheetState(
+        confirmValueChange = { value ->
+            when (value) {
+                // Disable closing the bottom sheet when we are purchasing to prevent getting in an invalid state.
+                SheetValue.Hidden -> !paymentPurchasingState.purchasing.value
+                SheetValue.Expanded -> true
+                SheetValue.PartiallyExpanded -> true
+            }
+        }
+    )
+
     val serverConnectionBottomSheetState = rememberServerConnectionBottomSheetState()
 
     val coroutineScope = rememberCoroutineScope()
@@ -192,7 +205,8 @@ public fun MainScreen(
 
     PaymentScreen(
         modifier = Modifier.fillMaxWidth(),
-        sheetState = paymentBottomSheetState
+        sheetState = paymentBottomSheetState,
+        purchasingState = paymentPurchasingState
     )
 
     ServerConnectionScreen(
