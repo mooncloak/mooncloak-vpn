@@ -68,14 +68,6 @@ internal fun CountryListBottomSheet(
                 }
             )
 
-            when (destination) {
-                is CountryListBottomSheetDestination.ServerList -> RegionServerListScreen(
-                    modifier = Modifier.fillMaxWidth(),
-                    country = destination.country,
-                    region = destination.region,
-                    onConnect = onConnectToServer
-                )
-            }
         }
     }
 }

@@ -8,6 +8,7 @@ import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
 import com.mooncloak.kodetools.pagex.LoadState
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.api.shared.location.CountryDetails
+import com.mooncloak.vpn.api.shared.location.RegionDetails
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.country.usecase.GetCountryPageUseCase
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -50,6 +51,22 @@ public class CountryListViewModel @Inject public constructor(
                         selectedCountry = country
                     )
                 }
+            }
+        }
+    }
+
+    public fun connectTo(country: CountryDetails) {
+        coroutineScope.launch {
+            mutex.withLock {
+                // TODO: Connect to best server for country.
+            }
+        }
+    }
+
+    public fun connectTo(region: RegionDetails) {
+        coroutineScope.launch {
+            mutex.withLock {
+                // TODO: Connect to best server for region.
             }
         }
     }

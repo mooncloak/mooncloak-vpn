@@ -36,6 +36,7 @@ import com.mooncloak.vpn.app.shared.feature.country.composable.ErrorCard
 import com.mooncloak.vpn.app.shared.feature.country.composable.Label
 import com.mooncloak.vpn.app.shared.feature.country.composable.RegionListItem
 import com.mooncloak.vpn.app.shared.feature.server.region.RegionServerListScreen
+import com.mooncloak.vpn.app.shared.feature.server.region.rememberRegionServerListBottomSheetState
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.cd_action_back
 import com.mooncloak.vpn.app.shared.resource.country_list_default_region_type
@@ -64,8 +65,9 @@ public fun CountryListScreen(
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }
     val lazyListState = rememberLazyListState()
-
     val coroutineScope = rememberCoroutineScope()
+
+    val regionServerListBottomSheetState = rememberRegionServerListBottomSheetState()
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -131,7 +133,6 @@ public fun CountryListScreen(
                     Label(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth()
-                            .padding(top = 16.dp)
                             .padding(horizontal = 16.dp),
                         value = if (viewModel.state.current.value.selectedCountry == null) {
                             stringResource(
@@ -163,7 +164,14 @@ public fun CountryListScreen(
                                 },
                             region = details.region,
                             onMoreSelected = {
-                                // TODO: Launch server list for regions
+                                viewModel.state.current.value.selectedCountry?.let { country ->
+                                    coroutineScope.launch {
+                                        regionServerListBottomSheetState.show(
+                                            country = country,
+                                            region = details
+                                        )
+                                    }
+                                }
                             }
                         )
                     }
@@ -207,11 +215,11 @@ public fun CountryListScreen(
         }
     }
 
-    /* TODO
     RegionServerListScreen(
         modifier = Modifier.fillMaxWidth(),
-        country = destination.country,
-        region = destination.region,
-        onConnect = onConnectToServer
-    )*/
+        state = regionServerListBottomSheetState,
+        onConnect = { server ->
+
+        }
+    )
 }
