@@ -16,7 +16,9 @@ import com.mooncloak.vpn.api.shared.billing.BitcoinPlanInvoice
 import com.mooncloak.vpn.api.shared.billing.PlanPaymentStatus
 import com.mooncloak.vpn.api.shared.billing.ProofOfPurchase
 import com.mooncloak.vpn.api.shared.key.Base64Key
+import com.mooncloak.vpn.api.shared.location.CountryDetails
 import com.mooncloak.vpn.api.shared.location.CountryFilters
+import com.mooncloak.vpn.api.shared.location.CountryPage
 import com.mooncloak.vpn.api.shared.plan.AvailablePlans
 import com.mooncloak.vpn.api.shared.plan.Plan
 import com.mooncloak.vpn.api.shared.reflection.HttpReflection
@@ -95,18 +97,20 @@ public interface VpnServiceApi {
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getCountry(
-        code: CountryCode
-    ): Country
+        code: CountryCode,
+        token: Token? = null
+    ): CountryDetails
 
     @OptIn(ExperimentalPaginationAPI::class)
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun paginateCountries(
+        token: Token? = null,
         direction: Direction = Direction.After,
         cursor: Cursor? = null,
         count: UInt = DEFAULT_COUNT,
         sort: SortOptions? = null,
         filters: CountryFilters? = null
-    ): ResolvedPage<Country>
+    ): CountryPage
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun registerClient(

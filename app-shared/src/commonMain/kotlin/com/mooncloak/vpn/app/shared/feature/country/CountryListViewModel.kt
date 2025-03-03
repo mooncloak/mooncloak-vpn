@@ -56,7 +56,6 @@ public class CountryListViewModel @Inject public constructor(
                 emit(
                     state.current.value.copy(
                         countries = countries ?: emptyList(),
-                        prepend = model.prepend,
                         append = append,
                         refresh = model.refresh,
                         errorMessage = null

@@ -110,9 +110,9 @@ public fun CountryListScreen(
 
                 items(
                     items = viewModel.state.current.value.countries,
-                    key = { country -> country.code.value },
+                    key = { details -> details.country.code.value },
                     contentType = { "CountryListItem" }
-                ) { country ->
+                ) { details ->
                     CountryListItem(
                         modifier = Modifier
                             .sizeIn(maxWidth = 600.dp)
@@ -120,12 +120,12 @@ public fun CountryListScreen(
                             .clickable {
 
                             },
-                        country = country,
+                        country = details.country,
                         onMoreSelected = {
                             coroutineScope.launch {
                                 bottomSheetState.show(
                                     destination = CountryListBottomSheetDestination.RegionList(
-                                        country = country
+                                        country = details.country
                                     )
                                 )
                             }

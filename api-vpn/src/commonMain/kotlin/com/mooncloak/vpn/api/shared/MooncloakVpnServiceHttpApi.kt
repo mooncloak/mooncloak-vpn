@@ -20,7 +20,9 @@ import com.mooncloak.vpn.api.shared.billing.GetPaymentStatusRequestBody
 import com.mooncloak.vpn.api.shared.billing.PlanPaymentStatus
 import com.mooncloak.vpn.api.shared.billing.ProofOfPurchase
 import com.mooncloak.vpn.api.shared.key.Base64Key
+import com.mooncloak.vpn.api.shared.location.CountryDetails
 import com.mooncloak.vpn.api.shared.location.CountryFilters
+import com.mooncloak.vpn.api.shared.location.CountryPage
 import com.mooncloak.vpn.api.shared.plan.AvailablePlans
 import com.mooncloak.vpn.api.shared.plan.Plan
 import com.mooncloak.vpn.api.shared.provider.HostUrlProvider
@@ -229,22 +231,26 @@ public class MooncloakVpnServiceHttpApi public constructor(
 
     @Throws(ApiException::class, CancellationException::class)
     override suspend fun getCountry(
-        code: CountryCode
-    ): Country = withContext(Dispatchers.PlatformIO) {
-        val response = httpClient.get(url("/vpn/service/country/${code.value}"))
+        code: CountryCode,
+        token: Token?
+    ): CountryDetails = withContext(Dispatchers.PlatformIO) {
+        val response = httpClient.get(url("/vpn/service/country/${code.value}")) {
+            token?.let { bearerAuth(it.value) }
+        }
 
-        return@withContext response.body<HttpResponseBody<Country>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<CountryDetails>>().getOrThrow()
     }
 
     @OptIn(ExperimentalPaginationAPI::class)
     @Throws(ApiException::class, CancellationException::class)
     override suspend fun paginateCountries(
+        token: Token?,
         direction: Direction,
         cursor: Cursor?,
         count: UInt,
         sort: SortOptions?,
         filters: CountryFilters?
-    ): ResolvedPage<Country> = withContext(Dispatchers.PlatformIO) {
+    ): CountryPage = withContext(Dispatchers.PlatformIO) {
         val pageRequest = PageRequest<String, CountryFilters>(
             data = null,
             direction = direction,
@@ -255,12 +261,14 @@ public class MooncloakVpnServiceHttpApi public constructor(
         )
 
         val response = httpClient.post(url("/vpn/service/country")) {
+            token?.let { bearerAuth(it.value) }
+
             contentType(ContentType.Application.Json)
 
             setBody(pageRequest)
         }
 
-        return@withContext response.body<HttpResponseBody<ResolvedPage<Country>>>().getOrThrow()
+        return@withContext response.body<HttpResponseBody<CountryPage>>().getOrThrow()
     }
 
     @Throws(ApiException::class, CancellationException::class)
