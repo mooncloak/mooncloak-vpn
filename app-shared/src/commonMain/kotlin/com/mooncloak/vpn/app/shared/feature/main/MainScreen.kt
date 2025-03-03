@@ -27,7 +27,6 @@ import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetSt
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
-import com.mooncloak.vpn.app.shared.feature.country.CountryListScreen
 import com.mooncloak.vpn.app.shared.feature.home.HomeScreen
 import com.mooncloak.vpn.app.shared.feature.main.composable.MooncloakNavigationScaffold
 import com.mooncloak.vpn.app.shared.feature.main.util.containerColor
@@ -167,12 +166,6 @@ public fun MainScreen(
                     // controls. This is the same for all of the same main screens.
                     composable<MainDestination.Home> {
                         HomeScreen(
-                            modifier = Modifier.fillMaxSize(),
-                            containerPaddingValues = paddingValues
-                        )
-                    }
-                    composable<MainDestination.Countries> {
-                        CountryListScreen(
                             modifier = Modifier.fillMaxSize(),
                             containerPaddingValues = paddingValues
                         )

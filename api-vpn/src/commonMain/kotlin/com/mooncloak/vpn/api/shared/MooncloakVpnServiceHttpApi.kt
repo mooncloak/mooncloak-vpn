@@ -260,7 +260,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
             filters = filters
         )
 
-        val response = httpClient.post(url("/vpn/service/country")) {
+        val response = httpClient.post(url("/vpn/service/countries")) {
             token?.let { bearerAuth(it.value) }
 
             contentType(ContentType.Application.Json)

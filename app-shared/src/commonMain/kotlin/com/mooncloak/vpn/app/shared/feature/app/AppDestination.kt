@@ -2,7 +2,6 @@ package com.mooncloak.vpn.app.shared.feature.app
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SupportAgent
 import androidx.compose.material.icons.filled.VpnLock
@@ -16,7 +15,6 @@ import com.mooncloak.vpn.app.shared.resource.cd_destination_home
 import com.mooncloak.vpn.app.shared.resource.cd_destination_servers
 import com.mooncloak.vpn.app.shared.resource.cd_destination_settings
 import com.mooncloak.vpn.app.shared.resource.cd_destination_support
-import com.mooncloak.vpn.app.shared.resource.destination_main_countries_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_home_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_servers_title
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
@@ -185,26 +183,6 @@ public sealed interface MainDestination : AppDestination {
         override val contentDescription: String
             @Composable
             get() = stringResource(Res.string.cd_destination_home)
-    }
-
-    @Serializable
-    @SerialName(value = "countries")
-    @Immutable
-    public data object Countries : MainDestination {
-
-        override val path: String = "/countries"
-
-        override val title: String
-            @Composable
-            get() = stringResource(Res.string.destination_main_countries_title)
-
-        override val icon: Painter
-            @Composable
-            get() = rememberVectorPainter(Icons.Default.Language)
-
-        override val contentDescription: String
-            @Composable
-            get() = stringResource(Res.string.cd_destination_servers)
     }
 
     @Serializable

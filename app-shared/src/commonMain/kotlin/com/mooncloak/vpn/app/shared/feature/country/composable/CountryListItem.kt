@@ -28,19 +28,22 @@ internal fun CountryListItem(
     country: Country,
     onMoreSelected: () -> Unit,
     modifier: Modifier = Modifier,
-    contentColor: Color = MaterialTheme.colorScheme.onBackground
+    containerColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = MaterialTheme.colorScheme.onSurface,
+    invertedContainerColor: Color = MaterialTheme.colorScheme.background,
+    invertedContentColor: Color = MaterialTheme.colorScheme.onBackground
 ) {
     ListItem(
         modifier = modifier,
         colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = containerColor
         ),
         leadingContent = {
             FlagImage(
                 modifier = Modifier.width(36.dp),
                 imageUri = country.flag,
-                containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.onSurface
+                containerColor = invertedContainerColor,
+                contentColor = invertedContentColor
             )
         },
         headlineContent = {

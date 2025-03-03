@@ -16,7 +16,6 @@
     <string name="app_built_description">Built with ❤️ by mooncloak and contributors</string>
 
     <string name="destination_main_home_title">Home</string>
-    <string name="destination_main_countries_title">Countries</string>
     <string name="destination_main_support_title">Support</string>
     <string name="destination_main_settings_title">Settings</string>
     <string name="destination_main_servers_title">Servers</string>
@@ -110,7 +109,11 @@
     <string name="data_format_abbr_gbps">Gbps</string>
     <string name="data_format_abbr_tbps">Tbps</string>
 
-    <string name="country_list_error_title_no_vpn_servers">Unexpected error loading VPN servers</string>
+    <string name="country_list_title">Countries</string>
+    <string name="country_list_description">Filter VPN servers by country and region.</string>
+    <string name="country_list_error_title_no_countries">Unexpected error loading countries</string>
+    <string name="country_list_error_description_no_countries">There was an unexpected error attempting to load the countries that have countries. Please try again later. If the error persists, contact support.</string>
+    <string name="country_list_error_title_no_vpn_servers">Unexpected error loading countries</string>
     <string name="country_list_error_description_no_vpn_servers">There was an unexpected error attempting to load the countries that have VPN servers. Please try again later. If the error persists, contact support.</string>
     <string name="country_list_default_region_type">Regions</string>
 

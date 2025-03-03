@@ -39,12 +39,14 @@ import com.mooncloak.vpn.api.shared.vpn.isConnected
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.country.CountryListScreen
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.rememberPurchasingState
 import com.mooncloak.vpn.app.shared.feature.server.connection.ServerConnectionScreen
 import com.mooncloak.vpn.app.shared.feature.server.connection.rememberServerConnectionBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.server.details.ServerDetailsScreen
 import com.mooncloak.vpn.app.shared.feature.server.details.rememberServerDetailsBottomSheetState
+import com.mooncloak.vpn.app.shared.feature.server.list.composable.CountryListCard
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.NoServersCard
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.PreReleaseNoticeCard
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.ServerListItem
@@ -87,6 +89,8 @@ public fun ServerListScreen(
     val serverDetailsBottomSheetState = rememberServerDetailsBottomSheetState()
     val serverConnectionBottomSheetState = rememberServerConnectionBottomSheetState()
 
+    val countryListBottomSheetState = rememberManagedModalBottomSheetState()
+
     LaunchedEffect(Unit) {
         viewModel.load()
     }
@@ -124,6 +128,19 @@ public fun ServerListScreen(
             ) {
                 item(key = "TopSpacing") {
                     Spacer(modifier = Modifier.height(containerPaddingValues.calculateTopPadding()))
+                }
+
+                item(key = "CountryListItem") {
+                    CountryListCard(
+                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .clickable {
+                                coroutineScope.launch {
+                                    countryListBottomSheetState.show()
+                                }
+                            }
+                    )
                 }
 
                 if (viewModel.state.current.value.servers.isEmpty() && !viewModel.state.current.value.isLoading) {
@@ -207,6 +224,11 @@ public fun ServerListScreen(
     ServerDetailsScreen(
         modifier = Modifier.fillMaxWidth(),
         state = serverDetailsBottomSheetState
+    )
+
+    CountryListScreen(
+        modifier = Modifier.fillMaxSize(),
+        sheetState = countryListBottomSheetState
     )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {

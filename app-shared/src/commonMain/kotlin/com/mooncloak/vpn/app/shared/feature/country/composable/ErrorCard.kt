@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -24,13 +25,17 @@ import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-internal fun NoVPNServersCard(
-    modifier: Modifier = Modifier
+internal fun ErrorCard(
+    title: String,
+    description: String,
+    modifier: Modifier = Modifier,
+    containerColor: Color = MaterialTheme.colorScheme.background,
+    contentColor: Color = MaterialTheme.colorScheme.onBackground
 ) {
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = containerColor
         )
     ) {
         Column(
@@ -45,15 +50,17 @@ internal fun NoVPNServersCard(
 
             Text(
                 modifier = Modifier.padding(top = 16.dp),
-                text = stringResource(Res.string.country_list_error_title_no_vpn_servers),
+                text = title,
                 style = MaterialTheme.typography.titleLarge,
+                color = contentColor,
                 textAlign = TextAlign.Center
             )
 
             Text(
                 modifier = Modifier.padding(top = 8.dp),
-                text = stringResource(Res.string.country_list_error_description_no_vpn_servers),
-                style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)),
+                text = description,
+                style = MaterialTheme.typography.bodyMedium,
+                color = contentColor.copy(alpha = SecondaryAlpha),
                 textAlign = TextAlign.Center
             )
         }
