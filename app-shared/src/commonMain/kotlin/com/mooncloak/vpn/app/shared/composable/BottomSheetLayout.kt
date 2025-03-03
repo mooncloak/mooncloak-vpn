@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 internal fun BottomSheetLayout(
     title: String? = null,
     description: String? = null,
+    icon: (@Composable () -> Unit)? = null,
     modifier: Modifier = Modifier,
     loadingState: State<Boolean> = mutableStateOf(false),
     snackbarAlignment: Alignment = Alignment.TopCenter, // Defaults to top because bottom sheet might not be displaying the bottom of its content when the error shows.
@@ -58,7 +59,8 @@ internal fun BottomSheetLayout(
                     BottomSheetHeader(
                         modifier = Modifier.fillMaxWidth(),
                         title = title,
-                        description = description
+                        description = description,
+                        icon = icon
                     )
 
                     Spacer(modifier = Modifier.height(32.dp))

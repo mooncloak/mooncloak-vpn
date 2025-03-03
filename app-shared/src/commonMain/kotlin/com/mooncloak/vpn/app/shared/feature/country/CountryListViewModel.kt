@@ -7,6 +7,7 @@ import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
 import com.mooncloak.kodetools.pagex.LoadState
 import com.mooncloak.kodetools.statex.ViewModel
+import com.mooncloak.vpn.api.shared.location.CountryDetails
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.country.usecase.GetCountryPageUseCase
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -37,6 +38,18 @@ public class CountryListViewModel @Inject public constructor(
         coroutineScope.launch {
             mutex.withLock {
                 loadNextPage()
+            }
+        }
+    }
+
+    public fun select(country: CountryDetails?) {
+        coroutineScope.launch {
+            mutex.withLock {
+                emit { current ->
+                    current.copy(
+                        selectedCountry = country
+                    )
+                }
             }
         }
     }
