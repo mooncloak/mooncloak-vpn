@@ -51,52 +51,24 @@ internal fun CountryListBottomSheet(
             CountryListBottomSheetHeader(
                 modifier = Modifier.fillMaxWidth(),
                 title = when (destination) {
-                    is CountryListBottomSheetDestination.RegionList -> destination.country.name ?: ""
                     is CountryListBottomSheetDestination.ServerList -> destination.country.name ?: ""
                 },
                 supporting = when (destination) {
-                    is CountryListBottomSheetDestination.RegionList -> null
                     is CountryListBottomSheetDestination.ServerList -> destination.region.name
                 },
                 description = when (destination) {
-                    is CountryListBottomSheetDestination.RegionList -> null
                     is CountryListBottomSheetDestination.ServerList -> null
                 },
                 imageUri = when (destination) {
-                    is CountryListBottomSheetDestination.RegionList -> destination.country.flag
                     is CountryListBottomSheetDestination.ServerList -> destination.country.flag
                 },
                 onBack = when (destination) {
-                    is CountryListBottomSheetDestination.RegionList -> null
                     is CountryListBottomSheetDestination.ServerList -> ({
-                        coroutineScope.launch {
-                            state.show(
-                                CountryListBottomSheetDestination.RegionList(
-                                    country = destination.country
-                                )
-                            )
-                        }
                     })
                 }
             )
 
             when (destination) {
-                is CountryListBottomSheetDestination.RegionList -> RegionListLayout(
-                    modifier = Modifier.fillMaxWidth(),
-                    country = destination.country,
-                    onRegionDetails = { region ->
-                        coroutineScope.launch {
-                            state.show(
-                                destination = CountryListBottomSheetDestination.ServerList(
-                                    country = destination.country,
-                                    region = region
-                                )
-                            )
-                        }
-                    },
-                    onConnect = onConnectToRegion
-                )
-
                 is CountryListBottomSheetDestination.ServerList -> RegionServerListScreen(
                     modifier = Modifier.fillMaxWidth(),
                     country = destination.country,

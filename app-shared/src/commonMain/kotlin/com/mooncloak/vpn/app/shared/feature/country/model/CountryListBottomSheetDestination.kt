@@ -12,13 +12,6 @@ internal sealed interface CountryListBottomSheetDestination {
 
     @Immutable
     @Serializable
-    @SerialName(value = "regions")
-    data class RegionList internal constructor(
-        val country: Country
-    ) : CountryListBottomSheetDestination
-
-    @Immutable
-    @Serializable
     @SerialName(value = "servers")
     data class ServerList internal constructor(
         val country: Country,

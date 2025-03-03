@@ -116,6 +116,8 @@
     <string name="country_list_error_title_no_vpn_servers">Unexpected error loading countries</string>
     <string name="country_list_error_description_no_vpn_servers">There was an unexpected error attempting to load the countries that have VPN servers. Please try again later. If the error persists, contact support.</string>
     <string name="country_list_default_region_type">Regions</string>
+    <string name="region_list_title">Regions</string>
+    <string name="region_list_description">Regions containing VPN servers within the country</string>
 
     <string name="country_list_header_label_with_count">%1$s (%2$s)</string>
     <string name="server_list_header_label">Servers</string>

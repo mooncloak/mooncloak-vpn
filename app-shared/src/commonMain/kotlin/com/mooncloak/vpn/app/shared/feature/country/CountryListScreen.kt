@@ -25,7 +25,9 @@ import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.country.composable.CountryListBottomSheet
 import com.mooncloak.vpn.app.shared.feature.country.composable.CountryListItem
 import com.mooncloak.vpn.app.shared.feature.country.composable.ErrorCard
+import com.mooncloak.vpn.app.shared.feature.country.composable.RegionListBottomSheet
 import com.mooncloak.vpn.app.shared.feature.country.model.CountryListBottomSheetDestination
+import com.mooncloak.vpn.app.shared.feature.country.state.rememberRegionListBottomSheetState
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.country_list_error_description_no_countries
 import com.mooncloak.vpn.app.shared.resource.country_list_error_title_no_countries
@@ -48,7 +50,10 @@ public fun CountryListScreen(
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }
     val lazyListState = rememberLazyListState()
+
     val bottomSheetState = rememberModalNavigationBottomSheetState<CountryListBottomSheetDestination>()
+    val regionListBottomSheetState = rememberRegionListBottomSheetState()
+
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
@@ -89,15 +94,13 @@ public fun CountryListScreen(
                             .sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth()
                             .clickable {
-
+                                // TODO: Connect to country
                             },
                         country = details.country,
                         onMoreSelected = {
                             coroutineScope.launch {
-                                bottomSheetState.show(
-                                    destination = CountryListBottomSheetDestination.RegionList(
-                                        country = details.country
-                                    )
+                                regionListBottomSheetState.show(
+                                    country = details
                                 )
                             }
                         }
@@ -118,6 +121,17 @@ public fun CountryListScreen(
             }
         }
     }
+
+    RegionListBottomSheet(
+        modifier = Modifier.fillMaxWidth(),
+        state = regionListBottomSheetState,
+        onDetails = { region ->
+
+        },
+        onConnect = { region ->
+
+        }
+    )
 
     CountryListBottomSheet(
         modifier = Modifier.fillMaxWidth(),
