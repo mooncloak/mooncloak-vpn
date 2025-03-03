@@ -12,7 +12,12 @@ public class ExchangeProofOfPurchaseForServiceTokensUseCase @Inject public const
 ) {
 
     public suspend operator fun invoke(proof: ProofOfPurchase): ServiceTokens {
-        val tokens = api.exchangeToken(receipt = proof)
+        val currentTokens = serviceTokensRepository.getLatest()
+
+        val tokens = api.exchangeToken(
+            receipt = proof,
+            token = currentTokens?.accessToken
+        )
 
         serviceTokensRepository.add(tokens)
 

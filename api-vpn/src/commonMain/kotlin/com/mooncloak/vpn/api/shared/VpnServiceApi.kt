@@ -69,7 +69,8 @@ public interface VpnServiceApi {
      */
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun exchangeToken(
-        receipt: ProofOfPurchase
+        receipt: ProofOfPurchase,
+        token: Token? = null
     ): ServiceTokens
 
     @Throws(ApiException::class, CancellationException::class)

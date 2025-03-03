@@ -10,7 +10,6 @@ import com.mooncloak.kodetools.pagex.Cursor
 import com.mooncloak.kodetools.pagex.Direction
 import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
 import com.mooncloak.kodetools.pagex.PageRequest
-import com.mooncloak.kodetools.pagex.PageRequest.Companion.DEFAULT_COUNT
 import com.mooncloak.kodetools.pagex.ResolvedPage
 import com.mooncloak.kodetools.pagex.SortOptions
 import com.mooncloak.vpn.api.shared.app.Contributor
@@ -157,9 +156,14 @@ public class MooncloakVpnServiceHttpApi public constructor(
      */
     @Throws(ApiException::class, CancellationException::class)
     override suspend fun exchangeToken(
-        receipt: ProofOfPurchase
+        receipt: ProofOfPurchase,
+        token: Token?
     ): ServiceTokens = withContext(Dispatchers.PlatformIO) {
         val response = httpClient.post(url("/vpn/token/exchange")) {
+            if (token != null) {
+                bearerAuth(token.value)
+            }
+
             contentType(ContentType.Application.Json)
             accept(ContentType.Application.Json)
 
