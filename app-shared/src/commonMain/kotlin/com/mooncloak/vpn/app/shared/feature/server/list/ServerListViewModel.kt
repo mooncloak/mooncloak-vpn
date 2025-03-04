@@ -4,11 +4,9 @@ import androidx.compose.runtime.Stable
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
-import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.api.shared.VpnServiceApi
+import com.mooncloak.vpn.api.shared.server.ServerRepository
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionFlowProvider
-import com.mooncloak.vpn.api.shared.service.ServiceTokensRepository
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
@@ -26,33 +24,27 @@ import org.jetbrains.compose.resources.getString
 @Stable
 @FeatureScoped
 public class ServerListViewModel @Inject public constructor(
-    private val api: VpnServiceApi,
-    private val serviceTokensRepository: ServiceTokensRepository,
     private val serverConnectionManager: VPNConnectionManager,
     private val appClientInfo: AppClientInfo,
-    private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider
+    private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider,
+    private val serverRepository: ServerRepository
 ) : ViewModel<ServerListStateModel>(initialStateValue = ServerListStateModel()) {
 
     private var connectionJob: Job? = null
     private var subscriptionJob: Job? = null
 
-    @OptIn(ExperimentalPaginationAPI::class)
     public fun load() {
         coroutineScope.launch {
             emit(value = state.current.value.copy(isLoading = true))
 
             try {
-                val token = serviceTokensRepository.getLatest()?.accessToken
-
                 // TODO: Properly support paginating servers
-                val servers = api.paginateServers(
-                    token = token
-                )
+                val servers = serverRepository.get()
 
                 emit { current ->
                     current.copy(
                         isLoading = false,
-                        servers = servers.items,
+                        servers = servers,
                         isPreRelease = appClientInfo.isPreRelease
                     )
                 }

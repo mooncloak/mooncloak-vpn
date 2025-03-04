@@ -2,8 +2,8 @@ package com.mooncloak.vpn.api.shared.server
 
 import com.mooncloak.vpn.api.shared.key.Base64Key
 import com.mooncloak.vpn.api.shared.vpn.VPNProtocol
-import kotlinx.coroutines.CancellationException
 import kotlinx.datetime.Instant
+import kotlin.coroutines.cancellation.CancellationException
 
 public interface RegisteredClientRepository {
 
