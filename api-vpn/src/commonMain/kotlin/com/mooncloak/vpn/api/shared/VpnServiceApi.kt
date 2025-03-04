@@ -128,6 +128,7 @@ public interface VpnServiceApi {
     @OptIn(ExperimentalPaginationAPI::class)
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun paginateServers(
+        query: String? = null,
         token: Token? = null,
         direction: Direction = Direction.After,
         cursor: Cursor? = null,

@@ -4,7 +4,6 @@ import com.mooncloak.kodetools.apix.core.ApiException
 import com.mooncloak.kodetools.apix.core.ExperimentalApixApi
 import com.mooncloak.kodetools.apix.core.HttpResponseBody
 import com.mooncloak.kodetools.apix.core.getOrThrow
-import com.mooncloak.kodetools.locale.Country
 import com.mooncloak.kodetools.locale.CountryCode
 import com.mooncloak.kodetools.pagex.Cursor
 import com.mooncloak.kodetools.pagex.Direction
@@ -308,6 +307,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
     @OptIn(ExperimentalPaginationAPI::class)
     @Throws(ApiException::class, CancellationException::class)
     override suspend fun paginateServers(
+        query: String?,
         token: Token?,
         direction: Direction,
         cursor: Cursor?,
@@ -316,7 +316,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
         filters: ServerFilters?
     ): ResolvedPage<Server> = withContext(Dispatchers.PlatformIO) {
         val pageRequest = PageRequest<String, ServerFilters>(
-            data = null,
+            data = query,
             direction = direction,
             cursor = cursor,
             count = count,
@@ -324,7 +324,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
             filters = filters
         )
 
-        val response = httpClient.post(url("/vpn/service/server")) {
+        val response = httpClient.post(url("/vpn/service/servers")) {
             token?.value?.let { bearerAuth(it) }
 
             contentType(ContentType.Application.Json)
