@@ -9,6 +9,9 @@ import com.mooncloak.vpn.app.android.api.server.AndroidVPNConnectionManager
 import com.mooncloak.vpn.app.android.play.ServicePlansGooglePlaySource
 import com.mooncloak.vpn.api.shared.billing.BillingManager
 import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
+import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
+import com.mooncloak.vpn.api.shared.tunnel.TunnelManagerPreparer
+import com.mooncloak.vpn.api.shared.tunnel.invoke
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
@@ -51,6 +54,14 @@ internal abstract class AndroidPresentationComponent internal constructor(
     @Provides
     @PresentationScoped
     internal fun provideLibsLoader(loader: AndroidLibsLoader): LibsLoader = loader
+
+    @Provides
+    @PresentationScoped
+    internal fun provideTunnelManagerPreparer(tunnelManager: TunnelManager): TunnelManagerPreparer =
+        TunnelManagerPreparer(
+            tunnelManager = tunnelManager,
+            activity = activity
+        )
 }
 
 internal fun PresentationComponent.Companion.create(

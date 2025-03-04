@@ -8,6 +8,8 @@ import com.mooncloak.vpn.api.shared.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.billing.MooncloakBillingManager
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansApiSource
 import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
+import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
+import com.mooncloak.vpn.api.shared.tunnel.TunnelManagerPreparer
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
@@ -47,6 +49,11 @@ internal abstract class JvmPresentationComponent internal constructor(
     @Provides
     @PresentationScoped
     internal fun provideLibsLoader(loader: JvmLibsLoader): LibsLoader = loader
+
+    @Provides
+    @PresentationScoped
+    internal fun provideTunnelManagerPreparer(tunnelManager: TunnelManager): TunnelManagerPreparer =
+        TunnelManagerPreparer { true }
 }
 
 internal fun PresentationComponent.Companion.create(
