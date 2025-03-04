@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 @Immutable
 @Serializable
 public data class ServerFilters public constructor(
-    @SerialName(value = "location") public val countryCode: LocationCode? = null,
+    @SerialName(value = "location") public val locationCode: LocationCode? = null,
     @SerialName(value = "connection_types") public val connectionTypes: Set<ConnectionType>? = null,
     @SerialName(value = "protocols") public val vpnProtocols: Set<VPNProtocol>? = null
 )
