@@ -19,6 +19,7 @@ import com.mooncloak.vpn.app.shared.feature.country.model.CountryListLayoutState
 import com.mooncloak.vpn.app.shared.feature.country.model.RegionListLayoutStateModel
 import com.mooncloak.vpn.app.shared.feature.country.model.ServerListLayoutStateModel
 import com.mooncloak.vpn.app.shared.feature.country.usecase.GetCountryPageUseCase
+import com.mooncloak.vpn.app.shared.feature.country.usecase.GetServerPageUseCase
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import kotlinx.coroutines.launch
@@ -31,6 +32,7 @@ import org.jetbrains.compose.resources.getString
 @FeatureScoped
 public class CountryListViewModel @Inject public constructor(
     private val getCountryPage: GetCountryPageUseCase,
+    private val getServerPage: GetServerPageUseCase,
     private val connectToServer: ConnectToServerUseCase,
     private val connectToServerInLocationCode: ConnectToServerInLocationCodeUseCase
 ) : ViewModel<CountryListStateModel>(initialStateValue = CountryListStateModel()) {
@@ -200,7 +202,29 @@ public class CountryListViewModel @Inject public constructor(
                     )
                 }
 
-                // TODO: Load servers for country and region
+                val page = getServerPage(
+                    locationCode = layout.regionDetails.region.code,
+                    cursor = layout.lastCursor
+                )
+                val servers = (layout.servers + page.items)
+                    .distinctBy { it.id }
+
+                val append = when {
+                    page.info.hasNext == false -> LoadState.Complete
+                    page == layout.lastPage -> LoadState.Complete
+                    page.items.isEmpty() -> LoadState.Complete
+                    else -> LoadState.Incomplete
+                }
+
+                emit { current ->
+                    current.copy(
+                        layout = layout.copy(
+                            lastPage = page,
+                            servers = servers,
+                            append = append
+                        )
+                    )
+                }
             } catch (e: Exception) {
                 LogPile.error(
                     message = "Error loading countries.",
