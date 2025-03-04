@@ -2,6 +2,8 @@ package com.mooncloak.vpn.app.shared.feature.country
 
 import androidx.compose.runtime.Stable
 import com.mooncloak.kodetools.konstruct.annotations.Inject
+import com.mooncloak.kodetools.locale.Country
+import com.mooncloak.kodetools.locale.Region
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
@@ -10,6 +12,8 @@ import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.api.shared.location.CountryDetails
 import com.mooncloak.vpn.api.shared.location.RegionDetails
 import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.app.shared.api.server.usecase.ConnectToServerInLocationCodeUseCase
+import com.mooncloak.vpn.app.shared.api.server.usecase.ConnectToServerUseCase
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.country.model.CountryListLayoutStateModel
 import com.mooncloak.vpn.app.shared.feature.country.model.RegionListLayoutStateModel
@@ -26,7 +30,9 @@ import org.jetbrains.compose.resources.getString
 @Stable
 @FeatureScoped
 public class CountryListViewModel @Inject public constructor(
-    private val getCountryPage: GetCountryPageUseCase
+    private val getCountryPage: GetCountryPageUseCase,
+    private val connectToServer: ConnectToServerUseCase,
+    private val connectToServerInLocationCode: ConnectToServerInLocationCodeUseCase
 ) : ViewModel<CountryListStateModel>(initialStateValue = CountryListStateModel()) {
 
     private val mutex = Mutex(locked = false)
@@ -105,18 +111,18 @@ public class CountryListViewModel @Inject public constructor(
         }
     }
 
-    public fun connectTo(country: CountryDetails) {
+    public fun connectTo(country: Country) {
         coroutineScope.launch {
             mutex.withLock {
-                // TODO: Connect to best server for country.
+                connectToServerInLocationCode(locationCode = country.code)
             }
         }
     }
 
-    public fun connectTo(region: RegionDetails) {
+    public fun connectTo(region: Region) {
         coroutineScope.launch {
             mutex.withLock {
-                // TODO: Connect to best server for region.
+                connectToServerInLocationCode(locationCode = region.code)
             }
         }
     }
@@ -124,7 +130,7 @@ public class CountryListViewModel @Inject public constructor(
     public fun connectTo(server: Server) {
         coroutineScope.launch {
             mutex.withLock {
-                // TODO: Connect to best server for region.
+                connectToServer(server = server)
             }
         }
     }

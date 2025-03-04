@@ -107,7 +107,9 @@ public fun CountryListScreen(
                         errorTitle = null,
                         errorDescription = null,
                         onLoadMore = viewModel::loadMore,
-                        onConnect = viewModel::connectTo,
+                        onConnect = { details ->
+                            viewModel.connectTo(country = details.country)
+                        },
                         onDetails = viewModel::goTo
                     )
 
@@ -118,7 +120,9 @@ public fun CountryListScreen(
                         lazyListState = regionLazyListState,
                         errorTitle = null,
                         errorDescription = null,
-                        onConnect = viewModel::connectTo,
+                        onConnect = { details ->
+                            viewModel.connectTo(region = details.region)
+                        },
                         onDetails = { details ->
                             viewModel.goTo(country = layout.countryDetails, region = details)
                         }
