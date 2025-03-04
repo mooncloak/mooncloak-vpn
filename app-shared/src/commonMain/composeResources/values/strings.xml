@@ -121,6 +121,7 @@
 
     <string name="country_list_header_label_with_count">%1$s (%2$s)</string>
     <string name="server_list_header_label">Servers</string>
+    <string name="server_list_description">Available servers within this region</string>
 
     <string name="server_list_title_no_servers">Unexpected error loading VPN servers</string>
     <string name="server_list_description_no_servers">There was an unexpected error attempting to load the VPN server list. Please try again later. If the error persists, contact support.</string>

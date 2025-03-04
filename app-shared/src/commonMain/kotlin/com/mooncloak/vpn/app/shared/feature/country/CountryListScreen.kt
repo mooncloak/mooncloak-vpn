@@ -1,14 +1,12 @@
 package com.mooncloak.vpn.app.shared.feature.country
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -26,29 +24,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
-import com.mooncloak.vpn.app.shared.composable.FlagImage
 import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheet
 import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
-import com.mooncloak.vpn.app.shared.feature.country.composable.CountryListItem
-import com.mooncloak.vpn.app.shared.feature.country.composable.ErrorCard
-import com.mooncloak.vpn.app.shared.feature.country.composable.Label
-import com.mooncloak.vpn.app.shared.feature.country.composable.RegionListItem
-import com.mooncloak.vpn.app.shared.feature.server.region.RegionServerListScreen
-import com.mooncloak.vpn.app.shared.feature.server.region.rememberRegionServerListBottomSheetState
+import com.mooncloak.vpn.app.shared.feature.country.layout.CountryListLayout
+import com.mooncloak.vpn.app.shared.feature.country.layout.RegionListLayout
+import com.mooncloak.vpn.app.shared.feature.country.layout.ServerListLayout
+import com.mooncloak.vpn.app.shared.feature.country.model.CountryListLayoutStateModel
+import com.mooncloak.vpn.app.shared.feature.country.model.RegionListLayoutStateModel
+import com.mooncloak.vpn.app.shared.feature.country.model.ServerListLayoutStateModel
+import com.mooncloak.vpn.app.shared.feature.country.model.label
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.cd_action_back
-import com.mooncloak.vpn.app.shared.resource.country_list_default_region_type
-import com.mooncloak.vpn.app.shared.resource.country_list_description
-import com.mooncloak.vpn.app.shared.resource.country_list_error_description_no_countries
-import com.mooncloak.vpn.app.shared.resource.country_list_error_title_no_countries
-import com.mooncloak.vpn.app.shared.resource.country_list_header_label_with_count
-import com.mooncloak.vpn.app.shared.resource.country_list_title
-import com.mooncloak.vpn.app.shared.resource.region_list_description
-import com.mooncloak.vpn.app.shared.resource.region_list_title
-import com.mooncloak.vpn.app.shared.util.LaunchLazyLoader
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -64,22 +52,14 @@ public fun CountryListScreen(
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }
-    val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
-    val regionServerListBottomSheetState = rememberRegionServerListBottomSheetState()
+    val countryLazyListState = rememberLazyListState()
+    val regionLazyListState = rememberLazyListState()
+    val serverLazyListState = rememberLazyListState()
 
     LaunchedEffect(Unit) {
         viewModel.load()
-    }
-
-    if (!viewModel.state.current.value.append.endOfPaginationReached) {
-        LaunchLazyLoader(
-            lazyListState = lazyListState,
-            onLoadMore = {
-                viewModel.loadMore()
-            }
-        )
     }
 
     ManagedModalBottomSheet(
@@ -88,138 +68,76 @@ public fun CountryListScreen(
     ) {
         BottomSheetLayout(
             modifier = Modifier.fillMaxWidth(),
-            title = if (viewModel.state.current.value.selectedCountry == null) {
-                stringResource(Res.string.country_list_title)
-            } else {
-                viewModel.state.current.value.selectedCountry?.country?.name
-                    ?: stringResource(Res.string.region_list_title)
-            },
-            description = if (viewModel.state.current.value.selectedCountry == null) {
-                stringResource(Res.string.country_list_description)
-            } else {
-                stringResource(Res.string.region_list_description)
-            },
-            icon = (@Composable {
+            title = viewModel.state.current.value.title,
+            description = viewModel.state.current.value.description,
+            icon = {
                 Row(
                     modifier = Modifier.wrapContentSize(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        modifier = Modifier.size(36.dp)
-                            .clip(CircleShape)
-                            .clickable { viewModel.select(country = null) }
-                            .padding(8.dp),
-                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                        contentDescription = stringResource(Res.string.cd_action_back),
-                        tint = MaterialTheme.colorScheme.onSurface
-                    )
+                    if (viewModel.state.current.value.isBackSupported) {
+                        Icon(
+                            modifier = Modifier.padding(end = 16.dp)
+                                .size(36.dp)
+                                .clip(CircleShape)
+                                .clickable { viewModel.goBack() }
+                                .padding(8.dp),
+                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                            contentDescription = stringResource(Res.string.cd_action_back),
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
 
-                    FlagImage(
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                            .size(36.dp),
-                        imageUri = viewModel.state.current.value.selectedCountry?.country?.flag,
-                    )
+                    viewModel.state.current.value.icon()
                 }
-            }).takeIf { viewModel.state.current.value.selectedCountry != null },
+            },
             snackbarHostState = snackbarHostState,
             loadingState = derivedStateOf { viewModel.state.current.value.isLoading }
         ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
-                state = lazyListState,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                item(key = "ContentLabel") {
-                    Label(
-                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        value = if (viewModel.state.current.value.selectedCountry == null) {
-                            stringResource(
-                                Res.string.country_list_header_label_with_count,
-                                stringResource(Res.string.country_list_title),
-                                viewModel.state.current.value.countries?.size ?: 0
-                            )
-                        } else {
-                            stringResource(
-                                Res.string.country_list_header_label_with_count,
-                                viewModel.state.current.value.selectedCountry?.country?.regionType
-                                    ?: stringResource(Res.string.country_list_default_region_type),
-                                viewModel.state.current.value.selectedCountry?.regions?.size ?: 0
-                            )
+            AnimatedContent(
+                targetState = viewModel.state.current.value.layout
+            ) { layout ->
+                when (layout) {
+                    is CountryListLayoutStateModel -> CountryListLayout(
+                        countries = layout.countries,
+                        label = layout.label,
+                        loading = viewModel.state.current.value.isLoading,
+                        canAppendMore = viewModel.state.current.value.canAppendMore,
+                        lazyListState = countryLazyListState,
+                        errorTitle = null,
+                        errorDescription = null,
+                        onLoadMore = viewModel::loadMore,
+                        onConnect = viewModel::connectTo,
+                        onDetails = viewModel::goTo
+                    )
+
+                    is RegionListLayoutStateModel -> RegionListLayout(
+                        regions = layout.countryDetails.regions,
+                        label = layout.label,
+                        loading = viewModel.state.current.value.isLoading,
+                        lazyListState = regionLazyListState,
+                        errorTitle = null,
+                        errorDescription = null,
+                        onConnect = viewModel::connectTo,
+                        onDetails = { details ->
+                            viewModel.goTo(country = layout.countryDetails, region = details)
                         }
                     )
-                }
 
-                if (viewModel.state.current.value.selectedCountry != null) {
-                    items(
-                        items = viewModel.state.current.value.selectedCountry?.regions ?: emptyList(),
-                        key = { details -> details.region.code.value },
-                        contentType = { "RegionListItem" }
-                    ) { details ->
-                        RegionListItem(
-                            modifier = Modifier.fillMaxWidth()
-                                .clickable {
-                                    // TODO: Connect to region
-                                },
-                            region = details.region,
-                            onMoreSelected = {
-                                viewModel.state.current.value.selectedCountry?.let { country ->
-                                    coroutineScope.launch {
-                                        regionServerListBottomSheetState.show(
-                                            country = country,
-                                            region = details
-                                        )
-                                    }
-                                }
-                            }
-                        )
-                    }
-                }
-
-                if (viewModel.state.current.value.selectedCountry == null) {
-                    items(
-                        items = viewModel.state.current.value.countries,
-                        key = { details -> details.country.code.value },
-                        contentType = { "CountryListItem" }
-                    ) { details ->
-                        CountryListItem(
-                            modifier = Modifier
-                                .sizeIn(maxWidth = 600.dp)
-                                .fillMaxWidth()
-                                .clickable {
-                                    // TODO: Connect to country
-                                },
-                            country = details.country,
-                            onMoreSelected = {
-                                coroutineScope.launch {
-                                    viewModel.select(country = details)
-                                }
-                            }
-                        )
-                    }
-                }
-
-                if (viewModel.state.current.value.countries.isEmpty() && !viewModel.state.current.value.isLoading) {
-                    item(key = "EmptyCountryListError") {
-                        ErrorCard(
-                            modifier = Modifier.sizeIn(maxWidth = 600.dp)
-                                .fillMaxWidth()
-                                .padding(12.dp),
-                            title = stringResource(Res.string.country_list_error_title_no_countries),
-                            description = stringResource(Res.string.country_list_error_description_no_countries)
-                        )
-                    }
+                    is ServerListLayoutStateModel -> ServerListLayout(
+                        connection = viewModel.state.current.value.connection,
+                        servers = layout.servers,
+                        label = layout.label,
+                        loading = viewModel.state.current.value.isLoading,
+                        canAppendMore = viewModel.state.current.value.canAppendMore,
+                        lazyListState = serverLazyListState,
+                        errorTitle = null,
+                        errorDescription = null,
+                        onLoadMore = viewModel::loadMore,
+                        onConnect = viewModel::connectTo
+                    )
                 }
             }
         }
     }
-
-    RegionServerListScreen(
-        modifier = Modifier.fillMaxWidth(),
-        state = regionServerListBottomSheetState,
-        onConnect = { server ->
-
-        }
-    )
 }

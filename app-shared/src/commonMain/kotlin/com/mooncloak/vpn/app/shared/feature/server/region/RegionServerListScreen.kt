@@ -22,7 +22,7 @@ import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
 import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheet
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
-import com.mooncloak.vpn.app.shared.feature.server.region.composable.ServerListItem
+import com.mooncloak.vpn.app.shared.feature.server.region.composable.RegionServerListItem
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.server_list_header_label
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
@@ -81,7 +81,7 @@ public fun RegionServerListScreen(
                     key = { server -> server.id },
                     contentType = { "ServerListItem" }
                 ) { server ->
-                    ServerListItem(
+                    RegionServerListItem(
                         modifier = Modifier.fillMaxWidth()
                             .clickable(enabled = server.status?.active == true && server.status?.connectable == true) {
                                 onConnect.invoke(server)

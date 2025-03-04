@@ -15,7 +15,7 @@ import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.app.shared.theme.ColorPalette
 
 @Composable
-internal fun ServerListItem(
+internal fun RegionServerListItem(
     server: Server,
     modifier: Modifier = Modifier,
     contentColor: Color = MaterialTheme.colorScheme.onSurface

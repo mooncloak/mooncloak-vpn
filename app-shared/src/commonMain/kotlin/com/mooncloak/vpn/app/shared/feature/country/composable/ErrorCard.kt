@@ -18,16 +18,12 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.GenericHeaderGraphic
-import com.mooncloak.vpn.app.shared.resource.Res
-import com.mooncloak.vpn.app.shared.resource.country_list_error_description_no_vpn_servers
-import com.mooncloak.vpn.app.shared.resource.country_list_error_title_no_vpn_servers
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun ErrorCard(
     title: String,
-    description: String,
+    description: String?,
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.background,
     contentColor: Color = MaterialTheme.colorScheme.onBackground
@@ -56,13 +52,15 @@ internal fun ErrorCard(
                 textAlign = TextAlign.Center
             )
 
-            Text(
-                modifier = Modifier.padding(top = 8.dp),
-                text = description,
-                style = MaterialTheme.typography.bodyMedium,
-                color = contentColor.copy(alpha = SecondaryAlpha),
-                textAlign = TextAlign.Center
-            )
+            if (!description.isNullOrBlank()) {
+                Text(
+                    modifier = Modifier.padding(top = 8.dp),
+                    text = description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = contentColor.copy(alpha = SecondaryAlpha),
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }
