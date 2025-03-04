@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.vpn.VPNConnection
+import com.mooncloak.vpn.api.shared.vpn.connectedTo
 import com.mooncloak.vpn.app.shared.feature.country.composable.ErrorCard
 import com.mooncloak.vpn.app.shared.feature.country.composable.Label
 import com.mooncloak.vpn.app.shared.feature.country.composable.RegionServerListItem
@@ -69,7 +70,8 @@ internal fun ServerListLayout(
                     .clickable {
                         onConnect.invoke(server)
                     },
-                server = server
+                server = server,
+                connected = connection.connectedTo(server)
             )
         }
 
