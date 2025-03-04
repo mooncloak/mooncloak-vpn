@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mooncloak.kodetools.logpile.core.LogPile
+import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.vpn.api.shared.location.CountryDetails
 import com.mooncloak.vpn.app.shared.feature.country.composable.CountryListItem
 import com.mooncloak.vpn.app.shared.feature.country.composable.ErrorCard
@@ -34,14 +36,15 @@ internal fun CountryListLayout(
     onDetails: (details: CountryDetails) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (canAppendMore) {
-        LaunchLazyLoader(
-            lazyListState = lazyListState,
-            onLoadMore = {
-                onLoadMore.invoke()
-            }
-        )
-    }
+    LaunchLazyLoader(
+        lazyListState = lazyListState,
+        enabled = canAppendMore,
+        onLoadMore = {
+            LogPile.info(message = "CountryListLayout: onLoadMore: ")
+
+            onLoadMore.invoke()
+        }
+    )
 
     LazyColumn(
         modifier = modifier,

@@ -26,6 +26,7 @@ public fun LaunchLazyLoader(
     loadOffset: Int = 5,
     snapshotDispatcher: CoroutineDispatcher = Dispatchers.Main,
     loadDispatcher: CoroutineDispatcher = Dispatchers.PlatformIO,
+    enabled: Boolean = true,
     loadOnStart: Boolean = false,
     mutex: Mutex = remember { Mutex(locked = false) },
     onLoadMore: suspend () -> Unit
@@ -38,13 +39,13 @@ public fun LaunchLazyLoader(
             val lastVisibleItemIndex = lazyListState.lastVisibleItemIndex ?: 0
             val totalItemsCount = lazyListState.layoutInfo.totalItemsCount
 
-            totalItemsCount > 0 && (lastVisibleItemIndex >= totalItemsCount - loadOffset)
+            enabled && (totalItemsCount > 0) && (lastVisibleItemIndex >= totalItemsCount - loadOffset)
         }
     }
 
     // Create a snapshot flow that listens to the derived state property 'shouldLoadMore' and properly invokes the
     // 'onLoadMore' function when that value changes.
-    LaunchedEffect(shouldLoadMore) {
+    LaunchedEffect(lazyListState, loadOffset) {
         snapshotFlow { shouldLoadMore.value }
             .flowOn(snapshotDispatcher)
             .distinctUntilChanged()
@@ -81,6 +82,7 @@ public fun LaunchLazyLoader(
     loadOffset: Int = 5,
     snapshotDispatcher: CoroutineDispatcher = Dispatchers.Main,
     loadDispatcher: CoroutineDispatcher = Dispatchers.PlatformIO,
+    enabled: Boolean = true,
     loadOnStart: Boolean = false,
     mutex: Mutex = remember { Mutex(locked = false) },
     onLoadMore: suspend () -> Unit
@@ -93,13 +95,13 @@ public fun LaunchLazyLoader(
             val lastVisibleItemIndex = lazyGridState.lastVisibleItemIndex ?: 0
             val totalItemsCount = lazyGridState.layoutInfo.totalItemsCount
 
-            totalItemsCount > 0 && (lastVisibleItemIndex >= totalItemsCount - loadOffset)
+            enabled && (totalItemsCount > 0) && (lastVisibleItemIndex >= totalItemsCount - loadOffset)
         }
     }
 
     // Create a snapshot flow that listens to the derived state property 'shouldLoadMore' and properly invokes the
     // 'onLoadMore' function when that value changes.
-    LaunchedEffect(shouldLoadMore) {
+    LaunchedEffect(lazyGridState, loadOffset) {
         snapshotFlow { shouldLoadMore.value }
             .flowOn(snapshotDispatcher)
             .distinctUntilChanged()
@@ -136,6 +138,7 @@ public fun LaunchLazyLoader(
     loadOffset: Int = 5,
     snapshotDispatcher: CoroutineDispatcher = Dispatchers.Main,
     loadDispatcher: CoroutineDispatcher = Dispatchers.PlatformIO,
+    enabled: Boolean = true,
     loadOnStart: Boolean = false,
     mutex: Mutex = remember { Mutex(locked = false) },
     onLoadMore: suspend () -> Unit
@@ -148,13 +151,13 @@ public fun LaunchLazyLoader(
             val lastVisibleItemIndex = lazyGridState.lastVisibleItemIndex ?: 0
             val totalItemsCount = lazyGridState.layoutInfo.totalItemsCount
 
-            totalItemsCount > 0 && (lastVisibleItemIndex >= totalItemsCount - loadOffset)
+            enabled && (totalItemsCount > 0) && (lastVisibleItemIndex >= totalItemsCount - loadOffset)
         }
     }
 
     // Create a snapshot flow that listens to the derived state property 'shouldLoadMore' and properly invokes the
     // 'onLoadMore' function when that value changes.
-    LaunchedEffect(shouldLoadMore) {
+    LaunchedEffect(lazyGridState, loadOffset) {
         snapshotFlow { shouldLoadMore.value }
             .flowOn(snapshotDispatcher)
             .distinctUntilChanged()

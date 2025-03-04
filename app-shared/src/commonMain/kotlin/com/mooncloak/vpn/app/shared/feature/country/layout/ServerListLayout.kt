@@ -35,14 +35,13 @@ internal fun ServerListLayout(
     onConnect: (server: Server) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (canAppendMore) {
-        LaunchLazyLoader(
-            lazyListState = lazyListState,
-            onLoadMore = {
-                onLoadMore.invoke()
-            }
-        )
-    }
+    LaunchLazyLoader(
+        lazyListState = lazyListState,
+        enabled = canAppendMore,
+        onLoadMore = {
+            onLoadMore.invoke()
+        }
+    )
 
     LazyColumn(
         modifier = modifier,
