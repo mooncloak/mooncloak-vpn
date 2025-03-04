@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.vpn.VPNConnection
 import com.mooncloak.vpn.api.shared.vpn.connectedTo
+import com.mooncloak.vpn.api.shared.vpn.isToggling
 import com.mooncloak.vpn.app.shared.feature.country.composable.ErrorCard
 import com.mooncloak.vpn.app.shared.feature.country.composable.Label
 import com.mooncloak.vpn.app.shared.feature.country.composable.RegionServerListItem
@@ -67,7 +68,7 @@ internal fun ServerListLayout(
                 modifier = Modifier
                     .sizeIn(maxWidth = 600.dp)
                     .fillMaxWidth()
-                    .clickable {
+                    .clickable(enabled = !connection.isToggling()) {
                         onConnect.invoke(server)
                     },
                 server = server,

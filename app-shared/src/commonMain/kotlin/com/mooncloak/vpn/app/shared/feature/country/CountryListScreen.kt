@@ -120,6 +120,7 @@ public fun CountryListScreen(
             ) { layout ->
                 when (layout) {
                     is CountryListLayoutStateModel -> CountryListLayout(
+                        connection = viewModel.state.current.value.connection,
                         countries = layout.countries,
                         label = layout.label,
                         loading = viewModel.state.current.value.isLoading,
@@ -135,6 +136,7 @@ public fun CountryListScreen(
                     )
 
                     is RegionListLayoutStateModel -> RegionListLayout(
+                        connection = viewModel.state.current.value.connection,
                         regions = layout.countryDetails.regions,
                         label = layout.label,
                         loading = viewModel.state.current.value.isLoading,

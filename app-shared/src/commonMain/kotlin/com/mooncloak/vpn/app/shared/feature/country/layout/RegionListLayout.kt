@@ -12,6 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.api.shared.location.RegionDetails
+import com.mooncloak.vpn.api.shared.vpn.VPNConnection
+import com.mooncloak.vpn.api.shared.vpn.isToggling
 import com.mooncloak.vpn.app.shared.feature.country.composable.ErrorCard
 import com.mooncloak.vpn.app.shared.feature.country.composable.Label
 import com.mooncloak.vpn.app.shared.feature.country.composable.RegionListItem
@@ -21,6 +23,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun RegionListLayout(
+    connection: VPNConnection,
     regions: List<RegionDetails>,
     label: String,
     loading: Boolean,
@@ -54,7 +57,7 @@ internal fun RegionListLayout(
                 modifier = Modifier
                     .sizeIn(maxWidth = 600.dp)
                     .fillMaxWidth()
-                    .clickable {
+                    .clickable(enabled = !connection.isToggling()) {
                         onConnect.invoke(details)
                     },
                 region = details.region,
