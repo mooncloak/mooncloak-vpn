@@ -17,7 +17,6 @@ import com.mooncloak.vpn.app.shared.feature.country.composable.Label
 import com.mooncloak.vpn.app.shared.feature.country.composable.RegionListItem
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
-import com.mooncloak.vpn.app.shared.util.LaunchLazyLoader
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
