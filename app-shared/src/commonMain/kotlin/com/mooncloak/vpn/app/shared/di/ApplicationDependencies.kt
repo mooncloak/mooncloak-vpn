@@ -5,7 +5,7 @@ import com.mooncloak.kodetools.logpile.core.Logger
 import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
 import com.mooncloak.vpn.api.shared.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.network.LocalNetworkManager
-import com.mooncloak.vpn.api.shared.vpn.TunnelManager
+import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
 import com.mooncloak.vpn.app.shared.api.server.usecase.GetDefaultServerUseCase
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings

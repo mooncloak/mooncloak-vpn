@@ -55,17 +55,6 @@ public class MainActivity : BaseActivity() {
         }
     }
 
-    @Suppress("OVERRIDE_DEPRECATION")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        vpnConnectionManager?.receivedResult(
-            requestCode = requestCode,
-            resultCode = resultCode,
-            data = data
-        )
-    }
-
     public companion object {
 
         public fun newIntent(context: Context): Intent =

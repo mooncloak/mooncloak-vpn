@@ -7,6 +7,7 @@ import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
+import com.mooncloak.vpn.api.shared.tunnel.isConnected
 import com.mooncloak.vpn.api.shared.vpn.isConnected
 import com.mooncloak.vpn.api.shared.vpn.isDisconnected
 import com.mooncloak.vpn.app.shared.di.FeatureScoped

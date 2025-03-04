@@ -11,7 +11,7 @@ import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
 import com.mooncloak.vpn.api.shared.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.network.LocalNetworkManager
 import com.mooncloak.vpn.api.shared.network.invoke
-import com.mooncloak.vpn.api.shared.vpn.TunnelManager
+import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.data.sqlite.invoke

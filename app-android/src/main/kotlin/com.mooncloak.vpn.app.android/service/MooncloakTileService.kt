@@ -1,7 +1,5 @@
 package com.mooncloak.vpn.app.android.service
 
-import android.annotation.SuppressLint
-import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
 import android.service.quicksettings.Tile
@@ -9,13 +7,13 @@ import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
-import com.mooncloak.vpn.api.shared.vpn.TunnelManager
-import com.mooncloak.vpn.api.shared.vpn.isActive
+import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
+import com.mooncloak.vpn.api.shared.tunnel.isConnected
+import com.mooncloak.vpn.api.shared.util.launchActivity
 import com.mooncloak.vpn.app.android.R
 import com.mooncloak.vpn.app.android.activity.MainActivity
 import com.mooncloak.vpn.app.android.di.applicationDependency
 import com.mooncloak.vpn.app.shared.api.server.usecase.GetDefaultServerUseCase
-import com.wireguard.android.backend.GoBackend
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -41,7 +39,7 @@ public class MooncloakTileService : TileService() {
     override fun onStartListening() {
         super.onStartListening()
 
-        updateTileState(active = tunnelManager.isActive)
+        updateTileState(active = tunnelManager.isConnected)
     }
 
     override fun onClick() {
@@ -85,7 +83,7 @@ public class MooncloakTileService : TileService() {
                 launchMainActivity()
             }
 
-            updateTileState(active = tunnelManager.isActive)
+            updateTileState(active = tunnelManager.isConnected)
         }
     }
 
@@ -93,17 +91,10 @@ public class MooncloakTileService : TileService() {
         val server = getDefaultServer()
 
         if (server != null) {
-            // We need to prepare the VPNService before connecting.
-            val prepareIntent = GoBackend.VpnService.prepare(this)
-            if (prepareIntent != null) {
-                prepareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-                launchActivity(
-                    intent = prepareIntent,
-                    requestCode = MooncloakVpnService.RequestCode.PREPARE
-                )
-            } else {
+            if (tunnelManager.prepare(context = this)) {
                 tunnelManager.connect(server)
+            } else {
+                launchMainActivity()
             }
         } else {
             launchMainActivity()
@@ -123,25 +114,6 @@ public class MooncloakTileService : TileService() {
         }
 
         launchActivity(mainIntent)
-    }
-
-    @Suppress("DEPRECATION")
-    @SuppressLint("StartActivityAndCollapseDeprecated")
-    private fun launchActivity(
-        intent: Intent,
-        requestCode: Int = 0
-    ) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            val pendingIntent = PendingIntent.getActivity(
-                this,
-                requestCode,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE
-            )
-            startActivityAndCollapse(pendingIntent)
-        } else {
-            startActivityAndCollapse(intent)
-        }
     }
 
     private fun updateTileState(active: Boolean) {

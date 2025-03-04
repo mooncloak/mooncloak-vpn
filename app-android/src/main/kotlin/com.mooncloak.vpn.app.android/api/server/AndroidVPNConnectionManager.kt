@@ -1,7 +1,6 @@
 package com.mooncloak.vpn.app.android.api.server
 
 import android.app.Activity
-import android.content.Intent
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
@@ -10,16 +9,13 @@ import com.mooncloak.kodetools.logpile.core.warning
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.server.ServerConnectionRecord
 import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
-import com.mooncloak.vpn.api.shared.vpn.TunnelManager
+import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
 import com.mooncloak.vpn.api.shared.vpn.VPNConnection
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
-import com.mooncloak.vpn.api.shared.vpn.connectedTunnels
+import com.mooncloak.vpn.api.shared.tunnel.connectedTunnels
 import com.mooncloak.vpn.api.shared.vpn.isConnected
 import com.mooncloak.vpn.api.shared.vpn.isConnecting
 import com.mooncloak.vpn.api.shared.vpn.isDisconnected
-import com.mooncloak.vpn.app.android.service.MooncloakVpnService
-import com.mooncloak.vpn.app.shared.util.ApplicationContext
-import com.wireguard.android.backend.GoBackend
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -41,7 +37,6 @@ import kotlin.time.Duration.Companion.seconds
 
 internal class AndroidVPNConnectionManager @Inject internal constructor(
     private val activity: Activity,
-    private val context: ApplicationContext,
     private val serverConnectionRecordRepository: ServerConnectionRecordRepository,
     private val clock: Clock,
     private val tunnelManager: TunnelManager
@@ -62,8 +57,6 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
     private var isClosed = true
     private var changesJob: Job? = null
     private var tunnelsJob: Job? = null
-
-    private var intentCallback: (() -> Unit)? = null
 
     // Arbitrarily chosen time period.
     private val maxConnectionPeriod = 15.seconds
@@ -160,26 +153,7 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
                     )
                 )
 
-                // First we have to prepare the VPN Service if it wasn't already done.
-                val intent = GoBackend.VpnService.prepare(context)
-                if (intent != null) {
-                    LogPile.info(tag = TAG, message = "Preparing VPN Service.")
-
-                    activity.startActivityForResult(intent, MooncloakVpnService.RequestCode.PREPARE)
-
-                    // FIXME: The callback isn't working.
-                    /*
-                    suspendCancellableCoroutine { continuation ->
-                        intentCallback = {
-                            LogPile.info(tag = TAG, message = "Intent Callback.")
-
-                            continuation.resume(Unit)
-
-                            intentCallback = null
-                        }
-                    }*/
-                }
-
+                tunnelManager.prepare(context = activity)
                 tunnelManager.connect(server = server)
 
                 try {
@@ -214,13 +188,6 @@ internal class AndroidVPNConnectionManager @Inject internal constructor(
             lastConnectionTime = null
 
             closeAllTunnels()
-        }
-    }
-
-    internal fun receivedResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == MooncloakVpnService.RequestCode.PREPARE) {
-            // TODO: Verify success/error
-            intentCallback?.invoke()
         }
     }
 

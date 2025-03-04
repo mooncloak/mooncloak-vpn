@@ -60,6 +60,11 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
 
+        <activity
+            android:name="com.mooncloak.vpn.app.android.activity.VPNPreparationActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme" />
+
         <!-- Services -->
 
         <!-- The WireGuard GoBackend VpnService. This is in the AndroidManifest of the Android WireGuard library we use. -->

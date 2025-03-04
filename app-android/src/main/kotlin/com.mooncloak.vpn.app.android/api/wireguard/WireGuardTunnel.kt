@@ -3,10 +3,10 @@ package com.mooncloak.vpn.app.android.api.wireguard
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import com.mooncloak.vpn.api.shared.vpn.Tunnel
+import com.mooncloak.vpn.api.shared.tunnel.Tunnel
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.server.VPNConnectionStatus
-import com.mooncloak.vpn.api.shared.vpn.TunnelStats
+import com.mooncloak.vpn.api.shared.tunnel.TunnelStats
 import com.wireguard.android.backend.Statistics
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -14,7 +14,7 @@ import kotlin.uuid.Uuid
 /**
  * Represents a WireGuard Tunnel VPN connection. This class implements the [com.wireguard.android.backend.Tunnel]
  * interface and provides some useful functionality for accessing the current state and values of this
- * [com.wireguard.android.backend.Tunnel]. Use the [WireGuardTunnelManager] to obtain instances of this class.
+ * [com.wireguard.android.backend.Tunnel]. Use the [AndroidWireGuardTunnelManager] to obtain instances of this class.
  */
 @Stable
 @OptIn(ExperimentalUuidApi::class)

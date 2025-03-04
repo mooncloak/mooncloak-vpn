@@ -31,7 +31,7 @@ public class DeepLinkForwardingActivity : BaseActivity() {
 
     public companion object {
 
-        private const val EXTRA_REDIRECT_URI = "redirectUri"
+        internal const val EXTRA_REDIRECT_URI = "redirectUri"
 
         public fun newIntent(context: Context, redirectUri: String? = null): Intent =
             Intent(context, DeepLinkForwardingActivity::class.java).apply {

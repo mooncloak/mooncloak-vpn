@@ -6,12 +6,12 @@ import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.vpn.app.android.info.AndroidAppClientInfo
 import com.mooncloak.vpn.app.android.api.wireguard.AndroidWireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.android.api.wireguard.WireGuardBackend
-import com.mooncloak.vpn.app.android.api.wireguard.WireGuardTunnelManager
+import com.mooncloak.vpn.app.android.api.wireguard.AndroidWireGuardTunnelManager
 import com.mooncloak.vpn.app.android.util.WireGuardVpnContextWrapper
 import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
 import com.mooncloak.vpn.api.shared.network.LocalNetworkManager
 import com.mooncloak.vpn.api.shared.network.invoke
-import com.mooncloak.vpn.api.shared.vpn.TunnelManager
+import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.data.sqlite.invoke
@@ -55,7 +55,7 @@ internal abstract class AndroidGooglePlayApplicationComponent internal construct
 
     @Provides
     @Singleton
-    internal fun provideTunnelManager(manager: WireGuardTunnelManager): TunnelManager = manager
+    internal fun provideTunnelManager(manager: AndroidWireGuardTunnelManager): TunnelManager = manager
 }
 
 internal fun ApplicationComponent.Companion.create(

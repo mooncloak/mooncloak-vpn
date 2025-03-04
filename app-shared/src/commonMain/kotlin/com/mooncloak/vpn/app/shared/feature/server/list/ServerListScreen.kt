@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.server.isConnectable
 import com.mooncloak.vpn.api.shared.vpn.connectedTo
+import com.mooncloak.vpn.api.shared.tunnel.isConnected
 import com.mooncloak.vpn.api.shared.vpn.isConnected
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies

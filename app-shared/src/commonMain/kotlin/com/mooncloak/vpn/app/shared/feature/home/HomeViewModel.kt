@@ -24,6 +24,7 @@ import com.mooncloak.vpn.api.shared.vpn.VPNConnection
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 import com.mooncloak.vpn.api.shared.vpn.connectedTo
+import com.mooncloak.vpn.api.shared.tunnel.isConnected
 import com.mooncloak.vpn.api.shared.vpn.isConnected
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem

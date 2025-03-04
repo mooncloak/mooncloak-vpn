@@ -1,5 +1,9 @@
 package com.mooncloak.vpn.app.android.api.wireguard
 
+import android.app.Activity
+import android.content.Context
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
@@ -10,9 +14,13 @@ import com.mooncloak.vpn.api.shared.network.DeviceIPAddressProvider
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.app.shared.api.server.usecase.RegisterClientUseCase
-import com.mooncloak.vpn.api.shared.vpn.Tunnel
-import com.mooncloak.vpn.api.shared.vpn.TunnelManager
+import com.mooncloak.vpn.api.shared.tunnel.Tunnel
+import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
+import com.mooncloak.vpn.app.android.activity.VPNPreparationActivity
+import com.mooncloak.vpn.app.android.service.MooncloakVpnService
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
+import com.wireguard.android.backend.GoBackend
+import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -22,13 +30,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.resume
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
-internal class WireGuardTunnelManager @Inject internal constructor(
+internal class AndroidWireGuardTunnelManager @Inject internal constructor(
     private val backend: WireGuardBackend,
     private val connectionKeyPairResolver: WireGuardConnectionKeyPairResolver,
     private val registerClient: RegisterClientUseCase,
@@ -44,8 +54,55 @@ internal class WireGuardTunnelManager @Inject internal constructor(
 
     private val tunnelMap = mutableMapOf<String, WireGuardTunnel>()
 
+    private val prepareMutex = Mutex(locked = false)
     private val tunnelMutex = Mutex(locked = false)
     private val emitMutex = Mutex(locked = false)
+
+    private var continuation: CancellableContinuation<Unit>? = null
+
+    override suspend fun prepare(context: Context): Boolean =
+        prepareMutex.withLock {
+            val prepareIntent = GoBackend.VpnService.prepare(context) ?: return true
+
+            return when (context) {
+                is AppCompatActivity -> suspendCancellableCoroutine { continuation ->
+                    val launcher =
+                        context.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                            continuation.resume(result.resultCode == Activity.RESULT_OK)
+                        }
+
+                    launcher.launch(prepareIntent)
+                }
+
+                is Activity -> {
+                    suspendCancellableCoroutine { continuation ->
+                        this.continuation = continuation
+
+                        context.startActivityForResult(
+                            prepareIntent,
+                            MooncloakVpnService.RequestCode.PREPARE
+                        )
+                    }
+
+                    GoBackend.VpnService.prepare(context) == null
+                }
+
+                else -> {
+                    suspendCancellableCoroutine { continuation ->
+                        this.continuation = continuation
+
+                        context.startActivity(VPNPreparationActivity.newIntent(context))
+                    }
+
+                    GoBackend.VpnService.prepare(context) == null
+                }
+            }
+        }
+
+    override fun finishedPreparation() {
+        continuation?.resume(Unit)
+        continuation = null
+    }
 
     override suspend fun sync() {
         tunnelMutex.withLock {
@@ -67,10 +124,13 @@ internal class WireGuardTunnelManager @Inject internal constructor(
     }
 
     @OptIn(ExperimentalPersistentStateAPI::class)
-    override suspend fun connect(tunnel: Tunnel) {
+    override suspend fun connect(server: Server): Tunnel =
         tunnelMutex.withLock {
             withContext(Dispatchers.IO) {
-                val server = tunnel.server ?: error("Cannot connect to Tunnel. Missing server.")
+                val tunnel = WireGuardTunnel(
+                    tunnelName = server.name,
+                    server = server
+                )
 
                 // FIXME: Cast
                 val keyPair = connectionKeyPairResolver.resolve() as AndroidWireGuardConnectionKeyPair
@@ -99,24 +159,17 @@ internal class WireGuardTunnelManager @Inject internal constructor(
                 refreshDNS()
 
                 deviceIPAddressProvider.invalidate()
+
+                emitLatest()
+
+                return@withContext tunnel
             }
-
-            emitLatest()
         }
-    }
 
-    override suspend fun connect(server: Server, tunnelName: String) {
-        val tunnel = WireGuardTunnel(
-            tunnelName = tunnelName,
-            server = server
-        )
-
-        connect(tunnel = tunnel)
-    }
-
-    override suspend fun disconnect(tunnel: Tunnel) {
+    override suspend fun disconnect(tunnelName: String) {
         tunnelMutex.withLock {
             withContext(Dispatchers.IO) {
+                val tunnel = WireGuardTunnel(tunnelName = tunnelName)
                 val wireGuardTunnel = tunnel.toWireGuardTunnel()
 
                 backend.setState(
@@ -130,12 +183,6 @@ internal class WireGuardTunnelManager @Inject internal constructor(
 
             emitLatest()
         }
-    }
-
-    override suspend fun disconnect(tunnelName: String) {
-        val tunnel = WireGuardTunnel(tunnelName = tunnelName)
-
-        disconnect(tunnel = tunnel)
     }
 
     override suspend fun disconnectAll() {
