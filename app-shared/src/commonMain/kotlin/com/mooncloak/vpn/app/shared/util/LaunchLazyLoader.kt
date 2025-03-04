@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 /**
@@ -25,6 +27,7 @@ public fun LaunchLazyLoader(
     snapshotDispatcher: CoroutineDispatcher = Dispatchers.Main,
     loadDispatcher: CoroutineDispatcher = Dispatchers.PlatformIO,
     loadOnStart: Boolean = false,
+    mutex: Mutex = remember { Mutex(locked = false) },
     onLoadMore: suspend () -> Unit
 ) {
     // We put this calculation in remember/derivedStateOf function calls to provide better performance. This is
@@ -47,7 +50,9 @@ public fun LaunchLazyLoader(
             .distinctUntilChanged()
             .onEach { loadMore ->
                 if (loadMore) {
-                    onLoadMore()
+                    mutex.withLock {
+                        onLoadMore()
+                    }
                 }
             }
             .flowOn(loadDispatcher)
@@ -57,7 +62,9 @@ public fun LaunchLazyLoader(
     LaunchedEffect(loadOnStart) {
         withContext(loadDispatcher) {
             if (loadOnStart) {
-                onLoadMore()
+                mutex.withLock {
+                    onLoadMore()
+                }
             }
         }
     }
@@ -75,6 +82,7 @@ public fun LaunchLazyLoader(
     snapshotDispatcher: CoroutineDispatcher = Dispatchers.Main,
     loadDispatcher: CoroutineDispatcher = Dispatchers.PlatformIO,
     loadOnStart: Boolean = false,
+    mutex: Mutex = remember { Mutex(locked = false) },
     onLoadMore: suspend () -> Unit
 ) {
     // We put this calculation in remember/derivedStateOf function calls to provide better performance. This is
@@ -97,7 +105,9 @@ public fun LaunchLazyLoader(
             .distinctUntilChanged()
             .onEach { loadMore ->
                 if (loadMore) {
-                    onLoadMore()
+                    mutex.withLock {
+                        onLoadMore()
+                    }
                 }
             }
             .flowOn(loadDispatcher)
@@ -107,7 +117,9 @@ public fun LaunchLazyLoader(
     LaunchedEffect(loadOnStart) {
         withContext(loadDispatcher) {
             if (loadOnStart) {
-                onLoadMore()
+                mutex.withLock {
+                    onLoadMore()
+                }
             }
         }
     }
@@ -125,6 +137,7 @@ public fun LaunchLazyLoader(
     snapshotDispatcher: CoroutineDispatcher = Dispatchers.Main,
     loadDispatcher: CoroutineDispatcher = Dispatchers.PlatformIO,
     loadOnStart: Boolean = false,
+    mutex: Mutex = remember { Mutex(locked = false) },
     onLoadMore: suspend () -> Unit
 ) {
     // We put this calculation in remember/derivedStateOf function calls to provide better performance. This is
@@ -147,7 +160,9 @@ public fun LaunchLazyLoader(
             .distinctUntilChanged()
             .onEach { loadMore ->
                 if (loadMore) {
-                    onLoadMore()
+                    mutex.withLock {
+                        onLoadMore()
+                    }
                 }
             }
             .flowOn(loadDispatcher)
@@ -157,7 +172,9 @@ public fun LaunchLazyLoader(
     LaunchedEffect(loadOnStart) {
         withContext(loadDispatcher) {
             if (loadOnStart) {
-                onLoadMore()
+                mutex.withLock {
+                    onLoadMore()
+                }
             }
         }
     }
