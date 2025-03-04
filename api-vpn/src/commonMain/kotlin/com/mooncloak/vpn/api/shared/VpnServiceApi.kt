@@ -2,7 +2,6 @@ package com.mooncloak.vpn.api.shared
 
 import com.mooncloak.kodetools.apix.core.ApiException
 import com.mooncloak.kodetools.apix.core.ExperimentalApixApi
-import com.mooncloak.kodetools.locale.Country
 import com.mooncloak.kodetools.locale.CountryCode
 import com.mooncloak.kodetools.pagex.Cursor
 import com.mooncloak.kodetools.pagex.Direction

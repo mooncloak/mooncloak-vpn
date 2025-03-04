@@ -14,7 +14,7 @@ import com.mooncloak.vpn.api.shared.vpn.isActive
 import com.mooncloak.vpn.app.android.R
 import com.mooncloak.vpn.app.android.activity.MainActivity
 import com.mooncloak.vpn.app.android.di.applicationDependency
-import com.mooncloak.vpn.app.shared.feature.server.connection.usecase.GetDefaultServerUseCase
+import com.mooncloak.vpn.app.shared.api.server.usecase.GetDefaultServerUseCase
 import com.wireguard.android.backend.GoBackend
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

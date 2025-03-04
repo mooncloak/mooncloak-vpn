@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.server.connection.usecase
+package com.mooncloak.vpn.app.shared.api.server.usecase
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.pagex.ExperimentalPaginationAPI
