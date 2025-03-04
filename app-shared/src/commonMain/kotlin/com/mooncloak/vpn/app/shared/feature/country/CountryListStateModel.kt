@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 import com.mooncloak.vpn.api.shared.vpn.VPNConnection
+import com.mooncloak.vpn.api.shared.vpn.isToggling
 import com.mooncloak.vpn.app.shared.composable.FlagImage
 import com.mooncloak.vpn.app.shared.feature.country.model.CountryListLayoutStateModel
 import com.mooncloak.vpn.app.shared.feature.country.model.LayoutStateModel
@@ -37,7 +38,7 @@ public val CountryListStateModel.canAppendMore: Boolean
     inline get() = this.layout.canAppendMore
 
 public val CountryListStateModel.isLoading: Boolean
-    inline get() = this.layout.isLoading
+    inline get() = this.layout.isLoading || this.connection.isToggling()
 
 public val CountryListStateModel.title: String
     @Composable
