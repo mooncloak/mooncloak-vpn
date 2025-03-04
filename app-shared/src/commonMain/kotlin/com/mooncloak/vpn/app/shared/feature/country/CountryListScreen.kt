@@ -1,6 +1,14 @@
 package com.mooncloak.vpn.app.shared.feature.country
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.snap
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -95,7 +103,17 @@ public fun CountryListScreen(
             loadingState = derivedStateOf { viewModel.state.current.value.isLoading }
         ) {
             AnimatedContent(
-                targetState = viewModel.state.current.value.layout
+                targetState = viewModel.state.current.value.layout,
+                transitionSpec = {
+                    if (targetState::class != initialState::class) {
+                        (fadeIn(animationSpec = tween(220, delayMillis = 90)) +
+                                scaleIn(initialScale = 0.92f, animationSpec = tween(220, delayMillis = 90)))
+                            .togetherWith(fadeOut(animationSpec = tween(90)))
+                    } else {
+                        EnterTransition.None togetherWith ExitTransition.None
+                    }
+                },
+                label = "CountryListLayoutTransition"
             ) { layout ->
                 when (layout) {
                     is CountryListLayoutStateModel -> CountryListLayout(
