@@ -29,7 +29,8 @@ public data class CountryListStateModel public constructor(
     public val connection: VPNConnection = VPNConnection.Disconnected(),
     public val subscription: ServiceSubscription? = null,
     public val layout: LayoutStateModel = CountryListLayoutStateModel(),
-    public val errorMessage: String? = null
+    public val errorMessage: String? = null,
+    public val hideSheet: Boolean = false
 )
 
 public val CountryListStateModel.canAppendMore: Boolean

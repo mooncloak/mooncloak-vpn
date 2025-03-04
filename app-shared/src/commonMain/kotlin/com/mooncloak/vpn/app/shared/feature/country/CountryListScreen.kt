@@ -3,7 +3,6 @@ package com.mooncloak.vpn.app.shared.feature.country
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -26,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,7 +58,6 @@ public fun CountryListScreen(
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }
-    val coroutineScope = rememberCoroutineScope()
 
     val countryLazyListState = rememberLazyListState()
     val regionLazyListState = rememberLazyListState()
@@ -68,6 +65,12 @@ public fun CountryListScreen(
 
     LaunchedEffect(Unit) {
         viewModel.load()
+    }
+
+    LaunchedEffect(viewModel.state.current.value.hideSheet) {
+        if (viewModel.state.current.value.hideSheet) {
+            sheetState.hide()
+        }
     }
 
     ManagedModalBottomSheet(

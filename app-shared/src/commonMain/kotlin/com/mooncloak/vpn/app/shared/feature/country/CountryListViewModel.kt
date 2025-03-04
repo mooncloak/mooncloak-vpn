@@ -117,6 +117,8 @@ public class CountryListViewModel @Inject public constructor(
         coroutineScope.launch {
             mutex.withLock {
                 connectToServerInLocationCode(locationCode = country.code)
+
+                emit { current -> current.copy(hideSheet = true) }
             }
         }
     }
@@ -125,6 +127,8 @@ public class CountryListViewModel @Inject public constructor(
         coroutineScope.launch {
             mutex.withLock {
                 connectToServerInLocationCode(locationCode = region.code)
+
+                emit { current -> current.copy(hideSheet = true) }
             }
         }
     }
@@ -133,6 +137,8 @@ public class CountryListViewModel @Inject public constructor(
         coroutineScope.launch {
             mutex.withLock {
                 connectToServer(server = server)
+
+                emit { current -> current.copy(hideSheet = true) }
             }
         }
     }
