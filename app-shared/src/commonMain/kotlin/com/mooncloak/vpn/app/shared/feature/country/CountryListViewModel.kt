@@ -12,8 +12,10 @@ import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.api.shared.location.CountryDetails
 import com.mooncloak.vpn.api.shared.location.RegionDetails
 import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.api.server.usecase.ConnectToServerInLocationCodeUseCase
 import com.mooncloak.vpn.app.shared.api.server.usecase.ConnectToServerUseCase
+import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionFlowProvider
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.country.model.CountryListLayoutStateModel
 import com.mooncloak.vpn.app.shared.feature.country.model.RegionListLayoutStateModel
@@ -22,6 +24,12 @@ import com.mooncloak.vpn.app.shared.feature.country.usecase.GetCountryPageUseCas
 import com.mooncloak.vpn.app.shared.feature.country.usecase.GetServerPageUseCase
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -34,10 +42,15 @@ public class CountryListViewModel @Inject public constructor(
     private val getCountryPage: GetCountryPageUseCase,
     private val getServerPage: GetServerPageUseCase,
     private val connectToServer: ConnectToServerUseCase,
-    private val connectToServerInLocationCode: ConnectToServerInLocationCodeUseCase
+    private val connectToServerInLocationCode: ConnectToServerInLocationCodeUseCase,
+    private val serverConnectionManager: VPNConnectionManager,
+    private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider
 ) : ViewModel<CountryListStateModel>(initialStateValue = CountryListStateModel()) {
 
     private val mutex = Mutex(locked = false)
+
+    private var connectionJob: Job? = null
+    private var subscriptionJob: Job? = null
 
     public fun load() {
         coroutineScope.launch {
@@ -47,6 +60,28 @@ public class CountryListViewModel @Inject public constructor(
                     is ServerListLayoutStateModel -> loadNextServerPage()
                     else -> {}
                 }
+
+                connectionJob?.cancel()
+                connectionJob = serverConnectionManager.connection
+                    .onEach { connection ->
+                        emit { current ->
+                            current.copy(connection = connection)
+                        }
+                    }
+                    .catch { e -> LogPile.error(message = "Error listening to connection changes.", cause = e) }
+                    .flowOn(Dispatchers.Main)
+                    .launchIn(coroutineScope)
+
+                subscriptionJob?.cancel()
+                subscriptionJob = getServiceSubscriptionFlow()
+                    .onEach { subscription ->
+                        emit { current ->
+                            current.copy(subscription = subscription)
+                        }
+                    }
+                    .catch { e -> LogPile.error(message = "Error listening to subscription changes.", cause = e) }
+                    .flowOn(Dispatchers.Main)
+                    .launchIn(coroutineScope)
             }
         }
     }

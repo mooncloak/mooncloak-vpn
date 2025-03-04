@@ -24,7 +24,6 @@ import com.mooncloak.vpn.api.shared.vpn.VPNConnection
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 import com.mooncloak.vpn.api.shared.vpn.connectedTo
-import com.mooncloak.vpn.api.shared.tunnel.isConnected
 import com.mooncloak.vpn.api.shared.vpn.isConnected
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
@@ -134,6 +133,45 @@ public class HomeViewModel @Inject public constructor(
         coroutineScope.launch {
             emit(value = state.current.value.copy(isLoading = true))
 
+            var initialSubscription: ServiceSubscription? = null
+            var localNetworkInfo: LocalNetworkInfo? = null
+            var deviceIpAddress: String? = null
+
+            try {
+                initialSubscription = subscriptionStorage.subscription.get()
+                localNetworkInfo = localNetworkManager.getInfo()
+                deviceIpAddress = deviceIPAddressProvider.get()
+
+                val items = getFeedItems(
+                    subscription = initialSubscription,
+                    connection = state.current.value.connection
+                )
+
+                emit { current ->
+                    current.copy(
+                        subscription = initialSubscription,
+                        localNetwork = localNetworkInfo,
+                        deviceIpAddress = deviceIpAddress,
+                        items = items,
+                        isLoading = false,
+                        isCheckingStatus = false
+                    )
+                }
+            } catch (e: Exception) {
+                LogPile.error(message = "Error loading home state.", cause = e)
+
+                emit { current ->
+                    current.copy(
+                        subscription = initialSubscription,
+                        localNetwork = localNetworkInfo,
+                        deviceIpAddress = deviceIpAddress,
+                        isLoading = false,
+                        isCheckingStatus = false,
+                        errorMessage = getString(Res.string.global_unexpected_error)
+                    )
+                }
+            }
+
             connectionJob?.cancel()
             connectionJob = serverConnectionManager.connection
                 .onEach { connection ->
@@ -172,45 +210,6 @@ public class HomeViewModel @Inject public constructor(
                 .catch { e -> LogPile.error(message = "Error listening to subscription changes.", cause = e) }
                 .flowOn(Dispatchers.Main)
                 .launchIn(coroutineScope)
-
-            var subscription: ServiceSubscription? = null
-            var localNetworkInfo: LocalNetworkInfo? = null
-            var deviceIpAddress: String? = null
-
-            try {
-                subscription = subscriptionStorage.subscription.get()
-                localNetworkInfo = localNetworkManager.getInfo()
-                deviceIpAddress = deviceIPAddressProvider.get()
-
-                val items = getFeedItems(
-                    subscription = subscription,
-                    connection = state.current.value.connection
-                )
-
-                emit { current ->
-                    current.copy(
-                        subscription = subscription,
-                        localNetwork = localNetworkInfo,
-                        deviceIpAddress = deviceIpAddress,
-                        items = items,
-                        isLoading = false,
-                        isCheckingStatus = false
-                    )
-                }
-            } catch (e: Exception) {
-                LogPile.error(message = "Error loading home state.", cause = e)
-
-                emit { current ->
-                    current.copy(
-                        subscription = subscription,
-                        localNetwork = localNetworkInfo,
-                        deviceIpAddress = deviceIpAddress,
-                        isLoading = false,
-                        isCheckingStatus = false,
-                        errorMessage = getString(Res.string.global_unexpected_error)
-                    )
-                }
-            }
         }
     }
 
