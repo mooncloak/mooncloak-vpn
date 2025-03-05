@@ -40,11 +40,6 @@ public interface AppShortcutManager {
     public suspend fun set(shortcuts: Collection<AppShortcut>)
 
     /**
-     * Performs the associated [AppShortcut.action] for the [AppShortcut] with the provided [id] if it is available.
-     */
-    public suspend fun perform(id: String)
-
-    /**
      * Removes the [AppShortcut] with the provided [id] if it is available in the current [AppShortcut]s.
      */
     public suspend fun remove(id: String)

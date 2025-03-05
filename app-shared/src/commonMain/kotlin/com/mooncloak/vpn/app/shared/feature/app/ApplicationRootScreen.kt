@@ -36,7 +36,9 @@ import com.mooncloak.vpn.app.shared.feature.main.MainScreen
 import com.mooncloak.vpn.app.shared.feature.onboarding.OnboardingScreen
 import com.mooncloak.vpn.app.shared.util.navigation.LocalNavController
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.notification_channel_description_shortcuts
 import com.mooncloak.vpn.app.shared.resource.notification_channel_description_vpn
+import com.mooncloak.vpn.app.shared.resource.notification_channel_name_shortcuts
 import com.mooncloak.vpn.app.shared.resource.notification_channel_name_vpn
 import com.mooncloak.vpn.app.shared.theme.MooncloakTheme
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
@@ -90,10 +92,17 @@ public fun ApplicationRootScreen(
         LaunchedEffect(Unit) {
             // It is safe to call this numerous times (at least on Android). The Android documentation recommends
             // calling this early in the application, so we call it in the root screen.
+            // TODO: Move all these definitions to their own util component.
             notificationManager.registerNotificationChannel(
                 id = NotificationChannelId.VPN,
                 name = getString(Res.string.notification_channel_name_vpn),
                 description = getString(Res.string.notification_channel_description_vpn),
+                priority = NotificationPriority.MAX
+            )
+            notificationManager.registerNotificationChannel(
+                id = NotificationChannelId.SHORTCUTS,
+                name = getString(Res.string.notification_channel_name_shortcuts),
+                description = getString(Res.string.notification_channel_description_shortcuts),
                 priority = NotificationPriority.MAX
             )
 

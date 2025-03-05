@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.notification_action_vpn_disconnect
+import com.mooncloak.vpn.app.shared.resource.notification_title_shortcuts
 import com.mooncloak.vpn.app.shared.resource.notification_title_vpn
 import com.mooncloak.vpn.app.shared.theme.ColorPalette
 import org.jetbrains.compose.resources.getString
@@ -40,3 +41,12 @@ public suspend fun NotificationManager.getVPNNotification(
             )
         )
     )
+
+public suspend fun NotificationManager.getShortcutNotification(): Notification = this.getNotification(
+    channelId = NotificationChannelId.SHORTCUTS,
+    title = getString(Res.string.notification_title_shortcuts),
+    priority = NotificationPriority.MAX,
+    category = NotificationCategory.Service,
+    color = ColorPalette.MooncloakDarkPrimary,
+    ongoing = true
+)

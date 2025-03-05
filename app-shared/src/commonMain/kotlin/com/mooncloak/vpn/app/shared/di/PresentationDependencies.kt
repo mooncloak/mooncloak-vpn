@@ -8,6 +8,7 @@ import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.feature.dependency.util.LibsLoader
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import com.mooncloak.vpn.util.shared.coroutine.PresentationCoroutineScope
+import com.mooncloak.vpn.util.shortcuts.AppShortcutProvider
 
 public expect interface PresentationDependencies {
 
@@ -19,6 +20,7 @@ public expect interface PresentationDependencies {
     public val vpnConnectionManager: VPNConnectionManager
     public val presentationCoroutineScope: PresentationCoroutineScope
     public val libsLoader: LibsLoader
+    public val appShortcutProvider: AppShortcutProvider
 
     public companion object
 }

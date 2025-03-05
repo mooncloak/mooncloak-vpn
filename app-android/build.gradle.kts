@@ -44,6 +44,11 @@ dependencies {
     // https://github.com/WireGuard/wireguard-android/blob/master/COPYING
     implementation("com.wireguard.android:tunnel:_")
 
+    // Google Shortcuts - Adds App Shortcuts as Google Assistant Commands
+    // https://developer.android.com/develop/ui/views/launch/shortcuts/creating-shortcuts#dynamic
+    // Only applied for the Google Play Build
+    // FIXME: Configuration not found: "playImplementation"("androidx.core:core-google-shortcuts:_")
+
     // Annotation Processors:
 
     // konstruct - Dependency Injection

@@ -7,6 +7,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.mooncloak.vpn.app.android.di.applicationDependency
 import com.wireguard.android.backend.GoBackend
 
+/**
+ * An Activity component that launches the required permissions dialog that the user must accept for us to create VPN
+ * tunnel connections.
+ */
 public class VPNPreparationActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +22,7 @@ public class VPNPreparationActivity : BaseActivity() {
         val prepareIntent = GoBackend.VpnService.prepare(this)
 
         if (prepareIntent != null) {
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 tunnelManager.finishedPreparation()
 
                 handleRedirectAndFinish(redirectUri)

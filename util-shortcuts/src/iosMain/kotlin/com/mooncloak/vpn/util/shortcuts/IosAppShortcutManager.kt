@@ -35,12 +35,6 @@ internal class IosAppShortcutManager internal constructor() : AppShortcutManager
         }
     }
 
-    override suspend fun perform(id: String) {
-        mutex.withLock {
-            shortcutsById[id]?.action?.invoke()
-        }
-    }
-
     override suspend fun remove(id: String) {
         mutex.withLock {
             shortcutsById.remove(id)

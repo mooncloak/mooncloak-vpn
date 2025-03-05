@@ -13,6 +13,7 @@ import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
 import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueStorage
 import com.mooncloak.vpn.data.sqlite.SqlDriverFactory
+import com.mooncloak.vpn.util.shortcuts.AppShortcutManager
 import io.ktor.client.HttpClient
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
@@ -38,6 +39,7 @@ public expect interface ApplicationDependencies {
     public val applicationCoroutineScope: ApplicationCoroutineScope
     public val notificationManager: NotificationManager
     public val getDefaultServer: GetDefaultServerUseCase
+    public val appShortcutManager: AppShortcutManager
 
     public companion object
 }

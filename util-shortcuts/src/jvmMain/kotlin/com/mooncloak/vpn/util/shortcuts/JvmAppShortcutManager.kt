@@ -9,9 +9,6 @@ internal class JvmAppShortcutManager internal constructor() : AppShortcutManager
     override suspend fun set(shortcuts: Collection<AppShortcut>) {
     }
 
-    override suspend fun perform(id: String) {
-    }
-
     override suspend fun remove(id: String) {
     }
 

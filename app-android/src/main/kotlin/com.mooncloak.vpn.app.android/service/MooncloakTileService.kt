@@ -22,8 +22,8 @@ import kotlinx.coroutines.sync.withLock
 @RequiresApi(Build.VERSION_CODES.N)
 public class MooncloakTileService : TileService() {
 
-    private lateinit var tunnelManager: TunnelManager
     private lateinit var coroutineScope: CoroutineScope
+    private lateinit var tunnelManager: TunnelManager
     private lateinit var getDefaultServer: GetDefaultServerUseCase
 
     private val mutex = Mutex(locked = false)
@@ -31,8 +31,8 @@ public class MooncloakTileService : TileService() {
     override fun onCreate() {
         super.onCreate()
 
-        tunnelManager = this.applicationDependency { tunnelManager }
         coroutineScope = this.applicationDependency { applicationCoroutineScope }
+        tunnelManager = this.applicationDependency { tunnelManager }
         getDefaultServer = this.applicationDependency { getDefaultServer }
     }
 

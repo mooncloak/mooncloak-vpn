@@ -293,6 +293,12 @@
     <string name="notification_title_vpn">Connected to private VPN</string>
     <string name="notification_action_vpn_disconnect">Disconnect</string>
 
+    <string name="notification_channel_name_shortcuts">Shortcut Actions</string>
+    <string name="notification_channel_description_shortcuts">Notifications displayed when app shortcut actions are being performed.</string>
+    <string name="notification_title_shortcuts">Performing shortcut action</string>
+
+    <string name="shortcut_title_quick_connect">Quick Connect</string>
+
     <string name="duration_remaining_less_than_one_minute">&lt; 1 minute</string>
     <plurals name="duration_remaining_minutes">
         <item quantity="one">%1$d minute</item>

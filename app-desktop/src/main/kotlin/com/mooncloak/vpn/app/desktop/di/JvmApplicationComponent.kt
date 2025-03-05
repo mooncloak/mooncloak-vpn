@@ -23,6 +23,8 @@ import com.mooncloak.vpn.data.shared.cache.create
 import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.data.sqlite.SqlDriverFactory
 import com.mooncloak.vpn.data.sqlite.util.getDatabaseFileLocation
+import com.mooncloak.vpn.util.shortcuts.AppShortcutManager
+import com.mooncloak.vpn.util.shortcuts.invoke
 import kotlinx.serialization.json.Json
 import kotlin.time.Duration.Companion.seconds
 
@@ -76,6 +78,10 @@ internal abstract class JvmApplicationComponent internal constructor(
             expirationAfterWrite = 5.seconds
         )
     )
+
+    @Provides
+    @Singleton
+    internal fun provideAppShortcutManager(): AppShortcutManager = AppShortcutManager()
 }
 
 internal fun ApplicationComponent.Companion.create(

@@ -19,6 +19,8 @@ import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.data.sqlite.SqlDriverFactory
+import com.mooncloak.vpn.util.shortcuts.AppShortcutManager
+import com.mooncloak.vpn.util.shortcuts.invoke
 import com.wireguard.android.backend.GoBackend
 
 @Component
@@ -56,6 +58,11 @@ internal abstract class AndroidGooglePlayApplicationComponent internal construct
     @Provides
     @Singleton
     internal fun provideTunnelManager(manager: AndroidWireGuardTunnelManager): TunnelManager = manager
+
+    @Provides
+    @Singleton
+    internal fun provideAppShortcutManager(context: ApplicationContext): AppShortcutManager =
+        AppShortcutManager(context)
 }
 
 internal fun ApplicationComponent.Companion.create(

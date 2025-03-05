@@ -12,6 +12,8 @@ import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.settings.AppSettings
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
+import com.mooncloak.vpn.util.shortcuts.AppShortcutManager
+import com.mooncloak.vpn.util.shortcuts.AppShortcutProvider
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
@@ -27,7 +29,9 @@ public class ApplicationRootViewModel @Inject public constructor(
     private val preferencesStorage: UserPreferenceSettings,
     private val navController: NavController,
     private val systemAuthenticationProvider: SystemAuthenticationProvider,
-    private val clock: Clock
+    private val clock: Clock,
+    private val appShortcutManager: AppShortcutManager,
+    private val appShortcutProvider: AppShortcutProvider
 ) : ViewModel<ApplicationRootStateModel>(initialStateValue = ApplicationRootStateModel()) {
 
     private val mutex = Mutex(locked = false)
@@ -87,6 +91,10 @@ public class ApplicationRootViewModel @Inject public constructor(
                         }
                     }
                 }
+
+                appShortcutManager.set(
+                    shortcuts = appShortcutProvider.get()
+                )
             }
         }
     }

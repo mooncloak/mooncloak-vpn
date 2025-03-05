@@ -14,16 +14,11 @@ import androidx.compose.ui.graphics.ImageBitmap
  *
  * @property [longLabel] An optional longer version of the [shortLabel] that might be displayed for the shortcut.
  *
- * @property [icon] The [ImageBitmap] icon to show.
- *
- * @property [action] The action to perform when this shortcut is selected.
- *
  * @see [AppShortcutManager] for updating the shortcuts for the application.
  */
-public data class AppShortcut public constructor(
-    public val id: String,
-    public val shortLabel: String,
-    public val longLabel: String? = null,
-    public val icon: ImageBitmap? = null,
-    public val action: suspend () -> Unit
-)
+public expect class AppShortcut {
+
+    public val id: String
+    public val shortLabel: String
+    public val longLabel: String?
+}

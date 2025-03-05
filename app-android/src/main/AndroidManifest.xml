@@ -25,6 +25,11 @@
     <!-- Required to allow the VPN service to be launched as a Foreground Service. -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SYSTEM_EXEMPTED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+
+    <!-- Required by Foreground Services to be able to toggle the VPN connection on and off. -->
+    <!-- Android will crash without this permission when attempting to start a Foreground Service that needs to toggle the VPN connection. -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
     <application
         android:name="com.mooncloak.vpn.app.android.MooncloakVpnApplication"
@@ -65,6 +70,16 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:name="com.mooncloak.vpn.app.android.activity.QuickConnectActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="com.mooncloak.vpn.app.android.service.action.quick_connect" />
+            </intent-filter>
+        </activity>
+
         <!-- Services -->
 
         <!-- The WireGuard GoBackend VpnService. This is in the AndroidManifest of the Android WireGuard library we use. -->
@@ -87,8 +102,6 @@
             </intent-filter>
         </service>
 
-        <!-- The WireGuard library includes the VPNService automatically when the manifests are merged. -->
-
         <!-- Quick Settings Tile Service. This allows the VPN to be toggled from the Android Settings Dropdown on the device. -->
         <service
             android:name=".service.MooncloakTileService"
@@ -107,6 +120,12 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+
+        <!-- A Service that performs the quick connect app shortcut action. This is similar to the Tile Service above but opened via an App Shortcut. -->
+        <service
+            android:name=".service.QuickConnectService"
+            android:exported="false"
+            android:foregroundServiceType="connectedDevice" />
 
         <!-- BroadcastReceivers -->
 

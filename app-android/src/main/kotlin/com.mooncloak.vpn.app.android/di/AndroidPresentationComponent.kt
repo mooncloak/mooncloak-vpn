@@ -13,6 +13,7 @@ import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
 import com.mooncloak.vpn.api.shared.tunnel.TunnelManagerPreparer
 import com.mooncloak.vpn.api.shared.tunnel.invoke
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
+import com.mooncloak.vpn.app.android.util.AndroidAppShortcutProvider
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationScoped
@@ -22,6 +23,7 @@ import com.mooncloak.vpn.app.shared.util.ActivityContext
 import com.mooncloak.vpn.app.shared.util.AndroidSystemAuthenticationProvider
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import com.mooncloak.vpn.util.shared.coroutine.PresentationCoroutineScope
+import com.mooncloak.vpn.util.shortcuts.AppShortcutProvider
 
 @Component
 @PresentationScoped
@@ -62,6 +64,10 @@ internal abstract class AndroidPresentationComponent internal constructor(
             tunnelManager = tunnelManager,
             activity = activity
         )
+
+    @Provides
+    @PresentationScoped
+    internal fun provideAppShortcutProvider(provider: AndroidAppShortcutProvider): AppShortcutProvider = provider
 }
 
 internal fun PresentationComponent.Companion.create(
