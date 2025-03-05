@@ -50,7 +50,7 @@ public data class RegionListLayoutStateModel public constructor(
     public val countryDetails: CountryDetails
 ) : LayoutStateModel {
 
-    override val items: List<RegionDetails> = countryDetails.regions
+    override val items: List<RegionDetails> = countryDetails.regions.distinctBy { it.region.code }
     override val append: LoadState = LoadState.Complete
     override val refresh: LoadState = LoadState.Complete
     override val lastCursor: Cursor? = null

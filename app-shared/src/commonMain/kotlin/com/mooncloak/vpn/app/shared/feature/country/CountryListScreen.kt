@@ -122,7 +122,7 @@ public fun CountryListScreen(
                 when (layout) {
                     is CountryListLayoutStateModel -> CountryListLayout(
                         connection = viewModel.state.current.value.connection,
-                        countries = layout.countries,
+                        countries = layout.items,
                         label = layout.label,
                         loading = viewModel.state.current.value.isLoading,
                         canAppendMore = viewModel.state.current.value.canAppendMore,
@@ -142,7 +142,7 @@ public fun CountryListScreen(
 
                     is RegionListLayoutStateModel -> RegionListLayout(
                         connection = viewModel.state.current.value.connection,
-                        regions = layout.countryDetails.regions,
+                        regions = layout.items,
                         label = layout.label,
                         loading = viewModel.state.current.value.isLoading,
                         lazyListState = regionLazyListState,
@@ -162,7 +162,7 @@ public fun CountryListScreen(
 
                     is ServerListLayoutStateModel -> ServerListLayout(
                         connection = viewModel.state.current.value.connection,
-                        servers = layout.servers,
+                        servers = layout.items,
                         label = layout.label,
                         loading = viewModel.state.current.value.isLoading,
                         canAppendMore = viewModel.state.current.value.canAppendMore,
