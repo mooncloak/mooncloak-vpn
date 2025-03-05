@@ -33,6 +33,7 @@ plugins {
 rootProject.name = "mooncloak-vpn"
 
 include(":util-shared")
+include(":util-shortcuts")
 
 include(":data-shared")
 include(":data-sqlite")
