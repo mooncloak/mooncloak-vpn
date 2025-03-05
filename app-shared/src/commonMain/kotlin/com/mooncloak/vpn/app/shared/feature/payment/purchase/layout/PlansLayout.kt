@@ -64,6 +64,7 @@ internal fun PlansLayout(
         ) {
             AllPlansCard(
                 modifier = Modifier.fillMaxWidth()
+                    .padding(bottom = 20.dp)
             )
         }
 
