@@ -41,7 +41,7 @@ import org.jetbrains.compose.resources.getString
 public class CountryListViewModel @Inject public constructor(
     private val getCountryPage: GetCountryPageUseCase,
     private val getServerPage: GetServerPageUseCase,
-    private val connectToServer: ToggleServerConnectionUseCase,
+    private val toggleServerConnection: ToggleServerConnectionUseCase,
     private val connectToServerInLocationCode: ConnectToServerInLocationCodeUseCase,
     private val serverConnectionManager: VPNConnectionManager,
     private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider
@@ -171,7 +171,7 @@ public class CountryListViewModel @Inject public constructor(
     public fun connectTo(server: Server) {
         coroutineScope.launch {
             mutex.withLock {
-                connectToServer(server = server)
+                toggleServerConnection(server = server)
 
                 emit { current -> current.copy(hideSheet = true) }
             }
@@ -191,7 +191,7 @@ public class CountryListViewModel @Inject public constructor(
                     )
                 }
 
-                val page = getCountryPage.invoke(
+                val page = getCountryPage(
                     cursor = layout.lastCursor
                 )
                 val countries = (layout.countries + page.countries)

@@ -24,10 +24,10 @@ import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheet
 import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
-import com.mooncloak.vpn.app.shared.feature.payment.purchase.composable.BitcoinInvoiceLayout
-import com.mooncloak.vpn.app.shared.feature.payment.purchase.composable.PaymentErrorLayout
-import com.mooncloak.vpn.app.shared.feature.payment.purchase.composable.PaymentSuccessLayout
-import com.mooncloak.vpn.app.shared.feature.payment.purchase.composable.PlansLayout
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.layout.BitcoinInvoiceLayout
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.layout.PaymentErrorLayout
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.layout.PaymentSuccessLayout
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.layout.PlansLayout
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.model.PaymentDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.payment_status_pending

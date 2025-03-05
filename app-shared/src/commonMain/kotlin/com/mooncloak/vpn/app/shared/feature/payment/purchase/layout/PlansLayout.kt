@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.payment.purchase.composable
+package com.mooncloak.vpn.app.shared.feature.payment.purchase.layout
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,9 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.api.shared.plan.Plan
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.composable.NoPlansCard
+import com.mooncloak.vpn.app.shared.feature.payment.purchase.composable.PlanCard
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.payment_action_select
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha

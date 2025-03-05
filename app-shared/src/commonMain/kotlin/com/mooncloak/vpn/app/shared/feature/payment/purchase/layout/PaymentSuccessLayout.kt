@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.feature.payment.purchase.composable
+package com.mooncloak.vpn.app.shared.feature.payment.purchase.layout
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
