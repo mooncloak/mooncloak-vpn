@@ -15,9 +15,8 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionFlowProvider
-import com.mooncloak.vpn.api.shared.network.DeviceIPAddressProvider
-import com.mooncloak.vpn.api.shared.network.LocalNetworkInfo
-import com.mooncloak.vpn.api.shared.network.LocalNetworkManager
+import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
+import com.mooncloak.vpn.api.shared.network.ip.LocalDeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.api.shared.vpn.VPNConnection
@@ -69,7 +68,7 @@ public class HomeViewModel @Inject public constructor(
     private val serviceConnectionRecordRepository: ServerConnectionRecordRepository,
     private val subscriptionStorage: SubscriptionSettings,
     private val serverConnectionManager: VPNConnectionManager,
-    private val localNetworkManager: LocalNetworkManager,
+    private val localDeviceIPAddressProvider: LocalDeviceIPAddressProvider,
     private val deviceIPAddressProvider: DeviceIPAddressProvider,
     private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider,
     private val clock: Clock,
@@ -134,12 +133,12 @@ public class HomeViewModel @Inject public constructor(
             emit(value = state.current.value.copy(isLoading = true))
 
             var initialSubscription: ServiceSubscription? = null
-            var localNetworkInfo: LocalNetworkInfo? = null
+            var localIpAddress: String? = null
             var deviceIpAddress: String? = null
 
             try {
                 initialSubscription = subscriptionStorage.subscription.get()
-                localNetworkInfo = localNetworkManager.getInfo()
+                localIpAddress = localDeviceIPAddressProvider.get()
                 deviceIpAddress = deviceIPAddressProvider.get()
 
                 val items = getFeedItems(
@@ -150,8 +149,8 @@ public class HomeViewModel @Inject public constructor(
                 emit { current ->
                     current.copy(
                         subscription = initialSubscription,
-                        localNetwork = localNetworkInfo,
-                        deviceIpAddress = deviceIpAddress,
+                        publicIpAddress = deviceIpAddress,
+                        localIpAddress = localIpAddress,
                         items = items,
                         isLoading = false,
                         isCheckingStatus = false
@@ -163,8 +162,8 @@ public class HomeViewModel @Inject public constructor(
                 emit { current ->
                     current.copy(
                         subscription = initialSubscription,
-                        localNetwork = localNetworkInfo,
-                        deviceIpAddress = deviceIpAddress,
+                        publicIpAddress = deviceIpAddress,
+                        localIpAddress = localIpAddress,
                         isLoading = false,
                         isCheckingStatus = false,
                         errorMessage = getString(Res.string.global_unexpected_error)

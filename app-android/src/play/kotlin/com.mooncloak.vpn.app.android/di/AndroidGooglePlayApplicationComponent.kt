@@ -9,7 +9,7 @@ import com.mooncloak.vpn.app.android.api.wireguard.WireGuardBackend
 import com.mooncloak.vpn.app.android.api.wireguard.AndroidWireGuardTunnelManager
 import com.mooncloak.vpn.app.android.util.WireGuardVpnContextWrapper
 import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
-import com.mooncloak.vpn.api.shared.network.LocalNetworkManager
+import com.mooncloak.vpn.api.shared.network.ip.LocalDeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.network.invoke
 import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
@@ -40,8 +40,8 @@ internal abstract class AndroidGooglePlayApplicationComponent internal construct
 
     @Provides
     @Singleton
-    internal fun provideLocalNetworkManager(context: ApplicationContext): LocalNetworkManager =
-        LocalNetworkManager(context = context)
+    internal fun provideLocalNetworkManager(context: ApplicationContext): LocalDeviceIPAddressProvider =
+        LocalDeviceIPAddressProvider(context = context)
 
     @Provides
     @Singleton

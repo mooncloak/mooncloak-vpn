@@ -10,7 +10,7 @@ import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.api.shared.VpnServiceApi
-import com.mooncloak.vpn.api.shared.network.DeviceIPAddressProvider
+import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.app.shared.api.server.usecase.RegisterClientUseCase

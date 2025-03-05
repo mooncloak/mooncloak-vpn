@@ -3,6 +3,7 @@ package com.mooncloak.vpn.api.shared.network
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.warning
 import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
 import com.mooncloak.vpn.data.shared.cache.Cache
 import com.mooncloak.vpn.data.shared.keyvalue.get
 import com.mooncloak.vpn.data.shared.keyvalue.set

@@ -5,7 +5,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.api.shared.network.DeviceIPAddressProvider
+import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.api.shared.server.ServerConnectionRecord

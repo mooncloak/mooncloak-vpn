@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.api.shared.network
+package com.mooncloak.vpn.api.shared.network.ip
 
 /**
  * A component that retrieves the Internet Protocol (IP) Address of the current device running this application.

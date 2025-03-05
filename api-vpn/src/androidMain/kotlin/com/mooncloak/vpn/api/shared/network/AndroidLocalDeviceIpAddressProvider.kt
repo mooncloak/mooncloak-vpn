@@ -4,19 +4,20 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.wifi.WifiManager
+import com.mooncloak.vpn.api.shared.network.ip.LocalDeviceIPAddressProvider
 import java.net.InetAddress
 
-public operator fun LocalNetworkManager.Companion.invoke(context: Context): LocalNetworkManager =
-    AndroidLocalNetworkManager(context = context)
+public operator fun LocalDeviceIPAddressProvider.Companion.invoke(context: Context): LocalDeviceIPAddressProvider =
+    AndroidLocalDeviceIpAddressProvider(context = context)
 
-internal class AndroidLocalNetworkManager internal constructor(
+internal class AndroidLocalDeviceIpAddressProvider internal constructor(
     private val context: Context
-) : LocalNetworkManager {
+) : LocalDeviceIPAddressProvider {
 
-    // TODO: Implement AndroidLocalNetworkManager
-    override suspend fun getInfo(): LocalNetworkInfo = LocalNetworkInfo(
-        ipAddress = getDeviceIpAddress(context)
-    )
+    override suspend fun get(): String? = getDeviceIpAddress(context)
+
+    override suspend fun invalidate() {
+    }
 
     private fun getDeviceIpAddress(context: Context): String? {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

@@ -8,8 +8,8 @@ import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionFlowProvider
-import com.mooncloak.vpn.api.shared.network.DeviceIPAddressProvider
-import com.mooncloak.vpn.api.shared.network.LocalNetworkManager
+import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
+import com.mooncloak.vpn.api.shared.network.ip.LocalDeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 import com.mooncloak.vpn.api.shared.service.isActive
@@ -45,7 +45,7 @@ public class SettingsViewModel @Inject public constructor(
     private val preferencesStorage: UserPreferenceSettings,
     private val systemAuthenticationProvider: SystemAuthenticationProvider,
     private val clock: Clock,
-    private val localNetworkManager: LocalNetworkManager,
+    private val localDeviceIPAddressProvider: LocalDeviceIPAddressProvider,
     private val deviceIPAddressProvider: DeviceIPAddressProvider,
     private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider
 ) : ViewModel<SettingsStateModel>(initialStateValue = SettingsStateModel()) {
@@ -219,7 +219,7 @@ public class SettingsViewModel @Inject public constructor(
     private suspend fun getDeviceDetails(): SettingsDeviceDetails =
         try {
             val publicIp = deviceIPAddressProvider.get()
-            val localIp = localNetworkManager.getInfo()?.ipAddress
+            val localIp = localDeviceIPAddressProvider.get()
 
             SettingsDeviceDetails(
                 publicIpAddress = publicIp,
