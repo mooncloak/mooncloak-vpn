@@ -14,7 +14,7 @@ import com.mooncloak.vpn.api.shared.location.RegionDetails
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.api.server.usecase.ConnectToServerInLocationCodeUseCase
-import com.mooncloak.vpn.app.shared.api.server.usecase.ConnectToServerUseCase
+import com.mooncloak.vpn.app.shared.api.server.usecase.ToggleServerConnectionUseCase
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionFlowProvider
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.country.model.CountryListLayoutStateModel
@@ -41,7 +41,7 @@ import org.jetbrains.compose.resources.getString
 public class CountryListViewModel @Inject public constructor(
     private val getCountryPage: GetCountryPageUseCase,
     private val getServerPage: GetServerPageUseCase,
-    private val connectToServer: ConnectToServerUseCase,
+    private val connectToServer: ToggleServerConnectionUseCase,
     private val connectToServerInLocationCode: ConnectToServerInLocationCodeUseCase,
     private val serverConnectionManager: VPNConnectionManager,
     private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider
