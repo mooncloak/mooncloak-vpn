@@ -12,6 +12,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
+import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.api.shared.billing.BillingManager
 import com.mooncloak.vpn.api.shared.billing.isFailure
 import com.mooncloak.vpn.api.shared.billing.isSuccess
@@ -28,6 +29,9 @@ import com.mooncloak.vpn.app.shared.resource.payment_link_text_terms
 import com.mooncloak.vpn.app.shared.resource.payment_notice
 import com.mooncloak.vpn.app.shared.resource.payment_notice_beta
 import com.mooncloak.vpn.app.shared.resource.payment_plans_title
+import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
+import com.mooncloak.vpn.app.shared.theme.ThemePreference
+import com.mooncloak.vpn.app.shared.theme.isInDarkTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
@@ -44,13 +48,15 @@ import org.jetbrains.compose.resources.getString
 public class PaymentViewModel @Inject public constructor(
     private val appClientInfo: AppClientInfo,
     private val plansProvider: ServicePlansProvider,
-    private val billingManager: BillingManager
+    private val billingManager: BillingManager,
+    private val userPreferenceSettings: UserPreferenceSettings
 ) : ViewModel<PaymentStateModel>(initialStateValue = PaymentStateModel()) {
 
     private val mutex = Mutex(locked = false)
 
     private var plansJob: Job? = null
 
+    @OptIn(ExperimentalPersistentStateAPI::class)
     public fun load() {
         coroutineScope.launch {
             mutex.withLock {
@@ -64,9 +70,11 @@ public class PaymentViewModel @Inject public constructor(
                 } else {
                     getString(Res.string.payment_notice)
                 }
+                var themePreference = ThemePreference.System
 
                 try {
                     termsAndConditionsText = getTermsAndConditionsText()
+                    themePreference = userPreferenceSettings.theme.current.value ?: ThemePreference.System
 
                     // TODO: Obtain current plan invoice
                     // TODO: Use presence of plan invoice to determine whether to show plans or invoice screen
@@ -78,7 +86,8 @@ public class PaymentViewModel @Inject public constructor(
                             termsAndConditionsText = termsAndConditionsText,
                             noticeText = noticeText,
                             destination = PaymentDestination.Plans, // TODO:
-                            screenTitle = getString(Res.string.payment_plans_title)
+                            screenTitle = getString(Res.string.payment_plans_title),
+                            themePreference = themePreference
                         )
                     }
                 } catch (e: Exception) {

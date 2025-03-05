@@ -31,6 +31,7 @@ import com.mooncloak.vpn.app.shared.feature.payment.purchase.layout.PlansLayout
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.model.PaymentDestination
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.payment_status_pending
+import com.mooncloak.vpn.app.shared.theme.isInDarkTheme
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -89,6 +90,7 @@ public fun PaymentScreen(
                                 purchasing = viewModel.state.current.value.isPurchasing,
                                 noticeText = viewModel.state.current.value.noticeText,
                                 termsAndConditionsText = viewModel.state.current.value.termsAndConditionsText.invoke(),
+                                isInDarkMode = viewModel.state.current.value.themePreference.isInDarkTheme(),
                                 onPlanSelected = { plan ->
                                     viewModel.selectPlan(plan)
                                 },

@@ -1,7 +1,11 @@
 package com.mooncloak.vpn.app.shared.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
 
 public data object ColorPalette {
@@ -50,26 +54,25 @@ public data object ColorPalette {
     public val MooncloakError: Color = Color(0xFFEB3D3D)
 }
 
-internal val kodeToolDarkColorScheme = darkColorScheme(
-    background = ColorPalette.Gray_900,
-    onBackground = ColorPalette.Gray_200,
-    surface = ColorPalette.MooncloakDarkPrimary,
-    surfaceContainer = ColorPalette.MooncloakDarkPrimary,
-    surfaceBright = ColorPalette.MooncloakDarkPrimaryBright,
-    surfaceDim = ColorPalette.MooncloakDarkPrimaryDark,
-    primary = ColorPalette.Purple_600,
-    onPrimary = Color.White,
-    primaryContainer = ColorPalette.Purple_600,
-    onPrimaryContainer = Color.White,
-    secondary = ColorPalette.MooncloakYellow,
-    onSecondary = Color.White,
-    secondaryContainer = ColorPalette.MooncloakYellow,
-    onSecondaryContainer = Color.White,
-    tertiary = ColorPalette.Blue_500,
-    onTertiary = Color.White,
-    tertiaryContainer = ColorPalette.Blue_500,
-    onTertiaryContainer = Color.White
-)
+@Suppress("UnusedReceiverParameter")
+@Composable
+@ReadOnlyComposable
+public fun ColorScheme.primaryVariant(isInDarkMode: Boolean = isSystemInDarkTheme()): Color =
+    if (isInDarkMode) {
+        ColorPalette.Purple_800
+    } else {
+        ColorPalette.Purple_200
+    }
+
+@Suppress("UnusedReceiverParameter")
+@Composable
+@ReadOnlyComposable
+public fun ColorScheme.onPrimaryVariant(isInDarkMode: Boolean = isSystemInDarkTheme()): Color =
+    if (isInDarkMode) {
+        Color.White
+    } else {
+        ColorPalette.MooncloakDarkPrimaryDark
+    }
 
 internal val mooncloakDaylightColorScheme = lightColorScheme(
     background = ColorPalette.MooncloakLightPrimary,
@@ -103,7 +106,7 @@ internal val mooncloakDaylightColorScheme = lightColorScheme(
     onTertiaryContainer = Color.White
 )
 
-internal val mooncloakMoonlightColorScheme = lightColorScheme(
+internal val mooncloakMoonlightColorScheme = darkColorScheme(
     background = ColorPalette.MooncloakDarkPrimaryDark,
     onBackground = Color.White,
     surface = ColorPalette.MooncloakDarkPrimary,

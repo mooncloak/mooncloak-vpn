@@ -226,6 +226,12 @@
     <string name="payment_status_pending">Pending Payment</string>
     <string name="payment_error_no_plans_title">No Plan Data</string>
     <string name="payment_error_no_plans_description">There was an error loading plans. Please try again later.</string>
+    <string name="payment_label_one_time_charge">&#47; One-Time</string>
+
+    <string name="payment_all_plans_title">All plans include:</string>
+    <string name="payment_all_plans_feature_data_usage">Unlimited data usage</string>
+    <string name="payment_all_plans_feature_anonymous_service">Anonymous no logs VPN service</string>
+    <string name="payment_all_plans_feature_all_servers">Access to all VPN servers</string>
 
     <string name="payment_error_title">Error with payment</string>
 
