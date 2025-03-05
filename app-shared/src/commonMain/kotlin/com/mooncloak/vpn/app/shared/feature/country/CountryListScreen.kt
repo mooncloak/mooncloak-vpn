@@ -48,6 +48,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 public fun CountryListScreen(
     sheetState: ManagedModalBottomSheetState,
+    onOpenPlans: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
@@ -130,7 +131,11 @@ public fun CountryListScreen(
                         errorDescription = null,
                         onLoadMore = viewModel::loadMore,
                         onConnect = { details ->
-                            viewModel.connectTo(country = details.country)
+                            if (viewModel.state.current.value.isMember) {
+                                viewModel.connectTo(country = details.country)
+                            } else {
+                                onOpenPlans.invoke()
+                            }
                         },
                         onDetails = viewModel::goTo
                     )
@@ -144,7 +149,11 @@ public fun CountryListScreen(
                         errorTitle = null,
                         errorDescription = null,
                         onConnect = { details ->
-                            viewModel.connectTo(region = details.region)
+                            if (viewModel.state.current.value.isMember) {
+                                viewModel.connectTo(region = details.region)
+                            } else {
+                                onOpenPlans.invoke()
+                            }
                         },
                         onDetails = { details ->
                             viewModel.goTo(country = layout.countryDetails, region = details)
@@ -161,7 +170,13 @@ public fun CountryListScreen(
                         errorTitle = null,
                         errorDescription = null,
                         onLoadMore = viewModel::loadMore,
-                        onConnect = viewModel::connectTo
+                        onConnect = { server ->
+                            if (viewModel.state.current.value.isMember) {
+                                viewModel.connectTo(server)
+                            } else {
+                                onOpenPlans.invoke()
+                            }
+                        }
                     )
                 }
             }

@@ -229,7 +229,12 @@ public fun ServerListScreen(
 
     CountryListScreen(
         modifier = Modifier.fillMaxSize(),
-        sheetState = countryListBottomSheetState
+        sheetState = countryListBottomSheetState,
+        onOpenPlans = {
+            coroutineScope.launch {
+                paymentBottomSheetState.show()
+            }
+        }
     )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {
