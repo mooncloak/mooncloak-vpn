@@ -4,6 +4,7 @@ import androidx.compose.ui.text.AnnotatedString
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
+import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.textx.PlainText
 import com.mooncloak.kodetools.textx.TextContent
 import com.mooncloak.vpn.api.shared.plan.BillingProvider
@@ -25,6 +26,7 @@ import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonPrimitive
 
 public class ServicePlansDatabaseSource @Inject public constructor(
     private val database: MooncloakDatabase,
@@ -186,6 +188,14 @@ public class ServicePlansDatabaseSource @Inject public constructor(
                 cause = e
             )
 
-            null
+            // For some reason the TextContent isn't serializing/deserializing correctly. Try and explicitly handle the
+            // conversion to plain text content.
+            val content = (this as? JsonObject)
+                ?.get("value")
+                ?.let { it as? JsonPrimitive }
+                ?.contentOrNull
+                ?.let { PlainText(value = it) }
+
+            content
         }
 }
