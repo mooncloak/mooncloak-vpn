@@ -25,6 +25,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil3.SingletonImageLoader
+import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.LocalApplicationComponent
@@ -46,6 +47,7 @@ import com.mooncloak.vpn.app.shared.util.notification.NotificationChannelId
 import com.mooncloak.vpn.app.shared.util.notification.NotificationPriority
 import org.jetbrains.compose.resources.getString
 
+@OptIn(ExperimentalPersistentStateAPI::class)
 @Composable
 public fun ApplicationRootScreen(
     applicationComponent: ApplicationComponent,
@@ -72,7 +74,6 @@ public fun ApplicationRootScreen(
         val snackbarHostState = remember { SnackbarHostState() }
         val imageLoaderFactory = remember(applicationComponent) { applicationComponent.imageLoaderFactory }
         val preferencesStorage = rememberDependency { preferenceStorage }
-        val systemAuthenticationProvider = rememberDependency { systemAuthenticationProvider }
         val notificationManager = rememberDependency { notificationManager }
 
         // Make sure to start the billing manager's scope. This allows it to subscribe to events and handle logic
@@ -149,7 +150,9 @@ public fun ApplicationRootScreen(
                                         )
                                     }
                                     composable<RootDestination.Main> {
-                                        MainScreen(modifier = Modifier.fillMaxSize())
+                                        MainScreen(
+                                            modifier = Modifier.fillMaxSize()
+                                        )
                                     }
                                     composable<RootDestination.SystemAuth> {
                                         // TODO: System Auth layout.

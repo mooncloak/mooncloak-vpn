@@ -15,16 +15,17 @@ kotlin {
 dependencies {
     implementation(project(":app-shared"))
 
-    // Coroutines Android Lifecycle
-    implementation(AndroidX.lifecycle.runtime.ktx)
+    // Android support libraries.
+    api(AndroidX.appCompat)
 
     implementation(AndroidX.core.splashscreen)
 
-    implementation(AndroidX.activity.compose)
-    implementation(compose.ui)
+    // Coroutines Android Lifecycle
+    implementation(AndroidX.lifecycle.runtime.ktx)
 
-    // Android support libraries.
-    api(AndroidX.appCompat)
+    implementation(AndroidX.activity.compose)
+
+    implementation(compose.ui)
 
     // UI Widgets - Compose Glance
     implementation("androidx.glance:glance-appwidget:_")

@@ -15,6 +15,8 @@ import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.api.server.usecase.GetDefaultServerUseCase
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
+import com.mooncloak.vpn.util.shortcuts.AppShortcutManager
+import com.mooncloak.vpn.util.shortcuts.AppShortcutProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
@@ -32,7 +34,9 @@ public class MainViewModel @Inject public constructor(
     private val navController: NavController,
     private val serverConnectionManager: VPNConnectionManager,
     private val getDefaultServer: GetDefaultServerUseCase,
-    private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider
+    private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider,
+    private val appShortcutManager: AppShortcutManager,
+    private val appShortcutProvider: AppShortcutProvider
 ) : ViewModel<MainStateModel>(initialStateValue = MainStateModel()) {
 
     private val mutex = Mutex(locked = false)
@@ -70,6 +74,10 @@ public class MainViewModel @Inject public constructor(
                 .catch { e -> LogPile.error(message = "Error listening to server connection changes.", cause = e) }
                 .flowOn(Dispatchers.Main)
                 .launchIn(coroutineScope)
+
+            appShortcutManager.set(
+                shortcuts = appShortcutProvider.get()
+            )
         }
     }
 
