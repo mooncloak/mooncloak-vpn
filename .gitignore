@@ -19,6 +19,7 @@ local.properties
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/appInsightsSettings.xml
 *.iws
 *.iml
 *.ipr
