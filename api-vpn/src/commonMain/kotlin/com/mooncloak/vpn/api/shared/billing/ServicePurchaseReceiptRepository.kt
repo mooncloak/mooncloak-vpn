@@ -3,28 +3,23 @@ package com.mooncloak.vpn.api.shared.billing
 import com.mooncloak.vpn.api.shared.plan.BillingProvider
 import com.mooncloak.vpn.api.shared.plan.Price
 import com.mooncloak.vpn.api.shared.token.TransactionToken
-import kotlinx.coroutines.CancellationException
+import com.mooncloak.vpn.data.shared.repository.MutableRepository
+import com.mooncloak.vpn.data.shared.repository.Repository
 import kotlinx.datetime.Instant
+import kotlin.coroutines.cancellation.CancellationException
 
-public interface ServicePurchaseReceiptRepository {
-
-    @Throws(NoSuchElementException::class, CancellationException::class)
-    public suspend fun get(id: String): ServicePurchaseReceipt
+public interface ServicePurchaseReceiptRepository : Repository<ServicePurchaseReceipt> {
 
     @Throws(NoSuchElementException::class, CancellationException::class)
     public suspend fun getByOrderId(orderId: String): ServicePurchaseReceipt
 
     public suspend fun getLatest(): ServicePurchaseReceipt?
 
-    public suspend fun getPage(
-        count: Int = 20,
-        offset: Int = 0
-    ): List<ServicePurchaseReceipt>
-
     public companion object
 }
 
-public interface MutableServicePurchaseReceiptRepository : ServicePurchaseReceiptRepository {
+public interface MutableServicePurchaseReceiptRepository : ServicePurchaseReceiptRepository,
+    MutableRepository<ServicePurchaseReceipt> {
 
     public suspend fun add(
         orderId: String? = null,
@@ -42,19 +37,8 @@ public interface MutableServicePurchaseReceiptRepository : ServicePurchaseReceip
         price: Price? = null
     ): ServicePurchaseReceipt
 
-    public suspend fun remove(id: String)
-
-    public suspend fun clear()
-
     public companion object
 }
-
-public suspend fun ServicePurchaseReceiptRepository.getOrNull(id: String): ServicePurchaseReceipt? =
-    try {
-        get(id = id)
-    } catch (_: NoSuchElementException) {
-        null
-    }
 
 public suspend fun ServicePurchaseReceiptRepository.getByOrderIdOrNull(orderId: String): ServicePurchaseReceipt? =
     try {

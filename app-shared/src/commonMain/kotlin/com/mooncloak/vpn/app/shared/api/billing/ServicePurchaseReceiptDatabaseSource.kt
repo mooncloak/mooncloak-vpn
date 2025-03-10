@@ -59,7 +59,7 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
                 ?.toServicePurchaseReceipt()
         }
 
-    override suspend fun getPage(count: Int, offset: Int): List<ServicePurchaseReceipt> =
+    override suspend fun get(count: Int, offset: Int): List<ServicePurchaseReceipt> =
         withContext(Dispatchers.IO) {
             val database = databaseProvider.get()
 
@@ -69,6 +69,105 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
             )
                 .executeAsList()
                 .map { receipt -> receipt.toServicePurchaseReceipt() }
+        }
+
+    override suspend fun getAll(): List<ServicePurchaseReceipt> =
+        withContext(Dispatchers.IO) {
+            val database = databaseProvider.get()
+
+            return@withContext database.purchaseReceiptQueries.selectAll()
+                .executeAsList()
+                .map { receipt -> receipt.toServicePurchaseReceipt() }
+        }
+
+    override suspend fun insert(id: String, value: () -> ServicePurchaseReceipt): ServicePurchaseReceipt =
+        withContext(Dispatchers.IO) {
+            mutex.withLock {
+                val database = databaseProvider.get()
+
+                val model = value.invoke()
+
+                require(model.id == id) { "The 'ServicePurchaseReceipt.id' value must be equal to '$id' but was '${model.id}' instead.." }
+
+                database.transactionWithResult {
+                    database.purchaseReceiptQueries.insert(
+                        database_id = null,
+                        id = id,
+                        order_id = model.orderId,
+                        plan_id = model.planIds.firstOrNull(),
+                        plan_ids = json.encodeToJsonElement(
+                            serializer = ListSerializer(String.serializer()),
+                            value = model.planIds
+                        ),
+                        invoice_id = model.invoiceId,
+                        created = model.created,
+                        updated = model.updated,
+                        purchased = model.purchased,
+                        provider = model.provider.value,
+                        subscription = model.subscription,
+                        client_secret = model.clientSecret,
+                        token = model.token.value,
+                        signature = model.signature,
+                        quantity = model.quantity?.toLong(),
+                        price = model.price?.let {
+                            json.encodeToJsonElement(
+                                serializer = Price.serializer(),
+                                value = it
+                            )
+                        }
+                    )
+
+                    return@transactionWithResult model
+                }
+            }
+        }
+
+    override suspend fun update(
+        id: String,
+        update: ServicePurchaseReceipt.() -> ServicePurchaseReceipt
+    ): ServicePurchaseReceipt =
+        withContext(Dispatchers.IO) {
+            mutex.withLock {
+                val database = databaseProvider.get()
+
+                database.transactionWithResult {
+                    val current = database.purchaseReceiptQueries.selectById(id = id)
+                        .executeAsOneOrNull()
+                        ?.toServicePurchaseReceipt()
+                        ?: throw NoSuchElementException("No ServicePurchaseReceipt found with id '$id'.")
+                    val updated = update.invoke(current)
+
+                    require(updated.id == id) { "The 'ServicePurchaseReceipt.id' value must be equal to '$id' but was '${updated.id}' instead.." }
+
+                    database.purchaseReceiptQueries.updateAll(
+                        id = id,
+                        orderId = updated.orderId,
+                        planId = updated.planIds.firstOrNull(),
+                        planIds = json.encodeToJsonElement(
+                            serializer = ListSerializer(String.serializer()),
+                            value = updated.planIds
+                        ),
+                        invoiceId = updated.invoiceId,
+                        created = updated.created,
+                        updated = updated.updated,
+                        purchased = updated.purchased,
+                        provider = updated.provider.value,
+                        subscription = updated.subscription,
+                        clientSecret = updated.clientSecret,
+                        token = updated.token.value,
+                        signature = updated.signature,
+                        quantity = updated.quantity?.toLong(),
+                        price = updated.price?.let {
+                            json.encodeToJsonElement(
+                                serializer = Price.serializer(),
+                                value = it
+                            )
+                        }
+                    )
+
+                    return@transactionWithResult updated
+                }
+            }
         }
 
     @OptIn(ExperimentalUuidApi::class)
@@ -86,48 +185,32 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
         signature: String?,
         quantity: Int?,
         price: Price?
-    ): ServicePurchaseReceipt =
-        withContext(Dispatchers.IO) {
-            mutex.withLock {
-                val database = databaseProvider.get()
+    ): ServicePurchaseReceipt {
+        val id = Uuid.random().toHexString()
+        val now = Clock.System.now()
 
-                val now = clock.now()
-                val id = Uuid.random().toHexString()
-
-                database.transactionWithResult {
-                    database.purchaseReceiptQueries.insert(
-                        database_id = null,
-                        id = id,
-                        order_id = orderId,
-                        plan_id = planIds.firstOrNull(),
-                        plan_ids = json.encodeToJsonElement(
-                            serializer = ListSerializer(String.serializer()),
-                            value = planIds
-                        ),
-                        invoice_id = invoiceId,
-                        created = created ?: now,
-                        updated = updated ?: now,
-                        purchased = purchased,
-                        provider = provider.value,
-                        subscription = subscription,
-                        client_secret = clientSecret,
-                        token = token.value,
-                        signature = signature,
-                        quantity = quantity?.toLong(),
-                        price = price?.let {
-                            json.encodeToJsonElement(
-                                serializer = Price.serializer(),
-                                value = it
-                            )
-                        }
-                    )
-
-                    return@transactionWithResult database.purchaseReceiptQueries.selectById(id = id)
-                        .executeAsOne()
-                        .toServicePurchaseReceipt()
-                }
+        return insert(
+            id = id,
+            value = {
+                ServicePurchaseReceipt(
+                    id = id,
+                    orderId = orderId,
+                    planIds = planIds,
+                    invoiceId = invoiceId,
+                    purchased = purchased,
+                    provider = provider,
+                    created = created ?: now,
+                    updated = updated ?: now,
+                    subscription = subscription,
+                    clientSecret = clientSecret,
+                    token = token,
+                    signature = signature,
+                    quantity = quantity,
+                    price = price
+                )
             }
-        }
+        )
+    }
 
     override suspend fun remove(id: String) {
         withContext(Dispatchers.IO) {

@@ -32,7 +32,7 @@ public class PaymentHistoryViewModel @Inject public constructor(
                     )
 
                     // TODO: Support pagination
-                    val receipts = servicePurchaseReceiptRepository.getPage()
+                    val receipts = servicePurchaseReceiptRepository.get()
 
                     emit(
                         value = state.current.value.copy(

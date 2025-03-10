@@ -29,6 +29,24 @@ insert:
 INSERT OR REPLACE INTO PurchaseReceipt(database_id, id, order_id, plan_id, plan_ids, invoice_id, created, updated, purchased, provider, subscription, client_secret, token, signature, quantity, price)
 VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
+updateAll:
+UPDATE PurchaseReceipt
+SET order_id = :orderId,
+    plan_id = :planId,
+    plan_ids = :planIds,
+    invoice_id = :invoiceId,
+    created = :created,
+    updated = :updated,
+    purchased = :purchased,
+    provider = :provider,
+    subscription = :subscription,
+    client_secret = :clientSecret,
+    token = :token,
+    signature = :signature,
+    quantity = :quantity,
+    price = :price
+WHERE id = :id;
+
 selectAll:
 SELECT *
 FROM PurchaseReceipt
