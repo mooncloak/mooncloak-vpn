@@ -8,6 +8,7 @@ import com.mooncloak.vpn.app.shared.api.billing.ExchangeProofOfPurchaseForServic
 import com.mooncloak.vpn.app.shared.api.service.GetServiceSubscriptionForTokensUseCase
 import com.mooncloak.vpn.api.shared.plan.BillingProvider
 import com.mooncloak.vpn.api.shared.plan.Plan
+import com.mooncloak.vpn.api.shared.plan.Price
 import com.mooncloak.vpn.api.shared.service.ServiceAccessDetails
 import com.mooncloak.vpn.api.shared.token.TransactionToken
 import kotlinx.datetime.Instant
@@ -20,7 +21,7 @@ internal class ExchangeGooglePlayPurchaseForServiceAccessUseCase @Inject interna
 
     internal suspend operator fun invoke(
         purchase: Purchase,
-        plan: Plan? = null
+        price: Price? = null
     ): ServiceAccessDetails {
         val proofOfPurchase = ProofOfPurchase(
             paymentProvider = BillingProvider.GooglePlay,
@@ -41,7 +42,7 @@ internal class ExchangeGooglePlayPurchaseForServiceAccessUseCase @Inject interna
             token = TransactionToken(value = purchase.purchaseToken),
             signature = purchase.signature,
             quantity = purchase.quantity,
-            price = plan?.price
+            price = price
         )
 
         val tokens = exchangeProofOfPurchaseForServiceTokens(proofOfPurchase)

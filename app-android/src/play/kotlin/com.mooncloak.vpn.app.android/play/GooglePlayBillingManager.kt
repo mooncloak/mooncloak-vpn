@@ -20,6 +20,7 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.vpn.api.shared.billing.BillingManager
 import com.mooncloak.vpn.api.shared.plan.Plan
+import com.mooncloak.vpn.api.shared.plan.Price
 import com.mooncloak.vpn.app.shared.di.PresentationScoped
 import com.mooncloak.vpn.util.shared.coroutine.PresentationCoroutineScope
 import kotlinx.coroutines.CancellationException
@@ -40,6 +41,8 @@ internal class GooglePlayBillingManager @Inject internal constructor(
 
     public override var isActive: Boolean = false
         private set
+
+    private val prices = mutableMapOf<String, Price>()
 
     private val connectionStateListener = object : BillingClientStateListener {
 
@@ -126,6 +129,9 @@ internal class GooglePlayBillingManager @Inject internal constructor(
 
     @Throws(IllegalStateException::class, CancellationException::class)
     override suspend fun purchase(plan: Plan): com.mooncloak.vpn.api.shared.billing.BillingResult {
+        // Store the price so that when the purchase listener is reached we can load and store that data for future use.
+        prices[plan.id] = plan.price
+
         val product = getProductDetails(planIds = listOf(plan.id)).first()
 
         val productDetailsParamsList = listOf(
@@ -179,7 +185,12 @@ internal class GooglePlayBillingManager @Inject internal constructor(
     }
 
     private suspend fun handlePurchase(purchase: Purchase) {
-        exchangeGooglePlayPurchaseForServiceAccess(purchase)
+        exchangeGooglePlayPurchaseForServiceAccess(
+            purchase = purchase,
+            price = purchase.products.firstOrNull()
+                ?.let { planId -> prices[planId] }
+                ?: prices[purchase.orderId]
+        )
 
         val consumedResult = consumePurchase(token = purchase.purchaseToken)
 

@@ -54,10 +54,6 @@ public class PaymentHistoryViewModel @Inject public constructor(
                         receipt.copy(price = price)
                     }
 
-                    println("Payment: plansMap: $plansMap")
-                    println("Payment: receipts: $receipts")
-                    println("Payment: updateReceipts: $updatedReceipts")
-
                     if (receipts != updatedReceipts) {
                         emit(
                             value = state.current.value.copy(
