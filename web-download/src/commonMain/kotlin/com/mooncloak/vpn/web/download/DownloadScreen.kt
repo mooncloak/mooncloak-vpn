@@ -115,25 +115,7 @@ public fun DownloadScreen(
                         maxLines = 2
                     )
 
-                    if (WebBuildConfig.playStoreUrl != null || WebBuildConfig.directDownloadUrl != null) {
-                        Box(
-                            modifier = Modifier.wrapContentSize()
-                                .align(Alignment.CenterVertically)
-                                .clip(RoundedCornerShape(percent = 50))
-                                .background(MaterialTheme.colorScheme.tertiaryContainer)
-                                .padding(horizontal = 16.dp, vertical = 4.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                modifier = Modifier,
-                                text = WebBuildConfig.appVersion,
-                                style = MaterialTheme.typography.labelLarge.copy(color = MaterialTheme.colorScheme.onTertiaryContainer),
-                                maxLines = 2,
-                                overflow = TextOverflow.Clip,
-                                textAlign = TextAlign.Center
-                            )
-                        }
-                    } else if (WebBuildConfig.playStorePreRegisterUrl != null) {
+                    if (WebBuildConfig.playStorePreRegisterUrl != null) {
                         Image(
                             modifier = Modifier.sizeIn(minWidth = 200.dp, maxWidth = 400.dp)
                                 .pointerHoverIcon(PointerIcon.Hand)
