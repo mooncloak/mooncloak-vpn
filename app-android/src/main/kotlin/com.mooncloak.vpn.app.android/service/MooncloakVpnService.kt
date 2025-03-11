@@ -4,8 +4,8 @@ import android.content.Intent
 import com.mooncloak.vpn.app.android.activity.MainActivity
 import com.mooncloak.vpn.app.android.di.applicationDependency
 import com.mooncloak.vpn.app.android.receiver.DisconnectTunnelsBroadcastReceiver
-import com.mooncloak.vpn.app.shared.util.notification.NotificationId
-import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
+import com.mooncloak.vpn.util.notification.NotificationId
+import com.mooncloak.vpn.util.notification.NotificationManager
 import com.mooncloak.vpn.app.shared.util.notification.getVPNNotification
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.GoBackend.VpnService

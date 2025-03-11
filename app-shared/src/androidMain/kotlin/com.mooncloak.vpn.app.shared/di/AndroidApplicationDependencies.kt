@@ -11,7 +11,7 @@ import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
-import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
+import com.mooncloak.vpn.util.notification.NotificationManager
 import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueStorage
 import com.mooncloak.vpn.data.sqlite.SqlDriverFactory
 import com.mooncloak.vpn.util.shortcuts.AppShortcutManager

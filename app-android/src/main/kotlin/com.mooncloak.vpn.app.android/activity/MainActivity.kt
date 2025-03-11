@@ -13,7 +13,7 @@ import com.mooncloak.vpn.app.android.di.create
 import com.mooncloak.vpn.app.shared.api.server.usecase.GetDefaultServerUseCase
 import com.mooncloak.vpn.app.shared.feature.app.ApplicationRootScreen
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
-import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
+import com.mooncloak.vpn.util.notification.NotificationManager
 import com.mooncloak.vpn.app.shared.util.platformDefaultUriHandler
 import kotlinx.coroutines.launch
 

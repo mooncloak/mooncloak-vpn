@@ -8,8 +8,8 @@ import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.network.invoke
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
-import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
-import com.mooncloak.vpn.app.shared.util.notification.invoke
+import com.mooncloak.vpn.util.notification.NotificationManager
+import com.mooncloak.vpn.util.notification.invoke
 import com.mooncloak.vpn.data.shared.cache.Cache
 import com.mooncloak.vpn.data.shared.cache.create
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope

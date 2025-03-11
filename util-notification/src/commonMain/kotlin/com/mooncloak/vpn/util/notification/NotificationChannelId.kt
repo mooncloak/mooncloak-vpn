@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.util.notification
+package com.mooncloak.vpn.util.notification
 
 public object NotificationChannelId {
 

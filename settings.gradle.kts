@@ -34,6 +34,7 @@ rootProject.name = "mooncloak-vpn"
 
 include(":util-shared")
 include(":util-shortcuts")
+include(":util-notification")
 
 include(":data-shared")
 include(":data-sqlite")

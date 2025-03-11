@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.util.notification
+package com.mooncloak.vpn.util.notification
 
 import android.annotation.SuppressLint
 import android.app.Notification
@@ -10,15 +10,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.mooncloak.vpn.app.shared.R
-import com.mooncloak.vpn.app.shared.util.ApplicationContext
 
-public operator fun com.mooncloak.vpn.app.shared.util.notification.NotificationManager.Companion.invoke(context: ApplicationContext): com.mooncloak.vpn.app.shared.util.notification.NotificationManager =
+public operator fun com.mooncloak.vpn.util.notification.NotificationManager.Companion.invoke(context: Context): com.mooncloak.vpn.util.notification.NotificationManager =
     AndroidNotificationManagerImpl(context = context)
 
 internal class AndroidNotificationManagerImpl internal constructor(
-    override val context: ApplicationContext
-) : com.mooncloak.vpn.app.shared.util.notification.NotificationManager {
+    override val context: Context
+) : com.mooncloak.vpn.util.notification.NotificationManager {
 
     override suspend fun areEnabled(): Boolean =
         NotificationManagerCompat.from(context).areNotificationsEnabled()

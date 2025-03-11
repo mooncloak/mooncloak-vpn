@@ -16,8 +16,8 @@ import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.data.sqlite.invoke
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
-import com.mooncloak.vpn.app.shared.util.notification.NotificationManager
-import com.mooncloak.vpn.app.shared.util.notification.invoke
+import com.mooncloak.vpn.util.notification.NotificationManager
+import com.mooncloak.vpn.util.notification.invoke
 import com.mooncloak.vpn.data.shared.cache.Cache
 import com.mooncloak.vpn.data.shared.cache.create
 import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase

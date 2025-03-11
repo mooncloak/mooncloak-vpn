@@ -8,6 +8,11 @@ import com.mooncloak.vpn.app.shared.resource.notification_action_vpn_disconnect
 import com.mooncloak.vpn.app.shared.resource.notification_title_shortcuts
 import com.mooncloak.vpn.app.shared.resource.notification_title_vpn
 import com.mooncloak.vpn.app.shared.theme.ColorPalette
+import com.mooncloak.vpn.util.notification.NotificationAction
+import com.mooncloak.vpn.util.notification.NotificationCategory
+import com.mooncloak.vpn.util.notification.NotificationChannelId
+import com.mooncloak.vpn.util.notification.NotificationManager
+import com.mooncloak.vpn.util.notification.NotificationPriority
 import org.jetbrains.compose.resources.getString
 
 public suspend fun NotificationManager.getVPNNotification(

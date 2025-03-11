@@ -46,6 +46,7 @@ kotlin {
             dependencies {
                 api(project(":util-shared"))
                 api(project(":util-shortcuts"))
+                api(project(":util-notification"))
                 api(project(":data-shared"))
                 api(project(":data-sqlite"))
                 api(project(":api-vpn"))

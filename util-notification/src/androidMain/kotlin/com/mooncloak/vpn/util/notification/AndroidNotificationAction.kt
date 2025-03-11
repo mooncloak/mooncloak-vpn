@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.util.notification
+package com.mooncloak.vpn.util.notification
 
 import android.app.PendingIntent
 import androidx.compose.runtime.Immutable

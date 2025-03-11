@@ -29,6 +29,7 @@
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/data-shared" />
             <option value="$PROJECT_DIR$/data-sqlite" />
+            <option value="$PROJECT_DIR$/util-notification" />
             <option value="$PROJECT_DIR$/util-shared" />
             <option value="$PROJECT_DIR$/util-shortcuts" />
             <option value="$PROJECT_DIR$/web-download" />
