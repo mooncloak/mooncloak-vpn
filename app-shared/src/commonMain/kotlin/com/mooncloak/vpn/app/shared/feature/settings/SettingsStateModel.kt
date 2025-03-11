@@ -13,6 +13,7 @@ public data class SettingsStateModel public constructor(
     public val deviceDetails: SettingsDeviceDetails? = null,
     public val wireGuardPreferences: WireGuardPreferences? = null,
     public val currentPlan: String? = null,
+    public val aboutUri: String? = null,
     public val privacyPolicyUri: String? = null,
     public val termsUri: String? = null,
     public val sourceCodeUri: String? = null,

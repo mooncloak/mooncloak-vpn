@@ -253,6 +253,7 @@ public fun SettingsScreen(
                 )
 
                 SettingsLegalGroup(
+                    aboutUri = viewModel.state.current.value.aboutUri,
                     privacyPolicyUri = viewModel.state.current.value.privacyPolicyUri,
                     termsUri = viewModel.state.current.value.termsUri
                 )

@@ -46,6 +46,8 @@ public interface AppClientInfo {
 
     public val rateAppUri: String get() = "https://play.google.com/store/apps/details?id=com.mooncloak.vpn.app.android.play"
 
+    public val aboutUri: String get() = "https://mooncloak.com/about"
+
     public val privacyPolicyUri: String get() = "https://mooncloak.com/legal/privacy"
 
     public val termsAndConditionsUri: String get() = "https://mooncloak.com/legal/terms"

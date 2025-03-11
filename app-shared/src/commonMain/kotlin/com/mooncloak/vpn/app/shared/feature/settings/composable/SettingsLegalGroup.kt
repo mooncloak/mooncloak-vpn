@@ -21,9 +21,11 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.cd_link_about
 import com.mooncloak.vpn.app.shared.resource.cd_link_privacy_policy
 import com.mooncloak.vpn.app.shared.resource.cd_link_terms
 import com.mooncloak.vpn.app.shared.resource.settings_group_legal
+import com.mooncloak.vpn.app.shared.resource.settings_title_about
 import com.mooncloak.vpn.app.shared.resource.settings_title_privacy_policy
 import com.mooncloak.vpn.app.shared.resource.settings_title_terms
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
@@ -31,6 +33,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun ColumnScope.SettingsLegalGroup(
+    aboutUri: String?,
     privacyPolicyUri: String?,
     termsUri: String?,
     uriHandler: UriHandler = LocalUriHandler.current
@@ -41,6 +44,33 @@ internal fun ColumnScope.SettingsLegalGroup(
                 .padding(top = 32.dp),
             text = stringResource(Res.string.settings_group_legal)
         )
+
+        AnimatedVisibility(
+            visible = aboutUri != null
+        ) {
+            ListItem(
+                modifier = Modifier.fillMaxWidth()
+                    .clickable {
+                        aboutUri?.let { uriHandler.openUri(it) }
+                    },
+                colors = ListItemDefaults.colors(
+                    containerColor = MaterialTheme.colorScheme.background
+                ),
+                headlineContent = {
+                    Text(text = stringResource(Res.string.settings_title_about))
+                },
+                trailingContent = {
+                    Icon(
+                        modifier = Modifier.size(20.dp),
+                        imageVector = Icons.AutoMirrored.Default.OpenInNew,
+                        contentDescription = stringResource(Res.string.cd_link_about),
+                        tint = MaterialTheme.colorScheme.onBackground.copy(
+                            alpha = SecondaryAlpha
+                        )
+                    )
+                }
+            )
+        }
 
         AnimatedVisibility(
             visible = privacyPolicyUri != null

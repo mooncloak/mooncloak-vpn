@@ -60,6 +60,7 @@ public class SettingsViewModel @Inject public constructor(
             var appDetails: SettingsAppDetails? = state.current.value.appDetails
             var deviceDetails: SettingsDeviceDetails? = state.current.value.deviceDetails
             var wireGuardPreferences: WireGuardPreferences? = state.current.value.wireGuardPreferences
+            var aboutUri: String? = state.current.value.aboutUri
             var privacyPolicyUri: String? = state.current.value.privacyPolicyUri
             var termsUri: String? = state.current.value.termsUri
             var sourceCodeUri: String? = state.current.value.sourceCodeUri
@@ -80,6 +81,7 @@ public class SettingsViewModel @Inject public constructor(
                 )
                 deviceDetails = getDeviceDetails()
                 wireGuardPreferences = preferencesStorage.wireGuard.current.value
+                aboutUri = appClientInfo.aboutUri
                 privacyPolicyUri = appClientInfo.privacyPolicyUri
                 termsUri = appClientInfo.termsAndConditionsUri
                 sourceCodeUri = appClientInfo.sourceCodeUri
@@ -98,6 +100,7 @@ public class SettingsViewModel @Inject public constructor(
                         appDetails = appDetails,
                         deviceDetails = deviceDetails,
                         wireGuardPreferences = wireGuardPreferences,
+                        aboutUri = aboutUri,
                         privacyPolicyUri = privacyPolicyUri,
                         termsUri = termsUri,
                         sourceCodeUri = sourceCodeUri,
@@ -116,6 +119,7 @@ public class SettingsViewModel @Inject public constructor(
                         appDetails = appDetails,
                         deviceDetails = deviceDetails,
                         wireGuardPreferences = wireGuardPreferences,
+                        aboutUri = aboutUri,
                         privacyPolicyUri = privacyPolicyUri,
                         termsUri = termsUri,
                         sourceCodeUri = sourceCodeUri,

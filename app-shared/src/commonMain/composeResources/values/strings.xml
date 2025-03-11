@@ -130,6 +130,7 @@
     <string name="server_list_pre_release_description">You're currently enjoying a pre-release version of our app! Once we’ve smoothed out the kinks and launch the first official version, we’ll be rolling out even more VPN servers for you!</string>
 
     <string name="settings_group_legal">Legal</string>
+    <string name="settings_title_about">About</string>
     <string name="settings_title_privacy_policy">Privacy Policy</string>
     <string name="settings_title_terms">Terms and Conditions</string>
     <string name="settings_group_theme">Theme</string>
