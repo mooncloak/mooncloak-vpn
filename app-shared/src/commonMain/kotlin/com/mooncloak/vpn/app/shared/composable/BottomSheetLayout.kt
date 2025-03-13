@@ -20,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -40,6 +41,7 @@ internal fun BottomSheetLayout(
             CircularProgressIndicator()
         }
     },
+    titleSpacing: Dp = 32.dp,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Surface(
@@ -63,7 +65,7 @@ internal fun BottomSheetLayout(
                         icon = icon
                     )
 
-                    Spacer(modifier = Modifier.height(32.dp))
+                    Spacer(modifier = Modifier.height(titleSpacing))
                 }
 
                 content.invoke(this)

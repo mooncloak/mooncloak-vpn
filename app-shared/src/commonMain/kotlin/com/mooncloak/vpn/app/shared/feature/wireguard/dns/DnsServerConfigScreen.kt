@@ -67,7 +67,9 @@ internal fun DnsServerConfigScreen(
     ) {
         BottomSheetLayout(
             modifier = modifier,
-            loadingState = derivedStateOf { viewModel.state.current.value.isLoading || viewModel.state.current.value.isSaving }
+            loadingState = derivedStateOf { viewModel.state.current.value.isLoading || viewModel.state.current.value.isSaving },
+            title = stringResource(Res.string.settings_dns_servers_header),
+            description = stringResource(Res.string.settings_dns_servers_description)
         ) {
             Box(
                 modifier = Modifier.fillMaxWidth()
@@ -78,24 +80,8 @@ internal fun DnsServerConfigScreen(
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(Res.string.settings_dns_servers_header),
-                        style = MaterialTheme.typography.titleLarge
-                    )
-
-                    Text(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(top = 8.dp),
-                        text = stringResource(Res.string.settings_dns_servers_description),
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
-                        )
-                    )
-
                     TextField(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(top = 32.dp),
+                        modifier = Modifier.fillMaxWidth(),
                         colors = TextFieldDefaults.colors(
                             unfocusedLabelColor = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha),
                             focusedLabelColor = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
