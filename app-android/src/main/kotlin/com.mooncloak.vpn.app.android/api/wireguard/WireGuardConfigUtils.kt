@@ -3,6 +3,7 @@ package com.mooncloak.vpn.app.android.api.wireguard
 import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
 import com.mooncloak.vpn.api.shared.server.RegisteredClient
 import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.server.requireIpAddress
 import com.mooncloak.vpn.api.shared.server.requireWireGuardEndpoint
 import com.wireguard.config.Config
 import com.wireguard.config.InetAddresses
@@ -16,13 +17,20 @@ import com.wireguard.crypto.KeyPair
 internal fun Server.toWireGuardConfig(
     keyPair: KeyPair,
     client: RegisteredClient,
-    preferences: WireGuardPreferences
+    wireGuardPreferences: WireGuardPreferences,
+    moonShieldEnabled: Boolean = false
 ): Config {
     val interfaceBuilder = Interface.Builder()
         .setKeyPair(keyPair)
         .addAddress(InetNetwork.parse(client.assignedAddress))
 
-    preferences.dnsAddresses.forEach { dnsAddress ->
+    // When MoonShield is enabled, we set the VPN server's IP Address as the first DNS server entry. This is because
+    // the VPN server is also set up to be a filtering DNS server for subscribers.
+    if (moonShieldEnabled) {
+        interfaceBuilder.addDnsServer(InetAddresses.parse(requireIpAddress()))
+    }
+
+    wireGuardPreferences.dnsAddresses.forEach { dnsAddress ->
         interfaceBuilder.addDnsServer(InetAddresses.parse(dnsAddress))
     }
 
@@ -37,7 +45,7 @@ internal fun Server.toWireGuardConfig(
             InetEndpoint.parse(requireWireGuardEndpoint())
         )
 
-    preferences.allowedIps.forEach { ip ->
+    wireGuardPreferences.allowedIps.forEach { ip ->
         peerBuilder = peerBuilder.addAllowedIp(InetNetwork.parse(ip))
     }
 

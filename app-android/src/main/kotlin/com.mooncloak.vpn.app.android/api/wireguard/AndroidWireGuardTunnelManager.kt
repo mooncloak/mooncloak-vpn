@@ -139,13 +139,14 @@ internal class AndroidWireGuardTunnelManager @Inject internal constructor(
                     serverId = server.id,
                     publicKey = keyPair.publicKey
                 )
-                val preferences = preferencesStorage.wireGuard.current.value
+                val wireGuardPreferences = preferencesStorage.wireGuard.current.value
 
                 val wireGuardTunnel = tunnel.toWireGuardTunnel()
                 val wireGuardConfig = server.toWireGuardConfig(
                     keyPair = keyPair.keyPair,
                     client = client,
-                    preferences = preferences
+                    wireGuardPreferences = wireGuardPreferences,
+                    moonShieldEnabled = preferencesStorage.moonShieldEnabled.get() ?: false
                 )
 
                 backend.setState(
