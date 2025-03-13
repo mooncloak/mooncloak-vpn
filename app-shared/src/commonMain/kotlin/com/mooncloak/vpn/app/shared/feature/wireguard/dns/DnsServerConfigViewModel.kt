@@ -14,10 +14,12 @@ import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.resource.settings_dns_servers_error_invalid_ip
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.util.IPv4AddressValidator
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -30,7 +32,8 @@ import kotlin.time.Duration.Companion.milliseconds
 public class DnsServerConfigViewModel @Inject public constructor(
     private val preferencesStorage: UserPreferenceSettings,
     private val ipAddressValidator: IPv4AddressValidator,
-    private val onSaveCompleteListener: DnsServerOnSaveCompleteListener
+    private val onSaveCompleteListener: DnsServerOnSaveCompleteListener,
+    private val userPreferenceSettings: UserPreferenceSettings
 ) : ViewModel<DnsServerConfigStateModel>(initialStateValue = DnsServerConfigStateModel()) {
 
     private val mutex = Mutex(locked = false)
@@ -40,6 +43,7 @@ public class DnsServerConfigViewModel @Inject public constructor(
 
     private var primaryJob: Job? = null
     private var secondaryJob: Job? = null
+    private var moonShieldJob: Job? = null
 
     @OptIn(ExperimentalPersistentStateAPI::class)
     public fun load() {
@@ -47,6 +51,7 @@ public class DnsServerConfigViewModel @Inject public constructor(
             mutex.withLock {
                 primaryJob?.cancel()
                 secondaryJob?.cancel()
+                moonShieldJob?.cancel()
 
                 try {
                     emit(
@@ -60,6 +65,7 @@ public class DnsServerConfigViewModel @Inject public constructor(
                         preferences.dnsAddresses.firstOrNull() ?: WireGuardPreferences.Defaults.PrimaryDnsServer
                     val secondaryDnsAddress = preferences.dnsAddresses.toList().getOrNull(1)
                         ?: WireGuardPreferences.Defaults.SecondaryDnsServer
+                    val moonShieldEnabled = userPreferenceSettings.moonShieldEnabled.get() ?: false
 
                     emit(
                         value = state.current.value.copy(
@@ -71,6 +77,7 @@ public class DnsServerConfigViewModel @Inject public constructor(
                             ),
                             initialPrimary = primaryDnsAddress,
                             initialSecondary = secondaryDnsAddress,
+                            moonShieldEnabled = moonShieldEnabled,
                             isLoading = false,
                             errorMessage = null
                         )
@@ -156,6 +163,19 @@ public class DnsServerConfigViewModel @Inject public constructor(
                         )
                     }
                     .launchIn(this)
+
+                moonShieldJob?.cancel()
+                moonShieldJob = userPreferenceSettings.moonShieldEnabled.flow()
+                    .onEach { moonShieldEnabled ->
+                        emit { current ->
+                            current.copy(
+                                moonShieldEnabled = moonShieldEnabled ?: false
+                            )
+                        }
+                    }
+                    .catch { LogPile.error(message = "Error listening to moon shield changes.", cause = it) }
+                    .flowOn(Dispatchers.Main)
+                    .launchIn(coroutineScope)
             }
         }
     }
@@ -202,6 +222,24 @@ public class DnsServerConfigViewModel @Inject public constructor(
                         selection = TextRange(index = initial.length)
                     )
                 )
+            }
+        }
+    }
+
+    public fun toggleMoonShield(active: Boolean) {
+        coroutineScope.launch {
+            mutex.withLock {
+                try {
+                    userPreferenceSettings.moonShieldEnabled.set(value = active)
+                } catch (e: Exception) {
+                    LogPile.error(message = "Error toggling MoonShield.", cause = e)
+
+                    emit { current ->
+                        current.copy(
+                            errorMessage = getString(Res.string.global_unexpected_error)
+                        )
+                    }
+                }
             }
         }
     }

@@ -32,6 +32,7 @@ import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheet
 import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.wireguard.dns.composable.DnsMoonShieldCard
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.cd_action_reset
 import com.mooncloak.vpn.app.shared.resource.settings_dns_servers_action_save
@@ -80,8 +81,15 @@ internal fun DnsServerConfigScreen(
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    TextField(
+                    DnsMoonShieldCard(
                         modifier = Modifier.fillMaxWidth(),
+                        active = viewModel.state.current.value.moonShieldEnabled,
+                        onActiveChange = viewModel::toggleMoonShield
+                    )
+
+                    TextField(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(top = 32.dp),
                         colors = TextFieldDefaults.colors(
                             unfocusedLabelColor = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha),
                             focusedLabelColor = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)

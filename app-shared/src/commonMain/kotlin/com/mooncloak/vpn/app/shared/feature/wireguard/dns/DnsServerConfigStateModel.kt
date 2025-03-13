@@ -9,6 +9,7 @@ public data class DnsServerConfigStateModel public constructor(
     public val initialSecondary: String = "",
     public val primary: TextFieldStateModel = TextFieldStateModel(),
     public val secondary: TextFieldStateModel = TextFieldStateModel(),
+    public val moonShieldEnabled: Boolean = false,
     public val isLoading: Boolean = true,
     public val isSaving: Boolean = false,
     public val errorMessage: String? = null

@@ -94,7 +94,7 @@ public fun SettingsScreen(
     val dependencyListBottomSheetState = rememberManagedModalBottomSheetState()
     val appDetailsBottomSheetState = rememberManagedModalBottomSheetState()
     val deviceDetailsBottomSheetState = rememberManagedModalBottomSheetState()
-    val dnsServerConfigBottomSheetState = rememberManagedModalBottomSheetState()
+    val dnsServerConfigBottomSheetState = rememberManagedModalBottomSheetState(skipPartiallyExpanded = true)
     val collaboratorListBottomSheetState = rememberManagedModalBottomSheetState()
 
     val scrollState = rememberScrollState()
