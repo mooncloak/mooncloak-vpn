@@ -326,8 +326,7 @@ public class HomeViewModel @Inject public constructor(
 
         items.add(
             HomeFeedItem.MoonShieldItem(
-                active = moonShieldEnabled,
-                toggleEnabled = subscription != null && subscription.isActive() && connection.isDisconnected()
+                active = moonShieldEnabled
             )
         )
 

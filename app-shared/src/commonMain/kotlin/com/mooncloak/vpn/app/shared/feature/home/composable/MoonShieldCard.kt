@@ -39,7 +39,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 internal fun MoonShieldCard(
     active: Boolean,
-    enabled: Boolean,
+    enabled: Boolean = true,
     onClick: () -> Unit,
     onActiveChange: (active: Boolean) -> Unit,
     modifier: Modifier = Modifier,

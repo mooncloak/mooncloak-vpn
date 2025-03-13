@@ -49,7 +49,7 @@ public sealed interface HomeFeedItem {
         public val estimatedBytesSaved: String? = null,
         public val estimatedTimeSaved: String? = null,
         public val active: Boolean = false,
-        public val toggleEnabled: Boolean = false
+        public val toggleEnabled: Boolean = true
     ) : HomeFeedItem {
 
         override val id: String = "MoonShieldItem"
