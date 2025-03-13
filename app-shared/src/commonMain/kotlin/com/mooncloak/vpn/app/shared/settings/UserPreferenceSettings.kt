@@ -7,6 +7,9 @@ import com.mooncloak.kodetools.statex.persistence.PersistableStateContainer
 import com.mooncloak.kodetools.statex.persistence.persistableStateContainerOf
 import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
+import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueProperty
+import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueStorage
+import com.mooncloak.vpn.data.shared.keyvalue.property
 import kotlinx.serialization.modules.SerializersModule
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
@@ -14,7 +17,8 @@ import kotlin.time.Duration.Companion.minutes
 @Singleton
 @OptIn(ExperimentalPersistentStateAPI::class)
 public class UserPreferenceSettings @Inject public constructor(
-    serializersModule: SerializersModule
+    serializersModule: SerializersModule,
+    storage: MutableKeyValueStorage
 ) {
 
     public val theme: PersistableStateContainer<ThemePreference?> = persistableStateContainerOf(
@@ -47,6 +51,8 @@ public class UserPreferenceSettings @Inject public constructor(
         serializersModule = serializersModule
     )
 
+    public val moonShieldEnabled: MutableKeyValueProperty<Boolean> by storage.property(key = MOON_SHIELD_ENABLED)
+
     internal companion object Key {
 
         private const val THEME = "com.mooncloak.vpn.app.storage.key.theme"
@@ -54,5 +60,6 @@ public class UserPreferenceSettings @Inject public constructor(
         private const val REQUIRE_SYSTEM_AUTH = "com.mooncloak.vpn.app.storage.key.system_auth.enabled"
         private const val SYSTEM_AUTH_TIMEOUT = "com.mooncloak.vpn.app.storage.key.system_auth.timeout"
         private const val WIRE_GUARD = "com.mooncloak.vpn.app.storage.key.wireguard"
+        private const val MOON_SHIELD_ENABLED = "com.mooncloak.vpn.app.storage.key.moonshield.enabled"
     }
 }

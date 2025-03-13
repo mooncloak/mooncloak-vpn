@@ -22,8 +22,10 @@ import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.api.shared.vpn.VPNConnection
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
+import com.mooncloak.vpn.api.shared.service.isActive
 import com.mooncloak.vpn.api.shared.vpn.connectedTo
 import com.mooncloak.vpn.api.shared.vpn.isConnected
+import com.mooncloak.vpn.api.shared.vpn.isDisconnected
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
@@ -45,6 +47,7 @@ import com.mooncloak.vpn.app.shared.resource.onboarding_title_no_tracking
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_payment_crypto
 import com.mooncloak.vpn.app.shared.resource.onboarding_title_payment_google_play
 import com.mooncloak.vpn.app.shared.settings.SubscriptionSettings
+import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.util.time.remaining
 import com.mooncloak.vpn.util.shared.time.DurationFormatter
 import kotlinx.coroutines.Dispatchers
@@ -72,7 +75,8 @@ public class HomeViewModel @Inject public constructor(
     private val deviceIPAddressProvider: DeviceIPAddressProvider,
     private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider,
     private val clock: Clock,
-    private val durationFormatter: DurationFormatter = DurationFormatter.remaining()
+    private val durationFormatter: DurationFormatter = DurationFormatter.remaining(),
+    private val userPreferenceSettings: UserPreferenceSettings
 ) : ViewModel<HomeStateModel>(initialStateValue = HomeStateModel()) {
 
     private val showcaseItems = listOf(
@@ -127,6 +131,7 @@ public class HomeViewModel @Inject public constructor(
 
     private var connectionJob: Job? = null
     private var subscriptionJob: Job? = null
+    private var moonShieldJob: Job? = null
 
     public fun load() {
         coroutineScope.launch {
@@ -143,7 +148,8 @@ public class HomeViewModel @Inject public constructor(
 
                 val items = getFeedItems(
                     subscription = initialSubscription,
-                    connection = state.current.value.connection
+                    connection = state.current.value.connection,
+                    moonShieldEnabled = state.current.value.moonShieldEnabled
                 )
 
                 emit { current ->
@@ -177,7 +183,8 @@ public class HomeViewModel @Inject public constructor(
                     emit { current ->
                         val updatedItems = getFeedItems(
                             subscription = current.subscription,
-                            connection = connection
+                            connection = connection,
+                            moonShieldEnabled = current.moonShieldEnabled
                         )
 
                         current.copy(
@@ -197,7 +204,8 @@ public class HomeViewModel @Inject public constructor(
                     emit { current ->
                         val updatedItems = getFeedItems(
                             subscription = subscription,
-                            connection = current.connection
+                            connection = current.connection,
+                            moonShieldEnabled = current.moonShieldEnabled
                         )
 
                         current.copy(
@@ -207,6 +215,26 @@ public class HomeViewModel @Inject public constructor(
                     }
                 }
                 .catch { e -> LogPile.error(message = "Error listening to subscription changes.", cause = e) }
+                .flowOn(Dispatchers.Main)
+                .launchIn(coroutineScope)
+
+            moonShieldJob?.cancel()
+            moonShieldJob = userPreferenceSettings.moonShieldEnabled.flow()
+                .onEach { moonShieldEnabled ->
+                    emit { current ->
+                        val updatedItems = getFeedItems(
+                            subscription = current.subscription,
+                            connection = current.connection,
+                            moonShieldEnabled = moonShieldEnabled ?: false
+                        )
+
+                        current.copy(
+                            items = updatedItems,
+                            moonShieldEnabled = moonShieldEnabled ?: false
+                        )
+                    }
+                }
+                .catch { LogPile.error(message = "Error listening to moon shield changes.", cause = it) }
                 .flowOn(Dispatchers.Main)
                 .launchIn(coroutineScope)
         }
@@ -237,9 +265,28 @@ public class HomeViewModel @Inject public constructor(
         }
     }
 
+    public fun toggleMoonShield(active: Boolean) {
+        coroutineScope.launch {
+            mutex.withLock {
+                try {
+                    userPreferenceSettings.moonShieldEnabled.set(value = active)
+                } catch (e: Exception) {
+                    LogPile.error(message = "Error toggling MoonShield.", cause = e)
+
+                    emit { current ->
+                        current.copy(
+                            errorMessage = getString(Res.string.global_unexpected_error)
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     private suspend fun getFeedItems(
         subscription: ServiceSubscription?,
-        connection: VPNConnection
+        connection: VPNConnection,
+        moonShieldEnabled: Boolean
     ): List<HomeFeedItem> {
         val items = mutableListOf<HomeFeedItem>()
 
@@ -277,11 +324,10 @@ public class HomeViewModel @Inject public constructor(
             )
         }
 
-        // TODO: MoonShield Item
         items.add(
             HomeFeedItem.MoonShieldItem(
-                active = false,
-                toggleEnabled = true
+                active = moonShieldEnabled,
+                toggleEnabled = subscription != null && subscription.isActive() && connection.isDisconnected()
             )
         )
 

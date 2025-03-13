@@ -110,7 +110,7 @@ internal fun MoonShieldCard(
                 Switch(
                     enabled = enabled,
                     checked = active,
-                    onCheckedChange = {},
+                    onCheckedChange = onActiveChange,
                     colors = SwitchDefaults.colors()
                 )
             }

@@ -15,6 +15,7 @@ public data class HomeStateModel public constructor(
     public val servers: List<Server> = emptyList(),
     public val connection: VPNConnection = VPNConnection.Disconnected(),
     public val items: List<HomeFeedItem> = emptyList(),
+    public val moonShieldEnabled: Boolean = false,
     public val isCheckingStatus: Boolean = true,
     public val isLoading: Boolean = false,
     public val errorMessage: String? = null

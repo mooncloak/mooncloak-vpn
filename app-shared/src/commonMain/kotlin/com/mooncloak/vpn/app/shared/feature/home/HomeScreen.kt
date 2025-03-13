@@ -130,9 +130,7 @@ public fun HomeScreen(
                         onClick = {
                             // TODO: Open MoonShield Details
                         },
-                        onActiveChange = { active ->
-                            // TODO: Toggle active state
-                        }
+                        onActiveChange = viewModel::toggleMoonShield
                     )
 
                     HomeFeedItem.GetVPNServiceItem -> GetVPNServiceCard(
