@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsAppDetails
 import com.mooncloak.vpn.app.shared.feature.settings.model.SettingsDeviceDetails
+import com.mooncloak.vpn.app.shared.theme.ThemePreference
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
@@ -22,6 +23,7 @@ public data class SettingsStateModel public constructor(
     public val isSystemAuthSupported: Boolean = false,
     public val requireSystemAuth: Boolean = false,
     public val systemAuthTimeout: Duration = 5.minutes,
+    public val themePreference: ThemePreference = ThemePreference.System,
     public val isLoading: Boolean = false,
     public val errorMessage: String? = null
 )

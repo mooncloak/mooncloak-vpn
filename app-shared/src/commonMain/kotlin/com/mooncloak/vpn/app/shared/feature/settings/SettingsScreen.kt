@@ -30,11 +30,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
-import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
-import com.mooncloak.vpn.app.shared.di.rememberDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.collaborator.list.CollaboratorListScreen
 import com.mooncloak.vpn.app.shared.feature.dependency.DependencyLicenseListScreen
@@ -60,7 +57,6 @@ import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalPersistentStateAPI::class)
 @Composable
 public fun SettingsScreen(
     modifier: Modifier = Modifier,
@@ -99,7 +95,6 @@ public fun SettingsScreen(
 
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
-    val preferencesStorage = rememberDependency { preferenceStorage }
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -154,12 +149,8 @@ public fun SettingsScreen(
                 )
 
                 SettingsThemeGroup(
-                    themePreference = preferencesStorage.theme.current.value,
-                    onThemePreferenceValueChanged = { preference ->
-                        coroutineScope.launch {
-                            preferencesStorage.theme.update(preference)
-                        }
-                    }
+                    themePreference = viewModel.state.current.value.themePreference,
+                    onThemePreferenceValueChanged = viewModel::updateThemePreference
                 )
 
                 HorizontalDivider(

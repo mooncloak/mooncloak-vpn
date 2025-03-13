@@ -5,8 +5,6 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
-import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionFlowProvider
 import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.network.ip.LocalDeviceIPAddressProvider
@@ -23,6 +21,7 @@ import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.resource.subscription_no_active_plan
 import com.mooncloak.vpn.app.shared.resource.subscription_title_active_plan
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
+import com.mooncloak.vpn.app.shared.theme.ThemePreference
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -31,13 +30,15 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.getString
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
 
-@OptIn(ExperimentalPersistentStateAPI::class)
 @Stable
 @FeatureScoped
 public class SettingsViewModel @Inject public constructor(
@@ -50,9 +51,10 @@ public class SettingsViewModel @Inject public constructor(
     private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider
 ) : ViewModel<SettingsStateModel>(initialStateValue = SettingsStateModel()) {
 
+    private val mutex = Mutex(locked = false)
+
     private var subscriptionJob: Job? = null
 
-    @OptIn(ExperimentalPersistentStateAPI::class)
     public fun load() {
         coroutineScope.launch {
             emit(value = state.current.value.copy(isLoading = true))
@@ -69,6 +71,7 @@ public class SettingsViewModel @Inject public constructor(
             var isSystemAuthSupported = state.current.value.isSystemAuthSupported
             var requireSystemAuth = state.current.value.requireSystemAuth
             var systemAuthTimeout = state.current.value.systemAuthTimeout
+            var themePreference = state.current.value.themePreference
 
             try {
                 appDetails = SettingsAppDetails(
@@ -80,19 +83,20 @@ public class SettingsViewModel @Inject public constructor(
                     buildTime = appClientInfo.buildTime
                 )
                 deviceDetails = getDeviceDetails()
-                wireGuardPreferences = preferencesStorage.wireGuard.current.value
+                wireGuardPreferences = preferencesStorage.wireGuard.get()
                 aboutUri = appClientInfo.aboutUri
                 privacyPolicyUri = appClientInfo.privacyPolicyUri
                 termsUri = appClientInfo.termsAndConditionsUri
                 sourceCodeUri = appClientInfo.sourceCodeUri
-                startOnLandingScreen = preferencesStorage.alwaysDisplayLanding.current.value
+                startOnLandingScreen = preferencesStorage.alwaysDisplayLanding.get() ?: false
                 copyright = getString(
                     Res.string.app_copyright,
                     clock.now().toLocalDateTime(TimeZone.currentSystemDefault()).year.toString()
                 )
                 isSystemAuthSupported = systemAuthenticationProvider.isSupported
-                requireSystemAuth = preferencesStorage.requireSystemAuth.current.value
-                systemAuthTimeout = preferencesStorage.systemAuthTimeout.current.value
+                requireSystemAuth = preferencesStorage.requireSystemAuth.get() ?: false
+                systemAuthTimeout = preferencesStorage.systemAuthTimeout.get() ?: 5.minutes
+                themePreference = preferencesStorage.theme.get() ?: ThemePreference.System
 
                 emit { current ->
                     current.copy(
@@ -108,7 +112,8 @@ public class SettingsViewModel @Inject public constructor(
                         copyright = copyright,
                         isSystemAuthSupported = isSystemAuthSupported,
                         requireSystemAuth = requireSystemAuth,
-                        systemAuthTimeout = systemAuthTimeout
+                        systemAuthTimeout = systemAuthTimeout,
+                        themePreference = themePreference
                     )
                 }
             } catch (e: Exception) {
@@ -127,7 +132,8 @@ public class SettingsViewModel @Inject public constructor(
                         copyright = copyright,
                         isSystemAuthSupported = isSystemAuthSupported,
                         requireSystemAuth = requireSystemAuth,
-                        systemAuthTimeout = systemAuthTimeout
+                        systemAuthTimeout = systemAuthTimeout,
+                        themePreference = themePreference
                     )
                 }
             }
@@ -151,22 +157,24 @@ public class SettingsViewModel @Inject public constructor(
 
     public fun toggleStartOnLandingScreen(checked: Boolean) {
         coroutineScope.launch {
-            emit { current ->
-                current.copy(
-                    startOnLandingScreen = checked
-                )
-            }
-
-            try {
-                preferencesStorage.alwaysDisplayLanding.update(checked)
-            } catch (e: Exception) {
-                LogPile.error(message = "Error storing 'start on landing screen' toggle value.", cause = e)
-
+            mutex.withLock {
                 emit { current ->
                     current.copy(
-                        startOnLandingScreen = !checked,
-                        errorMessage = getString(Res.string.global_unexpected_error)
+                        startOnLandingScreen = checked
                     )
+                }
+
+                try {
+                    preferencesStorage.alwaysDisplayLanding.set(checked)
+                } catch (e: Exception) {
+                    LogPile.error(message = "Error storing 'start on landing screen' toggle value.", cause = e)
+
+                    emit { current ->
+                        current.copy(
+                            startOnLandingScreen = !checked,
+                            errorMessage = getString(Res.string.global_unexpected_error)
+                        )
+                    }
                 }
             }
         }
@@ -174,22 +182,24 @@ public class SettingsViewModel @Inject public constructor(
 
     public fun toggleRequireSystemAuth(checked: Boolean) {
         coroutineScope.launch {
-            emit { current ->
-                current.copy(
-                    requireSystemAuth = checked
-                )
-            }
-
-            try {
-                preferencesStorage.requireSystemAuth.update(checked)
-            } catch (e: Exception) {
-                LogPile.error(message = "Error storing 'require system auth' toggle value.", cause = e)
-
+            mutex.withLock {
                 emit { current ->
                     current.copy(
-                        requireSystemAuth = !checked,
-                        errorMessage = getString(Res.string.global_unexpected_error)
+                        requireSystemAuth = checked
                     )
+                }
+
+                try {
+                    preferencesStorage.requireSystemAuth.set(checked)
+                } catch (e: Exception) {
+                    LogPile.error(message = "Error storing 'require system auth' toggle value.", cause = e)
+
+                    emit { current ->
+                        current.copy(
+                            requireSystemAuth = !checked,
+                            errorMessage = getString(Res.string.global_unexpected_error)
+                        )
+                    }
                 }
             }
         }
@@ -197,24 +207,53 @@ public class SettingsViewModel @Inject public constructor(
 
     public fun updateSystemAuthTimeout(timeout: Duration) {
         coroutineScope.launch {
-            val systemAuthTimeout = state.current.value.systemAuthTimeout
-
-            emit { current ->
-                current.copy(
-                    systemAuthTimeout = timeout
-                )
-            }
-
-            try {
-                preferencesStorage.systemAuthTimeout.update(timeout)
-            } catch (e: Exception) {
-                LogPile.error(message = "Error storing 'system auth timeout' value.", cause = e)
+            mutex.withLock {
+                val systemAuthTimeout = state.current.value.systemAuthTimeout
 
                 emit { current ->
                     current.copy(
-                        systemAuthTimeout = systemAuthTimeout,
-                        errorMessage = getString(Res.string.global_unexpected_error)
+                        systemAuthTimeout = timeout
                     )
+                }
+
+                try {
+                    preferencesStorage.systemAuthTimeout.set(timeout)
+                } catch (e: Exception) {
+                    LogPile.error(message = "Error storing 'system auth timeout' value.", cause = e)
+
+                    emit { current ->
+                        current.copy(
+                            systemAuthTimeout = systemAuthTimeout,
+                            errorMessage = getString(Res.string.global_unexpected_error)
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    public fun updateThemePreference(value: ThemePreference) {
+        coroutineScope.launch {
+            mutex.withLock {
+                val currentTheme = state.current.value.themePreference
+
+                emit { current ->
+                    current.copy(
+                        themePreference = value
+                    )
+                }
+
+                try {
+                    preferencesStorage.theme.set(value)
+                } catch (e: Exception) {
+                    LogPile.error(message = "Error storing 'theme preference' value.", cause = e)
+
+                    emit { current ->
+                        current.copy(
+                            themePreference = currentTheme,
+                            errorMessage = getString(Res.string.global_unexpected_error)
+                        )
+                    }
                 }
             }
         }

@@ -12,7 +12,6 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.api.shared.billing.BillingManager
 import com.mooncloak.vpn.api.shared.billing.isFailure
 import com.mooncloak.vpn.api.shared.billing.isSuccess
@@ -31,7 +30,6 @@ import com.mooncloak.vpn.app.shared.resource.payment_notice_beta
 import com.mooncloak.vpn.app.shared.resource.payment_plans_title
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
-import com.mooncloak.vpn.app.shared.theme.isInDarkTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
@@ -56,7 +54,6 @@ public class PaymentViewModel @Inject public constructor(
 
     private var plansJob: Job? = null
 
-    @OptIn(ExperimentalPersistentStateAPI::class)
     public fun load() {
         coroutineScope.launch {
             mutex.withLock {
@@ -74,7 +71,7 @@ public class PaymentViewModel @Inject public constructor(
 
                 try {
                     termsAndConditionsText = getTermsAndConditionsText()
-                    themePreference = userPreferenceSettings.theme.current.value ?: ThemePreference.System
+                    themePreference = userPreferenceSettings.theme.get() ?: ThemePreference.System
 
                     // TODO: Obtain current plan invoice
                     // TODO: Use presence of plan invoice to determine whether to show plans or invoice screen

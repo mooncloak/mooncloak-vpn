@@ -6,7 +6,6 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.settings.AppSettings
@@ -19,7 +18,6 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
 import kotlin.coroutines.resume
 
-@OptIn(ExperimentalPersistentStateAPI::class)
 @Stable
 @FeatureScoped
 public class ApplicationRootViewModel @Inject public constructor(
@@ -38,7 +36,7 @@ public class ApplicationRootViewModel @Inject public constructor(
 
             mutex.withLock {
                 val viewedOnboarding = appStorage.viewedOnboarding.current.value
-                val alwaysDisplayLanding = preferencesStorage.alwaysDisplayLanding.current.value
+                val alwaysDisplayLanding = preferencesStorage.alwaysDisplayLanding.get() ?: false
                 val requireAuth = systemAuthenticationProvider.shouldLaunch()
 
                 val destination = when {

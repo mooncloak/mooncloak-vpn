@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +26,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil3.SingletonImageLoader
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.LocalApplicationComponent
@@ -47,7 +47,6 @@ import com.mooncloak.vpn.util.notification.NotificationChannelId
 import com.mooncloak.vpn.util.notification.NotificationPriority
 import org.jetbrains.compose.resources.getString
 
-@OptIn(ExperimentalPersistentStateAPI::class)
 @Composable
 public fun ApplicationRootScreen(
     applicationComponent: ApplicationComponent,
@@ -56,6 +55,8 @@ public fun ApplicationRootScreen(
     uriHandler: UriHandler = LocalUriHandler.current
 ) {
     val navController = rememberNavController()
+
+    val themePreference = remember { mutableStateOf(ThemePreference.System) }
 
     CompositionLocalProvider(
         LocalApplicationComponent provides applicationComponent,
@@ -91,6 +92,8 @@ public fun ApplicationRootScreen(
         }
 
         LaunchedEffect(Unit) {
+            themePreference.value = preferencesStorage.theme.get() ?: ThemePreference.System
+
             // It is safe to call this numerous times (at least on Android). The Android documentation recommends
             // calling this early in the application, so we call it in the root screen.
             // TODO: Move all these definitions to their own util component.
@@ -115,7 +118,7 @@ public fun ApplicationRootScreen(
         }
 
         MooncloakTheme(
-            themePreference = preferencesStorage.theme.current.value ?: ThemePreference.System
+            themePreference = themePreference.value
         ) {
             Scaffold(
                 modifier = modifier,

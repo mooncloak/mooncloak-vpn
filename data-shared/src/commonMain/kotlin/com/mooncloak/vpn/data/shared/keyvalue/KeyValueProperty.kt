@@ -53,3 +53,16 @@ public interface MutableKeyValueProperty<Value : Any> : KeyValueProperty<Value> 
 
     public companion object
 }
+
+/**
+ * A convenience function for updating the current value if it is already present.
+ */
+public suspend fun <Value : Any> MutableKeyValueProperty<Value>.update(block: (current: Value) -> Value) {
+    val current = this.get()
+
+    if (current != null) {
+        val updated = block.invoke(current)
+
+        this.set(value = updated)
+    }
+}

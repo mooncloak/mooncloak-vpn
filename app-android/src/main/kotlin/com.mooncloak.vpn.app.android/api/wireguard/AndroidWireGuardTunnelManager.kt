@@ -8,9 +8,9 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.logpile.core.info
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.api.shared.VpnServiceApi
 import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
+import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.app.shared.api.server.usecase.RegisterClientUseCase
@@ -123,7 +123,6 @@ internal class AndroidWireGuardTunnelManager @Inject internal constructor(
         }
     }
 
-    @OptIn(ExperimentalPersistentStateAPI::class)
     override suspend fun connect(server: Server): Tunnel =
         tunnelMutex.withLock {
             withContext(Dispatchers.IO) {
@@ -139,7 +138,7 @@ internal class AndroidWireGuardTunnelManager @Inject internal constructor(
                     serverId = server.id,
                     publicKey = keyPair.publicKey
                 )
-                val wireGuardPreferences = preferencesStorage.wireGuard.current.value
+                val wireGuardPreferences = preferencesStorage.wireGuard.get() ?: WireGuardPreferences()
 
                 val wireGuardTunnel = tunnel.toWireGuardTunnel()
                 val wireGuardConfig = server.toWireGuardConfig(

@@ -14,6 +14,7 @@ import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.resource.settings_dns_servers_error_invalid_ip
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.util.IPv4AddressValidator
+import com.mooncloak.vpn.data.shared.keyvalue.update
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -60,7 +61,7 @@ public class DnsServerConfigViewModel @Inject public constructor(
                         )
                     )
 
-                    val preferences = preferencesStorage.wireGuard.current.value
+                    val preferences = preferencesStorage.wireGuard.get() ?: WireGuardPreferences()
                     val primaryDnsAddress =
                         preferences.dnsAddresses.firstOrNull() ?: WireGuardPreferences.Defaults.PrimaryDnsServer
                     val secondaryDnsAddress = preferences.dnsAddresses.toList().getOrNull(1)

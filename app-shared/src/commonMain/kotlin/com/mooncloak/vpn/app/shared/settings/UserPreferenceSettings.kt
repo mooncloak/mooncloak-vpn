@@ -2,54 +2,27 @@ package com.mooncloak.vpn.app.shared.settings
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.konstruct.annotations.Singleton
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
-import com.mooncloak.kodetools.statex.persistence.PersistableStateContainer
-import com.mooncloak.kodetools.statex.persistence.persistableStateContainerOf
 import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
 import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueProperty
 import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueStorage
 import com.mooncloak.vpn.data.shared.keyvalue.property
-import kotlinx.serialization.modules.SerializersModule
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.minutes
 
 @Singleton
-@OptIn(ExperimentalPersistentStateAPI::class)
 public class UserPreferenceSettings @Inject public constructor(
-    serializersModule: SerializersModule,
     storage: MutableKeyValueStorage
 ) {
 
-    public val theme: PersistableStateContainer<ThemePreference?> = persistableStateContainerOf(
-        key = THEME,
-        defaultValue = null,
-        serializersModule = serializersModule
-    )
+    public val theme: MutableKeyValueProperty<ThemePreference> by storage.property(key = THEME)
 
-    public val alwaysDisplayLanding: PersistableStateContainer<Boolean> = persistableStateContainerOf(
-        key = ALWAYS_DISPLAY_LANDING,
-        defaultValue = false,
-        serializersModule = serializersModule
-    )
+    public val alwaysDisplayLanding: MutableKeyValueProperty<Boolean> by storage.property(key = ALWAYS_DISPLAY_LANDING)
 
-    public val requireSystemAuth: PersistableStateContainer<Boolean> = persistableStateContainerOf(
-        key = REQUIRE_SYSTEM_AUTH,
-        defaultValue = false,
-        serializersModule = serializersModule
-    )
+    public val requireSystemAuth: MutableKeyValueProperty<Boolean> by storage.property(key = REQUIRE_SYSTEM_AUTH)
 
-    public val systemAuthTimeout: PersistableStateContainer<Duration> = persistableStateContainerOf(
-        key = SYSTEM_AUTH_TIMEOUT,
-        defaultValue = 5.minutes,
-        serializersModule = serializersModule
-    )
+    public val systemAuthTimeout: MutableKeyValueProperty<Duration> by storage.property(key = SYSTEM_AUTH_TIMEOUT)
 
-    public val wireGuard: PersistableStateContainer<WireGuardPreferences> = persistableStateContainerOf(
-        key = WIRE_GUARD,
-        defaultValue = WireGuardPreferences(),
-        serializersModule = serializersModule
-    )
+    public val wireGuard: MutableKeyValueProperty<WireGuardPreferences> by storage.property(key = WIRE_GUARD)
 
     public val moonShieldEnabled: MutableKeyValueProperty<Boolean> by storage.property(key = MOON_SHIELD_ENABLED)
 
