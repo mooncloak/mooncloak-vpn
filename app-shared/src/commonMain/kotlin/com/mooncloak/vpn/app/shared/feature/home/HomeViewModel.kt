@@ -277,6 +277,14 @@ public class HomeViewModel @Inject public constructor(
             )
         }
 
+        // TODO: MoonShield Item
+        items.add(
+            HomeFeedItem.MoonShieldItem(
+                active = false,
+                toggleEnabled = true
+            )
+        )
+
         items.addAll(showcaseItems)
 
         // TODO: The list of items for the subscribed user.

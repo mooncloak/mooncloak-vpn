@@ -122,12 +122,16 @@ public fun HomeScreen(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth()
                             .animateItem(),
-                        adsBlocked = item.adsBlocked ?: 0,
-                        trackersBlocked = item.trackersBlocked ?: 0,
-                        bytesSaved = item.estimatedBytesSaved,
                         active = item.active,
+                        enabled = item.toggleEnabled,
+                        trackersBlocked = item.trackersBlocked,
+                        timeSaved = item.estimatedTimeSaved,
+                        bytesSaved = item.estimatedBytesSaved,
                         onClick = {
                             // TODO: Open MoonShield Details
+                        },
+                        onActiveChange = { active ->
+                            // TODO: Toggle active state
                         }
                     )
 

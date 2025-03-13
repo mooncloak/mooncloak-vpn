@@ -53,12 +53,14 @@
     <string name="connection_type_tor">Tor</string>
     <string name="connection_type_multiple">Secure Multiple</string>
 
-    <string name="ad_shield_title">MoonShield</string>
-    <string name="ad_shield_label_ads_blocked">Ads blocked</string>
-    <string name="ad_shield_label_trackers_blocked">Trackers blocked</string>
-    <string name="ad_shield_label_data_saved">Data saved</string>
-    <string name="ad_shield_active">On</string>
-    <string name="ad_shield_inactive">Off</string>
+    <string name="moon_shield_title">MoonShield</string>
+    <string name="moon_shield_description_brief">Blocks trackers, ads, and data creeps with our custom DNS—free for all mooncloak VPN users.</string>
+    <string name="moon_shield_description_long">MoonShield is your built-in defense against online nuisances. Powered by a custom DNS server, it filters out trackers, advertisements, and invasive creepware, keeping your browsing cleaner and more private. Seamlessly integrated with mooncloak VPN, this service comes at no extra cost. Enjoy a safer, ad-free internet without the hassle.</string>
+    <string name="moon_shield_label_trackers_blocked">Trackers blocked</string>
+    <string name="moon_shield_label_time_saved">Time saved</string>
+    <string name="moon_shield_label_data_saved">Data saved</string>
+    <string name="moon_shield_active">Shields Up</string>
+    <string name="moon_shield_inactive">Shields Down</string>
 
     <string name="plan_usage_title">Plan Usage</string>
     <string name="plan_usage_label_time_remaining">Time Remaining</string>

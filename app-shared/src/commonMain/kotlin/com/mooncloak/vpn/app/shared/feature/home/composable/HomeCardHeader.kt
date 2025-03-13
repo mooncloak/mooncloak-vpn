@@ -52,7 +52,8 @@ internal fun HomeCardHeader(
             Text(
                 modifier = Modifier.padding(start = if (leadingIcon != null) 8.dp else 0.dp),
                 text = leadingText,
-                style = leadingTextStyle.copy(color = leadingContentColor),
+                style = leadingTextStyle,
+                color = leadingContentColor,
                 maxLines = 1,
                 overflow = TextOverflow.Clip
             )

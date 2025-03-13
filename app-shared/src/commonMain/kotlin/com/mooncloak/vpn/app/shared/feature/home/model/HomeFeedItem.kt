@@ -45,10 +45,11 @@ public sealed interface HomeFeedItem {
 
     @Immutable
     public data class MoonShieldItem public constructor(
-        public val adsBlocked: Int? = null,
-        public val trackersBlocked: Int? = null,
-        public val estimatedBytesSaved: Long? = null,
-        public val active: Boolean = false
+        public val trackersBlocked: String? = null,
+        public val estimatedBytesSaved: String? = null,
+        public val estimatedTimeSaved: String? = null,
+        public val active: Boolean = false,
+        public val toggleEnabled: Boolean = false
     ) : HomeFeedItem {
 
         override val id: String = "MoonShieldItem"
