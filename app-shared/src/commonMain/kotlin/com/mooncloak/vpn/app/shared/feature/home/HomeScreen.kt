@@ -34,6 +34,7 @@ import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.MoonShieldCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.GetVPNServiceCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ShowcaseCard
+import com.mooncloak.vpn.app.shared.feature.home.layout.MoonShieldDescriptionBottomSheet
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.rememberPurchasingState
@@ -72,6 +73,7 @@ public fun HomeScreen(
     )
 
     val serverDetailsBottomSheetState = rememberServerDetailsBottomSheetState()
+    val moonShieldBottomSheetState = rememberManagedModalBottomSheetState()
 
     val hazeState = remember { HazeState() }
 
@@ -128,7 +130,9 @@ public fun HomeScreen(
                         timeSaved = item.estimatedTimeSaved,
                         bytesSaved = item.estimatedBytesSaved,
                         onClick = {
-                            // TODO: Open MoonShield Details
+                            coroutineScope.launch {
+                                moonShieldBottomSheetState.show()
+                            }
                         },
                         onActiveChange = viewModel::toggleMoonShield
                     )
@@ -232,6 +236,11 @@ public fun HomeScreen(
     ServerDetailsScreen(
         modifier = Modifier.fillMaxWidth(),
         state = serverDetailsBottomSheetState
+    )
+
+    MoonShieldDescriptionBottomSheet(
+        modifier = Modifier.fillMaxWidth(),
+        sheetState = moonShieldBottomSheetState
     )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {
