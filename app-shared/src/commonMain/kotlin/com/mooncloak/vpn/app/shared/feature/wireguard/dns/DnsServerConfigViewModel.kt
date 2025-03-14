@@ -6,7 +6,6 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
 import com.mooncloak.vpn.app.shared.model.TextFieldStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -46,7 +45,6 @@ public class DnsServerConfigViewModel @Inject public constructor(
     private var secondaryJob: Job? = null
     private var moonShieldJob: Job? = null
 
-    @OptIn(ExperimentalPersistentStateAPI::class)
     public fun load() {
         coroutineScope.launch {
             mutex.withLock {
@@ -245,7 +243,6 @@ public class DnsServerConfigViewModel @Inject public constructor(
         }
     }
 
-    @OptIn(ExperimentalPersistentStateAPI::class)
     public fun save() {
         coroutineScope.launch {
             mutex.withLock {

@@ -140,11 +140,13 @@ public class HomeViewModel @Inject public constructor(
             var initialSubscription: ServiceSubscription? = null
             var localIpAddress: String? = null
             var deviceIpAddress: String? = null
+            var moonShieldEnabled = false
 
             try {
                 initialSubscription = subscriptionStorage.subscription.get()
                 localIpAddress = localDeviceIPAddressProvider.get()
                 deviceIpAddress = deviceIPAddressProvider.get()
+                moonShieldEnabled = userPreferenceSettings.moonShieldEnabled.get() ?: false
 
                 val items = getFeedItems(
                     subscription = initialSubscription,
@@ -157,6 +159,7 @@ public class HomeViewModel @Inject public constructor(
                         subscription = initialSubscription,
                         publicIpAddress = deviceIpAddress,
                         localIpAddress = localIpAddress,
+                        moonShieldEnabled = moonShieldEnabled,
                         items = items,
                         isLoading = false,
                         isCheckingStatus = false
@@ -170,6 +173,7 @@ public class HomeViewModel @Inject public constructor(
                         subscription = initialSubscription,
                         publicIpAddress = deviceIpAddress,
                         localIpAddress = localIpAddress,
+                        moonShieldEnabled = moonShieldEnabled,
                         isLoading = false,
                         isCheckingStatus = false,
                         errorMessage = getString(Res.string.global_unexpected_error)
