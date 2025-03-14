@@ -9,8 +9,7 @@ import com.mooncloak.vpn.app.android.api.wireguard.WireGuardBackend
 import com.mooncloak.vpn.app.android.api.wireguard.AndroidWireGuardTunnelManager
 import com.mooncloak.vpn.app.android.util.WireGuardVpnContextWrapper
 import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
-import com.mooncloak.vpn.api.shared.network.ip.LocalDeviceIPAddressProvider
-import com.mooncloak.vpn.api.shared.network.invoke
+import com.mooncloak.vpn.network.core.invoke
 import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
@@ -19,6 +18,7 @@ import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.data.sqlite.SqlDriverFactory
+import com.mooncloak.vpn.network.core.ip.LocalDeviceIPAddressProvider
 import com.mooncloak.vpn.util.shortcuts.AppShortcutManager
 import com.mooncloak.vpn.util.shortcuts.invoke
 import com.wireguard.android.backend.GoBackend

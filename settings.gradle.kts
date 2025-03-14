@@ -41,6 +41,8 @@ include(":data-sqlite")
 
 include(":api-vpn")
 
+include(":network-core")
+
 include(":app-shared")
 include(":app-android")
 include(":app-desktop")

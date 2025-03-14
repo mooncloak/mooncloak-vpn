@@ -9,7 +9,6 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.vpn.api.shared.VpnServiceApi
-import com.mooncloak.vpn.api.shared.network.ip.PublicDeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
 import com.mooncloak.vpn.api.shared.server.Server
@@ -19,6 +18,7 @@ import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
 import com.mooncloak.vpn.app.android.activity.VPNPreparationActivity
 import com.mooncloak.vpn.app.android.service.MooncloakVpnService
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
+import com.mooncloak.vpn.network.core.ip.PublicDeviceIPAddressProvider
 import com.wireguard.android.backend.GoBackend
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.CoroutineScope

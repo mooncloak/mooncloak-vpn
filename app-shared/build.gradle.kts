@@ -50,6 +50,7 @@ kotlin {
                 api(project(":data-shared"))
                 api(project(":data-sqlite"))
                 api(project(":api-vpn"))
+                api(project(":network-core"))
 
                 // Coroutines
                 // https://github.com/Kotlin/kotlinx.coroutines

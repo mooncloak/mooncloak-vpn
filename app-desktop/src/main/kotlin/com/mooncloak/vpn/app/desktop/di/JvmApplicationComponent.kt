@@ -8,9 +8,7 @@ import com.mooncloak.vpn.app.desktop.api.wireguard.JvmWireGuardTunnelManager
 import com.mooncloak.vpn.app.desktop.info.JvmAppClientInfo
 import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
-import com.mooncloak.vpn.api.shared.network.ip.LocalDeviceIPAddressProvider
-import com.mooncloak.vpn.api.shared.network.invoke
-import com.mooncloak.vpn.api.shared.network.ip.PublicDeviceIPAddressProvider
+import com.mooncloak.vpn.network.core.invoke
 import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
@@ -23,6 +21,8 @@ import com.mooncloak.vpn.data.shared.cache.create
 import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.data.sqlite.SqlDriverFactory
 import com.mooncloak.vpn.data.sqlite.util.getDatabaseFileLocation
+import com.mooncloak.vpn.network.core.ip.LocalDeviceIPAddressProvider
+import com.mooncloak.vpn.network.core.ip.PublicDeviceIPAddressProvider
 import com.mooncloak.vpn.util.shortcuts.AppShortcutManager
 import com.mooncloak.vpn.util.shortcuts.invoke
 import kotlinx.serialization.json.Json
