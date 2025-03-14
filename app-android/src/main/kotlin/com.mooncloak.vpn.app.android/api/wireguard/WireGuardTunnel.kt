@@ -3,9 +3,9 @@ package com.mooncloak.vpn.app.android.api.wireguard
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import com.mooncloak.vpn.api.shared.tunnel.Tunnel
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.server.VPNConnectionStatus
+import com.mooncloak.vpn.network.core.tunnel.Tunnel
 import com.mooncloak.vpn.network.core.tunnel.TunnelStats
 import com.wireguard.android.backend.Statistics
 import kotlin.uuid.ExperimentalUuidApi

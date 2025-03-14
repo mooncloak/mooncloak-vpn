@@ -13,12 +13,12 @@ import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.app.shared.api.server.usecase.RegisterClientUseCase
-import com.mooncloak.vpn.api.shared.tunnel.Tunnel
 import com.mooncloak.vpn.network.core.tunnel.TunnelManager
 import com.mooncloak.vpn.app.android.activity.VPNPreparationActivity
 import com.mooncloak.vpn.app.android.service.MooncloakVpnService
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.network.core.ip.PublicDeviceIPAddressProvider
+import com.mooncloak.vpn.network.core.tunnel.Tunnel
 import com.wireguard.android.backend.GoBackend
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.CoroutineScope
