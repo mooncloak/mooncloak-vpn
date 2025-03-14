@@ -1,10 +1,8 @@
 package com.mooncloak.vpn.app.shared.api.plan
 
-import androidx.compose.ui.text.AnnotatedString
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
-import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.kodetools.textx.PlainText
 import com.mooncloak.kodetools.textx.TextContent
 import com.mooncloak.vpn.api.shared.plan.BillingProvider
@@ -17,6 +15,7 @@ import com.mooncloak.vpn.api.shared.plan.TaxCode
 import com.mooncloak.vpn.api.shared.plan.UsageType
 import com.mooncloak.vpn.api.shared.plan.duration
 import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
+import com.mooncloak.vpn.util.shared.coroutine.PlatformIO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
@@ -35,14 +34,14 @@ public class ServicePlansDatabaseSource @Inject public constructor(
 ) : ServicePlansRepository {
 
     override suspend fun getPlans(): List<Plan> =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             database.servicePlanQueries.selectAll()
                 .executeAsList()
                 .map { plan -> plan.toVPNServicePlan() }
         }
 
     override suspend fun getPlan(id: String): Plan =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             database.servicePlanQueries.selectById(id = id)
                 .executeAsOneOrNull()
                 ?.toVPNServicePlan()
@@ -50,7 +49,7 @@ public class ServicePlansDatabaseSource @Inject public constructor(
         }
 
     internal suspend fun insertAll(plans: List<Plan>) {
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             database.transaction {
                 plans.forEach { plan -> performInsert(plan) }
             }
@@ -58,19 +57,19 @@ public class ServicePlansDatabaseSource @Inject public constructor(
     }
 
     internal suspend fun insert(plan: Plan) {
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             performInsert(plan)
         }
     }
 
     internal suspend fun delete(id: String) {
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             database.servicePlanQueries.deleteById(id = id)
         }
     }
 
     internal suspend fun deleteAll() {
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             database.servicePlanQueries.deleteAll()
         }
     }

@@ -14,6 +14,7 @@ import com.mooncloak.vpn.api.shared.service.ServiceTokens
 import com.mooncloak.vpn.api.shared.service.ServiceTokensRepository
 import com.mooncloak.vpn.api.shared.token.TransactionToken
 import com.mooncloak.vpn.app.shared.settings.SubscriptionSettings
+import com.mooncloak.vpn.util.shared.coroutine.PlatformIO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
@@ -40,7 +41,7 @@ public class MooncloakBillingManager @Inject public constructor(
     }
 
     override suspend fun purchase(plan: Plan): BillingResult {
-        val invoice = withContext(Dispatchers.IO) {
+        val invoice = withContext(Dispatchers.PlatformIO) {
             api.getPaymentInvoice(
                 planId = plan.id,
                 token = serviceTokensRepository.getLatest()?.accessToken

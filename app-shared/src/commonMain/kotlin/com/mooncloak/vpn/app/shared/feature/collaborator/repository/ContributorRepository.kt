@@ -1,8 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.collaborator.repository
 
 import com.mooncloak.vpn.api.shared.app.Contributor
-import kotlinx.coroutines.CancellationException
-import kotlin.jvm.Throws
+import kotlin.coroutines.cancellation.CancellationException
 
 public interface ContributorRepository {
 

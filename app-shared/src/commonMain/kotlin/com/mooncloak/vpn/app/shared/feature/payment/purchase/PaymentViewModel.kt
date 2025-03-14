@@ -30,6 +30,7 @@ import com.mooncloak.vpn.app.shared.resource.payment_notice_beta
 import com.mooncloak.vpn.app.shared.resource.payment_plans_title
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
+import com.mooncloak.vpn.util.shared.coroutine.PlatformIO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
@@ -178,7 +179,7 @@ public class PaymentViewModel @Inject public constructor(
         plansJob?.cancel()
 
         plansJob = plansProvider.getPlansFlow()
-            .flowOn(Dispatchers.IO)
+            .flowOn(Dispatchers.PlatformIO)
             .onEach { plans -> emit { current -> current.copy(plans = plans) } }
             .catch { e -> LogPile.error(message = "Error retrieving plans.", cause = e) }
             .flowOn(Dispatchers.Main)

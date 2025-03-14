@@ -4,6 +4,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.api.shared.server.ServerRepository
+import com.mooncloak.vpn.util.shared.coroutine.PlatformIO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -13,7 +14,7 @@ public class GetDefaultServerUseCase @Inject public constructor(
 ) {
 
     public suspend operator fun invoke(): Server? =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             serverConnectionRecordRepository.getLastConnected()?.server?.let { return@withContext it }
 
             serverConnectionRecordRepository.getStarred().firstOrNull()?.server?.let { return@withContext it }

@@ -9,6 +9,7 @@ import com.mooncloak.vpn.api.shared.plan.Price
 import com.mooncloak.vpn.api.shared.token.TransactionToken
 import com.mooncloak.vpn.app.shared.database.MooncloakDatabaseProvider
 import com.mooncloak.vpn.data.sqlite.database.PurchaseReceipt
+import com.mooncloak.vpn.util.shared.coroutine.PlatformIO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -31,7 +32,7 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
     private val mutex = Mutex(locked = false)
 
     override suspend fun get(id: String): ServicePurchaseReceipt =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             val database = databaseProvider.get()
 
             return@withContext database.purchaseReceiptQueries.selectById(id = id)
@@ -41,7 +42,7 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
         }
 
     override suspend fun getByOrderId(orderId: String): ServicePurchaseReceipt =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             val database = databaseProvider.get()
 
             return@withContext database.purchaseReceiptQueries.selectByOrderId(orderId = orderId)
@@ -51,7 +52,7 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
         }
 
     override suspend fun getLatest(): ServicePurchaseReceipt? =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             val database = databaseProvider.get()
 
             return@withContext database.purchaseReceiptQueries.selectLatest()
@@ -60,7 +61,7 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
         }
 
     override suspend fun get(count: Int, offset: Int): List<ServicePurchaseReceipt> =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             val database = databaseProvider.get()
 
             return@withContext database.purchaseReceiptQueries.selectPage(
@@ -72,7 +73,7 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
         }
 
     override suspend fun getAll(): List<ServicePurchaseReceipt> =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             val database = databaseProvider.get()
 
             return@withContext database.purchaseReceiptQueries.selectAll()
@@ -81,7 +82,7 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
         }
 
     override suspend fun insert(id: String, value: () -> ServicePurchaseReceipt): ServicePurchaseReceipt =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             mutex.withLock {
                 val database = databaseProvider.get()
 
@@ -126,7 +127,7 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
         id: String,
         update: ServicePurchaseReceipt.() -> ServicePurchaseReceipt
     ): ServicePurchaseReceipt =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             mutex.withLock {
                 val database = databaseProvider.get()
 
@@ -213,7 +214,7 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
     }
 
     override suspend fun remove(id: String) {
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             mutex.withLock {
                 val database = databaseProvider.get()
 
@@ -223,7 +224,7 @@ public class ServicePurchaseReceiptDatabaseSource @Inject public constructor(
     }
 
     override suspend fun clear() {
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             mutex.withLock {
                 val database = databaseProvider.get()
 

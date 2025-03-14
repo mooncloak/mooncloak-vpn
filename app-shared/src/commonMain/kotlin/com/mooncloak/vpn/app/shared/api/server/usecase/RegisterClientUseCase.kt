@@ -6,6 +6,7 @@ import com.mooncloak.vpn.api.shared.key.Base64Key
 import com.mooncloak.vpn.api.shared.server.RegisteredClient
 import com.mooncloak.vpn.api.shared.server.RegisteredClientRepository
 import com.mooncloak.vpn.api.shared.service.ServiceTokensRepository
+import com.mooncloak.vpn.util.shared.coroutine.PlatformIO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -18,7 +19,7 @@ public class RegisterClientUseCase @Inject public constructor(
     public suspend operator fun invoke(
         serverId: String,
         publicKey: Base64Key
-    ): RegisteredClient = withContext(Dispatchers.IO) {
+    ): RegisteredClient = withContext(Dispatchers.PlatformIO) {
         val token = serviceTokensRepository.getLatest()?.accessToken
 
         val client = mooncloakApi.registerClient(

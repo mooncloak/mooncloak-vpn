@@ -35,7 +35,7 @@ import kotlin.math.sin
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-internal const val PI = Math.PI.toFloat()
+internal const val PI = kotlin.math.PI.toFloat()
 internal const val TWO_PI = 2 * PI
 internal const val N = 360
 

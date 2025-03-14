@@ -4,6 +4,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.api.shared.service.ServiceTokens
 import com.mooncloak.vpn.api.shared.service.ServiceTokensRepository
 import com.mooncloak.vpn.app.shared.settings.SubscriptionSettings
+import com.mooncloak.vpn.util.shared.coroutine.PlatformIO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.sync.Mutex
@@ -18,7 +19,7 @@ public class ServiceTokensSource @Inject public constructor(
     private val mutex = Mutex(locked = false)
 
     override suspend fun getLatest(): ServiceTokens? =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             subscriptionStorage.tokens.get()?.let { return@withContext it }
 
             val latest = databaseSource.getLatest()
@@ -31,7 +32,7 @@ public class ServiceTokensSource @Inject public constructor(
     override fun latestFlow(): Flow<ServiceTokens?> = databaseSource.latestFlow()
 
     override suspend fun get(id: String): ServiceTokens =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             val latest = subscriptionStorage.tokens.get()
 
             if (latest != null && latest.id == id) {
@@ -42,17 +43,17 @@ public class ServiceTokensSource @Inject public constructor(
         }
 
     override suspend fun get(count: Int, offset: Int): List<ServiceTokens> =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             databaseSource.get(count = count, offset = offset)
         }
 
     override suspend fun getAll(): List<ServiceTokens> =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             databaseSource.getAll()
         }
 
     override suspend fun add(tokens: ServiceTokens) {
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             mutex.withLock {
                 databaseSource.add(tokens)
 
@@ -64,7 +65,7 @@ public class ServiceTokensSource @Inject public constructor(
     }
 
     override suspend fun insert(id: String, value: () -> ServiceTokens): ServiceTokens =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             mutex.withLock {
                 val inserted = databaseSource.insert(id = id, value = value)
 
@@ -77,7 +78,7 @@ public class ServiceTokensSource @Inject public constructor(
         }
 
     override suspend fun update(id: String, update: ServiceTokens.() -> ServiceTokens): ServiceTokens =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             mutex.withLock {
                 val updated = databaseSource.update(id = id, update = update)
 
@@ -90,7 +91,7 @@ public class ServiceTokensSource @Inject public constructor(
         }
 
     override suspend fun remove(id: String) {
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             mutex.withLock {
                 databaseSource.remove(id)
 
@@ -104,7 +105,7 @@ public class ServiceTokensSource @Inject public constructor(
     }
 
     override suspend fun clear() {
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.PlatformIO) {
             mutex.withLock {
                 databaseSource.clear()
 

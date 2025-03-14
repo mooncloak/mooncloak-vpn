@@ -25,6 +25,7 @@ import com.mooncloak.vpn.app.shared.settings.SubscriptionSettings
 import com.mooncloak.vpn.app.shared.util.DataFormatter
 import com.mooncloak.vpn.app.shared.util.Default
 import com.mooncloak.vpn.app.shared.util.time.remaining
+import com.mooncloak.vpn.util.shared.coroutine.PlatformIO
 import com.mooncloak.vpn.util.shared.time.DateTimeFormatter
 import com.mooncloak.vpn.util.shared.time.DurationFormatter
 import com.mooncloak.vpn.util.shared.time.Full
@@ -180,7 +181,7 @@ public class SubscriptionViewModel @Inject public constructor(
         try {
             if (planId != null) {
                 val plan = runCatching {
-                    withContext(Dispatchers.IO) {
+                    withContext(Dispatchers.PlatformIO) {
                         plansRepository.getPlan(id = planId)
                     }
                 }.getOrNull()
