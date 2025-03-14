@@ -11,13 +11,13 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.StringFormat
 import kotlin.time.Duration
 
-private data class Entry(
+private data class InMemoryEntry(
     val key: String,
     val value: String?,
     val expires: Instant?
 )
 
-private fun Entry.isValid(instant: Instant): Boolean =
+private fun InMemoryEntry.isValid(instant: Instant): Boolean =
     expires == null || instant < expires
 
 /**
@@ -29,7 +29,7 @@ public class InMemoryCache public constructor(
     private val expirationAfterWrite: Duration?
 ) : Cache {
 
-    private val cache = mutableMapOf<String, Entry>()
+    private val cache = mutableMapOf<String, InMemoryEntry>()
 
     private val listeners = mutableMapOf<String, MutableStateFlow<String?>>()
 
@@ -76,7 +76,7 @@ public class InMemoryCache public constructor(
                     value = value
                 )
 
-                val entry = Entry(
+                val entry = InMemoryEntry(
                     key = key,
                     value = stored,
                     expires = expirationAfterWrite?.let { clock.now() + it }
