@@ -93,3 +93,21 @@ node_modules
 
 ### Google Play Builds ###
 app-android/play
+
+### XCode Builds ###
+
+# Xcode
+# Build products
+*.xcarchive
+*.ipa
+DerivedData/
+*.xcplayground
+*.playground/
+.swiftpm/
+Package.resolved
+app-ios/shared.framework/
+*.xcuserstate
+*.xcuserdatad/
+**/xcuserdata/**
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/

@@ -5,7 +5,6 @@ import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
-    kotlin("multiplatform")
     kotlin("plugin.serialization")
     id("com.android.library")
     id("org.jetbrains.dokka")
@@ -14,19 +13,10 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.mikepenz.aboutlibraries.plugin")
     id("com.codingfeline.buildkonfig")
+    id("mooncloak.multiplatform")
 }
 
 kotlin {
-    applyDefaultHierarchyTemplate()
-
-    androidTarget {
-        publishAllLibraryVariants()
-    }
-
-    jvm()
-
-    explicitApi()
-
     sourceSets {
         all {
             // Disable warnings and errors related to these expected @OptIn annotations.
@@ -256,16 +246,13 @@ kotlin {
             }
         }
 
-        /*
         val iosMain by getting {
             dependencies {
                 // Http Client - Ktor
                 // https://github.com/ktorio/ktor
                 api("io.ktor:ktor-client-darwin:_")
-
-                implementation(compose.material3AdaptiveNavigationSuite)
             }
-        }*/
+        }
     }
 }
 
@@ -277,6 +264,9 @@ dependencies {
     add("kspCommonMainMetadata", "com.mooncloak.kodetools.konstruct:konstruct-compiler-ksp:_")
     add("kspJvm", "com.mooncloak.kodetools.konstruct:konstruct-compiler-ksp:_")
     add("kspAndroid", "com.mooncloak.kodetools.konstruct:konstruct-compiler-ksp:_")
+    add("kspIosX64", "com.mooncloak.kodetools.konstruct:konstruct-compiler-ksp:_")
+    add("kspIosArm64", "com.mooncloak.kodetools.konstruct:konstruct-compiler-ksp:_")
+    add("kspIosSimulatorArm64", "com.mooncloak.kodetools.konstruct:konstruct-compiler-ksp:_")
 }
 
 java {

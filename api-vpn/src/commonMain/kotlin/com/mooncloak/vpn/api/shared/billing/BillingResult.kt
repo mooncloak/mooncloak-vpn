@@ -46,7 +46,6 @@ public sealed interface BillingResult {
     public companion object
 }
 
-@Suppress("NOTHING_TO_INLINE")
 @OptIn(ExperimentalContracts::class)
 public inline fun BillingResult.isSuccess(): Boolean {
     contract {
@@ -56,7 +55,6 @@ public inline fun BillingResult.isSuccess(): Boolean {
     return this is BillingResult.Success
 }
 
-@Suppress("NOTHING_TO_INLINE")
 @OptIn(ExperimentalContracts::class)
 public inline fun BillingResult.isFailure(): Boolean {
     contract {
@@ -66,7 +64,6 @@ public inline fun BillingResult.isFailure(): Boolean {
     return this is BillingResult.Failure
 }
 
-@Suppress("NOTHING_TO_INLINE")
 @OptIn(ExperimentalContracts::class)
 public inline fun BillingResult.isCancelled(): Boolean {
     contract {
