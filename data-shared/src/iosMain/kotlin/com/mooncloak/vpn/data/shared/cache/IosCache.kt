@@ -9,4 +9,8 @@ public actual fun Cache.Companion.create(
     maxSize: Int?,
     expirationAfterWrite: Duration?,
     clock: Clock
-): Cache = TODO()
+): Cache = InMemoryCache( // TODO: Support maxSize
+    format = format,
+    clock = clock,
+    expirationAfterWrite = expirationAfterWrite
+)

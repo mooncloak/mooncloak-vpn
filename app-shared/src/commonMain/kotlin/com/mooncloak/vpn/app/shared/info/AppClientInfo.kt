@@ -53,4 +53,6 @@ public interface AppClientInfo {
     public val termsAndConditionsUri: String get() = "https://mooncloak.com/legal/terms"
 
     public val sourceCodeUri: String get() = "https://github.com/mooncloak/mooncloak-vpn"
+
+    public companion object
 }

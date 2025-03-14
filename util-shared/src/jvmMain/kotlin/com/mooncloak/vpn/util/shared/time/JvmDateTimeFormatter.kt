@@ -9,12 +9,12 @@ import java.util.Locale
 public actual val DateTimeFormatter.Companion.Full: DateTimeFormatter
     get() = FullDateTimeFormatter
 
-internal data object FullDateTimeFormatter : AndroidDateTimeFormatter(
+internal data object FullDateTimeFormatter : JvmDateTimeFormatter(
     pattern = "hh:mmaa EEE, MMM dd, yyyy",
     locale = Locale.getDefault()
 )
 
-internal open class AndroidDateTimeFormatter internal constructor(
+internal open class JvmDateTimeFormatter internal constructor(
     private val pattern: String,
     private val locale: Locale
 ) : DateTimeFormatter {

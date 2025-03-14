@@ -40,8 +40,11 @@ internal class AndroidCache internal constructor(
 
     private val mutex = Mutex(locked = false)
 
-    override suspend fun contains(key: String): Boolean =
-        cache[key] != null
+    override suspend fun contains(key: String): Boolean {
+        val value = cache[key] ?: return false
+
+        return value.isValid(clock.now())
+    }
 
     override suspend fun <Value : Any> get(key: String, deserializer: KSerializer<Value>): Value? {
         val entry = cache[key] ?: return null

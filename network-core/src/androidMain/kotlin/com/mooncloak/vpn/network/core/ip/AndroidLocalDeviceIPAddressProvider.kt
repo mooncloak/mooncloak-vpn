@@ -1,23 +1,27 @@
 package com.mooncloak.vpn.network.core.ip
 
+import android.Manifest
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.wifi.WifiManager
+import androidx.annotation.RequiresPermission
 import java.net.InetAddress
 
 public operator fun LocalDeviceIPAddressProvider.Companion.invoke(context: Context): LocalDeviceIPAddressProvider =
-    AndroidLocalDeviceIpAddressProvider(context = context)
+    AndroidLocalDeviceIPAddressProvider(context = context)
 
-internal class AndroidLocalDeviceIpAddressProvider internal constructor(
+internal class AndroidLocalDeviceIPAddressProvider internal constructor(
     private val context: Context
 ) : LocalDeviceIPAddressProvider {
 
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     override suspend fun get(): String? = getDeviceIpAddress(context)
 
     override suspend fun invalidate() {
     }
 
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     private fun getDeviceIpAddress(context: Context): String? {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val network = connectivityManager.activeNetwork ?: return null
@@ -41,6 +45,7 @@ internal class AndroidLocalDeviceIpAddressProvider internal constructor(
         return intToIp(ipAddress)
     }
 
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     private fun getCellularIpAddress(connectivityManager: ConnectivityManager): String? {
         val networks = connectivityManager.allNetworks
         for (network in networks) {

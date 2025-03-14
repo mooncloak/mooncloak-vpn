@@ -27,13 +27,13 @@ public actual fun com.mooncloak.vpn.data.shared.cache.Cache.Companion.create(
         cacheBuilder = cacheBuilder.expireAfterWrite(expirationAfterWrite.inWholeMilliseconds, TimeUnit.MILLISECONDS)
     }
 
-    return AndroidCache(
+    return JvmCache(
         format = format,
         cache = cacheBuilder.build()
     )
 }
 
-internal class AndroidCache internal constructor(
+internal class JvmCache internal constructor(
     private val format: StringFormat,
     private val cache: Cache<String, String>
 ) : com.mooncloak.vpn.data.shared.cache.Cache {
