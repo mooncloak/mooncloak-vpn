@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.api.shared.util
+package com.mooncloak.vpn.app.android.util
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
