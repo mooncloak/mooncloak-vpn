@@ -20,15 +20,7 @@ internal class JvmWireGuardTunnelManager @Inject internal constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun connect(tunnel: Tunnel) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun connect(server: Server, tunnelName: String) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun disconnect(tunnel: Tunnel) {
+    override suspend fun connect(server: Server): Tunnel? {
         TODO("Not yet implemented")
     }
 

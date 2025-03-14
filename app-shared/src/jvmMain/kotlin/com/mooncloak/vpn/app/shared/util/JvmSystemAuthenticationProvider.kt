@@ -7,7 +7,7 @@ internal class JvmSystemAuthenticationProvider internal constructor() : SystemAu
 
     override val isSupported: Boolean = false
 
-    override fun shouldLaunch(): Boolean = false
+    override suspend fun shouldLaunch(): Boolean = false
 
     override fun launchAuthentication(
         title: String,
