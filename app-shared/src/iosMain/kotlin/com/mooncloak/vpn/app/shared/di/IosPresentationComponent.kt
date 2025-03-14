@@ -7,7 +7,7 @@ import com.mooncloak.vpn.api.shared.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.billing.MooncloakBillingManager
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansApiSource
 import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
-import com.mooncloak.vpn.app.shared.api.server.invoke
+import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.network.core.tunnel.TunnelManager
 import com.mooncloak.vpn.network.core.tunnel.TunnelManagerPreparer
 import com.mooncloak.vpn.network.core.vpn.VPNConnectionManager
@@ -16,9 +16,11 @@ import com.mooncloak.vpn.app.shared.util.IosLibsLoader
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import com.mooncloak.vpn.util.shared.coroutine.PresentationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.invoke
+import com.mooncloak.vpn.network.core.vpn.BaseVPNConnectionManager
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.util.shortcuts.invoke
 import com.mooncloak.vpn.util.shortcuts.AppShortcutProvider
+import kotlinx.datetime.Clock
 
 @Component
 @PresentationScoped
@@ -43,13 +45,6 @@ internal abstract class IosPresentationComponent internal constructor(
 
     @Provides
     @PresentationScoped
-    internal fun provideServerConnectionManager(coroutineScope: ApplicationCoroutineScope): VPNConnectionManager =
-        VPNConnectionManager.invoke(
-            coroutineScope = coroutineScope
-        )
-
-    @Provides
-    @PresentationScoped
     internal fun provideLibsLoader(loader: IosLibsLoader): LibsLoader = loader
 
     @Provides
@@ -60,6 +55,21 @@ internal abstract class IosPresentationComponent internal constructor(
     @Provides
     @PresentationScoped
     internal fun provideAppShortcutProvider(): AppShortcutProvider = AppShortcutProvider()
+
+    @Provides
+    @PresentationScoped
+    internal fun provideServerConnectionManager(
+        coroutineScope: ApplicationCoroutineScope,
+        serverConnectionRecordRepository: ServerConnectionRecordRepository,
+        clock: Clock,
+        tunnelManager: TunnelManager
+    ): VPNConnectionManager =
+        BaseVPNConnectionManager(
+            coroutineScope = coroutineScope,
+            serverConnectionRecordRepository = serverConnectionRecordRepository,
+            clock = clock,
+            tunnelManager = tunnelManager
+        )
 }
 
 internal expect fun PresentationComponent.Companion.create(

@@ -3,11 +3,11 @@ package com.mooncloak.vpn.app.desktop.di
 import androidx.compose.ui.platform.UriHandler
 import com.mooncloak.kodetools.konstruct.annotations.Component
 import com.mooncloak.kodetools.konstruct.annotations.Provides
-import com.mooncloak.vpn.app.desktop.api.server.JvmVPNConnectionManager
 import com.mooncloak.vpn.api.shared.billing.BillingManager
 import com.mooncloak.vpn.app.shared.api.billing.MooncloakBillingManager
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansApiSource
 import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
+import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.network.core.tunnel.TunnelManager
 import com.mooncloak.vpn.network.core.tunnel.TunnelManagerPreparer
 import com.mooncloak.vpn.network.core.vpn.VPNConnectionManager
@@ -19,8 +19,11 @@ import com.mooncloak.vpn.app.shared.feature.dependency.util.LibsLoader
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import com.mooncloak.vpn.util.shared.coroutine.PresentationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.invoke
+import com.mooncloak.vpn.network.core.vpn.BaseVPNConnectionManager
+import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.util.shortcuts.invoke
 import com.mooncloak.vpn.util.shortcuts.AppShortcutProvider
+import kotlinx.datetime.Clock
 
 @Component
 @PresentationScoped
@@ -45,8 +48,18 @@ internal abstract class JvmPresentationComponent internal constructor(
 
     @Provides
     @PresentationScoped
-    internal fun provideServerConnectionManager(manager: JvmVPNConnectionManager): VPNConnectionManager =
-        manager
+    internal fun provideServerConnectionManager(
+        coroutineScope: ApplicationCoroutineScope,
+        serverConnectionRecordRepository: ServerConnectionRecordRepository,
+        clock: Clock,
+        tunnelManager: TunnelManager
+    ): VPNConnectionManager =
+        BaseVPNConnectionManager(
+            coroutineScope = coroutineScope,
+            serverConnectionRecordRepository = serverConnectionRecordRepository,
+            clock = clock,
+            tunnelManager = tunnelManager
+        )
 
     @Provides
     @PresentationScoped
