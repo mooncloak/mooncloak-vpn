@@ -1,33 +1,24 @@
-package com.mooncloak.vpn.network.core
+package com.mooncloak.vpn.network.core.ip
 
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.warning
-import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.VpnServiceApi
 import com.mooncloak.vpn.data.shared.cache.Cache
 import com.mooncloak.vpn.data.shared.keyvalue.get
 import com.mooncloak.vpn.data.shared.keyvalue.set
-import com.mooncloak.vpn.network.core.ip.PublicDeviceIPAddressProvider
 
-public operator fun PublicDeviceIPAddressProvider.Companion.invoke(
-    mooncloakApi: MooncloakVpnServiceHttpApi,
-    cache: Cache
-): PublicDeviceIPAddressProvider = JvmDeviceIpAddressProvider(
-    mooncloakApi = mooncloakApi,
-    cache = cache
-)
-
-internal class JvmDeviceIpAddressProvider internal constructor(
-    private val mooncloakApi: MooncloakVpnServiceHttpApi,
+internal open class DefaultPublicDeviceIPAddressProvider internal constructor(
+    private val mooncloakApi: VpnServiceApi,
     private val cache: Cache
 ) : PublicDeviceIPAddressProvider {
 
-    override suspend fun get(): String? {
+    final override suspend fun get(): String? {
         cache.get<String>(key = CACHE_KEY)?.let { return it }
 
         return getFresh()
     }
 
-    override suspend fun invalidate() {
+    final override suspend fun invalidate() {
         cache.remove(key = CACHE_KEY)
     }
 

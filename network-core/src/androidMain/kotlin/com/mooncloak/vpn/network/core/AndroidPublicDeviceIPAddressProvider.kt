@@ -6,12 +6,9 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import com.mooncloak.kodetools.logpile.core.LogPile
-import com.mooncloak.kodetools.logpile.core.warning
 import com.mooncloak.vpn.api.shared.VpnServiceApi
 import com.mooncloak.vpn.data.shared.cache.Cache
-import com.mooncloak.vpn.data.shared.keyvalue.get
-import com.mooncloak.vpn.data.shared.keyvalue.set
+import com.mooncloak.vpn.network.core.ip.DefaultPublicDeviceIPAddressProvider
 import com.mooncloak.vpn.network.core.ip.PublicDeviceIPAddressProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -21,7 +18,7 @@ public operator fun PublicDeviceIPAddressProvider.Companion.invoke(
     mooncloakApi: VpnServiceApi,
     cache: Cache,
     coroutineScope: CoroutineScope
-): PublicDeviceIPAddressProvider = AndroidDeviceIpAddressProvider(
+): PublicDeviceIPAddressProvider = AndroidPublicDeviceIPAddressProvider(
     context = context,
     mooncloakApi = mooncloakApi,
     cache = cache,
@@ -29,12 +26,15 @@ public operator fun PublicDeviceIPAddressProvider.Companion.invoke(
 )
 
 @SuppressLint("MissingPermission")
-internal class AndroidDeviceIpAddressProvider internal constructor(
+internal class AndroidPublicDeviceIPAddressProvider internal constructor(
     context: Context,
-    private val mooncloakApi: VpnServiceApi,
-    private val cache: Cache,
+    mooncloakApi: VpnServiceApi,
+    cache: Cache,
     private val coroutineScope: CoroutineScope
-) : PublicDeviceIPAddressProvider {
+) : DefaultPublicDeviceIPAddressProvider(
+    mooncloakApi = mooncloakApi,
+    cache = cache
+) {
 
     private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -61,40 +61,9 @@ internal class AndroidDeviceIpAddressProvider internal constructor(
         connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
     }
 
-    override suspend fun get(): String? {
-        cache.get<String>(key = CACHE_KEY)?.let { return it }
-
-        return getFresh()
-    }
-
-    override suspend fun invalidate() {
-        cache.remove(key = CACHE_KEY)
-    }
-
     private fun launchInvalidate() {
         coroutineScope.launch {
             invalidate()
         }
-    }
-
-    private suspend fun getFresh(): String? {
-        val result = runCatching { mooncloakApi.getReflection().ipAddress }
-        val ipAddress = result.getOrNull()
-
-        if (result.isFailure) {
-            LogPile.warning(
-                message = "Error retrieving public IP address.",
-                cause = result.exceptionOrNull()
-            )
-        }
-
-        cache.set<String>(key = CACHE_KEY, value = ipAddress)
-
-        return ipAddress
-    }
-
-    internal companion object {
-
-        private const val CACHE_KEY: String = "AndroidDeviceIpAddressProviderKey"
     }
 }
