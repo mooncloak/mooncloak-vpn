@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.app.shared.util.permission
+package com.mooncloak.vpn.util.permission
 
 public actual class Permission {
 

@@ -31,6 +31,7 @@
             <option value="$PROJECT_DIR$/data-sqlite" />
             <option value="$PROJECT_DIR$/network-core" />
             <option value="$PROJECT_DIR$/util-notification" />
+            <option value="$PROJECT_DIR$/util-permission" />
             <option value="$PROJECT_DIR$/util-shared" />
             <option value="$PROJECT_DIR$/util-shortcuts" />
             <option value="$PROJECT_DIR$/web-download" />

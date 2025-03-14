@@ -1,7 +1,4 @@
-package com.mooncloak.vpn.app.shared.util.shortcuts
-
-import com.mooncloak.vpn.util.shortcuts.AppShortcut
-import com.mooncloak.vpn.util.shortcuts.AppShortcutProvider
+package com.mooncloak.vpn.util.shortcuts
 
 public operator fun AppShortcutProvider.Companion.invoke(): AppShortcutProvider = JvmAppShortcutProvider()
 

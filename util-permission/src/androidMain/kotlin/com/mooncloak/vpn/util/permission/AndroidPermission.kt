@@ -1,8 +1,8 @@
-package com.mooncloak.vpn.app.shared.util.permission
+package com.mooncloak.vpn.util.permission
 
 import android.Manifest
-import android.annotation.TargetApi
 import android.os.Build
+import androidx.annotation.RequiresApi
 
 public actual class Permission public constructor(
     public val value: String
@@ -23,5 +23,5 @@ public actual class Permission public constructor(
 }
 
 public actual val Permission.Companion.PostNotification: Permission
-    @TargetApi(Build.VERSION_CODES.TIRAMISU)
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     get() = Permission(value = Manifest.permission.POST_NOTIFICATIONS)

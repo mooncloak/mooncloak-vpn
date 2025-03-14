@@ -19,7 +19,7 @@ import com.mooncloak.vpn.app.shared.feature.dependency.util.LibsLoader
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import com.mooncloak.vpn.util.shared.coroutine.PresentationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.invoke
-import com.mooncloak.vpn.app.shared.util.shortcuts.invoke
+import com.mooncloak.vpn.util.shortcuts.invoke
 import com.mooncloak.vpn.util.shortcuts.AppShortcutProvider
 
 @Component
