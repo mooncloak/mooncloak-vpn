@@ -10,7 +10,7 @@ public actual val DateTimeFormatter.Companion.Full: DateTimeFormatter
     get() = FullDateTimeFormatter
 
 internal data object FullDateTimeFormatter : JvmDateTimeFormatter(
-    pattern = "hh:mmaa EEE, MMM dd, yyyy",
+    pattern = "hh:mma EEE, MMM dd, yyyy",
     locale = Locale.getDefault()
 )
 
