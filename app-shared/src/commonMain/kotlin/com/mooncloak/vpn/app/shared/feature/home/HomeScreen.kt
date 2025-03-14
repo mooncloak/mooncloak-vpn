@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.SnackbarHost
@@ -20,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
@@ -41,7 +42,7 @@ import com.mooncloak.vpn.app.shared.feature.payment.purchase.rememberPurchasingS
 import com.mooncloak.vpn.app.shared.feature.server.details.ServerDetailsScreen
 import com.mooncloak.vpn.app.shared.feature.server.details.rememberServerDetailsBottomSheetState
 import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.haze
+import dev.chrisbanes.haze.hazeSource
 import kotlinx.coroutines.launch
 
 @Composable
@@ -57,7 +58,7 @@ public fun HomeScreen(
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }
-    val lazyListState = rememberLazyListState()
+    val lazyStaggeredGridState = rememberLazyStaggeredGridState()
     val coroutineScope = rememberCoroutineScope()
 
     val paymentPurchasingState = rememberPurchasingState()
@@ -102,15 +103,19 @@ public fun HomeScreen(
             )
         }
     ) { paddingValues ->
-        LazyColumn(
+        LazyVerticalStaggeredGrid(
             modifier = Modifier.fillMaxSize()
-                .haze(state = hazeState)
+                .hazeSource(state = hazeState)
                 .padding(horizontal = 12.dp),
-            state = lazyListState,
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            state = lazyStaggeredGridState,
+            columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalItemSpacing = 12.dp
         ) {
-            item(key = "TopSpacing") {
+            item(
+                key = "TopSpacing",
+                span = StaggeredGridItemSpan.FullLine
+            ) {
                 Spacer(modifier = Modifier.height(paddingValues.calculateTopPadding() + containerPaddingValues.calculateTopPadding()))
             }
 
@@ -221,7 +226,10 @@ public fun HomeScreen(
                 }
             }
 
-            item(key = "BottomSpacing") {
+            item(
+                key = "BottomSpacing",
+                span = StaggeredGridItemSpan.FullLine
+            ) {
                 Spacer(modifier = Modifier.height(28.dp + containerPaddingValues.calculateBottomPadding()))
             }
         }
