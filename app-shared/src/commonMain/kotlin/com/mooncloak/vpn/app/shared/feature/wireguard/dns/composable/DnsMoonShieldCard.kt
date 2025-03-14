@@ -29,8 +29,7 @@ internal fun DnsMoonShieldCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.onBackground
-        ),
-        onClick = {}
+        )
     ) {
         ListItem(
             modifier = Modifier.fillMaxWidth(),
