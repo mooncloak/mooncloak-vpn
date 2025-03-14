@@ -9,7 +9,7 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.vpn.api.shared.VpnServiceApi
-import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
+import com.mooncloak.vpn.api.shared.network.ip.PublicDeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
 import com.mooncloak.vpn.api.shared.server.Server
@@ -43,7 +43,7 @@ internal class AndroidWireGuardTunnelManager @Inject internal constructor(
     private val connectionKeyPairResolver: WireGuardConnectionKeyPairResolver,
     private val registerClient: RegisterClientUseCase,
     private val preferencesStorage: UserPreferenceSettings,
-    private val deviceIPAddressProvider: DeviceIPAddressProvider,
+    private val deviceIPAddressProvider: PublicDeviceIPAddressProvider,
     private val api: VpnServiceApi
 ) : TunnelManager {
 

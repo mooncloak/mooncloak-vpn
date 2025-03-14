@@ -6,8 +6,8 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionFlowProvider
-import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.network.ip.LocalDeviceIPAddressProvider
+import com.mooncloak.vpn.api.shared.network.ip.PublicDeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 import com.mooncloak.vpn.api.shared.service.isActive
@@ -47,7 +47,7 @@ public class SettingsViewModel @Inject public constructor(
     private val systemAuthenticationProvider: SystemAuthenticationProvider,
     private val clock: Clock,
     private val localDeviceIPAddressProvider: LocalDeviceIPAddressProvider,
-    private val deviceIPAddressProvider: DeviceIPAddressProvider,
+    private val deviceIPAddressProvider: PublicDeviceIPAddressProvider,
     private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider
 ) : ViewModel<SettingsStateModel>(initialStateValue = SettingsStateModel()) {
 

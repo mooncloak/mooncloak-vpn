@@ -15,8 +15,8 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionFlowProvider
-import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.network.ip.LocalDeviceIPAddressProvider
+import com.mooncloak.vpn.api.shared.network.ip.PublicDeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.api.shared.vpn.VPNConnection
@@ -72,7 +72,7 @@ public class HomeViewModel @Inject public constructor(
     private val subscriptionStorage: SubscriptionSettings,
     private val serverConnectionManager: VPNConnectionManager,
     private val localDeviceIPAddressProvider: LocalDeviceIPAddressProvider,
-    private val deviceIPAddressProvider: DeviceIPAddressProvider,
+    private val deviceIPAddressProvider: PublicDeviceIPAddressProvider,
     private val getServiceSubscriptionFlow: ServiceSubscriptionFlowProvider,
     private val clock: Clock,
     private val durationFormatter: DurationFormatter = DurationFormatter.remaining(),

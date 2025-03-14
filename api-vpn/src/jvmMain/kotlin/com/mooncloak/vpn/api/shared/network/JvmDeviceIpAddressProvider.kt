@@ -3,15 +3,15 @@ package com.mooncloak.vpn.api.shared.network
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.warning
 import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
-import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
+import com.mooncloak.vpn.api.shared.network.ip.PublicDeviceIPAddressProvider
 import com.mooncloak.vpn.data.shared.cache.Cache
 import com.mooncloak.vpn.data.shared.keyvalue.get
 import com.mooncloak.vpn.data.shared.keyvalue.set
 
-public operator fun DeviceIPAddressProvider.Companion.invoke(
+public operator fun PublicDeviceIPAddressProvider.Companion.invoke(
     mooncloakApi: MooncloakVpnServiceHttpApi,
     cache: Cache
-): DeviceIPAddressProvider = JvmDeviceIpAddressProvider(
+): PublicDeviceIPAddressProvider = JvmDeviceIpAddressProvider(
     mooncloakApi = mooncloakApi,
     cache = cache
 )
@@ -19,7 +19,7 @@ public operator fun DeviceIPAddressProvider.Companion.invoke(
 internal class JvmDeviceIpAddressProvider internal constructor(
     private val mooncloakApi: MooncloakVpnServiceHttpApi,
     private val cache: Cache
-) : DeviceIPAddressProvider {
+) : PublicDeviceIPAddressProvider {
 
     override suspend fun get(): String? {
         cache.get<String>(key = CACHE_KEY)?.let { return it }

@@ -8,9 +8,9 @@ import com.mooncloak.vpn.app.desktop.api.wireguard.JvmWireGuardTunnelManager
 import com.mooncloak.vpn.app.desktop.info.JvmAppClientInfo
 import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
-import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.network.ip.LocalDeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.network.invoke
+import com.mooncloak.vpn.api.shared.network.ip.PublicDeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
@@ -70,7 +70,7 @@ internal abstract class JvmApplicationComponent internal constructor(
     internal fun provideDeviceIpAddressProvider(
         mooncloakApi: MooncloakVpnServiceHttpApi,
         json: Json
-    ): DeviceIPAddressProvider = DeviceIPAddressProvider.invoke(
+    ): PublicDeviceIPAddressProvider = PublicDeviceIPAddressProvider.invoke(
         mooncloakApi = mooncloakApi,
         cache = Cache.create(
             format = json,

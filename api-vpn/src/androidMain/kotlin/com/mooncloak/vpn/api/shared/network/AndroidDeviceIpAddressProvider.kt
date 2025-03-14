@@ -9,19 +9,19 @@ import android.net.NetworkRequest
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.warning
 import com.mooncloak.vpn.api.shared.VpnServiceApi
-import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
+import com.mooncloak.vpn.api.shared.network.ip.PublicDeviceIPAddressProvider
 import com.mooncloak.vpn.data.shared.cache.Cache
 import com.mooncloak.vpn.data.shared.keyvalue.get
 import com.mooncloak.vpn.data.shared.keyvalue.set
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-public operator fun DeviceIPAddressProvider.Companion.invoke(
+public operator fun PublicDeviceIPAddressProvider.Companion.invoke(
     context: Context,
     mooncloakApi: VpnServiceApi,
     cache: Cache,
     coroutineScope: CoroutineScope
-): DeviceIPAddressProvider = AndroidDeviceIpAddressProvider(
+): PublicDeviceIPAddressProvider = AndroidDeviceIpAddressProvider(
     context = context,
     mooncloakApi = mooncloakApi,
     cache = cache,
@@ -34,7 +34,7 @@ internal class AndroidDeviceIpAddressProvider internal constructor(
     private val mooncloakApi: VpnServiceApi,
     private val cache: Cache,
     private val coroutineScope: CoroutineScope
-) : DeviceIPAddressProvider {
+) : PublicDeviceIPAddressProvider {
 
     private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -95,6 +95,6 @@ internal class AndroidDeviceIpAddressProvider internal constructor(
 
     internal companion object {
 
-        private const val CACHE_KEY: String = "JvmDeviceIpAddressProviderKey"
+        private const val CACHE_KEY: String = "AndroidDeviceIpAddressProviderKey"
     }
 }

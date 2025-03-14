@@ -4,8 +4,8 @@ import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.vpn.app.android.api.wireguard.WireGuardBackend
 import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
-import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.network.invoke
+import com.mooncloak.vpn.api.shared.network.ip.PublicDeviceIPAddressProvider
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
 import com.mooncloak.vpn.util.notification.NotificationManager
@@ -32,8 +32,8 @@ public abstract class AndroidApplicationComponent public constructor() : Applica
         mooncloakApi: MooncloakVpnServiceHttpApi,
         json: Json,
         coroutineScope: ApplicationCoroutineScope
-    ): DeviceIPAddressProvider =
-        DeviceIPAddressProvider(
+    ): PublicDeviceIPAddressProvider =
+        PublicDeviceIPAddressProvider(
             context = context,
             mooncloakApi = mooncloakApi,
             cache = Cache.create(

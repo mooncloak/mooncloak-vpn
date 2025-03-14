@@ -5,7 +5,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.api.shared.network.ip.DeviceIPAddressProvider
+import com.mooncloak.vpn.api.shared.network.ip.PublicDeviceIPAddressProvider
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
 import com.mooncloak.vpn.api.shared.server.ServerConnectionRecord
@@ -36,7 +36,7 @@ import kotlin.time.Duration.Companion.seconds
 public class ServerDetailsViewModel @Inject public constructor(
     private val vpnConnectionManager: VPNConnectionManager,
     private val serverConnectionRecordRepository: ServerConnectionRecordRepository,
-    private val deviceIPAddressProvider: DeviceIPAddressProvider,
+    private val deviceIPAddressProvider: PublicDeviceIPAddressProvider,
     private val clock: Clock
 ) : ViewModel<ServerDetailsStateModel>(initialStateValue = ServerDetailsStateModel()) {
 
