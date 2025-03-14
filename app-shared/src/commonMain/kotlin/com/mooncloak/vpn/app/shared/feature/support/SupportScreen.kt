@@ -50,6 +50,7 @@ import com.mooncloak.vpn.app.shared.resource.support_issue_title
 import com.mooncloak.vpn.app.shared.resource.support_rate_app_action
 import com.mooncloak.vpn.app.shared.resource.support_rate_app_description
 import com.mooncloak.vpn.app.shared.resource.support_rate_app_title
+import com.mooncloak.vpn.app.shared.theme.DefaultHorizontalPageSpacing
 import com.mooncloak.vpn.app.shared.util.openEmail
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -100,7 +101,7 @@ public fun SupportScreen(
         LazyColumn(
             modifier = Modifier.fillMaxSize()
                 .padding(paddingValues)
-                .padding(horizontal = 12.dp),
+                .padding(horizontal = DefaultHorizontalPageSpacing),
             state = lazyListState,
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally

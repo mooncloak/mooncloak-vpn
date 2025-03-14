@@ -41,6 +41,7 @@ import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.rememberPurchasingState
 import com.mooncloak.vpn.app.shared.feature.server.details.ServerDetailsScreen
 import com.mooncloak.vpn.app.shared.feature.server.details.rememberServerDetailsBottomSheetState
+import com.mooncloak.vpn.app.shared.theme.DefaultHorizontalPageSpacing
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeSource
 import kotlinx.coroutines.launch
@@ -109,7 +110,7 @@ public fun HomeScreen(
                 .padding(horizontal = 12.dp),
             state = lazyStaggeredGridState,
             columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalPageSpacing),
             verticalItemSpacing = 12.dp
         ) {
             item(

@@ -53,6 +53,7 @@ import com.mooncloak.vpn.app.shared.feature.server.list.composable.PreReleaseNot
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.ServerListItem
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_servers_title
+import com.mooncloak.vpn.app.shared.theme.DefaultHorizontalPageSpacing
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -135,7 +136,7 @@ public fun ServerListScreen(
                     CountryListCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
+                            .padding(horizontal = DefaultHorizontalPageSpacing)
                             .clickable {
                                 coroutineScope.launch {
                                     countryListBottomSheetState.show()
@@ -149,7 +150,7 @@ public fun ServerListScreen(
                         NoServersCard(
                             modifier = Modifier.sizeIn(maxWidth = 600.dp)
                                 .fillMaxWidth()
-                                .padding(12.dp)
+                                .padding(DefaultHorizontalPageSpacing)
                         )
                     }
                 }
@@ -164,7 +165,7 @@ public fun ServerListScreen(
                     ServerListItem(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
+                            .padding(horizontal = DefaultHorizontalPageSpacing)
                             .clickable(enabled = server.isConnectable(hasSubscription = viewModel.state.current.value.hasSubscription())) {
                                 onConnect.invoke(server)
                             },
@@ -192,7 +193,7 @@ public fun ServerListScreen(
                         PreReleaseNoticeCard(
                             modifier = Modifier.sizeIn(maxWidth = 600.dp)
                                 .fillMaxWidth()
-                                .padding(horizontal = 16.dp)
+                                .padding(horizontal = DefaultHorizontalPageSpacing)
                         )
                     }
                 }
