@@ -1,6 +1,4 @@
-package com.mooncloak.vpn.network.core
-
-import com.mooncloak.vpn.network.core.ip.LocalDeviceIPAddressProvider
+package com.mooncloak.vpn.network.core.ip
 
 public operator fun LocalDeviceIPAddressProvider.Companion.invoke(): LocalDeviceIPAddressProvider =
     JvmLocalDeviceIPAddressProvider()

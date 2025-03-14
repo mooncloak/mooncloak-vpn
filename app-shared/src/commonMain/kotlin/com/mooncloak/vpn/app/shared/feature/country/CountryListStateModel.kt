@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 import com.mooncloak.vpn.api.shared.service.isActive
-import com.mooncloak.vpn.api.shared.vpn.VPNConnection
-import com.mooncloak.vpn.api.shared.vpn.isToggling
+import com.mooncloak.vpn.network.core.vpn.VPNConnection
+import com.mooncloak.vpn.network.core.vpn.isToggling
 import com.mooncloak.vpn.app.shared.composable.FlagImage
 import com.mooncloak.vpn.app.shared.feature.country.model.CountryListLayoutStateModel
 import com.mooncloak.vpn.app.shared.feature.country.model.LayoutStateModel

@@ -2,8 +2,8 @@ package com.mooncloak.vpn.app.shared.api.server.usecase
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.api.shared.server.Server
-import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
-import com.mooncloak.vpn.api.shared.vpn.connectedTo
+import com.mooncloak.vpn.network.core.vpn.VPNConnectionManager
+import com.mooncloak.vpn.network.core.vpn.connectedTo
 import com.mooncloak.vpn.app.shared.di.PresentationScoped
 
 @PresentationScoped

@@ -7,8 +7,8 @@ import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
-import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
-import com.mooncloak.vpn.api.shared.tunnel.isConnected
+import com.mooncloak.vpn.network.core.tunnel.TunnelManager
+import com.mooncloak.vpn.network.core.tunnel.isConnected
 import com.mooncloak.vpn.api.shared.util.launchActivity
 import com.mooncloak.vpn.app.android.R
 import com.mooncloak.vpn.app.android.activity.MainActivity

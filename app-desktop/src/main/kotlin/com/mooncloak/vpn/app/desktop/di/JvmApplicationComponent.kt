@@ -8,8 +8,8 @@ import com.mooncloak.vpn.app.desktop.api.wireguard.JvmWireGuardTunnelManager
 import com.mooncloak.vpn.app.desktop.info.JvmAppClientInfo
 import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
-import com.mooncloak.vpn.network.core.invoke
-import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
+import com.mooncloak.vpn.network.core.ip.invoke
+import com.mooncloak.vpn.network.core.tunnel.TunnelManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.data.sqlite.invoke

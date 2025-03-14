@@ -17,11 +17,10 @@ import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionFlowProvider
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
-import com.mooncloak.vpn.api.shared.vpn.VPNConnection
-import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
+import com.mooncloak.vpn.network.core.vpn.VPNConnectionManager
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
-import com.mooncloak.vpn.api.shared.vpn.connectedTo
-import com.mooncloak.vpn.api.shared.vpn.isConnected
+import com.mooncloak.vpn.network.core.vpn.connectedTo
+import com.mooncloak.vpn.network.core.vpn.isConnected
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
@@ -47,6 +46,7 @@ import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.util.time.remaining
 import com.mooncloak.vpn.network.core.ip.LocalDeviceIPAddressProvider
 import com.mooncloak.vpn.network.core.ip.PublicDeviceIPAddressProvider
+import com.mooncloak.vpn.network.core.vpn.VPNConnection
 import com.mooncloak.vpn.util.shared.time.DurationFormatter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

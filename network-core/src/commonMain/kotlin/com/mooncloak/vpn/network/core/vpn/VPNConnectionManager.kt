@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.api.shared.vpn
+package com.mooncloak.vpn.network.core.vpn
 
 import com.mooncloak.vpn.api.shared.server.Server
 import kotlinx.coroutines.CoroutineScope

@@ -22,7 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mooncloak.vpn.api.shared.server.isConnectable
-import com.mooncloak.vpn.api.shared.vpn.isConnected
+import com.mooncloak.vpn.network.core.vpn.isConnected
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.feature.app.MainDestination
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies

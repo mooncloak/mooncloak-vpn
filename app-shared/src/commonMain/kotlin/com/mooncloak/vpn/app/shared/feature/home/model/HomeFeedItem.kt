@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.painter.Painter
 import com.mooncloak.vpn.api.shared.server.Server
-import com.mooncloak.vpn.api.shared.vpn.VPNConnection
+import com.mooncloak.vpn.network.core.vpn.VPNConnection
 
 @Immutable
 public sealed interface HomeFeedItem {

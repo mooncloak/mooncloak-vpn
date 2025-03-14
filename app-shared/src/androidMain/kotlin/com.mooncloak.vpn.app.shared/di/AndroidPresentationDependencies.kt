@@ -5,7 +5,7 @@ import androidx.compose.ui.platform.UriHandler
 import com.mooncloak.vpn.api.shared.billing.BillingManager
 import com.mooncloak.vpn.api.shared.plan.ServicePlansProvider
 import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
-import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
+import com.mooncloak.vpn.network.core.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.feature.dependency.util.LibsLoader
 import com.mooncloak.vpn.app.shared.util.ActivityContext
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider

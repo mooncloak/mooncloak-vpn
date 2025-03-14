@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.network.core
+package com.mooncloak.vpn.network.core.ip
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,8 +8,6 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import com.mooncloak.vpn.api.shared.VpnServiceApi
 import com.mooncloak.vpn.data.shared.cache.Cache
-import com.mooncloak.vpn.network.core.ip.DefaultPublicDeviceIPAddressProvider
-import com.mooncloak.vpn.network.core.ip.PublicDeviceIPAddressProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

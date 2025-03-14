@@ -12,15 +12,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.api.shared.server.Server
-import com.mooncloak.vpn.api.shared.vpn.VPNConnection
-import com.mooncloak.vpn.api.shared.vpn.connectedTo
-import com.mooncloak.vpn.api.shared.vpn.isToggling
+import com.mooncloak.vpn.network.core.vpn.connectedTo
+import com.mooncloak.vpn.network.core.vpn.isToggling
 import com.mooncloak.vpn.app.shared.feature.country.composable.ErrorCard
 import com.mooncloak.vpn.app.shared.feature.country.composable.Label
 import com.mooncloak.vpn.app.shared.feature.country.composable.RegionServerListItem
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.util.LaunchLazyLoader
+import com.mooncloak.vpn.network.core.vpn.VPNConnection
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

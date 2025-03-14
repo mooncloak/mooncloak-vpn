@@ -9,10 +9,10 @@ import com.mooncloak.vpn.app.android.api.server.AndroidVPNConnectionManager
 import com.mooncloak.vpn.app.android.play.ServicePlansGooglePlaySource
 import com.mooncloak.vpn.api.shared.billing.BillingManager
 import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
-import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
-import com.mooncloak.vpn.api.shared.tunnel.TunnelManagerPreparer
-import com.mooncloak.vpn.api.shared.tunnel.invoke
-import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
+import com.mooncloak.vpn.network.core.tunnel.TunnelManager
+import com.mooncloak.vpn.network.core.tunnel.TunnelManagerPreparer
+import com.mooncloak.vpn.network.core.tunnel.invoke
+import com.mooncloak.vpn.network.core.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.android.util.AndroidAppShortcutProvider
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent

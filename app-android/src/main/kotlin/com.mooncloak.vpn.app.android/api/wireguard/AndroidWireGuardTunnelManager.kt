@@ -14,7 +14,7 @@ import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.app.shared.api.server.usecase.RegisterClientUseCase
 import com.mooncloak.vpn.api.shared.tunnel.Tunnel
-import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
+import com.mooncloak.vpn.network.core.tunnel.TunnelManager
 import com.mooncloak.vpn.app.android.activity.VPNPreparationActivity
 import com.mooncloak.vpn.app.android.service.MooncloakVpnService
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings

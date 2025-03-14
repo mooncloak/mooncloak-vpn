@@ -3,6 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("plugin.serialization")
     id("com.android.library")
+    id("org.jetbrains.compose")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.dokka")
     id("mooncloak.multiplatform")
 }
@@ -38,6 +40,8 @@ kotlin {
                 // Http Client - Ktor
                 // https://github.com/ktorio/ktor
                 implementation("io.ktor:ktor-client-core:_")
+
+                implementation(compose.runtime)
             }
         }
 

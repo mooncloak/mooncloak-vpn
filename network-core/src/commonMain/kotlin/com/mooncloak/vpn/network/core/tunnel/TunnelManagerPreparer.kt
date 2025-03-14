@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.api.shared.tunnel
+package com.mooncloak.vpn.network.core.tunnel
 
 /**
  * A component that prepares a [TunnelManager] for use before connecting to a VPN server. The actual preparation code

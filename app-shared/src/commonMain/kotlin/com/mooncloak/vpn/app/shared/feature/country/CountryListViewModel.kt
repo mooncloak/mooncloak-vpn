@@ -12,7 +12,7 @@ import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.api.shared.location.CountryDetails
 import com.mooncloak.vpn.api.shared.location.RegionDetails
 import com.mooncloak.vpn.api.shared.server.Server
-import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
+import com.mooncloak.vpn.network.core.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.shared.api.server.usecase.ConnectToServerInLocationCodeUseCase
 import com.mooncloak.vpn.app.shared.api.server.usecase.ToggleServerConnectionUseCase
 import com.mooncloak.vpn.app.shared.api.service.ServiceSubscriptionFlowProvider

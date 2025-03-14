@@ -14,14 +14,14 @@ import androidx.compose.ui.unit.dp
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.info
 import com.mooncloak.vpn.api.shared.location.CountryDetails
-import com.mooncloak.vpn.api.shared.vpn.VPNConnection
-import com.mooncloak.vpn.api.shared.vpn.isToggling
+import com.mooncloak.vpn.network.core.vpn.isToggling
 import com.mooncloak.vpn.app.shared.feature.country.composable.CountryListItem
 import com.mooncloak.vpn.app.shared.feature.country.composable.ErrorCard
 import com.mooncloak.vpn.app.shared.feature.country.composable.Label
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.util.LaunchLazyLoader
+import com.mooncloak.vpn.network.core.vpn.VPNConnection
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

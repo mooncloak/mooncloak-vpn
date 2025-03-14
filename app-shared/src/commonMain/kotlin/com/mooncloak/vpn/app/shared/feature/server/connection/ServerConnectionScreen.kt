@@ -8,7 +8,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.api.shared.vpn.VPNConnection
 import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
 import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheet
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
@@ -18,6 +17,7 @@ import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerC
 import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerConnectionErrorLayout
 import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerDisconnectedLayout
 import com.mooncloak.vpn.app.shared.feature.server.connection.composable.ServerDisconnectingLayout
+import com.mooncloak.vpn.network.core.vpn.VPNConnection
 
 @Composable
 public fun ServerConnectionScreen(

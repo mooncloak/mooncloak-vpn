@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.api.shared.tunnel
+package com.mooncloak.vpn.network.core.tunnel
 
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State

@@ -1,10 +1,9 @@
-package com.mooncloak.vpn.network.core
+package com.mooncloak.vpn.network.core.ip
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.wifi.WifiManager
-import com.mooncloak.vpn.network.core.ip.LocalDeviceIPAddressProvider
 import java.net.InetAddress
 
 public operator fun LocalDeviceIPAddressProvider.Companion.invoke(context: Context): LocalDeviceIPAddressProvider =

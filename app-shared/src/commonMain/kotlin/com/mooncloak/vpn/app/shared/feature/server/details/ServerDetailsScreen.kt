@@ -23,9 +23,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.api.shared.vpn.VPNConnection
 import com.mooncloak.vpn.api.shared.server.ipAddress
-import com.mooncloak.vpn.api.shared.vpn.defaultTunnel
+import com.mooncloak.vpn.network.core.vpn.defaultTunnel
 import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
@@ -42,6 +41,7 @@ import com.mooncloak.vpn.app.shared.resource.server_details_action_connect
 import com.mooncloak.vpn.app.shared.resource.server_details_action_disconnect
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_connected
 import com.mooncloak.vpn.app.shared.resource.server_details_info_field_last_connected
+import com.mooncloak.vpn.network.core.vpn.VPNConnection
 import com.mooncloak.vpn.util.shared.time.DateTimeFormatter
 import com.mooncloak.vpn.util.shared.time.Full
 import com.mooncloak.vpn.util.shared.time.format

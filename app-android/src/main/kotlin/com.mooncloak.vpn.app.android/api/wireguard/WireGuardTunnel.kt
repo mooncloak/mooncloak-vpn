@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import com.mooncloak.vpn.api.shared.tunnel.Tunnel
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.server.VPNConnectionStatus
-import com.mooncloak.vpn.api.shared.tunnel.TunnelStats
+import com.mooncloak.vpn.network.core.tunnel.TunnelStats
 import com.wireguard.android.backend.Statistics
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid

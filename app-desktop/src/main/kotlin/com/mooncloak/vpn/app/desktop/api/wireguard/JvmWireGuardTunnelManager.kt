@@ -2,8 +2,8 @@ package com.mooncloak.vpn.app.desktop.api.wireguard
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.api.shared.server.Server
-import com.mooncloak.vpn.api.shared.tunnel.Tunnel
-import com.mooncloak.vpn.api.shared.tunnel.TunnelManager
+import com.mooncloak.vpn.network.core.tunnel.Tunnel
+import com.mooncloak.vpn.network.core.tunnel.TunnelManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.StateFlow

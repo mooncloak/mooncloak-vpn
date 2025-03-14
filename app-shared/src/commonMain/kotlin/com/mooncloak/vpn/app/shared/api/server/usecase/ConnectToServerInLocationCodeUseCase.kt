@@ -4,7 +4,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.locale.LocationCode
 import com.mooncloak.vpn.api.shared.server.ServerFilters
 import com.mooncloak.vpn.api.shared.server.ServerRepository
-import com.mooncloak.vpn.api.shared.vpn.VPNConnectionManager
+import com.mooncloak.vpn.network.core.vpn.VPNConnectionManager
 
 public class ConnectToServerInLocationCodeUseCase @Inject public constructor(
     private val serverRepository: ServerRepository,
