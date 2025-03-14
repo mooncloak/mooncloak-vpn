@@ -8,6 +8,7 @@ import com.wireguard.crypto.Key
 import com.wireguard.crypto.KeyPair
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import androidx.core.content.edit
 
 internal class AndroidWireGuardConnectionKeyManager @Inject internal constructor(
     private val encryptedSharedPreferenceProvider: EncryptedSharedPreferenceProvider
@@ -29,9 +30,9 @@ internal class AndroidWireGuardConnectionKeyManager @Inject internal constructor
         mutex.withLock {
             val sharedPreferences = encryptedSharedPreferenceProvider.get(FILE_NAME)
 
-            sharedPreferences.edit()
-                .putString(KEY_PRIVATE_KEY, material.privateKey.value)
-                .apply()
+            sharedPreferences.edit {
+                putString(KEY_PRIVATE_KEY, material.privateKey.value)
+            }
         }
     }
 
