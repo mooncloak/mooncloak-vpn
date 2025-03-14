@@ -254,6 +254,17 @@ kotlin {
             }
         }
     }
+
+    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+        if (this.konanTarget.family == org.jetbrains.kotlin.konan.target.Family.IOS) {
+            binaries {
+                framework {
+                    baseName = "app_shared"
+                    isStatic = true
+                }
+            }
+        }
+    }
 }
 
 dependencies {
