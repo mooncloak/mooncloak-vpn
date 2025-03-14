@@ -1,6 +1,15 @@
 package com.mooncloak.vpn.data.shared.keyvalue
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 /**
  * Represents a property that holds a value associated with a key.
@@ -65,4 +74,49 @@ public suspend fun <Value : Any> MutableKeyValueProperty<Value>.update(block: (c
 
         this.set(value = updated)
     }
+}
+
+/**
+ * Retrieves a [State] of the underlying [KeyValueProperty] value changes as [KeyValuePropertyLoadingEvent]s.
+ */
+@Composable
+public fun <Value : Any> KeyValueProperty<Value>.loadingEventState(
+    context: CoroutineContext = EmptyCoroutineContext
+): State<KeyValuePropertyLoadingEvent<Value>> {
+    val event = remember {
+        mutableStateOf<KeyValuePropertyLoadingEvent<Value>>(KeyValuePropertyLoadingEvent.Loading)
+    }
+
+    LaunchedEffect(this) {
+        event.value = KeyValuePropertyLoadingEvent.Loaded(value = this@loadingEventState.get())
+    }
+
+    return this.flow()
+        .map { value -> KeyValuePropertyLoadingEvent.Loaded(value = value) }
+        .collectAsState(
+            initial = event.value,
+            context = context
+        )
+}
+
+/**
+ * Retrieves a [State] of the underlying [KeyValueProperty] value changes starting with [initial].
+ *
+ * @param [initial] The initial [Value] to set for the state.
+ */
+@Composable
+public fun <Value : Any> KeyValueProperty<Value>.state(
+    initial: Value,
+    context: CoroutineContext = EmptyCoroutineContext
+): State<Value?> {
+    val current = remember { mutableStateOf<Value?>(initial) }
+
+    LaunchedEffect(Unit) {
+        current.value = this@state.get()
+    }
+
+    return this.flow().collectAsState(
+        initial = current.value,
+        context = context
+    )
 }

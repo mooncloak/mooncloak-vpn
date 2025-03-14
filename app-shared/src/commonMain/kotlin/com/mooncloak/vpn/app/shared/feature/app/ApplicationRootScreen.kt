@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +42,7 @@ import com.mooncloak.vpn.app.shared.resource.notification_channel_name_shortcuts
 import com.mooncloak.vpn.app.shared.resource.notification_channel_name_vpn
 import com.mooncloak.vpn.app.shared.theme.MooncloakTheme
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
+import com.mooncloak.vpn.data.shared.keyvalue.state
 import com.mooncloak.vpn.util.notification.NotificationChannelId
 import com.mooncloak.vpn.util.notification.NotificationPriority
 import org.jetbrains.compose.resources.getString
@@ -55,8 +55,6 @@ public fun ApplicationRootScreen(
     uriHandler: UriHandler = LocalUriHandler.current
 ) {
     val navController = rememberNavController()
-
-    val themePreference = remember { mutableStateOf(ThemePreference.System) }
 
     CompositionLocalProvider(
         LocalApplicationComponent provides applicationComponent,
@@ -91,9 +89,9 @@ public fun ApplicationRootScreen(
             }
         }
 
-        LaunchedEffect(Unit) {
-            themePreference.value = preferencesStorage.theme.get() ?: ThemePreference.System
+        val themePreference = preferencesStorage.theme.state(initial = ThemePreference.System)
 
+        LaunchedEffect(Unit) {
             // It is safe to call this numerous times (at least on Android). The Android documentation recommends
             // calling this early in the application, so we call it in the root screen.
             // TODO: Move all these definitions to their own util component.
@@ -118,7 +116,7 @@ public fun ApplicationRootScreen(
         }
 
         MooncloakTheme(
-            themePreference = themePreference.value
+            themePreference = themePreference.value ?: ThemePreference.System
         ) {
             Scaffold(
                 modifier = modifier,

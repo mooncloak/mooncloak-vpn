@@ -1,9 +1,6 @@
 package com.mooncloak.vpn.app.desktop.window
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.rememberWindowState
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
@@ -11,6 +8,7 @@ import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.feature.app.ApplicationRootScreen
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
 import com.mooncloak.vpn.app.shared.window.rememberWindowTitleBarState
+import com.mooncloak.vpn.data.shared.keyvalue.state
 
 @Composable
 internal fun MainWindow(
@@ -24,15 +22,11 @@ internal fun MainWindow(
         title = applicationDependencies.appClientInfo.name,
     )
 
-    val themePreference = remember { mutableStateOf(ThemePreference.System) }
-
-    LaunchedEffect(Unit) {
-        themePreference.value = applicationDependencies.preferenceStorage.theme.get() ?: ThemePreference.System
-    }
+    val themePreference = applicationDependencies.preferenceStorage.theme.state(initial = ThemePreference.System)
 
     MooncloakDecorationWindow(
         onClose = onClose,
-        themePreference = themePreference.value,
+        themePreference = themePreference.value ?: ThemePreference.System,
         state = state,
         visible = visible,
         titleBarState = windowTitleBarState
