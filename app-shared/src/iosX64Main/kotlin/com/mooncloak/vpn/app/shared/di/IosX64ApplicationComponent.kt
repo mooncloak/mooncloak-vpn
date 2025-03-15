@@ -11,5 +11,5 @@ internal actual fun ApplicationComponent.Companion.create(
 ): IosApplicationComponent = IosApplicationComponent::class.create(
     applicationCoroutineScope = applicationCoroutineScope,
     wireGuardConnectionKeyManager = wireGuardConnectionKeyManager,
-    wireGuardTunnelManager = wireGuardTunnelManager
+    tunnelManager = wireGuardTunnelManager
 )

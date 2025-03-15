@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.*
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
@@ -255,12 +256,15 @@ kotlin {
         }
     }
 
+    val xcf = XCFramework("app_shared")
+
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
         if (this.konanTarget.family == org.jetbrains.kotlin.konan.target.Family.IOS) {
             binaries {
                 framework {
                     baseName = "app_shared"
                     isStatic = true
+                    xcf.add(this)
                 }
             }
         }
