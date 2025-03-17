@@ -97,6 +97,7 @@ public fun HomeScreen(
         modifier = modifier,
         snackbarHost = {
             SnackbarHost(
+                modifier = Modifier.padding(bottom = 28.dp + containerPaddingValues.calculateBottomPadding()),
                 hostState = snackbarHostState,
                 snackbar = { snackbarData ->
                     MooncloakSnackbar(
