@@ -63,6 +63,7 @@
     <string name="moon_shield_label_data_saved">Data saved</string>
     <string name="moon_shield_active">Shields Up</string>
     <string name="moon_shield_inactive">Shields Down</string>
+    <string name="moon_shield_message_next_connection">MoonShield change will take effect for the next VPN connection.</string>
 
     <string name="plan_usage_title">Plan Usage</string>
     <string name="plan_usage_label_time_remaining">Time Remaining</string>
