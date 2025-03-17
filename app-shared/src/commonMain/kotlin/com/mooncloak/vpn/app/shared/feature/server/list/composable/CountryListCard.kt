@@ -28,6 +28,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 internal fun CountryListCard(
     count: Int? = null,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -35,7 +36,8 @@ internal fun CountryListCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
             contentColor = MaterialTheme.colorScheme.onSurface
-        )
+        ),
+        onClick = onClick
     ) {
         ListItem(
             modifier = Modifier.fillMaxWidth(),

@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
@@ -71,7 +73,7 @@ public fun ServerListScreen(
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
-    val lazyListState = rememberLazyListState()
+    val lazyStaggeredGridState = rememberLazyStaggeredGridState()
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
 
@@ -121,26 +123,30 @@ public fun ServerListScreen(
             modifier = Modifier.fillMaxSize()
                 .padding(paddingValues)
         ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
-                state = lazyListState,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+            LazyVerticalStaggeredGrid(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 12.dp),
+                state = lazyStaggeredGridState,
+                columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
+                horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalPageSpacing),
+                verticalItemSpacing = 12.dp
             ) {
-                item(key = "TopSpacing") {
+                item(
+                    key = "TopSpacing",
+                    span = StaggeredGridItemSpan.FullLine
+                ) {
                     Spacer(modifier = Modifier.height(containerPaddingValues.calculateTopPadding()))
                 }
 
                 item(key = "CountryListItem") {
                     CountryListCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
-                            .fillMaxWidth()
-                            .padding(horizontal = DefaultHorizontalPageSpacing)
-                            .clickable {
-                                coroutineScope.launch {
-                                    countryListBottomSheetState.show()
-                                }
+                            .fillMaxWidth(),
+                        onClick = {
+                            coroutineScope.launch {
+                                countryListBottomSheetState.show()
                             }
+                        }
                     )
                 }
 
@@ -149,7 +155,6 @@ public fun ServerListScreen(
                         NoServersCard(
                             modifier = Modifier.sizeIn(maxWidth = 600.dp)
                                 .fillMaxWidth()
-                                .padding(DefaultHorizontalPageSpacing)
                         )
                     }
                 }
@@ -164,7 +169,6 @@ public fun ServerListScreen(
                     ServerListItem(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth()
-                            .padding(horizontal = DefaultHorizontalPageSpacing)
                             .clickable(enabled = server.isConnectable(hasSubscription = viewModel.state.current.value.hasSubscription())) {
                                 onConnect.invoke(server)
                             },
@@ -192,12 +196,14 @@ public fun ServerListScreen(
                         PreReleaseNoticeCard(
                             modifier = Modifier.sizeIn(maxWidth = 600.dp)
                                 .fillMaxWidth()
-                                .padding(horizontal = DefaultHorizontalPageSpacing)
                         )
                     }
                 }
 
-                item(key = "BottomSpacing") {
+                item(
+                    key = "BottomSpacing",
+                    span = StaggeredGridItemSpan.FullLine
+                ) {
                     Spacer(modifier = Modifier.height(containerPaddingValues.calculateBottomPadding() + 28.dp))
                 }
             }
