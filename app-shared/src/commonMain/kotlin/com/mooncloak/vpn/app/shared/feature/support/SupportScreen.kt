@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
+import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.support.composable.DefaultSupportCard
@@ -82,7 +83,14 @@ public fun SupportScreen(
     Scaffold(
         modifier = modifier.nestedScroll(topAppBarBehavior.nestedScrollConnection),
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
+            SnackbarHost(
+                hostState = snackbarHostState,
+                snackbar = { snackbarData ->
+                    MooncloakSnackbar(
+                        snackbarData = snackbarData
+                    )
+                }
+            )
         },
         topBar = {
             LargeTopAppBar(

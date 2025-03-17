@@ -25,6 +25,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil3.SingletonImageLoader
+import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.LocalApplicationComponent
@@ -121,7 +122,14 @@ public fun ApplicationRootScreen(
             Scaffold(
                 modifier = modifier,
                 snackbarHost = {
-                    SnackbarHost(hostState = snackbarHostState)
+                    SnackbarHost(
+                        hostState = snackbarHostState,
+                        snackbar = { snackbarData ->
+                            MooncloakSnackbar(
+                                snackbarData = snackbarData
+                            )
+                        }
+                    )
                 }
             ) { paddingValues ->
                 Box(

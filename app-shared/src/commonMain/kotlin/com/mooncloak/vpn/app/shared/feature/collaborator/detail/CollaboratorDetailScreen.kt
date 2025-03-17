@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 
@@ -34,7 +35,14 @@ public fun CollaboratorDetailScreen(
     Scaffold(
         modifier = modifier,
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
+            SnackbarHost(
+                hostState = snackbarHostState,
+                snackbar = { snackbarData ->
+                    MooncloakSnackbar(
+                        snackbarData = snackbarData
+                    )
+                }
+            )
         },
         containerColor = MaterialTheme.colorScheme.surface,
         contentColor = MaterialTheme.colorScheme.onSurface

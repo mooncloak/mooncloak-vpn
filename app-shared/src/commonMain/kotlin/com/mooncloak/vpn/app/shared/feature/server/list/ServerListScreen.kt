@@ -36,6 +36,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.server.isConnectable
+import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
 import com.mooncloak.vpn.network.core.vpn.connectedTo
 import com.mooncloak.vpn.network.core.vpn.isConnected
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
@@ -101,7 +102,14 @@ public fun ServerListScreen(
     Scaffold(
         modifier = modifier.nestedScroll(topAppBarBehavior.nestedScrollConnection),
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
+            SnackbarHost(
+                hostState = snackbarHostState,
+                snackbar = { snackbarData ->
+                    MooncloakSnackbar(
+                        snackbarData = snackbarData
+                    )
+                }
+            )
         },
         containerColor = MaterialTheme.colorScheme.background,
         contentColor = MaterialTheme.colorScheme.onBackground,
