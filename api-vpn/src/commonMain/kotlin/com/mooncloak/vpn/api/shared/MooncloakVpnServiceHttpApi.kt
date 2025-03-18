@@ -33,6 +33,8 @@ import com.mooncloak.vpn.api.shared.server.ServerFilters
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 import com.mooncloak.vpn.api.shared.service.ServiceSubscriptionUsage
 import com.mooncloak.vpn.api.shared.service.ServiceTokens
+import com.mooncloak.vpn.api.shared.support.FAQPage
+import com.mooncloak.vpn.api.shared.support.SupportFAQFilters
 import com.mooncloak.vpn.api.shared.token.RevokeTokenRequestBody
 import com.mooncloak.vpn.api.shared.token.RevokedTokenResponseBody
 import com.mooncloak.vpn.api.shared.token.Token
@@ -315,7 +317,7 @@ public class MooncloakVpnServiceHttpApi public constructor(
         sort: SortOptions?,
         filters: ServerFilters?
     ): ResolvedPage<Server> = withContext(Dispatchers.PlatformIO) {
-        val pageRequest = PageRequest<String, ServerFilters>(
+        val pageRequest = PageRequest(
             data = query,
             direction = direction,
             cursor = cursor,
@@ -348,6 +350,30 @@ public class MooncloakVpnServiceHttpApi public constructor(
         val response = httpClient.get(url("/vpn/app/contributor/$id"))
 
         return@withContext response.body<HttpResponseBody<Contributor>>().getOrThrow()
+    }
+
+    @OptIn(ExperimentalPaginationAPI::class)
+    @Throws(ApiException::class, CancellationException::class)
+    override suspend fun getSupportFAQPages(
+        token: Token?,
+        filters: SupportFAQFilters?
+    ): List<FAQPage> {
+        val pageRequest = PageRequest<String, SupportFAQFilters>(
+            filters = filters
+        )
+
+        val response = httpClient.post(url("/support/faqs")) {
+            token?.value?.let { bearerAuth(it) }
+
+            contentType(ContentType.Application.Json)
+            accept(ContentType.Application.Json)
+
+            setBody(pageRequest)
+        }
+
+        val pages = response.body<HttpResponseBody<ResolvedPage<FAQPage>>>().getOrThrow()
+
+        return pages.items
     }
 
     private suspend fun url(vararg path: String, encodeSlash: Boolean = false): Url {

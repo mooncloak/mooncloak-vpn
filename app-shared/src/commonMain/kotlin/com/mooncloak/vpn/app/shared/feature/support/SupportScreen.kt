@@ -1,6 +1,8 @@
 package com.mooncloak.vpn.app.shared.feature.support
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +19,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Stars
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -29,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
@@ -109,96 +113,107 @@ public fun SupportScreen(
             )
         }
     ) { paddingValues ->
-        LazyVerticalStaggeredGrid(
+        Box(
             modifier = Modifier.fillMaxSize()
                 .padding(paddingValues)
-                .padding(horizontal = DefaultHorizontalPageSpacing),
-            state = lazyStaggeredGridState,
-            columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
-            horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalPageSpacing),
-            verticalItemSpacing = 12.dp
         ) {
-            item(
-                key = "TopSpacing",
-                span = StaggeredGridItemSpan.FullLine
+            LazyVerticalStaggeredGrid(
+                modifier = Modifier.fillMaxSize()
+                    .padding(horizontal = DefaultHorizontalPageSpacing),
+                state = lazyStaggeredGridState,
+                columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
+                horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalPageSpacing),
+                verticalItemSpacing = 12.dp
             ) {
-                Spacer(modifier = Modifier.height(containerPaddingValues.calculateTopPadding()))
-            }
+                item(
+                    key = "TopSpacing",
+                    span = StaggeredGridItemSpan.FullLine
+                ) {
+                    Spacer(modifier = Modifier.height(containerPaddingValues.calculateTopPadding()))
+                }
 
-            viewModel.state.current.value.supportEmailAddress?.let { supportEmailAddress ->
-                item(key = "SupportEmailCard") {
-                    DefaultSupportCard(
-                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
-                            .fillMaxWidth(),
-                        title = stringResource(Res.string.support_email_title),
-                        icon = Icons.Default.Email,
-                        description = stringResource(Res.string.support_email_description),
-                        action = stringResource(Res.string.support_email_action),
-                        onAction = {
-                            coroutineScope.launch {
-                                uriHandler.openEmail(
-                                    to = listOf(supportEmailAddress),
-                                    subject = emailSubject
-                                )
+                viewModel.state.current.value.supportEmailAddress?.let { supportEmailAddress ->
+                    item(key = "SupportEmailCard") {
+                        DefaultSupportCard(
+                            modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                                .fillMaxWidth(),
+                            title = stringResource(Res.string.support_email_title),
+                            icon = Icons.Default.Email,
+                            description = stringResource(Res.string.support_email_description),
+                            action = stringResource(Res.string.support_email_action),
+                            onAction = {
+                                coroutineScope.launch {
+                                    uriHandler.openEmail(
+                                        to = listOf(supportEmailAddress),
+                                        subject = emailSubject
+                                    )
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
+                }
+
+                viewModel.state.current.value.featureRequestUri?.let { featureRequestUri ->
+                    item(key = "SupportFeatureRequestCard") {
+                        DefaultSupportCard(
+                            modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                                .fillMaxWidth(),
+                            title = stringResource(Res.string.support_feature_request_title),
+                            icon = Icons.Default.Add,
+                            description = stringResource(Res.string.support_feature_request_description),
+                            action = stringResource(Res.string.support_feature_request_action),
+                            onAction = {
+                                uriHandler.openUri(featureRequestUri)
+                            }
+                        )
+                    }
+                }
+
+                viewModel.state.current.value.issueRequestUri?.let { issueRequestUri ->
+                    item(key = "SupportIssueCard") {
+                        DefaultSupportCard(
+                            modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                                .fillMaxWidth(),
+                            title = stringResource(Res.string.support_issue_title),
+                            icon = Icons.Default.BugReport,
+                            description = stringResource(Res.string.support_issue_description),
+                            action = stringResource(Res.string.support_issue_action),
+                            onAction = {
+                                uriHandler.openUri(issueRequestUri)
+                            }
+                        )
+                    }
+                }
+
+                viewModel.state.current.value.rateAppUri?.let { rateAppUri ->
+                    item(key = "RateAppCard") {
+                        DefaultSupportCard(
+                            modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                                .fillMaxWidth(),
+                            title = stringResource(Res.string.support_rate_app_title),
+                            icon = Icons.Default.Stars,
+                            description = stringResource(Res.string.support_rate_app_description),
+                            action = stringResource(Res.string.support_rate_app_action),
+                            onAction = {
+                                uriHandler.openUri(rateAppUri)
+                            }
+                        )
+                    }
+                }
+
+                item(
+                    key = "BottomSpacing",
+                    span = StaggeredGridItemSpan.FullLine
+                ) {
+                    Spacer(modifier = Modifier.height(containerPaddingValues.calculateBottomPadding() + 28.dp))
                 }
             }
 
-            viewModel.state.current.value.featureRequestUri?.let { featureRequestUri ->
-                item(key = "SupportFeatureRequestCard") {
-                    DefaultSupportCard(
-                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
-                            .fillMaxWidth(),
-                        title = stringResource(Res.string.support_feature_request_title),
-                        icon = Icons.Default.Add,
-                        description = stringResource(Res.string.support_feature_request_description),
-                        action = stringResource(Res.string.support_feature_request_action),
-                        onAction = {
-                            uriHandler.openUri(featureRequestUri)
-                        }
-                    )
-                }
-            }
-
-            viewModel.state.current.value.issueRequestUri?.let { issueRequestUri ->
-                item(key = "SupportIssueCard") {
-                    DefaultSupportCard(
-                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
-                            .fillMaxWidth(),
-                        title = stringResource(Res.string.support_issue_title),
-                        icon = Icons.Default.BugReport,
-                        description = stringResource(Res.string.support_issue_description),
-                        action = stringResource(Res.string.support_issue_action),
-                        onAction = {
-                            uriHandler.openUri(issueRequestUri)
-                        }
-                    )
-                }
-            }
-
-            viewModel.state.current.value.rateAppUri?.let { rateAppUri ->
-                item(key = "RateAppCard") {
-                    DefaultSupportCard(
-                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
-                            .fillMaxWidth(),
-                        title = stringResource(Res.string.support_rate_app_title),
-                        icon = Icons.Default.Stars,
-                        description = stringResource(Res.string.support_rate_app_description),
-                        action = stringResource(Res.string.support_rate_app_action),
-                        onAction = {
-                            uriHandler.openUri(rateAppUri)
-                        }
-                    )
-                }
-            }
-
-            item(
-                key = "BottomSpacing",
-                span = StaggeredGridItemSpan.FullLine
+            AnimatedVisibility(
+                modifier = Modifier.align(Alignment.Center),
+                visible = viewModel.state.current.value.isLoading
             ) {
-                Spacer(modifier = Modifier.height(containerPaddingValues.calculateBottomPadding() + 28.dp))
+                CircularProgressIndicator()
             }
         }
     }

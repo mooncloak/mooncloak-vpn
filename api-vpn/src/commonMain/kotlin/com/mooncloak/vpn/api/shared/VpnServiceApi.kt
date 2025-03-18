@@ -27,6 +27,8 @@ import com.mooncloak.vpn.api.shared.server.ServerFilters
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
 import com.mooncloak.vpn.api.shared.service.ServiceSubscriptionUsage
 import com.mooncloak.vpn.api.shared.service.ServiceTokens
+import com.mooncloak.vpn.api.shared.support.FAQPage
+import com.mooncloak.vpn.api.shared.support.SupportFAQFilters
 import com.mooncloak.vpn.api.shared.token.Token
 import com.mooncloak.vpn.api.shared.token.TransactionToken
 import kotlin.coroutines.cancellation.CancellationException
@@ -141,6 +143,12 @@ public interface VpnServiceApi {
 
     @Throws(ApiException::class, CancellationException::class)
     public suspend fun getContributor(id: String): Contributor
+
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun getSupportFAQPages(
+        token: Token? = null,
+        filters: SupportFAQFilters? = null
+    ): List<FAQPage>
 
     public companion object
 }
