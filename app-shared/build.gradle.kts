@@ -252,6 +252,8 @@ kotlin {
                 // Http Client - Ktor
                 // https://github.com/ktorio/ktor
                 api("io.ktor:ktor-client-darwin:_")
+
+                implementation("co.touchlab:sqliter-driver:_")
             }
         }
     }
@@ -391,5 +393,16 @@ buildkonfig {
             name = "appBuildTime",
             value = nowTimestamp()
         )
+    }
+}
+
+tasks.create("copyXCFramework") {
+    dependsOn("assembleapp_sharedXCFramework")
+
+    doLast {
+        copy {
+            from("build/XCFrameworks/release/app_shared.xcframework")
+            into("$projectDir/../app-ios/libs")
+        }
     }
 }
