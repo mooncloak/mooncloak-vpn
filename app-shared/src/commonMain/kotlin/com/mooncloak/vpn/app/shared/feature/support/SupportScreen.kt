@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.BugReport
@@ -27,15 +29,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
+import com.mooncloak.vpn.app.shared.composable.showError
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.support.composable.DefaultSupportCard
+import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_support_title
 import com.mooncloak.vpn.app.shared.resource.support_email_action
@@ -69,7 +72,7 @@ public fun SupportScreen(
     }
     val viewModel = remember { componentDependencies.viewModel }
     val snackbarHostState = remember { SnackbarHostState() }
-    val lazyListState = rememberLazyListState()
+    val lazyStaggeredGridState = rememberLazyStaggeredGridState()
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
     val uriHandler = LocalUriHandler.current
@@ -106,15 +109,19 @@ public fun SupportScreen(
             )
         }
     ) { paddingValues ->
-        LazyColumn(
+        LazyVerticalStaggeredGrid(
             modifier = Modifier.fillMaxSize()
                 .padding(paddingValues)
                 .padding(horizontal = DefaultHorizontalPageSpacing),
-            state = lazyListState,
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            state = lazyStaggeredGridState,
+            columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
+            horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalPageSpacing),
+            verticalItemSpacing = 12.dp
         ) {
-            item(key = "TopSpacing") {
+            item(
+                key = "TopSpacing",
+                span = StaggeredGridItemSpan.FullLine
+            ) {
                 Spacer(modifier = Modifier.height(containerPaddingValues.calculateTopPadding()))
             }
 
@@ -122,8 +129,7 @@ public fun SupportScreen(
                 item(key = "SupportEmailCard") {
                     DefaultSupportCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
-                            .fillMaxWidth()
-                            .padding(top = 12.dp),
+                            .fillMaxWidth(),
                         title = stringResource(Res.string.support_email_title),
                         icon = Icons.Default.Email,
                         description = stringResource(Res.string.support_email_description),
@@ -176,8 +182,7 @@ public fun SupportScreen(
                 item(key = "RateAppCard") {
                     DefaultSupportCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
-                            .fillMaxWidth()
-                            .padding(bottom = 12.dp),
+                            .fillMaxWidth(),
                         title = stringResource(Res.string.support_rate_app_title),
                         icon = Icons.Default.Stars,
                         description = stringResource(Res.string.support_rate_app_description),
@@ -189,7 +194,10 @@ public fun SupportScreen(
                 }
             }
 
-            item(key = "BottomSpacing") {
+            item(
+                key = "BottomSpacing",
+                span = StaggeredGridItemSpan.FullLine
+            ) {
                 Spacer(modifier = Modifier.height(containerPaddingValues.calculateBottomPadding() + 28.dp))
             }
         }
@@ -197,7 +205,7 @@ public fun SupportScreen(
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {
         viewModel.state.current.value.errorMessage?.let { errorMessage ->
-            snackbarHostState.showSnackbar(message = errorMessage)
+            snackbarHostState.showError(notification = NotificationStateModel(message = errorMessage))
         }
     }
 }

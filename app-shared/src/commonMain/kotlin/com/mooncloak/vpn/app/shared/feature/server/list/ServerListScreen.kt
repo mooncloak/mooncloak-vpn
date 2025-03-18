@@ -40,6 +40,7 @@ import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
 import com.mooncloak.vpn.network.core.vpn.connectedTo
 import com.mooncloak.vpn.network.core.vpn.isConnected
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
+import com.mooncloak.vpn.app.shared.composable.showError
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.country.CountryListScreen
@@ -53,6 +54,7 @@ import com.mooncloak.vpn.app.shared.feature.server.list.composable.CountryListCa
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.NoServersCard
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.PreReleaseNoticeCard
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.ServerListItem
+import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_servers_title
 import com.mooncloak.vpn.app.shared.theme.DefaultHorizontalPageSpacing
@@ -133,7 +135,7 @@ public fun ServerListScreen(
         ) {
             LazyVerticalStaggeredGrid(
                 modifier = Modifier.fillMaxWidth()
-                    .padding(horizontal = 12.dp),
+                    .padding(horizontal = DefaultHorizontalPageSpacing),
                 state = lazyStaggeredGridState,
                 columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
                 horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalPageSpacing),
@@ -253,7 +255,7 @@ public fun ServerListScreen(
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {
         viewModel.state.current.value.errorMessage?.let { errorMessage ->
-            snackbarHostState.showSnackbar(message = errorMessage)
+            snackbarHostState.showError(notification = NotificationStateModel(message = errorMessage))
         }
     }
 }
