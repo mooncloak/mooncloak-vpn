@@ -4,6 +4,7 @@ import com.mooncloak.kodetools.konstruct.annotations.Component
 import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
+import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.shared.api.wireguard.IosWireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.shared.api.wireguard.IosWireGuardTunnelManager
 import com.mooncloak.vpn.network.core.ip.invoke
@@ -19,6 +20,7 @@ import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.data.sqlite.SqlDriverFactory
 import com.mooncloak.vpn.network.core.ip.LocalDeviceIPAddressProvider
 import com.mooncloak.vpn.network.core.ip.PublicDeviceIPAddressProvider
+import com.mooncloak.vpn.network.core.tunnel.TunnelManager
 import com.mooncloak.vpn.util.shortcuts.AppShortcutManager
 import com.mooncloak.vpn.util.shortcuts.invoke
 import kotlinx.serialization.json.Json
@@ -27,9 +29,7 @@ import kotlin.time.Duration.Companion.seconds
 @Component
 @Singleton
 internal abstract class IosApplicationComponent internal constructor(
-    @get:Provides override val applicationCoroutineScope: ApplicationCoroutineScope,
-    @get:Provides override val wireGuardConnectionKeyManager: IosWireGuardConnectionKeyManager,
-    @get:Provides override val tunnelManager: IosWireGuardTunnelManager
+    @get:Provides override val applicationCoroutineScope: ApplicationCoroutineScope
 ) : ApplicationComponent() {
 
     @Provides
@@ -71,10 +71,17 @@ internal abstract class IosApplicationComponent internal constructor(
     @Provides
     @Singleton
     internal fun provideAppShortcutManager(): AppShortcutManager = AppShortcutManager()
+
+    @Provides
+    @Singleton
+    internal fun provideWireGuardConnectionKeyManager(manager: IosWireGuardConnectionKeyManager): WireGuardConnectionKeyManager =
+        manager
+
+    @Provides
+    @Singleton
+    internal fun provideTunnelManager(manager: IosWireGuardTunnelManager): TunnelManager = manager
 }
 
 internal expect fun ApplicationComponent.Companion.create(
-    applicationCoroutineScope: ApplicationCoroutineScope,
-    wireGuardConnectionKeyManager: IosWireGuardConnectionKeyManager,
-    wireGuardTunnelManager: IosWireGuardTunnelManager
+    applicationCoroutineScope: ApplicationCoroutineScope
 ): IosApplicationComponent
