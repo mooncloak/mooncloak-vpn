@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -42,6 +43,7 @@ import com.mooncloak.vpn.app.shared.composable.showError
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.support.composable.DefaultSupportCard
+import com.mooncloak.vpn.app.shared.feature.support.composable.FAQQuestionCard
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.destination_main_support_title
@@ -49,6 +51,7 @@ import com.mooncloak.vpn.app.shared.resource.support_email_action
 import com.mooncloak.vpn.app.shared.resource.support_email_default_subject
 import com.mooncloak.vpn.app.shared.resource.support_email_description
 import com.mooncloak.vpn.app.shared.resource.support_email_title
+import com.mooncloak.vpn.app.shared.resource.support_faq_header
 import com.mooncloak.vpn.app.shared.resource.support_feature_request_action
 import com.mooncloak.vpn.app.shared.resource.support_feature_request_description
 import com.mooncloak.vpn.app.shared.resource.support_feature_request_title
@@ -197,6 +200,28 @@ public fun SupportScreen(
                             onAction = {
                                 uriHandler.openUri(rateAppUri)
                             }
+                        )
+                    }
+                }
+
+                if (viewModel.state.current.value.faqPages.isNotEmpty()) {
+                    item(
+                        key = "SupportFAQHeader",
+                        span = StaggeredGridItemSpan.FullLine
+                    ) {
+                        Text(
+                            text = stringResource(Res.string.support_faq_header),
+                            style = MaterialTheme.typography.headlineMedium
+                        )
+                    }
+
+                    items(
+                        items = viewModel.state.current.value.faqPages.flatMap { it.mainEntity },
+                        contentType = { "FAQQuestionCard" }
+                    ) { question ->
+                        FAQQuestionCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            question = question
                         )
                     }
                 }

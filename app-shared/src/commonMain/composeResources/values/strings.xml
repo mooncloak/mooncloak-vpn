@@ -102,6 +102,8 @@
 
     <string name="support_email_default_subject">Report an issue</string>
 
+    <string name="support_faq_header">Frequently Asked Questions</string>
+
     <string name="data_format_abbr_bytes">B</string>
     <string name="data_format_abbr_kilobytes">Kb</string>
     <string name="data_format_abbr_megabytes">Mb</string>
