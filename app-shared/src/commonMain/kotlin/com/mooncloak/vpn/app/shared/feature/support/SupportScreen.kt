@@ -43,6 +43,7 @@ import com.mooncloak.vpn.app.shared.composable.showError
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.support.composable.DefaultSupportCard
+import com.mooncloak.vpn.app.shared.feature.support.composable.FAQHeader
 import com.mooncloak.vpn.app.shared.feature.support.composable.FAQQuestionCard
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -209,9 +210,9 @@ public fun SupportScreen(
                         key = "SupportFAQHeader",
                         span = StaggeredGridItemSpan.FullLine
                     ) {
-                        Text(
-                            text = stringResource(Res.string.support_faq_header),
-                            style = MaterialTheme.typography.headlineMedium
+                        FAQHeader(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(top = 32.dp, bottom = 16.dp)
                         )
                     }
 
