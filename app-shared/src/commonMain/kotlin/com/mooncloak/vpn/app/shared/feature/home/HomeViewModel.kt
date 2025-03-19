@@ -19,14 +19,17 @@ import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.server.ServerConnectionRecordRepository
 import com.mooncloak.vpn.network.core.vpn.VPNConnectionManager
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
+import com.mooncloak.vpn.app.shared.composable.showSuccess
 import com.mooncloak.vpn.network.core.vpn.connectedTo
 import com.mooncloak.vpn.network.core.vpn.isConnected
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
+import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.resource.home_feed_item_server_last_connected
+import com.mooncloak.vpn.app.shared.resource.moon_shield_message_next_connection
 import com.mooncloak.vpn.app.shared.resource.onboarding_description_no_accounts
 import com.mooncloak.vpn.app.shared.resource.onboarding_description_no_data_creeps
 import com.mooncloak.vpn.app.shared.resource.onboarding_description_no_data_selling
@@ -174,7 +177,7 @@ public class HomeViewModel @Inject public constructor(
                         moonShieldEnabled = moonShieldEnabled,
                         isLoading = false,
                         isCheckingStatus = false,
-                        errorMessage = getString(Res.string.global_unexpected_error)
+                        errorMessage = NotificationStateModel(message = getString(Res.string.global_unexpected_error))
                     )
                 }
             }
@@ -259,7 +262,7 @@ public class HomeViewModel @Inject public constructor(
                     emit { current ->
                         current.copy(
                             isLoading = false,
-                            errorMessage = getString(Res.string.global_unexpected_error)
+                            errorMessage = NotificationStateModel(message = getString(Res.string.global_unexpected_error))
                         )
                     }
                 }
@@ -272,12 +275,26 @@ public class HomeViewModel @Inject public constructor(
             mutex.withLock {
                 try {
                     userPreferenceSettings.moonShieldEnabled.set(value = active)
+
+                    // If we are already connected when toggling MoonShield, then we need to alert the user it will take effect for
+                    // the next connection.
+                    val message = if (state.current.value.isConnected) {
+                        NotificationStateModel(message = getString(Res.string.moon_shield_message_next_connection))
+                    } else {
+                        state.current.value.successMessage
+                    }
+
+                    emit { current ->
+                        current.copy(
+                            successMessage = message
+                        )
+                    }
                 } catch (e: Exception) {
                     LogPile.error(message = "Error toggling MoonShield.", cause = e)
 
                     emit { current ->
                         current.copy(
-                            errorMessage = getString(Res.string.global_unexpected_error)
+                            errorMessage = NotificationStateModel(message = getString(Res.string.global_unexpected_error))
                         )
                     }
                 }

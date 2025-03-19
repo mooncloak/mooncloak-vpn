@@ -44,14 +44,10 @@ import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.rememberPurchasingState
 import com.mooncloak.vpn.app.shared.feature.server.details.ServerDetailsScreen
 import com.mooncloak.vpn.app.shared.feature.server.details.rememberServerDetailsBottomSheetState
-import com.mooncloak.vpn.app.shared.model.NotificationStateModel
-import com.mooncloak.vpn.app.shared.resource.Res
-import com.mooncloak.vpn.app.shared.resource.moon_shield_message_next_connection
 import com.mooncloak.vpn.app.shared.theme.DefaultHorizontalPageSpacing
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeSource
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.getString
 
 @Composable
 public fun HomeScreen(
@@ -269,15 +265,13 @@ public fun HomeScreen(
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {
         viewModel.state.current.value.errorMessage?.let { errorMessage ->
-            snackbarHostState.showError(notification = NotificationStateModel(message = errorMessage))
+            snackbarHostState.showError(notification = errorMessage)
         }
     }
 
-    LaunchedEffect(viewModel.state.current.value.moonShieldEnabled) {
-        // If we are already connected when toggling MoonShield, then we need to alert the user it will take effect for
-        // the next connection.
-        if (!viewModel.state.current.value.isLoading && viewModel.state.current.value.isConnected) {
-            snackbarHostState.showSuccess(notification = NotificationStateModel(message = getString(Res.string.moon_shield_message_next_connection)))
+    LaunchedEffect(viewModel.state.current.value.successMessage) {
+        viewModel.state.current.value.successMessage?.let { successMessage ->
+            snackbarHostState.showSuccess(notification = successMessage)
         }
     }
 }

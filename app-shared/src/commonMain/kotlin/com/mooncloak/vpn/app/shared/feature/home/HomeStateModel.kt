@@ -5,6 +5,7 @@ import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.api.shared.server.VPNConnectionStatus
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
+import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.network.core.vpn.VPNConnection
 
 @Immutable
@@ -18,7 +19,8 @@ public data class HomeStateModel public constructor(
     public val moonShieldEnabled: Boolean = false,
     public val isCheckingStatus: Boolean = true,
     public val isLoading: Boolean = false,
-    public val errorMessage: String? = null
+    public val errorMessage: NotificationStateModel? = null,
+    public val successMessage: NotificationStateModel? = null
 )
 
 public val HomeStateModel.connectionStatus: VPNConnectionStatus
