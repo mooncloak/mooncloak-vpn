@@ -2,10 +2,7 @@ package com.mooncloak.vpn.network.core.tunnel
 
 import android.content.Context
 import com.mooncloak.vpn.api.shared.server.Server
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.StateFlow
-import kotlin.time.Duration
 
 public actual interface TunnelManager {
 
@@ -18,11 +15,6 @@ public actual interface TunnelManager {
     public actual suspend fun disconnect(tunnelName: String)
 
     public actual suspend fun disconnectAll()
-
-    public actual fun subscribeToChanges(
-        coroutineScope: CoroutineScope,
-        poll: Duration
-    ): Job
 
     /**
      * Prepares the underlying VPN [TunnelManager] service if it is not already prepared.

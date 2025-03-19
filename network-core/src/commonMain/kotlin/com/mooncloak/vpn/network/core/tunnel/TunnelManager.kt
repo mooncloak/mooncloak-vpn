@@ -48,22 +48,6 @@ public expect interface TunnelManager {
      */
     public suspend fun disconnectAll()
 
-    /**
-     * Subscribes to changes and returns the [Job] representing the subscription. This ensures that the [tunnels] emit
-     * values properly and update the state in a timely manner.
-     *
-     * @param [coroutineScope] The [CoroutineScope] used to subscribe to the changes.
-     *
-     * @param [poll] The [Duration] to poll for and invoke the [sync] function internally to trigger the latest
-     * updates.
-     *
-     * @return The [Job] representing the subscription.
-     */
-    public fun subscribeToChanges(
-        coroutineScope: CoroutineScope,
-        poll: Duration = 5.seconds
-    ): Job
-
     public companion object
 }
 

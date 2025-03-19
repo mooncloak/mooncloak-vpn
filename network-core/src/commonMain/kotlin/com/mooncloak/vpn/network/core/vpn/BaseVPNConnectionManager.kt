@@ -12,6 +12,7 @@ import com.mooncloak.vpn.network.core.tunnel.connectedTunnels
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -60,7 +62,14 @@ public open class BaseVPNConnectionManager public constructor(
 
             isClosed = false
 
-            changesJob = tunnelManager.subscribeToChanges(coroutineScope = coroutineScope)
+            // Poll for changes by syncing periodically.
+            changesJob = coroutineScope.launch {
+                while (this.isActive) {
+                    tunnelManager.sync()
+
+                    delay(5.seconds)
+                }
+            }
             tunnelsJob = tunnelManager.connectedTunnels
                 .map { tunnels ->
                     val currentConnection = mutableConnection.value

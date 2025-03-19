@@ -21,21 +21,16 @@ import com.mooncloak.vpn.network.core.ip.PublicDeviceIPAddressProvider
 import com.mooncloak.vpn.network.core.tunnel.Tunnel
 import com.wireguard.android.backend.GoBackend
 import kotlinx.coroutines.CancellableContinuation
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 internal class AndroidWireGuardTunnelManager @Inject internal constructor(
@@ -170,13 +165,22 @@ internal class AndroidWireGuardTunnelManager @Inject internal constructor(
         tunnelMutex.withLock {
             withContext(Dispatchers.IO) {
                 val tunnel = WireGuardTunnel(tunnelName = tunnelName)
-                val wireGuardTunnel = tunnel.toWireGuardTunnel()
 
-                backend.setState(
-                    wireGuardTunnel,
-                    com.wireguard.android.backend.Tunnel.State.DOWN,
-                    null
-                )
+                LogPile.info(tag = TAG, message = "Disconnecting from tunnel '${tunnel.tunnelName}'.")
+
+                try {
+                    backend.setState(
+                        tunnel,
+                        com.wireguard.android.backend.Tunnel.State.DOWN,
+                        null
+                    )
+                } catch (e: Exception) {
+                    LogPile.error(
+                        tag = TAG,
+                        message = "Error disconnecting from tunnel '${tunnel.tunnelName}'.",
+                        cause = e
+                    )
+                }
 
                 deviceIPAddressProvider.invalidate()
             }
@@ -214,15 +218,6 @@ internal class AndroidWireGuardTunnelManager @Inject internal constructor(
             emitLatest()
         }
     }
-
-    override fun subscribeToChanges(coroutineScope: CoroutineScope, poll: Duration): Job =
-        coroutineScope.launch {
-            while (this.isActive) {
-                sync()
-
-                delay(poll)
-            }
-        }
 
     private suspend fun refreshDNS() {
         // FIXME: Force refresh of DNS after connecting to VPN.
