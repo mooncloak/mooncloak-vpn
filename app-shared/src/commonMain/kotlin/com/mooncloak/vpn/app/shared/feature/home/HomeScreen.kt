@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.SnackbarHost
@@ -24,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.api.shared.server.VPNConnectionStatus
 import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
@@ -44,6 +46,10 @@ import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.rememberPurchasingState
 import com.mooncloak.vpn.app.shared.feature.server.details.ServerDetailsScreen
 import com.mooncloak.vpn.app.shared.feature.server.details.rememberServerDetailsBottomSheetState
+import com.mooncloak.vpn.app.shared.modifier.Point
+import com.mooncloak.vpn.app.shared.modifier.meshGradient
+import com.mooncloak.vpn.app.shared.modifier.mooncloakAnimatedGradient
+import com.mooncloak.vpn.app.shared.theme.ColorPalette
 import com.mooncloak.vpn.app.shared.theme.DefaultHorizontalPageSpacing
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeSource
@@ -140,7 +146,8 @@ public fun HomeScreen(
                     is HomeFeedItem.MoonShieldItem -> MoonShieldCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth()
-                            .animateItem(),
+                            .animateItem()
+                            .mooncloakAnimatedGradient(),
                         active = item.active,
                         enabled = item.toggleEnabled,
                         trackersBlocked = item.trackersBlocked,
