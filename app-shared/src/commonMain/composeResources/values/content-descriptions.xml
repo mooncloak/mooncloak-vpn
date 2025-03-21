@@ -32,5 +32,7 @@
     <string name="cd_open_dns_servers">Open DNS server configuration</string>
 
     <string name="cd_open_locations">Open location selector</string>
+    <string name="cd_feature_request">Request feature</string>
+    <string name="cd_bug_report">Report issue</string>
 
 </resources>

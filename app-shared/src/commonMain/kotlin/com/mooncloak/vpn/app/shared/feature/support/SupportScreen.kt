@@ -1,6 +1,8 @@
 package com.mooncloak.vpn.app.shared.feature.support
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,12 +17,16 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Stars
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -35,10 +41,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
+import com.mooncloak.vpn.app.shared.composable.TooltipBox
 import com.mooncloak.vpn.app.shared.composable.showError
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
@@ -47,12 +55,14 @@ import com.mooncloak.vpn.app.shared.feature.support.composable.FAQHeader
 import com.mooncloak.vpn.app.shared.feature.support.composable.FAQQuestionCard
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.cd_bug_report
+import com.mooncloak.vpn.app.shared.resource.cd_feature_request
+import com.mooncloak.vpn.app.shared.resource.cd_open_locations
 import com.mooncloak.vpn.app.shared.resource.destination_main_support_title
 import com.mooncloak.vpn.app.shared.resource.support_email_action
 import com.mooncloak.vpn.app.shared.resource.support_email_default_subject
 import com.mooncloak.vpn.app.shared.resource.support_email_description
 import com.mooncloak.vpn.app.shared.resource.support_email_title
-import com.mooncloak.vpn.app.shared.resource.support_faq_header
 import com.mooncloak.vpn.app.shared.resource.support_feature_request_action
 import com.mooncloak.vpn.app.shared.resource.support_feature_request_description
 import com.mooncloak.vpn.app.shared.resource.support_feature_request_title
@@ -113,6 +123,59 @@ public fun SupportScreen(
                 ),
                 title = {
                     Text(text = stringResource(Res.string.destination_main_support_title))
+                },
+                actions = {
+                    viewModel.state.current.value.issueRequestUri?.let { issueUri ->
+                        AnimatedVisibility(
+                            modifier = Modifier,
+                            visible = topAppBarState.collapsedFraction >= 0.9f,
+                            enter = fadeIn(),
+                            exit = fadeOut()
+                        ) {
+                            TooltipBox(
+                                text = stringResource(Res.string.cd_bug_report)
+                            ) {
+                                IconButton(
+                                    modifier = Modifier.clip(CircleShape),
+                                    onClick = {
+                                        uriHandler.openUri(issueUri)
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.BugReport,
+                                        contentDescription = stringResource(Res.string.cd_bug_report),
+                                        tint = MaterialTheme.colorScheme.onBackground
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    viewModel.state.current.value.featureRequestUri?.let { featureRequestUri ->
+                        AnimatedVisibility(
+                            modifier = Modifier,
+                            visible = topAppBarState.collapsedFraction >= 0.9f,
+                            enter = fadeIn(),
+                            exit = fadeOut()
+                        ) {
+                            TooltipBox(
+                                text = stringResource(Res.string.cd_feature_request)
+                            ) {
+                                IconButton(
+                                    modifier = Modifier.clip(CircleShape),
+                                    onClick = {
+                                        uriHandler.openUri(featureRequestUri)
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Add,
+                                        contentDescription = stringResource(Res.string.cd_feature_request),
+                                        tint = MaterialTheme.colorScheme.onBackground
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
             )
         }
