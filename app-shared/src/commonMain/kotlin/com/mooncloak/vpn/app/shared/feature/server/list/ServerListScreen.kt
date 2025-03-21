@@ -1,6 +1,8 @@
 package com.mooncloak.vpn.app.shared.feature.server.list
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,7 +18,12 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -32,11 +39,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.server.isConnectable
 import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
+import com.mooncloak.vpn.app.shared.composable.TooltipBox
 import com.mooncloak.vpn.network.core.vpn.connectedTo
 import com.mooncloak.vpn.network.core.vpn.isConnected
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
@@ -56,6 +65,7 @@ import com.mooncloak.vpn.app.shared.feature.server.list.composable.PreReleaseNot
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.ServerListItem
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.cd_open_locations
 import com.mooncloak.vpn.app.shared.resource.destination_main_servers_title
 import com.mooncloak.vpn.app.shared.theme.DefaultHorizontalPageSpacing
 import kotlinx.coroutines.launch
@@ -125,6 +135,33 @@ public fun ServerListScreen(
                 ),
                 title = {
                     Text(text = stringResource(Res.string.destination_main_servers_title))
+                },
+                actions = {
+                    AnimatedVisibility(
+                        modifier = Modifier,
+                        visible = topAppBarState.collapsedFraction >= 0.9f,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        TooltipBox(
+                            text = stringResource(Res.string.cd_open_locations)
+                        ) {
+                            IconButton(
+                                modifier = Modifier.clip(CircleShape),
+                                onClick = {
+                                    coroutineScope.launch {
+                                        countryListBottomSheetState.show()
+                                    }
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Public,
+                                    contentDescription = stringResource(Res.string.cd_open_locations),
+                                    tint = MaterialTheme.colorScheme.onBackground
+                                )
+                            }
+                        }
+                    }
                 }
             )
         }

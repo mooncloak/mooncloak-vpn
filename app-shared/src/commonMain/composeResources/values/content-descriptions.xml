@@ -31,4 +31,6 @@
     <string name="cd_open_device_details">View device details</string>
     <string name="cd_open_dns_servers">Open DNS server configuration</string>
 
+    <string name="cd_open_locations">Open location selector</string>
+
 </resources>
