@@ -6,8 +6,8 @@ import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
-import com.mooncloak.vpn.app.shared.feature.collaborator.repository.ContributorRepository
-import com.mooncloak.vpn.app.shared.feature.collaborator.source.ContributorSource
+import com.mooncloak.vpn.app.shared.feature.collaborator.shared.repository.ContributorRepository
+import com.mooncloak.vpn.app.shared.feature.collaborator.shared.source.ContributorSource
 
 @Component
 @FeatureScoped

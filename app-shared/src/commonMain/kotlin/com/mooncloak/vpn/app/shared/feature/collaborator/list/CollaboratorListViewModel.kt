@@ -6,7 +6,7 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.debug
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.app.shared.feature.collaborator.repository.ContributorRepository
+import com.mooncloak.vpn.app.shared.feature.collaborator.shared.repository.ContributorRepository
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import kotlinx.coroutines.launch

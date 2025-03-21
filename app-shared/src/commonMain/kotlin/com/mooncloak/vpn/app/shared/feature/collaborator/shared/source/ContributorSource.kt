@@ -1,10 +1,10 @@
-package com.mooncloak.vpn.app.shared.feature.collaborator.source
+package com.mooncloak.vpn.app.shared.feature.collaborator.shared.source
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.api.shared.app.Contributor
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
-import com.mooncloak.vpn.app.shared.feature.collaborator.repository.ContributorRepository
-import com.mooncloak.vpn.app.shared.feature.collaborator.repository.getOrNull
+import com.mooncloak.vpn.app.shared.feature.collaborator.shared.repository.ContributorRepository
+import com.mooncloak.vpn.app.shared.feature.collaborator.shared.repository.getOrNull
 
 @FeatureScoped
 internal class ContributorSource @Inject internal constructor(

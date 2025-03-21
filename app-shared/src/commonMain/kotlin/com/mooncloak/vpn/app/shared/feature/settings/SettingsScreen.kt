@@ -92,7 +92,7 @@ public fun SettingsScreen(
     val appDetailsBottomSheetState = rememberManagedModalBottomSheetState()
     val deviceDetailsBottomSheetState = rememberManagedModalBottomSheetState()
     val dnsServerConfigBottomSheetState = rememberManagedModalBottomSheetState(skipPartiallyExpanded = true)
-    val collaboratorListBottomSheetState = rememberManagedModalBottomSheetState()
+    val collaboratorListBottomSheetState = rememberManagedModalBottomSheetState(skipPartiallyExpanded = true)
 
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
@@ -335,7 +335,10 @@ public fun SettingsScreen(
 
     CollaboratorListScreen(
         modifier = Modifier.fillMaxWidth(),
-        sheetState = collaboratorListBottomSheetState
+        sheetState = collaboratorListBottomSheetState,
+        onSendTip = {
+            // TODO: Open tip screen.
+        }
     )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {

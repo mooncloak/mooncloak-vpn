@@ -1,24 +1,20 @@
 package com.mooncloak.vpn.app.shared.feature.collaborator.list
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -35,15 +31,16 @@ import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.collaborator.list.composable.CollaboratorHeader
 import com.mooncloak.vpn.app.shared.feature.collaborator.list.composable.CollaboratorListItem
 import com.mooncloak.vpn.app.shared.feature.collaborator.list.composable.NoCollaboratorsCard
+import com.mooncloak.vpn.app.shared.feature.collaborator.list.composable.TipCard
 import com.mooncloak.vpn.app.shared.resource.Res
-import com.mooncloak.vpn.app.shared.resource.collaborator_list_description_empty
 import com.mooncloak.vpn.app.shared.resource.collaborator_list_description_error
-import com.mooncloak.vpn.app.shared.resource.collaborator_list_title_empty
 import com.mooncloak.vpn.app.shared.resource.collaborator_list_title_error
+import com.mooncloak.vpn.app.shared.theme.DefaultHorizontalPageSpacing
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 public fun CollaboratorListScreen(
+    onSendTip: () -> Unit,
     sheetState: ManagedModalBottomSheetState,
     modifier: Modifier = Modifier
 ) {
@@ -54,7 +51,7 @@ public fun CollaboratorListScreen(
         )
     }
     val viewModel = remember { componentDependencies.viewModel }
-    val lazyListState = rememberLazyGridState()
+    val lazyListState = rememberLazyStaggeredGridState()
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -71,16 +68,16 @@ public fun CollaboratorListScreen(
             Box(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                LazyVerticalGrid(
+                LazyVerticalStaggeredGrid(
                     modifier = Modifier.fillMaxWidth(),
                     state = lazyListState,
-                    columns = GridCells.Adaptive(minSize = 150.dp),
+                    columns = StaggeredGridCells.Adaptive(minSize = 150.dp),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     if (viewModel.state.current.value.collaborators.isNotEmpty()) {
                         item(
                             key = "CollaboratorListHeader",
-                            span = { GridItemSpan(currentLineSpan = maxLineSpan) }
+                            span = StaggeredGridItemSpan.FullLine
                         ) {
                             CollaboratorHeader(
                                 modifier = Modifier.fillMaxWidth()
@@ -93,7 +90,7 @@ public fun CollaboratorListScreen(
                     if (viewModel.state.current.value.collaborators.size == 1) {
                         item(
                             key = "SingleCollaboratorItem",
-                            span = { GridItemSpan(currentLineSpan = maxLineSpan) }
+                            span = StaggeredGridItemSpan.FullLine
                         ) {
                             Box(
                                 modifier = Modifier.fillMaxWidth(),
@@ -124,7 +121,7 @@ public fun CollaboratorListScreen(
                         if (viewModel.state.current.value.isError) {
                             item(
                                 key = "ErrorLoadingCollaboratorsItem",
-                                span = { GridItemSpan(currentLineSpan = maxLineSpan) }
+                                span = StaggeredGridItemSpan.FullLine
                             ) {
                                 NoCollaboratorsCard(
                                     title = stringResource(Res.string.collaborator_list_title_error),
@@ -133,24 +130,25 @@ public fun CollaboratorListScreen(
                                     error = true
                                 )
                             }
-                        } else {
-                            item(
-                                key = "NoCollaboratorsItem",
-                                span = { GridItemSpan(currentLineSpan = maxLineSpan) }
-                            ) {
-                                NoCollaboratorsCard(
-                                    title = stringResource(Res.string.collaborator_list_title_empty),
-                                    description = stringResource(Res.string.collaborator_list_description_empty),
-                                    icon = rememberVectorPainter(Icons.Default.Search),
-                                    error = false
-                                )
-                            }
                         }
                     }
 
                     item(
+                        key = "TipCard",
+                        span = StaggeredGridItemSpan.FullLine
+                    ) {
+                        TipCard(
+                            modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                                .fillMaxWidth()
+                                .padding(horizontal = DefaultHorizontalPageSpacing)
+                                .padding(top = 32.dp),
+                            onSendTip = onSendTip
+                        )
+                    }
+
+                    item(
                         key = "BottomSpacing",
-                        span = { GridItemSpan(currentLineSpan = maxLineSpan) }
+                        span = StaggeredGridItemSpan.FullLine
                     ) {
                         Spacer(modifier = Modifier.height(32.dp))
                     }
