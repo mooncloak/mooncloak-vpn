@@ -265,6 +265,16 @@
     <string name="collaborator_list_tip_description">The team works tirelessly every day to keep your data secure—thank them for their efforts with a tip. Every contribution helps fuel our mission!</string>
     <string name="collaborator_list_tip_action">Give a tip</string>
 
+    <string name="tip_link_item_title_moonlit_coffee">Moonlit Coffee</string>
+    <string name="tip_link_item_description_moonlit_coffee">Fuel our team with a quick coffee—keeping your privacy brewing strong under the moonlight.</string>
+    <string name="tip_link_item_title_lunar_beer">Lunar Beer</string>
+    <string name="tip_link_item_description_lunar_beer">Treat the crew to a cold one—cheers to shielding your data from prying eyes!</string>
+    <string name="tip_link_item_title_cosmic_cocktail">Cosmic Cocktail</string>
+    <string name="tip_link_item_description_cosmic_cocktail">Mix up something fancy for the team—raising the bar on your secure connection.</string>
+    <string name="tip_link_item_title_stellar_mix">Stellar Mix</string>
+    <string name="tip_link_item_description_stellar_mix">Shake up your own special tip—supporting the stars who cloak your digital world.</string>
+    <string name="tip_link_item_action_tip">Tip %1$s</string>
+
     <string name="server_connection_disconnected_title">Disconnected</string>
     <string name="server_connection_disconnected_description">Connect to a secure VPN server to cloak your data from data creeps.</string>
     <string name="server_connection_action_connect">Connect</string>

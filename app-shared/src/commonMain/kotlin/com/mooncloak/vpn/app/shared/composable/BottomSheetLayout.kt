@@ -32,7 +32,13 @@ internal fun BottomSheetLayout(
     loadingState: State<Boolean> = mutableStateOf(false),
     snackbarAlignment: Alignment = Alignment.TopCenter, // Defaults to top because bottom sheet might not be displaying the bottom of its content when the error shows.
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-    snackbarHost: @Composable () -> Unit = { SnackbarHost(hostState = snackbarHostState) },
+    snackbarHost: @Composable () -> Unit = {
+        SnackbarHost(
+            hostState = snackbarHostState,
+            snackbar = { snackbarData ->
+                MooncloakSnackbar(snackbarData = snackbarData)
+            })
+    },
     loading: @Composable BoxScope.() -> Unit = {
         AnimatedVisibility(
             modifier = Modifier.align(Alignment.Center),

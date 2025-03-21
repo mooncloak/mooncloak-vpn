@@ -35,6 +35,7 @@ import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetSt
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.collaborator.list.CollaboratorListScreen
+import com.mooncloak.vpn.app.shared.feature.collaborator.tip.TipScreen
 import com.mooncloak.vpn.app.shared.feature.dependency.DependencyLicenseListScreen
 import com.mooncloak.vpn.app.shared.feature.payment.history.PaymentHistoryScreen
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
@@ -55,6 +56,7 @@ import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.app_built_description
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -93,6 +95,7 @@ public fun SettingsScreen(
     val deviceDetailsBottomSheetState = rememberManagedModalBottomSheetState()
     val dnsServerConfigBottomSheetState = rememberManagedModalBottomSheetState(skipPartiallyExpanded = true)
     val collaboratorListBottomSheetState = rememberManagedModalBottomSheetState(skipPartiallyExpanded = true)
+    val tipBottomSheetState = rememberManagedModalBottomSheetState(skipPartiallyExpanded = true)
 
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
@@ -337,8 +340,16 @@ public fun SettingsScreen(
         modifier = Modifier.fillMaxWidth(),
         sheetState = collaboratorListBottomSheetState,
         onSendTip = {
-            // TODO: Open tip screen.
+            coroutineScope.launch {
+                collaboratorListBottomSheetState.hide()
+                tipBottomSheetState.show()
+            }
         }
+    )
+
+    TipScreen(
+        modifier = Modifier.fillMaxWidth(),
+        sheetState = tipBottomSheetState
     )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {
