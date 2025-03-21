@@ -144,7 +144,6 @@
     <string name="settings_group_app">App</string>
     <string name="settings_title_app_version">Version</string>
     <string name="settings_title_licenses">Open Source Licenses</string>
-    <string name="settings_title_collaborators">Contributors</string>
     <string name="settings_title_code">View Source Code</string>
     <string name="settings_group_subscription">Subscription</string>
     <string name="settings_title_current_plan">Current Plan</string>
@@ -161,6 +160,9 @@
     <string name="settings_option_screen_lock_timeout_5_minutes">5 minutes</string>
     <string name="settings_option_screen_lock_timeout_30_minutes">30 minutes</string>
     <string name="settings_option_screen_lock_timeout_custom_time">Custom time</string>
+
+    <string name="settings_title_collaborators">Contributors</string>
+    <string name="settings_description_collaborators">Meet the team guarding your privacy — tip or thank them for their hard work.</string>
 
     <string name="settings_app_details_header">App Details</string>
     <string name="settings_app_details_description">Information about this application.</string>

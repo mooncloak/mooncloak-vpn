@@ -26,6 +26,7 @@ import com.mooncloak.vpn.app.shared.resource.cd_link_source_code
 import com.mooncloak.vpn.app.shared.resource.cd_open_app_details
 import com.mooncloak.vpn.app.shared.resource.cd_open_contributors
 import com.mooncloak.vpn.app.shared.resource.cd_open_licenses
+import com.mooncloak.vpn.app.shared.resource.settings_description_collaborators
 import com.mooncloak.vpn.app.shared.resource.settings_group_app
 import com.mooncloak.vpn.app.shared.resource.settings_title_app_version
 import com.mooncloak.vpn.app.shared.resource.settings_title_code
@@ -148,6 +149,13 @@ internal fun ColumnScope.SettingsAppGroup(
         ),
         headlineContent = {
             Text(text = stringResource(Res.string.settings_title_collaborators))
+        },
+        supportingContent = {
+            Text(
+                text = stringResource(Res.string.settings_description_collaborators),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
+            )
         },
         trailingContent = {
             Icon(
