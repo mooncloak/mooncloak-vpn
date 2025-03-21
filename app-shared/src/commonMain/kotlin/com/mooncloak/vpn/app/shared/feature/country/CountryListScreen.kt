@@ -142,6 +142,7 @@ public fun CountryListScreen(
 
                     is RegionListLayoutStateModel -> RegionListLayout(
                         connection = viewModel.state.current.value.connection,
+                        countryDetails = layout.countryDetails,
                         regions = layout.items,
                         label = layout.label,
                         loading = viewModel.state.current.value.isLoading,
