@@ -35,6 +35,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(AndroidX.core.ktx)
+                implementation(AndroidX.activity.ktx)
             }
         }
 

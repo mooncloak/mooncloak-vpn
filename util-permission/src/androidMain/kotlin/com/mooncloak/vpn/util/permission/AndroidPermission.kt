@@ -2,7 +2,6 @@ package com.mooncloak.vpn.util.permission
 
 import android.Manifest
 import android.os.Build
-import androidx.annotation.RequiresApi
 
 public actual class Permission public constructor(
     public val value: String
@@ -23,5 +22,12 @@ public actual class Permission public constructor(
 }
 
 public actual val Permission.Companion.PostNotification: Permission
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    get() = Permission(value = Manifest.permission.POST_NOTIFICATIONS)
+    get() = postNotificationSingleton
+
+private val postNotificationSingleton = Permission(
+    value = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        Manifest.permission.POST_NOTIFICATIONS
+    } else {
+        ""
+    }
+)
