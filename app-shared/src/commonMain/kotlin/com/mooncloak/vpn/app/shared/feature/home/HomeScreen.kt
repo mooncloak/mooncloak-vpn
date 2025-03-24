@@ -38,6 +38,7 @@ import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.MoonShieldCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.GetVPNServiceCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ShowcaseCard
+import com.mooncloak.vpn.app.shared.feature.home.composable.SpeedTestCard
 import com.mooncloak.vpn.app.shared.feature.home.layout.MoonShieldDescriptionBottomSheet
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
@@ -234,6 +235,19 @@ public fun HomeScreen(
                         icon = item.icon.invoke(),
                         title = item.title.invoke(),
                         description = item.description.invoke()
+                    )
+
+                    is HomeFeedItem.SpeedTestItem -> SpeedTestCard(
+                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                            .fillMaxWidth()
+                            .animateItem(),
+                        ping = item.ping,
+                        download = item.download,
+                        upload = item.upload,
+                        timestamp = item.timestamp,
+                        onOpen = {
+                            // TODO: Open speed test screen.
+                        }
                     )
                 }
             }

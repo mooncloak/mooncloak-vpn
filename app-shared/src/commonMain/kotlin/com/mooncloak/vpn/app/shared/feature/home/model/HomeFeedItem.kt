@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.painter.Painter
 import com.mooncloak.vpn.api.shared.server.Server
+import com.mooncloak.vpn.api.shared.speedtest.SpeedTestResult
 import com.mooncloak.vpn.network.core.vpn.VPNConnection
 
 @Immutable
@@ -77,6 +78,20 @@ public sealed interface HomeFeedItem {
         override val id: String = server.id
 
         override val contentType: String = "ServerItem"
+    }
+
+    @Immutable
+    public data class SpeedTestItem public constructor(
+        public val lastResult: SpeedTestResult? = null,
+        public val ping: String? = null,
+        public val download: String? = null,
+        public val upload: String? = null,
+        public val timestamp: String? = null
+    ) : HomeFeedItem {
+
+        override val id: String = "SpeedTest:${lastResult?.timestamp}"
+
+        override val contentType: String = "SpeedTestItem"
     }
 
     public companion object

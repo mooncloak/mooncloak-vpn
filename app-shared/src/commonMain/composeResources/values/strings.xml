@@ -35,6 +35,11 @@
 
     <string name="landing_action_start">Get Started</string>
 
+    <string name="speed_test_title">Speed Test</string>
+    <string name="speed_test_label_ping">Ping</string>
+    <string name="speed_test_label_download">Download</string>
+    <string name="speed_test_label_upload">Upload</string>
+
     <string name="onboarding_title_no_tracking">No IP address tracking</string>
     <string name="onboarding_title_no_accounts">No accounts</string>
     <string name="onboarding_title_no_data_creeps">No Data Creeps</string>
