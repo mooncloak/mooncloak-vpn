@@ -27,6 +27,8 @@ import org.jetbrains.compose.resources.stringResource
 @Serializable
 public sealed interface MainDestination : AppDestination {
 
+    public val primary: Boolean
+
     @Serializable
     @SerialName(value = "home")
     @Immutable
@@ -45,6 +47,8 @@ public sealed interface MainDestination : AppDestination {
         override val contentDescription: String
             @Composable
             get() = stringResource(Res.string.cd_destination_home)
+
+        override val primary: Boolean = true
     }
 
     @Serializable
@@ -65,6 +69,8 @@ public sealed interface MainDestination : AppDestination {
         override val contentDescription: String
             @Composable
             get() = stringResource(Res.string.cd_destination_servers)
+
+        override val primary: Boolean = true
     }
 
     @Serializable
@@ -85,6 +91,8 @@ public sealed interface MainDestination : AppDestination {
         override val contentDescription: String
             @Composable
             get() = stringResource(Res.string.cd_destination_support)
+
+        override val primary: Boolean = true
     }
 
     @Serializable
@@ -105,5 +113,7 @@ public sealed interface MainDestination : AppDestination {
         override val contentDescription: String
             @Composable
             get() = stringResource(Res.string.cd_destination_settings)
+
+        override val primary: Boolean = true
     }
 }
