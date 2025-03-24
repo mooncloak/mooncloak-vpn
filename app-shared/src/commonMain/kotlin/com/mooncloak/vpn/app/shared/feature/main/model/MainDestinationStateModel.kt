@@ -1,7 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.main.model
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.feature.app.MainDestination
+import com.mooncloak.vpn.app.shared.feature.main.MainDestination
 import kotlinx.serialization.Serializable
 
 @Serializable

@@ -1,7 +1,6 @@
 package com.mooncloak.vpn.app.shared.feature.onboarding
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.feature.app.OnboardingDestination
 
 @Immutable
 public data class OnboardingStateModel public constructor(

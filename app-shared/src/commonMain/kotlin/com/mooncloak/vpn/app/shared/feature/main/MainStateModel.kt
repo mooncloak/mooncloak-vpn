@@ -3,7 +3,6 @@ package com.mooncloak.vpn.app.shared.feature.main
 import androidx.compose.runtime.Immutable
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.service.ServiceSubscription
-import com.mooncloak.vpn.app.shared.feature.app.MainDestination
 import com.mooncloak.vpn.app.shared.feature.main.model.MainDestinationStateModel
 import com.mooncloak.vpn.app.shared.feature.main.model.states
 import com.mooncloak.vpn.network.core.vpn.VPNConnection

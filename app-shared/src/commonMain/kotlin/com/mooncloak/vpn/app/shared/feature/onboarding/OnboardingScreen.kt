@@ -15,7 +15,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
-import com.mooncloak.vpn.app.shared.feature.app.OnboardingDestination
 import com.mooncloak.vpn.app.shared.feature.onboarding.composable.LandingLayout
 import com.mooncloak.vpn.app.shared.feature.onboarding.composable.OnboardingLayout
 import com.mooncloak.vpn.app.shared.util.navigation.LocalNavController
