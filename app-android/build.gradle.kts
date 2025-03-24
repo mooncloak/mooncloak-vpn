@@ -115,6 +115,13 @@ android {
 
             resValue("string", "mooncloak_app_name", buildVariables.appName)
         }
+
+        create("galaxy") {
+            dimension = "store"
+            applicationIdSuffix = ".direct"
+
+            resValue("string", "mooncloak_app_name", buildVariables.appName)
+        }
     }
 
     dependencies {
