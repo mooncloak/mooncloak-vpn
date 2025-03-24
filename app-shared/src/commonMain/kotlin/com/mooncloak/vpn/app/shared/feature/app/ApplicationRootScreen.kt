@@ -33,6 +33,7 @@ import com.mooncloak.vpn.app.shared.di.LocalPresentationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.di.rememberDependency
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.app.composable.LockScreen
 import com.mooncloak.vpn.app.shared.feature.main.MainScreen
 import com.mooncloak.vpn.app.shared.feature.onboarding.OnboardingScreen
 import com.mooncloak.vpn.app.shared.util.navigation.LocalNavController
@@ -158,13 +159,18 @@ public fun ApplicationRootScreen(
                                             }
                                         )
                                     }
+
                                     composable<RootDestination.Main> {
                                         MainScreen(
                                             modifier = Modifier.fillMaxSize()
                                         )
                                     }
+
                                     composable<RootDestination.SystemAuth> {
-                                        // TODO: System Auth layout.
+                                        LockScreen(
+                                            modifier = Modifier.fillMaxSize(),
+                                            onUnlock = viewModel::authenticate
+                                        )
                                     }
                                 }
                             }

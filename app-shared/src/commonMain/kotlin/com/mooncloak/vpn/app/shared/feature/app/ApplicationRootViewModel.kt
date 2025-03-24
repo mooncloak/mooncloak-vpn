@@ -6,8 +6,11 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
+import com.mooncloak.kodetools.statex.persistence.ExperimentalPersistentStateAPI
 import com.mooncloak.kodetools.statex.update
 import com.mooncloak.vpn.app.shared.di.FeatureScoped
+import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.lock_screen_title_required
 import com.mooncloak.vpn.app.shared.settings.AppSettings
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
@@ -16,10 +19,12 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
+import org.jetbrains.compose.resources.getString
 import kotlin.coroutines.resume
 
 @Stable
 @FeatureScoped
+@OptIn(ExperimentalPersistentStateAPI::class)
 public class ApplicationRootViewModel @Inject public constructor(
     private val appStorage: AppSettings,
     private val preferencesStorage: UserPreferenceSettings,
@@ -53,37 +58,10 @@ public class ApplicationRootViewModel @Inject public constructor(
                 )
 
                 if (requireAuth) {
-                    val authenticated = suspendCancellableCoroutine { continuation ->
-                        systemAuthenticationProvider.launchAuthentication(
-                            title = "Authentication Required", // TODO: Fix hardcoded string resource
-                            onError = { code, message ->
-                                LogPile.error(message = "Error authenticating. $code: $message")
-
-                                continuation.resume(false)
-                            },
-                            onFailed = {
-                                continuation.resume(false)
-                            },
-                            onSuccess = {
-                                continuation.resume(true)
-                            }
-                        )
-                    }
-
-                    if (authenticated) {
-                        appStorage.lastAuthenticated.update { clock.now() }
-
-                        val nextDestination = when {
-                            viewedOnboarding && !alwaysDisplayLanding -> RootDestination.Main
-                            else -> RootDestination.Onboarding
-                        }
-
-                        navController.navigate(nextDestination) {
-                            popUpTo(RootDestination.SystemAuth) {
-                                inclusive = true
-                            }
-                        }
-                    }
+                    handleAuthentication(
+                        viewedOnboarding = viewedOnboarding,
+                        alwaysDisplayLanding = alwaysDisplayLanding
+                    )
                 }
             }
         }
@@ -98,6 +76,59 @@ public class ApplicationRootViewModel @Inject public constructor(
                     popUpTo(RootDestination.Onboarding) {
                         inclusive = true
                     }
+                }
+            }
+        }
+    }
+
+    public fun authenticate() {
+        coroutineScope.launch {
+            mutex.withLock {
+                val viewedOnboarding = appStorage.viewedOnboarding.current.value
+                val alwaysDisplayLanding = preferencesStorage.alwaysDisplayLanding.get() ?: false
+
+                handleAuthentication(
+                    viewedOnboarding = viewedOnboarding,
+                    alwaysDisplayLanding = alwaysDisplayLanding
+                )
+            }
+        }
+    }
+
+    private suspend fun handleAuthentication(
+        viewedOnboarding: Boolean,
+        alwaysDisplayLanding: Boolean
+    ) {
+        val title = getString(Res.string.lock_screen_title_required)
+
+        val authenticated = suspendCancellableCoroutine { continuation ->
+            systemAuthenticationProvider.launchAuthentication(
+                title = title,
+                onError = { code, message ->
+                    LogPile.error(message = "Error authenticating. $code: $message")
+
+                    continuation.resume(false)
+                },
+                onFailed = {
+                    continuation.resume(false)
+                },
+                onSuccess = {
+                    continuation.resume(true)
+                }
+            )
+        }
+
+        if (authenticated) {
+            appStorage.lastAuthenticated.update { clock.now() }
+
+            val nextDestination = when {
+                viewedOnboarding && !alwaysDisplayLanding -> RootDestination.Main
+                else -> RootDestination.Onboarding
+            }
+
+            navController.navigate(nextDestination) {
+                popUpTo(RootDestination.SystemAuth) {
+                    inclusive = true
                 }
             }
         }
