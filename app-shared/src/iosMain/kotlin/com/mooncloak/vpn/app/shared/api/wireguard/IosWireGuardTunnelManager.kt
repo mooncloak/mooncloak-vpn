@@ -5,13 +5,9 @@ import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.network.core.tunnel.Tunnel
 import com.mooncloak.vpn.network.core.tunnel.TunnelManager
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import kotlin.time.Duration
 
 internal class IosWireGuardTunnelManager @Inject internal constructor(
     private val coroutineScope: ApplicationCoroutineScope
@@ -37,9 +33,4 @@ internal class IosWireGuardTunnelManager @Inject internal constructor(
     override suspend fun disconnectAll() {
         TODO("Not yet implemented")
     }
-
-    override fun subscribeToChanges(coroutineScope: CoroutineScope, poll: Duration): Job =
-        coroutineScope.launch {
-            // TODO
-        }
 }
