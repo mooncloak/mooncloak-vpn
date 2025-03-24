@@ -17,6 +17,8 @@ import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
 import com.mooncloak.vpn.util.shared.coroutine.PresentationCoroutineScope
 import com.mooncloak.vpn.app.shared.util.invoke
 import com.mooncloak.vpn.network.core.vpn.BaseVPNConnectionManager
+import com.mooncloak.vpn.util.permission.PermissionHandler
+import com.mooncloak.vpn.util.permission.invoke
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.util.shortcuts.invoke
 import com.mooncloak.vpn.util.shortcuts.AppShortcutProvider
@@ -70,6 +72,10 @@ internal abstract class IosPresentationComponent internal constructor(
             clock = clock,
             tunnelManager = tunnelManager
         )
+
+    @Provides
+    @PresentationScoped
+    internal fun providePermissionHandler(): PermissionHandler = PermissionHandler()
 }
 
 internal expect fun PresentationComponent.Companion.create(

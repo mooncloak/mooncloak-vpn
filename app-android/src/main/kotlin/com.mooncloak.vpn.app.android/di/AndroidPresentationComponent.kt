@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.android.di
 
 import android.app.Activity
+import androidx.activity.ComponentActivity
 import androidx.compose.ui.platform.UriHandler
 import com.mooncloak.kodetools.konstruct.annotations.Component
 import com.mooncloak.kodetools.konstruct.annotations.Provides
@@ -22,6 +23,8 @@ import com.mooncloak.vpn.app.shared.feature.dependency.util.LibsLoader
 import com.mooncloak.vpn.app.shared.util.ActivityContext
 import com.mooncloak.vpn.app.shared.util.AndroidSystemAuthenticationProvider
 import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
+import com.mooncloak.vpn.util.permission.PermissionHandler
+import com.mooncloak.vpn.util.permission.invoke
 import com.mooncloak.vpn.util.shared.coroutine.PresentationCoroutineScope
 import com.mooncloak.vpn.util.shortcuts.AppShortcutProvider
 
@@ -32,7 +35,7 @@ internal abstract class AndroidPresentationComponent internal constructor(
     @get:Provides override val presentationCoroutineScope: PresentationCoroutineScope,
     @get:Provides override val uriHandler: UriHandler,
     @get:Provides override val activityContext: ActivityContext,
-    @get:Provides override val activity: Activity
+    @get:Provides override val activity: ComponentActivity
 ) : PresentationComponent() {
 
     @Provides
@@ -68,12 +71,20 @@ internal abstract class AndroidPresentationComponent internal constructor(
     @Provides
     @PresentationScoped
     internal fun provideAppShortcutProvider(provider: AndroidAppShortcutProvider): AppShortcutProvider = provider
+
+    @Provides
+    @PresentationScoped
+    internal fun providePermissionHandler(): PermissionHandler = PermissionHandler(activity = activity)
+
+    @Provides
+    @PresentationScoped
+    internal fun provideActivity(): Activity = activity
 }
 
 internal fun PresentationComponent.Companion.create(
     applicationComponent: ApplicationComponent,
     coroutineScope: PresentationCoroutineScope,
-    activity: Activity,
+    activity: ComponentActivity,
     uriHandler: UriHandler
 ): AndroidPresentationComponent = AndroidPresentationComponent::class.create(
     applicationComponent = applicationComponent,
