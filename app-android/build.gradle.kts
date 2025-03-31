@@ -118,7 +118,7 @@ android {
 
         create("galaxy") {
             dimension = "store"
-            applicationIdSuffix = ".direct"
+            applicationIdSuffix = ".galaxy"
 
             resValue("string", "mooncloak_app_name", buildVariables.appName)
         }
