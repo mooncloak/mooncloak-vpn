@@ -122,6 +122,13 @@ android {
 
             resValue("string", "mooncloak_app_name", buildVariables.appName)
         }
+
+        create("fdroid") {
+            dimension = "store"
+            applicationIdSuffix = ".fdroid"
+
+            resValue("string", "mooncloak_app_name", buildVariables.appName)
+        }
     }
 
     dependencies {
