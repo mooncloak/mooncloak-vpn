@@ -21,6 +21,7 @@ import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.vpn.api.shared.billing.BillingManager
 import com.mooncloak.vpn.api.shared.plan.Plan
 import com.mooncloak.vpn.api.shared.plan.Price
+import com.mooncloak.vpn.api.shared.token.TransactionToken
 import com.mooncloak.vpn.app.shared.di.PresentationScoped
 import com.mooncloak.vpn.util.shared.coroutine.PresentationCoroutineScope
 import kotlinx.coroutines.CancellationException
@@ -158,6 +159,10 @@ internal class GooglePlayBillingManager @Inject internal constructor(
                 this.continuation = continuation
             }
         }
+    }
+
+    override fun handleReceipt(token: TransactionToken, state: String?) {
+        // Unsupported for Google Play Billing.
     }
 
     @Throws(IllegalStateException::class, CancellationException::class)

@@ -4,11 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.core.net.toUri
 
 public class DeepLinkForwardingActivity : BaseActivity() {
 
     private val redirectUri by lazy {
-        intent?.extras?.getString(EXTRA_REDIRECT_URI)?.let { Uri.parse(it) }
+        intent?.extras?.getString(EXTRA_REDIRECT_URI)?.toUri()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

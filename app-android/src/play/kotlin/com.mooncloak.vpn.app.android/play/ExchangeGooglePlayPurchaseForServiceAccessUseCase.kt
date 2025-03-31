@@ -7,7 +7,6 @@ import com.mooncloak.vpn.api.shared.billing.ProofOfPurchase
 import com.mooncloak.vpn.app.shared.api.billing.ExchangeProofOfPurchaseForServiceTokensUseCase
 import com.mooncloak.vpn.app.shared.api.service.GetServiceSubscriptionForTokensUseCase
 import com.mooncloak.vpn.api.shared.plan.BillingProvider
-import com.mooncloak.vpn.api.shared.plan.Plan
 import com.mooncloak.vpn.api.shared.plan.Price
 import com.mooncloak.vpn.api.shared.service.ServiceAccessDetails
 import com.mooncloak.vpn.api.shared.token.TransactionToken
