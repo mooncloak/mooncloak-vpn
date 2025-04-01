@@ -302,6 +302,7 @@
     <string name="server_details_label_device_ip_address">Device IP</string>
     <string name="server_details_label_server_ip_address">Server IP</string>
     <string name="server_details_hidden_ip_address">***.**.**.***</string>
+    <string name="server_details_unknown_ip_address">Unknown</string>
     <string name="server_details_info_field_country">Country</string>
     <string name="server_details_info_field_region">Region</string>
     <string name="server_details_info_field_connected">Connected</string>

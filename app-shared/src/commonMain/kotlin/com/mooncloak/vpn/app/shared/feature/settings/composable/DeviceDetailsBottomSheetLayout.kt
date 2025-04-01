@@ -35,6 +35,7 @@ import com.mooncloak.vpn.app.shared.resource.cd_action_hide_ip_address
 import com.mooncloak.vpn.app.shared.resource.cd_action_show_ip_address
 import com.mooncloak.vpn.app.shared.resource.global_not_available
 import com.mooncloak.vpn.app.shared.resource.server_details_hidden_ip_address
+import com.mooncloak.vpn.app.shared.resource.server_details_unknown_ip_address
 import com.mooncloak.vpn.app.shared.resource.settings_device_details_description
 import com.mooncloak.vpn.app.shared.resource.settings_device_details_header
 import com.mooncloak.vpn.app.shared.resource.settings_device_details_local_ip
@@ -92,10 +93,10 @@ internal fun DeviceDetailsBottomSheetLayout(
                     supportingContent = {
                         SelectionContainer {
                             Text(
-                                text = if (hidePublicIpAddress.value) {
-                                    stringResource(Res.string.server_details_hidden_ip_address)
-                                } else {
-                                    details?.publicIpAddress?.takeIf { it.isNotBlank() }
+                                text = when {
+                                    details?.publicIpAddress.isNullOrBlank() -> stringResource(Res.string.server_details_unknown_ip_address)
+                                    hidePublicIpAddress.value -> stringResource(Res.string.server_details_hidden_ip_address)
+                                    else -> details?.publicIpAddress?.takeIf { it.isNotBlank() }
                                         ?: stringResource(Res.string.global_not_available)
                                 },
                                 style = MaterialTheme.typography.bodyMedium,
@@ -137,10 +138,10 @@ internal fun DeviceDetailsBottomSheetLayout(
                     supportingContent = {
                         SelectionContainer {
                             Text(
-                                text = if (hideLocalIpAddress.value) {
-                                    stringResource(Res.string.server_details_hidden_ip_address)
-                                } else {
-                                    details?.localIpAddress?.takeIf { it.isNotBlank() }
+                                text = when {
+                                    details?.localIpAddress.isNullOrBlank() -> stringResource(Res.string.server_details_unknown_ip_address)
+                                    hideLocalIpAddress.value -> stringResource(Res.string.server_details_hidden_ip_address)
+                                    else -> details?.localIpAddress?.takeIf { it.isNotBlank() }
                                         ?: stringResource(Res.string.global_not_available)
                                 },
                                 style = MaterialTheme.typography.bodyMedium,
