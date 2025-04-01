@@ -407,3 +407,20 @@ tasks.create("copyXCFramework") {
         }
     }
 }
+
+/**
+ * Generate the dependencies JSON and place it in the resources directory so that it is included in the desktop app.
+ */
+tasks.register<Exec>("prepareDependencies") {
+    workingDir = rootDir
+
+    commandLine(
+        "./gradlew",
+        "app-shared:exportLibraryDefinitions",
+        "-PaboutLibraries.exportPath=src/commonMain/resources/"
+    )
+}
+
+tasks.named("build") {
+    dependsOn("prepareDependencies")
+}
