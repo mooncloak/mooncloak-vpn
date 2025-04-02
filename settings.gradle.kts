@@ -44,6 +44,8 @@ include(":api-vpn")
 
 include(":network-core")
 
+include(":crypto-lunaris")
+
 include(":app-shared")
 include(":app-android")
 include(":app-desktop")
