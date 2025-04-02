@@ -123,6 +123,7 @@ public interface CryptoWalletApi : AutoCloseable {
     public companion object {
 
         public const val POLYGON_MAINNET_RPC_URL: String = "https://polygon-rpc.com"
+        public const val LUNARIS_CONTRACT_ADDRESS: String = "" // TODO: Provide Lunaris contract address
     }
 }
 

@@ -43,6 +43,7 @@ kotlin {
                 api(project(":data-sqlite"))
                 api(project(":api-vpn"))
                 api(project(":network-core"))
+                api(project(":crypto-lunaris"))
 
                 // Coroutines
                 // https://github.com/Kotlin/kotlinx.coroutines

@@ -28,14 +28,14 @@ import kotlin.jvm.optionals.getOrNull
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-public operator fun CryptoWalletApi.invoke(
+public operator fun CryptoWalletApi.Companion.invoke(
     cryptoWalletAddressProvider: CryptoWalletAddressProvider,
-    polygonRpcUrl: String = CryptoWalletApi.POLYGON_MAINNET_RPC_URL,
+    polygonRpcUrl: String = POLYGON_MAINNET_RPC_URL,
     walletDirectoryPath: String,
     cryptoWalletRepository: CryptoWalletRepository,
     clock: Clock,
     currency: Currency = Currency.Lunaris,
-    currencyAddress: String // Replace with actual LNRS contract address
+    currencyAddress: String = LUNARIS_CONTRACT_ADDRESS
 ): CryptoWalletApi = AndroidCryptoWalletApi(
     cryptoWalletAddressProvider = cryptoWalletAddressProvider,
     polygonRpcUrl = polygonRpcUrl,

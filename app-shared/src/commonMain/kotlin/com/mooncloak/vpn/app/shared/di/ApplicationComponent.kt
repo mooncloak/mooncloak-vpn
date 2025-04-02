@@ -26,9 +26,13 @@ import com.mooncloak.vpn.app.shared.api.server.ServerApiSource
 import com.mooncloak.vpn.app.shared.api.service.ServiceTokensSource
 import com.mooncloak.vpn.app.shared.util.image.MooncloakImageLoaderFactory
 import com.mooncloak.vpn.app.shared.database.MooncloakDatabaseProvider
+import com.mooncloak.vpn.app.shared.settings.CryptoSettings
 import com.mooncloak.vpn.app.shared.util.http.DefaultUnauthorizedInterceptor
 import com.mooncloak.vpn.app.shared.util.http.UnauthorizedInterceptor
 import com.mooncloak.vpn.app.shared.util.http.interceptUnauthorized
+import com.mooncloak.vpn.crypto.lunaris.provider.CryptoWalletAddressProvider
+import com.mooncloak.vpn.crypto.lunaris.repository.CryptoWalletRepository
+import com.mooncloak.vpn.crypto.lunaris.source.invoke
 import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueStorage
 import com.mooncloak.vpn.data.shared.keyvalue.SettingsKeyValueStorage
@@ -199,6 +203,18 @@ public abstract class ApplicationComponent : ApplicationDependencies {
     @Provides
     @Singleton
     public fun provideDatabase(provider: MooncloakDatabaseProvider): MooncloakDatabase = provider.get()
+
+    @Provides
+    @Singleton
+    public fun provideCryptoWalletRepository(provider: MooncloakDatabaseProvider): CryptoWalletRepository =
+        CryptoWalletRepository.invoke(
+            databaseProvider = provider
+        )
+
+    @Provides
+    @Singleton
+    public fun provideCryptoWalletAddressProvider(settings: CryptoSettings): CryptoWalletAddressProvider =
+        CryptoWalletAddressProvider { settings.walletAddress.get() }
 
     public companion object
 }

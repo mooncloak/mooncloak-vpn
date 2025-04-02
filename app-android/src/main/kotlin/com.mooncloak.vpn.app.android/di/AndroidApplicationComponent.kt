@@ -7,12 +7,17 @@ import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.network.core.ip.invoke
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
+import com.mooncloak.vpn.crypto.lunaris.CryptoWalletApi
+import com.mooncloak.vpn.crypto.lunaris.invoke
+import com.mooncloak.vpn.crypto.lunaris.provider.CryptoWalletAddressProvider
+import com.mooncloak.vpn.crypto.lunaris.repository.CryptoWalletRepository
 import com.mooncloak.vpn.util.notification.NotificationManager
 import com.mooncloak.vpn.util.notification.invoke
 import com.mooncloak.vpn.data.shared.cache.Cache
 import com.mooncloak.vpn.data.shared.cache.create
 import com.mooncloak.vpn.network.core.ip.PublicDeviceIPAddressProvider
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
+import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
 import kotlin.time.Duration.Companion.seconds
 
@@ -43,4 +48,17 @@ public abstract class AndroidApplicationComponent public constructor() : Applica
             ),
             coroutineScope = coroutineScope
         )
+
+    @Provides
+    @Singleton
+    internal fun provideCryptoWalletApi(
+        addressProvider: CryptoWalletAddressProvider,
+        repository: CryptoWalletRepository,
+        clock: Clock
+    ): CryptoWalletApi = CryptoWalletApi(
+        cryptoWalletAddressProvider = addressProvider,
+        walletDirectoryPath = applicationContext.filesDir.absolutePath,
+        cryptoWalletRepository = repository,
+        clock = clock
+    )
 }
