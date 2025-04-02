@@ -35,6 +35,7 @@ import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
 import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheet
 import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
+import com.mooncloak.vpn.app.shared.composable.showSuccess
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.AccountAddressCard
@@ -43,9 +44,13 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletActio
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletBalanceCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletDetailsCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.vector.LunarisCoin
+import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.crypto_wallet_message_address_copied
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_title_lunaris_wallet
 import com.mooncloak.vpn.app.shared.theme.DefaultHorizontalPageSpacing
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -184,7 +189,13 @@ public fun CryptoWalletScreen(
                         address = "123",
                         uri = "",
                         onAddressCopied = {
-
+                            coroutineScope.launch {
+                                snackbarHostState.showSuccess(
+                                    notification = NotificationStateModel(
+                                        message = getString(Res.string.crypto_wallet_message_address_copied)
+                                    )
+                                )
+                            }
                         }
                     )
                 }
