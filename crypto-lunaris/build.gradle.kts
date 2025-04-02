@@ -24,6 +24,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":api-vpn"))
+                implementation(project(":data-shared"))
+                implementation(project(":data-sqlite"))
 
                 // Http Client - Ktor
                 // https://github.com/ktorio/ktor

@@ -1,0 +1,86 @@
+import kotlinx.datetime.Instant;
+
+CREATE TABLE IF NOT EXISTS crypto_wallet (
+    database_id INTEGER PRIMARY KEY NOT NULL,
+    id TEXT NOT NULL UNIQUE,
+    created INTEGER AS Instant NOT NULL,
+    updated INTEGER AS Instant NOT NULL,
+    address TEXT NOT NULL,
+    location TEXT NOT NULL,
+    name TEXT,
+    note TEXT,
+    currency_type TEXT NOT NULL,
+    currency_code TEXT NOT NULL,
+    currency_default_fraction_digits INTEGER,
+    currency_numeric_code INTEGER,
+    currency_symbol TEXT,
+    currency_name TEXT,
+    currency_ticker TEXT,
+    currency_chain_id INTEGER
+);
+
+CREATE INDEX IF NOT EXISTS crypto_wallet_id_index ON crypto_wallet(id);
+CREATE INDEX IF NOT EXISTS crypto_wallet_address_index ON crypto_wallet(address);
+
+insert:
+INSERT OR REPLACE INTO crypto_wallet(
+    id,
+    created,
+    updated,
+    address,
+    location,
+    name,
+    note,
+    currency_type,
+    currency_code,
+    currency_default_fraction_digits,
+    currency_numeric_code,
+    currency_symbol,
+    currency_name,
+    currency_ticker,
+    currency_chain_id
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+updateAll:
+UPDATE crypto_wallet
+SET updated = :updated,
+    address = :address,
+    location = :location,
+    name = :name,
+    note = :note,
+    currency_type = :currencyType,
+    currency_code = :currencyCode,
+    currency_default_fraction_digits = :currencyDefaultFractionDigits,
+    currency_numeric_code = :currencyNumericCode,
+    currency_symbol = :currencySymbol,
+    currency_name = :currencyName,
+    currency_ticker = :currencyTicker,
+    currency_chain_id = :currencyChainId
+WHERE id = :id;
+
+selectById:
+SELECT *
+FROM crypto_wallet
+WHERE id = :id;
+
+selectByAddress:
+SELECT *
+FROM crypto_wallet
+WHERE address = :address;
+
+selectAll:
+SELECT *
+FROM crypto_wallet;
+
+selectPage:
+SELECT *
+FROM crypto_wallet
+ORDER BY updated DESC
+LIMIT :limit OFFSET :offset;
+
+deleteById:
+DELETE FROM crypto_wallet
+WHERE id = :id;
+
+deleteAll:
+DELETE FROM crypto_wallet;

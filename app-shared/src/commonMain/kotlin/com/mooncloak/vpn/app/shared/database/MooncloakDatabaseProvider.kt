@@ -9,6 +9,7 @@ import com.mooncloak.vpn.data.sqlite.adapter.jsonElementAsString
 import com.mooncloak.vpn.data.sqlite.adapter.jsonObjectAsString
 import com.mooncloak.vpn.data.sqlite.DatabaseManager
 import com.mooncloak.vpn.data.sqlite.SqlDriverFactory
+import com.mooncloak.vpn.data.sqlite.database.Crypto_wallet
 import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.data.sqlite.database.PurchaseReceipt
 import com.mooncloak.vpn.data.sqlite.database.RegisteredClient
@@ -75,6 +76,10 @@ public class MooncloakDatabaseProvider @Inject public constructor(
                     registeredAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
                     expirationAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
                     allowed_ipsAdapter = DatabaseAdapter.jsonElementAsString()
+                ),
+                crypto_walletAdapter = Crypto_wallet.Adapter(
+                    createdAdapter = DatabaseAdapter.instantAsMillisecondsLong(),
+                    updatedAdapter = DatabaseAdapter.instantAsMillisecondsLong()
                 )
             )
 

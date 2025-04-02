@@ -2,6 +2,11 @@ package com.mooncloak.vpn.crypto.lunaris
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.mooncloak.vpn.api.shared.currency.Currency
+import com.mooncloak.vpn.crypto.lunaris.model.CryptoTransaction
+import com.mooncloak.vpn.crypto.lunaris.model.CryptoWallet
+import com.mooncloak.vpn.crypto.lunaris.model.SendResult
+import com.mooncloak.vpn.crypto.lunaris.model.TransactionStatus
+import com.mooncloak.vpn.crypto.lunaris.model.TransactionType
 
 /**
  * Interface defining core operations for the Lunaris (LNRS) cryptocurrency wallet on the Polygon network.

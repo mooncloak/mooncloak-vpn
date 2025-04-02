@@ -103,10 +103,48 @@ public typealias MajorUnits = BigDecimal
 
 public val Currency.Companion.USD: Currency get() = usdSingleton
 
+public val Currency.Companion.Lunaris: Currency get() = lunarisSingleton
+
+// Pol and Matic are the same. Pol replaced Matic, so we support both the currency codes.
+public val Currency.Companion.Matic: Currency get() = maticSingleton
+public val Currency.Companion.Pol: Currency get() = polSingleton
+
 private val usdSingleton = Currency(
     type = Currency.Type.Iso4217,
     code = Currency.Code.USD,
     defaultFractionDigits = 2,
     numericCode = 840,
     symbol = "$"
+)
+
+private val lunarisSingleton = Currency(
+    type = Currency.Type.Crypto,
+    code = Currency.Code.Lunaris,
+    defaultFractionDigits = 18,
+    numericCode = null,
+    symbol = "L",
+    name = "Lunaris",
+    ticker = "LNRS",
+    chainId = 137L
+)
+
+private val maticSingleton = Currency(
+    type = Currency.Type.Crypto,
+    code = Currency.Code.Matic,
+    defaultFractionDigits = 18,
+    numericCode = null,
+    symbol = "M",
+    name = "Matic",
+    ticker = "MATIC",
+    chainId = 137L
+)
+private val polSingleton = Currency(
+    type = Currency.Type.Crypto,
+    code = Currency.Code.Pol,
+    defaultFractionDigits = 18,
+    numericCode = null,
+    symbol = "M",
+    name = "Pol",
+    ticker = "POL",
+    chainId = 137L
 )

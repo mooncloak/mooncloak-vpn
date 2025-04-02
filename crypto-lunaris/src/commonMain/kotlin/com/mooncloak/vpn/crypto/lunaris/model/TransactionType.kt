@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.crypto.lunaris
+package com.mooncloak.vpn.crypto.lunaris.model
 
 /**
  * Enum for filtering transaction history by type.

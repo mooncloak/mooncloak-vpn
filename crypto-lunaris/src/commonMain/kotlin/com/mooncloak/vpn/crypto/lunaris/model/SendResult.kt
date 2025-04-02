@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.crypto.lunaris
+package com.mooncloak.vpn.crypto.lunaris.model
 
 import com.ionspin.kotlin.bignum.integer.BigInteger
 

@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.crypto.lunaris
+package com.mooncloak.vpn.crypto.lunaris.model
 
 /**
  * Enum representing the possible statuses of a transaction.
