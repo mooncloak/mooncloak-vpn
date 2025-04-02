@@ -24,6 +24,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.api.shared.server.VPNConnectionStatus
 import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
@@ -32,6 +34,7 @@ import com.mooncloak.vpn.app.shared.composable.showError
 import com.mooncloak.vpn.app.shared.composable.showSuccess
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.CryptoWalletBottomSheet
 import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBar
 import com.mooncloak.vpn.app.shared.feature.home.composable.PlanUsageCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
@@ -81,6 +84,7 @@ public fun HomeScreen(
 
     val serverDetailsBottomSheetState = rememberServerDetailsBottomSheetState()
     val moonShieldBottomSheetState = rememberManagedModalBottomSheetState()
+    val cryptoWalletBottomSheetState = rememberManagedModalBottomSheetState()
 
     val hazeState = remember { HazeState() }
 
@@ -142,7 +146,8 @@ public fun HomeScreen(
                     is HomeFeedItem.MoonShieldItem -> MoonShieldCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth()
-                            .animateItem(),
+                            .animateItem()
+                            .pointerHoverIcon(PointerIcon.Hand),
                         active = item.active,
                         enabled = item.toggleEnabled,
                         trackersBlocked = item.trackersBlocked,
@@ -159,7 +164,8 @@ public fun HomeScreen(
                     HomeFeedItem.GetVPNServiceItem -> GetVPNServiceCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth()
-                            .animateItem(),
+                            .animateItem()
+                            .pointerHoverIcon(PointerIcon.Hand),
                         onClick = {
                             coroutineScope.launch {
                                 paymentBottomSheetState.show()
@@ -170,10 +176,11 @@ public fun HomeScreen(
                     HomeFeedItem.LunarisWallet -> LunarisWalletCard(
                         modifier = Modifier.sizeIn(maxWidth = 600.dp)
                             .fillMaxWidth()
-                            .animateItem(),
+                            .animateItem()
+                            .pointerHoverIcon(PointerIcon.Hand),
                         onClick = {
                             coroutineScope.launch {
-                                // TODO: Open Lunaris Wallet Screen
+                                cryptoWalletBottomSheetState.show()
                             }
                         }
                     )
@@ -287,6 +294,11 @@ public fun HomeScreen(
     MoonShieldDescriptionBottomSheet(
         modifier = Modifier.fillMaxWidth(),
         sheetState = moonShieldBottomSheetState
+    )
+
+    CryptoWalletBottomSheet(
+        modifier = Modifier.fillMaxWidth(),
+        sheetState = cryptoWalletBottomSheetState
     )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {

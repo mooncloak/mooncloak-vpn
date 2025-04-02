@@ -89,6 +89,8 @@
     <string name="home_title_bar_description_unprotected">Connect to a secure VPN server to protect your data</string>
     <string name="home_title_lunaris_wallet">Lunaris Wallet</string>
 
+    <string name="home_description_lunaris_wallet">Securely manage Lunaris, a real cryptocurrency you can trade. Use it to pay for mooncloak VPN or trade on exchanges.</string>
+
     <string name="home_feed_item_server_last_connected">Last Connected</string>
 
     <string name="get_vpn_service_title">You are unprotected</string>
