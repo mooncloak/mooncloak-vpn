@@ -10,8 +10,8 @@ internal abstract class BaseCryptoWalletApi internal constructor(
     private val cryptoWalletRepository: CryptoWalletRepository
 ) : CryptoWalletApi {
 
-    protected suspend fun getCurrentWalletOrNull(): CryptoWallet? =
+    override suspend fun getDefaultWallet(): CryptoWallet? =
         cryptoWalletAddressProvider.get()?.let { address ->
             cryptoWalletRepository.getByAddressOrNull(address)
-        }
+        } ?: cryptoWalletRepository.getAll().firstOrNull()
 }

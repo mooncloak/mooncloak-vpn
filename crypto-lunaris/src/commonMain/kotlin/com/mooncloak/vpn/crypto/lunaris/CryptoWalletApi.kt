@@ -18,18 +18,20 @@ public interface CryptoWalletApi : AutoCloseable {
     /**
      * Retrieves the current balance of the wallet in LNRS.
      *
+     * @param [address] The public address of the wallet.
+     *
      * @return The balance in LNRS as a [BigDecimal], representing the amount of LNRS available in the wallet.
      *
      * @throws IllegalStateException if no wallet has been created or loaded.
      */
-    public suspend fun getBalance(): Currency.Amount
+    public suspend fun getBalance(address: String): Currency.Amount
 
     /**
      * Creates a new wallet and initializes it for use.
      *
      * @return A [CryptoWallet] object containing details about the newly created wallet.
      */
-    public suspend fun createWallet(): CryptoWallet
+    public suspend fun createWallet(password: String? = null): CryptoWallet
 
     /**
      * Retrieves the current wallet, if one exists.
@@ -38,10 +40,12 @@ public interface CryptoWalletApi : AutoCloseable {
      *
      * @throws IllegalStateException if no wallet has been created or loaded.
      */
-    public suspend fun getWallet(): CryptoWallet?
+    public suspend fun getDefaultWallet(): CryptoWallet?
 
     /**
      * Reveals the seed phrase (mnemonic) for the current wallet, used for backup or recovery.
+     *
+     * @param [address] The public address of the wallet.
      *
      * @param password An optional password for decrypting the wallet file (null if unencrypted).
      *
@@ -51,10 +55,12 @@ public interface CryptoWalletApi : AutoCloseable {
      *
      * @throws RuntimeException if the password is incorrect or the wallet file cannot be decrypted.
      */
-    public suspend fun revealSeedPhrase(password: String? = null): String
+    public suspend fun revealSeedPhrase(address: String, password: String? = null): String
 
     /**
      * Fetches a paginated list of transactions associated with the wallet.
+     *
+     * @param [address] The public address of the wallet.
      *
      * @param offset The page number to fetch (1-based indexing, default is 1).
      *
@@ -69,6 +75,7 @@ public interface CryptoWalletApi : AutoCloseable {
      * @throws IllegalArgumentException if [offset] is less than 1 or [count] is not positive.
      */
     public suspend fun getTransactionHistory(
+        address: String,
         offset: Int = 1,
         count: Int = 10,
         type: TransactionType = TransactionType.ALL
@@ -86,9 +93,13 @@ public interface CryptoWalletApi : AutoCloseable {
     /**
      * Sends LNRS to a specified recipient address on the Polygon network.
      *
-     * @param target The recipient's wallet address as a hexadecimal string (e.g., "0x...").
+     * @param [origin] The public address of the wallet to send funds from.
      *
-     * @param amount The amount of LNRS to send, specified as a [BigDecimal].
+     * @param password An optional password for decrypting the wallet file (null if unencrypted).
+     *
+     * @param [target] The recipient's wallet address as a hexadecimal string (e.g., "0x...").
+     *
+     * @param [amount] The amount of LNRS to send, specified as a [BigDecimal].
      *
      * @return A [SendResult] indicating the outcome of the transaction (success, failure, or pending).
      *
@@ -97,6 +108,8 @@ public interface CryptoWalletApi : AutoCloseable {
      * @throws RuntimeException if the transaction fails due to network issues or insufficient funds.
      */
     public suspend fun send(
+        origin: String,
+        password: String? = null,
         target: String,
         amount: Currency.Amount
     ): SendResult
@@ -107,7 +120,10 @@ public interface CryptoWalletApi : AutoCloseable {
      */
     override fun close()
 
-    public companion object
+    public companion object {
+
+        public const val POLYGON_MAINNET_RPC_URL: String = "https://polygon-rpc.com"
+    }
 }
 
 /**
@@ -117,5 +133,5 @@ public interface CryptoWalletApi : AutoCloseable {
  *
  * @throws IllegalStateException if no wallet has been created or loaded.
  */
-public suspend fun CryptoWalletApi.getOrCreateWallet(): CryptoWallet =
-    getWallet() ?: createWallet()
+public suspend fun CryptoWalletApi.getDefaultOrCreateWallet(password: String? = null): CryptoWallet =
+    getDefaultWallet() ?: createWallet(password = password)
