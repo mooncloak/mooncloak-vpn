@@ -84,7 +84,7 @@ public fun HomeScreen(
 
     val serverDetailsBottomSheetState = rememberServerDetailsBottomSheetState()
     val moonShieldBottomSheetState = rememberManagedModalBottomSheetState()
-    val cryptoWalletBottomSheetState = rememberManagedModalBottomSheetState()
+    val cryptoWalletBottomSheetState = rememberManagedModalBottomSheetState(skipPartiallyExpanded = true)
 
     val hazeState = remember { HazeState() }
 

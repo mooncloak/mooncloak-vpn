@@ -358,5 +358,21 @@
     <string name="duration_remaining_expired">Expired</string>
 
     <string name="crypto_wallet_title_lunaris_wallet">Lunaris Wallet</string>
+    <string name="crypto_wallet_title_account_address">Account Address</string>
+
+    <string name="crypto_wallet_description_account_address">Your public Lunaris account address on the Polygon chain.</string>
+
+    <string name="crypto_wallet_label_balance">Balance</string>
+    <string name="crypto_wallet_label_today">Today</string>
+    <string name="crypto_wallet_label_all_time">All Time</string>
+
+    <string name="crypto_wallet_action_send">Send</string>
+    <string name="crypto_wallet_action_receive">Receive</string>
+    <string name="crypto_wallet_action_refresh">Refresh</string>
+    <string name="crypto_wallet_action_reveal">Reveal</string>
+    <string name="crypto_wallet_action_copy_address">Copy address</string>
+    <string name="crypto_wallet_action_open_wallet_app">Open Wallet App</string>
+
+    <string name="crypto_wallet_message_address_copied">Address Copied!</string>
 
 </resources>

@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.theme.ColorPalette
 
 @Suppress("UnusedReceiverParameter")
-public val Icons.Filled.LunarisCoinIcon: ImageVector
+public val Icons.Filled.LunarisCoin: ImageVector
     get() {
         iconSingleton?.let { return it }
 

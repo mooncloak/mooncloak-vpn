@@ -12,7 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.feature.crypto.wallet.vector.LunarisCoinIcon
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.vector.LunarisCoin
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.home_description_lunaris_wallet
 import com.mooncloak.vpn.app.shared.resource.home_title_lunaris_wallet
@@ -39,7 +39,7 @@ internal fun LunarisWalletCard(
             HomeCardHeader(
                 modifier = Modifier.fillMaxWidth(),
                 leadingText = stringResource(Res.string.home_title_lunaris_wallet),
-                leadingIcon = Icons.Default.LunarisCoinIcon,
+                leadingIcon = Icons.Default.LunarisCoin,
                 trailingIcon = Icons.AutoMirrored.Default.ArrowForward,
                 tintLeadingIcon = false
             )
