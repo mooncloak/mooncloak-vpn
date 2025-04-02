@@ -1,4 +1,4 @@
-package com.mooncloak.vpn.api.shared.plan
+package com.mooncloak.vpn.api.shared.currency
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.mooncloak.kodetools.locale.ExperimentalLocaleApi
@@ -82,6 +82,17 @@ public data class Currency public constructor(
             public operator fun get(serialName: String): Unit? =
                 Unit.entries.firstOrNull { it.serialName.equals(serialName, ignoreCase = true) }
         }
+    }
+
+    public interface Amount {
+
+        public val currency: Currency
+        public val unit: Unit
+
+        public fun toMinorUnits(): MinorUnits
+        public fun toMajorUnits(): MajorUnits
+
+        public companion object
     }
 
     public companion object

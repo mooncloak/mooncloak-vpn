@@ -6,7 +6,7 @@ import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.textx.PlainText
 import com.mooncloak.kodetools.textx.TextContent
 import com.mooncloak.vpn.api.shared.plan.BillingProvider
-import com.mooncloak.vpn.api.shared.plan.Currency
+import com.mooncloak.vpn.api.shared.currency.Currency
 import com.mooncloak.vpn.api.shared.plan.Plan
 import com.mooncloak.vpn.api.shared.plan.PlanPeriod
 import com.mooncloak.vpn.api.shared.plan.Price
