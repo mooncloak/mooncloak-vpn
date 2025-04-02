@@ -124,6 +124,7 @@ public interface CryptoWalletApi : AutoCloseable {
 
         public const val POLYGON_MAINNET_RPC_URL: String = "https://polygon-rpc.com"
         public const val LUNARIS_CONTRACT_ADDRESS: String = "" // TODO: Provide Lunaris contract address
+        public const val DEFAULT_WALLET_DIRECTORY_NAME: String = "wallets"
     }
 }
 

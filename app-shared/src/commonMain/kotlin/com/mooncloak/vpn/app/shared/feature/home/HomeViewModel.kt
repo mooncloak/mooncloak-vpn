@@ -349,9 +349,10 @@ public class HomeViewModel @Inject public constructor(
             )
         )
 
+        items.add(HomeFeedItem.LunarisWallet)
+
         items.addAll(showcaseItems)
 
-        // TODO: The list of items for the subscribed user.
         return items
     }
 }

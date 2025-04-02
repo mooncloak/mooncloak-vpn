@@ -33,6 +33,14 @@ public sealed interface HomeFeedItem {
     }
 
     @Immutable
+    public data object LunarisWallet : HomeFeedItem {
+
+        override val id: String = "LunarisWallet"
+
+        override val contentType: String = "LunarisWallet"
+    }
+
+    @Immutable
     public data class PlanUsageItem public constructor(
         public val durationRemaining: String,
         public val bytesRemaining: Long? = null,

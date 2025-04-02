@@ -12,6 +12,10 @@ import com.mooncloak.vpn.network.core.ip.invoke
 import com.mooncloak.vpn.network.core.tunnel.TunnelManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
+import com.mooncloak.vpn.crypto.lunaris.CryptoWalletApi
+import com.mooncloak.vpn.crypto.lunaris.invoke
+import com.mooncloak.vpn.crypto.lunaris.provider.CryptoWalletAddressProvider
+import com.mooncloak.vpn.crypto.lunaris.repository.CryptoWalletRepository
 import com.mooncloak.vpn.data.sqlite.invoke
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.util.notification.NotificationManager
@@ -25,7 +29,9 @@ import com.mooncloak.vpn.network.core.ip.LocalDeviceIPAddressProvider
 import com.mooncloak.vpn.network.core.ip.PublicDeviceIPAddressProvider
 import com.mooncloak.vpn.util.shortcuts.AppShortcutManager
 import com.mooncloak.vpn.util.shortcuts.invoke
+import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
+import java.io.File
 import kotlin.time.Duration.Companion.seconds
 
 @Component
@@ -82,6 +88,24 @@ internal abstract class JvmApplicationComponent internal constructor(
     @Provides
     @Singleton
     internal fun provideAppShortcutManager(): AppShortcutManager = AppShortcutManager()
+
+    @Provides
+    @Singleton
+    internal fun provideCryptoWalletApi(
+        addressProvider: CryptoWalletAddressProvider,
+        repository: CryptoWalletRepository,
+        clock: Clock
+    ): CryptoWalletApi = CryptoWalletApi(
+        cryptoWalletAddressProvider = addressProvider,
+        walletDirectoryPath = File(
+            System.getProperty("user.home"),
+            ".mooncloak/${CryptoWalletApi.DEFAULT_WALLET_DIRECTORY_NAME}"
+        ).apply {
+            mkdirs()
+        }.absolutePath,
+        cryptoWalletRepository = repository,
+        clock = clock
+    )
 }
 
 internal fun ApplicationComponent.Companion.create(

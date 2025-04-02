@@ -87,6 +87,7 @@
     <string name="home_title_bar_disconnecting">Disconnecting...</string>
     <string name="home_title_bar_checking">Checking connection</string>
     <string name="home_title_bar_description_unprotected">Connect to a secure VPN server to protect your data</string>
+    <string name="home_title_lunaris_wallet">Lunaris Wallet</string>
 
     <string name="home_feed_item_server_last_connected">Last Connected</string>
 
@@ -353,5 +354,7 @@
     </plurals>
     <string name="duration_remaining_greater_than_one_year">&gt; 1 year</string>
     <string name="duration_remaining_expired">Expired</string>
+
+    <string name="crypto_wallet_title_lunaris_wallet">Lunaris Wallet</string>
 
 </resources>

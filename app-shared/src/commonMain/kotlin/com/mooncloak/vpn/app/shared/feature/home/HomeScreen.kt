@@ -37,6 +37,7 @@ import com.mooncloak.vpn.app.shared.feature.home.composable.PlanUsageCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.MoonShieldCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.GetVPNServiceCard
+import com.mooncloak.vpn.app.shared.feature.home.composable.LunarisWalletCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ShowcaseCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.SpeedTestCard
 import com.mooncloak.vpn.app.shared.feature.home.layout.MoonShieldDescriptionBottomSheet
@@ -162,6 +163,17 @@ public fun HomeScreen(
                         onClick = {
                             coroutineScope.launch {
                                 paymentBottomSheetState.show()
+                            }
+                        }
+                    )
+
+                    HomeFeedItem.LunarisWallet -> LunarisWalletCard(
+                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                            .fillMaxWidth()
+                            .animateItem(),
+                        onClick = {
+                            coroutineScope.launch {
+                                // TODO: Open Lunaris Wallet Screen
                             }
                         }
                     )
