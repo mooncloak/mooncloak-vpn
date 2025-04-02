@@ -4,10 +4,12 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -52,41 +54,44 @@ internal fun WalletActions(
     revealVisible: Boolean = true,
     refreshVisible: Boolean = true
 ) {
-    FlowRow(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceAround
-    ) {
-        WalletAction(
-            icon = Icons.AutoMirrored.Default.CallMade,
-            contentDescription = stringResource(Res.string.crypto_wallet_action_send),
-            visible = sendVisible,
-            enabled = sendEnabled,
-            onAction = onSend
-        )
+    Box(modifier = modifier) {
+        FlowRow(
+            modifier = Modifier.fillMaxWidth()
+                .padding(12.dp),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            WalletAction(
+                icon = Icons.AutoMirrored.Default.CallMade,
+                contentDescription = stringResource(Res.string.crypto_wallet_action_send),
+                visible = sendVisible,
+                enabled = sendEnabled,
+                onAction = onSend
+            )
 
-        WalletAction(
-            icon = Icons.AutoMirrored.Default.CallReceived,
-            contentDescription = stringResource(Res.string.crypto_wallet_action_receive),
-            visible = receiveVisible,
-            enabled = receiveEnabled,
-            onAction = onReceive
-        )
+            WalletAction(
+                icon = Icons.AutoMirrored.Default.CallReceived,
+                contentDescription = stringResource(Res.string.crypto_wallet_action_receive),
+                visible = receiveVisible,
+                enabled = receiveEnabled,
+                onAction = onReceive
+            )
 
-        WalletAction(
-            icon = Icons.Default.Visibility,
-            contentDescription = stringResource(Res.string.crypto_wallet_action_reveal),
-            visible = revealVisible,
-            enabled = revealEnabled,
-            onAction = onReveal
-        )
+            WalletAction(
+                icon = Icons.Default.Visibility,
+                contentDescription = stringResource(Res.string.crypto_wallet_action_reveal),
+                visible = revealVisible,
+                enabled = revealEnabled,
+                onAction = onReveal
+            )
 
-        WalletAction(
-            icon = Icons.Default.Refresh,
-            contentDescription = stringResource(Res.string.crypto_wallet_action_refresh),
-            visible = refreshVisible,
-            enabled = refreshEnabled,
-            onAction = onRefresh
-        )
+            WalletAction(
+                icon = Icons.Default.Refresh,
+                contentDescription = stringResource(Res.string.crypto_wallet_action_refresh),
+                visible = refreshVisible,
+                enabled = refreshEnabled,
+                onAction = onRefresh
+            )
+        }
     }
 }
 

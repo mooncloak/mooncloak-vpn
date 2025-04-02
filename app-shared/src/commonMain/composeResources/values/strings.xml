@@ -365,6 +365,17 @@
     <string name="crypto_wallet_label_balance">Balance</string>
     <string name="crypto_wallet_label_today">Today</string>
     <string name="crypto_wallet_label_all_time">All Time</string>
+    <string name="crypto_wallet_label_last_updated">Last Updated</string>
+    <string name="crypto_wallet_label_blockchain">Blockchain</string>
+    <string name="crypto_wallet_label_network">Network</string>
+    <string name="crypto_wallet_label_token">Token</string>
+    <string name="crypto_wallet_label_token_ticker">Ticker</string>
+    <string name="crypto_wallet_label_address">Address</string>
+    <string name="crypto_wallet_label_amount">Amount</string>
+    <string name="crypto_wallet_label_estimated_value">Estimated Value</string>
+
+    <string name="crypto_wallet_value_blockchain_ethereum">Ethereum</string>
+    <string name="crypto_wallet_value_network_polygon">Polygon</string>
 
     <string name="crypto_wallet_action_send">Send</string>
     <string name="crypto_wallet_action_receive">Receive</string>

@@ -41,6 +41,7 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.AccountAddr
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.PercentChangeCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletActions
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletBalanceCard
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletDetailsCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.vector.LunarisCoin
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_title_lunaris_wallet
@@ -123,7 +124,7 @@ public fun CryptoWalletScreen(
                 modifier = Modifier.fillMaxSize()
                     .padding(horizontal = DefaultHorizontalPageSpacing),
                 state = lazyStaggeredGridState,
-                columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
+                columns = StaggeredGridCells.Adaptive(minSize = 150.dp),
                 horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalPageSpacing),
                 verticalItemSpacing = 12.dp
             ) {
@@ -137,25 +138,37 @@ public fun CryptoWalletScreen(
                     )
                 }
 
-                item {
+                item(
+                    key = "DailyChange",
+                    contentType = "PercentageChangeCard"
+                ) {
                     PercentChangeCard(
-                        modifier = Modifier.sizeIn(maxWidth = 150.dp)
-                            .fillMaxWidth(),
+                        modifier = Modifier.sizeIn(
+                            minWidth = 150.dp,
+                            maxWidth = 300.dp
+                        ).fillMaxWidth(),
                         label = "Today",
                         value = 5
                     )
                 }
 
-                item {
+                item(
+                    key = "AllTimeChange",
+                    contentType = "PercentageChangeCard"
+                ) {
                     PercentChangeCard(
-                        modifier = Modifier.sizeIn(maxWidth = 150.dp)
-                            .fillMaxWidth(),
+                        modifier = Modifier.sizeIn(
+                            minWidth = 150.dp,
+                            maxWidth = 300.dp
+                        ).fillMaxWidth(),
                         label = "All Time",
                         value = 100
                     )
                 }
 
-                item {
+                item(
+                    span = StaggeredGridItemSpan.FullLine
+                ) {
                     WalletActions(
                         onSend = {},
                         onReceive = {},
@@ -164,13 +177,30 @@ public fun CryptoWalletScreen(
                     )
                 }
 
-                item {
+                item(
+                    span = StaggeredGridItemSpan.FullLine
+                ) {
                     AccountAddressCard(
                         address = "123",
                         uri = "",
                         onAddressCopied = {
 
                         }
+                    )
+                }
+
+                item(
+                    span = StaggeredGridItemSpan.FullLine
+                ) {
+                    WalletDetailsCard(
+                        blockchain = "Ethereum",
+                        network = "Polygon",
+                        tokenName = "Lunaris",
+                        tokenTicker = "LNRS",
+                        address = "0x1234",
+                        amount = "10 LNRS",
+                        estimatedValue = "$5",
+                        lastUpdated = "5 minutes ago"
                     )
                 }
 

@@ -1,5 +1,6 @@
 package com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -33,7 +34,8 @@ internal fun PercentChangeCard(
         modifier = modifier
     ) {
         LabeledContent(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier.fillMaxWidth()
+                .align(Alignment.CenterHorizontally),
             label = label,
             value = formatted,
             valueColor = color

@@ -27,6 +27,7 @@
             <option value="$PROJECT_DIR$/app-desktop" />
             <option value="$PROJECT_DIR$/app-shared" />
             <option value="$PROJECT_DIR$/build-logic" />
+            <option value="$PROJECT_DIR$/crypto-lunaris" />
             <option value="$PROJECT_DIR$/data-shared" />
             <option value="$PROJECT_DIR$/data-sqlite" />
             <option value="$PROJECT_DIR$/network-core" />
