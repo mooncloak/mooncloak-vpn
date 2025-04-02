@@ -4,13 +4,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CurrencyBitcoin
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.vector.LunarisCoinIcon
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.home_title_lunaris_wallet
 import org.jetbrains.compose.resources.stringResource
@@ -35,7 +35,8 @@ internal fun LunarisWalletCard(
             HomeCardHeader(
                 modifier = Modifier.fillMaxWidth(),
                 leadingText = stringResource(Res.string.home_title_lunaris_wallet),
-                leadingIcon = Icons.Default.CurrencyBitcoin // TODO: Update Icon
+                leadingIcon = Icons.Default.LunarisCoinIcon,
+                tintLeadingIcon = false
             )
         }
     }

@@ -31,7 +31,8 @@ internal fun HomeCardHeader(
     leadingIconSize: Dp = 24.dp,
     trailingIconSize: Dp = 24.dp,
     leadingContentColor: Color = MaterialTheme.colorScheme.onSurface,
-    trailingContentColor: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
+    trailingContentColor: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha),
+    tintLeadingIcon: Boolean = true
 ) {
     Row(
         modifier = modifier,
@@ -45,7 +46,7 @@ internal fun HomeCardHeader(
                     modifier = Modifier.size(leadingIconSize),
                     imageVector = leadingIcon,
                     contentDescription = null,
-                    tint = leadingContentColor
+                    tint = if (tintLeadingIcon) leadingContentColor else Color.Unspecified
                 )
             }
 
