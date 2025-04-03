@@ -107,6 +107,14 @@ public data class Currency public constructor(
 public typealias MinorUnits = Long
 public typealias MajorUnits = BigDecimal
 
+public expect val Currency.Formatter.Companion.Default: Currency.Formatter
+
+public fun Currency.isFiat(): Boolean =
+    this.type == Currency.Type.Iso4217
+
+public fun Currency.isCrypto(): Boolean =
+    this.type == Currency.Type.Crypto
+
 public val Currency.Companion.USD: Currency get() = usdSingleton
 
 public val Currency.Companion.Lunaris: Currency get() = lunarisSingleton
