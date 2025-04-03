@@ -199,10 +199,22 @@ public fun CryptoWalletScreen(
                     span = StaggeredGridItemSpan.FullLine
                 ) {
                     WalletActions(
-                        onSend = {},
-                        onReceive = {},
-                        onReveal = {},
-                        onRefresh = {}
+                        onSend = {
+                            coroutineScope.launch {
+                                sendPaymentBottomSheetState.show()
+                            }
+                        },
+                        onReceive = {
+                            coroutineScope.launch {
+                                receivePaymentBottomSheetState.show()
+                            }
+                        },
+                        onReveal = {
+                            coroutineScope.launch {
+                                revealSeedPhraseBottomSheetState.show()
+                            }
+                        },
+                        onRefresh = viewModel::refresh
                     )
                 }
 

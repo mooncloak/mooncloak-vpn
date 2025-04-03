@@ -15,4 +15,8 @@ public class CryptoWalletViewModel @Inject public constructor(
     public fun load() {
         // TODO
     }
+
+    public fun refresh() {
+        // TODO
+    }
 }
