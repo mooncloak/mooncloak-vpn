@@ -3,6 +3,7 @@ package com.mooncloak.vpn.crypto.lunaris
 import com.mooncloak.vpn.api.shared.currency.Currency
 import com.mooncloak.vpn.api.shared.currency.Lunaris
 import com.mooncloak.vpn.api.shared.currency.invoke
+import com.mooncloak.vpn.crypto.lunaris.model.CryptoAccount
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoTransaction
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoWallet
 import com.mooncloak.vpn.crypto.lunaris.model.SendResult
@@ -17,6 +18,7 @@ import org.web3j.abi.datatypes.Address
 import org.web3j.abi.datatypes.Function
 import org.web3j.abi.datatypes.generated.Uint256
 import org.web3j.crypto.WalletUtils
+import org.web3j.ens.EnsResolver
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.core.methods.response.TransactionReceipt
@@ -60,6 +62,7 @@ internal class JvmCryptoWalletManager internal constructor(
 ) {
 
     private val web3j: Web3j = Web3j.build(HttpService(polygonRpcUrl))
+    private val ensResolver = EnsResolver(web3j)
 
     override suspend fun getBalance(address: String): Currency.Amount {
         // For ERC-20 token balance
@@ -181,7 +184,57 @@ internal class JvmCryptoWalletManager internal constructor(
         return SendResult.Success(transactionHash)
     }
 
+    override suspend fun resolveRecipient(value: String): CryptoAccount? {
+        // Check if input is a valid address
+        if (value.matches(ETHEREUM_ADDRESS_REGEX)) {
+            val name = runCatching { ensResolver.reverseResolve(value) }.getOrNull()
+
+            return CryptoAccount(
+                address = value,
+                name = name
+            )
+        }
+
+        // Check if input is a full ENS name (e.g., "Chris.eth")
+        if (value.endsWith(".eth")) {
+            try {
+                val address = ensResolver.resolve(value)
+
+                if (address != null) {
+                    return CryptoAccount(
+                        address = address,
+                        name = value
+                    )
+                }
+            } catch (e: Exception) {
+                // ENS resolution failed, move to next check
+            }
+        }
+
+        // If not an address or full ENS, test input + ".eth" (e.g., "Chris" -> "Chris.eth")
+        val ensCandidate = "$value.eth"
+        try {
+            val address = ensResolver.resolve(ensCandidate)
+
+            if (address != null) {
+                return CryptoAccount(
+                    address = address,
+                    name = ensCandidate
+                )
+            }
+        } catch (e: Exception) {
+            // No valid resolution
+        }
+
+        return null
+    }
+
     override fun close() {
         web3j.shutdown()
+    }
+
+    internal companion object {
+
+        internal val ETHEREUM_ADDRESS_REGEX = Regex("^0x[a-fA-F0-9]{40}$")
     }
 }

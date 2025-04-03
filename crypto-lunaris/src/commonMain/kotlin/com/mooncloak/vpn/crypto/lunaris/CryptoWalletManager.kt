@@ -2,6 +2,7 @@ package com.mooncloak.vpn.crypto.lunaris
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.mooncloak.vpn.api.shared.currency.Currency
+import com.mooncloak.vpn.crypto.lunaris.model.CryptoAccount
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoTransaction
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoWallet
 import com.mooncloak.vpn.crypto.lunaris.model.SendResult
@@ -113,6 +114,15 @@ public interface CryptoWalletManager : AutoCloseable {
         target: String,
         amount: Currency.Amount
     ): SendResult
+
+    /**
+     * Attempts to resolve the provided [value] as a [CryptoAccount].
+     *
+     * @param [value] The address, ENS name, or query to search for.
+     *
+     * @return The [CryptoAccount] or `null` if none matching was found.
+     */
+    public suspend fun resolveRecipient(value: String): CryptoAccount?
 
     /**
      * Closes the API, releasing any underlying resources such as network connections.
