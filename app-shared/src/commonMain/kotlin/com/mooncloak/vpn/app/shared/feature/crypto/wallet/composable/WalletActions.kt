@@ -54,7 +54,7 @@ internal fun WalletActions(
     revealVisible: Boolean = true,
     refreshVisible: Boolean = true
 ) {
-    Box(modifier = modifier) {
+    WalletCard(modifier = modifier) {
         FlowRow(
             modifier = Modifier.fillMaxWidth()
                 .padding(12.dp),
@@ -122,8 +122,8 @@ private fun RowScope.WalletAction(
                     onClick = onAction,
                     enabled = enabled,
                     colors = IconButtonDefaults.filledIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.surface,
-                        contentColor = MaterialTheme.colorScheme.onSurface
+                        containerColor = MaterialTheme.colorScheme.background,
+                        contentColor = MaterialTheme.colorScheme.onBackground
                     )
                 ) {
                     Icon(
