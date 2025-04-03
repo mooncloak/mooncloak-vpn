@@ -34,6 +34,7 @@ import com.mooncloak.vpn.app.shared.composable.showError
 import com.mooncloak.vpn.app.shared.composable.showSuccess
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.collaborator.tip.TipScreen
 import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBar
 import com.mooncloak.vpn.app.shared.feature.home.composable.PlanUsageCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
@@ -42,6 +43,7 @@ import com.mooncloak.vpn.app.shared.feature.home.composable.GetVPNServiceCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.LunarisWalletCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ShowcaseCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.SpeedTestCard
+import com.mooncloak.vpn.app.shared.feature.home.composable.TipTeamCard
 import com.mooncloak.vpn.app.shared.feature.home.layout.MoonShieldDescriptionBottomSheet
 import com.mooncloak.vpn.app.shared.feature.home.model.HomeFeedItem
 import com.mooncloak.vpn.app.shared.feature.payment.purchase.PaymentScreen
@@ -84,6 +86,7 @@ public fun HomeScreen(
 
     val serverDetailsBottomSheetState = rememberServerDetailsBottomSheetState()
     val moonShieldBottomSheetState = rememberManagedModalBottomSheetState()
+    val tipTeamBottomSheetState = rememberManagedModalBottomSheetState(skipPartiallyExpanded = true)
 
     val hazeState = remember { HazeState() }
 
@@ -263,6 +266,17 @@ public fun HomeScreen(
                             // TODO: Open speed test screen.
                         }
                     )
+
+                    is HomeFeedItem.TipTeam -> TipTeamCard(
+                        modifier = Modifier.sizeIn(maxWidth = 600.dp)
+                            .fillMaxWidth()
+                            .animateItem(),
+                        onClick = {
+                            coroutineScope.launch {
+                                tipTeamBottomSheetState.show()
+                            }
+                        }
+                    )
                 }
             }
 
@@ -289,6 +303,11 @@ public fun HomeScreen(
     MoonShieldDescriptionBottomSheet(
         modifier = Modifier.fillMaxWidth(),
         sheetState = moonShieldBottomSheetState
+    )
+
+    TipScreen(
+        modifier = Modifier.fillMaxWidth(),
+        sheetState = tipTeamBottomSheetState
     )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {

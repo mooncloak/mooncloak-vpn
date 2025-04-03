@@ -41,6 +41,14 @@ public sealed interface HomeFeedItem {
     }
 
     @Immutable
+    public data object TipTeam : HomeFeedItem {
+
+        override val id: String = "TipTeam"
+
+        override val contentType: String = "TipTeam"
+    }
+
+    @Immutable
     public data class PlanUsageItem public constructor(
         public val durationRemaining: String,
         public val bytesRemaining: Long? = null,

@@ -353,6 +353,8 @@ public class HomeViewModel @Inject public constructor(
 
         items.addAll(showcaseItems)
 
+        items.add(HomeFeedItem.TipTeam)
+
         return items
     }
 }
