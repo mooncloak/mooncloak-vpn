@@ -44,7 +44,6 @@ import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.AccountAddressCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.AmountChangeContainer
-import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.GiftCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.NoWalletCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.PromoCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletActions
@@ -285,7 +284,8 @@ public fun CryptoWalletScreen(
                         network = viewModel.state.current.value.network,
                         tokenName = viewModel.state.current.value.wallet?.currency?.name,
                         tokenTicker = viewModel.state.current.value.wallet?.currency?.ticker,
-                        address = viewModel.state.current.value.wallet?.address,
+                        tokenAddress = viewModel.state.current.value.wallet?.currency?.address,
+                        walletAddress = viewModel.state.current.value.wallet?.address,
                         amount = viewModel.state.current.value.balance?.amount?.formatted,
                         estimatedValue = viewModel.state.current.value.balance?.localEstimate?.formatted,
                         lastUpdated = viewModel.state.current.value.timestamp?.let { dateTimeFormatter.format(it) }
