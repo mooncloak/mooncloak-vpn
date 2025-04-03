@@ -16,3 +16,24 @@ CREATE TABLE IF NOT EXISTS crypto_wallet (
     currency_ticker TEXT,
     currency_chain_id INTEGER
 );
+
+CREATE TABLE gifted_crypto_token (
+    database_id INTEGER PRIMARY KEY NOT NULL,
+    id TEXT NOT NULL UNIQUE,
+    created INTEGER NOT NULL,
+    updated INTEGER NOT NULL,
+    gifted INTEGER NOT NULL,
+    address TEXT NOT NULL,
+    promoCode TEXT,
+    message TEXT,
+    amount REAL NOT NULL,
+    amount_unit TEXT NOT NULL,
+    currency_type TEXT NOT NULL,
+    currency_code TEXT NOT NULL,
+    currency_default_fraction_digits INTEGER,
+    currency_numeric_code INTEGER,
+    currency_symbol TEXT,
+    currency_name TEXT,
+    currency_ticker TEXT,
+    currency_chain_id INTEGER
+);

@@ -32,6 +32,7 @@ import com.mooncloak.vpn.app.shared.util.http.UnauthorizedInterceptor
 import com.mooncloak.vpn.app.shared.util.http.interceptUnauthorized
 import com.mooncloak.vpn.crypto.lunaris.provider.CryptoWalletAddressProvider
 import com.mooncloak.vpn.crypto.lunaris.repository.CryptoWalletRepository
+import com.mooncloak.vpn.crypto.lunaris.repository.GiftedCryptoTokenRepository
 import com.mooncloak.vpn.crypto.lunaris.source.invoke
 import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueStorage
@@ -207,9 +208,12 @@ public abstract class ApplicationComponent : ApplicationDependencies {
     @Provides
     @Singleton
     public fun provideCryptoWalletRepository(provider: MooncloakDatabaseProvider): CryptoWalletRepository =
-        CryptoWalletRepository.invoke(
-            databaseProvider = provider
-        )
+        CryptoWalletRepository(databaseProvider = provider)
+
+    @Provides
+    @Singleton
+    public fun provideGiftedCryptoTokenRepository(provider: MooncloakDatabaseProvider): GiftedCryptoTokenRepository =
+        GiftedCryptoTokenRepository(databaseProvider = provider)
 
     @Provides
     @Singleton

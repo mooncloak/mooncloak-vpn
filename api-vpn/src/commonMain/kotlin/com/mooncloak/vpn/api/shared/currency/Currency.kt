@@ -3,8 +3,12 @@ package com.mooncloak.vpn.api.shared.currency
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.mooncloak.kodetools.locale.ExperimentalLocaleApi
 import com.mooncloak.kodetools.locale.Locale
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import kotlin.jvm.JvmInline
 
 @Serializable
@@ -84,6 +88,7 @@ public data class Currency public constructor(
         }
     }
 
+    @Serializable(with = CurrencyAmountSerializer::class)
     public interface Amount {
 
         public val currency: Currency
@@ -149,3 +154,38 @@ private val polSingleton = Currency(
     ticker = "POL",
     chainId = 137L
 )
+
+@Serializable
+private data class CurrencyAmountDelegate(
+    @SerialName(value = "currency") val currency: Currency,
+    @SerialName(value = "unit") val unit: Currency.Unit,
+    @SerialName(value = "value") val value: Double
+)
+
+internal object CurrencyAmountSerializer : KSerializer<Currency.Amount> {
+
+    override val descriptor: SerialDescriptor = CurrencyAmountDelegate.serializer().descriptor
+
+    override fun serialize(encoder: Encoder, value: Currency.Amount) {
+        val delegate = CurrencyAmountDelegate(
+            currency = value.currency,
+            unit = value.unit,
+            value = value.value.toDouble()
+        )
+
+        encoder.encodeSerializableValue(
+            serializer = CurrencyAmountDelegate.serializer(),
+            value = delegate
+        )
+    }
+
+    override fun deserialize(decoder: Decoder): Currency.Amount {
+        val delegate = decoder.decodeSerializableValue(deserializer = CurrencyAmountDelegate.serializer())
+
+        return Currency.Amount(
+            currency = delegate.currency,
+            unit = delegate.unit,
+            value = delegate.value
+        )
+    }
+}

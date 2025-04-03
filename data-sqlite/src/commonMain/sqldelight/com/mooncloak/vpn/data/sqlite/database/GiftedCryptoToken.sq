@@ -1,0 +1,82 @@
+import kotlinx.datetime.Instant;
+
+CREATE TABLE gifted_crypto_token (
+    database_id INTEGER PRIMARY KEY NOT NULL,
+    id TEXT NOT NULL UNIQUE,
+    created INTEGER AS Instant NOT NULL,
+    updated INTEGER AS Instant NOT NULL,
+    gifted INTEGER AS Instant NOT NULL,
+    address TEXT NOT NULL,
+    promoCode TEXT,
+    message TEXT,
+    amount REAL NOT NULL,
+    amount_unit TEXT NOT NULL,
+    currency_type TEXT NOT NULL,
+    currency_code TEXT NOT NULL,
+    currency_default_fraction_digits INTEGER,
+    currency_numeric_code INTEGER,
+    currency_symbol TEXT,
+    currency_name TEXT,
+    currency_ticker TEXT,
+    currency_chain_id INTEGER
+);
+
+insert:
+INSERT INTO gifted_crypto_token (
+    id, created, updated, gifted, address, promoCode, message,
+    amount, amount_unit, currency_type, currency_code,
+    currency_default_fraction_digits, currency_numeric_code,
+    currency_symbol, currency_name, currency_ticker, currency_chain_id
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+updateAll:
+UPDATE gifted_crypto_token
+SET updated = :updated,
+    gifted = :gifted,
+    address = :address,
+    promoCode = :promoCode,
+    message = :message,
+    amount = :amount,
+    amount_unit = :amountUnit,
+    currency_type = :currencyType,
+    currency_code = :currencyCode,
+    currency_default_fraction_digits = :currencyDefaultFractionDigits,
+    currency_numeric_code = :currencyNumericCode,
+    currency_name = :currencyName,
+    currency_symbol = :currencySymbol,
+    currency_ticker = :currencyTicker,
+    currency_chain_id = :currencyChainId
+WHERE id = :id;
+
+selectById:
+SELECT *
+FROM gifted_crypto_token
+WHERE id = :id;
+
+selectAllByAddress:
+SELECT *
+FROM gifted_crypto_token
+WHERE address = :address;
+
+selectAll:
+SELECT *
+FROM gifted_crypto_token;
+
+selectPage:
+SELECT *
+FROM gifted_crypto_token
+ORDER BY gifted
+LIMIT :limit OFFSET :offset;
+
+selectLastGiftedAndTotal:
+SELECT
+    MAX(gifted) AS lastGifted,
+    SUM(amount) AS totalAmountGifted
+FROM gifted_crypto_token;
+
+deleteById:
+DELETE FROM gifted_crypto_token
+WHERE id = :id;
+
+deleteAll:
+DELETE FROM gifted_crypto_token;
