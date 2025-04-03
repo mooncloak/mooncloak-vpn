@@ -42,6 +42,7 @@ import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.AccountAddressCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.AmountChangeContainer
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.NoWalletCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.PercentChangeCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletActions
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletBalanceCard
@@ -129,7 +130,7 @@ public fun CryptoWalletScreen(
                 modifier = Modifier.fillMaxSize()
                     .padding(horizontal = DefaultHorizontalPageSpacing),
                 state = lazyStaggeredGridState,
-                columns = StaggeredGridCells.Adaptive(minSize = 150.dp),
+                columns = StaggeredGridCells.Adaptive(minSize = 200.dp),
                 horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalPageSpacing),
                 verticalItemSpacing = 12.dp
             ) {
@@ -140,6 +141,20 @@ public fun CryptoWalletScreen(
                         modifier = Modifier.fillMaxWidth(),
                         cryptoAmount = "10.000 LNRS",
                         localEstimatedAmount = "$100"
+                    )
+                }
+
+                item {
+                    NoWalletCard(
+                        modifier = Modifier.sizeIn(
+                            minWidth = 300.dp
+                        ).fillMaxWidth(),
+                        onCreateWallet = {
+                            // TODO: Open Create Wallet
+                        },
+                        onRestoreWallet = {
+                            // TODO: Open Restore Wallet
+                        }
                     )
                 }
 
