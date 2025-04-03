@@ -110,6 +110,7 @@ public class ServicePlansDatabaseSource @Inject public constructor(
             currencyNumericCode = plan.price.currency.numericCode?.toLong(),
             currencyDefaultFractionDigits = plan.price.currency.defaultFractionDigits?.toLong(),
             currencySymbol = plan.price.currency.symbol,
+            currencyAddress = plan.price.currency.address,
             duration = plan.subscription?.duration?.toIsoString() ?: "",
             trial = plan.trial?.let {
                 json.encodeToJsonElement(
@@ -137,7 +138,8 @@ public class ServicePlansDatabaseSource @Inject public constructor(
                     code = Currency.Code(value = currencyCode),
                     defaultFractionDigits = currencyDefaultFractionDigits?.toInt(),
                     numericCode = currencyNumericCode?.toInt(),
-                    symbol = currencySymbol
+                    symbol = currencySymbol,
+                    address = currencyAddress
                 ),
                 amount = amount,
                 formatted = amountFormatted

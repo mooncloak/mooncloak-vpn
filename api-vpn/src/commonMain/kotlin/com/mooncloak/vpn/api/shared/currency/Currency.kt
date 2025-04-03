@@ -20,7 +20,8 @@ public data class Currency public constructor(
     @SerialName(value = "symbol") public val symbol: String? = null,
     @SerialName(value = "name") public val name: String? = null,
     @SerialName(value = "ticker") public val ticker: String? = null,
-    @SerialName(value = "chain_id") public val chainId: Long? = null
+    @SerialName(value = "chain_id") public val chainId: Long? = null,
+    @SerialName(value = "address") public val address: String? = null
 ) {
 
     @Serializable
@@ -139,7 +140,8 @@ private val lunarisSingleton = Currency(
     symbol = "L",
     name = "Lunaris",
     ticker = "LNRS",
-    chainId = 137L
+    chainId = 137L,
+    address = "0x23C2d7673Dd36FF6cBD642A5a70f58c1D2118C13"
 )
 
 private val maticSingleton = Currency(

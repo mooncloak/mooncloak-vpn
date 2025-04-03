@@ -108,7 +108,8 @@ internal class GiftedCryptoTokenDatabaseSource internal constructor(
                     currency_symbol = token.amount.currency.symbol,
                     currency_name = token.amount.currency.name,
                     currency_ticker = token.amount.currency.ticker,
-                    currency_chain_id = token.amount.currency.chainId
+                    currency_chain_id = token.amount.currency.chainId,
+                    currency_address = token.amount.currency.address
                 )
 
                 return@withContext token
@@ -147,7 +148,8 @@ internal class GiftedCryptoTokenDatabaseSource internal constructor(
                         currencySymbol = updated.amount.currency.symbol,
                         currencyName = updated.amount.currency.name,
                         currencyTicker = updated.amount.currency.ticker,
-                        currencyChainId = updated.amount.currency.chainId
+                        currencyChainId = updated.amount.currency.chainId,
+                        currencyAddress = updated.amount.currency.address
                     )
 
                     updated
@@ -193,7 +195,8 @@ internal class GiftedCryptoTokenDatabaseSource internal constructor(
                     symbol = this.currency_symbol,
                     name = this.currency_name,
                     ticker = this.currency_ticker,
-                    chainId = this.currency_chain_id
+                    chainId = this.currency_chain_id,
+                    address = this.currency_address
                 ),
                 unit = Currency.Unit[this.amount_unit] ?: Currency.Unit.Minor,
                 value = this.amount

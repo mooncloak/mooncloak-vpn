@@ -18,7 +18,8 @@ CREATE TABLE gifted_crypto_token (
     currency_symbol TEXT,
     currency_name TEXT,
     currency_ticker TEXT,
-    currency_chain_id INTEGER
+    currency_chain_id INTEGER,
+    currency_address TEXT
 );
 
 insert:
@@ -26,8 +27,8 @@ INSERT INTO gifted_crypto_token (
     id, created, updated, gifted, address, promoCode, message,
     amount, amount_unit, currency_type, currency_code,
     currency_default_fraction_digits, currency_numeric_code,
-    currency_symbol, currency_name, currency_ticker, currency_chain_id
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+    currency_symbol, currency_name, currency_ticker, currency_chain_id, currency_address
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 updateAll:
 UPDATE gifted_crypto_token
@@ -45,7 +46,8 @@ SET updated = :updated,
     currency_name = :currencyName,
     currency_symbol = :currencySymbol,
     currency_ticker = :currencyTicker,
-    currency_chain_id = :currencyChainId
+    currency_chain_id = :currencyChainId,
+    currency_address = :currencyAddress
 WHERE id = :id;
 
 selectById:

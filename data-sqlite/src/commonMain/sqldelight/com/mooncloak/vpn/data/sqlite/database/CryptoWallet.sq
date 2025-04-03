@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS crypto_wallet (
     currency_symbol TEXT,
     currency_name TEXT,
     currency_ticker TEXT,
-    currency_chain_id INTEGER
+    currency_chain_id INTEGER,
+    currency_address TEXT
 );
 
 CREATE INDEX IF NOT EXISTS crypto_wallet_id_index ON crypto_wallet(id);
@@ -38,8 +39,9 @@ INSERT OR REPLACE INTO crypto_wallet(
     currency_symbol,
     currency_name,
     currency_ticker,
-    currency_chain_id
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+    currency_chain_id,
+    currency_address
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 updateAll:
 UPDATE crypto_wallet
@@ -55,7 +57,8 @@ SET updated = :updated,
     currency_symbol = :currencySymbol,
     currency_name = :currencyName,
     currency_ticker = :currencyTicker,
-    currency_chain_id = :currencyChainId
+    currency_chain_id = :currencyChainId,
+    currency_address = :currencyAddress
 WHERE id = :id;
 
 selectById:

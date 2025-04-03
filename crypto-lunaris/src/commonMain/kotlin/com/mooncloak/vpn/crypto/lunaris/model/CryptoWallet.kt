@@ -62,7 +62,7 @@ public fun CryptoWallet.uri(amount: Currency.Amount? = null): String? {
             }
         }
 
-        Currency.Code.Ethereum, Currency.Code.Matic, Currency.Code.Lunaris -> buildString {
+        Currency.Code.Ethereum, Currency.Code.Matic -> buildString {
             // EIP-681 expects wei (minor units)
             // ethereum:[target_address][@chain_id][?parameters]
             append("ethereum:$address")
@@ -75,6 +75,23 @@ public fun CryptoWallet.uri(amount: Currency.Amount? = null): String? {
 
             if (wei != null) {
                 append("?value=$wei")
+            }
+        }
+
+        Currency.Code.Lunaris -> buildString {
+            // Assuming LNRS is ERC-20 on Polygon
+            val contractAddress = currency.address
+                ?: error("Lunaris requires a contract address")
+
+            append("ethereum:$contractAddress")
+
+            val chainId = currency.chainId ?: 137 // Default to Polygon Mainnet
+
+            append("@$chainId")
+
+            val wei = amount?.toMinorUnits()
+            if (wei != null) {
+                append("?function=transfer(address,uint256)&address=$address&uint256=$wei")
             }
         }
 

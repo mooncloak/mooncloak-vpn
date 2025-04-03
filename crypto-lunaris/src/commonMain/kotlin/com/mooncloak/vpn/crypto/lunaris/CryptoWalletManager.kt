@@ -123,7 +123,7 @@ public interface CryptoWalletManager : AutoCloseable {
     public companion object {
 
         public const val POLYGON_MAINNET_RPC_URL: String = "https://polygon-rpc.com"
-        public const val LUNARIS_CONTRACT_ADDRESS: String = "" // TODO: Provide Lunaris contract address
+        public const val LUNARIS_CONTRACT_ADDRESS: String = "0x23C2d7673Dd36FF6cBD642A5a70f58c1D2118C13"
         public const val DEFAULT_WALLET_DIRECTORY_NAME: String = "wallets"
     }
 }

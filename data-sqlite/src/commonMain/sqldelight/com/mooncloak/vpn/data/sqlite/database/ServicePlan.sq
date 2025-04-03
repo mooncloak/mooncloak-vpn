@@ -30,14 +30,15 @@ CREATE TABLE ServicePlan (
     duration TEXT NOT NULL,
     metadata TEXT AS JsonObject,
     subscription TEXT AS JsonElement,
-    trial TEXT AS JsonElement
+    trial TEXT AS JsonElement,
+    currencyAddress TEXT
 );
 
 CREATE INDEX ServicePlan_id_index ON ServicePlan(id);
 
 insert:
-INSERT OR REPLACE INTO ServicePlan(databaseId, id, created, updated, provider, active, usageType, live, nickname, title, description, details, highlight, url, self, taxCode, amount, amountFormatted, currencyType, currencyCode, currencyDefaultFractionDigits, currencyNumericCode, currencySymbol, duration, metadata, subscription, trial)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT OR REPLACE INTO ServicePlan(databaseId, id, created, updated, provider, active, usageType, live, nickname, title, description, details, highlight, url, self, taxCode, amount, amountFormatted, currencyType, currencyCode, currencyDefaultFractionDigits, currencyNumericCode, currencySymbol, currencyAddress, duration, metadata, subscription, trial)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 selectAll:
 SELECT *

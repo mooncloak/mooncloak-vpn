@@ -85,7 +85,8 @@ internal class CryptoWalletDatabaseSource internal constructor(
                     currency_symbol = wallet.currency.symbol,
                     currency_name = wallet.currency.name,
                     currency_ticker = wallet.currency.ticker,
-                    currency_chain_id = wallet.currency.chainId
+                    currency_chain_id = wallet.currency.chainId,
+                    currency_address = wallet.currency.address
                 )
 
                 return@withContext wallet
@@ -120,7 +121,8 @@ internal class CryptoWalletDatabaseSource internal constructor(
                         currencySymbol = updated.currency.symbol,
                         currencyName = updated.currency.name,
                         currencyTicker = updated.currency.ticker,
-                        currencyChainId = updated.currency.chainId
+                        currencyChainId = updated.currency.chainId,
+                        currencyAddress = updated.currency.address
                     )
 
                     updated
@@ -162,7 +164,8 @@ internal class CryptoWalletDatabaseSource internal constructor(
                 symbol = this.currency_symbol,
                 name = this.currency_name,
                 ticker = this.currency_ticker,
-                chainId = this.currency_chain_id
+                chainId = this.currency_chain_id,
+                address = this.currency_address
             ),
             location = this.location,
             name = this.name,
