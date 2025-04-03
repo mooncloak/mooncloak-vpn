@@ -361,6 +361,11 @@
     <string name="crypto_wallet_title_lunaris_wallet">Lunaris Wallet</string>
     <string name="crypto_wallet_title_account_address">Account Address</string>
     <string name="crypto_wallet_title_no_wallet">No Wallet Found</string>
+    <string name="crypto_wallet_title_send">Send Lunaris</string>
+    <string name="crypto_wallet_title_receive">Receive Lunaris</string>
+    <string name="crypto_wallet_title_create_wallet">Create Wallet</string>
+    <string name="crypto_wallet_title_restore_wallet">Restore Wallet</string>
+    <string name="crypto_wallet_title_reveal">Reveal Seed Phrase</string>
 
     <string name="crypto_wallet_description_account_address">Your public Lunaris account address on the Polygon chain.</string>
     <string name="crypto_wallet_description_no_wallet">There is no Lunaris wallet. Create or restore one to get started.</string>

@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
+import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.composable.showSuccess
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
@@ -75,6 +76,12 @@ public fun CryptoWalletScreen(
     val coroutineScope = rememberCoroutineScope()
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
+
+    val createWalletBottomSheetState = rememberManagedModalBottomSheetState()
+    val restoreWalletBottomSheetState = rememberManagedModalBottomSheetState()
+    val sendPaymentBottomSheetState = rememberManagedModalBottomSheetState()
+    val receivePaymentBottomSheetState = rememberManagedModalBottomSheetState()
+    val revealSeedPhraseBottomSheetState = rememberManagedModalBottomSheetState()
 
     LaunchedEffect(Unit) {
         viewModel.load()
