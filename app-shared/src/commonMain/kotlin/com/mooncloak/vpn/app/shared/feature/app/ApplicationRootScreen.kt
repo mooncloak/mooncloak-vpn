@@ -44,6 +44,8 @@ import com.mooncloak.vpn.app.shared.resource.notification_channel_name_shortcuts
 import com.mooncloak.vpn.app.shared.resource.notification_channel_name_vpn
 import com.mooncloak.vpn.app.shared.theme.MooncloakTheme
 import com.mooncloak.vpn.app.shared.theme.ThemePreference
+import com.mooncloak.vpn.app.shared.util.LocalShareHandler
+import com.mooncloak.vpn.app.shared.util.rememberPlatformDefaultShareHandler
 import com.mooncloak.vpn.data.shared.keyvalue.state
 import com.mooncloak.vpn.util.notification.NotificationChannelId
 import com.mooncloak.vpn.util.notification.NotificationPriority
@@ -57,12 +59,14 @@ public fun ApplicationRootScreen(
     uriHandler: UriHandler = LocalUriHandler.current
 ) {
     val navController = rememberNavController()
+    val shareHandler = rememberPlatformDefaultShareHandler()
 
     CompositionLocalProvider(
         LocalApplicationComponent provides applicationComponent,
         LocalPresentationComponent provides presentationComponent,
         LocalNavController provides navController,
-        LocalUriHandler provides uriHandler
+        LocalUriHandler provides uriHandler,
+        LocalShareHandler provides shareHandler
     ) {
         val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
             FeatureDependencies.createApplicationRootComponent(
