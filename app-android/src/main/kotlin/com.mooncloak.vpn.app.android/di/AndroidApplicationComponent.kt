@@ -7,7 +7,7 @@ import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.network.core.ip.invoke
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
-import com.mooncloak.vpn.crypto.lunaris.CryptoWalletApi
+import com.mooncloak.vpn.crypto.lunaris.CryptoWalletManager
 import com.mooncloak.vpn.crypto.lunaris.invoke
 import com.mooncloak.vpn.crypto.lunaris.provider.CryptoWalletAddressProvider
 import com.mooncloak.vpn.crypto.lunaris.repository.CryptoWalletRepository
@@ -56,9 +56,9 @@ public abstract class AndroidApplicationComponent public constructor() : Applica
         addressProvider: CryptoWalletAddressProvider,
         repository: CryptoWalletRepository,
         clock: Clock
-    ): CryptoWalletApi = CryptoWalletApi(
+    ): CryptoWalletManager = CryptoWalletManager(
         cryptoWalletAddressProvider = addressProvider,
-        walletDirectoryPath = File(applicationContext.filesDir, CryptoWalletApi.DEFAULT_WALLET_DIRECTORY_NAME).apply {
+        walletDirectoryPath = File(applicationContext.filesDir, CryptoWalletManager.DEFAULT_WALLET_DIRECTORY_NAME).apply {
             mkdirs()
         }.absolutePath,
         cryptoWalletRepository = repository,

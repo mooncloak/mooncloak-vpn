@@ -88,6 +88,7 @@ public data class Currency public constructor(
 
         public val currency: Currency
         public val unit: Unit
+        public val value: Number
 
         public fun toMinorUnits(): MinorUnits
         public fun toMajorUnits(): MajorUnits

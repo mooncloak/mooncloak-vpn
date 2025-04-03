@@ -38,6 +38,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
+import com.mooncloak.vpn.app.shared.composable.showError
 import com.mooncloak.vpn.app.shared.composable.showSuccess
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
@@ -45,7 +46,6 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.AccountAddr
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.AmountChangeContainer
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.GiftCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.NoWalletCard
-import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.PercentChangeCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.PromoCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletActions
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletBalanceCard
@@ -272,10 +272,22 @@ public fun CryptoWalletScreen(
         }
     }
 
+    LaunchedEffect(viewModel.state.current.value.error) {
+        viewModel.state.current.value.error?.let { error ->
+            snackbarHostState.showError(error)
+        }
+    }
+
+    LaunchedEffect(viewModel.state.current.value.success) {
+        viewModel.state.current.value.success?.let { success ->
+            snackbarHostState.showSuccess(success)
+        }
+    }
+
     ReceivePaymentLayout(
         modifier = Modifier.fillMaxWidth(),
-        address = viewModel.state.current.value.cryptoWallet?.address ?: "",
-        uri = viewModel.state.current.value.cryptoWallet?.address ?: "", // TODO: URI
+        address = viewModel.state.current.value.wallet?.address ?: "",
+        uri = viewModel.state.current.value.wallet?.address ?: "", // TODO: URI
         sheetState = receivePaymentBottomSheetState
     )
 }

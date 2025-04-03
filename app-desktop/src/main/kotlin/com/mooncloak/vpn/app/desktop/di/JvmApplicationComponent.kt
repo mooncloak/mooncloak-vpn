@@ -12,7 +12,7 @@ import com.mooncloak.vpn.network.core.ip.invoke
 import com.mooncloak.vpn.network.core.tunnel.TunnelManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
-import com.mooncloak.vpn.crypto.lunaris.CryptoWalletApi
+import com.mooncloak.vpn.crypto.lunaris.CryptoWalletManager
 import com.mooncloak.vpn.crypto.lunaris.invoke
 import com.mooncloak.vpn.crypto.lunaris.provider.CryptoWalletAddressProvider
 import com.mooncloak.vpn.crypto.lunaris.repository.CryptoWalletRepository
@@ -95,11 +95,11 @@ internal abstract class JvmApplicationComponent internal constructor(
         addressProvider: CryptoWalletAddressProvider,
         repository: CryptoWalletRepository,
         clock: Clock
-    ): CryptoWalletApi = CryptoWalletApi(
+    ): CryptoWalletManager = CryptoWalletManager(
         cryptoWalletAddressProvider = addressProvider,
         walletDirectoryPath = File(
             System.getProperty("user.home"),
-            ".mooncloak/${CryptoWalletApi.DEFAULT_WALLET_DIRECTORY_NAME}"
+            ".mooncloak/${CryptoWalletManager.DEFAULT_WALLET_DIRECTORY_NAME}"
         ).apply {
             mkdirs()
         }.absolutePath,

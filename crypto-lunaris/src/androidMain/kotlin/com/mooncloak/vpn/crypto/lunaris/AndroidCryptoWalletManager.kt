@@ -28,7 +28,7 @@ import kotlin.jvm.optionals.getOrNull
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-public operator fun CryptoWalletApi.Companion.invoke(
+public operator fun CryptoWalletManager.Companion.invoke(
     cryptoWalletAddressProvider: CryptoWalletAddressProvider,
     polygonRpcUrl: String = POLYGON_MAINNET_RPC_URL,
     walletDirectoryPath: String,
@@ -36,7 +36,7 @@ public operator fun CryptoWalletApi.Companion.invoke(
     clock: Clock,
     currency: Currency = Currency.Lunaris,
     currencyAddress: String = LUNARIS_CONTRACT_ADDRESS
-): CryptoWalletApi = JvmCryptoWalletApi(
+): CryptoWalletManager = AndroidCryptoWalletManager(
     cryptoWalletAddressProvider = cryptoWalletAddressProvider,
     polygonRpcUrl = polygonRpcUrl,
     walletDirectoryPath = walletDirectoryPath,
@@ -46,15 +46,15 @@ public operator fun CryptoWalletApi.Companion.invoke(
     currencyAddress = currencyAddress
 )
 
-internal class JvmCryptoWalletApi internal constructor(
+internal class AndroidCryptoWalletManager internal constructor(
     cryptoWalletAddressProvider: CryptoWalletAddressProvider,
-    polygonRpcUrl: String = CryptoWalletApi.POLYGON_MAINNET_RPC_URL,
+    polygonRpcUrl: String = CryptoWalletManager.POLYGON_MAINNET_RPC_URL,
     private val walletDirectoryPath: String,
     private val cryptoWalletRepository: CryptoWalletRepository,
     private val clock: Clock,
     private val currency: Currency = Currency.Lunaris,
     private val currencyAddress: String // Replace with actual LNRS contract address
-) : BaseCryptoWalletApi(
+) : BaseCryptoWalletManager(
     cryptoWalletAddressProvider = cryptoWalletAddressProvider,
     cryptoWalletRepository = cryptoWalletRepository
 ) {

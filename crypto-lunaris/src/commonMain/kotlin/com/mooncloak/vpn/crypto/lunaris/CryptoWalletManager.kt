@@ -13,7 +13,7 @@ import com.mooncloak.vpn.crypto.lunaris.model.TransactionType
  * This API provides functionality for managing a wallet, sending and receiving LNRS, and querying transaction details.
  * It extends [AutoCloseable] to ensure resources are properly released when the API is no longer needed.
  */
-public interface CryptoWalletApi : AutoCloseable {
+public interface CryptoWalletManager : AutoCloseable {
 
     /**
      * Retrieves the current balance of the wallet in LNRS.
@@ -135,5 +135,5 @@ public interface CryptoWalletApi : AutoCloseable {
  *
  * @throws IllegalStateException if no wallet has been created or loaded.
  */
-public suspend fun CryptoWalletApi.getDefaultOrCreateWallet(password: String? = null): CryptoWallet =
+public suspend fun CryptoWalletManager.getDefaultOrCreateWallet(password: String? = null): CryptoWallet =
     getDefaultWallet() ?: createWallet(password = password)
