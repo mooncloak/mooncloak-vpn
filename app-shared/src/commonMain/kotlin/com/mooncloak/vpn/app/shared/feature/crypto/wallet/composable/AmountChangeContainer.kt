@@ -19,8 +19,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun AmountChangeContainer(
-    today: Number,
-    allTime: Number,
+    today: Number?,
+    allTime: Number?,
     modifier: Modifier = Modifier
 ) {
     Row(

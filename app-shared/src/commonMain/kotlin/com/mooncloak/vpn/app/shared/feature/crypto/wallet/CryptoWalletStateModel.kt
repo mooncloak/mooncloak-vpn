@@ -30,3 +30,6 @@ public val CryptoWalletStateModel.receiveEnabled: Boolean
 
 public val CryptoWalletStateModel.revealEnabled: Boolean
     inline get() = !this.isLoading && this.wallet != null
+
+public val CryptoWalletStateModel.showNoWalletCard: Boolean
+    inline get() = !this.isLoading && this.wallet == null

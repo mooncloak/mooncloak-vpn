@@ -57,6 +57,10 @@ import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_message_address_copied
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_title_lunaris_wallet
 import com.mooncloak.vpn.app.shared.theme.DefaultHorizontalPageSpacing
+import com.mooncloak.vpn.crypto.lunaris.model.uri
+import com.mooncloak.vpn.util.shared.time.DateTimeFormatter
+import com.mooncloak.vpn.util.shared.time.Full
+import com.mooncloak.vpn.util.shared.time.format
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
@@ -79,6 +83,7 @@ public fun CryptoWalletScreen(
     val coroutineScope = rememberCoroutineScope()
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
+    val dateTimeFormatter = remember { DateTimeFormatter.Full }
 
     val createWalletBottomSheetState = rememberManagedModalBottomSheetState()
     val restoreWalletBottomSheetState = rememberManagedModalBottomSheetState()
@@ -144,62 +149,84 @@ public fun CryptoWalletScreen(
                 horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalPageSpacing),
                 verticalItemSpacing = 12.dp
             ) {
-                item(
-                    span = StaggeredGridItemSpan.FullLine
-                ) {
-                    WalletBalanceCard(
-                        modifier = Modifier.fillMaxWidth(),
-                        cryptoAmount = "10.000 LNRS",
-                        localEstimatedAmount = "$100"
-                    )
+                if (viewModel.state.current.value.wallet != null) {
+                    item(
+                        key = "WalletBalanceCard",
+                        contentType = "WalletBalanceCard",
+                        span = StaggeredGridItemSpan.FullLine
+                    ) {
+                        WalletBalanceCard(
+                            modifier = Modifier.fillMaxWidth()
+                                .animateItem(),
+                            cryptoAmount = viewModel.state.current.value.balance?.amount?.formatted,
+                            localEstimatedAmount = viewModel.state.current.value.balance?.localEstimate?.formatted
+                        )
+                    }
+                }
+
+                viewModel.state.current.value.promo?.let { promoDetails ->
+                    item(
+                        key = "PromoDetails",
+                        contentType = "PromoCard",
+                        span = StaggeredGridItemSpan.FullLine
+                    ) {
+                        PromoCard(
+                            modifier = Modifier.fillMaxWidth()
+                                .animateItem(),
+                            title = promoDetails.title,
+                            description = promoDetails.description,
+                            icon = promoDetails.icon.invoke()
+                        )
+                    }
+                }
+
+                if (viewModel.state.current.value.showNoWalletCard) {
+                    item(
+                        key = "NoWalletCard",
+                        contentType = "NoWalletCard",
+                        span = StaggeredGridItemSpan.FullLine
+                    ) {
+                        NoWalletCard(
+                            modifier = Modifier.sizeIn(
+                                minWidth = 300.dp
+                            ).fillMaxWidth()
+                                .animateItem(),
+                            onCreateWallet = {
+                                coroutineScope.launch {
+                                    createWalletBottomSheetState.show()
+                                }
+                            },
+                            onRestoreWallet = {
+                                coroutineScope.launch {
+                                    restoreWalletBottomSheetState.show()
+                                }
+                            }
+                        )
+                    }
+                }
+
+                viewModel.state.current.value.stats?.let { stats ->
+                    item(
+                        key = "WalletStats",
+                        contentType = "WalletStats"
+                    ) {
+                        AmountChangeContainer(
+                            modifier = Modifier.fillMaxWidth()
+                                .animateItem(),
+                            today = stats.dailyChange?.value,
+                            allTime = stats.allTimeChange?.value
+                        )
+                    }
                 }
 
                 item(
-                    span = StaggeredGridItemSpan.FullLine
-                ) {
-                    GiftCard(
-                        modifier = Modifier.fillMaxWidth(),
-                        amount = "You received 10 LNRS tokens!",
-                        timestamp = "Today"
-                    )
-                }
-
-                item(
-                    span = StaggeredGridItemSpan.FullLine
-                ) {
-                    PromoCard(
-                        modifier = Modifier.fillMaxWidth(),
-                        title = "First 1000 wallets get 100 LNRS FREE!",
-                        description = "Get yours before its too late!"
-                    )
-                }
-
-                item {
-                    NoWalletCard(
-                        modifier = Modifier.sizeIn(
-                            minWidth = 300.dp
-                        ).fillMaxWidth(),
-                        onCreateWallet = {
-                            // TODO: Open Create Wallet
-                        },
-                        onRestoreWallet = {
-                            // TODO: Open Restore Wallet
-                        }
-                    )
-                }
-
-                item {
-                    AmountChangeContainer(
-                        modifier = Modifier.fillMaxWidth(),
-                        today = 5,
-                        allTime = 100
-                    )
-                }
-
-                item(
+                    key = "WalletActions",
+                    contentType = "WalletActions",
                     span = StaggeredGridItemSpan.FullLine
                 ) {
                     WalletActions(
+                        modifier = Modifier.fillMaxWidth()
+                            .animateItem(),
                         sendEnabled = viewModel.state.current.value.sendEnabled,
                         receiveEnabled = viewModel.state.current.value.receiveEnabled,
                         revealEnabled = viewModel.state.current.value.revealEnabled,
@@ -222,41 +249,52 @@ public fun CryptoWalletScreen(
                     )
                 }
 
-                item(
-                    span = StaggeredGridItemSpan.FullLine
-                ) {
-                    AccountAddressCard(
-                        address = "123",
-                        uri = "",
-                        onAddressCopied = {
-                            coroutineScope.launch {
-                                snackbarHostState.showSuccess(
-                                    notification = NotificationStateModel(
-                                        message = getString(Res.string.crypto_wallet_message_address_copied)
+                viewModel.state.current.value.wallet?.let { wallet ->
+                    item(
+                        key = "AccountAddressCard",
+                        contentType = "AccountAddressCard",
+                        span = StaggeredGridItemSpan.FullLine
+                    ) {
+                        AccountAddressCard(
+                            modifier = Modifier.fillMaxWidth()
+                                .animateItem(),
+                            address = wallet.address,
+                            uri = wallet.uri,
+                            onAddressCopied = {
+                                coroutineScope.launch {
+                                    snackbarHostState.showSuccess(
+                                        notification = NotificationStateModel(
+                                            message = getString(Res.string.crypto_wallet_message_address_copied)
+                                        )
                                     )
-                                )
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
 
                 item(
+                    key = "WalletDetailsCard",
+                    contentType = "WalletDetailsCard",
                     span = StaggeredGridItemSpan.FullLine
                 ) {
                     WalletDetailsCard(
-                        blockchain = "Ethereum",
-                        network = "Polygon",
-                        tokenName = "Lunaris",
-                        tokenTicker = "LNRS",
-                        address = "0x1234",
-                        amount = "10 LNRS",
-                        estimatedValue = "$5",
-                        lastUpdated = "5 minutes ago"
+                        modifier = Modifier.fillMaxWidth()
+                            .animateItem(),
+                        blockchain = viewModel.state.current.value.blockChain,
+                        network = viewModel.state.current.value.network,
+                        tokenName = viewModel.state.current.value.wallet?.currency?.name,
+                        tokenTicker = viewModel.state.current.value.wallet?.currency?.ticker,
+                        address = viewModel.state.current.value.wallet?.address,
+                        amount = viewModel.state.current.value.balance?.amount?.formatted,
+                        estimatedValue = viewModel.state.current.value.balance?.localEstimate?.formatted,
+                        lastUpdated = viewModel.state.current.value.timestamp?.let { dateTimeFormatter.format(it) }
                     )
                 }
 
                 item(
-                    key = "BottomPadding",
+                    key = "BottomSpacing",
+                    contentType = "Spacing",
                     span = StaggeredGridItemSpan.FullLine
                 ) {
                     Spacer(modifier = Modifier.height(32.dp))
@@ -287,7 +325,7 @@ public fun CryptoWalletScreen(
     ReceivePaymentLayout(
         modifier = Modifier.fillMaxWidth(),
         address = viewModel.state.current.value.wallet?.address ?: "",
-        uri = viewModel.state.current.value.wallet?.address ?: "", // TODO: URI
+        uri = viewModel.state.current.value.wallet?.uri ?: "",
         sheetState = receivePaymentBottomSheetState
     )
 }

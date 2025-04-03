@@ -35,3 +35,6 @@ public data class CryptoWallet public constructor(
     @SerialName(value = "name") public val name: String? = null,
     @SerialName(value = "note") public val note: String? = null
 )
+
+public val CryptoWallet.uri: String?
+    get() =  null // TODO

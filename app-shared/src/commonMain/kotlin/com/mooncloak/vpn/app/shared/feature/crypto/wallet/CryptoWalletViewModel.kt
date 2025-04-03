@@ -12,6 +12,7 @@ import com.mooncloak.vpn.app.shared.resource.crypto_wallet_value_blockchain_ethe
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_value_network_polygon
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.crypto.lunaris.CryptoWalletManager
+import com.mooncloak.vpn.crypto.lunaris.model.CryptoWallet
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -30,18 +31,21 @@ public class CryptoWalletViewModel @Inject public constructor(
             mutex.withLock {
                 var blockChain: String? = null
                 var network: String? = null
+                var wallet: CryptoWallet? = null
 
                 try {
                     emit { current -> current.copy(isLoading = true) }
 
                     blockChain = getString(Res.string.crypto_wallet_value_blockchain_ethereum)
                     network = getString(Res.string.crypto_wallet_value_network_polygon)
+                    wallet = cryptoWalletManager.getDefaultWallet()
 
                     emit { current ->
                         current.copy(
                             isLoading = false,
                             blockChain = blockChain,
-                            network = network
+                            network = network,
+                            wallet = wallet
                         )
                     }
                 } catch (e: Exception) {
@@ -55,6 +59,7 @@ public class CryptoWalletViewModel @Inject public constructor(
                             isLoading = false,
                             blockChain = blockChain,
                             network = network,
+                            wallet = wallet,
                             error = NotificationStateModel(
                                 message = getString(Res.string.global_unexpected_error)
                             )

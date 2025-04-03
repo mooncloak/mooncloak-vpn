@@ -14,13 +14,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_label_balance
+import com.mooncloak.vpn.app.shared.resource.crypto_wallet_value_balance_zero
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun WalletBalanceCard(
-    cryptoAmount: String,
-    localEstimatedAmount: String,
+    cryptoAmount: String?,
+    localEstimatedAmount: String?,
     modifier: Modifier = Modifier
 ) {
     WalletCard(
@@ -38,7 +39,7 @@ internal fun WalletBalanceCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = cryptoAmount,
+                text = cryptoAmount ?: stringResource(Res.string.crypto_wallet_value_balance_zero),
                 style = MaterialTheme.typography.headlineSmall,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -46,14 +47,16 @@ internal fun WalletBalanceCard(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Text(
-                modifier = Modifier.padding(start = 16.dp),
-                text = localEstimatedAmount,
-                style = MaterialTheme.typography.titleMedium,
-                color = LocalContentColor.current.copy(alpha = SecondaryAlpha),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+            if (!localEstimatedAmount.isNullOrBlank()) {
+                Text(
+                    modifier = Modifier.padding(start = 16.dp),
+                    text = localEstimatedAmount,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = LocalContentColor.current.copy(alpha = SecondaryAlpha),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 }

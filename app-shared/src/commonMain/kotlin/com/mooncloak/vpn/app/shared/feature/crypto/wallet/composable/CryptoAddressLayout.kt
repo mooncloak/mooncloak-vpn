@@ -48,7 +48,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 internal fun CryptoAddressLayout(
     address: String,
-    uri: String,
+    uri: String?,
     onAddressCopied: () -> Unit = {},
     onAddressShared: () -> Unit = {},
     modifier: Modifier = Modifier,
@@ -73,7 +73,7 @@ internal fun CryptoAddressLayout(
             Image(
                 modifier = Modifier.fillMaxWidth(),
                 painter = rememberQrCodePainter(
-                    data = uri
+                    data = uri ?: address
                 ) {
                     // TODO: Customize the QR code style
                     colors {
@@ -186,8 +186,9 @@ internal fun CryptoAddressLayout(
                     .fillMaxWidth()
                     .pointerHoverIcon(PointerIcon.Hand),
                 onClick = {
-                    uriHandler.openUri(uri)
-                }
+                    uri?.let { uriHandler.openUri(it) }
+                },
+                enabled = uri != null
             ) {
                 Text(
                     text = stringResource(Res.string.crypto_wallet_action_open_wallet_app)

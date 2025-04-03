@@ -386,6 +386,7 @@
 
     <string name="crypto_wallet_value_blockchain_ethereum">Ethereum</string>
     <string name="crypto_wallet_value_network_polygon">Polygon</string>
+    <string name="crypto_wallet_value_balance_zero">0</string>
 
     <string name="crypto_wallet_action_send">Send</string>
     <string name="crypto_wallet_action_receive">Receive</string>

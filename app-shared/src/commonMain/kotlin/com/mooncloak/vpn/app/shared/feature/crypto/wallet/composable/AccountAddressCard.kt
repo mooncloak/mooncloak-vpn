@@ -2,7 +2,6 @@ package com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,7 +17,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 internal fun AccountAddressCard(
     address: String,
-    uri: String,
+    uri: String?,
     onAddressCopied: () -> Unit = {},
     onAddressShared: () -> Unit = {},
     modifier: Modifier = Modifier
