@@ -19,6 +19,7 @@
     <string name="destination_main_support_title">Support</string>
     <string name="destination_main_settings_title">Settings</string>
     <string name="destination_main_servers_title">Servers</string>
+    <string name="destination_main_crypto_wallet_title">Lunaris</string>
     <string name="destination_root_onboarding_title">Onboarding</string>
     <string name="destination_root_onboarding_auth_title">Authentication Required</string>
     <string name="destination_onboarding_landing_title">Landing</string>

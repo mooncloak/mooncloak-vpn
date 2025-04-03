@@ -26,6 +26,7 @@ import com.mooncloak.vpn.network.core.vpn.isConnected
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.CryptoWalletScreen
 import com.mooncloak.vpn.app.shared.feature.home.HomeScreen
 import com.mooncloak.vpn.app.shared.feature.main.composable.MooncloakNavigationScaffold
 import com.mooncloak.vpn.app.shared.feature.main.util.containerColor
@@ -166,7 +167,10 @@ public fun MainScreen(
                     composable<MainDestination.Home> {
                         HomeScreen(
                             modifier = Modifier.fillMaxSize(),
-                            containerPaddingValues = paddingValues
+                            containerPaddingValues = paddingValues,
+                            onOpenCryptoWallet = {
+                                viewModel.select(MainDestination.CryptoWallet)
+                            }
                         )
                     }
                     composable<MainDestination.Servers> {
@@ -186,6 +190,12 @@ public fun MainScreen(
                     }
                     composable<MainDestination.Settings> {
                         SettingsScreen(
+                            modifier = Modifier.fillMaxSize(),
+                            containerPaddingValues = paddingValues
+                        )
+                    }
+                    composable<MainDestination.CryptoWallet> {
+                        CryptoWalletScreen(
                             modifier = Modifier.fillMaxSize(),
                             containerPaddingValues = paddingValues
                         )

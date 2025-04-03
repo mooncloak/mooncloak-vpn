@@ -34,7 +34,6 @@ import com.mooncloak.vpn.app.shared.composable.showError
 import com.mooncloak.vpn.app.shared.composable.showSuccess
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
-import com.mooncloak.vpn.app.shared.feature.crypto.wallet.CryptoWalletBottomSheet
 import com.mooncloak.vpn.app.shared.feature.home.composable.HomeTitleBar
 import com.mooncloak.vpn.app.shared.feature.home.composable.PlanUsageCard
 import com.mooncloak.vpn.app.shared.feature.home.composable.ServerConnectionCard
@@ -56,6 +55,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 public fun HomeScreen(
+    onOpenCryptoWallet: () -> Unit,
     modifier: Modifier = Modifier,
     containerPaddingValues: PaddingValues = PaddingValues()
 ) {
@@ -84,7 +84,6 @@ public fun HomeScreen(
 
     val serverDetailsBottomSheetState = rememberServerDetailsBottomSheetState()
     val moonShieldBottomSheetState = rememberManagedModalBottomSheetState()
-    val cryptoWalletBottomSheetState = rememberManagedModalBottomSheetState(skipPartiallyExpanded = true)
 
     val hazeState = remember { HazeState() }
 
@@ -178,11 +177,7 @@ public fun HomeScreen(
                             .fillMaxWidth()
                             .animateItem()
                             .pointerHoverIcon(PointerIcon.Hand),
-                        onClick = {
-                            coroutineScope.launch {
-                                cryptoWalletBottomSheetState.show()
-                            }
-                        }
+                        onClick = onOpenCryptoWallet
                     )
 
                     is HomeFeedItem.PlanUsageItem -> PlanUsageCard(
@@ -294,11 +289,6 @@ public fun HomeScreen(
     MoonShieldDescriptionBottomSheet(
         modifier = Modifier.fillMaxWidth(),
         sheetState = moonShieldBottomSheetState
-    )
-
-    CryptoWalletBottomSheet(
-        modifier = Modifier.fillMaxWidth(),
-        sheetState = cryptoWalletBottomSheetState
     )
 
     LaunchedEffect(viewModel.state.current.value.errorMessage) {
