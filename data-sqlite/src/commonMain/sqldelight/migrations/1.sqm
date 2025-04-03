@@ -14,8 +14,7 @@ CREATE TABLE IF NOT EXISTS crypto_wallet (
     currency_symbol TEXT,
     currency_name TEXT,
     currency_ticker TEXT,
-    currency_chain_id INTEGER,
-    currency_address TEXT
+    currency_chain_id INTEGER
 );
 
 CREATE TABLE gifted_crypto_token (
