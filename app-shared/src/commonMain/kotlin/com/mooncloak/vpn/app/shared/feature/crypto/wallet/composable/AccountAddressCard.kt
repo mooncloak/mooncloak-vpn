@@ -7,11 +7,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +32,7 @@ import com.mooncloak.vpn.app.shared.composable.TooltipBox
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_action_copy_address
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_description_account_address
+import com.mooncloak.vpn.app.shared.resource.crypto_wallet_label_scan_qr_code
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_title_account_address
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import io.github.alexzhirkevich.qrose.options.QrBrush
@@ -86,6 +89,32 @@ internal fun AccountAddressCard(
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth
             )
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth()
+                .padding(top = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Spacer(modifier = Modifier.weight(1f))
+
+            Icon(
+                modifier = Modifier.size(16.dp),
+                imageVector = Icons.Default.QrCodeScanner,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
+            )
+
+            Text(
+                modifier = Modifier.padding(start = 8.dp)
+                    .alignByBaseline(),
+                text = stringResource(Res.string.crypto_wallet_label_scan_qr_code),
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = SecondaryAlpha)
+                )
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
         }
 
         Row(
