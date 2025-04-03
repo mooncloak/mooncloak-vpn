@@ -391,6 +391,7 @@
     <string name="crypto_wallet_action_refresh">Refresh</string>
     <string name="crypto_wallet_action_reveal">Reveal</string>
     <string name="crypto_wallet_action_copy_address">Copy address</string>
+    <string name="crypto_wallet_action_share_address">Share address</string>
     <string name="crypto_wallet_action_open_wallet_app">Open Wallet App</string>
     <string name="crypto_wallet_action_create_wallet">Create wallet</string>
     <string name="crypto_wallet_action_restore_wallet">Restore wallet</string>
