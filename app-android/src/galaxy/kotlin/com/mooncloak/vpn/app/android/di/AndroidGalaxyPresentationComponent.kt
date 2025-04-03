@@ -13,6 +13,7 @@ import com.mooncloak.vpn.app.shared.di.PresentationComponent
 import com.mooncloak.vpn.app.shared.di.PresentationScoped
 import com.mooncloak.vpn.app.shared.util.ActivityContext
 import com.mooncloak.vpn.util.shared.coroutine.PresentationCoroutineScope
+import com.mooncloak.vpn.app.android.activity.BaseActivity
 
 @Component
 @PresentationScoped
@@ -21,7 +22,8 @@ internal abstract class AndroidGalaxyPresentationComponent internal constructor(
     @get:Provides override val presentationCoroutineScope: PresentationCoroutineScope,
     @get:Provides override val uriHandler: UriHandler,
     @get:Provides override val activityContext: ActivityContext,
-    @get:Provides override val activity: ComponentActivity
+    @get:Provides override val activity: ComponentActivity,
+    @get:Provides override val activityForResultLauncher: ActivityForResultLauncher
 ) : AndroidPresentationComponent() {
 
     @Provides
@@ -36,12 +38,13 @@ internal abstract class AndroidGalaxyPresentationComponent internal constructor(
 internal fun PresentationComponent.Companion.create(
     applicationComponent: ApplicationComponent,
     coroutineScope: PresentationCoroutineScope,
-    activity: ComponentActivity,
+    activity: BaseActivity,
     uriHandler: UriHandler
 ): AndroidPresentationComponent = AndroidGalaxyPresentationComponent::class.create(
     applicationComponent = applicationComponent,
     presentationCoroutineScope = coroutineScope,
     activityContext = activity,
     activity = activity,
-    uriHandler = uriHandler
+    uriHandler = uriHandler,
+    activityForResultLauncher = activity
 )
