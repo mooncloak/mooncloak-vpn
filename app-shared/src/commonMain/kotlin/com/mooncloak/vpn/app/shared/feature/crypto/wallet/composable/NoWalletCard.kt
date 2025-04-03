@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -51,7 +52,8 @@ internal fun NoWalletCard(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Button(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.sizeIn(minWidth = 200.dp)
+                    .weight(1f)
                     .pointerHoverIcon(PointerIcon.Hand),
                 onClick = onCreateWallet
             ) {
@@ -61,7 +63,8 @@ internal fun NoWalletCard(
             }
 
             Button(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.sizeIn(minWidth = 200.dp)
+                    .weight(1f)
                     .pointerHoverIcon(PointerIcon.Hand),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.background,
