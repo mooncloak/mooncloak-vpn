@@ -153,27 +153,28 @@ public open class BaseVPNConnectionManager public constructor(
                     )
                 )
 
-                prepare()
-                tunnelManager.connect(server = server)
+                if (prepare()) {
+                    tunnelManager.connect(server = server)
 
-                try {
-                    serverConnectionRecordRepository.upsert(
-                        id = server.id,
-                        insert = {
-                            ServerConnectionRecord(
-                                server = server,
-                                lastConnected = clock.now()
-                            )
-                        },
-                        update = {
-                            this.copy(
-                                server = server,
-                                lastConnected = clock.now()
-                            )
-                        }
-                    )
-                } catch (e: Exception) {
-                    LogPile.error(tag = TAG, message = "Error saving VPN server connection record.", cause = e)
+                    try {
+                        serverConnectionRecordRepository.upsert(
+                            id = server.id,
+                            insert = {
+                                ServerConnectionRecord(
+                                    server = server,
+                                    lastConnected = clock.now()
+                                )
+                            },
+                            update = {
+                                this.copy(
+                                    server = server,
+                                    lastConnected = clock.now()
+                                )
+                            }
+                        )
+                    } catch (e: Exception) {
+                        LogPile.error(tag = TAG, message = "Error saving VPN server connection record.", cause = e)
+                    }
                 }
             } catch (e: Exception) {
                 LogPile.error(message = "Error connecting to VPN server '${server.name}'.", cause = e)
@@ -191,8 +192,7 @@ public open class BaseVPNConnectionManager public constructor(
         }
     }
 
-    protected open suspend fun prepare() {
-    }
+    protected open suspend fun prepare(): Boolean = true
 
     private suspend fun closeAllTunnels() {
         emit(VPNConnection.Disconnecting(timestamp = clock.now()))

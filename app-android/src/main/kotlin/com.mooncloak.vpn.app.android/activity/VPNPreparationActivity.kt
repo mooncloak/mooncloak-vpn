@@ -3,9 +3,10 @@ package com.mooncloak.vpn.app.android.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.lifecycleScope
 import com.mooncloak.vpn.app.android.di.applicationDependency
 import com.wireguard.android.backend.GoBackend
+import kotlinx.coroutines.launch
 
 /**
  * An Activity component that launches the required permissions dialog that the user must accept for us to create VPN
@@ -22,14 +23,12 @@ public class VPNPreparationActivity : BaseActivity() {
         val prepareIntent = GoBackend.VpnService.prepare(this)
 
         if (prepareIntent != null) {
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                tunnelManager.finishedPreparation()
+            lifecycleScope.launch {
+                this@VPNPreparationActivity.launch(prepareIntent)
 
                 handleRedirectAndFinish(redirectUri)
-            }.launch(prepareIntent)
+            }
         } else {
-            tunnelManager.finishedPreparation()
-
             handleRedirectAndFinish(redirectUri)
         }
     }

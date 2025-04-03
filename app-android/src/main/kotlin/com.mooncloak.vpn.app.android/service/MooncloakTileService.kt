@@ -91,10 +91,12 @@ public class MooncloakTileService : TileService() {
         val server = getDefaultServer()
 
         if (server != null) {
-            if (tunnelManager.prepare(context = this)) {
+            val prepareIntent = tunnelManager.prepare(context = this)
+
+            if (prepareIntent == null) {
                 tunnelManager.connect(server)
             } else {
-                launchMainActivity()
+                launchActivity(prepareIntent)
             }
         } else {
             launchMainActivity()

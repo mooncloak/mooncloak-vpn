@@ -3,9 +3,6 @@ package com.mooncloak.vpn.app.android.di
 import android.app.Activity
 import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.vpn.app.android.api.server.AndroidVPNConnectionManager
-import com.mooncloak.vpn.network.core.tunnel.TunnelManager
-import com.mooncloak.vpn.network.core.tunnel.TunnelManagerPreparer
-import com.mooncloak.vpn.network.core.tunnel.invoke
 import com.mooncloak.vpn.network.core.vpn.VPNConnectionManager
 import com.mooncloak.vpn.app.android.util.AndroidAppShortcutProvider
 import com.mooncloak.vpn.app.shared.di.PresentationComponent
@@ -33,14 +30,6 @@ internal abstract class AndroidPresentationComponent internal constructor() : Pr
     @Provides
     @PresentationScoped
     internal fun provideLibsLoader(loader: AndroidLibsLoader): LibsLoader = loader
-
-    @Provides
-    @PresentationScoped
-    internal fun provideTunnelManagerPreparer(tunnelManager: TunnelManager): TunnelManagerPreparer =
-        TunnelManagerPreparer(
-            tunnelManager = tunnelManager,
-            activity = activity
-        )
 
     @Provides
     @PresentationScoped
