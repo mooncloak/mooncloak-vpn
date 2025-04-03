@@ -13,14 +13,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.theme.ColorPalette
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 
 @Composable
-internal fun GiftCard(
-    amount: String,
-    timestamp: String,
+internal fun PromoCard(
+    title: String,
+    description: String?,
+    icon: Painter = rememberVectorPainter(Icons.Default.CardGiftcard),
     modifier: Modifier = Modifier
 ) {
     WalletCard(
@@ -34,22 +37,24 @@ internal fun GiftCard(
         ) {
             Icon(
                 modifier = Modifier.size(36.dp),
-                imageVector = Icons.Default.CardGiftcard,
+                painter = icon,
                 contentDescription = null
             )
 
             Text(
                 modifier = Modifier.padding(start = 16.dp),
-                text = amount,
+                text = title,
                 style = MaterialTheme.typography.headlineSmall
             )
         }
 
-        Text(
-            modifier = Modifier.padding(top = 8.dp),
-            text = timestamp,
-            style = MaterialTheme.typography.bodyMedium,
-            color = Color.White.copy(alpha = SecondaryAlpha)
-        )
+        if (description != null) {
+            Text(
+                modifier = Modifier.padding(top = 8.dp),
+                text = description,
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.White.copy(alpha = SecondaryAlpha)
+            )
+        }
     }
 }

@@ -46,6 +46,7 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.AmountChang
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.GiftCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.NoWalletCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.PercentChangeCard
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.PromoCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletActions
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletBalanceCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletDetailsCard
@@ -159,6 +160,16 @@ public fun CryptoWalletScreen(
                         modifier = Modifier.fillMaxWidth(),
                         amount = "You received 10 LNRS tokens!",
                         timestamp = "Today"
+                    )
+                }
+
+                item(
+                    span = StaggeredGridItemSpan.FullLine
+                ) {
+                    PromoCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        title = "First 1000 wallets get 100 LNRS FREE!",
+                        description = "Get yours before its too late!"
                     )
                 }
 
