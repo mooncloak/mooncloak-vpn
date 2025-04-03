@@ -1,6 +1,9 @@
 package com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -29,6 +32,15 @@ internal fun PercentChangeCard(
             else -> localContentColor
         }
     }
+    val icon = remember(value) {
+        val double = value.toDouble()
+
+        when {
+            double > 0.1 -> Icons.Default.ArrowUpward
+            double < 0.0 -> Icons.Default.ArrowDownward
+            else -> null
+        }
+    }
 
     WalletCard(
         modifier = modifier
@@ -38,7 +50,8 @@ internal fun PercentChangeCard(
                 .align(Alignment.CenterHorizontally),
             label = label,
             value = formatted,
-            valueColor = color
+            valueColor = color,
+            icon = icon
         )
     }
 }
