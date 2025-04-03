@@ -369,6 +369,7 @@
 
     <string name="crypto_wallet_description_account_address">Your public Lunaris account address on the Polygon chain.</string>
     <string name="crypto_wallet_description_no_wallet">There is no Lunaris wallet. Create or restore one to get started.</string>
+    <string name="crypto_wallet_description_receive">Accept Polygon Network crypto tokens sent to your wallet address.</string>
 
     <string name="crypto_wallet_label_balance">Balance</string>
     <string name="crypto_wallet_label_today">Today</string>

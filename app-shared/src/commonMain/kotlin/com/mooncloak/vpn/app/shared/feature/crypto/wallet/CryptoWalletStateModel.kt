@@ -11,3 +11,12 @@ public data class CryptoWalletStateModel public constructor(
     public val errorMessage: NotificationStateModel? = null,
     public val successMessage: NotificationStateModel? = null
 )
+
+public val CryptoWalletStateModel.sendEnabled: Boolean
+    inline get() = this.cryptoWallet != null
+
+public val CryptoWalletStateModel.receiveEnabled: Boolean
+    inline get() = this.cryptoWallet != null
+
+public val CryptoWalletStateModel.revealEnabled: Boolean
+    inline get() = this.cryptoWallet != null

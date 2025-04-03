@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,12 +28,14 @@ import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.TooltipBox
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_action_copy_address
+import com.mooncloak.vpn.app.shared.resource.crypto_wallet_action_open_wallet_app
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_action_share_address
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_label_scan_qr_code
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
@@ -49,9 +52,11 @@ internal fun CryptoAddressLayout(
     onAddressCopied: () -> Unit = {},
     onAddressShared: () -> Unit = {},
     modifier: Modifier = Modifier,
-    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    openWalletVisible: Boolean = false
 ) {
     val clipboardManager = LocalClipboardManager.current
+    val uriHandler = LocalUriHandler.current
     val shareHandler = LocalShareHandler.current
     val containerQrBrush = QrBrush.solid(MaterialTheme.colorScheme.surface)
     val contentQrBrush = QrBrush.solid(MaterialTheme.colorScheme.onSurface)
@@ -171,6 +176,22 @@ internal fun CryptoAddressLayout(
                         contentDescription = stringResource(Res.string.crypto_wallet_action_share_address)
                     )
                 }
+            }
+        }
+
+        if (openWalletVisible) {
+            Button(
+                modifier = Modifier.padding(top = 32.dp)
+                    .sizeIn(maxWidth = 300.dp)
+                    .fillMaxWidth()
+                    .pointerHoverIcon(PointerIcon.Hand),
+                onClick = {
+                    uriHandler.openUri(uri)
+                }
+            ) {
+                Text(
+                    text = stringResource(Res.string.crypto_wallet_action_open_wallet_app)
+                )
             }
         }
     }

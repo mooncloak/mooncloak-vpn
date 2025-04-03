@@ -50,6 +50,7 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.PromoCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletActions
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletBalanceCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletDetailsCard
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout.ReceivePaymentLayout
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.vector.LunarisCoin
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -82,7 +83,7 @@ public fun CryptoWalletScreen(
     val createWalletBottomSheetState = rememberManagedModalBottomSheetState()
     val restoreWalletBottomSheetState = rememberManagedModalBottomSheetState()
     val sendPaymentBottomSheetState = rememberManagedModalBottomSheetState()
-    val receivePaymentBottomSheetState = rememberManagedModalBottomSheetState()
+    val receivePaymentBottomSheetState = rememberManagedModalBottomSheetState(skipPartiallyExpanded = true)
     val revealSeedPhraseBottomSheetState = rememberManagedModalBottomSheetState()
 
     LaunchedEffect(Unit) {
@@ -199,6 +200,9 @@ public fun CryptoWalletScreen(
                     span = StaggeredGridItemSpan.FullLine
                 ) {
                     WalletActions(
+                        sendEnabled = viewModel.state.current.value.sendEnabled,
+                        receiveEnabled = viewModel.state.current.value.receiveEnabled,
+                        revealEnabled = viewModel.state.current.value.revealEnabled,
                         onSend = {
                             coroutineScope.launch {
                                 sendPaymentBottomSheetState.show()
@@ -267,4 +271,11 @@ public fun CryptoWalletScreen(
             }
         }
     }
+
+    ReceivePaymentLayout(
+        modifier = Modifier.fillMaxWidth(),
+        address = viewModel.state.current.value.cryptoWallet?.address ?: "",
+        uri = viewModel.state.current.value.cryptoWallet?.address ?: "", // TODO: URI
+        sheetState = receivePaymentBottomSheetState
+    )
 }
