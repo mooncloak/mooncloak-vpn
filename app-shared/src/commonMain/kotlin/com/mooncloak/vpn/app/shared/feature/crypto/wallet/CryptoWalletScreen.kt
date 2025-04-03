@@ -259,7 +259,7 @@ public fun CryptoWalletScreen(
                             modifier = Modifier.fillMaxWidth()
                                 .animateItem(),
                             address = wallet.address,
-                            uri = wallet.uri,
+                            uri = wallet.uri(),
                             onAddressCopied = {
                                 coroutineScope.launch {
                                     snackbarHostState.showSuccess(
@@ -325,7 +325,7 @@ public fun CryptoWalletScreen(
     ReceivePaymentLayout(
         modifier = Modifier.fillMaxWidth(),
         address = viewModel.state.current.value.wallet?.address ?: "",
-        uri = viewModel.state.current.value.wallet?.uri ?: "",
+        uri = viewModel.state.current.value.wallet?.uri() ?: "",
         sheetState = receivePaymentBottomSheetState
     )
 }

@@ -36,5 +36,48 @@ public data class CryptoWallet public constructor(
     @SerialName(value = "note") public val note: String? = null
 )
 
-public val CryptoWallet.uri: String?
-    get() =  null // TODO
+public fun CryptoWallet.uri(amount: Currency.Amount? = null): String? {
+    val currency = this.currency
+
+    return when (currency.code) {
+        Currency.Code.Bitcoin -> buildString {
+            // BIP-21 expects major units (BTC)
+            append("bitcoin:$address")
+
+            val btcAmount = amount?.toMajorUnits()
+
+            if (btcAmount != null) {
+                append("?amount=$btcAmount")
+            }
+        }
+
+        Currency.Code.Monero -> buildString {
+            append("monero:$address")
+
+            // Monero URI expects major units (XMR)
+            val xmrAmount = amount?.toMajorUnits()
+
+            if (xmrAmount != null) {
+                append("?amount=$xmrAmount")
+            }
+        }
+
+        Currency.Code.Ethereum, Currency.Code.Matic, Currency.Code.Lunaris -> buildString {
+            // EIP-681 expects wei (minor units)
+            // ethereum:[target_address][@chain_id][?parameters]
+            append("ethereum:$address")
+
+            val wei = amount?.toMinorUnits()
+
+            currency.chainId?.let {
+                append("@$it")
+            }
+
+            if (wei != null) {
+                append("?value=$wei")
+            }
+        }
+
+        else -> null
+    }
+}
