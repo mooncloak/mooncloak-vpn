@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
@@ -57,6 +58,7 @@ public class CryptoWalletViewModel @Inject public constructor(
                 var network: String? = null
                 var wallet: CryptoWallet? = null
                 var promoDetails: PromoDetails? = null
+                var timestamp: Instant? = null
 
                 try {
                     emit { current -> current.copy(isLoading = true) }
@@ -65,6 +67,7 @@ public class CryptoWalletViewModel @Inject public constructor(
                     network = getString(Res.string.crypto_wallet_value_network_polygon)
                     wallet = cryptoWalletManager.getDefaultWallet()
                     promoDetails = getPromoDetails(wallet = wallet)
+                    timestamp = clock.now()
 
                     emit { current ->
                         current.copy(
@@ -72,7 +75,8 @@ public class CryptoWalletViewModel @Inject public constructor(
                             blockChain = blockChain,
                             network = network,
                             wallet = wallet,
-                            promo = promoDetails
+                            promo = promoDetails,
+                            timestamp = timestamp
                         )
                     }
                 } catch (e: Exception) {
@@ -88,6 +92,7 @@ public class CryptoWalletViewModel @Inject public constructor(
                             network = network,
                             wallet = wallet,
                             promo = promoDetails,
+                            timestamp = timestamp,
                             error = NotificationStateModel(
                                 message = getString(Res.string.global_unexpected_error)
                             )

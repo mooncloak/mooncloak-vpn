@@ -66,7 +66,8 @@ internal fun CryptoAddressLayout(
         horizontalAlignment = horizontalAlignment
     ) {
         Box(
-            modifier = Modifier.sizeIn(maxWidth = 300.dp, minHeight = 300.dp)
+            modifier = Modifier.padding(horizontal = 16.dp)
+                .sizeIn(maxWidth = 300.dp, minHeight = 300.dp)
                 .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
@@ -116,7 +117,8 @@ internal fun CryptoAddressLayout(
         }
 
         Row(
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier.padding(top = 24.dp)
+                .padding(horizontal = 16.dp)
                 .sizeIn(maxWidth = 400.dp)
                 .fillMaxWidth()
                 .padding(top = 8.dp)
@@ -182,13 +184,14 @@ internal fun CryptoAddressLayout(
         if (openWalletVisible) {
             Button(
                 modifier = Modifier.padding(top = 32.dp)
-                    .sizeIn(maxWidth = 300.dp)
+                    .padding(horizontal = 16.dp)
+                    .sizeIn(maxWidth = 400.dp)
                     .fillMaxWidth()
                     .pointerHoverIcon(PointerIcon.Hand),
                 onClick = {
                     uri?.let { uriHandler.openUri(it) }
                 },
-                enabled = uri != null
+                enabled = !uri.isNullOrBlank()
             ) {
                 Text(
                     text = stringResource(Res.string.crypto_wallet_action_open_wallet_app)

@@ -7,6 +7,7 @@ import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
 import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheet
 import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.crypto_wallet_description_send
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_title_send
 import org.jetbrains.compose.resources.stringResource
 
@@ -21,7 +22,8 @@ internal fun SendPaymentLayout(
     ) {
         BottomSheetLayout(
             modifier = Modifier.fillMaxWidth(),
-            title = stringResource(Res.string.crypto_wallet_title_send)
+            title = stringResource(Res.string.crypto_wallet_title_send),
+            description = stringResource(Res.string.crypto_wallet_description_send)
         ) {
 
         }

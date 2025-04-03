@@ -46,8 +46,8 @@ internal fun NoWalletCard(
         )
 
         FlowRow(
-            modifier = Modifier.fillMaxWidth()
-                .padding(top = 32.dp),
+            modifier = Modifier.padding(top = 32.dp)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {

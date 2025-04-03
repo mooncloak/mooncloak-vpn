@@ -49,7 +49,11 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.PromoCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletActions
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletBalanceCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletDetailsCard
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout.CreateWalletLayout
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout.ReceivePaymentLayout
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout.RestoreWalletLayout
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout.RevealSeedPhraseLayout
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout.SendPaymentLayout
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.vector.LunarisCoin
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -322,10 +326,30 @@ public fun CryptoWalletScreen(
         }
     }
 
+    SendPaymentLayout(
+        modifier = Modifier.fillMaxWidth(),
+        sheetState = sendPaymentBottomSheetState
+    )
+
     ReceivePaymentLayout(
         modifier = Modifier.fillMaxWidth(),
         address = viewModel.state.current.value.wallet?.address ?: "",
         uri = viewModel.state.current.value.wallet?.uri() ?: "",
         sheetState = receivePaymentBottomSheetState
+    )
+
+    RevealSeedPhraseLayout(
+        modifier = Modifier.fillMaxWidth(),
+        sheetState = revealSeedPhraseBottomSheetState
+    )
+
+    CreateWalletLayout(
+        modifier = Modifier.fillMaxWidth(),
+        sheetState = createWalletBottomSheetState
+    )
+
+    RestoreWalletLayout(
+        modifier = Modifier.fillMaxWidth(),
+        sheetState = restoreWalletBottomSheetState
     )
 }
