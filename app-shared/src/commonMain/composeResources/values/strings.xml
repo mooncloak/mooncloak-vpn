@@ -400,4 +400,7 @@
 
     <string name="crypto_wallet_message_address_copied">Address Copied!</string>
 
+    <string name="crypto_wallet_promo_title">First 1,000 wallet users get 100 free Lunaris (LNRS) tokens!</string>
+    <string name="crypto_wallet_promo_description">Set up your wallet now to claim your free Lunaris tokens—a real cryptocurrency for use and trading. Available while supplies last.</string>
+
 </resources>
