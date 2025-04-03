@@ -385,6 +385,7 @@
     <string name="crypto_wallet_label_amount">Amount</string>
     <string name="crypto_wallet_label_estimated_value">Estimated Value</string>
     <string name="crypto_wallet_label_scan_qr_code">Scan to send Lunaris to this wallet address.</string>
+    <string name="crypto_wallet_label_recipient_address">Recipient address</string>
 
     <string name="crypto_wallet_value_blockchain_ethereum">Ethereum</string>
     <string name="crypto_wallet_value_network_polygon">Polygon</string>
@@ -406,5 +407,10 @@
     <string name="crypto_wallet_promo_description">Set up your wallet now to claim your free Lunaris tokens—a real cryptocurrency for use and trading. Available while supplies last.</string>
     <string name="crypto_wallet_promo_title_gifted">You received a total of %1$s tokens!</string>
     <string name="crypto_wallet_promo_description_gifted">Last gift received %1$s</string>
+
+    <string name="crypto_wallet_warning_send">Verify the address before sending! Make sure the correct recipient will get the payment.</string>
+
+    <string name="crypto_wallet_placeholder_address">Enter address or ENS name</string>
+    <string name="crypto_wallet_placeholder_amount">Enter amount</string>
 
 </resources>

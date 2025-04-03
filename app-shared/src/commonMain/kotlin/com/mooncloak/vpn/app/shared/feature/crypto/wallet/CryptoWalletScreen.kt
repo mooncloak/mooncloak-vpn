@@ -90,7 +90,7 @@ public fun CryptoWalletScreen(
 
     val createWalletBottomSheetState = rememberManagedModalBottomSheetState()
     val restoreWalletBottomSheetState = rememberManagedModalBottomSheetState()
-    val sendPaymentBottomSheetState = rememberManagedModalBottomSheetState()
+    val sendPaymentBottomSheetState = rememberManagedModalBottomSheetState(skipPartiallyExpanded = true)
     val receivePaymentBottomSheetState = rememberManagedModalBottomSheetState(skipPartiallyExpanded = true)
     val revealSeedPhraseBottomSheetState = rememberManagedModalBottomSheetState()
 
@@ -328,7 +328,12 @@ public fun CryptoWalletScreen(
 
     SendPaymentLayout(
         modifier = Modifier.fillMaxWidth(),
-        sheetState = sendPaymentBottomSheetState
+        sheetState = sendPaymentBottomSheetState,
+        balance = viewModel.state.current.value.balance,
+        model = viewModel.state.current.value.send,
+        onAddressChanged = viewModel::updateAddress,
+        onAmountChanged = viewModel::updateAmount,
+        onSend = viewModel::sendPayment
     )
 
     ReceivePaymentLayout(

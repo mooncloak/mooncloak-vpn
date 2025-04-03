@@ -2,9 +2,11 @@ package com.mooncloak.vpn.app.shared.feature.crypto.wallet
 
 import androidx.compose.runtime.Immutable
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.PromoDetails
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.SendCryptoStateModel
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletBalance
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletStatDetails
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
+import com.mooncloak.vpn.crypto.lunaris.model.CryptoAccount
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoWallet
 import kotlinx.datetime.Instant
 
@@ -17,6 +19,7 @@ public data class CryptoWalletStateModel public constructor(
     public val balance: WalletBalance? = null,
     public val promo: PromoDetails? = null,
     public val stats: WalletStatDetails? = null,
+    public val send: SendCryptoStateModel = SendCryptoStateModel(),
     public val isLoading: Boolean = false,
     public val error: NotificationStateModel? = null,
     public val success: NotificationStateModel? = null

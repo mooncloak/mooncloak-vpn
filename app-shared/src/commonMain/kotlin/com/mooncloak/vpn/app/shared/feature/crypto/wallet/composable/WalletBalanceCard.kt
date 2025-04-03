@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -22,10 +23,14 @@ import org.jetbrains.compose.resources.stringResource
 internal fun WalletBalanceCard(
     cryptoAmount: String?,
     localEstimatedAmount: String?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    containerColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = MaterialTheme.colorScheme.onSurface,
 ) {
     WalletCard(
-        modifier = modifier
+        modifier = modifier,
+        containerColor = containerColor,
+        contentColor = contentColor
     ) {
         Text(
             text = stringResource(Res.string.crypto_wallet_label_balance),

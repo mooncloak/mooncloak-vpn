@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CardGiftcard
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.text.input.TextFieldValue
 import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.locale.ExperimentalLocaleApi
 import com.mooncloak.kodetools.logpile.core.LogPile
@@ -105,6 +106,53 @@ public class CryptoWalletViewModel @Inject public constructor(
 
     public fun refresh() {
         // TODO
+    }
+
+    public fun updateAddress(value: TextFieldValue) {
+        coroutineScope.launch {
+            mutex.withLock {
+                try {
+
+                } catch (e: Exception) {
+                    LogPile.error(
+                        message = "Error updating address.",
+                        cause = e
+                    )
+                }
+            }
+        }
+    }
+
+    public fun updateAmount(value: TextFieldValue) {
+        coroutineScope.launch {
+            mutex.withLock {
+                try {
+
+                } catch (e: Exception) {
+                    LogPile.error(
+                        message = "Error updating amount.",
+                        cause = e
+                    )
+                }
+            }
+        }
+    }
+
+    public fun sendPayment() {
+        coroutineScope.launch {
+            mutex.withLock {
+                try {
+                    // TODO
+                } catch (e: Exception) {
+                    LogPile.error(
+                        message = "Error sending payment.",
+                        cause = e
+                    )
+
+
+                }
+            }
+        }
     }
 
     @OptIn(ExperimentalLocaleApi::class)
