@@ -8,3 +8,6 @@ public interface CryptoPasswordManager {
 
     public companion object
 }
+
+public suspend fun CryptoPasswordManager.getCurrentOrGenerate(): String =
+    current() ?: generate()
