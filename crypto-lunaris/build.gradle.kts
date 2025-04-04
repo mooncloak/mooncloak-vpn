@@ -62,6 +62,13 @@ kotlin {
     }
 }
 
+dependencies {
+    // Sometimes Android dependencies don't resolve in the androidMain source set dependencies block.
+
+    // Android Cryptography Utilities
+    implementation("androidx.security:security-crypto:_")
+}
+
 android {
     compileSdk = AppConstants.Android.compileSdkVersion
     namespace = "com.mooncloak.vpn.crypto.lunaris"

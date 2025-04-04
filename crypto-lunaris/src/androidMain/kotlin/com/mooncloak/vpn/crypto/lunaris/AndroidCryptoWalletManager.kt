@@ -1,5 +1,6 @@
 package com.mooncloak.vpn.crypto.lunaris
 
+import android.content.Context
 import com.ionspin.kotlin.bignum.decimal.toJavaBigDecimal
 import com.mooncloak.vpn.util.shared.currency.Currency
 import com.mooncloak.vpn.util.shared.currency.Lunaris
@@ -277,3 +278,8 @@ internal class AndroidCryptoWalletManager internal constructor(
         internal val ETHEREUM_ADDRESS_REGEX = Regex("^0x[a-fA-F0-9]{40}$")
     }
 }
+
+public fun CryptoWalletManager.Companion.walletDirectory(context: Context): File =
+    File(context.filesDir, DEFAULT_WALLET_DIRECTORY_NAME).apply {
+        mkdirs()
+    }

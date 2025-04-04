@@ -275,3 +275,10 @@ internal class JvmCryptoWalletManager internal constructor(
         internal val ETHEREUM_ADDRESS_REGEX = Regex("^0x[a-fA-F0-9]{40}$")
     }
 }
+
+public fun CryptoWalletManager.Companion.walletDirectory(): File = File(
+    System.getProperty("user.home"),
+    ".mooncloak/$DEFAULT_WALLET_DIRECTORY_NAME"
+).apply {
+    mkdirs()
+}
