@@ -48,6 +48,7 @@ import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsFooterIt
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsLegalGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsPreferenceGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsSubscriptionGroup
+import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsSupportGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsThemeGroup
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsWireGuardGroup
 import com.mooncloak.vpn.app.shared.feature.subscription.SubscriptionScreen
@@ -61,6 +62,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 public fun SettingsScreen(
+    onOpenSupport: () -> Unit,
     modifier: Modifier = Modifier,
     containerPaddingValues: PaddingValues = PaddingValues()
 ) {
@@ -246,6 +248,15 @@ public fun SettingsScreen(
                     onSystemAuthTimeoutChanged = { timeout ->
                         viewModel.updateSystemAuthTimeout(timeout)
                     }
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    color = MaterialTheme.colorScheme.outline.copy(alpha = SecondaryAlpha)
+                )
+
+                SettingsSupportGroup(
+                    onOpenSupport = onOpenSupport
                 )
 
                 HorizontalDivider(

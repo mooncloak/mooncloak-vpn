@@ -191,7 +191,10 @@ public fun MainScreen(
                     composable<MainDestination.Settings> {
                         SettingsScreen(
                             modifier = Modifier.fillMaxSize(),
-                            containerPaddingValues = paddingValues
+                            containerPaddingValues = paddingValues,
+                            onOpenSupport = {
+                                viewModel.select(MainDestination.Support)
+                            }
                         )
                     }
                     composable<MainDestination.CryptoWallet> {
