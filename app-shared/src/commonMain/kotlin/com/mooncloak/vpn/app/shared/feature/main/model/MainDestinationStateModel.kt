@@ -46,8 +46,8 @@ public fun MainDestination.Companion.states(startDestination: MainDestination): 
             selected = startDestination is MainDestination.Servers
         ),
         MainDestinationStateModel(
-            destination = MainDestination.Support,
-            selected = startDestination is MainDestination.Support
+            destination = MainDestination.CryptoWallet,
+            selected = startDestination is MainDestination.CryptoWallet
         ),
         MainDestinationStateModel(
             destination = MainDestination.Settings,

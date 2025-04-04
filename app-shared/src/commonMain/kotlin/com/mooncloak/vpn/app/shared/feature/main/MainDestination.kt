@@ -30,6 +30,7 @@ import org.jetbrains.compose.resources.stringResource
 @Serializable
 public sealed interface MainDestination : AppDestination {
 
+    public val order: Int
     public val primary: Boolean
 
     @Serializable
@@ -37,6 +38,7 @@ public sealed interface MainDestination : AppDestination {
     @Immutable
     public data object Home : MainDestination {
 
+        override val order: Int = 0
         override val path: String = "/home"
 
         override val title: String
@@ -59,6 +61,7 @@ public sealed interface MainDestination : AppDestination {
     @Immutable
     public data object Servers : MainDestination {
 
+        override val order: Int = 1
         override val path: String = "/servers"
 
         override val title: String
@@ -77,23 +80,24 @@ public sealed interface MainDestination : AppDestination {
     }
 
     @Serializable
-    @SerialName(value = "support")
+    @SerialName(value = "crypto_wallet")
     @Immutable
-    public data object Support : MainDestination {
+    public data object CryptoWallet : MainDestination {
 
-        override val path: String = "/support"
+        override val order: Int = 2
+        override val path: String = "/crypto"
 
         override val title: String
             @Composable
-            get() = stringResource(Res.string.destination_main_support_title)
+            get() = stringResource(Res.string.destination_main_crypto_wallet_title)
 
         override val icon: Painter
             @Composable
-            get() = rememberVectorPainter(Icons.Default.SupportAgent)
+            get() = rememberVectorPainter(Icons.Default.Wallet)
 
         override val contentDescription: String
             @Composable
-            get() = stringResource(Res.string.cd_destination_support)
+            get() = stringResource(Res.string.cd_destination_crypto_wallet)
 
         override val primary: Boolean = true
     }
@@ -103,6 +107,7 @@ public sealed interface MainDestination : AppDestination {
     @Immutable
     public data object Settings : MainDestination {
 
+        override val order: Int = 3
         override val path: String = "/settings"
 
         override val title: String
@@ -121,23 +126,24 @@ public sealed interface MainDestination : AppDestination {
     }
 
     @Serializable
-    @SerialName(value = "crypto_wallet")
+    @SerialName(value = "support")
     @Immutable
-    public data object CryptoWallet : MainDestination {
+    public data object Support : MainDestination {
 
-        override val path: String = "/crypto"
+        override val order: Int = 4
+        override val path: String = "/support"
 
         override val title: String
             @Composable
-            get() = stringResource(Res.string.destination_main_crypto_wallet_title)
+            get() = stringResource(Res.string.destination_main_support_title)
 
         override val icon: Painter
             @Composable
-            get() = rememberVectorPainter(Icons.Default.Wallet)
+            get() = rememberVectorPainter(Icons.Default.SupportAgent)
 
         override val contentDescription: String
             @Composable
-            get() = stringResource(Res.string.cd_destination_crypto_wallet)
+            get() = stringResource(Res.string.cd_destination_support)
 
         override val primary: Boolean = false
     }
