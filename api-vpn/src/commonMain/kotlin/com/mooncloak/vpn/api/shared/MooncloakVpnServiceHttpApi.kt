@@ -18,6 +18,10 @@ import com.mooncloak.vpn.api.shared.billing.GetPaymentInvoiceRequestBody
 import com.mooncloak.vpn.api.shared.billing.GetPaymentStatusRequestBody
 import com.mooncloak.vpn.api.shared.billing.PlanPaymentStatus
 import com.mooncloak.vpn.api.shared.billing.ProofOfPurchase
+import com.mooncloak.vpn.api.shared.currency.CurrencyExchangeRequestBody
+import com.mooncloak.vpn.api.shared.currency.CurrencyExchangeResponseBody
+import com.mooncloak.vpn.api.shared.currency.GiftedLunarisRequestBody
+import com.mooncloak.vpn.api.shared.currency.GiftedLunarisResponseBody
 import com.mooncloak.vpn.api.shared.key.Base64Key
 import com.mooncloak.vpn.api.shared.location.CountryDetails
 import com.mooncloak.vpn.api.shared.location.CountryFilters
@@ -41,6 +45,7 @@ import com.mooncloak.vpn.api.shared.token.Token
 import com.mooncloak.vpn.api.shared.token.TokenTypeHint
 import com.mooncloak.vpn.api.shared.token.TransactionToken
 import com.mooncloak.vpn.util.shared.coroutine.PlatformIO
+import com.mooncloak.vpn.util.shared.currency.Currency
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.timeout
@@ -374,6 +379,41 @@ public class MooncloakVpnServiceHttpApi public constructor(
         val pages = response.body<HttpResponseBody<ResolvedPage<FAQPage>>>().getOrThrow()
 
         return pages.items
+    }
+
+    override suspend fun requestLunarisGift(token: Token?, address: String): GiftedLunarisResponseBody {
+        val requestBody = GiftedLunarisRequestBody(address = address)
+        val response = httpClient.post(url("/billing/gift/lunaris")) {
+            token?.value?.let { bearerAuth(it) }
+
+            contentType(ContentType.Application.Json)
+            accept(ContentType.Application.Json)
+
+            setBody(requestBody)
+        }
+
+        return response.body<HttpResponseBody<GiftedLunarisResponseBody>>().getOrThrow()
+    }
+
+    override suspend fun exchangeCurrency(
+        token: Token?,
+        amount: Currency.Amount,
+        target: Currency
+    ): CurrencyExchangeResponseBody {
+        val requestBody = CurrencyExchangeRequestBody(
+            amount = amount,
+            target = target
+        )
+        val response = httpClient.post(url("/billing/currency/exchange")) {
+            token?.value?.let { bearerAuth(it) }
+
+            contentType(ContentType.Application.Json)
+            accept(ContentType.Application.Json)
+
+            setBody(requestBody)
+        }
+
+        return response.body<HttpResponseBody<CurrencyExchangeResponseBody>>().getOrThrow()
     }
 
     private suspend fun url(vararg path: String, encodeSlash: Boolean = false): Url {

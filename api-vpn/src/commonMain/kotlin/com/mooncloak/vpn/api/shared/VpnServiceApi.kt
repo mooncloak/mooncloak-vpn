@@ -14,6 +14,8 @@ import com.mooncloak.vpn.api.shared.app.CurrentContributors
 import com.mooncloak.vpn.api.shared.billing.BitcoinPlanInvoice
 import com.mooncloak.vpn.api.shared.billing.PlanPaymentStatus
 import com.mooncloak.vpn.api.shared.billing.ProofOfPurchase
+import com.mooncloak.vpn.api.shared.currency.CurrencyExchangeResponseBody
+import com.mooncloak.vpn.api.shared.currency.GiftedLunarisResponseBody
 import com.mooncloak.vpn.api.shared.key.Base64Key
 import com.mooncloak.vpn.api.shared.location.CountryDetails
 import com.mooncloak.vpn.api.shared.location.CountryFilters
@@ -31,6 +33,7 @@ import com.mooncloak.vpn.api.shared.support.FAQPage
 import com.mooncloak.vpn.api.shared.support.SupportFAQFilters
 import com.mooncloak.vpn.api.shared.token.Token
 import com.mooncloak.vpn.api.shared.token.TransactionToken
+import com.mooncloak.vpn.util.shared.currency.Currency
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.time.Duration
 
@@ -149,6 +152,19 @@ public interface VpnServiceApi {
         token: Token? = null,
         filters: SupportFAQFilters? = null
     ): List<FAQPage>
+
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun requestLunarisGift(
+        token: Token? = null,
+        address: String
+    ): GiftedLunarisResponseBody
+
+    @Throws(ApiException::class, CancellationException::class)
+    public suspend fun exchangeCurrency(
+        token: Token?,
+        amount: Currency.Amount,
+        target: Currency
+    ): CurrencyExchangeResponseBody
 
     public companion object
 }
