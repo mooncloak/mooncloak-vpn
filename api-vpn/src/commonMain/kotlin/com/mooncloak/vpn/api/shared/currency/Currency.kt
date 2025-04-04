@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.api.shared.currency
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.serialization.kotlinx.bigdecimal.BigDecimalHumanReadableSerializer
 import com.mooncloak.kodetools.locale.ExperimentalLocaleApi
 import com.mooncloak.kodetools.locale.Locale
 import kotlinx.serialization.KSerializer
@@ -94,7 +95,7 @@ public data class Currency public constructor(
 
         public val currency: Currency
         public val unit: Unit
-        public val value: Number
+        public val value: BigDecimal
 
         public fun toMinorUnits(): MinorUnits
         public fun toMajorUnits(): MajorUnits
@@ -169,7 +170,7 @@ private val polSingleton = Currency(
 private data class CurrencyAmountDelegate(
     @SerialName(value = "currency") val currency: Currency,
     @SerialName(value = "unit") val unit: Currency.Unit,
-    @SerialName(value = "value") val value: Double
+    @SerialName(value = "value") @Serializable(with = BigDecimalHumanReadableSerializer::class) val value: BigDecimal
 )
 
 internal object CurrencyAmountSerializer : KSerializer<Currency.Amount> {
@@ -180,7 +181,7 @@ internal object CurrencyAmountSerializer : KSerializer<Currency.Amount> {
         val delegate = CurrencyAmountDelegate(
             currency = value.currency,
             unit = value.unit,
-            value = value.value.toDouble()
+            value = value.value
         )
 
         encoder.encodeSerializableValue(

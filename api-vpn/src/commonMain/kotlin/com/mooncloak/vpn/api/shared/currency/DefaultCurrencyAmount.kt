@@ -7,11 +7,21 @@ import com.ionspin.kotlin.bignum.decimal.RoundingMode
 public operator fun Currency.Amount.Companion.invoke(
     currency: Currency,
     unit: Currency.Unit,
+    value: BigDecimal
+): Currency.Amount = DefaultCurrencyAmount(
+    currency = currency,
+    unit = unit,
+    value = value
+)
+
+public operator fun Currency.Amount.Companion.invoke(
+    currency: Currency,
+    unit: Currency.Unit,
     value: Number
 ): Currency.Amount = DefaultCurrencyAmount(
     currency = currency,
     unit = unit,
-    bigDecimal = when (value) {
+    value = when (value) {
         is Byte -> BigDecimal.fromByte(value)
         is Short -> BigDecimal.fromShort(value)
         is Int -> BigDecimal.fromInt(value)
@@ -24,20 +34,14 @@ public operator fun Currency.Amount.Companion.invoke(
 internal class DefaultCurrencyAmount internal constructor(
     override val currency: Currency,
     override val unit: Currency.Unit,
-    private val bigDecimal: BigDecimal
+    override val value: BigDecimal
 ) : Currency.Amount {
-
-    override val value: Number
-        get() = when (unit) {
-            Currency.Unit.Minor -> toMinorUnits()
-            Currency.Unit.Major -> bigDecimal.doubleValue()
-        }
 
     private val fractionDigits: Int = currency.defaultFractionDigits ?: 2
 
     override fun toMinorUnits(): MinorUnits = when (unit) {
-        Currency.Unit.Minor -> bigDecimal.longValue()
-        Currency.Unit.Major -> bigDecimal.multiply(
+        Currency.Unit.Minor -> value.longValue()
+        Currency.Unit.Major -> value.multiply(
             other = BigDecimal.TEN.pow(fractionDigits),
             decimalMode = DecimalMode(
                 decimalPrecision = fractionDigits.toLong(),
@@ -47,7 +51,7 @@ internal class DefaultCurrencyAmount internal constructor(
     }
 
     override fun toMajorUnits(): MajorUnits = when (unit) {
-        Currency.Unit.Minor -> bigDecimal.divide(
+        Currency.Unit.Minor -> value.divide(
             other = BigDecimal.TEN.pow(fractionDigits),
             decimalMode = DecimalMode(
                 decimalPrecision = fractionDigits.toLong(),
@@ -55,6 +59,6 @@ internal class DefaultCurrencyAmount internal constructor(
             )
         )
 
-        Currency.Unit.Major -> bigDecimal
+        Currency.Unit.Major -> value
     }
 }

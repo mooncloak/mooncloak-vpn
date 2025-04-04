@@ -43,6 +43,7 @@ kotlin {
                 // https://github.com/ionspin/kotlin-multiplatform-bignum?tab=readme-ov-file#integration
                 // Apache 2.0: https://github.com/ionspin/kotlin-multiplatform-bignum?tab=Apache-2.0-1-ov-file#readme
                 api("com.ionspin.kotlin:bignum:_")
+                api("com.ionspin.kotlin:bignum-serialization-kotlinx:_")
 
                 // Http Client - Ktor
                 // https://github.com/ktorio/ktor
