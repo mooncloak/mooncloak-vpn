@@ -193,6 +193,21 @@ public class CryptoWalletViewModel @Inject public constructor(
         }
     }
 
+    public fun createWallet() {
+        coroutineScope.launch {
+            mutex.withLock {
+                try {
+                    emit { current -> current.copy(isCreatingWallet = true) }
+                } catch (e: Exception) {
+                    LogPile.error(
+                        message = "Error creating wallet.",
+                        cause = e
+                    )
+                }
+            }
+        }
+    }
+
     private fun subscribeToAddressChanges() {
         addressJob?.cancel()
         addressJob = addressState.onEach { value ->

@@ -37,6 +37,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import com.mooncloak.vpn.app.shared.composable.MooncloakDialog
 import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.composable.showError
@@ -45,6 +48,7 @@ import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.AccountAddressCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.AmountChangeContainer
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.CreatingWalletDialog
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.NoWalletCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.PromoCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletActions
@@ -223,11 +227,7 @@ public fun CryptoWalletScreen(
                                 minWidth = 300.dp
                             ).fillMaxWidth()
                                 .animateItem(),
-                            onCreateWallet = {
-                                coroutineScope.launch {
-                                    createWalletBottomSheetState.show()
-                                }
-                            },
+                            onCreateWallet = viewModel::createWallet,
                             onRestoreWallet = {
                                 coroutineScope.launch {
                                     restoreWalletBottomSheetState.show()
@@ -313,4 +313,8 @@ public fun CryptoWalletScreen(
         modifier = Modifier.fillMaxWidth(),
         sheetState = restoreWalletBottomSheetState
     )
+
+    if (viewModel.state.current.value.isCreatingWallet) {
+        CreatingWalletDialog()
+    }
 }
