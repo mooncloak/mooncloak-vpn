@@ -367,12 +367,13 @@
     <string name="crypto_wallet_title_receive">Receive Lunaris</string>
     <string name="crypto_wallet_title_create_wallet">Create Wallet</string>
     <string name="crypto_wallet_title_restore_wallet">Restore Wallet</string>
-    <string name="crypto_wallet_title_reveal">Reveal Seed Phrase</string>
+    <string name="crypto_wallet_title_reveal">Secret Recovery Phrase</string>
 
     <string name="crypto_wallet_description_account_address">Your public Lunaris account address on the Polygon chain.</string>
     <string name="crypto_wallet_description_no_wallet">There is no Lunaris wallet. Create or restore one to get started.</string>
     <string name="crypto_wallet_description_receive">Accept Polygon Network crypto tokens sent to your wallet address.</string>
     <string name="crypto_wallet_description_send">Send Lunaris to any Polygon Network wallet address.</string>
+    <string name="crypto_wallet_description_srp">The Secret Recovery Phrase grants full access to your wallet. Make sure to keep it secret!</string>
 
     <string name="crypto_wallet_label_balance">Balance</string>
     <string name="crypto_wallet_label_today">Today</string>
@@ -403,6 +404,8 @@
     <string name="crypto_wallet_action_create_wallet">Create wallet</string>
     <string name="crypto_wallet_action_restore_wallet">Restore wallet</string>
     <string name="crypto_wallet_action_open_polygon_scan">Open in PolygonScan</string>
+    <string name="crypto_wallet_action_copy_srp">Copy phrase</string>
+    <string name="crypto_wallet_action_download_srp">Download phrase</string>
 
     <string name="crypto_wallet_message_address_copied">Address Copied!</string>
 
@@ -412,6 +415,7 @@
     <string name="crypto_wallet_promo_description_gifted">Last gift received %1$s</string>
 
     <string name="crypto_wallet_warning_send">Verify the address before sending! Make sure the correct recipient will get the payment.</string>
+    <string name="crypto_wallet_warning_srp">Store this secret phrase in a secure location! Anyone with access to the phrase has access to your wallet. If you lose the phrase, you lose access to your wallet.</string>
 
     <string name="crypto_wallet_placeholder_address">Enter address or ENS name</string>
     <string name="crypto_wallet_placeholder_amount">Enter amount</string>
