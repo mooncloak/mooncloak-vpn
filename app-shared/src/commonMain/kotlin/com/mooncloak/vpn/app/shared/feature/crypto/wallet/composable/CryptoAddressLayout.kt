@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,6 +40,7 @@ import com.mooncloak.vpn.app.shared.resource.crypto_wallet_action_copy_address
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_action_open_wallet_app
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_action_share_address
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_label_scan_qr_code
+import com.mooncloak.vpn.app.shared.theme.MooncloakTheme
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import com.mooncloak.vpn.app.shared.util.LocalShareHandler
 import io.github.alexzhirkevich.qrose.options.QrBrush
@@ -67,8 +69,7 @@ internal fun CryptoAddressLayout(
         horizontalAlignment = horizontalAlignment
     ) {
         Box(
-            modifier = Modifier.padding(horizontal = 16.dp)
-                .sizeIn(maxWidth = 300.dp, minHeight = 300.dp)
+            modifier = Modifier.sizeIn(maxWidth = 300.dp, minHeight = 300.dp)
                 .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
@@ -92,8 +93,7 @@ internal fun CryptoAddressLayout(
 
         Row(
             modifier = Modifier.fillMaxWidth()
-                .padding(top = 16.dp)
-                .padding(horizontal = 16.dp),
+                .padding(top = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Spacer(modifier = Modifier.weight(1f))
@@ -117,66 +117,69 @@ internal fun CryptoAddressLayout(
             Spacer(modifier = Modifier.weight(1f))
         }
 
-        Row(
-            modifier = Modifier.padding(top = 24.dp)
-                .padding(horizontal = 16.dp)
+        Column(
+            modifier = Modifier.padding(top = 16.dp)
                 .sizeIn(maxWidth = 400.dp)
                 .fillMaxWidth()
-                .padding(top = 8.dp)
-                .border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.outline,
-                    shape = RoundedCornerShape(5.dp)
-                ),
-            verticalAlignment = Alignment.CenterVertically
         ) {
-            SelectionContainer(
-                modifier = Modifier.weight(1f)
-                    .padding(horizontal = 16.dp)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = address,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = MaterialTheme.colorScheme.onSurface
-                    ),
-                    textAlign = TextAlign.Start,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Spacer(modifier = Modifier.weight(1f))
+
+                IconButton(
+                    modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
+                    onClick = {
+                        clipboardManager.setText(AnnotatedString(address))
+                        onAddressCopied.invoke()
+                    }
+                ) {
+                    TooltipBox(
+                        text = stringResource(Res.string.crypto_wallet_action_copy_address)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ContentCopy,
+                            contentDescription = stringResource(Res.string.crypto_wallet_action_copy_address)
+                        )
+                    }
+                }
+
+                IconButton(
+                    modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
+                    onClick = {
+                        shareHandler.share(address)
+                        onAddressShared.invoke()
+                    }
+                ) {
+                    TooltipBox(
+                        text = stringResource(Res.string.crypto_wallet_action_share_address)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Share,
+                            contentDescription = stringResource(Res.string.crypto_wallet_action_share_address)
+                        )
+                    }
+                }
             }
 
-            IconButton(
-                modifier = Modifier.padding(start = 16.dp)
-                    .pointerHoverIcon(PointerIcon.Hand),
-                onClick = {
-                    clipboardManager.setText(AnnotatedString(address))
-                    onAddressCopied.invoke()
-                }
+            WalletCard(
+                modifier = Modifier.fillMaxWidth(),
+                containerColor = MaterialTheme.colorScheme.background,
+                contentColor = MaterialTheme.colorScheme.onBackground
             ) {
-                TooltipBox(
-                    text = stringResource(Res.string.crypto_wallet_action_copy_address)
+                SelectionContainer(
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.ContentCopy,
-                        contentDescription = stringResource(Res.string.crypto_wallet_action_copy_address)
-                    )
-                }
-            }
-
-            IconButton(
-                modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
-                onClick = {
-                    shareHandler.share(address)
-                    onAddressShared.invoke()
-                }
-            ) {
-                TooltipBox(
-                    text = stringResource(Res.string.crypto_wallet_action_share_address)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Share,
-                        contentDescription = stringResource(Res.string.crypto_wallet_action_share_address)
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = address,
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = MaterialTheme.colorScheme.onSurface
+                        ),
+                        textAlign = TextAlign.Start,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             }
@@ -185,7 +188,6 @@ internal fun CryptoAddressLayout(
         if (openWalletVisible) {
             Button(
                 modifier = Modifier.padding(top = 32.dp)
-                    .padding(horizontal = 16.dp)
                     .sizeIn(maxWidth = 400.dp)
                     .fillMaxWidth()
                     .pointerHoverIcon(PointerIcon.Hand),

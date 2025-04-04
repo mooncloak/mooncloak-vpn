@@ -38,6 +38,7 @@ internal fun ReceivePaymentLayout(
         ) {
             CryptoAddressLayout(
                 modifier = Modifier.padding(top = 24.dp)
+                    .padding(horizontal = 16.dp)
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally),
                 horizontalAlignment = Alignment.CenterHorizontally,
