@@ -225,6 +225,7 @@ kotlin {
                 implementation(compose.material3AdaptiveNavigationSuite)
 
                 // UI Previews
+                implementation(compose.uiTooling)
                 implementation(compose.preview)
 
                 // Allows opening of "Android Custom Tabs"
@@ -328,6 +329,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    buildFeatures {
+        compose = true
     }
 
     tasks.withType<KotlinCompile> {
