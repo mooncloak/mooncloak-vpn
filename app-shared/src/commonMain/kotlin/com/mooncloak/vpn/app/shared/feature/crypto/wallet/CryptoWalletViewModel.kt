@@ -21,10 +21,14 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.CreateWalletUs
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.GetBalanceUseCase
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.RestoreWalletUseCase
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.SuggestRecipientsUseCase
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.validation.SecretRecoveryPhraseValidationException
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.validation.SecretRecoveryPhraseValidator
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.model.TextFieldStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_error_amount_invalid
+import com.mooncloak.vpn.app.shared.resource.crypto_wallet_error_phrase_invalid
+import com.mooncloak.vpn.app.shared.resource.crypto_wallet_error_phrase_invalid_word_count
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_estimated_gas
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_promo_description
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_promo_description_gifted
@@ -66,6 +70,7 @@ public class CryptoWalletViewModel @Inject public constructor(
     private val giftedCryptoTokenRepository: GiftedCryptoTokenRepository,
     private val currencyFormatter: Currency.Formatter = Currency.Formatter.Default,
     private val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.Full,
+    private val secretRecoveryPhraseValidator: SecretRecoveryPhraseValidator,
     private val suggestRecipients: SuggestRecipientsUseCase,
     private val createNewWallet: CreateWalletUseCase,
     private val restoreExistingWallet: RestoreWalletUseCase,
@@ -390,16 +395,24 @@ public class CryptoWalletViewModel @Inject public constructor(
         phraseJob = phraseState.onEach { value ->
             // Update the address value quickly so that there is no lag as the user types.
             // Then load the extra data.
+            val result = secretRecoveryPhraseValidator.validate(value.text)
+            val exception = result.exceptionOrNull()
+            val error = when (exception) {
+                is SecretRecoveryPhraseValidationException.IncorrectWordCount -> getString(Res.string.crypto_wallet_error_phrase_invalid_word_count)
+                else -> getString(Res.string.crypto_wallet_error_phrase_invalid)
+            }
+
             emit { current ->
                 current.copy(
-
+                    restore = current.restore.copy(
+                        phrase = TextFieldStateModel(
+                            value = value,
+                            error = error
+                        )
+                    )
                 )
             }
-        }.debounce(300.milliseconds)
-            .onEach { value ->
-
-            }
-            .launchIn(coroutineScope)
+        }.launchIn(coroutineScope)
     }
 
     @OptIn(ExperimentalLocaleApi::class)
