@@ -14,6 +14,9 @@ import com.mooncloak.vpn.api.shared.VpnServiceApi
 import com.mooncloak.vpn.api.shared.currency.Currency
 import com.mooncloak.vpn.api.shared.currency.Default
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.PromoDetails
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletBalance
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletFeedItem
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletStatDetails
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_promo_description
@@ -60,6 +63,7 @@ public class CryptoWalletViewModel @Inject public constructor(
                 var wallet: CryptoWallet? = null
                 var promoDetails: PromoDetails? = null
                 var timestamp: Instant? = null
+                var items = emptyList<WalletFeedItem>()
 
                 try {
                     emit { current -> current.copy(isLoading = true) }
@@ -69,6 +73,15 @@ public class CryptoWalletViewModel @Inject public constructor(
                     wallet = cryptoWalletManager.getDefaultWallet()
                     promoDetails = getPromoDetails(wallet = wallet)
                     timestamp = clock.now()
+                    items = getFeedItems(
+                        wallet = wallet,
+                        balance = null,
+                        statDetails = null,
+                        promoDetails = promoDetails,
+                        blockChain = blockChain,
+                        network = network,
+                        timestamp = dateTimeFormatter.format(timestamp)
+                    )
 
                     emit { current ->
                         current.copy(
@@ -77,7 +90,8 @@ public class CryptoWalletViewModel @Inject public constructor(
                             network = network,
                             wallet = wallet,
                             promo = promoDetails,
-                            timestamp = timestamp
+                            timestamp = timestamp,
+                            items = items
                         )
                     }
                 } catch (e: Exception) {
@@ -94,6 +108,7 @@ public class CryptoWalletViewModel @Inject public constructor(
                             wallet = wallet,
                             promo = promoDetails,
                             timestamp = timestamp,
+                            items = items,
                             error = NotificationStateModel(
                                 message = getString(Res.string.global_unexpected_error)
                             )
@@ -105,7 +120,7 @@ public class CryptoWalletViewModel @Inject public constructor(
     }
 
     public fun refresh() {
-        // TODO
+        load()
     }
 
     public fun updateAddress(value: TextFieldValue) {
@@ -191,5 +206,53 @@ public class CryptoWalletViewModel @Inject public constructor(
 
             else -> null
         }
+    }
+
+    private fun getFeedItems(
+        wallet: CryptoWallet?,
+        balance: WalletBalance?,
+        statDetails: WalletStatDetails?,
+        promoDetails: PromoDetails?,
+        blockChain: String?,
+        network: String?,
+        timestamp: String?
+    ): List<WalletFeedItem> {
+        val items = mutableListOf<WalletFeedItem>()
+
+        if (balance != null) {
+            items.add(
+                WalletFeedItem.BalanceItem(balance = balance)
+            )
+        }
+
+        if (promoDetails != null) {
+            items.add(WalletFeedItem.PromoItem(details = promoDetails))
+        }
+
+        if (wallet == null) {
+            items.add(WalletFeedItem.NoWalletItem)
+        }
+
+        if (statDetails != null) {
+            items.add(WalletFeedItem.StatsItem(stats = statDetails))
+        }
+
+        items.add(WalletFeedItem.ActionsItem)
+
+        if (wallet != null) {
+            items.add(WalletFeedItem.AccountAddressItem(wallet = wallet))
+        }
+
+        items.add(
+            WalletFeedItem.DetailsItem(
+                wallet = wallet,
+                balance = balance,
+                blockChain = blockChain,
+                network = network,
+                timestamp = timestamp
+            )
+        )
+
+        return items
     }
 }

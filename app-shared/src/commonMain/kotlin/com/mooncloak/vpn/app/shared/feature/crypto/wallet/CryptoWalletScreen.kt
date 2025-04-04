@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.CircularProgressIndicator
@@ -54,6 +55,7 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout.ReceivePaymentL
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout.RestoreWalletLayout
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout.RevealSeedPhraseLayout
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout.SendPaymentLayout
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletFeedItem
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.vector.LunarisCoin
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -61,9 +63,6 @@ import com.mooncloak.vpn.app.shared.resource.crypto_wallet_message_address_copie
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_title_lunaris_wallet
 import com.mooncloak.vpn.app.shared.theme.DefaultHorizontalPageSpacing
 import com.mooncloak.vpn.crypto.lunaris.model.uri
-import com.mooncloak.vpn.util.shared.time.DateTimeFormatter
-import com.mooncloak.vpn.util.shared.time.Full
-import com.mooncloak.vpn.util.shared.time.format
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
@@ -86,7 +85,6 @@ public fun CryptoWalletScreen(
     val coroutineScope = rememberCoroutineScope()
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
-    val dateTimeFormatter = remember { DateTimeFormatter.Full }
 
     val createWalletBottomSheetState = rememberManagedModalBottomSheetState()
     val restoreWalletBottomSheetState = rememberManagedModalBottomSheetState()
@@ -152,44 +150,75 @@ public fun CryptoWalletScreen(
                 horizontalArrangement = Arrangement.spacedBy(DefaultHorizontalPageSpacing),
                 verticalItemSpacing = 12.dp
             ) {
-                if (viewModel.state.current.value.wallet != null) {
-                    item(
-                        key = "WalletBalanceCard",
-                        contentType = "WalletBalanceCard",
-                        span = StaggeredGridItemSpan.FullLine
-                    ) {
-                        WalletBalanceCard(
+                items(
+                    items = viewModel.state.current.value.items,
+                    key = { item -> item.key },
+                    contentType = { item -> item.contentType },
+                    span = { item -> item.span }
+                ) { item ->
+                    when (item) {
+                        is WalletFeedItem.AccountAddressItem -> AccountAddressCard(
                             modifier = Modifier.fillMaxWidth()
                                 .animateItem(),
-                            cryptoAmount = viewModel.state.current.value.balance?.amount?.formatted,
-                            localEstimatedAmount = viewModel.state.current.value.balance?.localEstimate?.formatted
+                            address = item.wallet.address,
+                            uri = item.wallet.uri(),
+                            onAddressCopied = {
+                                coroutineScope.launch {
+                                    snackbarHostState.showSuccess(
+                                        notification = NotificationStateModel(
+                                            message = getString(Res.string.crypto_wallet_message_address_copied)
+                                        )
+                                    )
+                                }
+                            }
                         )
-                    }
-                }
 
-                viewModel.state.current.value.promo?.let { promoDetails ->
-                    item(
-                        key = "PromoDetails",
-                        contentType = "PromoCard",
-                        span = StaggeredGridItemSpan.FullLine
-                    ) {
-                        PromoCard(
+                        WalletFeedItem.ActionsItem -> WalletActions(
                             modifier = Modifier.fillMaxWidth()
                                 .animateItem(),
-                            title = promoDetails.title,
-                            description = promoDetails.description,
-                            icon = promoDetails.icon.invoke()
+                            sendEnabled = viewModel.state.current.value.sendEnabled,
+                            receiveEnabled = viewModel.state.current.value.receiveEnabled,
+                            revealEnabled = viewModel.state.current.value.revealEnabled,
+                            onSend = {
+                                coroutineScope.launch {
+                                    sendPaymentBottomSheetState.show()
+                                }
+                            },
+                            onReceive = {
+                                coroutineScope.launch {
+                                    receivePaymentBottomSheetState.show()
+                                }
+                            },
+                            onReveal = {
+                                coroutineScope.launch {
+                                    revealSeedPhraseBottomSheetState.show()
+                                }
+                            },
+                            onRefresh = viewModel::refresh
                         )
-                    }
-                }
 
-                if (viewModel.state.current.value.showNoWalletCard) {
-                    item(
-                        key = "NoWalletCard",
-                        contentType = "NoWalletCard",
-                        span = StaggeredGridItemSpan.FullLine
-                    ) {
-                        NoWalletCard(
+                        is WalletFeedItem.BalanceItem -> WalletBalanceCard(
+                            modifier = Modifier.fillMaxWidth()
+                                .animateItem(),
+                            cryptoAmount = item.balance?.amount?.formatted,
+                            localEstimatedAmount = item.balance?.localEstimate?.formatted
+                        )
+
+                        is WalletFeedItem.DetailsItem -> WalletDetailsCard(
+                            modifier = Modifier.fillMaxWidth()
+                                .animateItem(),
+                            blockchain = item.blockChain,
+                            network = item.network,
+                            tokenName = item.wallet?.currency?.name,
+                            tokenTicker = item.wallet?.currency?.ticker,
+                            tokenAddress = item.wallet?.currency?.address,
+                            walletAddress = item.wallet?.address,
+                            amount = item.balance?.amount?.formatted,
+                            estimatedValue = item.balance?.localEstimate?.formatted,
+                            lastUpdated = item.timestamp
+                        )
+
+                        WalletFeedItem.NoWalletItem -> NoWalletCard(
                             modifier = Modifier.sizeIn(
                                 minWidth = 300.dp
                             ).fillMaxWidth()
@@ -205,95 +234,22 @@ public fun CryptoWalletScreen(
                                 }
                             }
                         )
-                    }
-                }
 
-                viewModel.state.current.value.stats?.let { stats ->
-                    item(
-                        key = "WalletStats",
-                        contentType = "WalletStats"
-                    ) {
-                        AmountChangeContainer(
+                        is WalletFeedItem.PromoItem -> PromoCard(
                             modifier = Modifier.fillMaxWidth()
                                 .animateItem(),
-                            today = stats.dailyChange?.value,
-                            allTime = stats.allTimeChange?.value
+                            title = item.details.title,
+                            description = item.details.description,
+                            icon = item.details.icon.invoke()
                         )
-                    }
-                }
 
-                item(
-                    key = "WalletActions",
-                    contentType = "WalletActions",
-                    span = StaggeredGridItemSpan.FullLine
-                ) {
-                    WalletActions(
-                        modifier = Modifier.fillMaxWidth()
-                            .animateItem(),
-                        sendEnabled = viewModel.state.current.value.sendEnabled,
-                        receiveEnabled = viewModel.state.current.value.receiveEnabled,
-                        revealEnabled = viewModel.state.current.value.revealEnabled,
-                        onSend = {
-                            coroutineScope.launch {
-                                sendPaymentBottomSheetState.show()
-                            }
-                        },
-                        onReceive = {
-                            coroutineScope.launch {
-                                receivePaymentBottomSheetState.show()
-                            }
-                        },
-                        onReveal = {
-                            coroutineScope.launch {
-                                revealSeedPhraseBottomSheetState.show()
-                            }
-                        },
-                        onRefresh = viewModel::refresh
-                    )
-                }
-
-                viewModel.state.current.value.wallet?.let { wallet ->
-                    item(
-                        key = "AccountAddressCard",
-                        contentType = "AccountAddressCard",
-                        span = StaggeredGridItemSpan.FullLine
-                    ) {
-                        AccountAddressCard(
+                        is WalletFeedItem.StatsItem -> AmountChangeContainer(
                             modifier = Modifier.fillMaxWidth()
                                 .animateItem(),
-                            address = wallet.address,
-                            uri = wallet.uri(),
-                            onAddressCopied = {
-                                coroutineScope.launch {
-                                    snackbarHostState.showSuccess(
-                                        notification = NotificationStateModel(
-                                            message = getString(Res.string.crypto_wallet_message_address_copied)
-                                        )
-                                    )
-                                }
-                            }
+                            today = item.stats?.dailyChange?.value,
+                            allTime = item.stats?.allTimeChange?.value
                         )
                     }
-                }
-
-                item(
-                    key = "WalletDetailsCard",
-                    contentType = "WalletDetailsCard",
-                    span = StaggeredGridItemSpan.FullLine
-                ) {
-                    WalletDetailsCard(
-                        modifier = Modifier.fillMaxWidth()
-                            .animateItem(),
-                        blockchain = viewModel.state.current.value.blockChain,
-                        network = viewModel.state.current.value.network,
-                        tokenName = viewModel.state.current.value.wallet?.currency?.name,
-                        tokenTicker = viewModel.state.current.value.wallet?.currency?.ticker,
-                        tokenAddress = viewModel.state.current.value.wallet?.currency?.address,
-                        walletAddress = viewModel.state.current.value.wallet?.address,
-                        amount = viewModel.state.current.value.balance?.amount?.formatted,
-                        estimatedValue = viewModel.state.current.value.balance?.localEstimate?.formatted,
-                        lastUpdated = viewModel.state.current.value.timestamp?.let { dateTimeFormatter.format(it) }
-                    )
                 }
 
                 item(
