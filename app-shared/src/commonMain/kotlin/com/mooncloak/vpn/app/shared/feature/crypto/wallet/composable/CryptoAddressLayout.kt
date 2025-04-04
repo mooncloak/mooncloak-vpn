@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.TooltipBox
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -129,21 +130,21 @@ internal fun CryptoAddressLayout(
                 ),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            SelectionContainer {
+            SelectionContainer(
+                modifier = Modifier.weight(1f)
+                    .padding(horizontal = 16.dp)
+            ) {
                 Text(
-                    modifier = Modifier.padding(horizontal = 16.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     text = address,
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = MaterialTheme.colorScheme.onSurface
                     ),
                     textAlign = TextAlign.Start,
-                    maxLines = 1
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
-
-            Spacer(
-                modifier = Modifier.weight(1f)
-            )
 
             IconButton(
                 modifier = Modifier.padding(start = 16.dp)
