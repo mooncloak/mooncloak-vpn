@@ -9,6 +9,8 @@ import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.util.log.NoOpLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import org.bouncycastle.jce.provider.BouncyCastleProvider
+import java.security.Security
 
 public class MooncloakVpnApplication : Application() {
 
@@ -28,5 +30,10 @@ public class MooncloakVpnApplication : Application() {
         if (!applicationComponent.appClientInfo.isDebug) {
             LogPile.configure(NoOpLogger)
         }
+
+        // The web3j cryptocurrency library requires BouncyCastle to be installed for its operations. If its missing,
+        // we cannot create or restore wallets.
+        Security.removeProvider("BC")
+        Security.addProvider(BouncyCastleProvider())
     }
 }

@@ -65,8 +65,7 @@ public data class Currency public constructor(
 
         @OptIn(ExperimentalLocaleApi::class)
         public fun format(
-            currency: Currency,
-            amount: Long,
+            amount: Amount,
             locale: Locale = Locale.getDefault()
         ): String
 
@@ -111,6 +110,20 @@ public typealias MinorUnits = Long
 public typealias MajorUnits = BigDecimal
 
 public expect val Currency.Formatter.Companion.Default: Currency.Formatter
+
+@OptIn(ExperimentalLocaleApi::class)
+public fun Currency.Formatter.format(
+    currency: Currency,
+    amount: Long,
+    locale: Locale = Locale.getDefault()
+): String = this.format(
+    amount = Amount(
+        currency = currency,
+        unit = Currency.Unit.Minor,
+        value = amount
+    ),
+    locale = locale
+)
 
 public fun Currency.isFiat(): Boolean =
     this.type == Currency.Type.Iso4217

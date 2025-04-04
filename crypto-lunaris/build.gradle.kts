@@ -48,6 +48,9 @@ kotlin {
                 // https://github.com/LFDT-web3j/web3j
                 // Apache 2.0 License: https://github.com/LFDT-web3j/web3j?tab=License-1-ov-file#readme
                 implementation("org.web3j:core:_")
+
+                // Bouncy Castle - Cryptography utils required by the web3j dependency
+                api("org.bouncycastle:bcprov-jdk15on:_")
             }
         }
 

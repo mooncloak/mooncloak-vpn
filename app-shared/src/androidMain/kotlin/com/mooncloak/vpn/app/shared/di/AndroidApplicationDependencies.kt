@@ -8,6 +8,7 @@ import com.mooncloak.vpn.app.shared.api.server.usecase.GetDefaultServerUseCase
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.app.shared.util.ApplicationContext
+import com.mooncloak.vpn.crypto.lunaris.CryptoPasswordManager
 import com.mooncloak.vpn.crypto.lunaris.CryptoWalletManager
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.util.notification.NotificationManager
@@ -42,7 +43,8 @@ public actual interface ApplicationDependencies {
     public actual val notificationManager: NotificationManager
     public actual val getDefaultServer: GetDefaultServerUseCase
     public actual val appShortcutManager: AppShortcutManager
-    public actual val cryptoWalletApi: CryptoWalletManager
+    public actual val cryptoWalletManager: CryptoWalletManager
+    public actual val cryptoPasswordManager: CryptoPasswordManager
 
     public val applicationContext: ApplicationContext
 

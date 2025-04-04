@@ -17,6 +17,9 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.PromoDetails
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletBalance
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletFeedItem
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletStatDetails
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.CreateWalletUseCase
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.GetBalanceUseCase
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.RestoreWalletUseCase
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.SuggestRecipientsUseCase
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.model.TextFieldStateModel
@@ -63,7 +66,10 @@ public class CryptoWalletViewModel @Inject public constructor(
     private val giftedCryptoTokenRepository: GiftedCryptoTokenRepository,
     private val currencyFormatter: Currency.Formatter = Currency.Formatter.Default,
     private val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.Full,
-    private val suggestRecipients: SuggestRecipientsUseCase
+    private val suggestRecipients: SuggestRecipientsUseCase,
+    private val createNewWallet: CreateWalletUseCase,
+    private val restoreExistingWallet: RestoreWalletUseCase,
+    private val getBalance: GetBalanceUseCase
 ) : ViewModel<CryptoWalletStateModel>(initialStateValue = CryptoWalletStateModel()) {
 
     private val mutex = Mutex(locked = false)
@@ -83,6 +89,7 @@ public class CryptoWalletViewModel @Inject public constructor(
                 var blockChain: String? = null
                 var network: String? = null
                 var wallet: CryptoWallet? = null
+                var balance: WalletBalance? = null
                 var promoDetails: PromoDetails? = null
                 var timestamp: Instant? = null
                 var items = emptyList<WalletFeedItem>()
@@ -96,11 +103,12 @@ public class CryptoWalletViewModel @Inject public constructor(
                     blockChain = getString(Res.string.crypto_wallet_value_blockchain_ethereum)
                     network = getString(Res.string.crypto_wallet_value_network_polygon)
                     wallet = cryptoWalletManager.getDefaultWallet()
+                    balance = wallet?.address?.let { getBalance.invoke(address = it) }
                     promoDetails = getPromoDetails(wallet = wallet)
                     timestamp = clock.now()
                     items = getFeedItems(
                         wallet = wallet,
-                        balance = null,
+                        balance = balance,
                         statDetails = null,
                         promoDetails = promoDetails,
                         blockChain = blockChain,
@@ -114,6 +122,7 @@ public class CryptoWalletViewModel @Inject public constructor(
                             blockChain = blockChain,
                             network = network,
                             wallet = wallet,
+                            balance = balance,
                             promo = promoDetails,
                             timestamp = timestamp,
                             items = items
@@ -131,6 +140,7 @@ public class CryptoWalletViewModel @Inject public constructor(
                             blockChain = blockChain,
                             network = network,
                             wallet = wallet,
+                            balance = balance,
                             promo = promoDetails,
                             timestamp = timestamp,
                             items = items,
@@ -198,11 +208,49 @@ public class CryptoWalletViewModel @Inject public constructor(
             mutex.withLock {
                 try {
                     emit { current -> current.copy(isCreatingWallet = true) }
+
+                    val wallet = createNewWallet()
+
+                    val currentState = state.current.value
+                    val balance = getBalance.invoke(address = wallet.address)
+                    val promoDetails = getPromoDetails(wallet = wallet)
+                    val timestamp = clock.now()
+                    val items = getFeedItems(
+                        wallet = wallet,
+                        balance = balance,
+                        statDetails = null,
+                        promoDetails = promoDetails,
+                        blockChain = currentState.blockChain,
+                        network = currentState.network,
+                        timestamp = dateTimeFormatter.format(timestamp)
+                    )
+
+                    emit { current ->
+                        current.copy(
+                            isLoading = false,
+                            isCreatingWallet = false,
+                            wallet = wallet,
+                            balance = balance,
+                            promo = promoDetails,
+                            timestamp = timestamp,
+                            items = items
+                        )
+                    }
                 } catch (e: Exception) {
                     LogPile.error(
                         message = "Error creating wallet.",
                         cause = e
                     )
+
+                    emit { current ->
+                        current.copy(
+                            isLoading = false,
+                            isCreatingWallet = false,
+                            error = NotificationStateModel(
+                                message = getString(Res.string.global_unexpected_error)
+                            )
+                        )
+                    }
                 }
             }
         }
@@ -297,8 +345,7 @@ public class CryptoWalletViewModel @Inject public constructor(
 
             if (stats != null) {
                 val amount = currencyFormatter.format(
-                    currency = stats.total.currency,
-                    amount = stats.total.toMinorUnits()
+                    amount = stats.total
                 )
                 val time = dateTimeFormatter.format(stats.lastGifted)
 

@@ -7,6 +7,7 @@ import com.mooncloak.vpn.network.core.tunnel.TunnelManager
 import com.mooncloak.vpn.app.shared.api.server.usecase.GetDefaultServerUseCase
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
+import com.mooncloak.vpn.crypto.lunaris.CryptoPasswordManager
 import com.mooncloak.vpn.crypto.lunaris.CryptoWalletManager
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.util.notification.NotificationManager
@@ -41,7 +42,8 @@ public expect interface ApplicationDependencies {
     public val notificationManager: NotificationManager
     public val getDefaultServer: GetDefaultServerUseCase
     public val appShortcutManager: AppShortcutManager
-    public val cryptoWalletApi: CryptoWalletManager
+    public val cryptoWalletManager: CryptoWalletManager
+    public val cryptoPasswordManager: CryptoPasswordManager
 
     public companion object
 }

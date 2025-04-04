@@ -12,6 +12,9 @@ import com.mooncloak.vpn.crypto.lunaris.model.TransactionStatus
 import com.mooncloak.vpn.crypto.lunaris.model.TransactionType
 import com.mooncloak.vpn.crypto.lunaris.provider.CryptoWalletAddressProvider
 import com.mooncloak.vpn.crypto.lunaris.repository.CryptoWalletRepository
+import com.mooncloak.vpn.util.shared.coroutine.PlatformIO
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import org.web3j.abi.FunctionEncoder
 import org.web3j.abi.TypeReference
@@ -65,82 +68,86 @@ internal class AndroidCryptoWalletManager internal constructor(
     private val web3j: Web3j = Web3j.build(HttpService(polygonRpcUrl))
     private val ensResolver = EnsResolver(web3j)
 
-    override suspend fun getBalance(address: String): Currency.Amount {
-        // For ERC-20 token balance
-        val function = Function(
-            "balanceOf",
-            listOf(Address(address)),
-            listOf(TypeReference.create(Uint256::class.java))
-        )
-        val encodedFunction = FunctionEncoder.encode(function)
-        val ethCall = web3j.ethCall(
-            org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction(
-                address,
-                currencyAddress,
-                encodedFunction
-            ),
-            DefaultBlockParameterName.LATEST
-        ).send()
+    override suspend fun getBalance(address: String): Currency.Amount =
+        withContext(Dispatchers.PlatformIO) {
+            // For ERC-20 token balance
+            val function = Function(
+                "balanceOf",
+                listOf(Address(address)),
+                listOf(TypeReference.create(Uint256::class.java))
+            )
+            val encodedFunction = FunctionEncoder.encode(function)
+            val ethCall = web3j.ethCall(
+                org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction(
+                    address,
+                    currencyAddress,
+                    encodedFunction
+                ),
+                DefaultBlockParameterName.LATEST
+            ).send()
 
-        val balanceWei = BigInteger(ethCall.value.substring(2), 16)
+            val balanceWei = BigInteger(ethCall.value.substring(2), 16)
 
-        return Currency.Amount(
-            currency = currency,
-            unit = Currency.Unit.Minor,
-            value = balanceWei
-        )
-    }
-
-    override suspend fun createWallet(password: String?): CryptoWallet {
-        val walletFileName = WalletUtils.generateNewWalletFile(
-            password,
-            File(walletDirectoryPath),
-            true
-        )
-        val credentials = WalletUtils.loadCredentials(
-            password,
-            File(walletDirectoryPath, walletFileName)
-        )
-
-        return createAndStoreWallet(
-            fileName = walletFileName,
-            address = credentials.address,
-            currency = currency
-        )
-    }
-
-    override suspend fun restoreWallet(seedPhrase: String, password: String?): CryptoWallet {
-        // Validate seed phrase (basic check)
-        val words = seedPhrase.trim().split("\\s+".toRegex())
-
-        if (words.size != 12 && words.size != 24) {
-            throw IllegalArgumentException("Invalid seed phrase: must be 12 or 24 words")
+            return@withContext Currency.Amount(
+                currency = currency,
+                unit = Currency.Unit.Minor,
+                value = balanceWei
+            )
         }
 
-        val credentials = WalletUtils.loadBip39Credentials(password, seedPhrase)
-        val walletFileName = WalletUtils.generateWalletFile(
-            password,
-            credentials.ecKeyPair,
-            File(walletDirectoryPath),
-            true
-        )
+    override suspend fun createWallet(password: String?): CryptoWallet =
+        withContext(Dispatchers.PlatformIO) {
+            val walletFileName = WalletUtils.generateNewWalletFile(
+                password,
+                File(walletDirectoryPath),
+                false
+            )
+            val credentials = WalletUtils.loadCredentials(
+                password,
+                File(walletDirectoryPath, walletFileName)
+            )
 
-        return createAndStoreWallet(
-            fileName = walletFileName,
-            address = credentials.address,
-            currency = currency
-        )
-    }
+            return@withContext createAndStoreWallet(
+                fileName = walletFileName,
+                address = credentials.address,
+                currency = currency
+            )
+        }
 
-    override suspend fun revealSeedPhrase(address: String, password: String?): String {
-        val wallet = cryptoWalletRepository.getByAddress(address = address)
-        val credentials = WalletUtils.loadCredentials(
-            password,
-            File(wallet.location)
-        )
+    override suspend fun restoreWallet(seedPhrase: String, password: String?): CryptoWallet =
+        withContext(Dispatchers.PlatformIO) {
+            // Validate seed phrase (basic check)
+            val words = seedPhrase.trim().split("\\s+".toRegex())
 
-        return credentials.ecKeyPair.privateKey.toString(16)
-    }
+            if (words.size != 12 && words.size != 24) {
+                throw IllegalArgumentException("Invalid seed phrase: must be 12 or 24 words")
+            }
+
+            val credentials = WalletUtils.loadBip39Credentials(password, seedPhrase)
+            val walletFileName = WalletUtils.generateWalletFile(
+                password,
+                credentials.ecKeyPair,
+                File(walletDirectoryPath),
+                false
+            )
+
+            return@withContext createAndStoreWallet(
+                fileName = walletFileName,
+                address = credentials.address,
+                currency = currency
+            )
+        }
+
+    override suspend fun revealSeedPhrase(address: String, password: String?): String =
+        withContext(Dispatchers.PlatformIO) {
+            val wallet = cryptoWalletRepository.getByAddress(address = address)
+            val credentials = WalletUtils.loadCredentials(
+                password,
+                File(wallet.location)
+            )
+
+            return@withContext credentials.ecKeyPair.privateKey.toString(16)
+        }
 
     override suspend fun getTransactionHistory(
         address: String,
@@ -151,136 +158,141 @@ internal class AndroidCryptoWalletManager internal constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getTransactionStatus(txHash: String): TransactionStatus {
-        val receipt: TransactionReceipt? = web3j.ethGetTransactionReceipt(txHash).send().transactionReceipt.getOrNull()
+    override suspend fun getTransactionStatus(txHash: String): TransactionStatus =
+        withContext(Dispatchers.PlatformIO) {
+            val receipt: TransactionReceipt? =
+                web3j.ethGetTransactionReceipt(txHash).send().transactionReceipt.getOrNull()
 
-        return when {
-            receipt == null -> TransactionStatus.PENDING
-            receipt.isStatusOK -> TransactionStatus.CONFIRMED
-            else -> TransactionStatus.FAILED
+            return@withContext when {
+                receipt == null -> TransactionStatus.PENDING
+                receipt.isStatusOK -> TransactionStatus.CONFIRMED
+                else -> TransactionStatus.FAILED
+            }
         }
-    }
 
     override suspend fun send(
         origin: String,
         password: String?,
         target: String,
         amount: Currency.Amount
-    ): SendResult {
-        val wallet = cryptoWalletRepository.getByAddress(origin)
-        val credentials = WalletUtils.loadCredentials(password, File(wallet.location))
+    ): SendResult =
+        withContext(Dispatchers.PlatformIO) {
+            val wallet = cryptoWalletRepository.getByAddress(origin)
+            val credentials = WalletUtils.loadCredentials(password, File(wallet.location))
 
-        // For ERC-20 token transfer
-        val function = Function(
-            "transfer",
-            listOf(Address(target), Uint256(amount.toMinorUnits())),
-            emptyList()
-        )
-        val encodedFunction = FunctionEncoder.encode(function)
-
-        val nonce = web3j.ethGetTransactionCount(
-            credentials.address,
-            DefaultBlockParameterName.LATEST
-        ).send().transactionCount
-
-        val transactionHash = web3j.ethSendTransaction(
-            org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction(
-                credentials.address,           // from
-                nonce,                         // nonce
-                DefaultGasProvider.GAS_PRICE,  // gasPrice
-                DefaultGasProvider.GAS_LIMIT,  // gasLimit
-                currencyAddress,               // to (contract address)
-                BigInteger.ZERO,               // value (0 for ERC-20 transfer)
-                encodedFunction                // data
+            // For ERC-20 token transfer
+            val function = Function(
+                "transfer",
+                listOf(Address(target), Uint256(amount.toMinorUnits())),
+                emptyList()
             )
-        ).send().transactionHash
+            val encodedFunction = FunctionEncoder.encode(function)
 
-        // TODO: Get gas used + properly handle status.
+            val nonce = web3j.ethGetTransactionCount(
+                credentials.address,
+                DefaultBlockParameterName.LATEST
+            ).send().transactionCount
 
-        return SendResult.Success(transactionHash)
-    }
+            val transactionHash = web3j.ethSendTransaction(
+                org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction(
+                    credentials.address,           // from
+                    nonce,                         // nonce
+                    DefaultGasProvider.GAS_PRICE,  // gasPrice
+                    DefaultGasProvider.GAS_LIMIT,  // gasLimit
+                    currencyAddress,               // to (contract address)
+                    BigInteger.ZERO,               // value (0 for ERC-20 transfer)
+                    encodedFunction                // data
+                )
+            ).send().transactionHash
+
+            // TODO: Get gas used + properly handle status.
+
+            return@withContext SendResult.Success(transactionHash)
+        }
 
     override suspend fun estimateGas(
         origin: String,
         target: String,
         amount: Currency.Amount
-    ): Currency.Amount? {
-        try {
-            // Get nonce
-            val nonce = web3j.ethGetTransactionCount(origin, DefaultBlockParameterName.LATEST)
-                .send()
-                .transactionCount
-
-            // Create transaction object
-            val transaction = org.web3j.protocol.core.methods.request.Transaction(
-                origin,
-                nonce,
-                null, // Gas price (null for estimation)
-                null, // Gas limit (null for estimation)
-                target,
-                amount.toMinorUnits().toBigInteger(),
-                "" // data empty for native transfer
-            )
-
-            // Estimate gas
-            val gasEstimate = web3j.ethEstimateGas(transaction)
-                .send()
-                .amountUsed
-
-            return Currency.Amount(
-                currency = amount.currency,
-                unit = Currency.Unit.Minor,
-                value = gasEstimate
-            )
-        } catch (e: Exception) {
-            return null
-        }
-    }
-
-    override suspend fun resolveRecipient(value: String): CryptoAccount? {
-        // Check if input is a valid address
-        if (value.matches(ETHEREUM_ADDRESS_REGEX)) {
-            val name = runCatching { ensResolver.reverseResolve(value) }.getOrNull()
-
-            return CryptoAccount(
-                address = value,
-                name = name
-            )
-        }
-
-        // Check if input is a full ENS name (e.g., "Chris.eth")
-        if (value.endsWith(".eth")) {
+    ): Currency.Amount? =
+        withContext(Dispatchers.PlatformIO) {
             try {
-                val address = ensResolver.resolve(value)
+                // Get nonce
+                val nonce = web3j.ethGetTransactionCount(origin, DefaultBlockParameterName.LATEST)
+                    .send()
+                    .transactionCount
+
+                // Create transaction object
+                val transaction = org.web3j.protocol.core.methods.request.Transaction(
+                    origin,
+                    nonce,
+                    null, // Gas price (null for estimation)
+                    null, // Gas limit (null for estimation)
+                    target,
+                    amount.toMinorUnits().toBigInteger(),
+                    "" // data empty for native transfer
+                )
+
+                // Estimate gas
+                val gasEstimate = web3j.ethEstimateGas(transaction)
+                    .send()
+                    .amountUsed
+
+                return@withContext Currency.Amount(
+                    currency = amount.currency,
+                    unit = Currency.Unit.Minor,
+                    value = gasEstimate
+                )
+            } catch (e: Exception) {
+                return@withContext null
+            }
+        }
+
+    override suspend fun resolveRecipient(value: String): CryptoAccount? =
+        withContext(Dispatchers.PlatformIO) {
+            // Check if input is a valid address
+            if (value.matches(ETHEREUM_ADDRESS_REGEX)) {
+                val name = runCatching { ensResolver.reverseResolve(value) }.getOrNull()
+
+                return@withContext CryptoAccount(
+                    address = value,
+                    name = name
+                )
+            }
+
+            // Check if input is a full ENS name (e.g., "Chris.eth")
+            if (value.endsWith(".eth")) {
+                try {
+                    val address = ensResolver.resolve(value)
+
+                    if (address != null) {
+                        return@withContext CryptoAccount(
+                            address = address,
+                            name = value
+                        )
+                    }
+                } catch (e: Exception) {
+                    // ENS resolution failed, move to next check
+                }
+            }
+
+            // If not an address or full ENS, test input + ".eth" (e.g., "Chris" -> "Chris.eth")
+            val ensCandidate = "$value.eth"
+            try {
+                val address = ensResolver.resolve(ensCandidate)
 
                 if (address != null) {
-                    return CryptoAccount(
+                    return@withContext CryptoAccount(
                         address = address,
-                        name = value
+                        name = ensCandidate
                     )
                 }
             } catch (e: Exception) {
-                // ENS resolution failed, move to next check
+                // No valid resolution
             }
+
+            return@withContext null
         }
-
-        // If not an address or full ENS, test input + ".eth" (e.g., "Chris" -> "Chris.eth")
-        val ensCandidate = "$value.eth"
-        try {
-            val address = ensResolver.resolve(ensCandidate)
-
-            if (address != null) {
-                return CryptoAccount(
-                    address = address,
-                    name = ensCandidate
-                )
-            }
-        } catch (e: Exception) {
-            // No valid resolution
-        }
-
-        return null
-    }
 
     override fun close() {
         web3j.shutdown()
