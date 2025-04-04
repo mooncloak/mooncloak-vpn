@@ -1,7 +1,6 @@
 package com.mooncloak.vpn.crypto.lunaris
 
 import android.content.Context
-import com.ionspin.kotlin.bignum.decimal.toJavaBigDecimal
 import com.mooncloak.vpn.util.shared.currency.Currency
 import com.mooncloak.vpn.util.shared.currency.Lunaris
 import com.mooncloak.vpn.util.shared.currency.invoke
@@ -23,7 +22,6 @@ import org.web3j.crypto.WalletUtils
 import org.web3j.ens.EnsResolver
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.DefaultBlockParameterName
-import org.web3j.protocol.core.methods.response.Transaction
 import org.web3j.protocol.core.methods.response.TransactionReceipt
 import org.web3j.protocol.http.HttpService
 import org.web3j.tx.gas.DefaultGasProvider
@@ -93,7 +91,6 @@ internal class AndroidCryptoWalletManager internal constructor(
         )
     }
 
-    @OptIn(ExperimentalUuidApi::class)
     override suspend fun createWallet(password: String?): CryptoWallet {
         val walletFileName = WalletUtils.generateNewWalletFile(
             password,
@@ -104,19 +101,35 @@ internal class AndroidCryptoWalletManager internal constructor(
             password,
             File(walletDirectoryPath, walletFileName)
         )
-        val now = clock.now()
 
-        val walletId = Uuid.random().toHexString()
-        val wallet = CryptoWallet(
-            id = walletId,
-            created = now,
-            updated = now,
+        return createAndStoreWallet(
+            fileName = walletFileName,
             address = credentials.address,
-            currency = currency,
-            location = "$walletDirectoryPath/$walletFileName"
+            currency = currency
+        )
+    }
+
+    override suspend fun restoreWallet(seedPhrase: String, password: String?): CryptoWallet {
+        // Validate seed phrase (basic check)
+        val words = seedPhrase.trim().split("\\s+".toRegex())
+
+        if (words.size != 12 && words.size != 24) {
+            throw IllegalArgumentException("Invalid seed phrase: must be 12 or 24 words")
+        }
+
+        val credentials = WalletUtils.loadBip39Credentials(password, seedPhrase)
+        val walletFileName = WalletUtils.generateWalletFile(
+            password,
+            credentials.ecKeyPair,
+            File(walletDirectoryPath),
+            true
         )
 
-        return cryptoWalletRepository.insert(walletId) { wallet }
+        return createAndStoreWallet(
+            fileName = walletFileName,
+            address = credentials.address,
+            currency = currency
+        )
     }
 
     override suspend fun revealSeedPhrase(address: String, password: String?): String {
@@ -271,6 +284,26 @@ internal class AndroidCryptoWalletManager internal constructor(
 
     override fun close() {
         web3j.shutdown()
+    }
+
+    @OptIn(ExperimentalUuidApi::class)
+    private suspend fun createAndStoreWallet(
+        fileName: String,
+        address: String,
+        currency: Currency
+    ): CryptoWallet {
+        val now = clock.now()
+        val walletId = Uuid.random().toHexString()
+        val wallet = CryptoWallet(
+            id = walletId,
+            created = now,
+            updated = now,
+            address = address,
+            currency = currency,
+            location = "$walletDirectoryPath/$fileName"
+        )
+
+        return cryptoWalletRepository.insert(walletId) { wallet }
     }
 
     internal companion object {
