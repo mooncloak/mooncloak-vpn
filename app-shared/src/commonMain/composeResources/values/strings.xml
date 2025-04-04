@@ -426,5 +426,7 @@
 
     <string name="crypto_wallet_error_amount_invalid">Enter a valid amount.</string>
     <string name="crypto_wallet_error_amount_too_much">Insufficient funds.</string>
+    <string name="crypto_wallet_error_phrase_invalid">Enter a valid phrase</string>
+    <string name="crypto_wallet_error_phrase_invalid_word_count">Secret Recovery Phrase MUST be 12 or 24 words long.</string>
 
 </resources>

@@ -79,9 +79,11 @@ public class CryptoWalletViewModel @Inject public constructor(
 
     private val addressState = MutableStateFlow(TextFieldValue())
     private val amountState = MutableStateFlow(TextFieldValue())
+    private val phraseState = MutableStateFlow(TextFieldValue())
 
     private var addressJob: Job? = null
     private var amountJob: Job? = null
+    private var phraseJob: Job? = null
 
     public fun load() {
         coroutineScope.launch {
@@ -99,6 +101,7 @@ public class CryptoWalletViewModel @Inject public constructor(
 
                     subscribeToAddressChanges()
                     subscribeToAmountChanges()
+                    subscribeToPhraseChanges()
 
                     blockChain = getString(Res.string.crypto_wallet_value_blockchain_ethereum)
                     network = getString(Res.string.crypto_wallet_value_network_polygon)
@@ -161,14 +164,7 @@ public class CryptoWalletViewModel @Inject public constructor(
     public fun updateAddress(value: TextFieldValue) {
         coroutineScope.launch {
             mutex.withLock {
-                try {
-                    addressState.value = value
-                } catch (e: Exception) {
-                    LogPile.error(
-                        message = "Error updating address.",
-                        cause = e
-                    )
-                }
+                addressState.value = value
             }
         }
     }
@@ -176,14 +172,15 @@ public class CryptoWalletViewModel @Inject public constructor(
     public fun updateAmount(value: TextFieldValue) {
         coroutineScope.launch {
             mutex.withLock {
-                try {
-                    amountState.value = value
-                } catch (e: Exception) {
-                    LogPile.error(
-                        message = "Error updating amount.",
-                        cause = e
-                    )
-                }
+                amountState.value = value
+            }
+        }
+    }
+
+    public fun updatePhrase(value: TextFieldValue) {
+        coroutineScope.launch {
+            mutex.withLock {
+                phraseState.value = value
             }
         }
     }
@@ -246,6 +243,62 @@ public class CryptoWalletViewModel @Inject public constructor(
                         current.copy(
                             isLoading = false,
                             isCreatingWallet = false,
+                            error = NotificationStateModel(
+                                message = getString(Res.string.global_unexpected_error)
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    public fun restoreWallet() {
+        coroutineScope.launch {
+            mutex.withLock {
+                try {
+                    emit { current -> current.copy(restore = current.restore.copy(isRestoring = true)) }
+
+                    val phrase = state.current.value.restore.phrase.value.text
+                    val wallet = restoreExistingWallet(seedPhrase = phrase)
+
+                    val currentState = state.current.value
+                    val balance = getBalance.invoke(address = wallet.address)
+                    val promoDetails = getPromoDetails(wallet = wallet)
+                    val timestamp = clock.now()
+                    val items = getFeedItems(
+                        wallet = wallet,
+                        balance = balance,
+                        statDetails = null,
+                        promoDetails = promoDetails,
+                        blockChain = currentState.blockChain,
+                        network = currentState.network,
+                        timestamp = dateTimeFormatter.format(timestamp)
+                    )
+
+                    emit { current ->
+                        current.copy(
+                            isLoading = false,
+                            isCreatingWallet = false,
+                            restore = current.restore.copy(isRestoring = false),
+                            wallet = wallet,
+                            balance = balance,
+                            promo = promoDetails,
+                            timestamp = timestamp,
+                            items = items
+                        )
+                    }
+                } catch (e: Exception) {
+                    LogPile.error(
+                        message = "Error creating wallet.",
+                        cause = e
+                    )
+
+                    emit { current ->
+                        current.copy(
+                            isLoading = false,
+                            isCreatingWallet = false,
+                            restore = current.restore.copy(isRestoring = false),
                             error = NotificationStateModel(
                                 message = getString(Res.string.global_unexpected_error)
                             )
@@ -328,6 +381,23 @@ public class CryptoWalletViewModel @Inject public constructor(
                 }
 
                 emit { current -> current.copy(send = current.send.copy(estimatedGas = gas)) }
+            }
+            .launchIn(coroutineScope)
+    }
+
+    private fun subscribeToPhraseChanges() {
+        phraseJob?.cancel()
+        phraseJob = phraseState.onEach { value ->
+            // Update the address value quickly so that there is no lag as the user types.
+            // Then load the extra data.
+            emit { current ->
+                current.copy(
+
+                )
+            }
+        }.debounce(300.milliseconds)
+            .onEach { value ->
+
             }
             .launchIn(coroutineScope)
     }
