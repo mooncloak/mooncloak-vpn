@@ -17,7 +17,9 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.PromoDetails
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletBalance
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletFeedItem
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletStatDetails
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.SuggestRecipientsUseCase
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
+import com.mooncloak.vpn.app.shared.model.TextFieldStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_promo_description
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_promo_description_gifted
@@ -50,7 +52,8 @@ public class CryptoWalletViewModel @Inject public constructor(
     private val clock: Clock,
     private val giftedCryptoTokenRepository: GiftedCryptoTokenRepository,
     private val currencyFormatter: Currency.Formatter = Currency.Formatter.Default,
-    private val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.Full
+    private val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.Full,
+    private val suggestRecipients: SuggestRecipientsUseCase
 ) : ViewModel<CryptoWalletStateModel>(initialStateValue = CryptoWalletStateModel()) {
 
     private val mutex = Mutex(locked = false)
@@ -127,7 +130,28 @@ public class CryptoWalletViewModel @Inject public constructor(
         coroutineScope.launch {
             mutex.withLock {
                 try {
+                    // Update the address value quickly so that there is no lag as the user types.
+                    // Then load the extra data.
+                    emit { current ->
+                        current.copy(
+                            send = current.send.copy(
+                                address = TextFieldStateModel(
+                                    value = value,
+                                    error = null // TODO: Perform address validation
+                                )
+                            )
+                        )
+                    }
 
+                    val suggestedRecipients = suggestRecipients.invoke(value = value.text)
+
+                    emit { current ->
+                        current.copy(
+                            send = current.send.copy(
+                                suggestedRecipients = suggestedRecipients
+                            )
+                        )
+                    }
                 } catch (e: Exception) {
                     LogPile.error(
                         message = "Error updating address.",
@@ -142,7 +166,20 @@ public class CryptoWalletViewModel @Inject public constructor(
         coroutineScope.launch {
             mutex.withLock {
                 try {
+                    // Update the address value quickly so that there is no lag as the user types.
+                    // Then load the extra data.
+                    emit { current ->
+                        current.copy(
+                            send = current.send.copy(
+                                amount = TextFieldStateModel(
+                                    value = value,
+                                    error = null // TODO: Perform address validation, determine we have enough to cover the send.
+                                )
+                            )
+                        )
+                    }
 
+                    // TODO: Calculate estimated gas pricing.
                 } catch (e: Exception) {
                     LogPile.error(
                         message = "Error updating amount.",
