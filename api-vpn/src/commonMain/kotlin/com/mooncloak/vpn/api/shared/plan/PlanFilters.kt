@@ -1,6 +1,6 @@
 package com.mooncloak.vpn.api.shared.plan
 
-import com.mooncloak.vpn.api.shared.currency.Currency
+import com.mooncloak.vpn.util.shared.currency.Currency
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

@@ -7,7 +7,7 @@ import java.util.Currency
 public actual fun Price.format(): String? {
     this.formatted?.let { return it }
 
-    val isUsd = currency.code == com.mooncloak.vpn.api.shared.currency.Currency.Code.USD
+    val isUsd = currency.code == com.mooncloak.vpn.util.shared.currency.Currency.Code.USD
 
     val formatter = NumberFormat.getCurrencyInstance().apply {
         currency = Currency.getInstance(this@format.currency.code.value)

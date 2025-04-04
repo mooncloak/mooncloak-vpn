@@ -1,5 +1,6 @@
 package com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -95,7 +96,15 @@ internal fun SendPaymentLayout(
                         Text(
                             text = stringResource(Res.string.crypto_wallet_placeholder_address)
                         )
-                    }
+                    },
+                    supportingText = (@Composable {
+                        Text(
+                            modifier = Modifier.padding(top = 4.dp)
+                                .animateContentSize(),
+                            text = model.address.error ?: "",
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }).takeIf { model.address.error != null }
                 )
 
                 Text(
@@ -124,6 +133,14 @@ internal fun SendPaymentLayout(
                             text = stringResource(Res.string.crypto_wallet_placeholder_amount)
                         )
                     },
+                    supportingText = (@Composable {
+                        Text(
+                            modifier = Modifier.padding(top = 4.dp)
+                                .animateContentSize(),
+                            text = model.amount.error ?: "",
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }).takeIf { model.amount.error != null },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Decimal
                     )

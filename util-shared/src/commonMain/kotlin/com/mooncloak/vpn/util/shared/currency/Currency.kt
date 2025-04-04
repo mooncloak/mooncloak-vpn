@@ -1,9 +1,10 @@
-package com.mooncloak.vpn.api.shared.currency
+package com.mooncloak.vpn.util.shared.currency
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.serialization.kotlinx.bigdecimal.BigDecimalHumanReadableSerializer
 import com.mooncloak.kodetools.locale.ExperimentalLocaleApi
 import com.mooncloak.kodetools.locale.Locale
+import com.mooncloak.vpn.util.shared.currency.Currency.Amount
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

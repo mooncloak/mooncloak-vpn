@@ -1,8 +1,9 @@
-package com.mooncloak.vpn.api.shared.currency
+package com.mooncloak.vpn.util.shared.currency
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.DecimalMode
 import com.ionspin.kotlin.bignum.decimal.RoundingMode
+import com.ionspin.kotlin.bignum.integer.BigInteger
 
 public operator fun Currency.Amount.Companion.invoke(
     currency: Currency,
@@ -12,6 +13,16 @@ public operator fun Currency.Amount.Companion.invoke(
     currency = currency,
     unit = unit,
     value = value
+)
+
+public operator fun Currency.Amount.Companion.invoke(
+    currency: Currency,
+    unit: Currency.Unit,
+    value: BigInteger
+): Currency.Amount = DefaultCurrencyAmount(
+    currency = currency,
+    unit = unit,
+    value = BigDecimal.fromBigInteger(value)
 )
 
 public operator fun Currency.Amount.Companion.invoke(

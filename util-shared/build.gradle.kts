@@ -33,6 +33,16 @@ kotlin {
                 // Time
                 // https://github.com/Kotlin/kotlinx-datetime
                 api(KotlinX.datetime)
+
+                // Locale Utils
+                // https://github.com/mooncloak/locale
+                api("com.mooncloak.kodetools.locale:locale-core:_")
+
+                // Kotlin Multiplatform Big Numbers - bignum
+                // https://github.com/ionspin/kotlin-multiplatform-bignum?tab=readme-ov-file#integration
+                // Apache 2.0: https://github.com/ionspin/kotlin-multiplatform-bignum?tab=Apache-2.0-1-ov-file#readme
+                api("com.ionspin.kotlin:bignum:_")
+                api("com.ionspin.kotlin:bignum-serialization-kotlinx:_")
             }
         }
 

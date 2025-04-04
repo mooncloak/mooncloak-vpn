@@ -1,6 +1,6 @@
 package com.mooncloak.vpn.crypto.lunaris.model
 
-import com.mooncloak.vpn.api.shared.currency.Currency
+import com.mooncloak.vpn.util.shared.currency.Currency
 
 /**
  * Data class representing a single transaction in the wallet's history.

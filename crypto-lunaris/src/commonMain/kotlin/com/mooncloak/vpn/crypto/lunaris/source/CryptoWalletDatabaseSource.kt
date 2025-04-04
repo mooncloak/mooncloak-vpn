@@ -1,6 +1,6 @@
 package com.mooncloak.vpn.crypto.lunaris.source
 
-import com.mooncloak.vpn.api.shared.currency.Currency
+import com.mooncloak.vpn.util.shared.currency.Currency
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoWallet
 import com.mooncloak.vpn.crypto.lunaris.repository.CryptoWalletRepository
 import com.mooncloak.vpn.data.sqlite.DatabaseManager

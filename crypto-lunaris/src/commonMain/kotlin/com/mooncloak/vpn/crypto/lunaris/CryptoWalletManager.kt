@@ -1,7 +1,7 @@
 package com.mooncloak.vpn.crypto.lunaris
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
-import com.mooncloak.vpn.api.shared.currency.Currency
+import com.mooncloak.vpn.util.shared.currency.Currency
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoAccount
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoTransaction
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoWallet
@@ -114,6 +114,24 @@ public interface CryptoWalletManager : AutoCloseable {
         target: String,
         amount: Currency.Amount
     ): SendResult
+
+    /**
+     * Estimates the cost of gas, or the price to perform the transaction.
+     *
+     * @param [origin] The public address of the wallet to send funds from.
+     *
+     * @param [target] The recipient's wallet address as a hexadecimal string (e.g., "0x...").
+     *
+     * @param [amount] The amount of LNRS to send, specified as a [BigDecimal].
+     *
+     * @return The estimated [Currency.Amount] of gas required to perform the transaction at this moment in time, or
+     * `null` if unknown.
+     */
+    public suspend fun estimateGas(
+        origin: String,
+        target: String,
+        amount: Currency.Amount
+    ): Currency.Amount?
 
     /**
      * Attempts to resolve the provided [value] as a [CryptoAccount].

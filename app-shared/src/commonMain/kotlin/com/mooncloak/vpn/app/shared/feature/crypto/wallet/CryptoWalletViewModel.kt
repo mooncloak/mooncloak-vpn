@@ -11,8 +11,8 @@ import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
 import com.mooncloak.vpn.api.shared.VpnServiceApi
-import com.mooncloak.vpn.api.shared.currency.Currency
-import com.mooncloak.vpn.api.shared.currency.Default
+import com.mooncloak.vpn.util.shared.currency.Currency
+import com.mooncloak.vpn.util.shared.currency.Default
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.PromoDetails
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletBalance
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletFeedItem
@@ -21,6 +21,8 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.SuggestRecipie
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.model.TextFieldStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.crypto_wallet_error_amount_invalid
+import com.mooncloak.vpn.app.shared.resource.crypto_wallet_estimated_gas
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_promo_description
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_promo_description_gifted
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_promo_title
@@ -31,9 +33,16 @@ import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.crypto.lunaris.CryptoWalletManager
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoWallet
 import com.mooncloak.vpn.crypto.lunaris.repository.GiftedCryptoTokenRepository
+import com.mooncloak.vpn.util.shared.currency.lunarisValidator
 import com.mooncloak.vpn.util.shared.time.DateTimeFormatter
 import com.mooncloak.vpn.util.shared.time.Full
 import com.mooncloak.vpn.util.shared.time.format
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -44,6 +53,7 @@ import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import org.jetbrains.compose.resources.getString
+import kotlin.time.Duration.Companion.milliseconds
 
 @Stable
 public class CryptoWalletViewModel @Inject public constructor(
@@ -58,6 +68,15 @@ public class CryptoWalletViewModel @Inject public constructor(
 
     private val mutex = Mutex(locked = false)
 
+    @OptIn(ExperimentalLocaleApi::class)
+    private val lunarisCurrencyAmountValidator = Currency.Amount.lunarisValidator()
+
+    private val addressState = MutableStateFlow(TextFieldValue())
+    private val amountState = MutableStateFlow(TextFieldValue())
+
+    private var addressJob: Job? = null
+    private var amountJob: Job? = null
+
     public fun load() {
         coroutineScope.launch {
             mutex.withLock {
@@ -70,6 +89,9 @@ public class CryptoWalletViewModel @Inject public constructor(
 
                 try {
                     emit { current -> current.copy(isLoading = true) }
+
+                    subscribeToAddressChanges()
+                    subscribeToAmountChanges()
 
                     blockChain = getString(Res.string.crypto_wallet_value_blockchain_ethereum)
                     network = getString(Res.string.crypto_wallet_value_network_polygon)
@@ -130,28 +152,7 @@ public class CryptoWalletViewModel @Inject public constructor(
         coroutineScope.launch {
             mutex.withLock {
                 try {
-                    // Update the address value quickly so that there is no lag as the user types.
-                    // Then load the extra data.
-                    emit { current ->
-                        current.copy(
-                            send = current.send.copy(
-                                address = TextFieldStateModel(
-                                    value = value,
-                                    error = null // TODO: Perform address validation
-                                )
-                            )
-                        )
-                    }
-
-                    val suggestedRecipients = suggestRecipients.invoke(value = value.text)
-
-                    emit { current ->
-                        current.copy(
-                            send = current.send.copy(
-                                suggestedRecipients = suggestedRecipients
-                            )
-                        )
-                    }
+                    addressState.value = value
                 } catch (e: Exception) {
                     LogPile.error(
                         message = "Error updating address.",
@@ -166,20 +167,7 @@ public class CryptoWalletViewModel @Inject public constructor(
         coroutineScope.launch {
             mutex.withLock {
                 try {
-                    // Update the address value quickly so that there is no lag as the user types.
-                    // Then load the extra data.
-                    emit { current ->
-                        current.copy(
-                            send = current.send.copy(
-                                amount = TextFieldStateModel(
-                                    value = value,
-                                    error = null // TODO: Perform address validation, determine we have enough to cover the send.
-                                )
-                            )
-                        )
-                    }
-
-                    // TODO: Calculate estimated gas pricing.
+                    amountState.value = value
                 } catch (e: Exception) {
                     LogPile.error(
                         message = "Error updating amount.",
@@ -200,11 +188,85 @@ public class CryptoWalletViewModel @Inject public constructor(
                         message = "Error sending payment.",
                         cause = e
                     )
-
-
                 }
             }
         }
+    }
+
+    private fun subscribeToAddressChanges() {
+        addressJob?.cancel()
+        addressJob = addressState.onEach { value ->
+            // Update the address value quickly so that there is no lag as the user types.
+            // Then load the extra data.
+            emit { current ->
+                current.copy(
+                    send = current.send.copy(
+                        address = TextFieldStateModel(
+                            value = value,
+                            error = null // TODO: Perform address validation
+                        )
+                    )
+                )
+            }
+        }.debounce(300.milliseconds)
+            .onEach { value ->
+                val suggestedRecipients = suggestRecipients.invoke(value = value.text)
+
+                emit { current ->
+                    current.copy(
+                        send = current.send.copy(
+                            suggestedRecipients = suggestedRecipients
+                        )
+                    )
+                }
+            }
+            .launchIn(coroutineScope)
+    }
+
+    private fun subscribeToAmountChanges() {
+        amountJob?.cancel()
+        amountJob = amountState.map { value ->
+            // Update the address value quickly so that there is no lag as the user types.
+            // Then load the extra data.
+            val amountResult = lunarisCurrencyAmountValidator.validate(value.text)
+            val error = if (amountResult.isSuccess) {
+                null
+            } else {
+                // TODO: Be more specific about the error message.
+                getString(Res.string.crypto_wallet_error_amount_invalid)
+            }
+
+            emit { current ->
+                current.copy(
+                    send = current.send.copy(
+                        amount = TextFieldStateModel(
+                            value = value,
+                            error = error
+                        )
+                    )
+                )
+            }
+
+            amountResult
+        }.debounce(300.milliseconds)
+            .onEach { amountResult ->
+                val amount = amountResult.getOrNull()
+                // TODO: Calculate estimated gas pricing.
+                val gas = if (amount != null) {
+                    val gasAmount = cryptoWalletManager.estimateGas(
+                        origin = "",
+                        target = "",
+                        amount = amount
+                    )
+
+                    gasAmount?.let { getString(Res.string.crypto_wallet_estimated_gas, it) }
+                } else {
+                    null
+                }
+
+                emit { current -> current.copy(send = current.send.copy(estimatedGas = gas)) }
+            }
+            .launchIn(coroutineScope)
     }
 
     @OptIn(ExperimentalLocaleApi::class)

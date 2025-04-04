@@ -1,7 +1,10 @@
-package com.mooncloak.vpn.api.shared.currency
+package com.mooncloak.vpn.util.shared.currency
 
 import com.mooncloak.kodetools.locale.ExperimentalLocaleApi
 import com.mooncloak.kodetools.locale.Locale
+import com.mooncloak.vpn.util.shared.currency.Currency
+import com.mooncloak.vpn.util.shared.currency.isCrypto
+import com.mooncloak.vpn.util.shared.currency.isFiat
 import platform.Foundation.NSNumberFormatter
 import platform.Foundation.NSNumberFormatterCurrencyStyle
 import platform.Foundation.NSNumberFormatterDecimalStyle

@@ -1,8 +1,9 @@
 package com.mooncloak.vpn.crypto.lunaris
 
-import com.mooncloak.vpn.api.shared.currency.Currency
-import com.mooncloak.vpn.api.shared.currency.Lunaris
-import com.mooncloak.vpn.api.shared.currency.invoke
+import com.ionspin.kotlin.bignum.decimal.toJavaBigDecimal
+import com.mooncloak.vpn.util.shared.currency.Currency
+import com.mooncloak.vpn.util.shared.currency.Lunaris
+import com.mooncloak.vpn.util.shared.currency.invoke
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoAccount
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoTransaction
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoWallet
@@ -21,6 +22,7 @@ import org.web3j.crypto.WalletUtils
 import org.web3j.ens.EnsResolver
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.DefaultBlockParameterName
+import org.web3j.protocol.core.methods.response.Transaction
 import org.web3j.protocol.core.methods.response.TransactionReceipt
 import org.web3j.protocol.http.HttpService
 import org.web3j.tx.gas.DefaultGasProvider
@@ -182,6 +184,43 @@ internal class AndroidCryptoWalletManager internal constructor(
         // TODO: Get gas used + properly handle status.
 
         return SendResult.Success(transactionHash)
+    }
+
+    override suspend fun estimateGas(
+        origin: String,
+        target: String,
+        amount: Currency.Amount
+    ): Currency.Amount? {
+        try {
+            // Get nonce
+            val nonce = web3j.ethGetTransactionCount(origin, DefaultBlockParameterName.LATEST)
+                .send()
+                .transactionCount
+
+            // Create transaction object
+            val transaction = org.web3j.protocol.core.methods.request.Transaction(
+                origin,
+                nonce,
+                null, // Gas price (null for estimation)
+                null, // Gas limit (null for estimation)
+                target,
+                amount.toMinorUnits().toBigInteger(),
+                "" // data empty for native transfer
+            )
+
+            // Estimate gas
+            val gasEstimate = web3j.ethEstimateGas(transaction)
+                .send()
+                .amountUsed
+
+            return Currency.Amount(
+                currency = amount.currency,
+                unit = Currency.Unit.Minor,
+                value = gasEstimate
+            )
+        } catch (e: Exception) {
+            return null
+        }
     }
 
     override suspend fun resolveRecipient(value: String): CryptoAccount? {

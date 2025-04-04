@@ -39,12 +39,6 @@ kotlin {
                 // https://github.com/Kotlin/kotlinx-datetime
                 api(KotlinX.datetime)
 
-                // Kotlin Multiplatform Big Numbers - bignum
-                // https://github.com/ionspin/kotlin-multiplatform-bignum?tab=readme-ov-file#integration
-                // Apache 2.0: https://github.com/ionspin/kotlin-multiplatform-bignum?tab=Apache-2.0-1-ov-file#readme
-                api("com.ionspin.kotlin:bignum:_")
-                api("com.ionspin.kotlin:bignum-serialization-kotlinx:_")
-
                 // Http Client - Ktor
                 // https://github.com/ktorio/ktor
                 api("io.ktor:ktor-client-core:_")
@@ -66,10 +60,6 @@ kotlin {
                 // https://github.com/mooncloak/pagex
                 // Apache 2.0: https://github.com/mooncloak/pagex/blob/main/LICENSE
                 implementation("com.mooncloak.kodetools.pagex:pagex-core:_")
-
-                // Locale Utils
-                // https://github.com/mooncloak/locale
-                api("com.mooncloak.kodetools.locale:locale-core:_")
 
                 implementation(compose.runtime)
 

@@ -1,8 +1,8 @@
 package com.mooncloak.vpn.crypto.lunaris.source
 
-import com.mooncloak.vpn.api.shared.currency.Currency
-import com.mooncloak.vpn.api.shared.currency.Lunaris
-import com.mooncloak.vpn.api.shared.currency.invoke
+import com.mooncloak.vpn.util.shared.currency.Currency
+import com.mooncloak.vpn.util.shared.currency.Lunaris
+import com.mooncloak.vpn.util.shared.currency.invoke
 import com.mooncloak.vpn.crypto.lunaris.model.GiftedCryptoToken
 import com.mooncloak.vpn.crypto.lunaris.model.GiftedCryptoTokenStats
 import com.mooncloak.vpn.crypto.lunaris.repository.GiftedCryptoTokenRepository
