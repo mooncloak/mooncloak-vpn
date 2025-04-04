@@ -23,6 +23,7 @@ public data class CryptoWalletStateModel public constructor(
     public val send: SendCryptoStateModel = SendCryptoStateModel(),
     public val items: List<WalletFeedItem> = emptyList(),
     public val isLoading: Boolean = false,
+    public val isCreatingWallet: Boolean = false,
     public val error: NotificationStateModel? = null,
     public val success: NotificationStateModel? = null
 )

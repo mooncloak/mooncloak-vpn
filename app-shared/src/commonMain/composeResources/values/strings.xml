@@ -402,6 +402,7 @@
     <string name="crypto_wallet_action_open_wallet_app">Open Wallet App</string>
     <string name="crypto_wallet_action_create_wallet">Create wallet</string>
     <string name="crypto_wallet_action_restore_wallet">Restore wallet</string>
+    <string name="crypto_wallet_action_open_polygon_scan">Open in PolygonScan</string>
 
     <string name="crypto_wallet_message_address_copied">Address Copied!</string>
 
