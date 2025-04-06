@@ -168,7 +168,7 @@
     <string name="settings_title_landing">Start on landing</string>
     <string name="settings_description_landing">Display the landing screen whenever the app is opened</string>
     <string name="settings_group_support">Support</string>
-    <string name="settings_title_support">Open Support</string>
+    <string name="settings_title_support">Support Center</string>
 
     <string name="settings_title_screen_lock">Screen Lock</string>
     <string name="settings_description_screen_lock">Requires system authentication when you leave or switch apps after a timeout.</string>
