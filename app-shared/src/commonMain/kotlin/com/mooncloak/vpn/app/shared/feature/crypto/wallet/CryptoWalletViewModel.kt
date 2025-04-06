@@ -19,6 +19,7 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletFeedItem
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletStatDetails
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.CreateWalletUseCase
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.GetBalanceUseCase
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.GetSecureRecoveryPhraseUseCase
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.RestoreWalletUseCase
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.SuggestRecipientsUseCase
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.validation.SecretRecoveryPhraseValidationException
@@ -79,6 +80,7 @@ public class CryptoWalletViewModel @Inject public constructor(
     private val createNewWallet: CreateWalletUseCase,
     private val restoreExistingWallet: RestoreWalletUseCase,
     private val getBalance: GetBalanceUseCase,
+    private val getSecureRecoveryPhrase: GetSecureRecoveryPhraseUseCase,
     private val systemAuthenticationProvider: SystemAuthenticationProvider
 ) : ViewModel<CryptoWalletStateModel>(initialStateValue = CryptoWalletStateModel()) {
 
@@ -105,6 +107,7 @@ public class CryptoWalletViewModel @Inject public constructor(
                 var promoDetails: PromoDetails? = null
                 var timestamp: Instant? = null
                 var items = emptyList<WalletFeedItem>()
+                var secureRecoveryPhrase: String? = null
 
                 try {
                     emit { current -> current.copy(isLoading = true) }
@@ -128,6 +131,9 @@ public class CryptoWalletViewModel @Inject public constructor(
                         network = network,
                         timestamp = dateTimeFormatter.format(timestamp)
                     )
+                    secureRecoveryPhrase = wallet?.address?.let { address ->
+                        getSecureRecoveryPhrase.invoke(address = address)
+                    }
 
                     emit { current ->
                         current.copy(
@@ -138,7 +144,8 @@ public class CryptoWalletViewModel @Inject public constructor(
                             balance = balance,
                             promo = promoDetails,
                             timestamp = timestamp,
-                            items = items
+                            items = items,
+                            secureRecoveryPhrase = secureRecoveryPhrase
                         )
                     }
                 } catch (e: Exception) {
@@ -157,6 +164,7 @@ public class CryptoWalletViewModel @Inject public constructor(
                             promo = promoDetails,
                             timestamp = timestamp,
                             items = items,
+                            secureRecoveryPhrase = secureRecoveryPhrase,
                             error = NotificationStateModel(
                                 message = getString(Res.string.global_unexpected_error)
                             )
