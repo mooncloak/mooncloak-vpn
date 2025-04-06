@@ -22,6 +22,8 @@ public data class CryptoWalletStateModel public constructor(
     public val stats: WalletStatDetails? = null,
     public val send: SendCryptoStateModel = SendCryptoStateModel(),
     public val restore: RestoreCryptoStateModel = RestoreCryptoStateModel(),
+    public val secureRecoveryPhrase: String? = null,
+    public val secureRecoveryPhraseVisible: Boolean = false,
     public val items: List<WalletFeedItem> = emptyList(),
     public val isLoading: Boolean = false,
     public val isCreatingWallet: Boolean = false,

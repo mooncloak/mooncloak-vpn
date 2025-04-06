@@ -369,6 +369,7 @@
     <string name="crypto_wallet_title_restore_wallet">Restore Wallet</string>
     <string name="crypto_wallet_title_reveal">Secret Recovery Phrase</string>
     <string name="crypto_wallet_title_dialog_creating">Creating Wallet</string>
+    <string name="crypto_wallet_title_authenticate_recovery">Authenticate to reveal secure recovery phrase</string>
 
     <string name="crypto_wallet_description_account_address">Your public Lunaris account address on the Polygon chain.</string>
     <string name="crypto_wallet_description_no_wallet">There is no Lunaris wallet. Create or restore one to get started.</string>
@@ -376,6 +377,7 @@
     <string name="crypto_wallet_description_send">Send Lunaris to any Polygon Network wallet address.</string>
     <string name="crypto_wallet_description_srp">The Secret Recovery Phrase grants full access to your wallet. Make sure to keep it secret!</string>
     <string name="crypto_wallet_description_dialog_creating">Hang tight while we create your wallet.</string>
+    <string name="crypto_wallet_description_reveal">The Secret Recovery Phrase allows you to restore access to your wallet. Keep it safe and don't share with anyone!</string>
 
     <string name="crypto_wallet_label_balance">Balance</string>
     <string name="crypto_wallet_label_today">Today</string>
@@ -391,6 +393,7 @@
     <string name="crypto_wallet_label_estimated_value">Estimated Value</string>
     <string name="crypto_wallet_label_scan_qr_code">Scan to send Lunaris to this wallet address.</string>
     <string name="crypto_wallet_label_recipient_address">Recipient address</string>
+    <string name="crypto_wallet_label_srp">Secret Recovery Phrase</string>
 
     <string name="crypto_wallet_value_blockchain_ethereum">Ethereum</string>
     <string name="crypto_wallet_value_network_polygon">Polygon</string>
@@ -408,8 +411,11 @@
     <string name="crypto_wallet_action_open_polygon_scan">Open in PolygonScan</string>
     <string name="crypto_wallet_action_copy_srp">Copy phrase</string>
     <string name="crypto_wallet_action_download_srp">Download phrase</string>
+    <string name="crypto_wallet_action_hide">Hide</string>
+    <string name="crypto_wallet_action_show">Show</string>
 
     <string name="crypto_wallet_message_address_copied">Address Copied!</string>
+    <string name="crypto_wallet_message_srp_copied">Secure Recovery Phrase Copied!</string>
 
     <string name="crypto_wallet_promo_title">First 1,000 wallet users get 100 free Lunaris (LNRS) tokens!</string>
     <string name="crypto_wallet_promo_description">Set up your wallet now to claim your free Lunaris tokens—a real cryptocurrency for use and trading. Available while supplies last.</string>
@@ -428,5 +434,7 @@
     <string name="crypto_wallet_error_amount_too_much">Insufficient funds.</string>
     <string name="crypto_wallet_error_phrase_invalid">Enter a valid phrase</string>
     <string name="crypto_wallet_error_phrase_invalid_word_count">Secret Recovery Phrase MUST be 12 or 24 words long.</string>
+
+    <string name="crypto_wallet_hidden_phrase">**********</string>
 
 </resources>

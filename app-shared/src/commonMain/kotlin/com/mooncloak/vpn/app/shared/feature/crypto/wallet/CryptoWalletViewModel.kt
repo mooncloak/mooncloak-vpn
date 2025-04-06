@@ -34,9 +34,13 @@ import com.mooncloak.vpn.app.shared.resource.crypto_wallet_promo_description
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_promo_description_gifted
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_promo_title
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_promo_title_gifted
+import com.mooncloak.vpn.app.shared.resource.crypto_wallet_title_authenticate_recovery
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_value_blockchain_ethereum
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_value_network_polygon
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
+import com.mooncloak.vpn.app.shared.util.SystemAuthenticationProvider
+import com.mooncloak.vpn.app.shared.util.isSuccess
+import com.mooncloak.vpn.app.shared.util.launchAuthentication
 import com.mooncloak.vpn.crypto.lunaris.CryptoWalletManager
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoWallet
 import com.mooncloak.vpn.crypto.lunaris.repository.GiftedCryptoTokenRepository
@@ -74,7 +78,8 @@ public class CryptoWalletViewModel @Inject public constructor(
     private val suggestRecipients: SuggestRecipientsUseCase,
     private val createNewWallet: CreateWalletUseCase,
     private val restoreExistingWallet: RestoreWalletUseCase,
-    private val getBalance: GetBalanceUseCase
+    private val getBalance: GetBalanceUseCase,
+    private val systemAuthenticationProvider: SystemAuthenticationProvider
 ) : ViewModel<CryptoWalletStateModel>(initialStateValue = CryptoWalletStateModel()) {
 
     private val mutex = Mutex(locked = false)
@@ -186,6 +191,45 @@ public class CryptoWalletViewModel @Inject public constructor(
         coroutineScope.launch {
             mutex.withLock {
                 phraseState.value = value
+            }
+        }
+    }
+
+    public fun togglePhraseVisibility() {
+        coroutineScope.launch {
+            mutex.withLock {
+                try {
+                    val isCurrentlyVisible = state.current.value.secureRecoveryPhraseVisible
+
+                    // We are toggling to visible, and system authentication is supported, so require authentication.
+                    if (!isCurrentlyVisible && systemAuthenticationProvider.isSupported) {
+                        val result = systemAuthenticationProvider.launchAuthentication(
+                            title = getString(Res.string.crypto_wallet_title_authenticate_recovery),
+                            subtitle = null,
+                            description = null
+                        )
+
+                        // Only toggle to visible if authentication was successful.
+                        if (result.isSuccess()) {
+                            emit { current -> current.copy(secureRecoveryPhraseVisible = true) }
+                        }
+                    } else {
+                        emit { current -> current.copy(secureRecoveryPhraseVisible = !isCurrentlyVisible) }
+                    }
+                } catch (e: Exception) {
+                    LogPile.error(
+                        message = "Error toggling visibility of secure recovery phrase.",
+                        cause = e
+                    )
+
+                    emit { current ->
+                        current.copy(
+                            error = NotificationStateModel(
+                                message = getString(Res.string.global_unexpected_error)
+                            )
+                        )
+                    }
+                }
             }
         }
     }

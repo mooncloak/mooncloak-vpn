@@ -61,6 +61,7 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.vector.LunarisCoin
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_message_address_copied
+import com.mooncloak.vpn.app.shared.resource.crypto_wallet_message_srp_copied
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_title_lunaris_wallet
 import com.mooncloak.vpn.app.shared.theme.DefaultHorizontalPageSpacing
 import com.mooncloak.vpn.crypto.lunaris.model.uri
@@ -91,7 +92,7 @@ public fun CryptoWalletScreen(
     val restoreWalletBottomSheetState = rememberManagedModalBottomSheetState()
     val sendPaymentBottomSheetState = rememberManagedModalBottomSheetState(skipPartiallyExpanded = true)
     val receivePaymentBottomSheetState = rememberManagedModalBottomSheetState(skipPartiallyExpanded = true)
-    val revealSeedPhraseBottomSheetState = rememberManagedModalBottomSheetState()
+    val revealSeedPhraseBottomSheetState = rememberManagedModalBottomSheetState(skipPartiallyExpanded = true)
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -298,7 +299,19 @@ public fun CryptoWalletScreen(
 
     RevealSeedPhraseLayout(
         modifier = Modifier.fillMaxWidth(),
-        sheetState = revealSeedPhraseBottomSheetState
+        sheetState = revealSeedPhraseBottomSheetState,
+        phrase = viewModel.state.current.value.secureRecoveryPhrase,
+        phraseVisible = viewModel.state.current.value.secureRecoveryPhraseVisible,
+        onTogglePhraseVisibility = viewModel::togglePhraseVisibility,
+        onCopied = {
+            coroutineScope.launch {
+                snackbarHostState.showSuccess(
+                    notification = NotificationStateModel(
+                        message = getString(Res.string.crypto_wallet_message_srp_copied)
+                    )
+                )
+            }
+        }
     )
 
     CreateWalletLayout(

@@ -1,6 +1,8 @@
 package com.mooncloak.vpn.app.shared.util
 
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
 import kotlin.coroutines.resume
 
 /**
@@ -96,4 +98,11 @@ public sealed interface SystemAuthenticationResult {
         public val message: String? = null,
         public val cause: Throwable? = null
     ) : SystemAuthenticationResult
+}
+
+@OptIn(ExperimentalContracts::class)
+public inline fun SystemAuthenticationResult.isSuccess(): Boolean {
+    contract { returns(true) implies (this@isSuccess is SystemAuthenticationResult.Success) }
+
+    return this is SystemAuthenticationResult.Success
 }
