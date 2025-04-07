@@ -22,6 +22,7 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.GetBalanceUseC
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.GetSecureRecoveryPhraseUseCase
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.RestoreWalletUseCase
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.SuggestRecipientsUseCase
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.validation.LunarisAddressValidator
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.validation.SecretRecoveryPhraseValidationException
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.validation.SecretRecoveryPhraseValidator
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
@@ -88,6 +89,7 @@ public class CryptoWalletViewModel @Inject public constructor(
 
     @OptIn(ExperimentalLocaleApi::class)
     private val lunarisCurrencyAmountValidator = Currency.Amount.lunarisValidator()
+    private val lunarisAddressValidator = LunarisAddressValidator()
 
     private val addressState = MutableStateFlow(TextFieldValue())
     private val amountState = MutableStateFlow(TextFieldValue())
@@ -276,12 +278,20 @@ public class CryptoWalletViewModel @Inject public constructor(
         addressJob = addressState.onEach { value ->
             // Update the address value quickly so that there is no lag as the user types.
             // Then load the extra data.
+            val amountResult = lunarisAddressValidator.validate(value.text)
+            val error = if (amountResult.isSuccess) {
+                null
+            } else {
+                // TODO: Be more specific about the error message.
+                getString(Res.string.crypto_wallet_error_amount_invalid)
+            }
+
             emit { current ->
                 current.copy(
                     send = current.send.copy(
                         address = TextFieldStateModel(
                             value = value,
-                            error = null // TODO: Perform address validation
+                            error = error
                         )
                     )
                 )
@@ -329,11 +339,12 @@ public class CryptoWalletViewModel @Inject public constructor(
         }.debounce(300.milliseconds)
             .onEach { amountResult ->
                 val amount = amountResult.getOrNull()
-                // TODO: Calculate estimated gas pricing.
+
                 val gas = if (amount != null) {
+                    val currentState = state.current.value
                     val gasAmount = cryptoWalletManager.estimateGas(
-                        origin = "",
-                        target = "",
+                        origin = currentState.wallet?.address ?: "",
+                        target = currentState.send.address.value.text,
                         amount = amount
                     )
 
