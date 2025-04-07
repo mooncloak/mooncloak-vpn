@@ -32,13 +32,13 @@ public data class CryptoWalletStateModel public constructor(
 )
 
 public val CryptoWalletStateModel.sendEnabled: Boolean
-    inline get() = true // TODO: Re-enable after testing: !this.isLoading && this.wallet != null
+    inline get() = !this.isLoading && this.wallet != null
 
 public val CryptoWalletStateModel.receiveEnabled: Boolean
-    inline get() = true // TODO: Re-enable after testing: !this.isLoading && this.wallet != null
+    inline get() = !this.isLoading && this.wallet != null
 
 public val CryptoWalletStateModel.revealEnabled: Boolean
-    inline get() = true // TODO: Re-enable after testing: !this.isLoading && this.wallet != null
+    inline get() = !this.isLoading && this.wallet != null
 
 public val CryptoWalletStateModel.showNoWalletCard: Boolean
     inline get() = !this.isLoading && this.wallet == null

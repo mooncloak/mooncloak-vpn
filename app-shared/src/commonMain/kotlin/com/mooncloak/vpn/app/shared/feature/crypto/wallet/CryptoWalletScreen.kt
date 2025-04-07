@@ -57,6 +57,7 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout.RestoreWalletLa
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout.RevealSeedPhraseLayout
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout.SendPaymentLayout
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletFeedItem
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.isValid
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.vector.LunarisCoin
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -321,7 +322,11 @@ public fun CryptoWalletScreen(
 
     RestoreWalletLayout(
         modifier = Modifier.fillMaxWidth(),
-        sheetState = restoreWalletBottomSheetState
+        sheetState = restoreWalletBottomSheetState,
+        enabled = viewModel.state.current.value.restore.isValid,
+        phrase = viewModel.state.current.value.restore.phrase,
+        onPhraseChanged = viewModel::updatePhrase,
+        onRestore = viewModel::restoreWallet
     )
 
     if (viewModel.state.current.value.isCreatingWallet) {

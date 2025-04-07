@@ -386,6 +386,7 @@ public class CryptoWalletViewModel @Inject public constructor(
             val result = secretRecoveryPhraseValidator.validate(value.text)
             val exception = result.exceptionOrNull()
             val error = when (exception) {
+                null -> null
                 is SecretRecoveryPhraseValidationException.IncorrectWordCount -> getString(Res.string.crypto_wallet_error_phrase_invalid_word_count)
                 else -> getString(Res.string.crypto_wallet_error_phrase_invalid)
             }

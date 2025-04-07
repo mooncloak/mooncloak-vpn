@@ -378,6 +378,7 @@
     <string name="crypto_wallet_description_srp">The Secret Recovery Phrase grants full access to your wallet. Make sure to keep it secret!</string>
     <string name="crypto_wallet_description_dialog_creating">Hang tight while we create your wallet.</string>
     <string name="crypto_wallet_description_reveal">The Secret Recovery Phrase allows you to restore access to your wallet. Keep it safe and don't share with anyone!</string>
+    <string name="crypto_wallet_description_restore_wallet">Use your Secure Recovery Phrase to restore your existing wallet.</string>
 
     <string name="crypto_wallet_label_balance">Balance</string>
     <string name="crypto_wallet_label_today">Today</string>
@@ -427,6 +428,7 @@
 
     <string name="crypto_wallet_placeholder_address">Enter address or ENS name</string>
     <string name="crypto_wallet_placeholder_amount">Enter amount</string>
+    <string name="crypto_wallet_placeholder_srp">Enter secure recovery phrase</string>
 
     <string name="crypto_wallet_estimated_gas">Estimated gas: %1$s</string>
 
