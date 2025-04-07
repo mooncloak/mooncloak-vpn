@@ -472,7 +472,8 @@ public class CryptoWalletViewModel @Inject public constructor(
         }
 
         return when {
-            wallet != null -> null // TODO: Check if lunaris was gifted.
+            wallet != null -> null
+
             now < expiration -> PromoDetails(
                 title = getString(Res.string.crypto_wallet_promo_title),
                 description = getString(Res.string.crypto_wallet_promo_description),
