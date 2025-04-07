@@ -14,6 +14,6 @@ public class RestoreWalletUseCase @Inject public constructor(
     public suspend operator fun invoke(seedPhrase: String): CryptoWallet {
         val password = cryptoPasswordManager.getCurrentOrGenerate()
 
-        return cryptoWalletManager.restoreWallet(seedPhrase = seedPhrase, password = password)
+        return cryptoWalletManager.restoreWallet(phrase = seedPhrase, password = password)
     }
 }

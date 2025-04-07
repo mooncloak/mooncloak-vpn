@@ -2,6 +2,9 @@ package com.mooncloak.vpn.crypto.lunaris.source
 
 import com.mooncloak.vpn.util.shared.currency.Currency
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoWallet
+import com.mooncloak.vpn.crypto.lunaris.model.EncryptedRecoveryPhrase
+import com.mooncloak.vpn.crypto.lunaris.model.decode
+import com.mooncloak.vpn.crypto.lunaris.model.encodeToBase64UrlString
 import com.mooncloak.vpn.crypto.lunaris.repository.CryptoWalletRepository
 import com.mooncloak.vpn.data.sqlite.DatabaseManager
 import com.mooncloak.vpn.data.sqlite.database.Crypto_wallet
@@ -86,7 +89,11 @@ internal class CryptoWalletDatabaseSource internal constructor(
                     currency_name = wallet.currency.name,
                     currency_ticker = wallet.currency.ticker,
                     currency_chain_id = wallet.currency.chainId,
-                    currency_address = wallet.currency.address
+                    currency_address = wallet.currency.address,
+                    enc_phrase = wallet.phrase.value.decode(),
+                    enc_iv = wallet.phrase.iv.decode(),
+                    enc_salt = wallet.phrase.salt.decode(),
+                    enc_alg = wallet.phrase.algorithm
                 )
 
                 return@withContext wallet
@@ -122,7 +129,11 @@ internal class CryptoWalletDatabaseSource internal constructor(
                         currencyName = updated.currency.name,
                         currencyTicker = updated.currency.ticker,
                         currencyChainId = updated.currency.chainId,
-                        currencyAddress = updated.currency.address
+                        currencyAddress = updated.currency.address,
+                        encPhrase = updated.phrase.value.decode(),
+                        encIv = updated.phrase.iv.decode(),
+                        encSalt = updated.phrase.salt.decode(),
+                        encAlg = updated.phrase.algorithm
                     )
 
                     updated
@@ -169,6 +180,12 @@ internal class CryptoWalletDatabaseSource internal constructor(
             ),
             location = this.location,
             name = this.name,
-            note = this.note
+            note = this.note,
+            phrase = EncryptedRecoveryPhrase(
+                value = this.enc_phrase.encodeToBase64UrlString(),
+                iv = this.enc_iv.encodeToBase64UrlString(),
+                salt = this.enc_salt.encodeToBase64UrlString(),
+                algorithm = this.enc_alg
+            )
         )
 }

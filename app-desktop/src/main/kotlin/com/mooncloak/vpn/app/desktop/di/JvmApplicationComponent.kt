@@ -29,6 +29,8 @@ import com.mooncloak.vpn.data.sqlite.SqlDriverFactory
 import com.mooncloak.vpn.data.sqlite.util.getDatabaseFileLocation
 import com.mooncloak.vpn.network.core.ip.LocalDeviceIPAddressProvider
 import com.mooncloak.vpn.network.core.ip.PublicDeviceIPAddressProvider
+import com.mooncloak.vpn.util.shared.crypto.AesEncryptor
+import com.mooncloak.vpn.util.shared.crypto.invoke
 import com.mooncloak.vpn.util.shortcuts.AppShortcutManager
 import com.mooncloak.vpn.util.shortcuts.invoke
 import kotlinx.datetime.Clock
@@ -104,7 +106,8 @@ internal abstract class JvmApplicationComponent internal constructor(
         cryptoWalletAddressProvider = addressProvider,
         walletDirectoryPath = CryptoWalletManager.walletDirectory().absolutePath,
         cryptoWalletRepository = repository,
-        clock = clock
+        clock = clock,
+        encryptor = AesEncryptor()
     )
 }
 

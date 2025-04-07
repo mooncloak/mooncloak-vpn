@@ -33,7 +33,8 @@ public data class CryptoWallet public constructor(
     @SerialName(value = "currency") public val currency: Currency,
     @SerialName(value = "location") public val location: String,
     @SerialName(value = "name") public val name: String? = null,
-    @SerialName(value = "note") public val note: String? = null
+    @SerialName(value = "note") public val note: String? = null,
+    @SerialName(value = "phrase") public val phrase: EncryptedRecoveryPhrase
 )
 
 public fun CryptoWallet.uri(amount: Currency.Amount? = null): String? {

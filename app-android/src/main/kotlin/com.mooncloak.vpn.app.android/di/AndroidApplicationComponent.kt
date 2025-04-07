@@ -19,6 +19,8 @@ import com.mooncloak.vpn.data.shared.cache.Cache
 import com.mooncloak.vpn.data.shared.cache.create
 import com.mooncloak.vpn.network.core.ip.PublicDeviceIPAddressProvider
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
+import com.mooncloak.vpn.util.shared.crypto.AesEncryptor
+import com.mooncloak.vpn.util.shared.crypto.invoke
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
 import kotlin.time.Duration.Companion.seconds
@@ -66,6 +68,7 @@ public abstract class AndroidApplicationComponent public constructor() : Applica
         cryptoWalletAddressProvider = addressProvider,
         walletDirectoryPath = CryptoWalletManager.walletDirectory(context = applicationContext).absolutePath,
         cryptoWalletRepository = repository,
-        clock = clock
+        clock = clock,
+        encryptor = AesEncryptor()
     )
 }

@@ -17,7 +17,11 @@ CREATE TABLE IF NOT EXISTS crypto_wallet (
     currency_name TEXT,
     currency_ticker TEXT,
     currency_chain_id INTEGER,
-    currency_address TEXT
+    currency_address TEXT,
+    enc_phrase BLOB NOT NULL DEFAULT '',
+    enc_iv BLOB NOT NULL DEFAULT '',
+    enc_salt BLOB NOT NULL DEFAULT '',
+    enc_alg TEXT NOT NULL DEFAULT 'AES/CBC/PKCS7Padding'
 );
 
 CREATE INDEX IF NOT EXISTS crypto_wallet_id_index ON crypto_wallet(id);
@@ -40,8 +44,12 @@ INSERT OR REPLACE INTO crypto_wallet(
     currency_name,
     currency_ticker,
     currency_chain_id,
-    currency_address
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+    currency_address,
+    enc_phrase,
+    enc_iv,
+    enc_salt,
+    enc_alg
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 updateAll:
 UPDATE crypto_wallet
@@ -58,7 +66,11 @@ SET updated = :updated,
     currency_name = :currencyName,
     currency_ticker = :currencyTicker,
     currency_chain_id = :currencyChainId,
-    currency_address = :currencyAddress
+    currency_address = :currencyAddress,
+    enc_phrase = :encPhrase,
+    enc_iv = :encIv,
+    enc_salt = :encSalt,
+    enc_alg = :encAlg
 WHERE id = :id;
 
 selectById:
