@@ -30,5 +30,7 @@ public sealed class SendResult {
     /**
      * Indicates the transaction is pending submission or confirmation.
      */
-    public data object Pending : SendResult()
+    public data class Pending public constructor(
+        public val txHash: String? = null
+    ) : SendResult()
 }

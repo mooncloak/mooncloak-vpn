@@ -189,37 +189,64 @@ internal class AndroidCryptoWalletManager internal constructor(
         amount: Currency.Amount
     ): SendResult =
         withContext(Dispatchers.PlatformIO) {
-            val wallet = cryptoWalletRepository.getByAddress(origin)
-            val credentials = WalletUtils.loadCredentials(password, File(wallet.location))
+            try {
+                val wallet = cryptoWalletRepository.getByAddress(origin)
+                val credentials = WalletUtils.loadCredentials(password, File(wallet.location))
 
-            // For ERC-20 token transfer
-            val function = Function(
-                "transfer",
-                listOf(Address(target), Uint256(amount.toMinorUnits())),
-                emptyList()
-            )
-            val encodedFunction = FunctionEncoder.encode(function)
-
-            val nonce = web3j.ethGetTransactionCount(
-                credentials.address,
-                DefaultBlockParameterName.LATEST
-            ).send().transactionCount
-
-            val transactionHash = web3j.ethSendTransaction(
-                org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction(
-                    credentials.address,           // from
-                    nonce,                         // nonce
-                    DefaultGasProvider.GAS_PRICE,  // gasPrice
-                    DefaultGasProvider.GAS_LIMIT,  // gasLimit
-                    currencyAddress,               // to (contract address)
-                    BigInteger.ZERO,               // value (0 for ERC-20 transfer)
-                    encodedFunction                // data
+                // For ERC-20 token transfer
+                val function = Function(
+                    "transfer",
+                    listOf(Address(target), Uint256(amount.toMinorUnits())),
+                    emptyList()
                 )
-            ).send().transactionHash
+                val encodedFunction = FunctionEncoder.encode(function)
 
-            // TODO: Get gas used + properly handle status.
+                // Get current gas price (more dynamic than default)
+                val gasPrice = web3j.ethGasPrice().send().gasPrice
 
-            return@withContext SendResult.Success(transactionHash)
+                val nonce = web3j.ethGetTransactionCount(
+                    credentials.address,
+                    DefaultBlockParameterName.LATEST
+                ).send().transactionCount
+
+                val transaction = web3j.ethSendTransaction(
+                    org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction(
+                        credentials.address,           // from
+                        nonce,                         // nonce
+                        gasPrice,                      // gasPrice
+                        null,                  // gasLimit
+                        currencyAddress,               // to (contract address)
+                        BigInteger.ZERO,               // value (0 for ERC-20 transfer)
+                        encodedFunction                // data
+                    )
+                ).send()
+
+                if (transaction.hasError()) {
+                    return@withContext SendResult.Failure(
+                        errorMessage = "Send transaction failed: ${transaction.error.code}: ${transaction.error.message}"
+                    )
+                }
+
+                val receipt = web3j.ethGetTransactionReceipt(transaction.transactionHash)
+                    .send()
+                    .transactionReceipt
+                    .getOrNull()
+
+                return@withContext if (receipt != null && receipt.isStatusOK) {
+                    SendResult.Success(
+                        txHash = transaction.transactionHash,
+                        gasUsed = receipt.gasUsed?.let {
+                            com.ionspin.kotlin.bignum.integer.BigInteger.parseString(it.toString())
+                        }
+                    )
+                } else {
+                    SendResult.Pending(txHash = transaction.transactionHash)
+                }
+            } catch (e: Exception) {
+                return@withContext SendResult.Failure(
+                    errorMessage = "Send transaction failed: ${e.message}"
+                )
+            }
         }
 
     override suspend fun estimateGas(
