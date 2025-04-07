@@ -100,15 +100,6 @@ public class CryptoWalletViewModel @Inject public constructor(
     public fun load() {
         coroutineScope.launch {
             mutex.withLock {
-                var blockChain: String? = null
-                var network: String? = null
-                var wallet: CryptoWallet? = null
-                var balance: WalletBalance? = null
-                var promoDetails: PromoDetails? = null
-                var timestamp: Instant? = null
-                var items = emptyList<WalletFeedItem>()
-                var secureRecoveryPhrase: String? = null
-
                 try {
                     emit { current -> current.copy(isLoading = true) }
 
@@ -116,38 +107,9 @@ public class CryptoWalletViewModel @Inject public constructor(
                     subscribeToAmountChanges()
                     subscribeToPhraseChanges()
 
-                    blockChain = getString(Res.string.crypto_wallet_value_blockchain_ethereum)
-                    network = getString(Res.string.crypto_wallet_value_network_polygon)
-                    wallet = cryptoWalletManager.getDefaultWallet()
-                    balance = wallet?.address?.let { getBalance.invoke(address = it) }
-                    promoDetails = getPromoDetails(wallet = wallet)
-                    timestamp = clock.now()
-                    items = getFeedItems(
-                        wallet = wallet,
-                        balance = balance,
-                        statDetails = null,
-                        promoDetails = promoDetails,
-                        blockChain = blockChain,
-                        network = network,
-                        timestamp = dateTimeFormatter.format(timestamp)
-                    )
-                    secureRecoveryPhrase = wallet?.address?.let { address ->
-                        getSecureRecoveryPhrase.invoke(address = address)
-                    }
+                    val wallet = cryptoWalletManager.getDefaultWallet()
 
-                    emit { current ->
-                        current.copy(
-                            isLoading = false,
-                            blockChain = blockChain,
-                            network = network,
-                            wallet = wallet,
-                            balance = balance,
-                            promo = promoDetails,
-                            timestamp = timestamp,
-                            items = items,
-                            secureRecoveryPhrase = secureRecoveryPhrase
-                        )
-                    }
+                    loadWalletDataAndEmit(wallet = wallet)
                 } catch (e: Exception) {
                     LogPile.error(
                         message = "Error loading Lunaris Wallet.",
@@ -157,14 +119,6 @@ public class CryptoWalletViewModel @Inject public constructor(
                     emit { current ->
                         current.copy(
                             isLoading = false,
-                            blockChain = blockChain,
-                            network = network,
-                            wallet = wallet,
-                            balance = balance,
-                            promo = promoDetails,
-                            timestamp = timestamp,
-                            items = items,
-                            secureRecoveryPhrase = secureRecoveryPhrase,
                             error = NotificationStateModel(
                                 message = getString(Res.string.global_unexpected_error)
                             )
@@ -265,31 +219,7 @@ public class CryptoWalletViewModel @Inject public constructor(
 
                     val wallet = createNewWallet()
 
-                    val currentState = state.current.value
-                    val balance = getBalance.invoke(address = wallet.address)
-                    val promoDetails = getPromoDetails(wallet = wallet)
-                    val timestamp = clock.now()
-                    val items = getFeedItems(
-                        wallet = wallet,
-                        balance = balance,
-                        statDetails = null,
-                        promoDetails = promoDetails,
-                        blockChain = currentState.blockChain,
-                        network = currentState.network,
-                        timestamp = dateTimeFormatter.format(timestamp)
-                    )
-
-                    emit { current ->
-                        current.copy(
-                            isLoading = false,
-                            isCreatingWallet = false,
-                            wallet = wallet,
-                            balance = balance,
-                            promo = promoDetails,
-                            timestamp = timestamp,
-                            items = items
-                        )
-                    }
+                    loadWalletDataAndEmit(wallet = wallet)
                 } catch (e: Exception) {
                     LogPile.error(
                         message = "Error creating wallet.",
@@ -319,32 +249,7 @@ public class CryptoWalletViewModel @Inject public constructor(
                     val phrase = state.current.value.restore.phrase.value.text
                     val wallet = restoreExistingWallet(seedPhrase = phrase)
 
-                    val currentState = state.current.value
-                    val balance = getBalance.invoke(address = wallet.address)
-                    val promoDetails = getPromoDetails(wallet = wallet)
-                    val timestamp = clock.now()
-                    val items = getFeedItems(
-                        wallet = wallet,
-                        balance = balance,
-                        statDetails = null,
-                        promoDetails = promoDetails,
-                        blockChain = currentState.blockChain,
-                        network = currentState.network,
-                        timestamp = dateTimeFormatter.format(timestamp)
-                    )
-
-                    emit { current ->
-                        current.copy(
-                            isLoading = false,
-                            isCreatingWallet = false,
-                            restore = current.restore.copy(isRestoring = false),
-                            wallet = wallet,
-                            balance = balance,
-                            promo = promoDetails,
-                            timestamp = timestamp,
-                            items = items
-                        )
-                    }
+                    loadWalletDataAndEmit(wallet = wallet)
                 } catch (e: Exception) {
                     LogPile.error(
                         message = "Error creating wallet.",
@@ -465,6 +370,80 @@ public class CryptoWalletViewModel @Inject public constructor(
                 )
             }
         }.launchIn(coroutineScope)
+    }
+
+    private suspend fun loadWalletDataAndEmit(
+        wallet: CryptoWallet?
+    ) {
+        val currentState = state.current.value
+
+        var blockChain: String? = currentState.blockChain
+        var network: String? = currentState.network
+        var balance: WalletBalance? = currentState.balance
+        var promoDetails: PromoDetails? = currentState.promo
+        var timestamp: Instant? = currentState.timestamp
+        var items = currentState.items
+        var secureRecoveryPhrase: String? = currentState.secureRecoveryPhrase
+
+        try {
+            emit { current -> current.copy(isLoading = true) }
+
+            blockChain = getString(Res.string.crypto_wallet_value_blockchain_ethereum)
+            network = getString(Res.string.crypto_wallet_value_network_polygon)
+            balance = wallet?.address?.let { getBalance.invoke(address = it) }
+            promoDetails = getPromoDetails(wallet = wallet)
+            timestamp = clock.now()
+            items = getFeedItems(
+                wallet = wallet,
+                balance = balance,
+                statDetails = null,
+                promoDetails = promoDetails,
+                blockChain = blockChain,
+                network = network,
+                timestamp = dateTimeFormatter.format(timestamp)
+            )
+            secureRecoveryPhrase = wallet?.address?.let { address ->
+                getSecureRecoveryPhrase(address = address)
+            }
+
+            emit { current ->
+                current.copy(
+                    isLoading = false,
+                    isCreatingWallet = false,
+                    blockChain = blockChain,
+                    network = network,
+                    wallet = wallet,
+                    balance = balance,
+                    promo = promoDetails,
+                    timestamp = timestamp,
+                    items = items,
+                    secureRecoveryPhrase = secureRecoveryPhrase
+                )
+            }
+        } catch (e: Exception) {
+            LogPile.error(
+                message = "Error loading Lunaris Wallet.",
+                cause = e
+            )
+
+            emit { current ->
+                current.copy(
+                    isLoading = false,
+                    isCreatingWallet = false,
+                    blockChain = blockChain,
+                    network = network,
+                    wallet = wallet,
+                    balance = balance,
+                    promo = promoDetails,
+                    timestamp = timestamp,
+                    items = items,
+                    secureRecoveryPhrase = secureRecoveryPhrase,
+                    error = NotificationStateModel(
+                        message = getString(Res.string.global_unexpected_error)
+                    )
+                )
+            }
+        }
     }
 
     @OptIn(ExperimentalLocaleApi::class)
