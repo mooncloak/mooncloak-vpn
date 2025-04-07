@@ -10,7 +10,6 @@ import com.mooncloak.kodetools.locale.ExperimentalLocaleApi
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
-import com.mooncloak.vpn.api.shared.VpnServiceApi
 import com.mooncloak.vpn.util.shared.currency.Currency
 import com.mooncloak.vpn.util.shared.currency.Default
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.PromoDetails
@@ -21,6 +20,7 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.CreateWalletUs
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.GetBalanceUseCase
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.GetSecureRecoveryPhraseUseCase
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.RestoreWalletUseCase
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.SendLunarisUseCase
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.SuggestRecipientsUseCase
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.validation.LunarisAddressValidator
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.validation.SecretRecoveryPhraseValidationException
@@ -71,7 +71,6 @@ import kotlin.time.Duration.Companion.milliseconds
 @Stable
 public class CryptoWalletViewModel @Inject public constructor(
     private val cryptoWalletManager: CryptoWalletManager,
-    private val vpnServiceApi: VpnServiceApi,
     private val clock: Clock,
     private val giftedCryptoTokenRepository: GiftedCryptoTokenRepository,
     private val currencyFormatter: Currency.Formatter = Currency.Formatter.Default,
@@ -82,6 +81,7 @@ public class CryptoWalletViewModel @Inject public constructor(
     private val restoreExistingWallet: RestoreWalletUseCase,
     private val getBalance: GetBalanceUseCase,
     private val getSecureRecoveryPhrase: GetSecureRecoveryPhraseUseCase,
+    private val sendLunaris: SendLunarisUseCase,
     private val systemAuthenticationProvider: SystemAuthenticationProvider
 ) : ViewModel<CryptoWalletStateModel>(initialStateValue = CryptoWalletStateModel()) {
 
@@ -203,11 +203,31 @@ public class CryptoWalletViewModel @Inject public constructor(
             mutex.withLock {
                 try {
                     // TODO
+                    emit { current -> current.copy(send = current.send.copy(isSending = true)) }
+
+                    val currentState = state.current.value
+
+                    sendLunaris(
+                        origin = currentState.wallet?.address ?: error("Cannot send if wallet is null."),
+                        target = currentState.send.address.value.text,
+                        amount = currentState.send.amount.value.text
+                    )
                 } catch (e: Exception) {
                     LogPile.error(
                         message = "Error sending payment.",
                         cause = e
                     )
+
+                    emit { current ->
+                        current.copy(
+                            send = current.send.copy(
+                                isSending = false
+                            ),
+                            error = NotificationStateModel(
+                                message = getString(Res.string.global_unexpected_error)
+                            )
+                        )
+                    }
                 }
             }
         }
