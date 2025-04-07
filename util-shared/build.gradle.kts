@@ -43,6 +43,11 @@ kotlin {
                 // Apache 2.0: https://github.com/ionspin/kotlin-multiplatform-bignum?tab=Apache-2.0-1-ov-file#readme
                 api("com.ionspin.kotlin:bignum:_")
                 api("com.ionspin.kotlin:bignum-serialization-kotlinx:_")
+
+                // SecureRandom CSPRNG - KotlinCrypto/random
+                // https://github.com/KotlinCrypto/random
+                // Apache 2.0: https://github.com/KotlinCrypto/random?tab=Apache-2.0-1-ov-file
+                implementation("org.kotlincrypto.random:crypto-rand:_")
             }
         }
 
