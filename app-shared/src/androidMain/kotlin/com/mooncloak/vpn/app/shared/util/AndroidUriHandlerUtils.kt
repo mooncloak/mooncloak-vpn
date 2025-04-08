@@ -2,7 +2,6 @@ package com.mooncloak.vpn.app.shared.util
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -56,7 +55,7 @@ public actual suspend fun UriHandler.openEmail(
         this.openUri(uri)
     } else {
         val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:")
+            data = "mailto:".toUri()
 
             if (to.isNotEmpty()) {
                 putExtra(Intent.EXTRA_EMAIL, to.toTypedArray())
@@ -85,7 +84,7 @@ internal class AndroidCustomTabsHandler internal constructor(
         } else {
             CustomTabsIntent.Builder()
                 .build()
-                .launchUrl(context, Uri.parse(uri))
+                .launchUrl(context, uri.toUri())
         }
     }
 }

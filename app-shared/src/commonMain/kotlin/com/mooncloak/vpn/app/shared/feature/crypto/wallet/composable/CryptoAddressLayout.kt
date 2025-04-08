@@ -1,8 +1,6 @@
 package com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
@@ -29,7 +26,6 @@ import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -40,8 +36,8 @@ import com.mooncloak.vpn.app.shared.resource.crypto_wallet_action_copy_address
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_action_open_wallet_app
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_action_share_address
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_label_scan_qr_code
-import com.mooncloak.vpn.app.shared.theme.MooncloakTheme
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
+import com.mooncloak.vpn.app.shared.util.LocalAppChooser
 import com.mooncloak.vpn.app.shared.util.LocalShareHandler
 import io.github.alexzhirkevich.qrose.options.QrBrush
 import io.github.alexzhirkevich.qrose.options.solid
@@ -59,7 +55,7 @@ internal fun CryptoAddressLayout(
     openWalletVisible: Boolean = false
 ) {
     val clipboardManager = LocalClipboardManager.current
-    val uriHandler = LocalUriHandler.current
+    val appChooser = LocalAppChooser.current
     val shareHandler = LocalShareHandler.current
     val containerQrBrush = QrBrush.solid(MaterialTheme.colorScheme.surface)
     val contentQrBrush = QrBrush.solid(MaterialTheme.colorScheme.onSurface)
@@ -192,7 +188,7 @@ internal fun CryptoAddressLayout(
                     .fillMaxWidth()
                     .pointerHoverIcon(PointerIcon.Hand),
                 onClick = {
-                    uri?.let { uriHandler.openUri(it) }
+                    uri?.let { appChooser.openUri(it) }
                 },
                 enabled = !uri.isNullOrBlank()
             ) {
