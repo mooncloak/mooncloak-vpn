@@ -27,6 +27,7 @@ import org.web3j.abi.TypeReference
 import org.web3j.abi.datatypes.Address
 import org.web3j.abi.datatypes.Function
 import org.web3j.abi.datatypes.generated.Uint256
+import org.web3j.crypto.MnemonicUtils
 import org.web3j.crypto.WalletUtils
 import org.web3j.ens.EnsResolver
 import org.web3j.protocol.Web3j
@@ -36,6 +37,7 @@ import org.web3j.protocol.http.HttpService
 import org.web3j.tx.gas.DefaultGasProvider
 import java.io.File
 import java.math.BigInteger
+import java.security.SecureRandom
 import kotlin.jvm.optionals.getOrNull
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -107,17 +109,26 @@ internal class AndroidCryptoWalletManager internal constructor(
     override suspend fun createWallet(password: String?): CryptoWallet =
         withContext(Dispatchers.PlatformIO) {
             val walletFileDir = File(walletDirectoryPath)
-            val wallet = WalletUtils.generateBip39Wallet(password, walletFileDir)
 
-            val credentials = WalletUtils.loadCredentials(
-                password,
-                File(walletDirectoryPath, wallet.filename)
+            // Generate random entropy and mnemonic (no temp file)
+            val entropy = ByteArray(16).apply { SecureRandom().nextBytes(this) }  // 16 bytes = 12 words
+            val mnemonic = MnemonicUtils.generateMnemonic(entropy)
+
+            val credentials = WalletUtils.loadBip39Credentials("", mnemonic)
+
+            // Encrypt the wallet file with the provided password (or empty if null)
+            val encryptionPassword = password ?: ""
+            val encryptedWalletFile = WalletUtils.generateWalletFile(
+                encryptionPassword,
+                credentials.ecKeyPair,
+                walletFileDir,
+                false
             )
 
-            val encryptedPhrase = encryptPhrase(phrase = wallet.mnemonic, password = password)
+            val encryptedPhrase = encryptPhrase(phrase = mnemonic, password = password)
 
             return@withContext createAndStoreWallet(
-                fileName = wallet.filename,
+                fileName = encryptedWalletFile,
                 address = credentials.address,
                 currency = currency,
                 phrase = encryptedPhrase
@@ -133,9 +144,11 @@ internal class AndroidCryptoWalletManager internal constructor(
                 throw IllegalArgumentException("Invalid seed phrase: must be 12 or 24 words")
             }
 
-            val credentials = WalletUtils.loadBip39Credentials(password, phrase)
+            // Do NOT use the password here. Use an empty String. Otherwise, the password will be used as the "25th"
+            // word in the recovery phrase and if lost the wallet can't be recovered.
+            val credentials = WalletUtils.loadBip39Credentials("", phrase)
             val walletFileName = WalletUtils.generateWalletFile(
-                password,
+                password ?: "",
                 credentials.ecKeyPair,
                 File(walletDirectoryPath),
                 false
