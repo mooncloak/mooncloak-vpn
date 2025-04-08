@@ -161,9 +161,12 @@
     <string name="settings_group_privacy">Privacidad</string>
     <string name="settings_title_landing">Iniciar en página de inicio</string>
     <string name="settings_description_landing">Mostrar la pantalla de inicio cada vez que se abra la app</string>
+
     <string name="settings_group_support">Soporte</string>
     <string name="settings_title_support">Centro de soporte</string>
     <string name="settings_description_support">Contacto, preguntas frecuentes, solicitudes de funciones y más!</string>
+    <string name="settings_title_support_translations">Traducciones</string>
+    <string name="settings_description_support_translations">Reportar un problema de traducción</string>
 
     <string name="settings_title_screen_lock">Bloqueo de pantalla</string>
     <string name="settings_description_screen_lock">Requiere autenticación del sistema cuando sales o cambias de app tras un tiempo de espera.</string>

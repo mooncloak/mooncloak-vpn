@@ -66,6 +66,7 @@ public class SettingsViewModel @Inject public constructor(
             var privacyPolicyUri: String? = state.current.value.privacyPolicyUri
             var termsUri: String? = state.current.value.termsUri
             var sourceCodeUri: String? = state.current.value.sourceCodeUri
+            var translationsUri: String? = state.current.value.translationsUri
             var startOnLandingScreen = state.current.value.startOnLandingScreen
             var copyright: String? = state.current.value.copyright
             var isSystemAuthSupported = state.current.value.isSystemAuthSupported
@@ -88,6 +89,7 @@ public class SettingsViewModel @Inject public constructor(
                 privacyPolicyUri = appClientInfo.privacyPolicyUri
                 termsUri = appClientInfo.termsAndConditionsUri
                 sourceCodeUri = appClientInfo.sourceCodeUri
+                translationsUri = appClientInfo.supportIssueUri
                 startOnLandingScreen = preferencesStorage.alwaysDisplayLanding.get() ?: false
                 copyright = getString(
                     Res.string.app_copyright,
@@ -108,6 +110,7 @@ public class SettingsViewModel @Inject public constructor(
                         privacyPolicyUri = privacyPolicyUri,
                         termsUri = termsUri,
                         sourceCodeUri = sourceCodeUri,
+                        translationsUri = translationsUri,
                         startOnLandingScreen = startOnLandingScreen,
                         copyright = copyright,
                         isSystemAuthSupported = isSystemAuthSupported,
@@ -128,6 +131,7 @@ public class SettingsViewModel @Inject public constructor(
                         privacyPolicyUri = privacyPolicyUri,
                         termsUri = termsUri,
                         sourceCodeUri = sourceCodeUri,
+                        translationsUri = translationsUri,
                         startOnLandingScreen = startOnLandingScreen,
                         copyright = copyright,
                         isSystemAuthSupported = isSystemAuthSupported,

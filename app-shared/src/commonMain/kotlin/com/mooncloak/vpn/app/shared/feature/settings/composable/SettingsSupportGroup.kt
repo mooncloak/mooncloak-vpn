@@ -15,17 +15,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
-import com.mooncloak.vpn.app.shared.resource.cd_open_licenses
 import com.mooncloak.vpn.app.shared.resource.settings_description_support
+import com.mooncloak.vpn.app.shared.resource.settings_description_support_translations
 import com.mooncloak.vpn.app.shared.resource.settings_group_support
 import com.mooncloak.vpn.app.shared.resource.settings_title_support
+import com.mooncloak.vpn.app.shared.resource.settings_title_support_translations
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun SettingsSupportGroup(
     onOpenSupport: () -> Unit,
-    modifier: Modifier = Modifier
+    onOpenTranslations: () -> Unit
 ) {
     SettingsGroupLabel(
         modifier = Modifier.padding(horizontal = 16.dp)
@@ -55,7 +56,37 @@ internal fun SettingsSupportGroup(
             Icon(
                 modifier = Modifier.size(20.dp),
                 imageVector = Icons.AutoMirrored.Default.ArrowForward,
-                contentDescription = stringResource(Res.string.cd_open_licenses),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground.copy(
+                    alpha = SecondaryAlpha
+                )
+            )
+        }
+    )
+
+    ListItem(
+        modifier = Modifier.fillMaxWidth()
+            .clickable {
+                onOpenTranslations.invoke()
+            },
+        colors = ListItemDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.background
+        ),
+        headlineContent = {
+            Text(text = stringResource(Res.string.settings_title_support_translations))
+        },
+        supportingContent = {
+            Text(
+                text = stringResource(Res.string.settings_description_support_translations),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
+            )
+        },
+        trailingContent = {
+            Icon(
+                modifier = Modifier.size(20.dp),
+                imageVector = Icons.AutoMirrored.Default.ArrowForward,
+                contentDescription = null,
                 tint = MaterialTheme.colorScheme.onBackground.copy(
                     alpha = SecondaryAlpha
                 )

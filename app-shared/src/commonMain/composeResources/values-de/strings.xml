@@ -161,9 +161,12 @@
     <string name="settings_group_privacy">Datenschutz</string>
     <string name="settings_title_landing">Bei Landeseite starten</string>
     <string name="settings_description_landing">Zeige den Startbildschirm bei jedem Öffnen der App an</string>
+
     <string name="settings_group_support">Support</string>
     <string name="settings_title_support">Support-Center</string>
     <string name="settings_description_support">Kontakt, FAQs, Funktionsanfragen und mehr!</string>
+    <string name="settings_title_support_translations">Übersetzungen</string>
+    <string name="settings_description_support_translations">Ein Übersetzungsproblem melden</string>
 
     <string name="settings_title_screen_lock">Bildschirmsperre</string>
     <string name="settings_description_screen_lock">Erfordert eine Systemauthentifizierung, wenn du die App verlässt oder wechselst, nach einem Timeout.</string>

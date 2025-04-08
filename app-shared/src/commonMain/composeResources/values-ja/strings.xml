@@ -161,9 +161,12 @@
     <string name="settings_group_privacy">プライバシー</string>
     <string name="settings_title_landing">ランディングで開始</string>
     <string name="settings_description_landing">アプリを開くたびにランディング画面を表示</string>
+
     <string name="settings_group_support">サポート</string>
     <string name="settings_title_support">サポートセンター</string>
     <string name="settings_description_support">連絡先、FAQ、機能リクエストなど！</string>
+    <string name="settings_title_support_translations">翻訳</string>
+    <string name="settings_description_support_translations">翻訳の問題を報告</string>
 
     <string name="settings_title_screen_lock">画面ロック</string>
     <string name="settings_description_screen_lock">アプリを離れるか切り替えた後、タイムアウト後にシステム認証が必要です。</string>

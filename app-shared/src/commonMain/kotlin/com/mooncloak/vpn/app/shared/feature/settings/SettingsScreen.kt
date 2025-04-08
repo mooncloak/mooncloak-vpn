@@ -29,6 +29,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
@@ -53,6 +54,7 @@ import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsThemeGro
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsWireGuardGroup
 import com.mooncloak.vpn.app.shared.feature.subscription.SubscriptionScreen
 import com.mooncloak.vpn.app.shared.feature.wireguard.dns.DnsServerConfigScreen
+import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.app_built_description
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title
@@ -100,6 +102,7 @@ public fun SettingsScreen(
 
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
+    val uriHandler = LocalUriHandler.current
 
     LaunchedEffect(Unit) {
         viewModel.load()
@@ -256,7 +259,12 @@ public fun SettingsScreen(
                 )
 
                 SettingsSupportGroup(
-                    onOpenSupport = onOpenSupport
+                    onOpenSupport = onOpenSupport,
+                    onOpenTranslations = {
+                        viewModel.state.current.value.translationsUri?.let { uri ->
+                            uriHandler.openUri(uri)
+                        }
+                    }
                 )
 
                 HorizontalDivider(

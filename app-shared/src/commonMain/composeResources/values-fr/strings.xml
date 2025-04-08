@@ -161,9 +161,12 @@
     <string name="settings_group_privacy">Confidentialité</string>
     <string name="settings_title_landing">Démarrer sur la page d’accueil</string>
     <string name="settings_description_landing">Afficher l’écran d’accueil à chaque ouverture de l’application</string>
+
     <string name="settings_group_support">Support</string>
     <string name="settings_title_support">Centre de support</string>
     <string name="settings_description_support">Contact, FAQ, demandes de fonctionnalités et plus encore !</string>
+    <string name="settings_title_support_translations">Traductions</string>
+    <string name="settings_description_support_translations">Signaler un problème de traduction</string>
 
     <string name="settings_title_screen_lock">Verrouillage d’écran</string>
     <string name="settings_description_screen_lock">Requiert une authentification système lorsque vous quittez ou changez d’application après un délai.</string>

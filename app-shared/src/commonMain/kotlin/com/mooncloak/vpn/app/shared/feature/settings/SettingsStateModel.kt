@@ -18,6 +18,7 @@ public data class SettingsStateModel public constructor(
     public val privacyPolicyUri: String? = null,
     public val termsUri: String? = null,
     public val sourceCodeUri: String? = null,
+    public val translationsUri: String? = null,
     public val copyright: String? = null,
     public val startOnLandingScreen: Boolean = false,
     public val isSystemAuthSupported: Boolean = false,

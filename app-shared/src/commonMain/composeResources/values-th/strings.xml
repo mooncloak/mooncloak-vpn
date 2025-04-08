@@ -161,9 +161,12 @@
     <string name="settings_group_privacy">ความเป็นส่วนตัว</string>
     <string name="settings_title_landing">เริ่มที่หน้าต้อนรับ</string>
     <string name="settings_description_landing">แสดงหน้าต้อนรับทุกครั้งที่เปิดแอป</string>
+
     <string name="settings_group_support">การสนับสนุน</string>
     <string name="settings_title_support">ศูนย์สนับสนุน</string>
     <string name="settings_description_support">ติดต่อ คำถามที่พบบ่อย คำขอฟีเจอร์ และอื่น ๆ!</string>
+    <string name="settings_title_support_translations">การแปล</string>
+    <string name="settings_description_support_translations">รายงานปัญหาการแปล</string>
 
     <string name="settings_title_screen_lock">ล็อกหน้าจอ</string>
     <string name="settings_description_screen_lock">ต้องมีการยืนยันตัวตนของระบบเมื่อคุณออกจากแอปหรือสลับแอปหลังจากหมดเวลา</string>
