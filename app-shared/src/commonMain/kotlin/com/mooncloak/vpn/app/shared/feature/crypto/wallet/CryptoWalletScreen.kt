@@ -143,7 +143,8 @@ public fun CryptoWalletScreen(
         }
     ) { paddingValues ->
         Box(
-            modifier = Modifier.padding(if (embedded) PaddingValues() else paddingValues)
+            modifier = Modifier.fillMaxSize()
+                .padding(if (embedded) PaddingValues() else paddingValues)
         ) {
             LazyVerticalStaggeredGrid(
                 modifier = Modifier.fillMaxSize()
