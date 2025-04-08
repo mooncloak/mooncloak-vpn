@@ -80,4 +80,14 @@ public sealed interface WalletFeedItem {
         override val contentType: String = "DetailsItem"
         override val span: StaggeredGridItemSpan = StaggeredGridItemSpan.FullLine
     }
+
+    @Immutable
+    public data class TradeOnUniswap public constructor(
+        public val uri: String
+    ) : WalletFeedItem {
+
+        override val key: String = "TradeOnUniswap:$uri"
+        override val contentType: String = "TradeOnUniswap"
+        override val span: StaggeredGridItemSpan = StaggeredGridItemSpan.FullLine
+    }
 }

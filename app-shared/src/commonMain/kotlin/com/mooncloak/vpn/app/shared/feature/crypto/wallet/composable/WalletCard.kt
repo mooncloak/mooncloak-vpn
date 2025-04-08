@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 internal fun WalletCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
+    enabled: Boolean = true,
     contentPadding: PaddingValues = PaddingValues(12.dp),
     containerColor: Color = MaterialTheme.colorScheme.surface,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
@@ -32,7 +33,8 @@ internal fun WalletCard(
                     containerColor = containerColor,
                     contentColor = contentColor
                 ),
-                onClick = onClick
+                onClick = onClick,
+                enabled = enabled
             ) {
                 Column(
                     modifier = Modifier.fillMaxWidth()

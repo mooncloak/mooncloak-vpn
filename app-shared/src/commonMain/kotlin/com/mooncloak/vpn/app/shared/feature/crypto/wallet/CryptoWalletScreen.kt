@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
@@ -48,6 +49,7 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.AmountChang
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.CreatingWalletDialog
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.NoWalletCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.PromoCard
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.UniSwapCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletActions
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletBalanceCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletDetailsCard
@@ -88,6 +90,7 @@ public fun CryptoWalletScreen(
     val coroutineScope = rememberCoroutineScope()
     val topAppBarState = rememberTopAppBarState()
     val topAppBarBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
+    val uriHandler = LocalUriHandler.current
 
     val createWalletBottomSheetState = rememberManagedModalBottomSheetState()
     val restoreWalletBottomSheetState = rememberManagedModalBottomSheetState()
@@ -248,6 +251,17 @@ public fun CryptoWalletScreen(
                                 .animateItem(),
                             today = item.stats?.dailyChange?.value,
                             allTime = item.stats?.allTimeChange?.value
+                        )
+
+                        is WalletFeedItem.TradeOnUniswap -> UniSwapCard(
+                            modifier = Modifier.fillMaxWidth()
+                                .animateItem(),
+                            enabled = viewModel.state.current.value.uniSwapUri != null,
+                            onClick = {
+                                viewModel.state.current.value.uniSwapUri?.let { uri ->
+                                    uriHandler.openUri(uri)
+                                }
+                            }
                         )
                     }
                 }

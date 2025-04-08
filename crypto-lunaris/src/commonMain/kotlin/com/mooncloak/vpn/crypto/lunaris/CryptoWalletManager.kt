@@ -165,6 +165,7 @@ public interface CryptoWalletManager : AutoCloseable {
 
         public const val POLYGON_MAINNET_RPC_URL: String = "https://polygon-rpc.com"
         public const val LUNARIS_CONTRACT_ADDRESS: String = "0x23C2d7673Dd36FF6cBD642A5a70f58c1D2118C13"
+        public const val LUNARIS_UNISWAP_POOL_URI: String = "https://app.uniswap.org/explore/tokens/polygon/0x23c2d7673dd36ff6cbd642a5a70f58c1d2118c13"
         public const val DEFAULT_WALLET_DIRECTORY_NAME: String = "wallets"
     }
 }

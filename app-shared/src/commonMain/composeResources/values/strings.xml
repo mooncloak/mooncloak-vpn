@@ -443,4 +443,7 @@
 
     <string name="crypto_wallet_hidden_phrase">**********</string>
 
+    <string name="uniswap_trade_title">Trade on Uniswap</string>
+    <string name="uniswap_trademark_notice">Uniswap is a trademark of Uniswap Labs.</string>
+
 </resources>

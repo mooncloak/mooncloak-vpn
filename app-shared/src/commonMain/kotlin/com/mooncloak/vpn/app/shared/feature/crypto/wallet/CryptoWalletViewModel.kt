@@ -416,6 +416,7 @@ public class CryptoWalletViewModel @Inject public constructor(
         var timestamp: Instant? = currentState.timestamp
         var items = currentState.items
         var secureRecoveryPhrase: String? = currentState.secureRecoveryPhrase
+        var uniswapUri: String? = currentState.uniSwapUri
 
         try {
             emit { current -> current.copy(isLoading = true) }
@@ -425,6 +426,7 @@ public class CryptoWalletViewModel @Inject public constructor(
             balance = wallet?.address?.let { getBalance.invoke(address = it) }
             promoDetails = getPromoDetails(wallet = wallet)
             timestamp = clock.now()
+            uniswapUri = CryptoWalletManager.LUNARIS_UNISWAP_POOL_URI
             items = getFeedItems(
                 wallet = wallet,
                 balance = balance,
@@ -432,7 +434,8 @@ public class CryptoWalletViewModel @Inject public constructor(
                 promoDetails = promoDetails,
                 blockChain = blockChain,
                 network = network,
-                timestamp = dateTimeFormatter.format(timestamp)
+                timestamp = dateTimeFormatter.format(timestamp),
+                uniswapUri = uniswapUri
             )
             secureRecoveryPhrase = wallet?.address?.let { address ->
                 getSecureRecoveryPhrase(address = address)
@@ -449,7 +452,8 @@ public class CryptoWalletViewModel @Inject public constructor(
                     promo = promoDetails,
                     timestamp = timestamp,
                     items = items,
-                    secureRecoveryPhrase = secureRecoveryPhrase
+                    secureRecoveryPhrase = secureRecoveryPhrase,
+                    uniSwapUri = uniswapUri
                 )
             }
         } catch (e: Exception) {
@@ -470,6 +474,7 @@ public class CryptoWalletViewModel @Inject public constructor(
                     timestamp = timestamp,
                     items = items,
                     secureRecoveryPhrase = secureRecoveryPhrase,
+                    uniSwapUri = uniswapUri,
                     error = NotificationStateModel(
                         message = getString(Res.string.global_unexpected_error)
                     )
@@ -523,7 +528,8 @@ public class CryptoWalletViewModel @Inject public constructor(
         promoDetails: PromoDetails?,
         blockChain: String?,
         network: String?,
-        timestamp: String?
+        timestamp: String?,
+        uniswapUri: String?
     ): List<WalletFeedItem> {
         val items = mutableListOf<WalletFeedItem>()
 
@@ -560,6 +566,14 @@ public class CryptoWalletViewModel @Inject public constructor(
                 timestamp = timestamp
             )
         )
+
+        if (uniswapUri != null) {
+            items.add(
+                WalletFeedItem.TradeOnUniswap(
+                    uri = uniswapUri
+                )
+            )
+        }
 
         return items
     }

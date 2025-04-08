@@ -25,6 +25,7 @@ public data class CryptoWalletStateModel public constructor(
     public val secureRecoveryPhrase: String? = null,
     public val secureRecoveryPhraseVisible: Boolean = false,
     public val items: List<WalletFeedItem> = emptyList(),
+    public val uniSwapUri: String? = null,
     public val isLoading: Boolean = false,
     public val isCreatingWallet: Boolean = false,
     public val error: NotificationStateModel? = null,
