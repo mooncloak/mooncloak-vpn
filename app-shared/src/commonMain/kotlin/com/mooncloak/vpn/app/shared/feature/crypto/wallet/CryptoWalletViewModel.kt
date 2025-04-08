@@ -543,9 +543,10 @@ public class CryptoWalletViewModel @Inject public constructor(
             )
         }
 
+        /* TODO: Support promo
         if (promoDetails != null) {
             items.add(WalletFeedItem.PromoItem(details = promoDetails))
-        }
+        }*/
 
         if (wallet == null) {
             items.add(WalletFeedItem.NoWalletItem)
