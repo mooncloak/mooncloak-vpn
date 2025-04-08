@@ -1,6 +1,7 @@
 package com.mooncloak.vpn.app.shared.util
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.UriHandler
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.warning
@@ -29,6 +30,15 @@ internal class DesktopUriHandler internal constructor(
 @Composable
 public actual fun platformDefaultUriHandler(): UriHandler = DesktopUriHandler()
 
+@Composable
+public actual fun rememberPlatformDefaultAppChooser(): AppChooser {
+    val uriHandler = platformDefaultUriHandler()
+
+    return remember(uriHandler) {
+        JvmAppChooser(uriHandler = uriHandler)
+    }
+}
+
 public actual suspend fun UriHandler.openEmail(
     to: List<String>,
     subject: String?,
@@ -46,4 +56,13 @@ public actual suspend fun UriHandler.openEmail(
     }
 
     this.openUri(uri)
+}
+
+internal class JvmAppChooser internal constructor(
+    private val uriHandler: UriHandler
+) : AppChooser {
+
+    override fun openUri(uri: String, message: String) {
+        uriHandler.openUri(uri)
+    }
 }

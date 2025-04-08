@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.UriHandler
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.support_email_action
 import org.jetbrains.compose.resources.getString
+import androidx.core.net.toUri
 
 @Composable
 public actual fun platformDefaultUriHandler(): UriHandler {
@@ -23,6 +24,15 @@ public actual fun platformDefaultUriHandler(): UriHandler {
             context = context,
             defaultUriHandler = defaultUriHandler
         )
+    }
+}
+
+@Composable
+public actual fun rememberPlatformDefaultAppChooser(): AppChooser {
+    val context = LocalContext.current
+
+    return remember(context) {
+        AndroidAppChooser(context = context)
     }
 }
 
@@ -77,5 +87,16 @@ internal class AndroidCustomTabsHandler internal constructor(
                 .build()
                 .launchUrl(context, Uri.parse(uri))
         }
+    }
+}
+
+internal class AndroidAppChooser internal constructor(
+    private val context: Context
+) : AppChooser {
+
+    override fun openUri(uri: String, message: String) {
+        val intent = Intent(Intent.ACTION_VIEW, uri.toUri())
+        val chooser = Intent.createChooser(intent, message)
+        context.startActivity(chooser)
     }
 }
