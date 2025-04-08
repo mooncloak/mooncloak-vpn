@@ -29,12 +29,15 @@ import org.web3j.abi.datatypes.Address
 import org.web3j.abi.datatypes.Function
 import org.web3j.abi.datatypes.generated.Uint256
 import org.web3j.crypto.MnemonicUtils
+import org.web3j.crypto.RawTransaction
+import org.web3j.crypto.TransactionEncoder
 import org.web3j.crypto.WalletUtils
 import org.web3j.ens.EnsResolver
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.core.methods.response.TransactionReceipt
 import org.web3j.protocol.http.HttpService
+import org.web3j.utils.Numeric
 import java.io.File
 import java.math.BigInteger
 import java.security.SecureRandom
@@ -204,7 +207,7 @@ internal class AndroidCryptoWalletManager internal constructor(
         withContext(Dispatchers.PlatformIO) {
             try {
                 val wallet = cryptoWalletRepository.getByAddress(origin)
-                val credentials = WalletUtils.loadCredentials(password, File(wallet.location))
+                val credentials = WalletUtils.loadCredentials(password ?: "", File(wallet.location))
 
                 // For ERC-20 token transfer
                 val function = Function(
@@ -214,25 +217,43 @@ internal class AndroidCryptoWalletManager internal constructor(
                 )
                 val encodedFunction = FunctionEncoder.encode(function)
 
-                // Get current gas price (more dynamic than default)
-                val gasPrice = web3j.ethGasPrice().send().gasPrice
-
                 val nonce = web3j.ethGetTransactionCount(
                     credentials.address,
                     DefaultBlockParameterName.LATEST
                 ).send().transactionCount
 
-                val transaction = web3j.ethSendTransaction(
-                    org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction(
-                        credentials.address,           // from
-                        nonce,                         // nonce
-                        gasPrice,                      // gasPrice
-                        null,                  // gasLimit
-                        currencyAddress,               // to (contract address)
-                        BigInteger.ZERO,               // value (0 for ERC-20 transfer)
-                        encodedFunction                // data
-                    )
-                ).send()
+                // Get current gas price (more dynamic than default)
+                val gasPrice = web3j.ethGasPrice().send().gasPrice
+                val gasLimit = try {
+                    web3j.ethEstimateGas(
+                        org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction(
+                            credentials.address,
+                            nonce,
+                            gasPrice,
+                            null,
+                            currencyAddress,
+                            BigInteger.ZERO,
+                            encodedFunction
+                        )
+                    ).send().amountUsed
+                } catch (e: Exception) {
+                    BigInteger.valueOf(65000) // Adjust for Polygon
+                }
+
+                val chainId = currency.chainId ?: 137
+                val rawTransaction = RawTransaction.createTransaction(
+                    nonce,
+                    gasPrice,
+                    gasLimit,
+                    currencyAddress,
+                    BigInteger.ZERO,
+                    encodedFunction
+                )
+
+                val signedMessage = TransactionEncoder.signMessage(rawTransaction, chainId, credentials)
+                val hexValue = Numeric.toHexString(signedMessage)
+
+                val transaction = web3j.ethSendRawTransaction(hexValue).send()
 
                 if (transaction.hasError()) {
                     return@withContext SendResult.Failure(
