@@ -1,0 +1,443 @@
+<resources>
+
+    <string name="global_not_available">N/A</string>
+    <string name="global_unexpected_error">Unerwarteter Fehler</string>
+    <string name="global_yes">Ja</string>
+    <string name="global_no">Nein</string>
+    <string name="global_remaining">Verbleibend</string>
+
+    <string name="app_name">mooncloak VPN</string>
+    <string name="app_description">Werde dunkel, bleib hell</string>
+
+    <string name="app_slogan_line_1">Werde \ndunkel,</string>
+    <string name="app_slogan_line_2">Bleib \nhell</string>
+
+    <string name="app_copyright">© %1$s Mooncloak LLC. Alle Rechte vorbehalten.</string>
+    <string name="app_built_description">Gebaut mit ❤️ von mooncloak und Mitwirkenden</string>
+
+    <string name="destination_main_home_title">Startseite</string>
+    <string name="destination_main_support_title">Support</string>
+    <string name="destination_main_settings_title">Einstellungen</string>
+    <string name="destination_main_servers_title">Server</string>
+    <string name="destination_main_crypto_wallet_title">Lunaris</string>
+    <string name="destination_root_onboarding_title">Einführung</string>
+    <string name="destination_root_onboarding_auth_title">Authentifizierung erforderlich</string>
+    <string name="destination_onboarding_landing_title">Landeseite</string>
+    <string name="destination_onboarding_tutorial_title">Tutorial</string>
+
+    <string name="lock_screen_title_unlock">mooncloak VPN entsperren</string>
+    <string name="lock_screen_description">Verwende die Sperreinstellungen deines Geräts, um mooncloak VPN zu entsperren.</string>
+    <string name="lock_screen_action_try_again">Erneut versuchen</string>
+    <string name="lock_screen_title_required">Authentifizierung erforderlich</string>
+
+    <string name="preference_theme_dark">Dunkel</string>
+    <string name="preference_theme_light">Hell</string>
+    <string name="preference_theme_system">System</string>
+
+    <string name="landing_action_start">Loslegen</string>
+
+    <string name="speed_test_title">Geschwindigkeitstest</string>
+    <string name="speed_test_label_ping">Ping</string>
+    <string name="speed_test_label_download">Download</string>
+    <string name="speed_test_label_upload">Upload</string>
+
+    <string name="onboarding_title_no_tracking">Keine IP-Adressverfolgung</string>
+    <string name="onboarding_title_no_accounts">Keine Konten</string>
+    <string name="onboarding_title_no_data_creeps">Keine Datensammler</string>
+    <string name="onboarding_title_no_subscriptions">Keine Abonnements</string>
+    <string name="onboarding_title_no_data_selling">Kein Datenabbau</string>
+    <string name="onboarding_title_payment_crypto">Mit Kryptowährung bezahlen</string>
+    <string name="onboarding_title_payment_google_play">Sichere Zahlungen</string>
+    <string name="onboarding_description_no_tracking">Deine IP-Adresse wird niemals protokolliert oder mit deinen Online-Aktivitäten verknüpft.</string>
+    <string name="onboarding_description_no_accounts">Es sind weder E-Mail noch Telefonnummer erforderlich, um den VPN-Dienst zu nutzen. Diese Daten werden daher nie verfolgt.</string>
+    <string name="onboarding_description_no_data_creeps">Zieh die Vorhänge vor den Datensammlern zu. Verberge deine Online-Aktivitäten vor deinem ISP, großen Unternehmen und Regierungen.</string>
+    <string name="onboarding_description_no_subscriptions">Keine monatlichen Abonnements oder überhöhten Gebühren. Bezahle im Voraus, was du brauchst.</string>
+    <string name="onboarding_description_no_data_selling">Wir verkaufen deine Daten niemals an Dritte.</string>
+    <string name="onboarding_description_payment_crypto">Kryptowährungen bieten eine zusätzliche Anonymitätsschicht.</string>
+    <string name="onboarding_description_payment_google_play">Zahlungen werden über den vertrauenswürdigen Google Play-Abrechnungsdienst abgewickelt.</string>
+    <string name="onboarding_action_skip">Überspringen</string>
+
+    <string name="action_connect">Verbinden</string>
+    <string name="action_disconnect">Trennen</string>
+
+    <string name="connection_type_p2p">P2P</string>
+    <string name="connection_type_tor">Tor</string>
+    <string name="connection_type_multiple">Sicher Mehrfach</string>
+
+    <string name="moon_shield_title">MoonShield</string>
+    <string name="moon_shield_subtitle">Blockiere Werbung, Tracker und Datensammler</string>
+    <string name="moon_shield_description_brief">Blockiert Werbung, Tracker und Datensammler mit unserem benutzerdefinierten DNS — kostenlos für alle mooncloak VPN-Nutzer.</string>
+    <string name="moon_shield_description_long">MoonShield ist deine integrierte Verteidigung gegen Online-Störungen. Angetrieben von einem benutzerdefinierten DNS-Server filtert es Tracker, Werbung und invasive Software heraus und sorgt für ein saubereres und privateres Surferlebnis. Nahtlos in mooncloak VPN integriert, ist dieser Dienst ohne zusätzliche Kosten verfügbar. Genieße ein sichereres, werbefreies Internet ohne Umstände.</string>
+    <string name="moon_shield_warning">Einige Websites funktionieren möglicherweise nicht richtig, wenn Werbung und Tracker blockiert werden.</string>
+    <string name="moon_shield_label_trackers_blocked">Blockierte Tracker</string>
+    <string name="moon_shield_label_time_saved">Gesparte Zeit</string>
+    <string name="moon_shield_label_data_saved">Gesparte Daten</string>
+    <string name="moon_shield_active">Schilde oben</string>
+    <string name="moon_shield_inactive">Schilde unten</string>
+    <string name="moon_shield_message_next_connection">Die Änderung an MoonShield wird bei der nächsten VPN-Verbindung wirksam.</string>
+
+    <string name="plan_usage_title">Plan-Nutzung</string>
+    <string name="plan_usage_label_time_remaining">Verbleibende Zeit</string>
+    <string name="plan_usage_label_data_remaining">Verbleibende Daten</string>
+    <string name="plan_usage_unlimited">Unbegrenzt</string>
+    <string name="plan_usage_action_boost">Boost</string>
+
+    <string name="home_title_bar_unprotected">Du bist ungeschützt</string>
+    <string name="home_title_bar_protected">Geschützt</string>
+    <string name="home_title_bar_connecting">Verbinde mit einem sicheren VPN</string>
+    <string name="home_title_bar_disconnecting">Trenne...</string>
+    <string name="home_title_bar_checking">Überprüfe Verbindung</string>
+    <string name="home_title_bar_description_unprotected">Verbinde dich mit einem sicheren VPN-Server, um deine Daten zu schützen</string>
+    <string name="home_title_lunaris_wallet">Lunaris Wallet</string>
+
+    <string name="home_description_lunaris_wallet">Verwalte Lunaris sicher, eine echte Kryptowährung, die du handeln kannst. Nutze sie, um mooncloak VPN zu bezahlen oder auf Börsen zu tauschen.</string>
+
+    <string name="home_feed_item_server_last_connected">Zuletzt verbunden</string>
+
+    <string name="get_vpn_service_title">Du bist ungeschützt</string>
+    <string name="get_vpn_service_description">Schütze deine Daten mit einem datenschutzorientierten und anonymen VPN-Dienst von mooncloak.</string>
+    <string name="get_vpn_service_action_protect">Schutz erhalten</string>
+
+    <string name="support_email_title">Brauchst du Hilfe?</string>
+    <string name="support_email_description">Kontaktiere uns per E-Mail, und wir melden uns so bald wie möglich zurück.</string>
+    <string name="support_email_action">Support-E-Mail</string>
+
+    <string name="support_feature_request_title">Funktionsanfrage</string>
+    <string name="support_feature_request_description">Hast du eine Idee, die du teilen möchtest? Sag uns Bescheid!</string>
+    <string name="support_feature_request_action">Anfrage erstellen</string>
+
+    <string name="support_issue_title">Ein Problem?</string>
+    <string name="support_issue_description">Erstelle ein öffentliches Problem-Ticket, damit wir über das Problem informiert sind.</string>
+    <string name="support_issue_action">Problem melden</string>
+
+    <string name="support_rate_app_title">App bewerten</string>
+    <string name="support_rate_app_description">Sag uns, was wir gut gemacht haben und was wir verbessern können!</string>
+    <string name="support_rate_app_action">App bewerten</string>
+
+    <string name="support_email_default_subject">Ein Problem melden</string>
+
+    <string name="support_faq_header">Häufig gestellte Fragen</string>
+
+    <string name="data_format_abbr_bytes">B</string>
+    <string name="data_format_abbr_kilobytes">KB</string>
+    <string name="data_format_abbr_megabytes">MB</string>
+    <string name="data_format_abbr_gigabytes">GB</string>
+    <string name="data_format_abbr_terabytes">TB</string>
+
+    <string name="data_format_abbr_bps">Bps</string>
+    <string name="data_format_abbr_kbps">Kbps</string>
+    <string name="data_format_abbr_mbps">Mbps</string>
+    <string name="data_format_abbr_gbps">Gbps</string>
+    <string name="data_format_abbr_tbps">Tbps</string>
+
+    <string name="country_list_title">Länder</string>
+    <string name="country_list_description">Filtere VPN-Server nach Land und Region.</string>
+    <string name="country_list_error_title_no_countries">Unerwarteter Fehler beim Laden der Länder</string>
+    <string name="country_list_error_description_no_countries">Beim Laden der Länder mit Servern ist ein unerwarteter Fehler aufgetreten. Versuche es später erneut. Wenn der Fehler bestehen bleibt, kontaktiere den Support.</string>
+    <string name="country_list_error_title_no_vpn_servers">Unerwarteter Fehler beim Laden der Länder</string>
+    <string name="country_list_error_description_no_vpn_servers">Beim Laden der Länder mit VPN-Servern ist ein unerwarteter Fehler aufgetreten. Versuche es später erneut. Wenn der Fehler bestehen bleibt, kontaktiere den Support.</string>
+    <string name="country_list_default_region_type">Regionen</string>
+    <string name="region_list_title">Regionen</string>
+    <string name="region_list_description">Regionen mit VPN-Servern innerhalb des Landes</string>
+
+    <string name="country_list_header_label_with_count">%1$s (%2$s)</string>
+    <string name="server_list_header_label">Server</string>
+    <string name="server_list_description">Verfügbare Server in dieser Region</string>
+
+    <string name="server_list_title_no_servers">Unerwarteter Fehler beim Laden der VPN-Server</string>
+    <string name="server_list_description_no_servers">Beim Laden der VPN-Serverliste ist ein unerwarteter Fehler aufgetreten. Versuche es später erneut. Wenn der Fehler bestehen bleibt, kontaktiere den Support.</string>
+
+    <string name="server_list_pre_release_title">Mehr Server kommen bald!</string>
+    <string name="server_list_pre_release_description">Du nutzt eine Vorabversion unserer App! Sobald wir die Details ausgearbeitet und die erste offizielle Version veröffentlicht haben, werden wir noch mehr VPN-Server für dich bereitstellen!</string>
+
+    <string name="settings_group_legal">Rechtliches</string>
+    <string name="settings_title_about">Über</string>
+    <string name="settings_title_privacy_policy">Datenschutzrichtlinie</string>
+    <string name="settings_title_terms">Nutzungsbedingungen</string>
+    <string name="settings_group_theme">Design</string>
+    <string name="settings_group_app">App</string>
+    <string name="settings_title_app_version">Version</string>
+    <string name="settings_title_licenses">Open-Source-Lizenzen</string>
+    <string name="settings_title_code">Quellcode anzeigen</string>
+    <string name="settings_group_subscription">Abonnement</string>
+    <string name="settings_title_current_plan">Aktueller Plan</string>
+    <string name="settings_title_payment_history">Transaktionsverlauf</string>
+    <string name="settings_group_preferences">Präferenzen</string>
+    <string name="settings_group_general">Allgemein</string>
+    <string name="settings_group_privacy">Datenschutz</string>
+    <string name="settings_title_landing">Bei Landeseite starten</string>
+    <string name="settings_description_landing">Zeige den Startbildschirm bei jedem Öffnen der App an</string>
+    <string name="settings_group_support">Support</string>
+    <string name="settings_title_support">Support-Center</string>
+    <string name="settings_description_support">Kontakt, FAQs, Funktionsanfragen und mehr!</string>
+
+    <string name="settings_title_screen_lock">Bildschirmsperre</string>
+    <string name="settings_description_screen_lock">Erfordert eine Systemauthentifizierung, wenn du die App verlässt oder wechselst, nach einem Timeout.</string>
+    <string name="settings_title_screen_lock_timeout">Bildschirm sperren nach</string>
+    <string name="settings_option_screen_lock_timeout_1_minute">1 Minute</string>
+    <string name="settings_option_screen_lock_timeout_5_minutes">5 Minuten</string>
+    <string name="settings_option_screen_lock_timeout_30_minutes">30 Minuten</string>
+    <string name="settings_option_screen_lock_timeout_custom_time">Benutzerdefinierte Zeit</string>
+
+    <string name="settings_title_collaborators">Mooncloak-Team</string>
+    <string name="settings_description_collaborators">Lerne das Team kennen, das deinen Datenschutz schützt — gib ihnen ein Trinkgeld oder bedanke dich für ihre harte Arbeit.</string>
+
+    <string name="settings_app_details_header">App-Details</string>
+    <string name="settings_app_details_description">Informationen über diese Anwendung.</string>
+    <string name="settings_app_details_title_id">ID</string>
+    <string name="settings_app_details_title_name">Name</string>
+    <string name="settings_app_details_title_version">Version</string>
+    <string name="settings_app_details_title_debug">Debug</string>
+    <string name="settings_app_details_title_pre_release">Vorabversion</string>
+    <string name="settings_app_details_title_build_time">Build-Zeit</string>
+
+    <string name="settings_group_device">Gerät</string>
+    <string name="settings_title_device_details">Gerätedetails</string>
+    <string name="settings_device_details_header">Gerätedetails</string>
+    <string name="settings_device_details_description">Informationen über dein Gerät, das diese Anwendung ausführt.</string>
+    <string name="settings_device_details_public_ip">Öffentliche IP-Adresse</string>
+    <string name="settings_device_details_local_ip">Lokale IP-Adresse</string>
+
+    <string name="settings_group_wire_guard">VPN</string>
+    <string name="settings_title_wire_guard_dns_servers">DNS-Server</string>
+    <string name="settings_dns_servers_header">DNS-Server</string>
+    <string name="settings_dns_servers_description">Wähle die DNS-Server aus, die dein Gerät verwendet, wenn es mit dem mooncloak VPN-Dienst verbunden ist. DNS übersetzt Domänennamen in IP-Adressen.</string>
+    <string name="settings_dns_servers_label_primary">Primär</string>
+    <string name="settings_dns_servers_label_secondary">Sekundär</string>
+    <string name="settings_dns_servers_action_save">Speichern</string>
+    <string name="settings_dns_servers_error_invalid_ip">Ungültige DNS-Adresse</string>
+
+    <string name="subscription_no_active_plan">Kein aktiver Plan</string>
+    <string name="subscription_title_no_active_plan">Kein aktiver Plan</string>
+    <string name="subscription_title_active_plan">Aktiver Plan</string>
+    <string name="subscription_description_protect">Schütze deine Daten mit einem datenschutzorientierten und anonymen VPN-Dienst von mooncloak.</string>
+    <string name="subscription_description_active">Informationen über dein aktuelles Abonnement.</string>
+    <string name="subscription_action_protect">Schutz erhalten</string>
+    <string name="subscription_action_boost">Boost</string>
+    <string name="subscription_label_plan_details">Plandetails</string>
+    <string name="subscription_field_name">Name</string>
+    <string name="subscription_field_purchased">Gekauft</string>
+    <string name="subscription_field_expiration">Ablauf</string>
+    <string name="subscription_field_total_bytes">Gesamtbytes</string>
+    <string name="subscription_label_usage">Aktuelle Nutzung</string>
+    <string name="subscription_label_remaining">Verbleibend</string>
+    <string name="subscription_label_payment_history">Zahlungsverlauf</string>
+    <string name="subscription_action_payment_view_all">Alle anzeigen</string>
+    <string name="subscription_plan_title_default">Plan</string>
+    <string name="subscription_error_load_details">Unerwarteter Fehler beim Laden der Abonnementdetails.</string>
+    <string name="subscription_error_load_plan">Unerwarteter Fehler beim Laden der Plandetails.</string>
+    <string name="subscription_error_load_usage">Unerwarteter Fehler beim Laden der Abonnementnutzung.</string>
+    <string name="subscription_error_load_last_payment">Unerwarteter Fehler beim Laden der letzten Zahlung.</string>
+
+    <string name="dependency_list_header">Open-Source-Lizenzen</string>
+    <string name="dependency_list_description">Open-Source-Lizenzen der Abhängigkeiten, die bei der Entwicklung dieser App verwendet wurden.</string>
+    <string name="dependency_list_title_none_found">Keine Abhängigkeiten gefunden</string>
+    <string name="dependency_list_description_none_found">Beim Laden der Lizenzliste der Abhängigkeiten ist ein unerwartetes Problem aufgetreten.</string>
+    <string name="dependency_list_label_developers">Entwickler</string>
+    <string name="dependency_list_label_licenses">Lizenzen</string>
+    <string name="dependency_list_label_organization">Organisation</string>
+    <string name="dependency_list_label_funding">Finanzierung</string>
+    <string name="dependency_list_action_open_website">Website öffnen</string>
+    <string name="dependency_list_action_close">Schließen</string>
+
+    <string name="payment_plans_title">Wähle einen Plan</string>
+    <string name="payment_notice">Preise können sich ändern. Bitte beachte, dass alle Käufe endgültig sind.</string>
+    <string name="payment_notice_beta">Preise können sich ändern. Bitte beachte, dass alle Käufe endgültig sind. Da diese App in der Beta-Phase ist, können einige Funktionen und Preise angepasst werden.</string>
+    <string name="payment_title">Zahlung</string>
+    <string name="payment_action_select">Auswählen</string>
+    <string name="payment_accept_terms_and_conditions">Ich habe die Nutzungsbedingungen und Datenschutzrichtlinie gelesen und akzeptiert.</string>
+    <string name="payment_link_text_terms">Nutzungsbedingungen</string>
+    <string name="payment_link_text_privacy_policy">Datenschutzrichtlinie</string>
+    <string name="payment_qr_scan_label">Scanne, um mit deiner Krypto-Wallet-App zu bezahlen.</string>
+    <string name="payment_bitcoin_address_label">Bitcoin-Adresse</string>
+    <string name="payment_status_label">Zahlungsstatus</string>
+    <string name="payment_status_pending">Zahlung ausstehend</string>
+    <string name="payment_error_no_plans_title">Keine Plandaten</string>
+    <string name="payment_error_no_plans_description">Beim Laden der Pläne ist ein Fehler aufgetreten. Versuche es später erneut.</string>
+    <string name="payment_label_one_time_charge">/ Einmalig</string>
+
+    <string name="payment_all_plans_title">Alle Pläne beinhalten:</string>
+    <string name="payment_all_plans_feature_data_usage">Unbegrenzte Datennutzung</string>
+    <string name="payment_all_plans_feature_anonymous_service">Anonymer VPN-Dienst ohne Protokolle</string>
+    <string name="payment_all_plans_feature_all_servers">Zugriff auf alle VPN-Server</string>
+
+    <string name="payment_error_title">Fehler bei der Zahlung</string>
+
+    <string name="payment_success_title">Zahlung erfolgreich</string>
+    <string name="payment_success_description">Zahlung erhalten - Danke! Du bist bereit, deine Daten zu schützen!</string>
+
+    <string name="payment_history_title">Transaktionsverlauf</string>
+    <string name="payment_history_description">Informationen über deine früheren Käufe.</string>
+    <string name="payment_history_receipt_label_transaction_token">Transaktions-Token</string>
+    <string name="payment_history_no_receipts_title">Kein Verlauf</string>
+    <string name="payment_history_no_receipts_description">Melde dich beim datenschutzorientierten mooncloak VPN-Dienst an, um deine Daten vor Datensammlern zu schützen.</string>
+    <string name="payment_history_no_receipts_action_get_service">Schutz erhalten</string>
+
+    <string name="collaborator_list_header">Das Mooncloak-Team</string>
+    <string name="collaborator_list_header_subtitle">Lerne das talentierte Team kennen, das Mooncloak antreibt und sich mit Kompetenz und Engagement für deinen Datenschutz einsetzt.</string>
+    <string name="collaborator_list_title_error">Fehler beim Laden der Teammitglieder</string>
+    <string name="collaborator_list_title_empty">Keine Teammitglieder gefunden</string>
+    <string name="collaborator_list_description_error">Beim Laden der Teammitglieder von mooncloak VPN ist ein unerwartetes Problem aufgetreten. Versuche es später erneut.</string>
+    <string name="collaborator_list_description_empty">Die Top-Teammitglieder von mooncloak VPN werden hier angezeigt.</string>
+    <string name="collaborator_list_tip_title">Danke deinem Datenschutz-Team!</string>
+    <string name="collaborator_list_tip_description">Das Team arbeitet täglich unermüdlich, um deine Daten sicher zu halten — bedanke dich mit einem Trinkgeld. Jede Unterstützung treibt unsere Mission voran!</string>
+    <string name="collaborator_list_tip_action">Trinkgeld geben</string>
+
+    <string name="tip_link_item_title_moonlit_coffee">Mondlicht-Kaffee</string>
+    <string name="tip_link_item_description_moonlit_coffee">Gib dem Team einen schnellen Kaffee — halte deinen Datenschutz stark im Mondlicht.</string>
+    <string name="tip_link_item_title_lunar_beer">Mond-Bier</string>
+    <string name="tip_link_item_description_lunar_beer">Spendiere dem Team ein kühles Bier — Prost auf den Schutz deiner Daten vor neugierigen Blicken!</string>
+    <string name="tip_link_item_title_cosmic_cocktail">Kosmische Cocktails</string>
+    <string name="tip_link_item_description_cosmic_cocktail">Mixe dem Team etwas Besonderes — hebe die Messlatte für deine sichere Verbindung.</string>
+    <string name="tip_link_item_title_stellar_mix">Stellarer Mix</string>
+    <string name="tip_link_item_description_stellar_mix">Gestalte dein eigenes besonderes Trinkgeld — unterstütze die Sterne, die deine digitale Welt verhüllen.</string>
+    <string name="tip_link_item_action_tip">Trinkgeld %1$s</string>
+
+    <string name="server_connection_disconnected_title">Getrennt</string>
+    <string name="server_connection_disconnected_description">Verbinde dich mit einem sicheren VPN-Server, um deine Daten vor Datensammlern zu verbergen.</string>
+    <string name="server_connection_action_connect">Verbinden</string>
+    <string name="server_connection_action_disconnect">Trennen</string>
+    <string name="server_connection_connecting_title">Verbinden</string>
+    <string name="server_connection_disconnecting_title">Trennen</string>
+    <string name="server_connection_connected_title">Verbunden</string>
+    <string name="server_connection_connected_description">Du bist mit einem privaten VPN-Server verbunden.</string>
+    <string name="server_connection_connected_label_timestamp">Zeitstempel</string>
+    <string name="server_connection_connected_label_rx_throughput">Eingehend</string>
+    <string name="server_connection_connected_label_tx_throughput">Ausgehend</string>
+    <string name="server_connection_error_description">Beim Verbinden mit dem VPN-Server ist ein unerwarteter Fehler aufgetreten. Versuche es später erneut.</string>
+
+    <string name="server_details_label_device_ip_address">Geräte-IP</string>
+    <string name="server_details_label_server_ip_address">Server-IP</string>
+    <string name="server_details_hidden_ip_address">***.**.**.***</string>
+    <string name="server_details_unknown_ip_address">Unbekannt</string>
+    <string name="server_details_info_field_country">Land</string>
+    <string name="server_details_info_field_region">Region</string>
+    <string name="server_details_info_field_connected">Verbunden</string>
+    <string name="server_details_info_field_last_connected">Zuletzt verbunden</string>
+    <string name="server_details_info_field_server">Server</string>
+    <string name="server_details_info_field_ip_address">IP-Adresse</string>
+    <string name="server_details_info_field_load">Serverlast</string>
+    <string name="server_details_info_field_protocol">Protokoll</string>
+    <string name="server_details_info_field_performance">Leistung</string>
+    <string name="server_details_info_value_not_connected">Nicht verbunden</string>
+    <string name="server_details_title_time">Daten verhüllt für</string>
+    <string name="server_details_title_speed">Aktuelle Geschwindigkeit</string>
+    <string name="server_details_title_data_usage">Datennutzung</string>
+    <string name="server_details_label_download">Download</string>
+    <string name="server_details_label_upload">Upload</string>
+    <string name="server_details_title_connecting">Verbinden</string>
+    <string name="server_details_title_disconnecting">Trennen</string>
+    <string name="server_details_action_connect">Verbinden</string>
+    <string name="server_details_action_disconnect">Trennen</string>
+
+    <string name="notification_channel_name_vpn">VPN</string>
+    <string name="notification_channel_description_vpn">Benachrichtigungen, die angezeigt werden, wenn du mit einem VPN-Server verbunden bist.</string>
+    <string name="notification_title_vpn">Mit privatem VPN verbunden</string>
+    <string name="notification_action_vpn_disconnect">Trennen</string>
+
+    <string name="notification_channel_name_shortcuts">Schnellaktionen</string>
+    <string name="notification_channel_description_shortcuts">Benachrichtigungen, die angezeigt werden, wenn App-Schnellaktionen ausgeführt werden.</string>
+    <string name="notification_title_shortcuts">Schnellaktion wird ausgeführt</string>
+
+    <string name="shortcut_title_quick_connect">Schnellverbindung</string>
+
+    <string name="duration_remaining_less_than_one_minute">&lt; 1 Minute</string>
+    <plurals name="duration_remaining_minutes">
+        <item quantity="one">%1$d Minute</item>
+        <item quantity="other">%1$d Minuten</item>
+    </plurals>
+    <plurals name="duration_remaining_hours">
+        <item quantity="one">%1$d Stunde</item>
+        <item quantity="other">%1$d Stunden</item>
+    </plurals>
+    <plurals name="duration_remaining_days">
+        <item quantity="one">%1$d Tag</item>
+        <item quantity="other">%1$d Tage</item>
+    </plurals>
+    <plurals name="duration_remaining_months">
+        <item quantity="one">%1$d Monat</item>
+        <item quantity="other">%1$d Monate</item>
+    </plurals>
+    <string name="duration_remaining_greater_than_one_year">> 1 Jahr</string>
+    <string name="duration_remaining_expired">Abgelaufen</string>
+
+    <string name="crypto_wallet_title_lunaris_wallet">Lunaris Wallet</string>
+    <string name="crypto_wallet_title_account_address">Kontoadresse</string>
+    <string name="crypto_wallet_title_no_wallet">Kein Wallet gefunden</string>
+    <string name="crypto_wallet_title_send">Lunaris senden</string>
+    <string name="crypto_wallet_title_receive">Lunaris empfangen</string>
+    <string name="crypto_wallet_title_create_wallet">Wallet erstellen</string>
+    <string name="crypto_wallet_title_restore_wallet">Wallet wiederherstellen</string>
+    <string name="crypto_wallet_title_reveal">Geheime Wiederherstellungsphrase</string>
+    <string name="crypto_wallet_title_dialog_creating">Wallet wird erstellt</string>
+    <string name="crypto_wallet_title_authenticate_recovery">Authentifiziere dich, um die sichere Wiederherstellungsphrase anzuzeigen</string>
+
+    <string name="crypto_wallet_description_account_address">Deine öffentliche Lunaris-Kontoadresse auf der Polygon-Kette.</string>
+    <string name="crypto_wallet_description_no_wallet">Es gibt kein Lunaris-Wallet. Erstelle oder stelle eines wieder her, um zu beginnen.</string>
+    <string name="crypto_wallet_description_receive">Akzeptiere Krypto-Token des Polygon-Netzwerks, die an deine Wallet-Adresse gesendet werden.</string>
+    <string name="crypto_wallet_description_send">Sende Lunaris an jede Wallet-Adresse im Polygon-Netzwerk.</string>
+    <string name="crypto_wallet_description_srp">Die geheime Wiederherstellungsphrase gewährt vollen Zugriff auf dein Wallet. Halte sie unbedingt geheim!</string>
+    <string name="crypto_wallet_description_dialog_creating">Warte kurz, während wir dein Wallet erstellen.</string>
+    <string name="crypto_wallet_description_reveal">Die geheime Wiederherstellungsphrase ermöglicht es dir, den Zugriff auf dein Wallet wiederherzustellen. Bewahre sie sicher auf und teile sie mit niemandem!</string>
+    <string name="crypto_wallet_description_restore_wallet">Verwende deine sichere Wiederherstellungsphrase, um dein bestehendes Wallet wiederherzustellen.</string>
+
+    <string name="crypto_wallet_label_balance">Guthaben</string>
+    <string name="crypto_wallet_label_today">Heute</string>
+    <string name="crypto_wallet_label_all_time">Gesamte Zeit</string>
+    <string name="crypto_wallet_label_last_updated">Zuletzt aktualisiert</string>
+    <string name="crypto_wallet_label_blockchain">Blockchain</string>
+    <string name="crypto_wallet_label_network">Netzwerk</string>
+    <string name="crypto_wallet_label_token">Token</string>
+    <string name="crypto_wallet_label_token_ticker">Kürzel</string>
+    <string name="crypto_wallet_label_token_address">Token-Adresse</string>
+    <string name="crypto_wallet_label_wallet_address">Wallet-Adresse</string>
+    <string name="crypto_wallet_label_amount">Betrag</string>
+    <string name="crypto_wallet_label_estimated_value">Geschätzter Wert</string>
+    <string name="crypto_wallet_label_scan_qr_code">Scanne, um Lunaris an diese Wallet-Adresse zu senden.</string>
+    <string name="crypto_wallet_label_recipient_address">Empfängeradresse</string>
+    <string name="crypto_wallet_label_srp">Geheime Wiederherstellungsphrase</string>
+
+    <string name="crypto_wallet_value_blockchain_ethereum">Ethereum</string>
+    <string name="crypto_wallet_value_network_polygon">Polygon</string>
+    <string name="crypto_wallet_value_balance_zero">0</string>
+
+    <string name="crypto_wallet_action_send">Senden</string>
+    <string name="crypto_wallet_action_receive">Empfangen</string>
+    <string name="crypto_wallet_action_refresh">Aktualisieren</string>
+    <string name="crypto_wallet_action_reveal">Anzeigen</string>
+    <string name="crypto_wallet_action_copy_address">Adresse kopieren</string>
+    <string name="crypto_wallet_action_share_address">Adresse teilen</string>
+    <string name="crypto_wallet_action_open_wallet_app">Wallet-App öffnen</string>
+    <string name="crypto_wallet_action_create_wallet">Wallet erstellen</string>
+    <string name="crypto_wallet_action_restore_wallet">Wallet wiederherstellen</string>
+    <string name="crypto_wallet_action_open_polygon_scan">In PolygonScan öffnen</string>
+    <string name="crypto_wallet_action_copy_srp">Phrase kopieren</string>
+    <string name="crypto_wallet_action_download_srp">Phrase herunterladen</string>
+    <string name="crypto_wallet_action_hide">Verbergen</string>
+    <string name="crypto_wallet_action_show">Anzeigen</string>
+
+    <string name="crypto_wallet_message_address_copied">Adresse kopiert!</string>
+    <string name="crypto_wallet_message_srp_copied">Sichere Wiederherstellungsphrase kopiert!</string>
+
+    <string name="crypto_wallet_promo_title">Die ersten 1.000 Wallet-Nutzer erhalten 100 kostenlose Lunaris (LNRS) Token!</string>
+    <string name="crypto_wallet_promo_description">Richte jetzt dein Wallet ein, um deine kostenlosen Lunaris-Token zu erhalten — eine echte Kryptowährung zum Nutzen und Handeln. Verfügbar, solange der Vorrat reicht.</string>
+    <string name="crypto_wallet_promo_title_gifted">Du hast insgesamt %1$s Token erhalten!</string>
+    <string name="crypto_wallet_promo_description_gifted">Letztes Geschenk erhalten %1$s</string>
+
+    <string name="crypto_wallet_warning_send">Überprüfe die Adresse vor dem Senden! Stelle sicher, dass der richtige Empfänger die Zahlung erhält.</string>
+    <string name="crypto_wallet_warning_srp">Bewahre diese geheime Phrase an einem sicheren Ort auf! Jeder mit Zugriff auf die Phrase hat Zugriff auf dein Wallet. Wenn du die Phrase verlierst, verlierst du den Zugriff auf dein Wallet.</string>
+
+    <string name="crypto_wallet_placeholder_address">Gib die Adresse oder den ENS-Namen ein</string>
+    <string name="crypto_wallet_placeholder_amount">Gib den Betrag ein</string>
+    <string name="crypto_wallet_placeholder_srp">Gib die sichere Wiederherstellungsphrase ein</string>
+
+    <string name="crypto_wallet_estimated_gas">Geschätzte Gasgebühren: %1$s</string>
+
+    <string name="crypto_wallet_error_amount_invalid">Gib einen gültigen Betrag ein.</string>
+    <string name="crypto_wallet_error_amount_too_much">Unzureichende Mittel.</string>
+    <string name="crypto_wallet_error_phrase_invalid">Gib eine gültige Phrase ein</string>
+    <string name="crypto_wallet_error_phrase_invalid_word_count">Die geheime Wiederherstellungsphrase MUSS 12 oder 24 Wörter lang sein.</string>
+
+    <string name="crypto_wallet_hidden_phrase">**********</string>
+
+</resources>
