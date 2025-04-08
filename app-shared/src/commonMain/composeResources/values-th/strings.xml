@@ -1,0 +1,443 @@
+<resources>
+
+    <string name="global_not_available">ไม่พร้อมใช้งาน</string>
+    <string name="global_unexpected_error">ข้อผิดพลาดที่ไม่คาดคิด</string>
+    <string name="global_yes">ใช่</string>
+    <string name="global_no">ไม่ใช่</string>
+    <string name="global_remaining">คงเหลือ</string>
+
+    <string name="app_name">mooncloak VPN</string>
+    <string name="app_description">ซ่อนตัวแต่ยังสว่างไสว</string>
+
+    <string name="app_slogan_line_1">ซ่อน \nตัว,</string>
+    <string name="app_slogan_line_2">ยัง \nสว่าง</string>
+
+    <string name="app_copyright">© %1$s Mooncloak LLC. สงวนลิขสิทธิ์ทั้งหมด</string>
+    <string name="app_built_description">สร้างด้วย ❤️ โดย mooncloak และผู้ร่วมสนับสนุน</string>
+
+    <string name="destination_main_home_title">หน้าแรก</string>
+    <string name="destination_main_support_title">การสนับสนุน</string>
+    <string name="destination_main_settings_title">การตั้งค่า</string>
+    <string name="destination_main_servers_title">เซิร์ฟเวอร์</string>
+    <string name="destination_main_crypto_wallet_title">Lunaris</string>
+    <string name="destination_root_onboarding_title">การเริ่มต้นใช้งาน</string>
+    <string name="destination_root_onboarding_auth_title">ต้องมีการยืนยันตัวตน</string>
+    <string name="destination_onboarding_landing_title">หน้าต้อนรับ</string>
+    <string name="destination_onboarding_tutorial_title">บทแนะนำ</string>
+
+    <string name="lock_screen_title_unlock">ปลดล็อก mooncloak VPN</string>
+    <string name="lock_screen_description">ใช้การตั้งค่าการล็อกของอุปกรณ์เพื่อปลดล็อก mooncloak VPN</string>
+    <string name="lock_screen_action_try_again">ลองอีกครั้ง</string>
+    <string name="lock_screen_title_required">ต้องมีการยืนยันตัวตน</string>
+
+    <string name="preference_theme_dark">มืด</string>
+    <string name="preference_theme_light">สว่าง</string>
+    <string name="preference_theme_system">ตามระบบ</string>
+
+    <string name="landing_action_start">เริ่มต้นใช้งาน</string>
+
+    <string name="speed_test_title">ทดสอบความเร็ว</string>
+    <string name="speed_test_label_ping">ปิง</string>
+    <string name="speed_test_label_download">ดาวน์โหลด</string>
+    <string name="speed_test_label_upload">อัปโหลด</string>
+
+    <string name="onboarding_title_no_tracking">ไม่มีการติดตามที่อยู่ IP</string>
+    <string name="onboarding_title_no_accounts">ไม่มีบัญชี</string>
+    <string name="onboarding_title_no_data_creeps">ไม่มีผู้แอบเก็บข้อมูล</string>
+    <string name="onboarding_title_no_subscriptions">ไม่มีค่าบริการรายเดือน</string>
+    <string name="onboarding_title_no_data_selling">ไม่มีการขุดข้อมูล</string>
+    <string name="onboarding_title_payment_crypto">ชำระด้วยคริปโตเคอร์เรนซี</string>
+    <string name="onboarding_title_payment_google_play">การชำระเงินที่ปลอดภัย</string>
+    <string name="onboarding_description_no_tracking">ที่อยู่ IP ของคุณจะไม่ถูกบันทึกหรือเชื่อมโยงกับกิจกรรมออนไลน์ของคุณ</string>
+    <string name="onboarding_description_no_accounts">ไม่ต้องใช้อีเมลหรือหมายเลขโทรศัพท์เพื่อใช้บริการ VPN ดังนั้นข้อมูลนี้จะไม่ถูกติดตาม</string>
+    <string name="onboarding_description_no_data_creeps">ปิดม่านให้ผู้แอบเก็บข้อมูล ซ่อนกิจกรรมออนไลน์ของคุณจาก ISP บริษัทใหญ่ และรัฐบาล</string>
+    <string name="onboarding_description_no_subscriptions">ไม่มีค่าบริการรายเดือนหรือการเรียกเก็บเงินเกิน จ่ายล่วงหน้าสำหรับสิ่งที่คุณต้องการ</string>
+    <string name="onboarding_description_no_data_selling">เราไม่เคยขายข้อมูลของคุณให้บุคคลที่สาม</string>
+    <string name="onboarding_description_payment_crypto">คริปโตเคอร์เรนซีช่วยเพิ่มชั้นความเป็นส่วนตัว</string>
+    <string name="onboarding_description_payment_google_play">การชำระเงินจัดการผ่านบริการ Google Play Billing ที่น่าเชื่อถือ</string>
+    <string name="onboarding_action_skip">ข้าม</string>
+
+    <string name="action_connect">เชื่อมต่อ</string>
+    <string name="action_disconnect">ตัดการเชื่อมต่อ</string>
+
+    <string name="connection_type_p2p">P2P</string>
+    <string name="connection_type_tor">Tor</string>
+    <string name="connection_type_multiple">การเชื่อมต่อหลายชั้นที่ปลอดภัย</string>
+
+    <string name="moon_shield_title">MoonShield</string>
+    <string name="moon_shield_subtitle">บล็อกโฆษณา ตัวติดตาม และผู้แอบเก็บข้อมูล</string>
+    <string name="moon_shield_description_brief">บล็อกโฆษณา ตัวติดตาม และผู้แอบเก็บข้อมูลด้วย DNS ที่กำหนดเองของเรา—ฟรีสำหรับผู้ใช้ mooncloak VPN ทุกคน</string>
+    <string name="moon_shield_description_long">MoonShield เป็นเกราะป้องกันในตัวของคุณจากสิ่งรบกวนออนไลน์ ขับเคลื่อนด้วยเซิร์ฟเวอร์ DNS ที่กำหนดเอง มันกรองตัวติดตาม โฆษณา และซอฟต์แวร์แอบเก็บข้อมูลที่รุกล้ำ ทำให้การท่องเว็บของคุณสะอาดและเป็นส่วนตัวมากขึ้น ผสานรวมกับ mooncloak VPN ได้อย่างลงตัว บริการนี้ไม่มีค่าใช้จ่ายเพิ่มเติม เพลิดเพลินกับอินเทอร์เน็ตที่ปลอดภัยและปราศจากโฆษณาโดยไม่ยุ่งยาก</string>
+    <string name="moon_shield_warning">บางเว็บไซต์อาจทำงานไม่ถูกต้องเมื่อโฆษณาและตัวติดตามถูกบล็อก</string>
+    <string name="moon_shield_label_trackers_blocked">ตัวติดตามที่ถูกบล็อก</string>
+    <string name="moon_shield_label_time_saved">เวลาที่ประหยัด</string>
+    <string name="moon_shield_label_data_saved">ข้อมูลที่ประหยัด</string>
+    <string name="moon_shield_active">เกราะขึ้น</string>
+    <string name="moon_shield_inactive">เกราะลง</string>
+    <string name="moon_shield_message_next_connection">การเปลี่ยนแปลง MoonShield จะมีผลในการเชื่อมต่อ VPN ครั้งถัดไป</string>
+
+    <string name="plan_usage_title">การใช้งานแผน</string>
+    <string name="plan_usage_label_time_remaining">เวลาที่เหลือ</string>
+    <string name="plan_usage_label_data_remaining">ข้อมูลที่เหลือ</string>
+    <string name="plan_usage_unlimited">ไม่จำกัด</string>
+    <string name="plan_usage_action_boost">เพิ่มพลัง</string>
+
+    <string name="home_title_bar_unprotected">คุณยังไม่ถูกปกป้อง</string>
+    <string name="home_title_bar_protected">ถูกปกป้อง</string>
+    <string name="home_title_bar_connecting">กำลังเชื่อมต่อกับ VPN ที่ปลอดภัย</string>
+    <string name="home_title_bar_disconnecting">กำลังตัดการเชื่อมต่อ...</string>
+    <string name="home_title_bar_checking">กำลังตรวจสอบการเชื่อมต่อ</string>
+    <string name="home_title_bar_description_unprotected">เชื่อมต่อกับเซิร์ฟเวอร์ VPN ที่ปลอดภัยเพื่อปกป้องข้อมูลของคุณ</string>
+    <string name="home_title_lunaris_wallet">กระเป๋า Lunaris</string>
+
+    <string name="home_description_lunaris_wallet">จัดการ Lunaris คริปโตเคอร์เรนซีจริงที่คุณสามารถซื้อขายได้อย่างปลอดภัย ใช้เพื่อชำระค่า mooncloak VPN หรือซื้อขายในตลาดแลกเปลี่ยน</string>
+
+    <string name="home_feed_item_server_last_connected">เชื่อมต่อล่าสุด</string>
+
+    <string name="get_vpn_service_title">คุณยังไม่ได้รับการปกป้อง</string>
+    <string name="get_vpn_service_description">เริ่มปกป้องข้อมูลของคุณด้วยบริการ VPN ที่เน้นความเป็นส่วนตัวและไม่ระบุตัวตนจาก mooncloak</string>
+    <string name="get_vpn_service_action_protect">รับการปกป้อง</string>
+
+    <string name="support_email_title">ต้องการความช่วยเหลือ?</string>
+    <string name="support_email_description">ติดต่อเราทางอีเมล แล้วเราจะตอบกลับเมื่อเราสามารถทำได้</string>
+    <string name="support_email_action">อีเมลสนับสนุน</string>
+
+    <string name="support_feature_request_title">คำขอฟีเจอร์</string>
+    <string name="support_feature_request_description">มีไอเดียที่อยากแชร์ไหม? บอกเราเลย!</string>
+    <string name="support_feature_request_action">สร้างคำขอ</string>
+
+    <string name="support_issue_title">มีปัญหา?</string>
+    <string name="support_issue_description">สร้างตั๋วปัญหาสาธารณะเพื่อให้เราทราบถึงปัญหา</string>
+    <string name="support_issue_action">รายงานปัญหา</string>
+
+    <string name="support_rate_app_title">ให้คะแนนแอป</string>
+    <string name="support_rate_app_description">บอกเราว่าเราทำอะไรได้ดีและอะไรที่เราสามารถปรับปรุงได้!</string>
+    <string name="support_rate_app_action">ให้คะแนนแอป</string>
+
+    <string name="support_email_default_subject">รายงานปัญหา</string>
+
+    <string name="support_faq_header">คำถามที่พบบ่อย</string>
+
+    <string name="data_format_abbr_bytes">ไบต์</string>
+    <string name="data_format_abbr_kilobytes">กิโลไบต์</string>
+    <string name="data_format_abbr_megabytes">เมกะไบต์</string>
+    <string name="data_format_abbr_gigabytes">กิกะไบต์</string>
+    <string name="data_format_abbr_terabytes">เทราไบต์</string>
+
+    <string name="data_format_abbr_bps">ไบต์/วินาที</string>
+    <string name="data_format_abbr_kbps">กิโลไบต์/วินาที</string>
+    <string name="data_format_abbr_mbps">เมกะไบต์/วินาที</string>
+    <string name="data_format_abbr_gbps">กิกะไบต์/วินาที</string>
+    <string name="data_format_abbr_tbps">เทราไบต์/วินาที</string>
+
+    <string name="country_list_title">ประเทศ</string>
+    <string name="country_list_description">กรองเซิร์ฟเวอร์ VPN ตามประเทศและภูมิภาค</string>
+    <string name="country_list_error_title_no_countries">ข้อผิดพลาดที่ไม่คาดคิดในการโหลดประเทศ</string>
+    <string name="country_list_error_description_no_countries">เกิดข้อผิดพลาดที่ไม่คาดคิดขณะพยายามโหลดรายชื่อประเทศที่มีเซิร์ฟเวอร์ โปรดลองอีกครั้งในภายหลัง หากข้อผิดพลาดยังคงอยู่ ติดต่อฝ่ายสนับสนุน</string>
+    <string name="country_list_error_title_no_vpn_servers">ข้อผิดพลาดที่ไม่คาดคิดในการโหลดประเทศ</string>
+    <string name="country_list_error_description_no_vpn_servers">เกิดข้อผิดพลาดที่ไม่คาดคิดขณะพยายามโหลดรายชื่อประเทศที่มีเซิร์ฟเวอร์ VPN โปรดลองอีกครั้งในภายหลัง หากข้อผิดพลาดยังคงอยู่ ติดต่อฝ่ายสนับสนุน</string>
+    <string name="country_list_default_region_type">ภูมิภาค</string>
+    <string name="region_list_title">ภูมิภาค</string>
+    <string name="region_list_description">ภูมิภาคที่มีเซิร์ฟเวอร์ VPN ภายในประเทศ</string>
+
+    <string name="country_list_header_label_with_count">%1$s (%2$s)</string>
+    <string name="server_list_header_label">เซิร์ฟเวอร์</string>
+    <string name="server_list_description">เซิร์ฟเวอร์ที่พร้อมใช้งานในภูมิภาคนี้</string>
+
+    <string name="server_list_title_no_servers">ข้อผิดพลาดที่ไม่คาดคิดในการโหลดเซิร์ฟเวอร์ VPN</string>
+    <string name="server_list_description_no_servers">เกิดข้อผิดพลาดที่ไม่คาดคิดขณะพยายามโหลดรายชื่อเซิร์ฟเวอร์ VPN โปรดลองอีกครั้งในภายหลัง หากข้อผิดพลาดยังคงอยู่ ติดต่อฝ่ายสนับสนุน</string>
+
+    <string name="server_list_pre_release_title">เซิร์ฟเวอร์เพิ่มเติมกำลังมาเร็ว ๆ นี้!</string>
+    <string name="server_list_pre_release_description">คุณกำลังใช้งานแอปเวอร์ชันก่อนวางจำหน่าย! เมื่อเราแก้ไขปัญหาและเปิดตัวเวอร์ชันทางการครั้งแรก เราจะเพิ่มเซิร์ฟเวอร์ VPN อีกมากมายให้คุณ!</string>
+
+    <string name="settings_group_legal">กฎหมาย</string>
+    <string name="settings_title_about">เกี่ยวกับ</string>
+    <string name="settings_title_privacy_policy">นโยบายความเป็นส่วนตัว</string>
+    <string name="settings_title_terms">ข้อกำหนดและเงื่อนไข</string>
+    <string name="settings_group_theme">ธีม</string>
+    <string name="settings_group_app">แอป</string>
+    <string name="settings_title_app_version">เวอร์ชัน</string>
+    <string name="settings_title_licenses">ใบอนุญาตโอเพ่นซอร์ส</string>
+    <string name="settings_title_code">ดูซอร์สโค้ด</string>
+    <string name="settings_group_subscription">การสมัครสมาชิก</string>
+    <string name="settings_title_current_plan">แผนปัจจุบัน</string>
+    <string name="settings_title_payment_history">ประวัติการทำธุรกรรม</string>
+    <string name="settings_group_preferences">การตั้งค่าตามความชอบ</string>
+    <string name="settings_group_general">ทั่วไป</string>
+    <string name="settings_group_privacy">ความเป็นส่วนตัว</string>
+    <string name="settings_title_landing">เริ่มที่หน้าต้อนรับ</string>
+    <string name="settings_description_landing">แสดงหน้าต้อนรับทุกครั้งที่เปิดแอป</string>
+    <string name="settings_group_support">การสนับสนุน</string>
+    <string name="settings_title_support">ศูนย์สนับสนุน</string>
+    <string name="settings_description_support">ติดต่อ คำถามที่พบบ่อย คำขอฟีเจอร์ และอื่น ๆ!</string>
+
+    <string name="settings_title_screen_lock">ล็อกหน้าจอ</string>
+    <string name="settings_description_screen_lock">ต้องมีการยืนยันตัวตนของระบบเมื่อคุณออกจากแอปหรือสลับแอปหลังจากหมดเวลา</string>
+    <string name="settings_title_screen_lock_timeout">ล็อกหน้าจอหลังจาก</string>
+    <string name="settings_option_screen_lock_timeout_1_minute">1 นาที</string>
+    <string name="settings_option_screen_lock_timeout_5_minutes">5 นาที</string>
+    <string name="settings_option_screen_lock_timeout_30_minutes">30 นาที</string>
+    <string name="settings_option_screen_lock_timeout_custom_time">กำหนดเวลาเอง</string>
+
+    <string name="settings_title_collaborators">ทีม Mooncloak</string>
+    <string name="settings_description_collaborators">พบกับทีมที่ปกป้องความเป็นส่วนตัวของคุณ — ให้ทิปหรือขอบคุณพวกเขาสำหรับการทำงานหนัก</string>
+
+    <string name="settings_app_details_header">รายละเอียดแอป</string>
+    <string name="settings_app_details_description">ข้อมูลเกี่ยวกับแอปพลิเคชันนี้</string>
+    <string name="settings_app_details_title_id">ไอดี</string>
+    <string name="settings_app_details_title_name">ชื่อ</string>
+    <string name="settings_app_details_title_version">เวอร์ชัน</string>
+    <string name="settings_app_details_title_debug">ดีบัก</string>
+    <string name="settings_app_details_title_pre_release">ก่อนวางจำหน่าย</string>
+    <string name="settings_app_details_title_build_time">เวลาสร้าง</string>
+
+    <string name="settings_group_device">อุปกรณ์</string>
+    <string name="settings_title_device_details">รายละเอียดอุปกรณ์</string>
+    <string name="settings_device_details_header">รายละเอียดอุปกรณ์</string>
+    <string name="settings_device_details_description">ข้อมูลเกี่ยวกับอุปกรณ์ของคุณที่ใช้งานแอปนี้</string>
+    <string name="settings_device_details_public_ip">ที่อยู่ IP สาธารณะ</string>
+    <string name="settings_device_details_local_ip">ที่อยู่ IP ท้องถิ่น</string>
+
+    <string name="settings_group_wire_guard">VPN</string>
+    <string name="settings_title_wire_guard_dns_servers">เซิร์ฟเวอร์ DNS</string>
+    <string name="settings_dns_servers_header">เซิร์ฟเวอร์ DNS</string>
+    <string name="settings_dns_servers_description">เลือกเซิร์ฟเวอร์ DNS ที่อุปกรณ์ของคุณใช้เมื่อเชื่อมต่อกับบริการ mooncloak VPN DNS แปลชื่อโดเมนเป็นที่อยู่ IP</string>
+    <string name="settings_dns_servers_label_primary">หลัก</string>
+    <string name="settings_dns_servers_label_secondary">สำรอง</string>
+    <string name="settings_dns_servers_action_save">บันทึก</string>
+    <string name="settings_dns_servers_error_invalid_ip">ที่อยู่ DNS ไม่ถูกต้อง</string>
+
+    <string name="subscription_no_active_plan">ไม่มีแผนที่ใช้งาน</string>
+    <string name="subscription_title_no_active_plan">ไม่มีแผนที่ใช้งาน</string>
+    <string name="subscription_title_active_plan">แผนที่ใช้งาน</string>
+    <string name="subscription_description_protect">เริ่มปกป้องข้อมูลของคุณด้วยบริการ VPN ที่เน้นความเป็นส่วนตัวและไม่ระบุตัวตนจาก mooncloak</string>
+    <string name="subscription_description_active">ข้อมูลเกี่ยวกับการสมัครสมาชิกปัจจุบันของคุณ</string>
+    <string name="subscription_action_protect">รับการปกป้อง</string>
+    <string name="subscription_action_boost">เพิ่มพลัง</string>
+    <string name="subscription_label_plan_details">รายละเอียดแผน</string>
+    <string name="subscription_field_name">ชื่อ</string>
+    <string name="subscription_field_purchased">วันที่ซื้อ</string>
+    <string name="subscription_field_expiration">วันหมดอายุ</string>
+    <string name="subscription_field_total_bytes">ข้อมูลทั้งหมด</string>
+    <string name="subscription_label_usage">การใช้งานปัจจุบัน</string>
+    <string name="subscription_label_remaining">คงเหลือ</string>
+    <string name="subscription_label_payment_history">ประวัติการชำระเงิน</string>
+    <string name="subscription_action_payment_view_all">ดูทั้งหมด</string>
+    <string name="subscription_plan_title_default">แผน</string>
+    <string name="subscription_error_load_details">ข้อผิดพลาดที่ไม่คาดคิดในการโหลดรายละเอียดการสมัครสมาชิก</string>
+    <string name="subscription_error_load_plan">ข้อผิดพลาดที่ไม่คาดคิดในการโหลดรายละเอียดแผน</string>
+    <string name="subscription_error_load_usage">ข้อผิดพลาดที่ไม่คาดคิดในการโหลดการใช้งานการสมัครสมาชิก</string>
+    <string name="subscription_error_load_last_payment">ข้อผิดพลาดที่ไม่คาดคิดในการโหลดการชำระเงินล่าสุด</string>
+
+    <string name="dependency_list_header">ใบอนุญาตโอเพ่นซอร์ส</string>
+    <string name="dependency_list_description">ใบอนุญาตโอเพ่นซอร์สของส่วนประกอบที่ใช้ในการพัฒนาแอปนี้</string>
+    <string name="dependency_list_title_none_found">ไม่พบส่วนประกอบ</string>
+    <string name="dependency_list_description_none_found">เกิดปัญหาที่ไม่คาดคิดในการโหลดรายการใบอนุญาตส่วนประกอบ</string>
+    <string name="dependency_list_label_developers">นักพัฒนา</string>
+    <string name="dependency_list_label_licenses">ใบอนุญาต</string>
+    <string name="dependency_list_label_organization">องค์กร</string>
+    <string name="dependency_list_label_funding">การระดมทุน</string>
+    <string name="dependency_list_action_open_website">เปิดเว็บไซต์</string>
+    <string name="dependency_list_action_close">ปิด</string>
+
+    <string name="payment_plans_title">เลือกแผน</string>
+    <string name="payment_notice">ราคาอาจมีการเปลี่ยนแปลง โปรดทราบว่าการซื้อทั้งหมดถือเป็นที่สิ้นสุด</string>
+    <string name="payment_notice_beta">ราคาอาจมีการเปลี่ยนแปลง โปรดทราบว่าการซื้อทั้งหมดถือเป็นที่สิ้นสุด เนื่องจากแอปนี้อยู่ในช่วงเบต้า ฟีเจอร์และราคาอาจมีการปรับเปลี่ยน</string>
+    <string name="payment_title">การชำระเงิน</string>
+    <string name="payment_action_select">เลือก</string>
+    <string name="payment_accept_terms_and_conditions">ฉันได้อ่านและยอมรับข้อกำหนดและนโยบายความเป็นส่วนตัว</string>
+    <string name="payment_link_text_terms">ข้อกำหนด</string>
+    <string name="payment_link_text_privacy_policy">นโยบายความเป็นส่วนตัว</string>
+    <string name="payment_qr_scan_label">สแกนเพื่อชำระเงินด้วยแอปกระเป๋าคริปโตของคุณ</string>
+    <string name="payment_bitcoin_address_label">ที่อยู่ Bitcoin</string>
+    <string name="payment_status_label">สถานะการชำระเงิน</string>
+    <string name="payment_status_pending">รอการชำระเงิน</string>
+    <string name="payment_error_no_plans_title">ไม่มีข้อมูลแผน</string>
+    <string name="payment_error_no_plans_description">เกิดข้อผิดพลาดในการโหลดแผน โปรดลองอีกครั้งในภายหลัง</string>
+    <string name="payment_label_one_time_charge">/ ครั้งเดียว</string>
+
+    <string name="payment_all_plans_title">ทุกแผนรวมถึง:</string>
+    <string name="payment_all_plans_feature_data_usage">การใช้งานข้อมูลไม่จำกัด</string>
+    <string name="payment_all_plans_feature_anonymous_service">บริการ VPN ไม่ระบุตัวตนและไม่บันทึกข้อมูล</string>
+    <string name="payment_all_plans_feature_all_servers">เข้าถึงเซิร์ฟเวอร์ VPN ทั้งหมด</string>
+
+    <string name="payment_error_title">ข้อผิดพลาดในการชำระเงิน</string>
+
+    <string name="payment_success_title">การชำระเงินสำเร็จ</string>
+    <string name="payment_success_description">ได้รับการชำระเงินแล้ว - ขอบคุณ! คุณพร้อมเริ่มปกป้องข้อมูลของคุณแล้ว!</string>
+
+    <string name="payment_history_title">ประวัติการทำธุรกรรม</string>
+    <string name="payment_history_description">ข้อมูลเกี่ยวกับการซื้อครั้งก่อนของคุณ</string>
+    <string name="payment_history_receipt_label_transaction_token">โทเค็นธุรกรรม</string>
+    <string name="payment_history_no_receipts_title">ไม่มีประวัติ</string>
+    <string name="payment_history_no_receipts_description">สมัครใช้บริการ mooncloak VPN ที่เน้นความเป็นส่วนตัวเพื่อปกป้องข้อมูลของคุณจากผู้แอบเก็บข้อมูล</string>
+    <string name="payment_history_no_receipts_action_get_service">รับการปกป้อง</string>
+
+    <string name="collaborator_list_header">ทีม Mooncloak</string>
+    <string name="collaborator_list_header_subtitle">รู้จักทีมงานที่มีความสามารถที่ขับเคลื่อน Mooncloak มุ่งมั่นปกป้องความเป็นส่วนตัวของคุณด้วยทักษะและความทุ่มเท</string>
+    <string name="collaborator_list_title_error">ข้อผิดพลาดในการโหลดสมาชิกทีม</string>
+    <string name="collaborator_list_title_empty">ไม่พบสมาชิกทีม</string>
+    <string name="collaborator_list_description_error">เกิดปัญหาที่ไม่คาดคิดในการโหลดสมาชิกทีมของ mooncloak VPN โปรดลองอีกครั้งในภายหลัง</string>
+    <string name="collaborator_list_description_empty">สมาชิกทีมชั้นนำของ mooncloak VPN จะแสดงที่นี่</string>
+    <string name="collaborator_list_tip_title">ขอบคุณทีมความเป็นส่วนตัวของคุณ!</string>
+    <string name="collaborator_list_tip_description">ทีมงานทำงานอย่างไม่รู้จักเหน็ดเหนื่อยทุกวันเพื่อรักษาความปลอดภัยให้ข้อมูลของคุณ—ขอบคุณพวกเขาด้วยทิป การสนับสนุนทุกครั้งช่วยเติมพลังให้ภารกิจของเรา!</string>
+    <string name="collaborator_list_tip_action">ให้ทิป</string>
+
+    <string name="tip_link_item_title_moonlit_coffee">กาแฟยามค่ำ</string>
+    <string name="tip_link_item_description_moonlit_coffee">เติมพลังให้ทีมด้วยกาแฟสักแก้ว—รักษาความเป็นส่วนตัวของคุณให้เข้มข้นภายใต้แสงจันทร์</string>
+    <string name="tip_link_item_title_lunar_beer">เบียร์จันทรา</string>
+    <string name="tip_link_item_description_lunar_beer">เลี้ยงเบียร์เย็น ๆ ให้ทีม—ยกแก้วให้การปกป้องข้อมูลของคุณจากสายตาสอดส่อง!</string>
+    <string name="tip_link_item_title_cosmic_cocktail">ค็อกเทลแห่งจักรวาล</string>
+    <string name="tip_link_item_description_cosmic_cocktail">ผสมเครื่องดื่มสุดพิเศษให้ทีม—ยกระดับการเชื่อมต่อที่ปลอดภัยของคุณ</string>
+    <string name="tip_link_item_title_stellar_mix">ส่วนผสมแห่งดวงดาว</string>
+    <string name="tip_link_item_description_stellar_mix">สร้างทิปพิเศษของคุณเอง—สนับสนุนดวงดาวที่ปกป้องโลกดิจิทัลของคุณ</string>
+    <string name="tip_link_item_action_tip">ทิป %1$s</string>
+
+    <string name="server_connection_disconnected_title">ตัดการเชื่อมต่อ</string>
+    <string name="server_connection_disconnected_description">เชื่อมต่อกับเซิร์ฟเวอร์ VPN ที่ปลอดภัยเพื่อปกป้องข้อมูลของคุณจากผู้แอบเก็บข้อมูล</string>
+    <string name="server_connection_action_connect">เชื่อมต่อ</string>
+    <string name="server_connection_action_disconnect">ตัดการเชื่อมต่อ</string>
+    <string name="server_connection_connecting_title">กำลังเชื่อมต่อ</string>
+    <string name="server_connection_disconnecting_title">กำลังตัดการเชื่อมต่อ</string>
+    <string name="server_connection_connected_title">เชื่อมต่อแล้ว</string>
+    <string name="server_connection_connected_description">คุณเชื่อมต่อกับเซิร์ฟเวอร์ VPN ส่วนตัวแล้ว</string>
+    <string name="server_connection_connected_label_timestamp">ประทับเวลา</string>
+    <string name="server_connection_connected_label_rx_throughput">ขาเข้า</string>
+    <string name="server_connection_connected_label_tx_throughput">ขาออก</string>
+    <string name="server_connection_error_description">เกิดข้อผิดพลาดที่ไม่คาดคิดในการเชื่อมต่อกับเซิร์ฟเวอร์ VPN โปรดลองอีกครั้งในภายหลัง</string>
+
+    <string name="server_details_label_device_ip_address">IP อุปกรณ์</string>
+    <string name="server_details_label_server_ip_address">IP เซิร์ฟเวอร์</string>
+    <string name="server_details_hidden_ip_address">***.**.**.***</string>
+    <string name="server_details_unknown_ip_address">ไม่ทราบ</string>
+    <string name="server_details_info_field_country">ประเทศ</string>
+    <string name="server_details_info_field_region">ภูมิภาค</string>
+    <string name="server_details_info_field_connected">เชื่อมต่อ</string>
+    <string name="server_details_info_field_last_connected">เชื่อมต่อล่าสุด</string>
+    <string name="server_details_info_field_server">เซิร์ฟเวอร์</string>
+    <string name="server_details_info_field_ip_address">ที่อยู่ IP</string>
+    <string name="server_details_info_field_load">โหลดเซิร์ฟเวอร์</string>
+    <string name="server_details_info_field_protocol">โปรโตคอล</string>
+    <string name="server_details_info_field_performance">ประสิทธิภาพ</string>
+    <string name="server_details_info_value_not_connected">ไม่ได้เชื่อมต่อ</string>
+    <string name="server_details_title_time">ข้อมูลถูกปกป้องเป็นเวลา</string>
+    <string name="server_details_title_speed">ความเร็วปัจจุบัน</string>
+    <string name="server_details_title_data_usage">การใช้งานข้อมูล</string>
+    <string name="server_details_label_download">ดาวน์โหลด</string>
+    <string name="server_details_label_upload">อัปโหลด</string>
+    <string name="server_details_title_connecting">กำลังเชื่อมต่อ</string>
+    <string name="server_details_title_disconnecting">กำลังตัดการเชื่อมต่อ</string>
+    <string name="server_details_action_connect">เชื่อมต่อ</string>
+    <string name="server_details_action_disconnect">ตัดการเชื่อมต่อ</string>
+
+    <string name="notification_channel_name_vpn">VPN</string>
+    <string name="notification_channel_description_vpn">การแจ้งเตือนที่แสดงเมื่อเชื่อมต่อกับเซิร์ฟเวอร์ VPN</string>
+    <string name="notification_title_vpn">เชื่อมต่อกับ VPN ส่วนตัว</string>
+    <string name="notification_action_vpn_disconnect">ตัดการเชื่อมต่อ</string>
+
+    <string name="notification_channel_name_shortcuts">การกระทำด่วน</string>
+    <string name="notification_channel_description_shortcuts">การแจ้งเตือนที่แสดงเมื่อดำเนินการกระทำด่วนของแอป</string>
+    <string name="notification_title_shortcuts">กำลังดำเนินการกระทำด่วน</string>
+
+    <string name="shortcut_title_quick_connect">เชื่อมต่อด่วน</string>
+
+    <string name="duration_remaining_less_than_one_minute">&lt; 1 นาที</string>
+    <plurals name="duration_remaining_minutes">
+        <item quantity="one">%1$d นาที</item>
+        <item quantity="other">%1$d นาที</item>
+    </plurals>
+    <plurals name="duration_remaining_hours">
+        <item quantity="one">%1$d ชั่วโมง</item>
+        <item quantity="other">%1$d ชั่วโมง</item>
+    </plurals>
+    <plurals name="duration_remaining_days">
+        <item quantity="one">%1$d วัน</item>
+        <item quantity="other">%1$d วัน</item>
+    </plurals>
+    <plurals name="duration_remaining_months">
+        <item quantity="one">%1$d เดือน</item>
+        <item quantity="other">%1$d เดือน</item>
+    </plurals>
+    <string name="duration_remaining_greater_than_one_year">> 1 ปี</string>
+    <string name="duration_remaining_expired">หมดอายุ</string>
+
+    <string name="crypto_wallet_title_lunaris_wallet">กระเป๋า Lunaris</string>
+    <string name="crypto_wallet_title_account_address">ที่อยู่บัญชี</string>
+    <string name="crypto_wallet_title_no_wallet">ไม่พบกระเป๋า</string>
+    <string name="crypto_wallet_title_send">ส่ง Lunaris</string>
+    <string name="crypto_wallet_title_receive">รับ Lunaris</string>
+    <string name="crypto_wallet_title_create_wallet">สร้างกระเป๋า</string>
+    <string name="crypto_wallet_title_restore_wallet">กู้คืนกระเป๋า</string>
+    <string name="crypto_wallet_title_reveal">วลีกู้คืนลับ</string>
+    <string name="crypto_wallet_title_dialog_creating">กำลังสร้างกระเป๋า</string>
+    <string name="crypto_wallet_title_authenticate_recovery">ยืนยันตัวตนเพื่อแสดงวลีกู้คืนที่ปลอดภัย</string>
+
+    <string name="crypto_wallet_description_account_address">ที่อยู่บัญชี Lunaris สาธารณะของคุณบนเครือข่าย Polygon</string>
+    <string name="crypto_wallet_description_no_wallet">ไม่มีกระเป๋า Lunaris สร้างหรือกู้คืนเพื่อเริ่มต้น</string>
+    <string name="crypto_wallet_description_receive">รับโทเค็นคริปโตบนเครือข่าย Polygon ที่ส่งไปยังที่อยู่กระเป๋าของคุณ</string>
+    <string name="crypto_wallet_description_send">ส่ง Lunaris ไปยังที่อยู่กระเป๋าใด ๆ บนเครือข่าย Polygon</string>
+    <string name="crypto_wallet_description_srp">วลีกู้คืนลับให้สิทธิ์เข้าถึงกระเป๋าของคุณเต็มรูปแบบ เก็บไว้เป็นความลับ!</string>
+    <string name="crypto_wallet_description_dialog_creating">รอสักครู่ขณะที่เราสร้างกระเป๋าของคุณ</string>
+    <string name="crypto_wallet_description_reveal">วลีกู้คืนลับช่วยให้คุณกู้คืนการเข้าถึงกระเป๋าของคุณ เก็บไว้ให้ปลอดภัยและอย่าแชร์กับใคร!</string>
+    <string name="crypto_wallet_description_restore_wallet">ใช้วลีกู้คืนที่ปลอดภัยของคุณเพื่อกู้คืนกระเป๋าที่มีอยู่</string>
+
+    <string name="crypto_wallet_label_balance">ยอดคงเหลือ</string>
+    <string name="crypto_wallet_label_today">วันนี้</string>
+    <string name="crypto_wallet_label_all_time">ตลอดเวลา</string>
+    <string name="crypto_wallet_label_last_updated">อัปเดตล่าสุด</string>
+    <string name="crypto_wallet_label_blockchain">บล็อกเชน</string>
+    <string name="crypto_wallet_label_network">เครือข่าย</string>
+    <string name="crypto_wallet_label_token">โทเค็น</string>
+    <string name="crypto_wallet_label_token_ticker">ตัวย่อโทเค็น</string>
+    <string name="crypto_wallet_label_token_address">ที่อยู่โทเค็น</string>
+    <string name="crypto_wallet_label_wallet_address">ที่อยู่กระเป๋า</string>
+    <string name="crypto_wallet_label_amount">จำนวน</string>
+    <string name="crypto_wallet_label_estimated_value">มูลค่าประเมิน</string>
+    <string name="crypto_wallet_label_scan_qr_code">สแกนเพื่อส่ง Lunaris ไปยังที่อยู่กระเป๋านี้</string>
+    <string name="crypto_wallet_label_recipient_address">ที่อยู่ผู้รับ</string>
+    <string name="crypto_wallet_label_srp">วลีกู้คืนลับ</string>
+
+    <string name="crypto_wallet_value_blockchain_ethereum">Ethereum</string>
+    <string name="crypto_wallet_value_network_polygon">Polygon</string>
+    <string name="crypto_wallet_value_balance_zero">0</string>
+
+    <string name="crypto_wallet_action_send">ส่ง</string>
+    <string name="crypto_wallet_action_receive">รับ</string>
+    <string name="crypto_wallet_action_refresh">รีเฟรช</string>
+    <string name="crypto_wallet_action_reveal">แสดง</string>
+    <string name="crypto_wallet_action_copy_address">คัดลอกที่อยู่</string>
+    <string name="crypto_wallet_action_share_address">แชร์ที่อยู่</string>
+    <string name="crypto_wallet_action_open_wallet_app">เปิดแอปกระเป๋า</string>
+    <string name="crypto_wallet_action_create_wallet">สร้างกระเป๋า</string>
+    <string name="crypto_wallet_action_restore_wallet">กู้คืนกระเป๋า</string>
+    <string name="crypto_wallet_action_open_polygon_scan">เปิดใน PolygonScan</string>
+    <string name="crypto_wallet_action_copy_srp">คัดลอกวลี</string>
+    <string name="crypto_wallet_action_download_srp">ดาวน์โหลดวลี</string>
+    <string name="crypto_wallet_action_hide">ซ่อน</string>
+    <string name="crypto_wallet_action_show">แสดง</string>
+
+    <string name="crypto_wallet_message_address_copied">คัดลอกที่อยู่แล้ว!</string>
+    <string name="crypto_wallet_message_srp_copied">คัดลอกวลีกู้คืนที่ปลอดภัยแล้ว!</string>
+
+    <string name="crypto_wallet_promo_title">ผู้ใช้กระเป๋าครั้งแรก 1,000 รายรับ 100 โทเค็น Lunaris (LNRS) ฟรี!</string>
+    <string name="crypto_wallet_promo_description">ตั้งค่ากระเป๋าของคุณตอนนี้เพื่อรับโทเค็น Lunaris ฟรี—คริปโตเคอร์เรนซีจริงสำหรับการใช้งานและการซื้อขาย มีจำกัดจนกว่าของจะหมด</string>
+    <string name="crypto_wallet_promo_title_gifted">คุณได้รับโทเค็นทั้งหมด %1$s โทเค็น!</string>
+    <string name="crypto_wallet_promo_description_gifted">ของขวัญล่าสุดที่ได้รับ %1$s</string>
+
+    <string name="crypto_wallet_warning_send">ตรวจสอบที่อยู่ก่อนส่ง! ตรวจสอบให้แน่ใจว่าผู้รับที่ถูกต้องจะได้รับการชำระเงิน</string>
+    <string name="crypto_wallet_warning_srp">เก็บวลีลับนี้ในที่ปลอดภัย! ใครก็ตามที่เข้าถึงวลีนี้จะเข้าถึงกระเป๋าของคุณได้ หากคุณทำวลีหาย คุณจะสูญเสียการเข้าถึงกระเป๋าของคุณ</string>
+
+    <string name="crypto_wallet_placeholder_address">ป้อนที่อยู่หรือชื่อ ENS</string>
+    <string name="crypto_wallet_placeholder_amount">ป้อนจำนวน</string>
+    <string name="crypto_wallet_placeholder_srp">ป้อนวลีกู้คืนที่ปลอดภัย</string>
+
+    <string name="crypto_wallet_estimated_gas">ค่าก๊าซโดยประมาณ: %1$s</string>
+
+    <string name="crypto_wallet_error_amount_invalid">ป้อนจำนวนที่ถูกต้อง</string>
+    <string name="crypto_wallet_error_amount_too_much">เงินไม่เพียงพอ</string>
+    <string name="crypto_wallet_error_phrase_invalid">ป้อนวลีที่ถูกต้อง</string>
+    <string name="crypto_wallet_error_phrase_invalid_word_count">วลีกู้คืนลับต้องมีความยาว 12 หรือ 24 คำ</string>
+
+    <string name="crypto_wallet_hidden_phrase">**********</string>
+
+</resources>
