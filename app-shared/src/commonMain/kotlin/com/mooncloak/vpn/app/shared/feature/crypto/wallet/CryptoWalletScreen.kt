@@ -60,6 +60,7 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout.RevealSeedPhras
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.layout.SendPaymentLayout
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletFeedItem
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.isValid
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.util.protocol
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.vector.LunarisCoin
 import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
@@ -222,7 +223,8 @@ public fun CryptoWalletScreen(
                             walletAddress = item.wallet?.address,
                             amount = item.balance?.amount?.formatted,
                             estimatedValue = item.balance?.localEstimate?.formatted,
-                            lastUpdated = item.timestamp
+                            lastUpdated = item.timestamp,
+                            protocol = item.wallet?.currency?.protocol
                         )
 
                         WalletFeedItem.NoWalletItem -> NoWalletCard(

@@ -19,6 +19,7 @@ import com.mooncloak.vpn.app.shared.resource.crypto_wallet_label_last_updated
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_label_network
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_label_token
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_label_token_address
+import com.mooncloak.vpn.app.shared.resource.crypto_wallet_label_token_protocol
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_label_token_ticker
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_label_wallet_address
 import com.mooncloak.vpn.app.shared.resource.global_not_available
@@ -32,6 +33,7 @@ internal fun WalletDetailsCard(
     tokenTicker: String?,
     tokenAddress: String?,
     walletAddress: String?,
+    protocol: String?,
     amount: String?,
     estimatedValue: String?,
     lastUpdated: String?,
@@ -66,6 +68,13 @@ internal fun WalletDetailsCard(
                 .padding(vertical = 8.dp),
             label = stringResource(Res.string.crypto_wallet_label_token_ticker),
             value = tokenTicker ?: stringResource(Res.string.global_not_available)
+        )
+
+        DetailRow(
+            modifier = Modifier.fillMaxWidth()
+                .padding(vertical = 8.dp),
+            label = stringResource(Res.string.crypto_wallet_label_token_protocol),
+            value = protocol ?: stringResource(Res.string.global_not_available)
         )
 
         DetailRow(
