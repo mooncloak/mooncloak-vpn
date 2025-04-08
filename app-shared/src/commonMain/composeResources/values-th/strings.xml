@@ -61,22 +61,22 @@
     <string name="moon_shield_title">MoonShield</string>
     <string name="moon_shield_subtitle">บล็อกโฆษณา ตัวติดตาม และผู้แอบเก็บข้อมูล</string>
     <string name="moon_shield_description_brief">บล็อกโฆษณา ตัวติดตาม และผู้แอบเก็บข้อมูลด้วย DNS ที่กำหนดเองของเรา—ฟรีสำหรับผู้ใช้ mooncloak VPN ทุกคน</string>
-    <string name="moon_shield_description_long">MoonShield เป็นเกราะป้องกันในตัวของคุณจากสิ่งรบกวนออนไลน์ ขับเคลื่อนด้วยเซิร์ฟเวอร์ DNS ที่กำหนดเอง มันกรองตัวติดตาม โฆษณา และซอฟต์แวร์แอบเก็บข้อมูลที่รุกล้ำ ทำให้การท่องเว็บของคุณสะอาดและเป็นส่วนตัวมากขึ้น ผสานรวมกับ mooncloak VPN ได้อย่างลงตัว บริการนี้ไม่มีค่าใช้จ่ายเพิ่มเติม เพลิดเพลินกับอินเทอร์เน็ตที่ปลอดภัยและปราศจากโฆษณาโดยไม่ยุ่งยาก</string>
+    <string name="moon_shield_description_long">MoonShield เป็นเกราะป้องกันล้อมรอบตัวของคุณจากสิ่งรบกวนออนไลน์ ขับเคลื่อนด้วยเซิร์ฟเวอร์ DNS ที่กำหนดเอง มันกรองตัวติดตาม โฆษณา และซอฟต์แวร์แอบเก็บข้อมูลที่รุกล้ำ ทำให้การท่องเว็บของคุณสะอาดและเป็นส่วนตัวมากขึ้น ผสานรวมกับ mooncloak VPN ได้อย่างลงตัว บริการนี้ไม่มีค่าใช้จ่ายเพิ่มเติม เพลิดเพลินกับอินเทอร์เน็ตที่ปลอดภัยและปราศจากโฆษณาโดยไม่ยุ่งยาก</string>
     <string name="moon_shield_warning">บางเว็บไซต์อาจทำงานไม่ถูกต้องเมื่อโฆษณาและตัวติดตามถูกบล็อก</string>
     <string name="moon_shield_label_trackers_blocked">ตัวติดตามที่ถูกบล็อก</string>
     <string name="moon_shield_label_time_saved">เวลาที่ประหยัด</string>
     <string name="moon_shield_label_data_saved">ข้อมูลที่ประหยัด</string>
-    <string name="moon_shield_active">เกราะขึ้น</string>
-    <string name="moon_shield_inactive">เกราะลง</string>
+    <string name="moon_shield_active">เปิดการใช้งานเกราะ</string>
+    <string name="moon_shield_inactive">ปิดการใช้งานเกราะ</string>
     <string name="moon_shield_message_next_connection">การเปลี่ยนแปลง MoonShield จะมีผลในการเชื่อมต่อ VPN ครั้งถัดไป</string>
 
-    <string name="plan_usage_title">การใช้งานแผน</string>
+    <string name="plan_usage_title">แผนการใช้งาน</string>
     <string name="plan_usage_label_time_remaining">เวลาที่เหลือ</string>
     <string name="plan_usage_label_data_remaining">ข้อมูลที่เหลือ</string>
     <string name="plan_usage_unlimited">ไม่จำกัด</string>
     <string name="plan_usage_action_boost">เพิ่มพลัง</string>
 
-    <string name="home_title_bar_unprotected">คุณยังไม่ถูกปกป้อง</string>
+    <string name="home_title_bar_unprotected">คุณยังไม่ได้รับการปกป้อง</string>
     <string name="home_title_bar_protected">ถูกปกป้อง</string>
     <string name="home_title_bar_connecting">กำลังเชื่อมต่อกับ VPN ที่ปลอดภัย</string>
     <string name="home_title_bar_disconnecting">กำลังตัดการเชื่อมต่อ...</string>
@@ -97,7 +97,7 @@
     <string name="support_email_action">อีเมลสนับสนุน</string>
 
     <string name="support_feature_request_title">คำขอฟีเจอร์</string>
-    <string name="support_feature_request_description">มีไอเดียที่อยากแชร์ไหม? บอกเราเลย!</string>
+    <string name="support_feature_request_description">มีไอเดียที่อยากจะแชร์ไหม? สามารถบอกเราได้เลย!</string>
     <string name="support_feature_request_action">สร้างคำขอ</string>
 
     <string name="support_issue_title">มีปัญหา?</string>
@@ -161,12 +161,9 @@
     <string name="settings_group_privacy">ความเป็นส่วนตัว</string>
     <string name="settings_title_landing">เริ่มที่หน้าต้อนรับ</string>
     <string name="settings_description_landing">แสดงหน้าต้อนรับทุกครั้งที่เปิดแอป</string>
-
     <string name="settings_group_support">การสนับสนุน</string>
     <string name="settings_title_support">ศูนย์สนับสนุน</string>
     <string name="settings_description_support">ติดต่อ คำถามที่พบบ่อย คำขอฟีเจอร์ และอื่น ๆ!</string>
-    <string name="settings_title_support_translations">การแปล</string>
-    <string name="settings_description_support_translations">รายงานปัญหาการแปล</string>
 
     <string name="settings_title_screen_lock">ล็อกหน้าจอ</string>
     <string name="settings_description_screen_lock">ต้องมีการยืนยันตัวตนของระบบเมื่อคุณออกจากแอปหรือสลับแอปหลังจากหมดเวลา</string>
@@ -249,7 +246,7 @@
     <string name="payment_bitcoin_address_label">ที่อยู่ Bitcoin</string>
     <string name="payment_status_label">สถานะการชำระเงิน</string>
     <string name="payment_status_pending">รอการชำระเงิน</string>
-    <string name="payment_error_no_plans_title">ไม่มีข้อมูลแผน</string>
+    <string name="payment_error_no_plans_title">ไม่มีแผนข้อมูล</string>
     <string name="payment_error_no_plans_description">เกิดข้อผิดพลาดในการโหลดแผน โปรดลองอีกครั้งในภายหลัง</string>
     <string name="payment_label_one_time_charge">/ ครั้งเดียว</string>
 
@@ -373,9 +370,9 @@
     <string name="crypto_wallet_description_no_wallet">ไม่มีกระเป๋า Lunaris สร้างหรือกู้คืนเพื่อเริ่มต้น</string>
     <string name="crypto_wallet_description_receive">รับโทเค็นคริปโตบนเครือข่าย Polygon ที่ส่งไปยังที่อยู่กระเป๋าของคุณ</string>
     <string name="crypto_wallet_description_send">ส่ง Lunaris ไปยังที่อยู่กระเป๋าใด ๆ บนเครือข่าย Polygon</string>
-    <string name="crypto_wallet_description_srp">วลีกู้คืนลับให้สิทธิ์เข้าถึงกระเป๋าของคุณเต็มรูปแบบ เก็บไว้เป็นความลับ!</string>
+    <string name="crypto_wallet_description_srp">วลีลับกู้คืนให้สิทธิ์เข้าถึงกระเป๋าของคุณเต็มรูปแบบ โปรดเก็บไว้เป็นความลับ!</string>
     <string name="crypto_wallet_description_dialog_creating">รอสักครู่ขณะที่เราสร้างกระเป๋าของคุณ</string>
-    <string name="crypto_wallet_description_reveal">วลีกู้คืนลับช่วยให้คุณกู้คืนการเข้าถึงกระเป๋าของคุณ เก็บไว้ให้ปลอดภัยและอย่าแชร์กับใคร!</string>
+    <string name="crypto_wallet_description_reveal">วลีลับกู้คืนช่วยให้คุณกู้คืนการเข้าถึงกระเป๋าของคุณ โปรดเก็บไว้ให้ปลอดภัยและอย่าแชร์กับใคร!</string>
     <string name="crypto_wallet_description_restore_wallet">ใช้วลีกู้คืนที่ปลอดภัยของคุณเพื่อกู้คืนกระเป๋าที่มีอยู่</string>
 
     <string name="crypto_wallet_label_balance">ยอดคงเหลือ</string>
