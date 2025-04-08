@@ -83,6 +83,7 @@ internal fun SecretRecoveryPhraseCard(
 
                 IconButton(
                     modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
+                    enabled = visible,
                     onClick = onCopy
                 ) {
                     TooltipBox(
