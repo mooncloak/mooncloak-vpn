@@ -50,6 +50,7 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.CreatingWal
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.NoWalletCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.PromoCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.UniSwapCard
+import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.ViewSourceCodeCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletActions
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletBalanceCard
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.WalletDetailsCard
@@ -258,11 +259,16 @@ public fun CryptoWalletScreen(
                         is WalletFeedItem.TradeOnUniswap -> UniSwapCard(
                             modifier = Modifier.fillMaxWidth()
                                 .animateItem(),
-                            enabled = viewModel.state.current.value.uniSwapUri != null,
                             onClick = {
-                                viewModel.state.current.value.uniSwapUri?.let { uri ->
-                                    uriHandler.openUri(uri)
-                                }
+                                uriHandler.openUri(item.uri)
+                            }
+                        )
+
+                        is WalletFeedItem.ViewSourceCode -> ViewSourceCodeCard(
+                            modifier = Modifier.fillMaxWidth()
+                                .animateItem(),
+                            onClick = {
+                                uriHandler.openUri(item.uri)
                             }
                         )
                     }

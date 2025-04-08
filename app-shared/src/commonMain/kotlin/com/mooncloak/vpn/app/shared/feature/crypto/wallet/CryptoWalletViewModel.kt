@@ -417,6 +417,8 @@ public class CryptoWalletViewModel @Inject public constructor(
         var items = currentState.items
         var secureRecoveryPhrase: String? = currentState.secureRecoveryPhrase
         var uniswapUri: String? = currentState.uniSwapUri
+        var tokenSourceCodeUri =
+            "https://github.com/mooncloak/mooncloak-lunaris" // FIXME: Hardcoded Lunaris Token Source Code URI
 
         try {
             emit { current -> current.copy(isLoading = true) }
@@ -435,7 +437,8 @@ public class CryptoWalletViewModel @Inject public constructor(
                 blockChain = blockChain,
                 network = network,
                 timestamp = dateTimeFormatter.format(timestamp),
-                uniswapUri = uniswapUri
+                uniswapUri = uniswapUri,
+                tokenSourceCodeUri = tokenSourceCodeUri
             )
             secureRecoveryPhrase = wallet?.address?.let { address ->
                 getSecureRecoveryPhrase(address = address)
@@ -529,7 +532,8 @@ public class CryptoWalletViewModel @Inject public constructor(
         blockChain: String?,
         network: String?,
         timestamp: String?,
-        uniswapUri: String?
+        uniswapUri: String?,
+        tokenSourceCodeUri: String?
     ): List<WalletFeedItem> {
         val items = mutableListOf<WalletFeedItem>()
 
@@ -572,6 +576,12 @@ public class CryptoWalletViewModel @Inject public constructor(
                 WalletFeedItem.TradeOnUniswap(
                     uri = uniswapUri
                 )
+            )
+        }
+
+        if (tokenSourceCodeUri != null) {
+            items.add(
+                WalletFeedItem.ViewSourceCode(uri = tokenSourceCodeUri)
             )
         }
 

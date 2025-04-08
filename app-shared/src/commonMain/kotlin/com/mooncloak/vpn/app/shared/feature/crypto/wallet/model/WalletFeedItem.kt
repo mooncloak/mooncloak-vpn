@@ -88,6 +88,16 @@ public sealed interface WalletFeedItem {
 
         override val key: String = "TradeOnUniswap:$uri"
         override val contentType: String = "TradeOnUniswap"
-        override val span: StaggeredGridItemSpan = StaggeredGridItemSpan.FullLine
+        override val span: StaggeredGridItemSpan = StaggeredGridItemSpan.SingleLane
+    }
+
+    @Immutable
+    public data class ViewSourceCode public constructor(
+        public val uri: String
+    ) : WalletFeedItem {
+
+        override val key: String = "ViewSourceCode:$uri"
+        override val contentType: String = "ViewSourceCode"
+        override val span: StaggeredGridItemSpan = StaggeredGridItemSpan.SingleLane
     }
 }

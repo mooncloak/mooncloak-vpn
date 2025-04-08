@@ -374,6 +374,7 @@
     <string name="crypto_wallet_title_reveal">Secret Recovery Phrase</string>
     <string name="crypto_wallet_title_dialog_creating">Creating Wallet</string>
     <string name="crypto_wallet_title_authenticate_recovery">Authenticate to reveal secure recovery phrase</string>
+    <string name="crypto_wallet_title_view_source_code">Source Code</string>
 
     <string name="crypto_wallet_description_account_address">Your public Lunaris account address on the Polygon chain.</string>
     <string name="crypto_wallet_description_no_wallet">There is no Lunaris wallet. Create or restore one to get started.</string>
@@ -383,6 +384,7 @@
     <string name="crypto_wallet_description_dialog_creating">Hang tight while we create your wallet.</string>
     <string name="crypto_wallet_description_reveal">The Secret Recovery Phrase allows you to restore access to your wallet. Keep it safe and don't share with anyone!</string>
     <string name="crypto_wallet_description_restore_wallet">Use your Secure Recovery Phrase to restore your existing wallet.</string>
+    <string name="crypto_wallet_description_view_source_code">View the source code of the Lunaris token contract.</string>
 
     <string name="crypto_wallet_label_balance">Balance</string>
     <string name="crypto_wallet_label_today">Today</string>
