@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.cd_open_licenses
+import com.mooncloak.vpn.app.shared.resource.settings_description_support
 import com.mooncloak.vpn.app.shared.resource.settings_group_support
 import com.mooncloak.vpn.app.shared.resource.settings_title_support
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
@@ -42,6 +43,13 @@ internal fun SettingsSupportGroup(
         ),
         headlineContent = {
             Text(text = stringResource(Res.string.settings_title_support))
+        },
+        supportingContent = {
+            Text(
+                text = stringResource(Res.string.settings_description_support),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = SecondaryAlpha)
+            )
         },
         trailingContent = {
             Icon(
