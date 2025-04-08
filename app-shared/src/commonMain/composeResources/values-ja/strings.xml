@@ -1,0 +1,437 @@
+<resources>
+
+    <string name="global_not_available">利用不可</string>
+    <string name="global_unexpected_error">予期しないエラー</string>
+    <string name="global_yes">はい</string>
+    <string name="global_no">いいえ</string>
+    <string name="global_remaining">残り</string>
+
+    <string name="app_copyright">© %1$s Mooncloak LLC. 全権利を保有。</string>
+    <string name="app_built_description">mooncloakとコントリビューターによって❤️で作られました</string>
+
+    <string name="destination_main_home_title">ホーム</string>
+    <string name="destination_main_support_title">サポート</string>
+    <string name="destination_main_settings_title">設定</string>
+    <string name="destination_main_servers_title">サーバー</string>
+    <string name="destination_main_crypto_wallet_title">Lunaris</string>
+    <string name="destination_root_onboarding_title">オンボーディング</string>
+    <string name="destination_root_onboarding_auth_title">認証が必要です</string>
+    <string name="destination_onboarding_landing_title">ランディング</string>
+    <string name="destination_onboarding_tutorial_title">チュートリアル</string>
+
+    <string name="lock_screen_title_unlock">mooncloak VPNを解除</string>
+    <string name="lock_screen_description">デバイスのロック設定を使用してmooncloak VPNを解除してください。</string>
+    <string name="lock_screen_action_try_again">もう一度試す</string>
+    <string name="lock_screen_title_required">認証が必要です</string>
+
+    <string name="preference_theme_dark">ダーク</string>
+    <string name="preference_theme_light">ライト</string>
+    <string name="preference_theme_system">システム</string>
+
+    <string name="landing_action_start">始める</string>
+
+    <string name="speed_test_title">スピードテスト</string>
+    <string name="speed_test_label_ping">ピン</string>
+    <string name="speed_test_label_download">ダウンロード</string>
+    <string name="speed_test_label_upload">アップロード</string>
+
+    <string name="onboarding_title_no_tracking">IPアドレスの追跡なし</string>
+    <string name="onboarding_title_no_accounts">アカウント不要</string>
+    <string name="onboarding_title_no_data_creeps">データ収集者なし</string>
+    <string name="onboarding_title_no_subscriptions">サブスクリプションなし</string>
+    <string name="onboarding_title_no_data_selling">データマイニングなし</string>
+    <string name="onboarding_title_payment_crypto">暗号通貨で支払い</string>
+    <string name="onboarding_title_payment_google_play">安全な支払い</string>
+    <string name="onboarding_description_no_tracking">あなたのIPアドレスは記録されず、オンライン活動と関連付けられることはありません。</string>
+    <string name="onboarding_description_no_accounts">VPNサービスを利用するのにメールや電話番号は必要ありません。そのため、これらのデータは追跡されません。</string>
+    <string name="onboarding_description_no_data_creeps">データ収集者にカーテンを閉じましょう。ISP、大企業、政府からオンライン活動を隠します。</string>
+    <string name="onboarding_description_no_subscriptions">月額サブスクリプションや過剰請求はありません。必要な分だけ前払いしてください。</string>
+    <string name="onboarding_description_no_data_selling">私たちはあなたのデータを第三者に決して売りません。</string>
+    <string name="onboarding_description_payment_crypto">暗号通貨はさらなる匿名性を提供します。</string>
+    <string name="onboarding_description_payment_google_play">支払いは信頼できるGoogle Play課金サービスを通じて処理されます。</string>
+    <string name="onboarding_action_skip">スキップ</string>
+
+    <string name="action_connect">接続</string>
+    <string name="action_disconnect">切断</string>
+
+    <string name="connection_type_p2p">P2P</string>
+    <string name="connection_type_tor">Tor</string>
+    <string name="connection_type_multiple">セキュアマルチ</string>
+
+    <string name="moon_shield_title">MoonShield</string>
+    <string name="moon_shield_subtitle">広告、トラッカー、データ収集者をブロック</string>
+    <string name="moon_shield_description_brief">カスタムDNSで広告、トラッカー、データ収集者をブロック — mooncloak VPNユーザー全員に無料。</string>
+    <string name="moon_shield_description_long">MoonShieldはオンラインの迷惑行為に対する組み込みの防御です。カスタムDNSサーバーによって駆動され、トラッカー、広告、侵入ソフトウェアをフィルタリングし、よりクリーンでプライベートなブラウジングを実現します。mooncloak VPNとシームレスに統合されており、このサービスは追加費用なしで提供されます。手間なく安全で広告のないインターネットをお楽しみください。</string>
+    <string name="moon_shield_warning">広告やトラッカーがブロックされると、一部のウェブサイトが正しく機能しない場合があります。</string>
+    <string name="moon_shield_label_trackers_blocked">ブロックされたトラッカー</string>
+    <string name="moon_shield_label_time_saved">節約された時間</string>
+    <string name="moon_shield_label_data_saved">節約されたデータ</string>
+    <string name="moon_shield_active">シールドアップ</string>
+    <string name="moon_shield_inactive">シールドダウン</string>
+    <string name="moon_shield_message_next_connection">MoonShieldの変更は次のVPN接続で有効になります。</string>
+
+    <string name="plan_usage_title">プラン利用状況</string>
+    <string name="plan_usage_label_time_remaining">残り時間</string>
+    <string name="plan_usage_label_data_remaining">残りデータ</string>
+    <string name="plan_usage_unlimited">無制限</string>
+    <string name="plan_usage_action_boost">ブースト</string>
+
+    <string name="home_title_bar_unprotected">あなたは隠されていません</string>
+    <string name="home_title_bar_protected">隠されています</string>
+    <string name="home_title_bar_connecting">セキュアVPNに接続中</string>
+    <string name="home_title_bar_disconnecting">切断中...</string>
+    <string name="home_title_bar_checking">接続を確認中</string>
+    <string name="home_title_bar_description_unprotected">セキュアVPNサーバーに接続してデータを保護してください</string>
+    <string name="home_title_lunaris_wallet">Lunarisウォレット</string>
+
+    <string name="home_description_lunaris_wallet">Lunarisを安全に管理 — 取引可能な実際の暗号通貨。mooncloak VPNの支払いや取引所での交換に使用できます。</string>
+
+    <string name="home_feed_item_server_last_connected">最後に接続</string>
+
+    <string name="get_vpn_service_title">あなたは保護されていません</string>
+    <string name="get_vpn_service_description">mooncloakのプライバシー重視で匿名のVPNサービスでデータを保護し始めましょう。</string>
+    <string name="get_vpn_service_action_protect">保護を受ける</string>
+
+    <string name="support_email_title">ヘルプが必要ですか？</string>
+    <string name="support_email_description">メールでご連絡ください。できるだけ早く返信します。</string>
+    <string name="support_email_action">サポートメール</string>
+
+    <string name="support_feature_request_title">機能リクエスト</string>
+    <string name="support_feature_request_description">共有したいアイデアがありますか？教えてください！</string>
+    <string name="support_feature_request_action">リクエストを作成</string>
+
+    <string name="support_issue_title">問題がありますか？</string>
+    <string name="support_issue_description">問題を認識できるように公開チケットを作成してください。</string>
+    <string name="support_issue_action">問題を報告</string>
+
+    <string name="support_rate_app_title">アプリを評価</string>
+    <string name="support_rate_app_description">私たちがうまくできたこと、改善できることを教えてください！</string>
+    <string name="support_rate_app_action">アプリを評価</string>
+
+    <string name="support_email_default_subject">問題を報告</string>
+
+    <string name="support_faq_header">よくある質問</string>
+
+    <string name="data_format_abbr_bytes">B</string>
+    <string name="data_format_abbr_kilobytes">KB</string>
+    <string name="data_format_abbr_megabytes">MB</string>
+    <string name="data_format_abbr_gigabytes">GB</string>
+    <string name="data_format_abbr_terabytes">TB</string>
+
+    <string name="data_format_abbr_bps">Bps</string>
+    <string name="data_format_abbr_kbps">Kbps</string>
+    <string name="data_format_abbr_mbps">Mbps</string>
+    <string name="data_format_abbr_gbps">Gbps</string>
+    <string name="data_format_abbr_tbps">Tbps</string>
+
+    <string name="country_list_title">国</string>
+    <string name="country_list_description">国と地域でVPNサーバーをフィルタリング。</string>
+    <string name="country_list_error_title_no_countries">国の読み込みで予期しないエラー</string>
+    <string name="country_list_error_description_no_countries">サーバーがある国の読み込み中に予期しないエラーが発生しました。後で再度試してください。エラーが続く場合はサポートにご連絡ください。</string>
+    <string name="country_list_error_title_no_vpn_servers">国の読み込みで予期しないエラー</string>
+    <string name="country_list_error_description_no_vpn_servers">VPNサーバーがある国の読み込み中に予期しないエラーが発生しました。後で再度試してください。エラーが続く場合はサポートにご連絡ください。</string>
+    <string name="country_list_default_region_type">地域</string>
+    <string name="region_list_title">地域</string>
+    <string name="region_list_description">国内のVPNサーバーを含む地域</string>
+
+    <string name="country_list_header_label_with_count">%1$s (%2$s)</string>
+    <string name="server_list_header_label">サーバー</string>
+    <string name="server_list_description">この地域で利用可能なサーバー</string>
+
+    <string name="server_list_title_no_servers">VPNサーバーの読み込みで予期しないエラー</string>
+    <string name="server_list_description_no_servers">VPNサーバーリストの読み込み中に予期しないエラーが発生しました。後で再度試してください。エラーが続く場合はサポートにご連絡ください。</string>
+
+    <string name="server_list_pre_release_title">近日中のサーバー追加！</string>
+    <string name="server_list_pre_release_description">あなたはアプリのプレリリース版を使用中です！問題を解決し、最初の公式版をリリースしたら、さらに多くのVPNサーバーを提供します！</string>
+
+    <string name="settings_group_legal">法的</string>
+    <string name="settings_title_about">概要</string>
+    <string name="settings_title_privacy_policy">プライバシーポリシー</string>
+    <string name="settings_title_terms">利用規約</string>
+    <string name="settings_group_theme">テーマ</string>
+    <string name="settings_group_app">アプリ</string>
+    <string name="settings_title_app_version">バージョン</string>
+    <string name="settings_title_licenses">オープンソースライセンス</string>
+    <string name="settings_title_code">ソースコードを表示</string>
+    <string name="settings_group_subscription">サブスクリプション</string>
+    <string name="settings_title_current_plan">現在のプラン</string>
+    <string name="settings_title_payment_history">取引履歴</string>
+    <string name="settings_group_preferences">設定</string>
+    <string name="settings_group_general">一般</string>
+    <string name="settings_group_privacy">プライバシー</string>
+    <string name="settings_title_landing">ランディングで開始</string>
+    <string name="settings_description_landing">アプリを開くたびにランディング画面を表示</string>
+    <string name="settings_group_support">サポート</string>
+    <string name="settings_title_support">サポートセンター</string>
+    <string name="settings_description_support">連絡先、FAQ、機能リクエストなど！</string>
+
+    <string name="settings_title_screen_lock">画面ロック</string>
+    <string name="settings_description_screen_lock">アプリを離れるか切り替えた後、タイムアウト後にシステム認証が必要です。</string>
+    <string name="settings_title_screen_lock_timeout">画面をロックするまでの時間</string>
+    <string name="settings_option_screen_lock_timeout_1_minute">1分</string>
+    <string name="settings_option_screen_lock_timeout_5_minutes">5分</string>
+    <string name="settings_option_screen_lock_timeout_30_minutes">30分</string>
+    <string name="settings_option_screen_lock_timeout_custom_time">カスタム時間</string>
+
+    <string name="settings_title_collaborators">Mooncloakチーム</string>
+    <string name="settings_description_collaborators">あなたのプライバシーを守るチームに会いましょう — 彼らの努力に感謝やチップを贈ってください。</string>
+
+    <string name="settings_app_details_header">アプリ詳細</string>
+    <string name="settings_app_details_description">このアプリケーションに関する情報。</string>
+    <string name="settings_app_details_title_id">ID</string>
+    <string name="settings_app_details_title_name">名前</string>
+    <string name="settings_app_details_title_version">バージョン</string>
+    <string name="settings_app_details_title_debug">デバッグ</string>
+    <string name="settings_app_details_title_pre_release">プレリリース</string>
+    <string name="settings_app_details_title_build_time">ビルド時間</string>
+
+    <string name="settings_group_device">デバイス</string>
+    <string name="settings_title_device_details">デバイス詳細</string>
+    <string name="settings_device_details_header">デバイス詳細</string>
+    <string name="settings_device_details_description">このアプリケーションを実行しているデバイスに関する情報。</string>
+    <string name="settings_device_details_public_ip">公開IPアドレス</string>
+    <string name="settings_device_details_local_ip">ローカルIPアドレス</string>
+
+    <string name="settings_group_wire_guard">VPN</string>
+    <string name="settings_title_wire_guard_dns_servers">DNSサーバー</string>
+    <string name="settings_dns_servers_header">DNSサーバー</string>
+    <string name="settings_dns_servers_description">mooncloak VPNサービスに接続しているときにデバイスが使用するDNSサーバーを選択してください。DNSはドメイン名をIPアドレスに変換します。</string>
+    <string name="settings_dns_servers_label_primary">プライマリ</string>
+    <string name="settings_dns_servers_label_secondary">セカンダリ</string>
+    <string name="settings_dns_servers_action_save">保存</string>
+    <string name="settings_dns_servers_error_invalid_ip">無効なDNSアドレス</string>
+
+    <string name="subscription_no_active_plan">アクティブなプランなし</string>
+    <string name="subscription_title_no_active_plan">アクティブなプランなし</string>
+    <string name="subscription_title_active_plan">アクティブなプラン</string>
+    <string name="subscription_description_protect">mooncloakのプライバシー重視で匿名のVPNサービスでデータを保護し始めましょう。</string>
+    <string name="subscription_description_active">現在のサブスクリプションに関する情報。</string>
+    <string name="subscription_action_protect">保護を受ける</string>
+    <string name="subscription_action_boost">ブースト</string>
+    <string name="subscription_label_plan_details">プラン詳細</string>
+    <string name="subscription_field_name">名前</string>
+    <string name="subscription_field_purchased">購入日</string>
+    <string name="subscription_field_expiration">有効期限</string>
+    <string name="subscription_field_total_bytes">総バイト数</string>
+    <string name="subscription_label_usage">現在の使用量</string>
+    <string name="subscription_label_remaining">残り</string>
+    <string name="subscription_label_payment_history">支払い履歴</string>
+    <string name="subscription_action_payment_view_all">すべて表示</string>
+    <string name="subscription_plan_title_default">プラン</string>
+    <string name="subscription_error_load_details">サブスクリプション詳細の読み込みで予期しないエラー。</string>
+    <string name="subscription_error_load_plan">プラン詳細の読み込みで予期しないエラー。</string>
+    <string name="subscription_error_load_usage">サブスクリプション使用量の読み込みで予期しないエラー。</string>
+    <string name="subscription_error_load_last_payment">最後の支払いの読み込みで予期しないエラー。</string>
+
+    <string name="dependency_list_header">オープンソースライセンス</string>
+    <string name="dependency_list_description">このアプリの開発に使用された依存関係のオープンソースライセンス。</string>
+    <string name="dependency_list_title_none_found">依存関係が見つかりません</string>
+    <string name="dependency_list_description_none_found">依存関係ライセンスリストの読み込み中に予期しない問題が発生しました。</string>
+    <string name="dependency_list_label_developers">開発者</string>
+    <string name="dependency_list_label_licenses">ライセンス</string>
+    <string name="dependency_list_label_organization">組織</string>
+    <string name="dependency_list_label_funding">資金提供</string>
+    <string name="dependency_list_action_open_website">ウェブサイトを開く</string>
+    <string name="dependency_list_action_close">閉じる</string>
+
+    <string name="payment_plans_title">プランを選択</string>
+    <string name="payment_notice">価格は変更される場合があります。すべての購入は最終的なものとなりますのでご注意ください。</string>
+    <string name="payment_notice_beta">価格は変更される場合があります。すべての購入は最終的なものとなりますのでご注意ください。このアプリはベータ版のため、一部の機能や価格が調整される可能性があります。</string>
+    <string name="payment_title">支払い</string>
+    <string name="payment_action_select">選択</string>
+    <string name="payment_accept_terms_and_conditions">利用規約とプライバシーポリシーを読み、同意しました。</string>
+    <string name="payment_link_text_terms">利用規約</string>
+    <string name="payment_link_text_privacy_policy">プライバシーポリシー</string>
+    <string name="payment_qr_scan_label">暗号ウォレットアプリで支払うためにスキャンしてください。</string>
+    <string name="payment_bitcoin_address_label">ビットコインアドレス</string>
+    <string name="payment_status_label">支払い状況</string>
+    <string name="payment_status_pending">支払い保留中</string>
+    <string name="payment_error_no_plans_title">プランデータなし</string>
+    <string name="payment_error_no_plans_description">プランの読み込み中にエラーが発生しました。後で再度試してください。</string>
+    <string name="payment_label_one_time_charge">/ 1回限り</string>
+
+    <string name="payment_all_plans_title">すべてのプランに含まれるもの:</string>
+    <string name="payment_all_plans_feature_data_usage">無制限のデータ使用</string>
+    <string name="payment_all_plans_feature_anonymous_service">ログなしの匿名VPNサービス</string>
+    <string name="payment_all_plans_feature_all_servers">すべてのVPNサーバーへのアクセス</string>
+
+    <string name="payment_error_title">支払いエラー</string>
+
+    <string name="payment_success_title">支払い成功</string>
+    <string name="payment_success_description">支払いを受け付けました - ありがとう！データの保護を始める準備ができました！</string>
+
+    <string name="payment_history_title">取引履歴</string>
+    <string name="payment_history_description">これまでの購入に関する情報。</string>
+    <string name="payment_history_receipt_label_transaction_token">トランザクショントークン</string>
+    <string name="payment_history_no_receipts_title">履歴なし</string>
+    <string name="payment_history_no_receipts_description">mooncloakのプライバシー重視のVPNサービスに登録して、データ収集者からデータを保護しましょう。</string>
+    <string name="payment_history_no_receipts_action_get_service">保護を受ける</string>
+
+    <string name="collaborator_list_header">Mooncloakチーム</string>
+    <string name="collaborator_list_header_subtitle">Mooncloakを支える才能あるチームをご覧ください。あなたのプライバシーをスキルと献身で守ります。</string>
+    <string name="collaborator_list_title_error">チームメンバーの読み込みエラー</string>
+    <string name="collaborator_list_title_empty">チームメンバーが見つかりません</string>
+    <string name="collaborator_list_description_error">mooncloak VPNのチームメンバーの読み込み中に予期しない問題が発生しました。後で再度試してください。</string>
+    <string name="collaborator_list_description_empty">mooncloak VPNのトップチームメンバーがここに表示されます。</string>
+    <string name="collaborator_list_tip_title">プライバシーチームに感謝を！</string>
+    <string name="collaborator_list_tip_description">チームは毎日あなたのデータを安全に保つために懸命に働いています — チップで彼らの努力に感謝してください。すべての支援が私たちのミッションを推進します！</string>
+    <string name="collaborator_list_tip_action">チップを贈る</string>
+
+    <string name="tip_link_item_title_moonlit_coffee">月明かりのコーヒー</string>
+    <string name="tip_link_item_description_moonlit_coffee">チームに素早いコーヒーを — 月明かりの下であなたのプライバシーを強く保ちます。</string>
+    <string name="tip_link_item_title_lunar_beer">月ビール</string>
+    <string name="tip_link_item_description_lunar_beer">チームに冷たいビールを — 覗き見からデータを守る乾杯！</string>
+    <string name="tip_link_item_title_cosmic_cocktail">宇宙カクテル</string>
+    <string name="tip_link_item_description_cosmic_cocktail">チームに特別なものを — あなたのセキュアな接続の基準を上げます。</string>
+    <string name="tip_link_item_title_stellar_mix">星のミックス</string>
+    <string name="tip_link_item_description_stellar_mix">あなただけの特別なチップを — デジタル世界を隠す星たちをサポート。</string>
+    <string name="tip_link_item_action_tip">チップ %1$s</string>
+
+    <string name="server_connection_disconnected_title">切断済み</string>
+    <string name="server_connection_disconnected_description">セキュアVPNサーバーに接続して、データ収集者からデータを隠してください。</string>
+    <string name="server_connection_action_connect">接続</string>
+    <string name="server_connection_action_disconnect">切断</string>
+    <string name="server_connection_connecting_title">接続中</string>
+    <string name="server_connection_disconnecting_title">切断中</string>
+    <string name="server_connection_connected_title">接続済み</string>
+    <string name="server_connection_connected_description">あなたはプライベートVPNサーバーに接続されています。</string>
+    <string name="server_connection_connected_label_timestamp">タイムスタンプ</string>
+    <string name="server_connection_connected_label_rx_throughput">受信</string>
+    <string name="server_connection_connected_label_tx_throughput">送信</string>
+    <string name="server_connection_error_description">VPNサーバーへの接続中に予期しないエラーが発生しました。後で再度試してください。</string>
+
+    <string name="server_details_label_device_ip_address">デバイスIP</string>
+    <string name="server_details_label_server_ip_address">サーバーIP</string>
+    <string name="server_details_hidden_ip_address">***.**.**.***</string>
+    <string name="server_details_unknown_ip_address">不明</string>
+    <string name="server_details_info_field_country">国</string>
+    <string name="server_details_info_field_region">地域</string>
+    <string name="server_details_info_field_connected">接続済み</string>
+    <string name="server_details_info_field_last_connected">最後に接続</string>
+    <string name="server_details_info_field_server">サーバー</string>
+    <string name="server_details_info_field_ip_address">IPアドレス</string>
+    <string name="server_details_info_field_load">サーバー負荷</string>
+    <string name="server_details_info_field_protocol">プロトコル</string>
+    <string name="server_details_info_field_performance">パフォーマンス</string>
+    <string name="server_details_info_value_not_connected">未接続</string>
+    <string name="server_details_title_time">データ隠蔽時間</string>
+    <string name="server_details_title_speed">現在の速度</string>
+    <string name="server_details_title_data_usage">データ使用量</string>
+    <string name="server_details_label_download">ダウンロード</string>
+    <string name="server_details_label_upload">アップロード</string>
+    <string name="server_details_title_connecting">接続中</string>
+    <string name="server_details_title_disconnecting">切断中</string>
+    <string name="server_details_action_connect">接続</string>
+    <string name="server_details_action_disconnect">切断</string>
+
+    <string name="notification_channel_name_vpn">VPN</string>
+    <string name="notification_channel_description_vpn">VPNサーバーに接続しているときに表示される通知。</string>
+    <string name="notification_title_vpn">プライベートVPNに接続済み</string>
+    <string name="notification_action_vpn_disconnect">切断</string>
+
+    <string name="notification_channel_name_shortcuts">ショートカットアクション</string>
+    <string name="notification_channel_description_shortcuts">アプリのショートカットアクションが実行されているときに表示される通知。</string>
+    <string name="notification_title_shortcuts">ショートカットアクションを実行中</string>
+
+    <string name="shortcut_title_quick_connect">クイック接続</string>
+
+    <string name="duration_remaining_less_than_one_minute">1分未満</string>
+    <plurals name="duration_remaining_minutes">
+        <item quantity="one">%1$d分</item>
+        <item quantity="other">%1$d分</item>
+    </plurals>
+    <plurals name="duration_remaining_hours">
+        <item quantity="one">%1$d時間</item>
+        <item quantity="other">%1$d時間</item>
+    </plurals>
+    <plurals name="duration_remaining_days">
+        <item quantity="one">%1$d日</item>
+        <item quantity="other">%1$d日</item>
+    </plurals>
+    <plurals name="duration_remaining_months">
+        <item quantity="one">%1$dヶ月</item>
+        <item quantity="other">%1$dヶ月</item>
+    </plurals>
+    <string name="duration_remaining_greater_than_one_year">1年以上</string>
+    <string name="duration_remaining_expired">期限切れ</string>
+
+    <string name="crypto_wallet_title_lunaris_wallet">Lunarisウォレット</string>
+    <string name="crypto_wallet_title_account_address">アカウントアドレス</string>
+    <string name="crypto_wallet_title_no_wallet">ウォレットが見つかりません</string>
+    <string name="crypto_wallet_title_send">Lunarisを送信</string>
+    <string name="crypto_wallet_title_receive">Lunarisを受信</string>
+    <string name="crypto_wallet_title_create_wallet">ウォレットを作成</string>
+    <string name="crypto_wallet_title_restore_wallet">ウォレットを復元</string>
+    <string name="crypto_wallet_title_reveal">秘密の復元フレーズ</string>
+    <string name="crypto_wallet_title_dialog_creating">ウォレットを作成中</string>
+    <string name="crypto_wallet_title_authenticate_recovery">セキュアな復元フレーズを表示するには認証が必要です</string>
+
+    <string name="crypto_wallet_description_account_address">Polygonチェーン上のあなたの公開Lunarisアカウントアドレス。</string>
+    <string name="crypto_wallet_description_no_wallet">Lunarisウォレットがありません。作成または復元して始めましょう。</string>
+    <string name="crypto_wallet_description_receive">あなたのウォレットアドレスに送信されたPolygonネットワークの暗号トークンを受け入れます。</string>
+    <string name="crypto_wallet_description_send">Polygonネットワーク上の任意のウォレットアドレスにLunarisを送信します。</string>
+    <string name="crypto_wallet_description_srp">秘密の復元フレーズはあなたのウォレットへの完全なアクセスを提供します。必ず秘密にしてください！</string>
+    <string name="crypto_wallet_description_dialog_creating">ウォレットを作成中ですので、少々お待ちください。</string>
+    <string name="crypto_wallet_description_reveal">秘密の復元フレーズでウォレットへのアクセスを復元できます。安全に保管し、誰とも共有しないでください！</string>
+    <string name="crypto_wallet_description_restore_wallet">セキュアな復元フレーズを使用して既存のウォレットを復元してください。</string>
+
+    <string name="crypto_wallet_label_balance">残高</string>
+    <string name="crypto_wallet_label_today">今日</string>
+    <string name="crypto_wallet_label_all_time">全期間</string>
+    <string name="crypto_wallet_label_last_updated">最終更新</string>
+    <string name="crypto_wallet_label_blockchain">ブロックチェーン</string>
+    <string name="crypto_wallet_label_network">ネットワーク</string>
+    <string name="crypto_wallet_label_token">トークン</string>
+    <string name="crypto_wallet_label_token_ticker">ティッカー</string>
+    <string name="crypto_wallet_label_token_address">トークンアドレス</string>
+    <string name="crypto_wallet_label_wallet_address">ウォレットアドレス</string>
+    <string name="crypto_wallet_label_amount">金額</string>
+    <string name="crypto_wallet_label_estimated_value">推定価値</string>
+    <string name="crypto_wallet_label_scan_qr_code">このウォレットアドレスにLunarisを送信するためにスキャンしてください。</string>
+    <string name="crypto_wallet_label_recipient_address">受信者アドレス</string>
+    <string name="crypto_wallet_label_srp">秘密の復元フレーズ</string>
+
+    <string name="crypto_wallet_value_blockchain_ethereum">Ethereum</string>
+    <string name="crypto_wallet_value_network_polygon">Polygon</string>
+    <string name="crypto_wallet_value_balance_zero">0</string>
+
+    <string name="crypto_wallet_action_send">送信</string>
+    <string name="crypto_wallet_action_receive">受信</string>
+    <string name="crypto_wallet_action_refresh">更新</string>
+    <string name="crypto_wallet_action_reveal">表示</string>
+    <string name="crypto_wallet_action_copy_address">アドレスをコピー</string>
+    <string name="crypto_wallet_action_share_address">アドレスを共有</string>
+    <string name="crypto_wallet_action_open_wallet_app">ウォレットアプリを開く</string>
+    <string name="crypto_wallet_action_create_wallet">ウォレットを作成</string>
+    <string name="crypto_wallet_action_restore_wallet">ウォレットを復元</string>
+    <string name="crypto_wallet_action_open_polygon_scan">PolygonScanで開く</string>
+    <string name="crypto_wallet_action_copy_srp">フレーズをコピー</string>
+    <string name="crypto_wallet_action_download_srp">フレーズをダウンロード</string>
+    <string name="crypto_wallet_action_hide">非表示</string>
+    <string name="crypto_wallet_action_show">表示</string>
+
+    <string name="crypto_wallet_message_address_copied">アドレスがコピーされました！</string>
+    <string name="crypto_wallet_message_srp_copied">セキュアな復元フレーズがコピーされました！</string>
+
+    <string name="crypto_wallet_promo_title">最初の1,000人のウォレットユーザーに100個の無料Lunaris (LNRS) トークン！</string>
+    <string name="crypto_wallet_promo_description">今すぐウォレットを設定して無料のLunarisトークンを獲得 — 使用や取引が可能な実際の暗号通貨。在庫がなくなるまで利用可能です。</string>
+    <string name="crypto_wallet_promo_title_gifted">合計%1$sトークンを受け取りました！</string>
+    <string name="crypto_wallet_promo_description_gifted">最後に受け取ったギフト %1$s</string>
+
+    <string name="crypto_wallet_warning_send">送信前にアドレスを確認してください！正しい受信者が支払いを受け取ることを確認してください。</string>
+    <string name="crypto_wallet_warning_srp">この秘密のフレーズを安全な場所に保管してください！フレーズにアクセスできる人は誰でもあなたのウォレットにアクセスできます。フレーズを紛失すると、ウォレットへのアクセスも失います。</string>
+
+    <string name="crypto_wallet_placeholder_address">アドレスまたはENS名を入力</string>
+    <string name="crypto_wallet_placeholder_amount">金額を入力</string>
+    <string name="crypto_wallet_placeholder_srp">セキュアな復元フレーズを入力</string>
+
+    <string name="crypto_wallet_estimated_gas">推定ガス: %1$s</string>
+
+    <string name="crypto_wallet_error_amount_invalid">有効な金額を入力してください。</string>
+    <string name="crypto_wallet_error_amount_too_much">残高不足です。</string>
+    <string name="crypto_wallet_error_phrase_invalid">有効なフレーズを入力してください</string>
+    <string name="crypto_wallet_error_phrase_invalid_word_count">秘密の復元フレーズは12語または24語でなければなりません。</string>
+
+    <string name="crypto_wallet_hidden_phrase">**********</string>
+
+</resources>

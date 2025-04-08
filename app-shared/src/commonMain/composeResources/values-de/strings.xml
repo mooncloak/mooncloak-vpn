@@ -6,12 +6,6 @@
     <string name="global_no">Nein</string>
     <string name="global_remaining">Verbleibend</string>
 
-    <string name="app_name">mooncloak VPN</string>
-    <string name="app_description">Werde dunkel, bleib hell</string>
-
-    <string name="app_slogan_line_1">Werde \ndunkel,</string>
-    <string name="app_slogan_line_2">Bleib \nhell</string>
-
     <string name="app_copyright">© %1$s Mooncloak LLC. Alle Rechte vorbehalten.</string>
     <string name="app_built_description">Gebaut mit ❤️ von mooncloak und Mitwirkenden</string>
 

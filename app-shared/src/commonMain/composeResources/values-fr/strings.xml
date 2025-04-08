@@ -6,12 +6,6 @@
     <string name="global_no">Non</string>
     <string name="global_remaining">Restant</string>
 
-    <string name="app_name">mooncloak VPN</string>
-    <string name="app_description">Plongez dans l’ombre, restez lumineux</string>
-
-    <string name="app_slogan_line_1">Plongez \ndans l’ombre,</string>
-    <string name="app_slogan_line_2">Restez \nlumineux</string>
-
     <string name="app_copyright">© %1$s Mooncloak LLC. Tous droits réservés.</string>
     <string name="app_built_description">Construit avec ❤️ par mooncloak et ses contributeurs</string>
 
