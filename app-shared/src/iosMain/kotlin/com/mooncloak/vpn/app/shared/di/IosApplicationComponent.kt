@@ -10,6 +10,9 @@ import com.mooncloak.vpn.app.shared.api.wireguard.IosWireGuardTunnelManager
 import com.mooncloak.vpn.network.core.ip.invoke
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.info.invoke
+import com.mooncloak.vpn.crypto.lunaris.CryptoPasswordManager
+import com.mooncloak.vpn.crypto.lunaris.CryptoWalletManager
+import com.mooncloak.vpn.crypto.lunaris.invoke
 import com.mooncloak.vpn.data.sqlite.invoke
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.util.notification.NotificationManager
@@ -80,6 +83,15 @@ internal abstract class IosApplicationComponent internal constructor(
     @Provides
     @Singleton
     internal fun provideTunnelManager(manager: IosWireGuardTunnelManager): TunnelManager = manager
+
+    @Provides
+    @Singleton
+    internal fun provideCryptoPasswordManager(): CryptoPasswordManager =
+        CryptoPasswordManager()
+
+    @Provides
+    @Singleton
+    internal fun provideCryptoWalletManager(): CryptoWalletManager = CryptoWalletManager()
 }
 
 internal expect fun ApplicationComponent.Companion.create(

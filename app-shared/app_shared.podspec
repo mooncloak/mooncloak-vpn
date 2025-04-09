@@ -3,8 +3,8 @@ Pod::Spec.new do |spec|
     spec.version                  = '1.0.0-beta10'
     spec.homepage                 = 'https://mooncloak.com'
     spec.source                   = { :http=> ''}
-    spec.authors                  = ''
-    spec.license                  = ''
+    spec.authors                  = 'mooncloak Team'
+    spec.license                  = 'https://github.com/mooncloak/mooncloak-vpn/blob/main/LICENSE'
     spec.summary                  = 'Shared app module for the mooncloak VPN application.'
     spec.vendored_frameworks      = 'build/cocoapods/framework/app_shared.framework'
     spec.libraries                = 'c++'

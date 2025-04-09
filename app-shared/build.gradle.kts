@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.*
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
@@ -160,11 +160,6 @@ kotlin {
                 // Apache 2.0: https://github.com/mikepenz/AboutLibraries/blob/develop/LICENSE
                 implementation("com.mikepenz:aboutlibraries-compose-m3:_")
 
-                // Database - Sqlite - SqlDelight
-                // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
-                implementation("app.cash.sqldelight:coroutines-extensions:_")
-                implementation("app.cash.sqldelight:primitive-adapters:_")
-
                 // Locale Utils
                 // https://github.com/mooncloak/locale
                 api("com.mooncloak.kodetools.locale:locale-core:_")
@@ -256,28 +251,16 @@ kotlin {
                 // https://github.com/ktorio/ktor
                 api("io.ktor:ktor-client-darwin:_")
 
-                implementation("co.touchlab:sqliter-driver:_")
-            }
-        }
-    }
-
-    val xcf = XCFramework("app_shared")
-    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
-        if (this.konanTarget.family == org.jetbrains.kotlin.konan.target.Family.IOS) {
-            binaries {
-                framework {
-                    baseName = "app_shared"
-                    isStatic = true
-                    xcf.add(this)
-                    linkerOpts.add("-lsqlite3")
-                }
+                // Database - Sqlite - SqlDelight
+                // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
+                api("app.cash.sqldelight:native-driver:_")
             }
         }
     }
 
     cocoapods {
         ios.deploymentTarget = AppConstants.Ios.deploymentTarget
-        name = buildVariables.appName
+        //name = buildVariables.appName
         version = buildVariables.version
         summary = "Shared app module for the mooncloak VPN application."
         homepage = "https://mooncloak.com"
@@ -288,6 +271,16 @@ kotlin {
         framework {
             baseName = "app_shared"
             isStatic = true
+            // Add this to link SQLite3
+            linkerOpts.add("-lsqlite3")
+        }
+    }
+
+    targets.forEach { target ->
+        if (target is KotlinNativeTarget && target.targetName.startsWith("ios")) {
+            target.binaries.forEach { binary ->
+                binary.linkerOpts.add("-lsqlite3")
+            }
         }
     }
 }
@@ -416,17 +409,6 @@ buildkonfig {
             name = "appBuildTime",
             value = nowTimestamp()
         )
-    }
-}
-
-tasks.create("copyXCFramework") {
-    dependsOn("assembleapp_sharedXCFramework")
-
-    doLast {
-        copy {
-            from("build/XCFrameworks/release/app_shared.xcframework")
-            into("$projectDir/../app-ios/libs")
-        }
     }
 }
 

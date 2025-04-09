@@ -89,6 +89,14 @@ kotlin {
                 api("app.cash.sqldelight:native-driver:_")
             }
         }
+
+        val iosMain by getting {
+            dependencies {
+                // Database - Sqlite - SqlDelight
+                // https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/
+                api("app.cash.sqldelight:native-driver:_")
+            }
+        }
     }
 }
 
