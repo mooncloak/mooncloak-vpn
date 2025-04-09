@@ -9,5 +9,10 @@ interface AppConstants {
         const val targetSdkVersion = 35
     }
 
+    object Ios {
+
+        const val deploymentTarget: String = "17.0"
+    }
+
     companion object : AppConstants
 }

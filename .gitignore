@@ -111,3 +111,6 @@ app-ios/shared.framework/
 **/xcuserdata/**
 *.xcodeproj/project.xcworkspace/xcuserdata/
 *.xcodeproj/xcuserdata/
+
+# Cocoapods
+**/Pods/

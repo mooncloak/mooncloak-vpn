@@ -7,6 +7,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
     kotlin("plugin.serialization")
+    kotlin("native.cocoapods")
     id("com.android.library")
     id("org.jetbrains.dokka")
     id("org.jetbrains.compose")
@@ -261,7 +262,6 @@ kotlin {
     }
 
     val xcf = XCFramework("app_shared")
-
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
         if (this.konanTarget.family == org.jetbrains.kotlin.konan.target.Family.IOS) {
             binaries {
@@ -272,6 +272,22 @@ kotlin {
                     linkerOpts.add("-lsqlite3")
                 }
             }
+        }
+    }
+
+    cocoapods {
+        ios.deploymentTarget = AppConstants.Ios.deploymentTarget
+        name = buildVariables.appName
+        version = buildVariables.version
+        summary = "Shared app module for the mooncloak VPN application."
+        homepage = "https://mooncloak.com"
+        license = "https://github.com/mooncloak/mooncloak-vpn/blob/main/LICENSE"
+        authors = "mooncloak Team"
+        podfile = project.file("../app-ios/Podfile")
+
+        framework {
+            baseName = "app_shared"
+            isStatic = true
         }
     }
 }
