@@ -13,6 +13,5 @@ struct ContentView: View {
         VStack {
             MainView()
         }
-        .padding()
     }
 }

@@ -17,6 +17,7 @@
 
 /* Begin PBXFileReference section */
 		80AE0264F32CE6638CBC2D34 /* Pods-app-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-ios.debug.xcconfig"; path = "Target Support Files/Pods-app-ios/Pods-app-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		8FA980F92DA6BEB100F9368F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8FAF03CA2D8A23F6007FA66F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		8FD211C72D84AAAC00F0483A /* app-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "app-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FD211CA2D84AAAC00F0483A /* app_iosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = app_iosApp.swift; sourceTree = "<group>"; };
@@ -77,6 +78,7 @@
 		8FD211C92D84AAAC00F0483A /* app-ios */ = {
 			isa = PBXGroup;
 			children = (
+				8FA980F92DA6BEB100F9368F /* Info.plist */,
 				8FD211CA2D84AAAC00F0483A /* app_iosApp.swift */,
 				8FD211CC2D84AAAC00F0483A /* ContentView.swift */,
 				8FD211CE2D84AAAD00F0483A /* Assets.xcassets */,
@@ -105,7 +107,7 @@
 				8FD211C32D84AAAC00F0483A /* Sources */,
 				8FD211C42D84AAAC00F0483A /* Frameworks */,
 				8FD211C52D84AAAC00F0483A /* Resources */,
-				C0BE49049965C24FBE66F554 /* [CP] Copy Pods Resources */,
+				8E70034544F1204B7D7C7EA5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -184,7 +186,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C0BE49049965C24FBE66F554 /* [CP] Copy Pods Resources */ = {
+		8E70034544F1204B7D7C7EA5 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -347,6 +349,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"app-ios/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "app-ios/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -384,6 +387,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"app-ios/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "app-ios/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

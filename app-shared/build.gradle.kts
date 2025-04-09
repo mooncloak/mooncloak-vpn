@@ -273,14 +273,7 @@ kotlin {
             isStatic = true
             // Add this to link SQLite3
             linkerOpts.add("-lsqlite3")
-        }
-    }
 
-    targets.forEach { target ->
-        if (target is KotlinNativeTarget && target.targetName.startsWith("ios")) {
-            target.binaries.forEach { binary ->
-                binary.linkerOpts.add("-lsqlite3")
-            }
         }
     }
 }

@@ -19,18 +19,14 @@ internal class IosWireGuardTunnelManager @Inject internal constructor(
     private val mutableTunnels = MutableStateFlow<List<Tunnel>>(emptyList())
 
     override suspend fun sync() {
-        TODO("Not yet implemented")
     }
 
-    override suspend fun connect(server: Server): Tunnel? {
-        TODO("Not yet implemented")
-    }
+    override suspend fun connect(server: Server): Tunnel? = null
 
     override suspend fun disconnect(tunnelName: String) {
-        TODO("Not yet implemented")
     }
 
     override suspend fun disconnectAll() {
-        TODO("Not yet implemented")
     }
 }
+
