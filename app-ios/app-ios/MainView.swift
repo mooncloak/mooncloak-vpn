@@ -15,7 +15,6 @@ struct MainView: UIViewControllerRepresentable {
         return MainViewControllerKt.MainViewController()
     }
     
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context){
-        
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
     }
 }
