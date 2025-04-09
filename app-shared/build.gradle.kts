@@ -273,7 +273,6 @@ kotlin {
             isStatic = true
             // Add this to link SQLite3
             linkerOpts.add("-lsqlite3")
-
         }
     }
 }

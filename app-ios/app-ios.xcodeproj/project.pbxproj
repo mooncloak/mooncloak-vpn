@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F2DE9452DA7105D00811697 /* web3swift in Frameworks */ = {isa = PBXBuildFile; productRef = 8F2DE9442DA7105D00811697 /* web3swift */; };
+		8F2DE9472DA710AE00811697 /* SwiftCryptoWalletManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2DE9462DA710AE00811697 /* SwiftCryptoWalletManager.swift */; };
 		8FAF03CB2D8A23F6007FA66F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF03CA2D8A23F6007FA66F /* MainView.swift */; };
 		8FD211CB2D84AAAC00F0483A /* app_iosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD211CA2D84AAAC00F0483A /* app_iosApp.swift */; };
 		8FD211CD2D84AAAC00F0483A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD211CC2D84AAAC00F0483A /* ContentView.swift */; };
@@ -17,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		80AE0264F32CE6638CBC2D34 /* Pods-app-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-ios.debug.xcconfig"; path = "Target Support Files/Pods-app-ios/Pods-app-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		8F2DE9462DA710AE00811697 /* SwiftCryptoWalletManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftCryptoWalletManager.swift; sourceTree = "<group>"; };
 		8FA980F92DA6BEB100F9368F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8FAF03CA2D8A23F6007FA66F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		8FD211C72D84AAAC00F0483A /* app-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "app-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -34,6 +37,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				99D601E38AD073584F953E2C /* Pods_app_ios.framework in Frameworks */,
+				8F2DE9452DA7105D00811697 /* web3swift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +88,7 @@
 				8FD211CE2D84AAAD00F0483A /* Assets.xcassets */,
 				8FD211D02D84AAAD00F0483A /* Preview Content */,
 				8FAF03CA2D8A23F6007FA66F /* MainView.swift */,
+				8F2DE9462DA710AE00811697 /* SwiftCryptoWalletManager.swift */,
 			);
 			path = "app-ios";
 			sourceTree = "<group>";
@@ -114,6 +119,9 @@
 			dependencies = (
 			);
 			name = "app-ios";
+			packageProductDependencies = (
+				8F2DE9442DA7105D00811697 /* web3swift */,
+			);
 			productName = "app-ios";
 			productReference = 8FD211C72D84AAAC00F0483A /* app-ios.app */;
 			productType = "com.apple.product-type.application";
@@ -142,6 +150,9 @@
 				Base,
 			);
 			mainGroup = 8FD211BE2D84AAAC00F0483A;
+			packageReferences = (
+				8F2DE9432DA7105D00811697 /* XCRemoteSwiftPackageReference "web3swift" */,
+			);
 			productRefGroup = 8FD211C82D84AAAC00F0483A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -213,6 +224,7 @@
 				8FD211CD2D84AAAC00F0483A /* ContentView.swift in Sources */,
 				8FAF03CB2D8A23F6007FA66F /* MainView.swift in Sources */,
 				8FD211CB2D84AAAC00F0483A /* app_iosApp.swift in Sources */,
+				8F2DE9472DA710AE00811697 /* SwiftCryptoWalletManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +448,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8F2DE9432DA7105D00811697 /* XCRemoteSwiftPackageReference "web3swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/web3swift-team/web3swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8F2DE9442DA7105D00811697 /* web3swift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F2DE9432DA7105D00811697 /* XCRemoteSwiftPackageReference "web3swift" */;
+			productName = web3swift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8FD211BF2D84AAAC00F0483A /* Project object */;
 }
