@@ -35,47 +35,46 @@ import BigInt
     }
 
     public func createWallet(password: String?) async throws -> Crypto_lunarisCryptoWallet {
-        <#code#>
+        fatalError("Not Implemented")
     }
     
     public func estimateGas(origin: String, target: String, amount: Util_sharedCurrencyAmount) async throws -> Util_sharedCurrencyAmount? {
-        <#code#>
+        fatalError("Not Implemented")
     }
     
     public func getBalance(address: String) async throws -> Util_sharedCurrencyAmount {
-        <#code#>
+        fatalError("Not Implemented")
     }
     
     public func getDefaultWallet() async throws -> Crypto_lunarisCryptoWallet? {
-        <#code#>
+        fatalError("Not Implemented")
     }
     
     public func getTransactionHistory(address: String, offset: Int32, count: Int32, type: Crypto_lunarisTransactionType) async throws -> [Crypto_lunarisCryptoTransaction] {
-        <#code#>
+        fatalError("Not Implemented")
     }
     
     public func getTransactionStatus(txHash: String) async throws -> Crypto_lunarisTransactionStatus? {
-        <#code#>
+        fatalError("Not Implemented")
     }
     
     public func resolveRecipient(value: String) async throws -> Crypto_lunarisCryptoAccount? {
-        <#code#>
+        fatalError("Not Implemented")
     }
     
     public func restoreWallet(phrase: String, password: String?) async throws -> Crypto_lunarisCryptoWallet {
-        <#code#>
+        fatalError("Not Implemented")
     }
     
     public func revealSeedPhrase(address: String, password: String?) async throws -> String {
-        <#code#>
+        fatalError("Not Implemented")
     }
     
     public func send(origin: String, password: String?, target: String, amount: Util_sharedCurrencyAmount) async throws -> Crypto_lunarisSendResult {
-        <#code#>
+        fatalError("Not Implemented")
     }
     
     public func close() {
-        <#code#>
     }
     
     private func getWeb3() async throws -> Web3 {
