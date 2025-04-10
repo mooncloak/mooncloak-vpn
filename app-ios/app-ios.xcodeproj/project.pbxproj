@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8F2DE9452DA7105D00811697 /* web3swift in Frameworks */ = {isa = PBXBuildFile; productRef = 8F2DE9442DA7105D00811697 /* web3swift */; };
 		8F2DE9472DA710AE00811697 /* SwiftCryptoWalletManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2DE9462DA710AE00811697 /* SwiftCryptoWalletManager.swift */; };
+		8F2DE9492DA81D6000811697 /* SwiftTunnelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2DE9482DA81D6000811697 /* SwiftTunnelManager.swift */; };
 		8FAF03CB2D8A23F6007FA66F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF03CA2D8A23F6007FA66F /* MainView.swift */; };
 		8FD211CB2D84AAAC00F0483A /* app_iosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD211CA2D84AAAC00F0483A /* app_iosApp.swift */; };
 		8FD211CD2D84AAAC00F0483A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD211CC2D84AAAC00F0483A /* ContentView.swift */; };
@@ -20,6 +21,7 @@
 /* Begin PBXFileReference section */
 		80AE0264F32CE6638CBC2D34 /* Pods-app-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-ios.debug.xcconfig"; path = "Target Support Files/Pods-app-ios/Pods-app-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		8F2DE9462DA710AE00811697 /* SwiftCryptoWalletManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftCryptoWalletManager.swift; sourceTree = "<group>"; };
+		8F2DE9482DA81D6000811697 /* SwiftTunnelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTunnelManager.swift; sourceTree = "<group>"; };
 		8FA980F92DA6BEB100F9368F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8FAF03CA2D8A23F6007FA66F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		8FD211C72D84AAAC00F0483A /* app-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "app-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,6 +91,7 @@
 				8FD211D02D84AAAD00F0483A /* Preview Content */,
 				8FAF03CA2D8A23F6007FA66F /* MainView.swift */,
 				8F2DE9462DA710AE00811697 /* SwiftCryptoWalletManager.swift */,
+				8F2DE9482DA81D6000811697 /* SwiftTunnelManager.swift */,
 			);
 			path = "app-ios";
 			sourceTree = "<group>";
@@ -223,6 +226,7 @@
 			files = (
 				8FD211CD2D84AAAC00F0483A /* ContentView.swift in Sources */,
 				8FAF03CB2D8A23F6007FA66F /* MainView.swift in Sources */,
+				8F2DE9492DA81D6000811697 /* SwiftTunnelManager.swift in Sources */,
 				8FD211CB2D84AAAC00F0483A /* app_iosApp.swift in Sources */,
 				8F2DE9472DA710AE00811697 /* SwiftCryptoWalletManager.swift in Sources */,
 			);

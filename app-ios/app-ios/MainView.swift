@@ -13,7 +13,8 @@ struct MainView: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> UIViewController {
         return MainViewControllerKt.MainViewController(
-            cryptoWalletManagerFactory: SwiftCryptoWalletManagerFactory()
+            cryptoWalletManagerFactory: SwiftCryptoWalletManagerFactory(),
+            tunnelManagerFactory: SwiftTunnelManagerFactory()
         )
     }
     

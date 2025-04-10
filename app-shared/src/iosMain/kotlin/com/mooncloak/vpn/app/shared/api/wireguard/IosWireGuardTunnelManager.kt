@@ -1,6 +1,5 @@
 package com.mooncloak.vpn.app.shared.api.wireguard
 
-import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.network.core.tunnel.Tunnel
 import com.mooncloak.vpn.network.core.tunnel.TunnelManager
@@ -9,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-internal class IosWireGuardTunnelManager @Inject internal constructor(
+public abstract class IosWireGuardTunnelManager public constructor(
     private val coroutineScope: ApplicationCoroutineScope
 ) : TunnelManager {
 
@@ -18,15 +17,20 @@ internal class IosWireGuardTunnelManager @Inject internal constructor(
 
     private val mutableTunnels = MutableStateFlow<List<Tunnel>>(emptyList())
 
-    override suspend fun sync() {
+    abstract override suspend fun sync()
+
+    abstract override suspend fun connect(server: Server): Tunnel?
+
+    abstract override suspend fun disconnect(tunnelName: String)
+
+    abstract override suspend fun disconnectAll()
+
+    public fun updateTunnels(tunnels: List<Tunnel>) {
+        mutableTunnels.value = tunnels
     }
 
-    override suspend fun connect(server: Server): Tunnel? = null
+    public interface Factory {
 
-    override suspend fun disconnect(tunnelName: String) {
-    }
-
-    override suspend fun disconnectAll() {
+        public fun create(coroutineScope: ApplicationCoroutineScope): IosWireGuardTunnelManager
     }
 }
-

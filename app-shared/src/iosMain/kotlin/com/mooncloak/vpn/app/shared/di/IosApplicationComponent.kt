@@ -40,7 +40,8 @@ import kotlin.time.Duration.Companion.seconds
 @Singleton
 internal abstract class IosApplicationComponent internal constructor(
     @get:Provides override val applicationCoroutineScope: ApplicationCoroutineScope,
-    private val cryptoWalletManagerFactory: IosCryptoWalletManager.Factory
+    private val cryptoWalletManagerFactory: IosCryptoWalletManager.Factory,
+    private val tunnelManagerFactory: IosWireGuardTunnelManager.Factory
 ) : ApplicationComponent() {
 
     @Provides
@@ -90,7 +91,9 @@ internal abstract class IosApplicationComponent internal constructor(
 
     @Provides
     @Singleton
-    internal fun provideTunnelManager(manager: IosWireGuardTunnelManager): TunnelManager = manager
+    internal fun provideTunnelManager(
+        coroutineScope: ApplicationCoroutineScope
+    ): TunnelManager = tunnelManagerFactory.create(coroutineScope = coroutineScope)
 
     @Provides
     @Singleton
@@ -114,5 +117,6 @@ internal abstract class IosApplicationComponent internal constructor(
 
 internal expect fun ApplicationComponent.Companion.create(
     applicationCoroutineScope: ApplicationCoroutineScope,
-    cryptoWalletManagerFactory: IosCryptoWalletManager.Factory
+    cryptoWalletManagerFactory: IosCryptoWalletManager.Factory,
+    tunnelManagerFactory: IosWireGuardTunnelManager.Factory
 ): IosApplicationComponent
