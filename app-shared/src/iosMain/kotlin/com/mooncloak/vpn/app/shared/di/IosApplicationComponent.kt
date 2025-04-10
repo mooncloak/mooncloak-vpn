@@ -8,7 +8,6 @@ import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.shared.api.wireguard.IosWireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.shared.api.wireguard.IosWireGuardTunnelManager
 import com.mooncloak.vpn.app.shared.crypto.IosCryptoWalletManager
-import com.mooncloak.vpn.app.shared.crypto.toIosEncryptor
 import com.mooncloak.vpn.network.core.ip.invoke
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.info.invoke
@@ -17,6 +16,7 @@ import com.mooncloak.vpn.crypto.lunaris.CryptoWalletManager
 import com.mooncloak.vpn.crypto.lunaris.invoke
 import com.mooncloak.vpn.crypto.lunaris.provider.CryptoWalletAddressProvider
 import com.mooncloak.vpn.crypto.lunaris.repository.CryptoWalletRepository
+import com.mooncloak.vpn.crypto.lunaris.walletDirectory
 import com.mooncloak.vpn.data.sqlite.invoke
 import com.mooncloak.vpn.util.shared.coroutine.ApplicationCoroutineScope
 import com.mooncloak.vpn.util.notification.NotificationManager
