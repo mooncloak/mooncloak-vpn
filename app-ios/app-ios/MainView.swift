@@ -12,7 +12,9 @@ import SwiftUI
 struct MainView: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> UIViewController {
-        return MainViewControllerKt.MainViewController()
+        return MainViewControllerKt.MainViewController(
+            cryptoWalletManagerFactory: SwiftCryptoWalletManagerFactory()
+        )
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {

@@ -18,16 +18,19 @@ import BigInt
     private let walletDirectoryPath: String
     private let cryptoWalletRepository: Crypto_lunarisCryptoWalletRepository
     private let currencyAddress: String
+    private let encryptor: Util_sharedAesEncryptor
     
     // Assuming these are passed in via a factory method similar to Android
     init(
         walletDirectoryPath: String,
         cryptoWalletRepository: Crypto_lunarisCryptoWalletRepository,
-        currencyAddress: String
+        currencyAddress: String,
+        encryptor: Util_sharedAesEncryptor
     ) {
         self.walletDirectoryPath = walletDirectoryPath
         self.cryptoWalletRepository = cryptoWalletRepository
         self.currencyAddress = currencyAddress
+        self.encryptor = encryptor
         super.init()
     }
 
@@ -85,5 +88,26 @@ import BigInt
         web3 = new
         
         return new
+    }
+}
+
+@objc public class SwiftCryptoWalletManagerFactory: NSObject, IosCryptoWalletManagerFactory {
+    
+    public func create(
+        cryptoWalletAddressProvider: Crypto_lunarisCryptoWalletAddressProvider,
+        polygonRpcUrl: String,
+        walletDirectoryPath: String,
+        cryptoWalletRepository: Crypto_lunarisCryptoWalletRepository,
+        clock: Kotlinx_datetimeClock,
+        currency: Util_sharedCurrency,
+        currencyAddress: String,
+        encryptor: Util_sharedAesEncryptor
+    ) -> IosCryptoWalletManager {
+       return SwiftCryptoWalletManager(
+            walletDirectoryPath: walletDirectoryPath,
+            cryptoWalletRepository: cryptoWalletRepository,
+            currencyAddress: currencyAddress,
+            encryptor: encryptor
+       )
     }
 }

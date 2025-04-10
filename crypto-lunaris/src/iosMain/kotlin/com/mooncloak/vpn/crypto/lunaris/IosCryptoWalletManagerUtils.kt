@@ -12,8 +12,13 @@ public fun CryptoWalletManager.Companion.walletDirectory(): String {
         NSDocumentDirectory,
         NSUserDomainMask,
         true
-    ).first() as String
+    ).first() as NSString
 
     // Construct the wallet directory path (e.g., Documents/mooncloak/wallets)
-    return NSString.stringWithFormat("%@/mooncloak/%@", documentsDir, DEFAULT_WALLET_DIRECTORY_NAME)
+    @Suppress("CAST_NEVER_SUCCEEDS") // Required for Objective-C compatibility for this function to cast DEFAULT_WALLET_DIRECTORY_NAME as an NSString instance.
+    return NSString.stringWithFormat(
+        "%@/mooncloak/%@",
+        documentsDir,
+        DEFAULT_WALLET_DIRECTORY_NAME as NSString
+    )
 }

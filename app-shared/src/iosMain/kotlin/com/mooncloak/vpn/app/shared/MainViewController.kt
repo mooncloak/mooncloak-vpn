@@ -15,14 +15,14 @@ import platform.UIKit.UIViewController
 
 @Suppress("FunctionName")
 public fun MainViewController(
-    cryptoWalletManager: IosCryptoWalletManager
+    cryptoWalletManagerFactory: IosCryptoWalletManager.Factory
 ): UIViewController = ComposeUIViewController {
     val platformUriHandler = platformDefaultUriHandler()
     val coroutineScope = MainScope()
 
     val applicationDependencies = ApplicationComponent.create(
         applicationCoroutineScope = coroutineScope,
-        cryptoWalletManager = cryptoWalletManager
+        cryptoWalletManagerFactory = cryptoWalletManagerFactory
     )
     val presentationDependencies = PresentationComponent.create(
         applicationComponent = applicationDependencies,
