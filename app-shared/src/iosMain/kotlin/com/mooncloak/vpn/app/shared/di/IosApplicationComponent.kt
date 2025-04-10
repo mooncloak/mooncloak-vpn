@@ -5,12 +5,14 @@ import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
+import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
 import com.mooncloak.vpn.app.shared.api.wireguard.IosWireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.shared.api.wireguard.IosWireGuardTunnelManager
 import com.mooncloak.vpn.app.shared.crypto.IosCryptoWalletManager
 import com.mooncloak.vpn.network.core.ip.invoke
 import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.info.invoke
+import com.mooncloak.vpn.app.shared.settings.UserPreferenceSettings
 import com.mooncloak.vpn.crypto.lunaris.CryptoPasswordManager
 import com.mooncloak.vpn.crypto.lunaris.CryptoWalletManager
 import com.mooncloak.vpn.crypto.lunaris.invoke
@@ -23,6 +25,7 @@ import com.mooncloak.vpn.util.notification.NotificationManager
 import com.mooncloak.vpn.util.notification.invoke
 import com.mooncloak.vpn.data.shared.cache.Cache
 import com.mooncloak.vpn.data.shared.cache.create
+import com.mooncloak.vpn.data.shared.provider.Provider
 import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.data.sqlite.SqlDriverFactory
 import com.mooncloak.vpn.network.core.ip.LocalDeviceIPAddressProvider
@@ -92,8 +95,14 @@ internal abstract class IosApplicationComponent internal constructor(
     @Provides
     @Singleton
     internal fun provideTunnelManager(
-        coroutineScope: ApplicationCoroutineScope
-    ): TunnelManager = tunnelManagerFactory.create(coroutineScope = coroutineScope)
+        coroutineScope: ApplicationCoroutineScope,
+        connectionKeyPairResolver: WireGuardConnectionKeyPairResolver,
+        userPreferenceSettings: UserPreferenceSettings
+    ): TunnelManager = tunnelManagerFactory.create(
+        coroutineScope = coroutineScope,
+        connectionKeyPairResolver = connectionKeyPairResolver,
+        preferenceProvider = { userPreferenceSettings.wireGuard.get() }
+    )
 
     @Provides
     @Singleton

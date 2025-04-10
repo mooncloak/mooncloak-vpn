@@ -3,4 +3,5 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'app-ios' do
    use_frameworks!
    pod 'app_shared', :path => '../app-shared'
+   pod 'WireGuardKit'
 end

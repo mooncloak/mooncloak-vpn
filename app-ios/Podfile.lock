@@ -1,8 +1,14 @@
 PODS:
   - app_shared (1.0.0-beta10)
+  - WireGuardKit (0.3)
 
 DEPENDENCIES:
   - app_shared (from `../app-shared`)
+  - WireGuardKit
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - WireGuardKit
 
 EXTERNAL SOURCES:
   app_shared:
@@ -10,7 +16,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   app_shared: d364536d71c981150674bbf0cf316db0e106e07e
+  WireGuardKit: 8b9e7f28441b67aafe60d59c15b8c70bed5ab092
 
-PODFILE CHECKSUM: 25d3bf86d4fd4ebe417c17e568c5a7a8b911648e
+PODFILE CHECKSUM: 70f1e20b9253da03bdd4f5005dce5b591bb4bb47
 
 COCOAPODS: 1.16.2

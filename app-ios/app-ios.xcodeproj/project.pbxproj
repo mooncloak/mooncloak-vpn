@@ -10,6 +10,9 @@
 		8F2DE9452DA7105D00811697 /* web3swift in Frameworks */ = {isa = PBXBuildFile; productRef = 8F2DE9442DA7105D00811697 /* web3swift */; };
 		8F2DE9472DA710AE00811697 /* SwiftCryptoWalletManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2DE9462DA710AE00811697 /* SwiftCryptoWalletManager.swift */; };
 		8F2DE9492DA81D6000811697 /* SwiftTunnelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2DE9482DA81D6000811697 /* SwiftTunnelManager.swift */; };
+		8F2DE9502DA821A500811697 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F2DE94F2DA821A500811697 /* NetworkExtension.framework */; };
+		8F2DE9532DA821A500811697 /* AppProxyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2DE9522DA821A500811697 /* AppProxyProvider.swift */; };
+		8F2DE9582DA821A500811697 /* WireGuardExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8F2DE94E2DA821A500811697 /* WireGuardExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8FAF03CB2D8A23F6007FA66F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF03CA2D8A23F6007FA66F /* MainView.swift */; };
 		8FD211CB2D84AAAC00F0483A /* app_iosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD211CA2D84AAAC00F0483A /* app_iosApp.swift */; };
 		8FD211CD2D84AAAC00F0483A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD211CC2D84AAAC00F0483A /* ContentView.swift */; };
@@ -18,10 +21,40 @@
 		99D601E38AD073584F953E2C /* Pods_app_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B02C0BCECEC7C95B54947098 /* Pods_app_ios.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8F2DE9562DA821A500811697 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FD211BF2D84AAAC00F0483A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8F2DE94D2DA821A500811697;
+			remoteInfo = WireGuardExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8F2DE9592DA821A500811697 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8F2DE9582DA821A500811697 /* WireGuardExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		80AE0264F32CE6638CBC2D34 /* Pods-app-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app-ios.debug.xcconfig"; path = "Target Support Files/Pods-app-ios/Pods-app-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		8F2DE9462DA710AE00811697 /* SwiftCryptoWalletManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftCryptoWalletManager.swift; sourceTree = "<group>"; };
 		8F2DE9482DA81D6000811697 /* SwiftTunnelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTunnelManager.swift; sourceTree = "<group>"; };
+		8F2DE94E2DA821A500811697 /* WireGuardExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WireGuardExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F2DE94F2DA821A500811697 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		8F2DE9522DA821A500811697 /* AppProxyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProxyProvider.swift; sourceTree = "<group>"; };
+		8F2DE9542DA821A500811697 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8F2DE9552DA821A500811697 /* WireGuardExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WireGuardExtension.entitlements; sourceTree = "<group>"; };
+		8F2DE95D2DA826A700811697 /* app-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "app-ios.entitlements"; sourceTree = "<group>"; };
 		8FA980F92DA6BEB100F9368F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8FAF03CA2D8A23F6007FA66F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		8FD211C72D84AAAC00F0483A /* app-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "app-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -34,6 +67,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8F2DE94B2DA821A500811697 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F2DE9502DA821A500811697 /* NetworkExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8FD211C42D84AAAC00F0483A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -59,14 +100,26 @@
 			isa = PBXGroup;
 			children = (
 				B02C0BCECEC7C95B54947098 /* Pods_app_ios.framework */,
+				8F2DE94F2DA821A500811697 /* NetworkExtension.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8F2DE9512DA821A500811697 /* WireGuardExtension */ = {
+			isa = PBXGroup;
+			children = (
+				8F2DE9522DA821A500811697 /* AppProxyProvider.swift */,
+				8F2DE9542DA821A500811697 /* Info.plist */,
+				8F2DE9552DA821A500811697 /* WireGuardExtension.entitlements */,
+			);
+			path = WireGuardExtension;
 			sourceTree = "<group>";
 		};
 		8FD211BE2D84AAAC00F0483A = {
 			isa = PBXGroup;
 			children = (
 				8FD211C92D84AAAC00F0483A /* app-ios */,
+				8F2DE9512DA821A500811697 /* WireGuardExtension */,
 				8FD211C82D84AAAC00F0483A /* Products */,
 				4BF5D99BA3BADFDEDFC45C58 /* Pods */,
 				78518D155934BB7CCA8999CF /* Frameworks */,
@@ -77,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				8FD211C72D84AAAC00F0483A /* app-ios.app */,
+				8F2DE94E2DA821A500811697 /* WireGuardExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -92,6 +146,7 @@
 				8FAF03CA2D8A23F6007FA66F /* MainView.swift */,
 				8F2DE9462DA710AE00811697 /* SwiftCryptoWalletManager.swift */,
 				8F2DE9482DA81D6000811697 /* SwiftTunnelManager.swift */,
+				8F2DE95D2DA826A700811697 /* app-ios.entitlements */,
 			);
 			path = "app-ios";
 			sourceTree = "<group>";
@@ -107,6 +162,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8F2DE94D2DA821A500811697 /* WireGuardExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F2DE95C2DA821A500811697 /* Build configuration list for PBXNativeTarget "WireGuardExtension" */;
+			buildPhases = (
+				8F2DE94A2DA821A500811697 /* Sources */,
+				8F2DE94B2DA821A500811697 /* Frameworks */,
+				8F2DE94C2DA821A500811697 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WireGuardExtension;
+			productName = WireGuardExtension;
+			productReference = 8F2DE94E2DA821A500811697 /* WireGuardExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		8FD211C62D84AAAC00F0483A /* app-ios */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8FD211D52D84AAAD00F0483A /* Build configuration list for PBXNativeTarget "app-ios" */;
@@ -116,10 +188,13 @@
 				8FD211C42D84AAAC00F0483A /* Frameworks */,
 				8FD211C52D84AAAC00F0483A /* Resources */,
 				8E70034544F1204B7D7C7EA5 /* [CP] Copy Pods Resources */,
+				4ED425014EA133F2C90A51B2 /* [CP] Embed Pods Frameworks */,
+				8F2DE9592DA821A500811697 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8F2DE9572DA821A500811697 /* PBXTargetDependency */,
 			);
 			name = "app-ios";
 			packageProductDependencies = (
@@ -139,6 +214,9 @@
 				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					8F2DE94D2DA821A500811697 = {
+						CreatedOnToolsVersion = 15.0.1;
+					};
 					8FD211C62D84AAAC00F0483A = {
 						CreatedOnToolsVersion = 15.0.1;
 					};
@@ -161,11 +239,19 @@
 			projectRoot = "";
 			targets = (
 				8FD211C62D84AAAC00F0483A /* app-ios */,
+				8F2DE94D2DA821A500811697 /* WireGuardExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8F2DE94C2DA821A500811697 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8FD211C52D84AAAC00F0483A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -200,6 +286,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		4ED425014EA133F2C90A51B2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-app-ios/Pods-app-ios-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-app-ios/Pods-app-ios-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-app-ios/Pods-app-ios-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		8E70034544F1204B7D7C7EA5 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -220,6 +323,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8F2DE94A2DA821A500811697 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F2DE9532DA821A500811697 /* AppProxyProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8FD211C32D84AAAC00F0483A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -234,7 +345,65 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		8F2DE9572DA821A500811697 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8F2DE94D2DA821A500811697 /* WireGuardExtension */;
+			targetProxy = 8F2DE9562DA821A500811697 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		8F2DE95A2DA821A500811697 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = WireGuardExtension/WireGuardExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WireGuardExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WireGuardExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mooncloak.vpn.app-ios.WireGuardExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8F2DE95B2DA821A500811697 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = WireGuardExtension/WireGuardExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WireGuardExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WireGuardExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mooncloak.vpn.app-ios.WireGuardExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		8FD211D32D84AAAD00F0483A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -358,11 +527,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 80AE0264F32CE6638CBC2D34 /* Pods-app-ios.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "app-ios/app-ios.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"app-ios/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "app-ios/Info.plist";
@@ -396,11 +568,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E7939E821D9E9B4CFD424D23 /* Pods-app-ios.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "app-ios/app-ios.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"app-ios/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "app-ios/Info.plist";
@@ -433,6 +608,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8F2DE95C2DA821A500811697 /* Build configuration list for PBXNativeTarget "WireGuardExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F2DE95A2DA821A500811697 /* Debug */,
+				8F2DE95B2DA821A500811697 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8FD211C22D84AAAC00F0483A /* Build configuration list for PBXProject "app-ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
