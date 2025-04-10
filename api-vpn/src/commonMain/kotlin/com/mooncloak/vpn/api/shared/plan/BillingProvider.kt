@@ -13,5 +13,6 @@ public value class BillingProvider public constructor(
 
         public val Mooncloak: BillingProvider = BillingProvider(value = "mooncloak")
         public val GooglePlay: BillingProvider = BillingProvider(value = "google_play")
+        public val Apple: BillingProvider = BillingProvider(value = "apple")
     }
 }

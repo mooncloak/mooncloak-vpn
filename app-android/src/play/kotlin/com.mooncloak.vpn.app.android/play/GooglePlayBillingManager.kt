@@ -161,7 +161,7 @@ internal class GooglePlayBillingManager @Inject internal constructor(
         }
     }
 
-    override fun handleReceipt(token: TransactionToken, state: String?) {
+    override fun handleResult(token: TransactionToken, productIds: List<String>, state: String?) {
         // Unsupported for Google Play Billing.
     }
 

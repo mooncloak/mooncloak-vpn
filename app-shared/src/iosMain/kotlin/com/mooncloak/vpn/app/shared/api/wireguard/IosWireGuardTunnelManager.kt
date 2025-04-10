@@ -39,5 +39,7 @@ public abstract class IosWireGuardTunnelManager public constructor(
             connectionKeyPairResolver: WireGuardConnectionKeyPairResolver,
             preferenceProvider: Provider<WireGuardPreferences?>
         ): IosWireGuardTunnelManager
+
+        public companion object
     }
 }

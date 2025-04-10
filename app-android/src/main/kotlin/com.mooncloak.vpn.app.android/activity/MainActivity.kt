@@ -93,7 +93,7 @@ public class MainActivity : BaseActivity() {
         token: TransactionToken,
         state: String? = null
     ) {
-        billingManager?.handleReceipt(
+        billingManager?.handleResult(
             token = token,
             state = state
         )

@@ -1,6 +1,6 @@
 package com.mooncloak.vpn.api.shared.plan
 
-import kotlinx.coroutines.CancellationException
+import kotlin.coroutines.cancellation.CancellationException
 
 public interface ServicePlansRepository {
 

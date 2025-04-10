@@ -4,6 +4,7 @@ import androidx.compose.ui.platform.UriHandler
 import com.mooncloak.kodetools.konstruct.annotations.Component
 import com.mooncloak.kodetools.konstruct.annotations.Provides
 import com.mooncloak.vpn.api.shared.billing.BillingManager
+import com.mooncloak.vpn.api.shared.billing.IosBillingManager
 import com.mooncloak.vpn.app.shared.api.billing.MooncloakBillingManager
 import com.mooncloak.vpn.app.shared.api.plan.ServicePlansApiSource
 import com.mooncloak.vpn.api.shared.plan.ServicePlansRepository
@@ -29,7 +30,8 @@ import kotlinx.datetime.Clock
 internal abstract class IosPresentationComponent internal constructor(
     @Component internal val applicationComponent: ApplicationComponent,
     @get:Provides override val presentationCoroutineScope: PresentationCoroutineScope,
-    @get:Provides override val uriHandler: UriHandler
+    @get:Provides override val uriHandler: UriHandler,
+    private val billingManagerFactory: IosBillingManager.Factory
 ) : PresentationComponent() {
 
     @Provides
@@ -81,5 +83,6 @@ internal abstract class IosPresentationComponent internal constructor(
 internal expect fun PresentationComponent.Companion.create(
     applicationComponent: ApplicationComponent,
     presentationCoroutineScope: PresentationCoroutineScope,
-    uriHandler: UriHandler
+    uriHandler: UriHandler,
+    billingManagerFactory: IosBillingManager.Factory
 ): IosPresentationComponent

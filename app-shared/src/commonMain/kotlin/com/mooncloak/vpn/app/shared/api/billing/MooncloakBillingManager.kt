@@ -93,7 +93,7 @@ public class MooncloakBillingManager @Inject public constructor(
             BillingResult.Failure(cause = e)
         }
 
-    override fun handleReceipt(token: TransactionToken, state: String?) {
+    override fun handleResult(token: TransactionToken, productIds: List<String>, state: String?) {
         applicationCoroutineScope.launch {
             try {
                 if (this@MooncloakBillingManager.state == state && productId != null) {

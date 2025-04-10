@@ -17,8 +17,9 @@ public interface BillingManager : AutoCloseable {
 
     public suspend fun purchase(plan: Plan): BillingResult
 
-    public fun handleReceipt(
+    public fun handleResult(
         token: TransactionToken,
+        productIds: List<String> = emptyList(),
         state: String? = null, // Similar to OAuth's state parameter.
     )
 

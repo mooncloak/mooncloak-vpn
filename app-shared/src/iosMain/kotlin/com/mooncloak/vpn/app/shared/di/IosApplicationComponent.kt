@@ -25,7 +25,6 @@ import com.mooncloak.vpn.util.notification.NotificationManager
 import com.mooncloak.vpn.util.notification.invoke
 import com.mooncloak.vpn.data.shared.cache.Cache
 import com.mooncloak.vpn.data.shared.cache.create
-import com.mooncloak.vpn.data.shared.provider.Provider
 import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.data.sqlite.SqlDriverFactory
 import com.mooncloak.vpn.network.core.ip.LocalDeviceIPAddressProvider

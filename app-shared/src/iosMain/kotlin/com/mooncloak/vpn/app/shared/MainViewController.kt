@@ -3,6 +3,7 @@ package com.mooncloak.vpn.app.shared
 import androidx.compose.ui.window.ComposeUIViewController
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.configure
+import com.mooncloak.vpn.api.shared.billing.IosBillingManager
 import com.mooncloak.vpn.app.shared.api.wireguard.IosWireGuardTunnelManager
 import com.mooncloak.vpn.app.shared.crypto.IosCryptoWalletManager
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
@@ -17,7 +18,8 @@ import platform.UIKit.UIViewController
 @Suppress("FunctionName")
 public fun MainViewController(
     cryptoWalletManagerFactory: IosCryptoWalletManager.Factory,
-    tunnelManagerFactory: IosWireGuardTunnelManager.Factory
+    tunnelManagerFactory: IosWireGuardTunnelManager.Factory,
+    billingManagerFactory: IosBillingManager.Factory
 ): UIViewController = ComposeUIViewController {
     val platformUriHandler = platformDefaultUriHandler()
     val coroutineScope = MainScope()
@@ -30,7 +32,8 @@ public fun MainViewController(
     val presentationDependencies = PresentationComponent.create(
         applicationComponent = applicationDependencies,
         presentationCoroutineScope = coroutineScope,
-        uriHandler = platformUriHandler
+        uriHandler = platformUriHandler,
+        billingManagerFactory = billingManagerFactory
     )
 
     // Disable logging if we are not in debug mode.
