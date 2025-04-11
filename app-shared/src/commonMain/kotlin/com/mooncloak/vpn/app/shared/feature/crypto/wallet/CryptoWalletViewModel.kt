@@ -46,6 +46,7 @@ import com.mooncloak.vpn.app.shared.util.launchAuthentication
 import com.mooncloak.vpn.crypto.lunaris.CryptoWalletManager
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoWallet
 import com.mooncloak.vpn.crypto.lunaris.repository.GiftedCryptoTokenRepository
+import com.mooncloak.vpn.util.shared.currency.Lunaris
 import com.mooncloak.vpn.util.shared.currency.lunarisValidator
 import com.mooncloak.vpn.util.shared.time.DateTimeFormatter
 import com.mooncloak.vpn.util.shared.time.Full
@@ -417,7 +418,7 @@ public class CryptoWalletViewModel @Inject public constructor(
         var items = currentState.items
         var secureRecoveryPhrase: String? = currentState.secureRecoveryPhrase
         var uniswapUri: String? = currentState.uniSwapUri
-        var tokenSourceCodeUri =
+        val tokenSourceCodeUri =
             "https://github.com/mooncloak/mooncloak-lunaris" // FIXME: Hardcoded Lunaris Token Source Code URI
 
         try {
@@ -438,7 +439,8 @@ public class CryptoWalletViewModel @Inject public constructor(
                 network = network,
                 timestamp = dateTimeFormatter.format(timestamp),
                 uniswapUri = uniswapUri,
-                tokenSourceCodeUri = tokenSourceCodeUri
+                tokenSourceCodeUri = tokenSourceCodeUri,
+                currency = wallet?.currency ?: Currency.Lunaris
             )
             secureRecoveryPhrase = wallet?.address?.let { address ->
                 getSecureRecoveryPhrase(address = address)
@@ -533,7 +535,8 @@ public class CryptoWalletViewModel @Inject public constructor(
         network: String?,
         timestamp: String?,
         uniswapUri: String?,
-        tokenSourceCodeUri: String?
+        tokenSourceCodeUri: String?,
+        currency: Currency? = wallet?.currency
     ): List<WalletFeedItem> {
         val items = mutableListOf<WalletFeedItem>()
 
@@ -568,7 +571,8 @@ public class CryptoWalletViewModel @Inject public constructor(
                 balance = balance,
                 blockChain = blockChain,
                 network = network,
-                timestamp = timestamp
+                timestamp = timestamp,
+                currency = currency
             )
         )
 

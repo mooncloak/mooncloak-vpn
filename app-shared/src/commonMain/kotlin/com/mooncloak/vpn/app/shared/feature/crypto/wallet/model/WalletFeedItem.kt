@@ -3,6 +3,7 @@ package com.mooncloak.vpn.app.shared.feature.crypto.wallet.model
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.runtime.Immutable
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoWallet
+import com.mooncloak.vpn.util.shared.currency.Currency
 
 @Immutable
 public sealed interface WalletFeedItem {
@@ -73,7 +74,8 @@ public sealed interface WalletFeedItem {
         public val balance: WalletBalance?,
         public val blockChain: String?,
         public val network: String?,
-        public val timestamp: String?
+        public val timestamp: String?,
+        public val currency: Currency? = wallet?.currency
     ) : WalletFeedItem {
 
         override val key: String = "Details:${wallet?.address}"
