@@ -225,7 +225,7 @@ public fun CryptoWalletScreen(
                             amount = item.balance?.amount?.formatted,
                             estimatedValue = item.balance?.localEstimate?.formatted,
                             lastUpdated = item.timestamp,
-                            protocol = item.wallet?.currency?.protocol
+                            protocol = item.currency?.protocol
                         )
 
                         WalletFeedItem.NoWalletItem -> NoWalletCard(
