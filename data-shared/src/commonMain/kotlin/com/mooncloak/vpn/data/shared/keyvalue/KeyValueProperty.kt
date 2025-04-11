@@ -106,17 +106,18 @@ public fun <Value : Any> KeyValueProperty<Value>.loadingEventState(
  */
 @Composable
 public fun <Value : Any> KeyValueProperty<Value>.state(
-    initial: Value,
-    context: CoroutineContext = EmptyCoroutineContext
+    initial: Value
 ): State<Value?> {
     val current = remember { mutableStateOf<Value?>(initial) }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(initial) {
         current.value = this@state.get()
+
+        this@state.flow()
+            .collect { value ->
+                current.value = value
+            }
     }
 
-    return this.flow().collectAsState(
-        initial = current.value,
-        context = context
-    )
+    return current
 }
