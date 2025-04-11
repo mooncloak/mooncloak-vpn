@@ -6,7 +6,6 @@ import com.mooncloak.kodetools.konstruct.annotations.Singleton
 import com.mooncloak.vpn.api.shared.MooncloakVpnServiceHttpApi
 import com.mooncloak.vpn.api.shared.key.WireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.shared.api.key.WireGuardConnectionKeyPairResolver
-import com.mooncloak.vpn.app.shared.api.wireguard.IosWireGuardConnectionKeyManager
 import com.mooncloak.vpn.app.shared.api.wireguard.IosWireGuardTunnelManager
 import com.mooncloak.vpn.app.shared.crypto.IosCryptoWalletManager
 import com.mooncloak.vpn.network.core.ip.invoke
@@ -43,7 +42,8 @@ import kotlin.time.Duration.Companion.seconds
 internal abstract class IosApplicationComponent internal constructor(
     @get:Provides override val applicationCoroutineScope: ApplicationCoroutineScope,
     private val cryptoWalletManagerFactory: IosCryptoWalletManager.Factory,
-    private val tunnelManagerFactory: IosWireGuardTunnelManager.Factory
+    private val tunnelManagerFactory: IosWireGuardTunnelManager.Factory,
+    private val connectionKeyManager: WireGuardConnectionKeyManager
 ) : ApplicationComponent() {
 
     @Provides
@@ -88,8 +88,8 @@ internal abstract class IosApplicationComponent internal constructor(
 
     @Provides
     @Singleton
-    internal fun provideWireGuardConnectionKeyManager(manager: IosWireGuardConnectionKeyManager): WireGuardConnectionKeyManager =
-        manager
+    internal fun provideWireGuardConnectionKeyManager(): WireGuardConnectionKeyManager =
+        connectionKeyManager
 
     @Provides
     @Singleton
@@ -126,5 +126,6 @@ internal abstract class IosApplicationComponent internal constructor(
 internal expect fun ApplicationComponent.Companion.create(
     applicationCoroutineScope: ApplicationCoroutineScope,
     cryptoWalletManagerFactory: IosCryptoWalletManager.Factory,
-    tunnelManagerFactory: IosWireGuardTunnelManager.Factory
+    tunnelManagerFactory: IosWireGuardTunnelManager.Factory,
+    connectionKeyManager: WireGuardConnectionKeyManager
 ): IosApplicationComponent
