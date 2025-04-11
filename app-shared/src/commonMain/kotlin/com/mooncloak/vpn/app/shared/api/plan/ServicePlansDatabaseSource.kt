@@ -37,6 +37,7 @@ public class ServicePlansDatabaseSource @Inject public constructor(
             database.servicePlanQueries.selectAll()
                 .executeAsList()
                 .map { plan -> plan.toVPNServicePlan() }
+                .sortedBy { plan -> plan.price.amount }
         }
 
     override suspend fun getPlan(id: String): Plan =

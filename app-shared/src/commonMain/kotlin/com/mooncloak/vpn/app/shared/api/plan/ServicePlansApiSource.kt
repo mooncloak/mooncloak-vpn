@@ -11,6 +11,7 @@ public class ServicePlansApiSource @Inject public constructor(
 
     override suspend fun getPlans(): List<Plan> =
         api.getAvailablePlans().plans
+            .sortedBy { plan -> plan.price.amount }
 
     override suspend fun getPlan(id: String): Plan =
         (api.getPlan(id = id) as? Plan) ?: error("Plan was NOT a VPNServicePlan instance.")
