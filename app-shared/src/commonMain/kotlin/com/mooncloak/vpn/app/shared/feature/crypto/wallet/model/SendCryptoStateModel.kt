@@ -2,12 +2,12 @@ package com.mooncloak.vpn.app.shared.feature.crypto.wallet.model
 
 import androidx.compose.runtime.Immutable
 import com.mooncloak.vpn.app.shared.model.TextFieldStateModel
-import com.mooncloak.vpn.crypto.lunaris.model.CryptoAccount
+import com.mooncloak.vpn.crypto.lunaris.model.CryptoAddress
 
 @Immutable
 public data class SendCryptoStateModel public constructor(
     public val address: TextFieldStateModel = TextFieldStateModel(),
-    public val suggestedRecipients: List<CryptoAccount> = emptyList(),
+    public val suggestedRecipients: List<CryptoAddress> = emptyList(),
     public val amount: TextFieldStateModel = TextFieldStateModel(),
     public val estimatedGas: String? = null,
     public val isSending: Boolean = false

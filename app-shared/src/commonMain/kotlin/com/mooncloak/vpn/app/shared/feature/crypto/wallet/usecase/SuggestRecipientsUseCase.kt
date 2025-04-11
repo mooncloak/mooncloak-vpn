@@ -1,16 +1,13 @@
 package com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase
 
 import com.mooncloak.kodetools.konstruct.annotations.Inject
-import com.mooncloak.vpn.crypto.lunaris.CryptoWalletManager
-import com.mooncloak.vpn.crypto.lunaris.model.CryptoAccount
+import com.mooncloak.vpn.crypto.lunaris.model.CryptoAddress
+import com.mooncloak.vpn.crypto.lunaris.provider.CryptoRecipientAddressProvider
 
 public class SuggestRecipientsUseCase @Inject public constructor(
-    private val cryptoWalletManager: CryptoWalletManager
+    private val cryptoRecipientAddressProvider: CryptoRecipientAddressProvider
 ) {
 
-    public suspend operator fun invoke(value: String): List<CryptoAccount> {
-        val recipient = cryptoWalletManager.resolveRecipient(value = value)
-
-        return listOfNotNull(recipient)
-    }
+    public suspend operator fun invoke(value: String): List<CryptoAddress> =
+        cryptoRecipientAddressProvider.search(value = value)
 }
