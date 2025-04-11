@@ -7,7 +7,6 @@
 
 import Foundation
 import app_shared
-import os
 import WireGuardKit
 
 @objc public class IosWireGuardConnectionKeyManager : NSObject, Api_vpnWireGuardConnectionKeyManager {

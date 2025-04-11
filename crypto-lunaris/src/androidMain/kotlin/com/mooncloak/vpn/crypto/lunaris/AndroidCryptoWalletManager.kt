@@ -7,19 +7,13 @@ import com.mooncloak.vpn.util.shared.currency.invoke
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoAccount
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoTransaction
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoWallet
-import com.mooncloak.vpn.crypto.lunaris.model.EncryptedRecoveryPhrase
 import com.mooncloak.vpn.crypto.lunaris.model.SendResult
 import com.mooncloak.vpn.crypto.lunaris.model.TransactionStatus
 import com.mooncloak.vpn.crypto.lunaris.model.TransactionType
-import com.mooncloak.vpn.crypto.lunaris.model.decode
-import com.mooncloak.vpn.crypto.lunaris.model.encodeToBase64UrlString
 import com.mooncloak.vpn.crypto.lunaris.provider.CryptoWalletAddressProvider
 import com.mooncloak.vpn.crypto.lunaris.repository.CryptoWalletRepository
 import com.mooncloak.vpn.util.shared.coroutine.PlatformIO
-import com.mooncloak.vpn.util.shared.crypto.AesEncryptedData
 import com.mooncloak.vpn.util.shared.crypto.AesEncryptor
-import com.mooncloak.vpn.util.shared.crypto.decrypt
-import com.mooncloak.vpn.util.shared.crypto.encrypt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
@@ -42,8 +36,6 @@ import java.io.File
 import java.math.BigInteger
 import java.security.SecureRandom
 import kotlin.jvm.optionals.getOrNull
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 public operator fun CryptoWalletManager.Companion.invoke(
     cryptoWalletAddressProvider: CryptoWalletAddressProvider,
@@ -75,8 +67,11 @@ internal class AndroidCryptoWalletManager internal constructor(
     private val currencyAddress: String,
     private val encryptor: AesEncryptor
 ) : BaseCryptoWalletManager(
+    walletDirectoryPath = walletDirectoryPath,
+    clock = clock,
     cryptoWalletAddressProvider = cryptoWalletAddressProvider,
-    cryptoWalletRepository = cryptoWalletRepository
+    cryptoWalletRepository = cryptoWalletRepository,
+    encryptor = encryptor
 ) {
 
     private val web3j: Web3j = Web3j.build(HttpService(polygonRpcUrl))
@@ -369,66 +364,6 @@ internal class AndroidCryptoWalletManager internal constructor(
 
     override fun close() {
         web3j.shutdown()
-    }
-
-    @OptIn(ExperimentalUuidApi::class)
-    private suspend fun createAndStoreWallet(
-        fileName: String,
-        address: String,
-        currency: Currency,
-        phrase: EncryptedRecoveryPhrase
-    ): CryptoWallet {
-        val now = clock.now()
-        val walletId = Uuid.random().toHexString()
-        val wallet = CryptoWallet(
-            id = walletId,
-            created = now,
-            updated = now,
-            address = address,
-            currency = currency,
-            location = "$walletDirectoryPath/$fileName",
-            phrase = phrase
-        )
-
-        return cryptoWalletRepository.insert(walletId) { wallet }
-    }
-
-    private suspend fun encryptPhrase(phrase: String, password: String?): EncryptedRecoveryPhrase {
-        val encryptedData = if (password.isNullOrEmpty()) {
-            AesEncryptedData(
-                value = phrase.encodeToByteArray(),
-                iv = ByteArray(0),
-                salt = ByteArray(0)
-            )
-        } else {
-            encryptor.encrypt(value = phrase, keyMaterial = password)
-        }
-
-        return EncryptedRecoveryPhrase(
-            value = encryptedData.value.encodeToBase64UrlString(),
-            iv = encryptedData.iv.encodeToBase64UrlString(),
-            salt = encryptedData.salt.encodeToBase64UrlString(),
-            algorithm = encryptedData.algorithm
-        )
-    }
-
-    private suspend fun decryptPhrase(phrase: EncryptedRecoveryPhrase, password: String?): String {
-        val aesData = AesEncryptedData(
-            value = phrase.value.decode(),
-            iv = phrase.iv.decode(),
-            salt = phrase.salt.decode()
-        )
-
-        return if (aesData.iv.isEmpty() || password.isNullOrBlank()) {
-            aesData.value.decodeToString()
-        } else {
-            encryptor.decrypt(data = aesData, keyMaterial = password).decodeToString()
-        }
-    }
-
-    internal companion object {
-
-        internal val ETHEREUM_ADDRESS_REGEX = Regex("^0x[a-fA-F0-9]{40}$")
     }
 }
 

@@ -15,27 +15,62 @@ import BigInt
     
     private var web3: Web3?
     private var wallets: [String: BIP32Keystore] = [:] // In-memory wallet store
+    
+    private let cryptoWalletAddressProvider: Crypto_lunarisCryptoWalletAddressProvider
+    private let polygonRpcUrl: String
     private let walletDirectoryPath: String
     private let cryptoWalletRepository: Crypto_lunarisCryptoWalletRepository
+    private let currency: Util_sharedCurrency
     private let currencyAddress: String
     private let encryptor: Util_sharedAesEncryptor
     
     // Assuming these are passed in via a factory method similar to Android
     init(
+        cryptoWalletAddressProvider: Crypto_lunarisCryptoWalletAddressProvider,
+        polygonRpcUrl: String,
         walletDirectoryPath: String,
         cryptoWalletRepository: Crypto_lunarisCryptoWalletRepository,
+        currency: Util_sharedCurrency,
         currencyAddress: String,
         encryptor: Util_sharedAesEncryptor
     ) {
+        self.cryptoWalletAddressProvider = cryptoWalletAddressProvider
+        self.polygonRpcUrl = polygonRpcUrl
         self.walletDirectoryPath = walletDirectoryPath
         self.cryptoWalletRepository = cryptoWalletRepository
+        self.currency = currency
         self.currencyAddress = currencyAddress
         self.encryptor = encryptor
         super.init()
     }
 
     public func createWallet(password: String?) async throws -> Crypto_lunarisCryptoWallet {
-        fatalError("Not Implemented")
+        let mnemonic = try BIP39.generateMnemonics(bitsOfEntropy: 128, language: .english)!
+        let keystore = try BIP32Keystore(
+            mnemonics: mnemonic,
+            password: password ?? "",
+            mnemonicsPassword: "",
+            language: .english,
+            prefixPath: "m/44'/60'/0'/0"
+        )!
+        
+        guard let address = keystore.addresses?.first?.address else {
+            throw NSError(domain: "WalletError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to get wallet address"])
+        }
+        
+        let walletFileURL = URL(fileURLWithPath: walletDirectoryPath).appendingPathComponent("\(address).json")
+        try keystore.serialize()?.write(to: walletFileURL)
+        
+        wallets[address] = keystore
+        
+        let wallet = Crypto_lunarisCryptoWallet(
+            address: address,
+            createdAt: Kotlinx_datetimeClock.System.now(),
+            updatedAt: Kotlinx_datetimeClock.System.now()
+        )
+        try await cryptoWalletRepository.store(wallet: wallet)
+        
+        return wallet
     }
     
     public func estimateGas(origin: String, target: String, amount: Util_sharedCurrencyAmount) async throws -> Util_sharedCurrencyAmount? {
@@ -103,8 +138,11 @@ import BigInt
         encryptor: Util_sharedAesEncryptor
     ) -> IosCryptoWalletManager {
        return SwiftCryptoWalletManager(
+            cryptoWalletAddressProvider: cryptoWalletAddressProvider,
+            polygonRpcUrl: polygonRpcUrl,
             walletDirectoryPath: walletDirectoryPath,
             cryptoWalletRepository: cryptoWalletRepository,
+            currency: currency,
             currencyAddress: currencyAddress,
             encryptor: encryptor
        )

@@ -102,7 +102,6 @@ import app_shared
         case .success(let verification):
             if case .verified(let transaction) = verification {
                 await self.processTransaction(transaction: transaction, planId: transaction.productID)
-                let token = transaction.jsonRepresentation
                 
                 return super.createSuccessResult(code: nil, message: nil, plans: [plan])
             } else {
