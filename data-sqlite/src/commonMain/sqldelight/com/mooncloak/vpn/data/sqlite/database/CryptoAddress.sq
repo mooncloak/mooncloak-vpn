@@ -1,0 +1,106 @@
+import kotlinx.datetime.Instant;
+
+CREATE TABLE IF NOT EXISTS crypto_address (
+    database_id INTEGER PRIMARY KEY NOT NULL,
+    id TEXT NOT NULL UNIQUE,
+    created INTEGER AS Instant NOT NULL,
+    updated INTEGER AS Instant NOT NULL,
+    address TEXT NOT NULL,
+    handle TEXT,
+    ens_name TEXT,
+    name TEXT,
+    contact_id TEXT,
+    note TEXT,
+    currency_type TEXT NOT NULL,
+    currency_code TEXT NOT NULL,
+    currency_default_fraction_digits INTEGER,
+    currency_numeric_code INTEGER,
+    currency_symbol TEXT,
+    currency_name TEXT,
+    currency_ticker TEXT,
+    currency_chain_id INTEGER,
+    currency_address TEXT
+);
+
+CREATE INDEX IF NOT EXISTS crypto_address_id_index ON crypto_address(id);
+CREATE INDEX IF NOT EXISTS crypto_address_address_index ON crypto_address(address);
+CREATE INDEX IF NOT EXISTS crypto_address_handle_index ON crypto_address(handle);
+CREATE INDEX IF NOT EXISTS crypto_address_ens_name_index ON crypto_address(ens_name);
+CREATE INDEX IF NOT EXISTS crypto_address_name_index ON crypto_address(name);
+CREATE INDEX IF NOT EXISTS crypto_address_contact_id_index ON crypto_address(contact_id);
+CREATE INDEX IF NOT EXISTS crypto_address_currency_type_index ON crypto_address(currency_type);
+CREATE INDEX IF NOT EXISTS crypto_address_currency_code_index ON crypto_address(currency_code);
+
+insert:
+INSERT OR REPLACE INTO crypto_address(
+    id,
+    created,
+    updated,
+    address,
+    handle,
+    ens_name,
+    name,
+    contact_id,
+    note,
+    currency_type,
+    currency_code,
+    currency_default_fraction_digits,
+    currency_numeric_code,
+    currency_symbol,
+    currency_name,
+    currency_ticker,
+    currency_chain_id,
+    currency_address
+) VALUES (?, ?, ?, ?,  ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+updateAll:
+UPDATE crypto_address
+SET updated = :updated,
+    address = :address,
+    handle = :handle,
+    ens_name = :ensName,
+    name = :name,
+    contact_id = :contactId,
+    note = :note,
+    currency_type = :currencyType,
+    currency_code = :currencyCode,
+    currency_default_fraction_digits = :currencyDefaultFractionDigits,
+    currency_numeric_code = :currencyNumericCode,
+    currency_symbol = :currencySymbol,
+    currency_name = :currencyName,
+    currency_ticker = :currencyTicker,
+    currency_chain_id = :currencyChainId,
+    currency_address = :currencyAddress
+WHERE id = :id;
+
+selectById:
+SELECT *
+FROM crypto_address
+WHERE id = :id;
+
+selectByAddress:
+SELECT *
+FROM crypto_address
+WHERE address = :address;
+
+selectAll:
+SELECT *
+FROM crypto_address;
+
+selectPage:
+SELECT *
+FROM crypto_address
+ORDER BY updated DESC
+LIMIT :limit OFFSET :offset;
+
+search:
+SELECT *
+FROM crypto_address
+WHERE (address LIKE '%' || :query || '%') OR (name LIKE '%' || :query || '%') OR (ens_name LIKE '%' || :query || '%');
+
+deleteById:
+DELETE FROM crypto_address
+WHERE id = :id;
+
+deleteAll:
+DELETE FROM crypto_address;

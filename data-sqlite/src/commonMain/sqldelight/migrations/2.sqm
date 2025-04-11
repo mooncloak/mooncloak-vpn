@@ -1,0 +1,30 @@
+CREATE TABLE IF NOT EXISTS crypto_address (
+    database_id INTEGER PRIMARY KEY NOT NULL,
+    id TEXT NOT NULL UNIQUE,
+    created INTEGER NOT NULL,
+    updated INTEGER NOT NULL,
+    address TEXT NOT NULL,
+    handle TEXT,
+    ens_name TEXT,
+    name TEXT,
+    contact_id TEXT,
+    note TEXT,
+    currency_type TEXT NOT NULL,
+    currency_code TEXT NOT NULL,
+    currency_default_fraction_digits INTEGER,
+    currency_numeric_code INTEGER,
+    currency_symbol TEXT,
+    currency_name TEXT,
+    currency_ticker TEXT,
+    currency_chain_id INTEGER,
+    currency_address TEXT
+);
+
+CREATE INDEX IF NOT EXISTS crypto_address_id_index ON crypto_address(id);
+CREATE INDEX IF NOT EXISTS crypto_address_address_index ON crypto_address(address);
+CREATE INDEX IF NOT EXISTS crypto_address_handle_index ON crypto_address(handle);
+CREATE INDEX IF NOT EXISTS crypto_address_ens_name_index ON crypto_address(ens_name);
+CREATE INDEX IF NOT EXISTS crypto_address_name_index ON crypto_address(name);
+CREATE INDEX IF NOT EXISTS crypto_address_contact_id_index ON crypto_address(contact_id);
+CREATE INDEX IF NOT EXISTS crypto_address_currency_type_index ON crypto_address(currency_type);
+CREATE INDEX IF NOT EXISTS crypto_address_currency_code_index ON crypto_address(currency_code);

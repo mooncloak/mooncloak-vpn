@@ -30,13 +30,19 @@ import com.mooncloak.vpn.app.shared.settings.CryptoSettings
 import com.mooncloak.vpn.app.shared.util.http.DefaultUnauthorizedInterceptor
 import com.mooncloak.vpn.app.shared.util.http.UnauthorizedInterceptor
 import com.mooncloak.vpn.app.shared.util.http.interceptUnauthorized
+import com.mooncloak.vpn.crypto.lunaris.CryptoWalletManager
+import com.mooncloak.vpn.crypto.lunaris.provider.CryptoRecipientAddressProvider
 import com.mooncloak.vpn.crypto.lunaris.provider.CryptoWalletAddressProvider
+import com.mooncloak.vpn.crypto.lunaris.provider.invoke
+import com.mooncloak.vpn.crypto.lunaris.repository.CryptoAddressRepository
 import com.mooncloak.vpn.crypto.lunaris.repository.CryptoWalletRepository
 import com.mooncloak.vpn.crypto.lunaris.repository.GiftedCryptoTokenRepository
 import com.mooncloak.vpn.crypto.lunaris.source.invoke
 import com.mooncloak.vpn.data.sqlite.database.MooncloakDatabase
 import com.mooncloak.vpn.data.shared.keyvalue.MutableKeyValueStorage
 import com.mooncloak.vpn.data.shared.keyvalue.SettingsKeyValueStorage
+import com.mooncloak.vpn.util.shared.currency.Currency
+import com.mooncloak.vpn.util.shared.currency.Lunaris
 import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.compression.ContentEncoding
@@ -209,6 +215,24 @@ public abstract class ApplicationComponent : ApplicationDependencies {
     @Singleton
     public fun provideCryptoWalletRepository(provider: MooncloakDatabaseProvider): CryptoWalletRepository =
         CryptoWalletRepository(databaseProvider = provider)
+
+    @Provides
+    @Singleton
+    public fun provideCryptoAddressRepository(provider: MooncloakDatabaseProvider): CryptoAddressRepository =
+        CryptoAddressRepository(databaseProvider = provider)
+
+    @Provides
+    @Singleton
+    public fun provideCryptoRecipientAddressProvider(
+        cryptoWalletManager: CryptoWalletManager,
+        cryptoAddressRepository: CryptoAddressRepository,
+        clock: Clock
+    ): CryptoRecipientAddressProvider = CryptoRecipientAddressProvider.invoke(
+        cryptoWalletManager = cryptoWalletManager,
+        cryptoAddressRepository = cryptoAddressRepository,
+        clock = clock,
+        currency = Currency.Lunaris
+    )
 
     @Provides
     @Singleton
