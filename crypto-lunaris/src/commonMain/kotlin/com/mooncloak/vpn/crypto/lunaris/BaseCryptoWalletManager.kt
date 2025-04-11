@@ -30,7 +30,7 @@ public abstract class BaseCryptoWalletManager public constructor(
         } ?: cryptoWalletRepository.getAll().firstOrNull()
 
     @OptIn(ExperimentalUuidApi::class)
-    protected suspend fun createAndStoreWallet(
+    protected open suspend fun createAndStoreWallet(
         fileName: String,
         address: String,
         currency: Currency,
@@ -51,7 +51,7 @@ public abstract class BaseCryptoWalletManager public constructor(
         return cryptoWalletRepository.insert(walletId) { wallet }
     }
 
-    protected suspend fun encryptPhrase(phrase: String, password: String?): EncryptedRecoveryPhrase {
+    protected open suspend fun encryptPhrase(phrase: String, password: String?): EncryptedRecoveryPhrase {
         val encryptedData = if (password.isNullOrEmpty()) {
             AesEncryptedData(
                 value = phrase.encodeToByteArray(),
@@ -70,7 +70,7 @@ public abstract class BaseCryptoWalletManager public constructor(
         )
     }
 
-    protected suspend fun decryptPhrase(phrase: EncryptedRecoveryPhrase, password: String?): String {
+    protected open suspend fun decryptPhrase(phrase: EncryptedRecoveryPhrase, password: String?): String {
         val aesData = AesEncryptedData(
             value = phrase.value.decode(),
             iv = phrase.iv.decode(),
