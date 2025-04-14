@@ -38,6 +38,20 @@ kotlin {
                 // Logging
                 // https://github.com/mooncloak/logpile
                 implementation("com.mooncloak.kodetools.logpile:logpile-core:_")
+
+                // Multiplatform I/O - kotlinx-io
+                // https://github.com/Kotlin/kotlinx-io
+                // Apache 2.0: https://github.com/Kotlin/kotlinx-io/blob/master/LICENSE
+                implementation("org.jetbrains.kotlinx:kotlinx-io-core:_")
+
+                // UI Components - Needed for content models
+                implementation(compose.runtime)
+                implementation(compose.ui)
+
+                // Jetpack Compose Serializers - compose-serialization
+                // https://github.com/mooncloak/compose-serialization
+                // Apache 2.0: https://github.com/mooncloak/compose-serialization
+                implementation("com.mooncloak.kodetools.compose.serialization:compose-serialization-core:_")
             }
         }
 
