@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
     :path: "../app-shared"
 
 SPEC CHECKSUMS:
-  app_shared: 14821352b921f3673ad46d3ee5820cb95dbaa828
+  app_shared: 4e10aab699c86c22593838ef23bfb9b341b20b3d
   WireGuardKit: 8b9e7f28441b67aafe60d59c15b8c70bed5ab092
 
 PODFILE CHECKSUM: 70f1e20b9253da03bdd4f5005dce5b591bb4bb47
