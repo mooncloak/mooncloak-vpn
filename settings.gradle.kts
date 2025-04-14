@@ -46,6 +46,8 @@ include(":network-core")
 
 include(":crypto-lunaris")
 
+include(":component-stargate")
+
 include(":app-shared")
 include(":app-android")
 include(":app-desktop")

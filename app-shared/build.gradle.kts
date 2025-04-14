@@ -45,6 +45,7 @@ kotlin {
                 api(project(":api-vpn"))
                 api(project(":network-core"))
                 api(project(":crypto-lunaris"))
+                api(project(":component-stargate"))
 
                 // Coroutines
                 // https://github.com/Kotlin/kotlinx.coroutines
