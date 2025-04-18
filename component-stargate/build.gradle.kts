@@ -54,6 +54,10 @@ kotlin {
                 // https://github.com/mooncloak/compose-serialization
                 // Apache 2.0: https://github.com/mooncloak/compose-serialization
                 implementation("com.mooncloak.kodetools.compose.serialization:compose-serialization-core:_")
+
+                // Http Client - Ktor
+                // https://github.com/ktorio/ktor
+                implementation("io.ktor:ktor-client-core:_")
             }
         }
 

@@ -20,7 +20,7 @@ public class IdentityHandle private constructor(
     public companion object : ValidatingConstructor<String, IdentityHandle> {
 
         override fun validate(value: String): Result<IdentityHandle> {
-            val formatted = value.trim().removePrefix("@")
+            val formatted = value.trim().removePrefix("@").lowercase()
 
             when {
                 formatted.startsWith("did:") -> return validateDid(value = formatted)
