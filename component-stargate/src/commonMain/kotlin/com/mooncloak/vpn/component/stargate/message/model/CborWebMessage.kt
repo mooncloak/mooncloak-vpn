@@ -1,5 +1,6 @@
 package com.mooncloak.vpn.component.stargate.message.model
 
+import com.mooncloak.vpn.component.stargate.entanglement.DID
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -166,11 +167,5 @@ public data class Payload public constructor(
 @JvmInline
 @Serializable
 public value class URI public constructor(
-    public val value: String
-)
-
-@JvmInline
-@Serializable
-public value class DID public constructor(
     public val value: String
 )

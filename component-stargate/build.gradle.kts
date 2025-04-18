@@ -23,6 +23,8 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
+                implementation(project(":util-shared"))
+
                 // Coroutines
                 // https://github.com/Kotlin/kotlinx.coroutines
                 implementation(KotlinX.coroutines.core)
