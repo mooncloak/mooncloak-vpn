@@ -3,15 +3,12 @@ package com.mooncloak.vpn.component.stargate.entanglement
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.contentOrNull
-import kotlinx.serialization.json.jsonPrimitive
 
 public class DIDDocumentResolver public constructor(
     private val httpClient: HttpClient
 ) {
 
-    public suspend fun resolve(did: DID): JsonObject =
+    public suspend fun resolve(did: DID): DIDDocument =
         when (val method = did.method) {
             "web" -> resolveDidWeb(did)
             "plc" -> resolveDidPlc(did)
@@ -19,7 +16,7 @@ public class DIDDocumentResolver public constructor(
             else -> error("Unsupported DID method '$method'")
         }
 
-    private suspend fun resolveDidWeb(did: DID): JsonObject {
+    private suspend fun resolveDidWeb(did: DID): DIDDocument {
         val identifier = did.id ?: error("DID id part was required but was missing.")
 
         // Convert identifier to URL (e.g., chris.keenan -> https://chris.keenan/.well-known/did.json)
@@ -28,14 +25,14 @@ public class DIDDocumentResolver public constructor(
         val fallbackUrl = "https://$domain/did.json"
 
         return try {
-            val document: JsonObject = httpClient.get(wellKnownUrl).body()
+            val document: DIDDocument = httpClient.get(wellKnownUrl).body()
 
             document.validateDidDocument(did)
 
             document
         } catch (e: Exception) {
             // Try alternative path (e.g., https://chris.keenan/did.json)
-            val document: JsonObject = httpClient.get(fallbackUrl).body()
+            val document: DIDDocument = httpClient.get(fallbackUrl).body()
 
             document.validateDidDocument(did)
 
@@ -43,20 +40,20 @@ public class DIDDocumentResolver public constructor(
         }
     }
 
-    private suspend fun resolveDidPlc(did: DID): JsonObject {
+    private suspend fun resolveDidPlc(did: DID): DIDDocument {
         // Query PLC directory (e.g., https://plc.directory/did:plc:abc123)
         val url = "https://plc.directory/${did.value}"
 
-        val document: JsonObject = httpClient.get(url).body()
+        val document: DIDDocument = httpClient.get(url).body()
 
         document.validateDidDocument(did)
 
         return document
     }
 
-    private fun JsonObject.validateDidDocument(did: DID) {
-        if (this["id"]?.jsonPrimitive?.contentOrNull != did.value) {
-            error("DID does not match.")
+    private fun DIDDocument.validateDidDocument(did: DID) {
+        if (this.id != did.value) {
+            error("DID document id '${this.id}' does not match expected DID '${did.value}'.")
         }
     }
 }
