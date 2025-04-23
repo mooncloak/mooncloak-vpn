@@ -9,5 +9,6 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public data class Contact public constructor(
-    @SerialName(value = "name") public val name: String
+    @SerialName(value = "name") public val name: String,
+    @SerialName(value = "images") public val images: ContactImages? = null
 )

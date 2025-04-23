@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class Profile public constructor(
+    @SerialName(value = "uri") public val uri: String? = null,
     @SerialName(value = "display_name") public val displayName: String? = null,
     @SerialName(value = "description") @Serializable(with = AnnotatedStringSerializer::class) public val description: AnnotatedString? = null,
     @SerialName(value = "images") public val images: ProfileImages? = null,
