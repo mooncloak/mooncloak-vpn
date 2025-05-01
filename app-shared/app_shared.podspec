@@ -53,6 +53,6 @@ Pod::Spec.new do |spec|
     spec.resources = ['build/compose/cocoapods/compose-resources']
     spec.info_plist = {
     "CFBundleShortVersionString": "1.0.0-beta10",
-    "CFBundleVersion": "702"
+    "CFBundleVersion": "714"
 }
 end

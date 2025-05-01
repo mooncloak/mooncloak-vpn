@@ -1,6 +1,8 @@
 package com.mooncloak.vpn.app.shared.feature.main.composable
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -15,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
@@ -27,6 +30,7 @@ import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBarDefaults
@@ -38,6 +42,7 @@ import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuite
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteColors
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
@@ -52,9 +57,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -64,7 +71,14 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.mooncloak.vpn.app.shared.resource.Res
+import com.mooncloak.vpn.app.shared.resource.app_name
+import com.mooncloak.vpn.app.shared.resource.ic_logo_mooncloak
+import com.mooncloak.vpn.app.shared.theme.ColorPalette
 import com.mooncloak.vpn.app.shared.theme.DefaultHorizontalPageSpacing
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun MooncloakNavigationScaffold(
@@ -77,7 +91,7 @@ internal fun MooncloakNavigationScaffold(
     bottomAppBarElevation: Dp = NavigationBarDefaults.Elevation,
     bottomAppBarContentPadding: PaddingValues = BottomAppBarDefaults.ContentPadding,
     navigationRailHeader: @Composable (ColumnScope.() -> Unit)? = null,
-    navigationDrawerHeader: @Composable (ColumnScope.() -> Unit)? = null,
+    navigationDrawerHeader: @Composable (ColumnScope.() -> Unit)? = { DrawerHeader() },
     floatingActionButton: @Composable (() -> Unit)? = null,
     content: @Composable (paddingValues: PaddingValues) -> Unit
 ) {
@@ -101,7 +115,6 @@ internal fun MooncloakNavigationScaffold(
             defaultItemColors = defaultItemColors,
             containerColor = containerColor,
             contentColor = contentColor,
-            floatingActionButton = floatingActionButton,
             navigationDrawerHeader = navigationDrawerHeader,
             scrollState = rememberScrollState(),
             content = content
@@ -171,6 +184,7 @@ private fun SmallScreenLayout(
             )
         }
     }
+    val coroutineScope = rememberCoroutineScope()
 
     // FIXME: The EnableToEdge function call is adding weird top padding to the top app bars.
     /*
@@ -196,9 +210,11 @@ private fun SmallScreenLayout(
                     modifier = Modifier.verticalScroll(scrollState)
                         .padding(horizontal = DefaultHorizontalPageSpacing)
                 ) {
-                    Spacer(modifier = Modifier.height(12.dp))
+                    if (navigationDrawerHeader != null) {
+                        navigationDrawerHeader.invoke(this)
 
-                    navigationDrawerHeader?.invoke(this)
+                        Spacer(modifier = Modifier.height(28.dp))
+                    }
 
                     scope.itemList.forEach { item ->
                         NavigationDrawerItem(
@@ -206,7 +222,13 @@ private fun SmallScreenLayout(
                                 .pointerHoverIcon(PointerIcon.Hand)
                                 .then(item.modifier),
                             selected = item.selected,
-                            onClick = item.onClick,
+                            onClick = {
+                                item.onClick.invoke()
+
+                                coroutineScope.launch {
+                                    drawerState.close()
+                                }
+                            },
                             label = {
                                 item.label?.invoke()
                             },
@@ -215,15 +237,6 @@ private fun SmallScreenLayout(
                             colors = item.colors?.navigationDrawerItemColors
                                 ?: defaultItemColors.navigationDrawerItemColors
                         )
-                    }
-
-                    if (floatingActionButton != null) {
-                        Box(
-                            modifier = Modifier.padding(top = 32.dp)
-                                .pointerHoverIcon(PointerIcon.Hand)
-                        ) {
-                            floatingActionButton.invoke()
-                        }
                     }
 
                     Spacer(modifier = Modifier.height(12.dp))
@@ -261,7 +274,11 @@ private fun SmallScreenLayout(
                                     onClick = it.onClick,
                                     icon = { NavigationItemIcon(icon = it.icon, badge = it.badge) },
                                     enabled = it.enabled,
-                                    label = it.label,
+                                    label = {
+                                        if (it.alwaysShowLabel) {
+                                            it.label?.invoke()
+                                        }
+                                    },
                                     alwaysShowLabel = it.alwaysShowLabel,
                                     colors = it.colors?.navigationBarItemColors
                                         ?: defaultItemColors.navigationBarItemColors,
@@ -286,7 +303,11 @@ private fun SmallScreenLayout(
                                     onClick = it.onClick,
                                     icon = { NavigationItemIcon(icon = it.icon, badge = it.badge) },
                                     enabled = it.enabled,
-                                    label = it.label,
+                                    label = {
+                                        if (it.alwaysShowLabel) {
+                                            it.label?.invoke()
+                                        }
+                                    },
                                     alwaysShowLabel = it.alwaysShowLabel,
                                     colors = it.colors?.navigationBarItemColors
                                         ?: defaultItemColors.navigationBarItemColors,
@@ -388,7 +409,6 @@ private fun LargeScreenLayout(
     containerColor: Color,
     contentColor: Color,
     navigationDrawerHeader: @Composable (ColumnScope.() -> Unit)?,
-    floatingActionButton: @Composable (() -> Unit)?,
     content: @Composable (paddingValues: PaddingValues) -> Unit
 ) {
     PermanentNavigationDrawer(
@@ -405,7 +425,11 @@ private fun LargeScreenLayout(
                 ) {
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    navigationDrawerHeader?.invoke(this)
+                    if (navigationDrawerHeader != null) {
+                        navigationDrawerHeader.invoke(this)
+
+                        Spacer(modifier = Modifier.height(28.dp))
+                    }
 
                     scope.itemList.forEach { item ->
                         NavigationDrawerItem(
@@ -424,15 +448,6 @@ private fun LargeScreenLayout(
                         )
                     }
 
-                    if (floatingActionButton != null) {
-                        Box(
-                            modifier = Modifier.padding(top = 32.dp)
-                                .pointerHoverIcon(PointerIcon.Hand)
-                        ) {
-                            floatingActionButton.invoke()
-                        }
-                    }
-
                     Spacer(modifier = Modifier.height(12.dp))
                 }
             }
@@ -447,6 +462,36 @@ private fun LargeScreenLayout(
             }
         }
     )
+}
+
+@Composable
+private fun DrawerHeader(
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier.size(48.dp)
+                    .clip(MaterialTheme.shapes.large)
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(4.dp)
+            ) {
+                Image(
+                    modifier = Modifier.matchParentSize(),
+                    painter = painterResource(Res.drawable.ic_logo_mooncloak),
+                    contentDescription = null
+                )
+            }
+
+            Text(
+                modifier = Modifier.padding(start = 16.dp),
+                text = stringResource(Res.string.app_name),
+                style = MaterialTheme.typography.titleMedium
+            )
+        }
+    }
 }
 
 @Composable
