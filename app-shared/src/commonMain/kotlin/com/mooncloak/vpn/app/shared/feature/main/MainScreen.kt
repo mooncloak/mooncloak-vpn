@@ -7,10 +7,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.SheetValue
+import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -86,6 +89,16 @@ public fun MainScreen(
             selectedTextColor = MaterialTheme.colorScheme.onSurface,
             unselectedTextColor = MaterialTheme.colorScheme.onSurface,
             indicatorColor = MaterialTheme.colorScheme.primary
+        ),
+        navigationDrawerItemColors = NavigationDrawerItemDefaults.colors(
+            selectedContainerColor = MaterialTheme.colorScheme.secondary,
+            unselectedContainerColor = MaterialTheme.colorScheme.surface,
+            selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+            unselectedIconColor = MaterialTheme.colorScheme.onSurface,
+            selectedTextColor = MaterialTheme.colorScheme.onSecondary,
+            unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+            selectedBadgeColor = MaterialTheme.colorScheme.error,
+            unselectedBadgeColor = MaterialTheme.colorScheme.error
         )
     )
 
@@ -109,9 +122,16 @@ public fun MainScreen(
                             state.destination.icon?.let { icon ->
                                 Icon(
                                     painter = icon,
-                                    contentDescription = state.destination.contentDescription
+                                    contentDescription = state.destination.contentDescription,
+                                    tint = LocalContentColor.current
                                 )
                             }
+                        },
+                        label = {
+                            Text(
+                                text = state.destination.title,
+                                color = LocalContentColor.current
+                            )
                         },
                         badge = if (state.badged) {
                             @Composable {
