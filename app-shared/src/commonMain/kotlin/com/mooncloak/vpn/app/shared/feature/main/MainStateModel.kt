@@ -9,10 +9,7 @@ import com.mooncloak.vpn.network.core.vpn.VPNConnection
 
 @Immutable
 public data class MainStateModel public constructor(
-    public val startDestination: MainDestination = MainDestination.Home,
-    public val destinationStates: Set<MainDestinationStateModel> = MainDestination.states(
-        startDestination = startDestination
-    ),
+    public val destinationStates: Set<MainDestinationStateModel> = MainDestination.states(),
     public val connection: VPNConnection = VPNConnection.Disconnected(),
     public val subscription: ServiceSubscription? = null,
     public val defaultServer: Server? = null,

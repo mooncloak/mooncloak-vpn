@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationDrawerItemDefaults
@@ -18,11 +17,13 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaul
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mooncloak.vpn.api.shared.server.isConnectable
 import com.mooncloak.vpn.network.core.vpn.isConnected
@@ -32,6 +33,7 @@ import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.CryptoWalletScreen
 import com.mooncloak.vpn.app.shared.feature.home.HomeScreen
 import com.mooncloak.vpn.app.shared.feature.main.composable.MooncloakNavigationScaffold
+import com.mooncloak.vpn.app.shared.feature.main.model.selected
 import com.mooncloak.vpn.app.shared.feature.main.util.containerColor
 import com.mooncloak.vpn.app.shared.feature.main.util.contentColor
 import com.mooncloak.vpn.app.shared.feature.main.util.floatingActionBarContent
@@ -50,6 +52,9 @@ public fun MainScreen(
     modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
     val componentDependencies = rememberFeatureDependencies { applicationComponent, presentationComponent ->
         FeatureDependencies.createMainComponent(
             applicationComponent = applicationComponent,
@@ -91,11 +96,11 @@ public fun MainScreen(
             indicatorColor = MaterialTheme.colorScheme.primary
         ),
         navigationDrawerItemColors = NavigationDrawerItemDefaults.colors(
-            selectedContainerColor = MaterialTheme.colorScheme.secondary,
+            selectedContainerColor = MaterialTheme.colorScheme.primary,
             unselectedContainerColor = MaterialTheme.colorScheme.surface,
-            selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
             unselectedIconColor = MaterialTheme.colorScheme.onSurface,
-            selectedTextColor = MaterialTheme.colorScheme.onSecondary,
+            selectedTextColor = MaterialTheme.colorScheme.onPrimary,
             unselectedTextColor = MaterialTheme.colorScheme.onSurface,
             selectedBadgeColor = MaterialTheme.colorScheme.error,
             unselectedBadgeColor = MaterialTheme.colorScheme.error
@@ -111,29 +116,25 @@ public fun MainScreen(
         navigationItems = {
             viewModel.state.current.value.destinationStates
                 .filter { it.visible }
-                .forEach { state ->
+                .forEach { navigationItemState ->
                     this.item(
-                        selected = state.selected,
-                        enabled = state.enabled,
+                        selected = navigationItemState.selected(currentDestination),
+                        enabled = navigationItemState.enabled,
                         onClick = {
-                            viewModel.select(state.destination)
+                            viewModel.select(navigationItemState.destination)
                         },
                         icon = {
-                            state.destination.icon?.let { icon ->
+                            navigationItemState.destination.icon?.let { icon ->
                                 Icon(
                                     painter = icon,
-                                    contentDescription = state.destination.contentDescription,
-                                    tint = LocalContentColor.current
+                                    contentDescription = navigationItemState.destination.contentDescription
                                 )
                             }
                         },
                         label = {
-                            Text(
-                                text = state.destination.title,
-                                color = LocalContentColor.current
-                            )
+                            Text(text = navigationItemState.destination.title)
                         },
-                        badge = if (state.badged) {
+                        badge = if (navigationItemState.badged) {
                             @Composable {
                                 Badge()
                             }
@@ -178,7 +179,7 @@ public fun MainScreen(
             CompositionLocalProvider(LocalNavController provides navController) {
                 NavHost(
                     navController = navController,
-                    startDestination = viewModel.state.current.value.startDestination
+                    startDestination = MainDestination.Home
                 ) {
                     // Note: We pass the PaddingValues to the screen composable so that the content can be rendered
                     // behind the navigation controls on the z-axis, but can still have enough padding to scroll past

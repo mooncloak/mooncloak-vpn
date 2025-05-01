@@ -80,23 +80,6 @@ public class MainViewModel @Inject public constructor(
         }
     }
 
-    public fun init(startDestination: MainDestination) {
-        coroutineScope.launch {
-            mutex.withLock {
-                emit(
-                    value = state.current.value.copy(
-                        startDestination = startDestination,
-                        destinationStates = state.current.value.destinationStates.map { destinationState ->
-                            destinationState.copy(
-                                selected = destinationState.destination == startDestination
-                            )
-                        }.distinctBy { it.destination }
-                            .toSet()
-                    ))
-            }
-        }
-    }
-
     public fun select(destination: MainDestination) {
         coroutineScope.launch {
             mutex.withLock {
@@ -116,16 +99,6 @@ public class MainViewModel @Inject public constructor(
                         )
                         .build()
                 )
-
-                emit(
-                    value = state.current.value.copy(
-                        destinationStates = state.current.value.destinationStates.map { destinationState ->
-                            destinationState.copy(
-                                selected = destinationState.destination == destination
-                            )
-                        }.distinctBy { it.destination }
-                            .toSet()
-                    ))
             }
         }
     }

@@ -1,6 +1,9 @@
 package com.mooncloak.vpn.app.shared.feature.main.model
 
 import androidx.compose.runtime.Immutable
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import com.mooncloak.vpn.app.shared.feature.main.MainDestination
 import kotlinx.serialization.Serializable
 
@@ -12,8 +15,6 @@ import kotlinx.serialization.Serializable
  *
  * @property [badged] Whether the UI should display a badge for this [destination] item.
  *
- * @property [selected] Whether this [destination] is currently selected.
- *
  * @property [visible] Whether this [destination] is currently visible.
  *
  * @property [enabled] Whether this [destination] can be selected.
@@ -23,34 +24,36 @@ import kotlinx.serialization.Serializable
 public data class MainDestinationStateModel public constructor(
     public val destination: MainDestination,
     public val badged: Boolean = false,
-    public val selected: Boolean = false,
     public val visible: Boolean = true,
     public val enabled: Boolean = true
 )
 
 /**
+ * Determines whether this [MainDestinationStateModel.destination] is currently selected.
+ */
+public inline fun MainDestinationStateModel.selected(currentDestination: NavDestination?): Boolean =
+    currentDestination?.hierarchy?.any { it.hasRoute(this.destination::class) } == true
+
+/**
  * Retrieves the default [MainDestinationStateModel] instances for all the [MainDestination]s.
- *
- * @param [startDestination] The [MainDestination] that is first selected and displayed in the UI.
  *
  * @return A [Set] of [MainDestinationStateModel]s.
  */
-public fun MainDestination.Companion.states(startDestination: MainDestination): Set<MainDestinationStateModel> =
+public fun MainDestination.Companion.states(): Set<MainDestinationStateModel> =
     setOf(
         MainDestinationStateModel(
-            destination = MainDestination.Home,
-            selected = startDestination is MainDestination.Home
+            destination = MainDestination.Home
         ),
         MainDestinationStateModel(
-            destination = MainDestination.Servers,
-            selected = startDestination is MainDestination.Servers
+            destination = MainDestination.Servers
         ),
         MainDestinationStateModel(
-            destination = MainDestination.CryptoWallet,
-            selected = startDestination is MainDestination.CryptoWallet
+            destination = MainDestination.CryptoWallet
         ),
         MainDestinationStateModel(
-            destination = MainDestination.Settings,
-            selected = startDestination is MainDestination.Settings
+            destination = MainDestination.Settings
+        ),
+        MainDestinationStateModel(
+            destination = MainDestination.Support
         )
     )
