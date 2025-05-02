@@ -114,3 +114,4 @@ app-ios/shared.framework/
 
 # Cocoapods
 **/Pods/
+*.podspec
