@@ -31,7 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
+import com.mooncloak.moonscape.snackbar.MooncloakSnackbar
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
@@ -54,7 +54,6 @@ import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsThemeGro
 import com.mooncloak.vpn.app.shared.feature.settings.composable.SettingsWireGuardGroup
 import com.mooncloak.vpn.app.shared.feature.subscription.SubscriptionScreen
 import com.mooncloak.vpn.app.shared.feature.wireguard.dns.DnsServerConfigScreen
-import com.mooncloak.vpn.app.shared.info.AppClientInfo
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.app_built_description
 import com.mooncloak.vpn.app.shared.resource.destination_main_settings_title

@@ -42,14 +42,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import com.mooncloak.moonscape.snackbar.MooncloakSnackbar
+import com.mooncloak.moonscape.snackbar.NotificationStateModel
+import com.mooncloak.moonscape.snackbar.showError
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.server.isConnectable
-import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
 import com.mooncloak.vpn.app.shared.composable.TooltipBox
 import com.mooncloak.vpn.network.core.vpn.connectedTo
 import com.mooncloak.vpn.network.core.vpn.isConnected
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
-import com.mooncloak.vpn.app.shared.composable.showError
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.country.CountryListScreen
@@ -63,7 +64,6 @@ import com.mooncloak.vpn.app.shared.feature.server.list.composable.CountryListCa
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.NoServersCard
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.PreReleaseNoticeCard
 import com.mooncloak.vpn.app.shared.feature.server.list.composable.ServerListItem
-import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.cd_open_locations
 import com.mooncloak.vpn.app.shared.resource.destination_main_servers_title

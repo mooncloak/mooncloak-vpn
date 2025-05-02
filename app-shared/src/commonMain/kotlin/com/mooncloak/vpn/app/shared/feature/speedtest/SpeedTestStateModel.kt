@@ -1,9 +1,9 @@
 package com.mooncloak.vpn.app.shared.feature.speedtest
 
 import androidx.compose.runtime.Immutable
+import com.mooncloak.moonscape.snackbar.NotificationStateModel
 import com.mooncloak.vpn.api.shared.server.Server
 import com.mooncloak.vpn.api.shared.speedtest.SpeedTestResult
-import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 
 @Immutable
 public data class SpeedTestStateModel public constructor(

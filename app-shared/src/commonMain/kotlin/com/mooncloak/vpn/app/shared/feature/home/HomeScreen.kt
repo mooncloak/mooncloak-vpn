@@ -27,11 +27,11 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
+import com.mooncloak.moonscape.snackbar.MooncloakSnackbar
+import com.mooncloak.moonscape.snackbar.showError
+import com.mooncloak.moonscape.snackbar.showSuccess
 import com.mooncloak.vpn.api.shared.server.VPNConnectionStatus
-import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
-import com.mooncloak.vpn.app.shared.composable.showError
-import com.mooncloak.vpn.app.shared.composable.showSuccess
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.collaborator.tip.TipScreen

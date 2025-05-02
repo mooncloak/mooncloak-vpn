@@ -1,7 +1,8 @@
 package com.mooncloak.vpn.app.shared.feature.wireguard.dns
 
 import androidx.compose.runtime.Immutable
-import com.mooncloak.vpn.app.shared.model.TextFieldStateModel
+import com.mooncloak.moonscape.text.TextFieldStateModel
+import com.mooncloak.moonscape.text.error
 
 @Immutable
 public data class DnsServerConfigStateModel public constructor(

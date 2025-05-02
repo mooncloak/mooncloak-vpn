@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.mooncloak.moonscape.core.BackHandler
 import com.mooncloak.vpn.app.shared.theme.SecondaryAlpha
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch

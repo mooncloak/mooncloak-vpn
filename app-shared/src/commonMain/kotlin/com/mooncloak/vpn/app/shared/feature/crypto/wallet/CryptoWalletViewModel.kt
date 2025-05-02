@@ -10,6 +10,8 @@ import com.mooncloak.kodetools.locale.ExperimentalLocaleApi
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
+import com.mooncloak.moonscape.snackbar.NotificationStateModel
+import com.mooncloak.moonscape.text.TextFieldStateModel
 import com.mooncloak.vpn.util.shared.currency.Currency
 import com.mooncloak.vpn.util.shared.currency.Default
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.PromoDetails
@@ -25,8 +27,6 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.usecase.SuggestRecipie
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.validation.LunarisAddressValidator
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.validation.SecretRecoveryPhraseValidationException
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.validation.SecretRecoveryPhraseValidator
-import com.mooncloak.vpn.app.shared.model.NotificationStateModel
-import com.mooncloak.vpn.app.shared.model.TextFieldStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_error_amount_invalid
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_error_phrase_invalid
@@ -312,7 +312,8 @@ public class CryptoWalletViewModel @Inject public constructor(
                     send = current.send.copy(
                         address = TextFieldStateModel(
                             value = value,
-                            error = error
+                            supporting = error,
+                            isError = true
                         )
                     )
                 )
@@ -350,7 +351,8 @@ public class CryptoWalletViewModel @Inject public constructor(
                     send = current.send.copy(
                         amount = TextFieldStateModel(
                             value = value,
-                            error = error
+                            supporting = error,
+                            isError = true
                         )
                     )
                 )
@@ -397,7 +399,8 @@ public class CryptoWalletViewModel @Inject public constructor(
                     restore = current.restore.copy(
                         phrase = TextFieldStateModel(
                             value = value,
-                            error = error
+                            supporting = error,
+                            isError = true
                         )
                     )
                 )

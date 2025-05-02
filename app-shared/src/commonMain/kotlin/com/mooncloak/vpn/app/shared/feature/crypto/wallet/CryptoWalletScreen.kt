@@ -38,10 +38,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
+import com.mooncloak.moonscape.snackbar.MooncloakSnackbar
+import com.mooncloak.moonscape.snackbar.NotificationStateModel
+import com.mooncloak.moonscape.snackbar.showError
+import com.mooncloak.moonscape.snackbar.showSuccess
 import com.mooncloak.vpn.app.shared.composable.rememberManagedModalBottomSheetState
-import com.mooncloak.vpn.app.shared.composable.showError
-import com.mooncloak.vpn.app.shared.composable.showSuccess
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.rememberFeatureDependencies
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.composable.AccountAddressCard
@@ -63,7 +64,6 @@ import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletFeedItem
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.isValid
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.util.protocol
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.vector.LunarisCoin
-import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_message_address_copied
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_message_srp_copied

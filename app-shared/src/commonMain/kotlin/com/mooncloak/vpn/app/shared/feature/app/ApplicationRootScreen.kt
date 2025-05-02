@@ -25,7 +25,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil3.SingletonImageLoader
-import com.mooncloak.vpn.app.shared.composable.MooncloakSnackbar
+import com.mooncloak.moonscape.snackbar.MooncloakSnackbar
 import com.mooncloak.vpn.app.shared.di.ApplicationComponent
 import com.mooncloak.vpn.app.shared.di.FeatureDependencies
 import com.mooncloak.vpn.app.shared.di.LocalApplicationComponent

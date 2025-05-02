@@ -77,6 +77,14 @@ kotlin {
                 // Resources
                 implementation(compose.components.resources)
 
+                // moonscape - Mooncloak UI Components and Utilities
+                // https://github.com/mooncloak/moonscape
+                // Apache 2.0: https://github.com/mooncloak/moonscape/blob/main/LICENSE
+                implementation("com.mooncloak.moonscape:core:_")
+                implementation("com.mooncloak.moonscape:theme:_")
+                implementation("com.mooncloak.moonscape:text:_")
+                implementation("com.mooncloak.moonscape:snackbar:_")
+
                 // Navigation
                 implementation("org.jetbrains.androidx.navigation:navigation-compose:_")
 

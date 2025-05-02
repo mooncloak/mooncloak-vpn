@@ -6,8 +6,9 @@ import com.mooncloak.kodetools.konstruct.annotations.Inject
 import com.mooncloak.kodetools.logpile.core.LogPile
 import com.mooncloak.kodetools.logpile.core.error
 import com.mooncloak.kodetools.statex.ViewModel
+import com.mooncloak.moonscape.text.TextFieldStateModel
+import com.mooncloak.moonscape.text.error
 import com.mooncloak.vpn.api.shared.preference.WireGuardPreferences
-import com.mooncloak.vpn.app.shared.model.TextFieldStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.global_unexpected_error
 import com.mooncloak.vpn.app.shared.resource.settings_dns_servers_error_invalid_ip
@@ -101,7 +102,8 @@ public class DnsServerConfigViewModel @Inject public constructor(
                         current.copy(
                             primary = TextFieldStateModel(
                                 value = value,
-                                error = current.primary.error
+                                supporting = current.primary.error,
+                                isError = true
                             )
                         )
                     }
@@ -111,11 +113,12 @@ public class DnsServerConfigViewModel @Inject public constructor(
 
                         TextFieldStateModel(
                             value = value,
-                            error = if (result.isSuccess) {
+                            supporting = if (result.isSuccess) {
                                 null
                             } else {
                                 getString(Res.string.settings_dns_servers_error_invalid_ip)
-                            }
+                            },
+                            isError = true
                         )
                     }
                     .onEach { model ->
@@ -132,7 +135,8 @@ public class DnsServerConfigViewModel @Inject public constructor(
                         current.copy(
                             secondary = TextFieldStateModel(
                                 value = value,
-                                error = current.secondary.error
+                                supporting = current.secondary.error,
+                                isError = true
                             )
                         )
                     }
@@ -143,11 +147,12 @@ public class DnsServerConfigViewModel @Inject public constructor(
                         // Then debounce the validation
                         TextFieldStateModel(
                             value = value,
-                            error = if (result.isSuccess) {
+                            supporting = if (result.isSuccess) {
                                 null
                             } else {
                                 getString(Res.string.settings_dns_servers_error_invalid_ip)
-                            }
+                            },
+                            isError = true
                         )
                     }
                     .onEach { model ->

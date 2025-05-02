@@ -16,11 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.mooncloak.moonscape.text.TextFieldStateModel
+import com.mooncloak.moonscape.text.error
 import com.mooncloak.vpn.app.shared.composable.BottomSheetLayout
 import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheet
 import com.mooncloak.vpn.app.shared.composable.ManagedModalBottomSheetState
-import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.isValid
-import com.mooncloak.vpn.app.shared.model.TextFieldStateModel
 import com.mooncloak.vpn.app.shared.resource.Res
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_action_restore_wallet
 import com.mooncloak.vpn.app.shared.resource.crypto_wallet_description_restore_wallet

@@ -1,13 +1,13 @@
 package com.mooncloak.vpn.app.shared.feature.crypto.wallet
 
 import androidx.compose.runtime.Immutable
+import com.mooncloak.moonscape.snackbar.NotificationStateModel
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.PromoDetails
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.RestoreCryptoStateModel
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.SendCryptoStateModel
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletBalance
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletFeedItem
 import com.mooncloak.vpn.app.shared.feature.crypto.wallet.model.WalletStatDetails
-import com.mooncloak.vpn.app.shared.model.NotificationStateModel
 import com.mooncloak.vpn.crypto.lunaris.model.CryptoWallet
 import kotlinx.datetime.Instant
 
